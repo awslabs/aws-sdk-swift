@@ -144,6 +144,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `LimitExceededException` : You attempted to create more than the allowed number of tags.
     /// - `ResourceAlreadyExistsException` : You attempted to create a resource that already exists.
@@ -198,6 +199,7 @@ extension OSISClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
     /// - `ConflictException` : The client attempted to remove a resource that is currently in use.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -246,6 +248,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -294,6 +297,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -322,6 +326,7 @@ extension OSISClient {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPipelineBlueprintOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetPipelineBlueprintInput, GetPipelineBlueprintOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetPipelineBlueprintOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetPipelineBlueprintInput, GetPipelineBlueprintOutput>(GetPipelineBlueprintInput.queryItemProvider(_:)))
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetPipelineBlueprintOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetPipelineBlueprintOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineBlueprintOutput>(GetPipelineBlueprintOutput.httpOutput(from:), GetPipelineBlueprintOutputError.httpError(from:)))
@@ -342,6 +347,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -390,6 +396,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `InvalidPaginationTokenException` : An invalid pagination token provided in the request.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -438,6 +445,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `InvalidPaginationTokenException` : An invalid pagination token provided in the request.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -487,6 +495,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -537,6 +546,7 @@ extension OSISClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
     /// - `ConflictException` : The client attempted to remove a resource that is currently in use.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -586,6 +596,7 @@ extension OSISClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
     /// - `ConflictException` : The client attempted to remove a resource that is currently in use.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -634,6 +645,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `LimitExceededException` : You attempted to create more than the allowed number of tags.
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
@@ -687,6 +699,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -740,6 +753,7 @@ extension OSISClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
     /// - `ConflictException` : The client attempted to remove a resource that is currently in use.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ResourceNotFoundException` : You attempted to access or delete a resource that does not exist.
     /// - `ValidationException` : An exception for missing or invalid input fields.
@@ -791,6 +805,7 @@ extension OSISClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have permissions to access the resource.
+    /// - `DisabledOperationException` : Exception is thrown when an operation has been disabled.
     /// - `InternalException` : The request failed because of an unknown error, exception, or failure (the failure is internal to the service).
     /// - `ValidationException` : An exception for missing or invalid input fields.
     public func validatePipeline(input: ValidatePipelineInput) async throws -> ValidatePipelineOutput {

@@ -2687,6 +2687,58 @@ enum GetDataCellsFilterOutputError {
     }
 }
 
+extension GetDataLakePrincipalInput {
+
+    static func urlPathProvider(_ value: GetDataLakePrincipalInput) -> Swift.String? {
+        return "/GetDataLakePrincipal"
+    }
+}
+
+public struct GetDataLakePrincipalInput {
+
+    public init() { }
+}
+
+extension GetDataLakePrincipalOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDataLakePrincipalOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataLakePrincipalOutput()
+        value.identity = try reader["Identity"].readIfPresent()
+        return value
+    }
+}
+
+public struct GetDataLakePrincipalOutput {
+    /// A unique identifier of the invoking principal.
+    public var identity: Swift.String?
+
+    public init(
+        identity: Swift.String? = nil
+    )
+    {
+        self.identity = identity
+    }
+}
+
+enum GetDataLakePrincipalOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension GetDataLakeSettingsInput {
 
     static func urlPathProvider(_ value: GetDataLakeSettingsInput) -> Swift.String? {

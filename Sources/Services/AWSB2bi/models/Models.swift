@@ -677,7 +677,7 @@ public struct CreateTransformerInput {
     /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
     /// This member is required.
     public var fileFormat: B2biClientTypes.FileFormat?
-    /// Specifies the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+    /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
     /// This member is required.
     public var mappingTemplate: Swift.String?
     /// Specifies the name of the transformer, used to identify it.
@@ -738,7 +738,7 @@ public struct CreateTransformerOutput {
     /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
     /// This member is required.
     public var fileFormat: B2biClientTypes.FileFormat?
-    /// Returns the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+    /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
     /// This member is required.
     public var mappingTemplate: Swift.String?
     /// Returns the name of the transformer, used to identify it.
@@ -1666,7 +1666,7 @@ public struct GetTransformerOutput {
     /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
     /// This member is required.
     public var fileFormat: B2biClientTypes.FileFormat?
-    /// Returns the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+    /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
     /// This member is required.
     public var mappingTemplate: Swift.String?
     /// Returns a timestamp for last time the transformer was modified.
@@ -2676,7 +2676,7 @@ public struct TestMappingInput {
     /// Specify the contents of the EDI (electronic data interchange) XML or JSON file that is used as input for the transform.
     /// This member is required.
     public var inputFileContent: Swift.String?
-    /// Specifies the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+    /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
     /// This member is required.
     public var mappingTemplate: Swift.String?
 
@@ -2957,7 +2957,7 @@ extension B2biClientTypes {
         /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
         /// This member is required.
         public var fileFormat: B2biClientTypes.FileFormat?
-        /// Returns the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+        /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
         /// This member is required.
         public var mappingTemplate: Swift.String?
         /// Returns a timestamp representing the date and time for the most recent change for the transformer object.
@@ -3507,7 +3507,7 @@ public struct UpdateTransformerInput {
     public var ediType: B2biClientTypes.EdiType?
     /// Specifies that the currently supported file formats for EDI transformations are JSON and XML.
     public var fileFormat: B2biClientTypes.FileFormat?
-    /// Specifies the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+    /// Specifies the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
     public var mappingTemplate: Swift.String?
     /// Specify a new name for the transformer, if you want to update it.
     public var name: Swift.String?
@@ -3570,7 +3570,7 @@ public struct UpdateTransformerOutput {
     /// Returns that the currently supported file formats for EDI transformations are JSON and XML.
     /// This member is required.
     public var fileFormat: B2biClientTypes.FileFormat?
-    /// Returns the name of the mapping template for the transformer. This template is used to convert the input document into the correct set of objects.
+    /// Returns the mapping template for the transformer. This template is used to map the parsed EDI file using JSONata or XSLT.
     /// This member is required.
     public var mappingTemplate: Swift.String?
     /// Returns a timestamp for last time the transformer was modified.

@@ -1231,6 +1231,53 @@ extension LakeFormationClient {
         return result
     }
 
+    /// Performs the `GetDataLakePrincipal` operation on the `AWSLakeFormation` service.
+    ///
+    /// Returns the identity of the invoking principal.
+    ///
+    /// - Parameter GetDataLakePrincipalInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataLakePrincipalOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getDataLakePrincipal(input: GetDataLakePrincipalInput) async throws -> GetDataLakePrincipalOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDataLakePrincipal")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lakeformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetDataLakePrincipalInput, GetDataLakePrincipalOutput>(id: "getDataLakePrincipal")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataLakePrincipalInput, GetDataLakePrincipalOutput>(GetDataLakePrincipalInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataLakePrincipalInput, GetDataLakePrincipalOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDataLakePrincipalOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<GetDataLakePrincipalInput, GetDataLakePrincipalOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetDataLakePrincipalOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetDataLakePrincipalOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetDataLakePrincipalOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataLakePrincipalOutput>(GetDataLakePrincipalOutput.httpOutput(from:), GetDataLakePrincipalOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataLakePrincipalInput, GetDataLakePrincipalOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `GetDataLakeSettings` operation on the `AWSLakeFormation` service.
     ///
     /// Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.

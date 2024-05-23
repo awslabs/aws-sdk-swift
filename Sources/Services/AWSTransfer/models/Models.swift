@@ -3072,7 +3072,13 @@ extension TransferClientTypes {
         public var tags: [TransferClientTypes.Tag]?
         /// If a private key has been specified for the certificate, its type is CERTIFICATE_WITH_PRIVATE_KEY. If there is no private key, the type is CERTIFICATE.
         public var type: TransferClientTypes.CertificateType?
-        /// Specifies whether this certificate is used for signing or encryption.
+        /// Specifies how this certificate is used. It can be used in the following ways:
+        ///
+        /// * SIGNING: For signing AS2 messages
+        ///
+        /// * ENCRYPTION: For encrypting AS2 messages
+        ///
+        /// * TLS: For securing AS2 communications sent over HTTPS
         public var usage: TransferClientTypes.CertificateUsageType?
 
         public init(
@@ -3471,7 +3477,7 @@ extension TransferClientTypes {
         public var as2ServiceManagedEgressIpAddresses: [Swift.String]?
         /// Specifies the ARN of the Amazon Web ServicesCertificate Manager (ACM) certificate. Required when Protocols is set to FTPS.
         public var certificate: Swift.String?
-        /// Specifies the domain of the storage system that is used for file transfers.
+        /// Specifies the domain of the storage system that is used for file transfers. There are two domains available: Amazon Simple Storage Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The default value is S3.
         public var domain: TransferClientTypes.Domain?
         /// The virtual private cloud (VPC) endpoint settings that are configured for your server. When you host your endpoint within your VPC, you can make your endpoint accessible only to resources within your VPC, or you can attach Elastic IP addresses and make your endpoint accessible to clients over the internet. Your VPC's default security groups are automatically assigned to your endpoint.
         public var endpointDetails: TransferClientTypes.EndpointDetails?
@@ -4442,7 +4448,13 @@ public struct ImportCertificateInput {
     public var privateKey: Swift.String?
     /// Key-value pairs that can be used to group and search for certificates.
     public var tags: [TransferClientTypes.Tag]?
-    /// Specifies whether this certificate is used for signing or encryption.
+    /// Specifies how this certificate is used. It can be used in the following ways:
+    ///
+    /// * SIGNING: For signing AS2 messages
+    ///
+    /// * ENCRYPTION: For encrypting AS2 messages
+    ///
+    /// * TLS: For securing AS2 communications sent over HTTPS
     /// This member is required.
     public var usage: TransferClientTypes.CertificateUsageType?
 
@@ -6013,7 +6025,13 @@ extension TransferClientTypes {
         public var status: TransferClientTypes.CertificateStatusType?
         /// The type for the certificate. If a private key has been specified for the certificate, its type is CERTIFICATE_WITH_PRIVATE_KEY. If there is no private key, the type is CERTIFICATE.
         public var type: TransferClientTypes.CertificateType?
-        /// Specifies whether this certificate is used for signing or encryption.
+        /// Specifies how this certificate is used. It can be used in the following ways:
+        ///
+        /// * SIGNING: For signing AS2 messages
+        ///
+        /// * ENCRYPTION: For encrypting AS2 messages
+        ///
+        /// * TLS: For securing AS2 communications sent over HTTPS
         public var usage: TransferClientTypes.CertificateUsageType?
 
         public init(
@@ -6243,7 +6261,7 @@ extension TransferClientTypes {
         /// Specifies the unique Amazon Resource Name (ARN) for a server to be listed.
         /// This member is required.
         public var arn: Swift.String?
-        /// Specifies the domain of the storage system that is used for file transfers.
+        /// Specifies the domain of the storage system that is used for file transfers. There are two domains available: Amazon Simple Storage Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The default value is S3.
         public var domain: TransferClientTypes.Domain?
         /// Specifies the type of VPC endpoint that your server is connected to. If your server is connected to a VPC endpoint, your server isn't accessible over the public internet.
         public var endpointType: TransferClientTypes.EndpointType?

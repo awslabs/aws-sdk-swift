@@ -1743,6 +1743,14 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlGeospatialInteractive
         case mlM5d12xlarge
         case mlM5d16xlarge
@@ -1892,6 +1900,14 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlGeospatialInteractive,
                 .mlM5d12xlarge,
                 .mlM5d16xlarge,
@@ -2048,6 +2064,14 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlGeospatialInteractive: return "ml.geospatial.interactive"
             case .mlM5d12xlarge: return "ml.m5d.12xlarge"
             case .mlM5d16xlarge: return "ml.m5d.16xlarge"
@@ -14405,6 +14429,7 @@ extension CreateWorkteamInput {
         try writer["MemberDefinitions"].writeList(value.memberDefinitions, memberWritingClosure: SageMakerClientTypes.MemberDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NotificationConfiguration"].write(value.notificationConfiguration, with: SageMakerClientTypes.NotificationConfiguration.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WorkerAccessConfiguration"].write(value.workerAccessConfiguration, with: SageMakerClientTypes.WorkerAccessConfiguration.write(value:to:))
         try writer["WorkforceName"].write(value.workforceName)
         try writer["WorkteamName"].write(value.workteamName)
     }
@@ -14421,6 +14446,8 @@ public struct CreateWorkteamInput {
     public var notificationConfiguration: SageMakerClientTypes.NotificationConfiguration?
     /// An array of key-value pairs. For more information, see [Resource Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html) and [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what) in the Amazon Web Services Billing and Cost Management User Guide.
     public var tags: [SageMakerClientTypes.Tag]?
+    /// Use this optional parameter to constrain access to an Amazon S3 resource based on the IP address using supported IAM global condition keys. The Amazon S3 resource is accessed in the worker portal using a Amazon S3 presigned URL.
+    public var workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration?
     /// The name of the workforce.
     public var workforceName: Swift.String?
     /// The name of the work team. Use this name to identify the work team.
@@ -14432,6 +14459,7 @@ public struct CreateWorkteamInput {
         memberDefinitions: [SageMakerClientTypes.MemberDefinition]? = nil,
         notificationConfiguration: SageMakerClientTypes.NotificationConfiguration? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
+        workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration? = nil,
         workforceName: Swift.String? = nil,
         workteamName: Swift.String? = nil
     )
@@ -14440,6 +14468,7 @@ public struct CreateWorkteamInput {
         self.memberDefinitions = memberDefinitions
         self.notificationConfiguration = notificationConfiguration
         self.tags = tags
+        self.workerAccessConfiguration = workerAccessConfiguration
         self.workforceName = workforceName
         self.workteamName = workteamName
     }
@@ -28715,6 +28744,36 @@ enum EnableSagemakerServicecatalogPortfolioOutputError {
     }
 }
 
+extension SageMakerClientTypes {
+
+    public enum EnabledOrDisabled: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnabledOrDisabled] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 extension SageMakerClientTypes.Endpoint {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Endpoint {
@@ -34250,6 +34309,43 @@ extension SageMakerClientTypes {
 
 }
 
+extension SageMakerClientTypes.IamPolicyConstraints {
+
+    static func write(value: SageMakerClientTypes.IamPolicyConstraints?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SourceIp"].write(value.sourceIp)
+        try writer["VpcSourceIp"].write(value.vpcSourceIp)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.IamPolicyConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.IamPolicyConstraints()
+        value.sourceIp = try reader["SourceIp"].readIfPresent()
+        value.vpcSourceIp = try reader["VpcSourceIp"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes {
+    /// Use this parameter to specify a supported global condition key that is added to the IAM policy.
+    public struct IamPolicyConstraints {
+        /// When SourceIp is Enabled the worker's IP address when a task is rendered in the worker portal is added to the IAM policy as a Condition used to generate the Amazon S3 presigned URL. This IP address is checked by Amazon S3 and must match in order for the Amazon S3 resource to be rendered in the worker portal.
+        public var sourceIp: SageMakerClientTypes.EnabledOrDisabled?
+        /// When VpcSourceIp is Enabled the worker's IP address when a task is rendered in private worker portal inside the VPC is added to the IAM policy as a Condition used to generate the Amazon S3 presigned URL. To render the task successfully Amazon S3 checks that the presigned URL is being accessed over an Amazon S3 VPC Endpoint, and that the worker's IP address matches the IP address in the IAM policy. To learn more about configuring private worker portal, see [Use Amazon VPC mode from a private worker portal](https://docs.aws.amazon.com/sagemaker/latest/dg/samurai-vpc-worker-portal.html).
+        public var vpcSourceIp: SageMakerClientTypes.EnabledOrDisabled?
+
+        public init(
+            sourceIp: SageMakerClientTypes.EnabledOrDisabled? = nil,
+            vpcSourceIp: SageMakerClientTypes.EnabledOrDisabled? = nil
+        )
+        {
+            self.sourceIp = sourceIp
+            self.vpcSourceIp = vpcSourceIp
+        }
+    }
+
+}
+
 extension SageMakerClientTypes.IdentityProviderOAuthSetting {
 
     static func write(value: SageMakerClientTypes.IdentityProviderOAuthSetting?, to writer: SmithyJSON.Writer) throws {
@@ -36295,6 +36391,14 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlInf124xlarge
         case mlInf12xlarge
         case mlInf16xlarge
@@ -36456,6 +36560,14 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlInf124xlarge,
                 .mlInf12xlarge,
                 .mlInf16xlarge,
@@ -36624,6 +36736,14 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlInf124xlarge: return "ml.inf1.24xlarge"
             case .mlInf12xlarge: return "ml.inf1.2xlarge"
             case .mlInf16xlarge: return "ml.inf1.6xlarge"
@@ -38422,7 +38542,7 @@ extension ListAppsInput {
 public struct ListAppsInput {
     /// A parameter to search for the domain ID.
     public var domainIdEquals: Swift.String?
-    /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
+    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
     public var maxResults: Swift.Int?
     /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
@@ -39898,7 +40018,7 @@ extension ListDomainsInput {
 }
 
 public struct ListDomainsInput {
-    /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
+    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
     public var maxResults: Swift.Int?
     /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
@@ -44832,7 +44952,7 @@ extension ListSpacesInput {
 public struct ListSpacesInput {
     /// A parameter to search for the domain ID.
     public var domainIdEquals: Swift.String?
-    /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
+    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
     public var maxResults: Swift.Int?
     /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
@@ -45840,7 +45960,7 @@ extension ListUserProfilesInput {
 public struct ListUserProfilesInput {
     /// A parameter by which to filter the results.
     public var domainIdEquals: Swift.String?
-    /// The total number of items to return in the response. If the total number of items available is more than the value specified, a NextToken is provided in the response. To resume pagination, provide the NextToken value in the as part of a subsequent call. The default value is 10.
+    /// This parameter defines the maximum number of results that can be returned in a single response. The MaxResults parameter is an upper bound, not a target. If there are more results available than the value specified, a NextToken is provided in the response. The NextToken indicates that the user should get the next set of results by providing this token as a part of a subsequent call. The default value for MaxResults is 10.
     public var maxResults: Swift.Int?
     /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
     public var nextToken: Swift.String?
@@ -59453,6 +59573,37 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes.S3Presign {
+
+    static func write(value: SageMakerClientTypes.S3Presign?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IamPolicyConstraints"].write(value.iamPolicyConstraints, with: SageMakerClientTypes.IamPolicyConstraints.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.S3Presign {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.S3Presign()
+        value.iamPolicyConstraints = try reader["IamPolicyConstraints"].readIfPresent(with: SageMakerClientTypes.IamPolicyConstraints.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes {
+    /// This object defines the access restrictions to Amazon S3 resources that are included in custom worker task templates using the Liquid filter, grant_read_access. To learn more about how custom templates are created, see [Create custom worker task templates](https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-custom-templates.html).
+    public struct S3Presign {
+        /// Use this parameter to specify the allowed request source. Possible sources are either SourceIp or VpcSourceIp.
+        public var iamPolicyConstraints: SageMakerClientTypes.IamPolicyConstraints?
+
+        public init(
+            iamPolicyConstraints: SageMakerClientTypes.IamPolicyConstraints? = nil
+        )
+        {
+            self.iamPolicyConstraints = iamPolicyConstraints
+        }
+    }
+
+}
+
 extension SageMakerClientTypes.S3StorageConfig {
 
     static func write(value: SageMakerClientTypes.S3StorageConfig?, to writer: SmithyJSON.Writer) throws {
@@ -70608,6 +70759,7 @@ extension UpdateWorkteamInput {
         try writer["Description"].write(value.description)
         try writer["MemberDefinitions"].writeList(value.memberDefinitions, memberWritingClosure: SageMakerClientTypes.MemberDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NotificationConfiguration"].write(value.notificationConfiguration, with: SageMakerClientTypes.NotificationConfiguration.write(value:to:))
+        try writer["WorkerAccessConfiguration"].write(value.workerAccessConfiguration, with: SageMakerClientTypes.WorkerAccessConfiguration.write(value:to:))
         try writer["WorkteamName"].write(value.workteamName)
     }
 }
@@ -70619,6 +70771,8 @@ public struct UpdateWorkteamInput {
     public var memberDefinitions: [SageMakerClientTypes.MemberDefinition]?
     /// Configures SNS topic notifications for available or expiring work items
     public var notificationConfiguration: SageMakerClientTypes.NotificationConfiguration?
+    /// Use this optional parameter to constrain access to an Amazon S3 resource based on the IP address using supported IAM global condition keys. The Amazon S3 resource is accessed in the worker portal using a Amazon S3 presigned URL.
+    public var workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration?
     /// The name of the work team to update.
     /// This member is required.
     public var workteamName: Swift.String?
@@ -70627,12 +70781,14 @@ public struct UpdateWorkteamInput {
         description: Swift.String? = nil,
         memberDefinitions: [SageMakerClientTypes.MemberDefinition]? = nil,
         notificationConfiguration: SageMakerClientTypes.NotificationConfiguration? = nil,
+        workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration? = nil,
         workteamName: Swift.String? = nil
     )
     {
         self.description = description
         self.memberDefinitions = memberDefinitions
         self.notificationConfiguration = notificationConfiguration
+        self.workerAccessConfiguration = workerAccessConfiguration
         self.workteamName = workteamName
     }
 }
@@ -71319,6 +71475,37 @@ extension SageMakerClientTypes {
 
 }
 
+extension SageMakerClientTypes.WorkerAccessConfiguration {
+
+    static func write(value: SageMakerClientTypes.WorkerAccessConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Presign"].write(value.s3Presign, with: SageMakerClientTypes.S3Presign.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.WorkerAccessConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.WorkerAccessConfiguration()
+        value.s3Presign = try reader["S3Presign"].readIfPresent(with: SageMakerClientTypes.S3Presign.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes {
+    /// Use this optional parameter to constrain access to an Amazon S3 resource based on the IP address using supported IAM global condition keys. The Amazon S3 resource is accessed in the worker portal using a Amazon S3 presigned URL.
+    public struct WorkerAccessConfiguration {
+        /// Defines any Amazon S3 resource constraints.
+        public var s3Presign: SageMakerClientTypes.S3Presign?
+
+        public init(
+            s3Presign: SageMakerClientTypes.S3Presign? = nil
+        )
+        {
+            self.s3Presign = s3Presign
+        }
+    }
+
+}
+
 extension SageMakerClientTypes.Workforce {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Workforce {
@@ -71566,6 +71753,7 @@ extension SageMakerClientTypes.Workteam {
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: .epochSeconds)
         value.lastUpdatedDate = try reader["LastUpdatedDate"].readTimestampIfPresent(format: .epochSeconds)
         value.notificationConfiguration = try reader["NotificationConfiguration"].readIfPresent(with: SageMakerClientTypes.NotificationConfiguration.read(from:))
+        value.workerAccessConfiguration = try reader["WorkerAccessConfiguration"].readIfPresent(with: SageMakerClientTypes.WorkerAccessConfiguration.read(from:))
         return value
     }
 }
@@ -71589,6 +71777,8 @@ extension SageMakerClientTypes {
         public var productListingIds: [Swift.String]?
         /// The URI of the labeling job's user interface. Workers open this URI to start labeling your data objects.
         public var subDomain: Swift.String?
+        /// Describes any access constraints that have been defined for Amazon S3 resources.
+        public var workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration?
         /// The Amazon Resource Name (ARN) of the workforce.
         public var workforceArn: Swift.String?
         /// The Amazon Resource Name (ARN) that identifies the work team.
@@ -71606,6 +71796,7 @@ extension SageMakerClientTypes {
             notificationConfiguration: SageMakerClientTypes.NotificationConfiguration? = nil,
             productListingIds: [Swift.String]? = nil,
             subDomain: Swift.String? = nil,
+            workerAccessConfiguration: SageMakerClientTypes.WorkerAccessConfiguration? = nil,
             workforceArn: Swift.String? = nil,
             workteamArn: Swift.String? = nil,
             workteamName: Swift.String? = nil
@@ -71618,6 +71809,7 @@ extension SageMakerClientTypes {
             self.notificationConfiguration = notificationConfiguration
             self.productListingIds = productListingIds
             self.subDomain = subDomain
+            self.workerAccessConfiguration = workerAccessConfiguration
             self.workforceArn = workforceArn
             self.workteamArn = workteamArn
             self.workteamName = workteamName

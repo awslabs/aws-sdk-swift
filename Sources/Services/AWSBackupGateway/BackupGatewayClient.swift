@@ -143,10 +143,10 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     public func associateGatewayToServer(input: AssociateGatewayToServerInput) async throws -> AssociateGatewayToServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -247,9 +247,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -298,12 +298,12 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
-    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
-    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func deleteHypervisor(input: DeleteHypervisorInput) async throws -> DeleteHypervisorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -352,11 +352,11 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ConflictException` : The operation cannot proceed because it is not supported.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func disassociateGatewayFromServer(input: DisassociateGatewayFromServerInput) async throws -> DisassociateGatewayFromServerOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -406,9 +406,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getBandwidthRateLimitSchedule(input: GetBandwidthRateLimitScheduleInput) async throws -> GetBandwidthRateLimitScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -458,9 +458,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -510,9 +510,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getHypervisor(input: GetHypervisorInput) async throws -> GetHypervisorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -562,9 +562,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getHypervisorPropertyMappings(input: GetHypervisorPropertyMappingsInput) async throws -> GetHypervisorPropertyMappingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -614,9 +614,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getVirtualMachine(input: GetVirtualMachineInput) async throws -> GetVirtualMachineOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -665,11 +665,11 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
-    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     public func importHypervisorConfiguration(input: ImportHypervisorConfigurationInput) async throws -> ImportHypervisorConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -821,9 +821,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -924,9 +924,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func putBandwidthRateLimitSchedule(input: PutBandwidthRateLimitScheduleInput) async throws -> PutBandwidthRateLimitScheduleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -975,12 +975,12 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
-    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
-    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func putHypervisorPropertyMappings(input: PutHypervisorPropertyMappingsInput) async throws -> PutHypervisorPropertyMappingsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1029,11 +1029,11 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ConflictException` : The operation cannot proceed because it is not supported.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func putMaintenanceStartTime(input: PutMaintenanceStartTimeInput) async throws -> PutMaintenanceStartTimeOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1082,11 +1082,11 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func startVirtualMachinesMetadataSync(input: StartVirtualMachinesMetadataSyncInput) async throws -> StartVirtualMachinesMetadataSyncOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1136,9 +1136,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1187,11 +1187,11 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ConflictException` : The operation cannot proceed because it is not supported.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func testHypervisorConfiguration(input: TestHypervisorConfigurationInput) async throws -> TestHypervisorConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1241,9 +1241,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1292,11 +1292,11 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ConflictException` : The operation cannot proceed because it is not supported.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1346,9 +1346,9 @@ extension BackupGatewayClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
     /// - `ValidationException` : The operation did not succeed because a validation error occurred.
-    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1397,12 +1397,12 @@ extension BackupGatewayClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
-    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
-    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
     /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
     /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func updateHypervisor(input: UpdateHypervisorInput) async throws -> UpdateHypervisorOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)

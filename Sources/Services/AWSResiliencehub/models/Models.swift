@@ -3707,12 +3707,16 @@ enum DescribeResiliencyPolicyOutputError {
 extension ResiliencehubClientTypes {
 
     public enum DifferenceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case added
         case notEqual
+        case removed
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DifferenceType] {
             return [
+                .added,
                 .notEqual,
+                .removed,
                 .sdkUnknown("")
             ]
         }
@@ -3724,7 +3728,9 @@ extension ResiliencehubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .added: return "Added"
             case .notEqual: return "NotEqual"
+            case .removed: return "Removed"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3876,11 +3882,13 @@ extension ResiliencehubClientTypes {
 
     public enum DriftType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case applicationCompliance
+        case appComponentResiliencyComplianceStatus
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DriftType] {
             return [
                 .applicationCompliance,
+                .appComponentResiliencyComplianceStatus,
                 .sdkUnknown("")
             ]
         }
@@ -3893,6 +3901,7 @@ extension ResiliencehubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .applicationCompliance: return "ApplicationCompliance"
+            case .appComponentResiliencyComplianceStatus: return "AppComponentResiliencyComplianceStatus"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4511,6 +4520,91 @@ public struct ListAppAssessmentComplianceDriftsOutput {
 }
 
 enum ListAppAssessmentComplianceDriftsOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension ListAppAssessmentResourceDriftsInput {
+
+    static func urlPathProvider(_ value: ListAppAssessmentResourceDriftsInput) -> Swift.String? {
+        return "/list-app-assessment-resource-drifts"
+    }
+}
+
+extension ListAppAssessmentResourceDriftsInput {
+
+    static func write(value: ListAppAssessmentResourceDriftsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assessmentArn"].write(value.assessmentArn)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+public struct ListAppAssessmentResourceDriftsInput {
+    /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    /// This member is required.
+    public var assessmentArn: Swift.String?
+    /// Indicates the maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// Null, or the token from a previous call to get the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        assessmentArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.assessmentArn = assessmentArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ListAppAssessmentResourceDriftsOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAppAssessmentResourceDriftsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAppAssessmentResourceDriftsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.resourceDrifts = try reader["resourceDrifts"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ResourceDrift.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+public struct ListAppAssessmentResourceDriftsOutput {
+    /// Null, or the token from a previous call to get the next set of results.
+    public var nextToken: Swift.String?
+    /// Indicates all the resource drifts detected for an assessed entity.
+    /// This member is required.
+    public var resourceDrifts: [ResiliencehubClientTypes.ResourceDrift]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceDrifts: [ResiliencehubClientTypes.ResourceDrift]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourceDrifts = resourceDrifts
+    }
+}
+
+enum ListAppAssessmentResourceDriftsOutputError {
 
     static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5469,12 +5563,10 @@ extension ListRecommendationTemplatesInput {
             let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
             items.append(nameQueryItem)
         }
-        guard let assessmentArn = value.assessmentArn else {
-            let message = "Creating a URL Query Item failed. assessmentArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+        if let assessmentArn = value.assessmentArn {
+            let assessmentArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "assessmentArn".urlPercentEncoding(), value: Swift.String(assessmentArn).urlPercentEncoding())
+            items.append(assessmentArnQueryItem)
         }
-        let assessmentArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "assessmentArn".urlPercentEncoding(), value: Swift.String(assessmentArn).urlPercentEncoding())
-        items.append(assessmentArnQueryItem)
         if let recommendationTemplateArn = value.recommendationTemplateArn {
             let recommendationTemplateArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "recommendationTemplateArn".urlPercentEncoding(), value: Swift.String(recommendationTemplateArn).urlPercentEncoding())
             items.append(recommendationTemplateArnQueryItem)
@@ -5498,7 +5590,6 @@ extension ListRecommendationTemplatesInput {
 
 public struct ListRecommendationTemplatesInput {
     /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
-    /// This member is required.
     public var assessmentArn: Swift.String?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -6314,7 +6405,7 @@ extension ResiliencehubClientTypes {
         public var physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId?
         /// The name of the resource.
         public var resourceName: Swift.String?
-        /// The type of resource.
+        /// Type of resource.
         /// This member is required.
         public var resourceType: Swift.String?
         /// Type of input source.
@@ -7425,6 +7516,52 @@ enum ResolveAppVersionResourcesOutputError {
     }
 }
 
+extension ResiliencehubClientTypes.ResourceDrift {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ResourceDrift {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.ResourceDrift()
+        value.appArn = try reader["appArn"].readIfPresent()
+        value.appVersion = try reader["appVersion"].readIfPresent()
+        value.referenceId = try reader["referenceId"].readIfPresent()
+        value.resourceIdentifier = try reader["resourceIdentifier"].readIfPresent(with: ResiliencehubClientTypes.ResourceIdentifier.read(from:))
+        value.diffType = try reader["diffType"].readIfPresent()
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Indicates the resources that have drifted in the current application version.
+    public struct ResourceDrift {
+        /// Amazon Resource Name (ARN) of the application whose resources have drifted. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+        public var appArn: Swift.String?
+        /// Version of the application whose resources have drifted.
+        public var appVersion: Swift.String?
+        /// Indicates if the resource was added or removed.
+        public var diffType: ResiliencehubClientTypes.DifferenceType?
+        /// Reference identifier of the resource drift.
+        public var referenceId: Swift.String?
+        /// Identifier of the drifted resource.
+        public var resourceIdentifier: ResiliencehubClientTypes.ResourceIdentifier?
+
+        public init(
+            appArn: Swift.String? = nil,
+            appVersion: Swift.String? = nil,
+            diffType: ResiliencehubClientTypes.DifferenceType? = nil,
+            referenceId: Swift.String? = nil,
+            resourceIdentifier: ResiliencehubClientTypes.ResourceIdentifier? = nil
+        )
+        {
+            self.appArn = appArn
+            self.appVersion = appVersion
+            self.diffType = diffType
+            self.referenceId = referenceId
+            self.resourceIdentifier = resourceIdentifier
+        }
+    }
+
+}
+
 extension ResiliencehubClientTypes.ResourceError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ResourceError {
@@ -7487,6 +7624,37 @@ extension ResiliencehubClientTypes {
         {
             self.hasMoreErrors = hasMoreErrors
             self.resourceErrors = resourceErrors
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes.ResourceIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ResourceIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.ResourceIdentifier()
+        value.logicalResourceId = try reader["logicalResourceId"].readIfPresent(with: ResiliencehubClientTypes.LogicalResourceId.read(from:))
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// Defines a resource identifier for the drifted resource.
+    public struct ResourceIdentifier {
+        /// Logical identifier of the drifted resource.
+        public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?
+        /// Type of the drifted resource.
+        public var resourceType: Swift.String?
+
+        public init(
+            logicalResourceId: ResiliencehubClientTypes.LogicalResourceId? = nil,
+            resourceType: Swift.String? = nil
+        )
+        {
+            self.logicalResourceId = logicalResourceId
+            self.resourceType = resourceType
         }
     }
 
@@ -7590,23 +7758,23 @@ extension ResiliencehubClientTypes.ResourceMapping {
 extension ResiliencehubClientTypes {
     /// Defines a resource mapping.
     public struct ResourceMapping {
-        /// The name of the application this resource is mapped to.
+        /// Name of the application this resource is mapped to when the mappingType is AppRegistryApp.
         public var appRegistryAppName: Swift.String?
-        /// Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format.
+        /// Name of the Amazon Elastic Kubernetes Service cluster and namespace that this resource is mapped to when the mappingType is EKS. This parameter accepts values in "eks-cluster/namespace" format.
         public var eksSourceName: Swift.String?
-        /// The name of the CloudFormation stack this resource is mapped to.
+        /// Name of the CloudFormation stack this resource is mapped to when the mappingType is CfnStack.
         public var logicalStackName: Swift.String?
-        /// Specifies the type of resource mapping. AppRegistryApp The resource is mapped to another application. The name of the application is contained in the appRegistryAppName property. CfnStack The resource is mapped to a CloudFormation stack. The name of the CloudFormation stack is contained in the logicalStackName property. Resource The resource is mapped to another resource. The name of the resource is contained in the resourceName property. ResourceGroup The resource is mapped to Resource Groups. The name of the resource group is contained in the resourceGroupName property.
+        /// Specifies the type of resource mapping.
         /// This member is required.
         public var mappingType: ResiliencehubClientTypes.ResourceMappingType?
         /// Identifier of the physical resource.
         /// This member is required.
         public var physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId?
-        /// Name of the resource group that the resource is mapped to.
+        /// Name of the Resource Groups that this resource is mapped to when the mappingType is ResourceGroup.
         public var resourceGroupName: Swift.String?
-        /// Name of the resource that the resource is mapped to.
+        /// Name of the resource that this resource is mapped to when the mappingType is Resource.
         public var resourceName: Swift.String?
-        /// The short name of the Terraform source.
+        /// Name of the Terraform source that this resource is mapped to when the mappingType is Terraform.
         public var terraformSourceName: Swift.String?
 
         public init(
@@ -7835,13 +8003,13 @@ extension ResiliencehubClientTypes.ScoringComponentResiliencyScore {
 extension ResiliencehubClientTypes {
     /// Resiliency score of each scoring component. For more information about scoring component, see [Calculating resiliency score](https://docs.aws.amazon.com/resilience-hub/latest/userguide/calculate-score.html).
     public struct ScoringComponentResiliencyScore {
-        /// Number of recommendations that were excluded from the assessment. For example, if the Excluded count for Resilience Hub recommended Amazon CloudWatch alarms is 7, it indicates that 7 Amazon CloudWatch alarms are excluded from the assessment.
+        /// Number of recommendations that were excluded from the assessment. For example, if the excludedCount for Alarms coverage scoring component is 7, it indicates that 7 Amazon CloudWatch alarms are excluded from the assessment.
         public var excludedCount: Swift.Int
-        /// Number of issues that must be resolved to obtain the maximum possible score for the scoring component. For SOPs, alarms, and FIS experiments, these are the number of recommendations that must be implemented. For compliance, it is the number of Application Components that has breached the resiliency policy. For example, if the Outstanding count for Resilience Hub recommended Amazon CloudWatch alarms is 5, it indicates that 5 Amazon CloudWatch alarms must be fixed to achieve the maximum possible score.
+        /// Number of recommendations that must be implemented to obtain the maximum possible score for the scoring component. For SOPs, alarms, and tests, these are the number of recommendations that must be implemented. For compliance, these are the number of Application Components that have breached the resiliency policy. For example, if the outstandingCount for Alarms coverage scoring component is 5, it indicates that 5 Amazon CloudWatch alarms need to be implemented to achieve the maximum possible score.
         public var outstandingCount: Swift.Int
-        /// Maximum possible score that can be obtained for the scoring component. If the Possible score is 20 points, it indicates the maximum possible score you can achieve for your application when you run a new assessment after implementing all the Resilience Hub recommendations.
+        /// Maximum possible score that can be obtained for the scoring component. For example, if the possibleScore is 20 points, it indicates the maximum possible score you can achieve for the scoring component when you run a new assessment after implementing all the Resilience Hub recommendations.
         public var possibleScore: Swift.Double
-        /// Resiliency score of your application.
+        /// Resiliency score points given for the scoring component. The score is always less than or equal to the possibleScore.
         public var score: Swift.Double
 
         public init(

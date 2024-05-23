@@ -1299,7 +1299,6 @@ extension CompleteMultipartUploadInput {
 
     static func queryItemProvider(_ value: CompleteMultipartUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
         var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "CompleteMultipartUpload"))
         guard let uploadId = value.uploadId else {
             let message = "Creating a URL Query Item failed. uploadId is required and must not be nil."
             throw ClientRuntime.ClientError.unknownError(message)
@@ -2590,7 +2589,6 @@ extension CreateMultipartUploadInput {
     static func queryItemProvider(_ value: CreateMultipartUploadInput) throws -> [ClientRuntime.SDKURLQueryItem] {
         var items = [ClientRuntime.SDKURLQueryItem]()
         items.append(ClientRuntime.SDKURLQueryItem(name: "uploads", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "CreateMultipartUpload"))
         return items
     }
 }
@@ -4476,7 +4474,6 @@ extension DeleteObjectsInput {
     static func queryItemProvider(_ value: DeleteObjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
         var items = [ClientRuntime.SDKURLQueryItem]()
         items.append(ClientRuntime.SDKURLQueryItem(name: "delete", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "DeleteObjects"))
         return items
     }
 }
@@ -19226,7 +19223,6 @@ extension RestoreObjectInput {
     static func queryItemProvider(_ value: RestoreObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
         var items = [ClientRuntime.SDKURLQueryItem]()
         items.append(ClientRuntime.SDKURLQueryItem(name: "restore", value: nil))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "RestoreObject"))
         if let versionId = value.versionId {
             let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
@@ -19766,7 +19762,6 @@ extension SelectObjectContentInput {
         var items = [ClientRuntime.SDKURLQueryItem]()
         items.append(ClientRuntime.SDKURLQueryItem(name: "select", value: nil))
         items.append(ClientRuntime.SDKURLQueryItem(name: "select-type", value: "2"))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "SelectObjectContent"))
         return items
     }
 }
@@ -21738,15 +21733,6 @@ extension WriteGetObjectResponseInput {
                 items.add(Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
-        return items
-    }
-}
-
-extension WriteGetObjectResponseInput {
-
-    static func queryItemProvider(_ value: WriteGetObjectResponseInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "x-id", value: "WriteGetObjectResponse"))
         return items
     }
 }

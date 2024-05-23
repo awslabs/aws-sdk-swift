@@ -28,7 +28,7 @@ class AWSDeprecatedShapeRemover : SwiftIntegration {
             Predicate<Shape> {
                 val since = it.getTrait<DeprecatedTrait>()?.since?.orElse(null) ?: return@Predicate false
                 val deprecatedDate = since.toLocalDate() ?: return@Predicate false.also {
-                    println("Failed to parse `since` field $since as a date, skipping removal of deprecated shape $it")
+                    println("Could not parse `since` field \"$since\" as a date, skipping removal of deprecated shape $it")
                 }
                 return@Predicate deprecatedDate < REMOVE_BEFORE_DATE.toLocalDate()
             }

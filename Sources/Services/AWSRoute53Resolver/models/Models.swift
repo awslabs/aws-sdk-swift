@@ -772,7 +772,7 @@ public struct CreateFirewallRuleInput {
     /// The ID of the domain list that you want to use in the rule.
     /// This member is required.
     public var firewallDomainListId: Swift.String?
-    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME, DNAME, ot ALIAS. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the allow domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the redirection list to the domain alloww list.
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
     public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group where you want to create the rule.
     /// This member is required.
@@ -2665,7 +2665,7 @@ extension Route53ResolverClientTypes {
         public var creatorRequestId: Swift.String?
         /// The ID of the domain list that's used in the rule.
         public var firewallDomainListId: Swift.String?
-        /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME, DNAME, ot ALIAS. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the allow domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain alloww list.
+        /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
         public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group of the rule.
         public var firewallRuleGroupId: Swift.String?
@@ -8476,7 +8476,7 @@ public struct UpdateFirewallRuleInput {
     /// The ID of the domain list to use in the rule.
     /// This member is required.
     public var firewallDomainListId: Swift.String?
-    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME, DNAME, ot ALIAS. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the allow domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain alloww list.
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
     public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group for the rule.
     /// This member is required.

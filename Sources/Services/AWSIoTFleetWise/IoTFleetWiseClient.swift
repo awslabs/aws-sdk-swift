@@ -143,8 +143,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -197,8 +197,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -250,8 +250,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchUpdateVehicle(input: BatchUpdateVehicleInput) async throws -> BatchUpdateVehicleOutput {
@@ -302,9 +302,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -365,10 +365,10 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     /// - `DecoderManifestValidationException` : The request couldn't be completed because it contains signal decoders with one or more validation errors.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -421,9 +421,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -476,9 +476,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
@@ -532,9 +532,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `InvalidNodeException` : The specified node type doesn't match the expected node type for a node. You can specify the node type as branch, sensor, actuator, or attribute.
     /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
     /// - `LimitExceededException` : A service quota was exceeded.
@@ -588,9 +588,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -643,8 +643,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -696,9 +696,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteDecoderManifest(input: DeleteDecoderManifestInput) async throws -> DeleteDecoderManifestOutput {
@@ -749,8 +749,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
@@ -801,9 +801,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteModelManifest(input: DeleteModelManifestInput) async throws -> DeleteModelManifestOutput {
@@ -854,9 +854,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteSignalCatalog(input: DeleteSignalCatalogInput) async throws -> DeleteSignalCatalogOutput {
@@ -907,8 +907,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteVehicle(input: DeleteVehicleInput) async throws -> DeleteVehicleOutput {
@@ -959,8 +959,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1012,8 +1012,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1065,8 +1065,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1118,8 +1118,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1171,8 +1171,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1224,8 +1224,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     public func getLoggingOptions(input: GetLoggingOptionsInput) async throws -> GetLoggingOptionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1275,8 +1275,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1328,8 +1328,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1381,8 +1381,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1434,8 +1434,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1487,8 +1487,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1541,10 +1541,10 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     /// - `DecoderManifestValidationException` : The request couldn't be completed because it contains signal decoders with one or more validation errors.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -1597,9 +1597,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
@@ -1653,8 +1653,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutput {
@@ -1706,8 +1706,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1760,8 +1760,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1814,8 +1814,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listDecoderManifests(input: ListDecoderManifestsInput) async throws -> ListDecoderManifestsOutput {
@@ -1867,8 +1867,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1921,8 +1921,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -1975,8 +1975,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -2030,8 +2030,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listModelManifests(input: ListModelManifestsInput) async throws -> ListModelManifestsOutput {
@@ -2083,8 +2083,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -2138,8 +2138,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listSignalCatalogs(input: ListSignalCatalogsInput) async throws -> ListSignalCatalogsOutput {
@@ -2191,8 +2191,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -2245,8 +2245,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listVehicles(input: ListVehiclesInput) async throws -> ListVehiclesOutput {
@@ -2298,8 +2298,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -2352,9 +2352,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -2406,9 +2406,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -2460,9 +2460,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -2514,8 +2514,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -2568,8 +2568,8 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -2622,9 +2622,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -2676,10 +2676,10 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     /// - `DecoderManifestValidationException` : The request couldn't be completed because it contains signal decoders with one or more validation errors.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `LimitExceededException` : A service quota was exceeded.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -2732,9 +2732,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
@@ -2786,9 +2786,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
@@ -2841,9 +2841,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `InvalidNodeException` : The specified node type doesn't match the expected node type for a node. You can specify the node type as branch, sensor, actuator, or attribute.
     /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
     /// - `LimitExceededException` : A service quota was exceeded.
@@ -2898,9 +2898,9 @@ extension IoTFleetWiseClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
     /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
     /// - `ResourceNotFoundException` : The resource wasn't found.
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.

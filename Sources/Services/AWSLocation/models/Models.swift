@@ -1746,8 +1746,6 @@ extension CreateGeofenceCollectionInput {
         try writer["CollectionName"].write(value.collectionName)
         try writer["Description"].write(value.description)
         try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["PricingPlan"].write(value.pricingPlan)
-        try writer["PricingPlanDataSource"].write(value.pricingPlanDataSource)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -1766,12 +1764,6 @@ public struct CreateGeofenceCollectionInput {
     public var description: Swift.String?
     /// A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html). Enter a key ID, key ARN, alias name, or alias ARN.
     public var kmsKeyId: Swift.String?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
-    /// This parameter is no longer used.
-    @available(*, deprecated, message: "Deprecated. No longer allowed. API deprecated since 2022-02-01")
-    public var pricingPlanDataSource: Swift.String?
     /// Applies one or more tags to the geofence collection. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value" Restrictions:
     ///
     /// * Maximum 50 tags per resource
@@ -1791,16 +1783,12 @@ public struct CreateGeofenceCollectionInput {
         collectionName: Swift.String? = nil,
         description: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
-        pricingPlanDataSource: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.collectionName = collectionName
         self.description = description
         self.kmsKeyId = kmsKeyId
-        self.pricingPlan = pricingPlan
-        self.pricingPlanDataSource = pricingPlanDataSource
         self.tags = tags
     }
 }
@@ -2018,7 +2006,6 @@ extension CreateMapInput {
         try writer["Configuration"].write(value.configuration, with: LocationClientTypes.MapConfiguration.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["MapName"].write(value.mapName)
-        try writer["PricingPlan"].write(value.pricingPlan)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2038,9 +2025,6 @@ public struct CreateMapInput {
     /// * No spaces allowed. For example, ExampleMap.
     /// This member is required.
     public var mapName: Swift.String?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
     /// Applies one or more tags to the map resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value" Restrictions:
     ///
     /// * Maximum 50 tags per resource
@@ -2060,14 +2044,12 @@ public struct CreateMapInput {
         configuration: LocationClientTypes.MapConfiguration? = nil,
         description: Swift.String? = nil,
         mapName: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.configuration = configuration
         self.description = description
         self.mapName = mapName
-        self.pricingPlan = pricingPlan
         self.tags = tags
     }
 }
@@ -2145,7 +2127,6 @@ extension CreatePlaceIndexInput {
         try writer["DataSourceConfiguration"].write(value.dataSourceConfiguration, with: LocationClientTypes.DataSourceConfiguration.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["IndexName"].write(value.indexName)
-        try writer["PricingPlan"].write(value.pricingPlan)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2176,9 +2157,6 @@ public struct CreatePlaceIndexInput {
     /// * No spaces allowed. For example, ExamplePlaceIndex.
     /// This member is required.
     public var indexName: Swift.String?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
     /// Applies one or more tags to the place index resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value" Restrictions:
     ///
     /// * Maximum 50 tags per resource.
@@ -2199,7 +2177,6 @@ public struct CreatePlaceIndexInput {
         dataSourceConfiguration: LocationClientTypes.DataSourceConfiguration? = nil,
         description: Swift.String? = nil,
         indexName: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -2207,7 +2184,6 @@ public struct CreatePlaceIndexInput {
         self.dataSourceConfiguration = dataSourceConfiguration
         self.description = description
         self.indexName = indexName
-        self.pricingPlan = pricingPlan
         self.tags = tags
     }
 }
@@ -2284,7 +2260,6 @@ extension CreateRouteCalculatorInput {
         try writer["CalculatorName"].write(value.calculatorName)
         try writer["DataSource"].write(value.dataSource)
         try writer["Description"].write(value.description)
-        try writer["PricingPlan"].write(value.pricingPlan)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2313,9 +2288,6 @@ public struct CreateRouteCalculatorInput {
     public var dataSource: Swift.String?
     /// The optional description for the route calculator resource.
     public var description: Swift.String?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
     /// Applies one or more tags to the route calculator resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them.
     ///
     /// * For example: { "tag1" : "value1", "tag2" : "value2"}
@@ -2340,14 +2312,12 @@ public struct CreateRouteCalculatorInput {
         calculatorName: Swift.String? = nil,
         dataSource: Swift.String? = nil,
         description: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.calculatorName = calculatorName
         self.dataSource = dataSource
         self.description = description
-        self.pricingPlan = pricingPlan
         self.tags = tags
     }
 }
@@ -2430,8 +2400,6 @@ extension CreateTrackerInput {
         try writer["KmsKeyEnableGeospatialQueries"].write(value.kmsKeyEnableGeospatialQueries)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["PositionFiltering"].write(value.positionFiltering)
-        try writer["PricingPlan"].write(value.pricingPlan)
-        try writer["PricingPlanDataSource"].write(value.pricingPlanDataSource)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TrackerName"].write(value.trackerName)
     }
@@ -2457,12 +2425,6 @@ public struct CreateTrackerInput {
     ///
     /// This field is optional. If not specified, the default value is TimeBased.
     public var positionFiltering: LocationClientTypes.PositionFiltering?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
-    /// This parameter is no longer used.
-    @available(*, deprecated, message: "Deprecated. No longer allowed. API deprecated since 2022-02-01")
-    public var pricingPlanDataSource: Swift.String?
     /// Applies one or more tags to the tracker resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value" Restrictions:
     ///
     /// * Maximum 50 tags per resource
@@ -2493,8 +2455,6 @@ public struct CreateTrackerInput {
         kmsKeyEnableGeospatialQueries: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         positionFiltering: LocationClientTypes.PositionFiltering? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
-        pricingPlanDataSource: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         trackerName: Swift.String? = nil
     )
@@ -2504,8 +2464,6 @@ public struct CreateTrackerInput {
         self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
         self.kmsKeyId = kmsKeyId
         self.positionFiltering = positionFiltering
-        self.pricingPlan = pricingPlan
-        self.pricingPlanDataSource = pricingPlanDataSource
         self.tags = tags
         self.trackerName = trackerName
     }
@@ -2984,8 +2942,6 @@ extension DescribeGeofenceCollectionOutput {
         value.description = try reader["Description"].readIfPresent()
         value.geofenceCount = try reader["GeofenceCount"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
-        value.pricingPlanDataSource = try reader["PricingPlanDataSource"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
         return value
@@ -3011,12 +2967,6 @@ public struct DescribeGeofenceCollectionOutput {
     public var geofenceCount: Swift.Int?
     /// A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) assigned to the Amazon Location resource
     public var kmsKeyId: Swift.String?
-    /// No longer used. Always returns RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
-    /// No longer used. Always returns an empty string.
-    @available(*, deprecated, message: "Deprecated. Unused. API deprecated since 2022-02-01")
-    public var pricingPlanDataSource: Swift.String?
     /// Displays the key, value pairs of tags associated with this resource.
     public var tags: [Swift.String:Swift.String]?
     /// The timestamp for when the geofence collection was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
@@ -3030,8 +2980,6 @@ public struct DescribeGeofenceCollectionOutput {
         description: Swift.String? = nil,
         geofenceCount: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
-        pricingPlanDataSource: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         updateTime: ClientRuntime.Date? = nil
     )
@@ -3042,8 +2990,6 @@ public struct DescribeGeofenceCollectionOutput {
         self.description = description
         self.geofenceCount = geofenceCount
         self.kmsKeyId = kmsKeyId
-        self.pricingPlan = pricingPlan
-        self.pricingPlanDataSource = pricingPlanDataSource
         self.tags = tags
         self.updateTime = updateTime
     }
@@ -3222,7 +3168,6 @@ extension DescribeMapOutput {
         value.description = try reader["Description"].readIfPresent()
         value.mapArn = try reader["MapArn"].readIfPresent()
         value.mapName = try reader["MapName"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
         return value
@@ -3250,9 +3195,6 @@ public struct DescribeMapOutput {
     /// The map style selected from an available provider.
     /// This member is required.
     public var mapName: Swift.String?
-    /// No longer used. Always returns RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
     /// Tags associated with the map resource.
     public var tags: [Swift.String:Swift.String]?
     /// The timestamp for when the map resource was last update in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
@@ -3266,7 +3208,6 @@ public struct DescribeMapOutput {
         description: Swift.String? = nil,
         mapArn: Swift.String? = nil,
         mapName: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         updateTime: ClientRuntime.Date? = nil
     )
@@ -3277,7 +3218,6 @@ public struct DescribeMapOutput {
         self.description = description
         self.mapArn = mapArn
         self.mapName = mapName
-        self.pricingPlan = pricingPlan
         self.tags = tags
         self.updateTime = updateTime
     }
@@ -3337,7 +3277,6 @@ extension DescribePlaceIndexOutput {
         value.description = try reader["Description"].readIfPresent()
         value.indexArn = try reader["IndexArn"].readIfPresent()
         value.indexName = try reader["IndexName"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
         return value
@@ -3374,9 +3313,6 @@ public struct DescribePlaceIndexOutput {
     /// The name of the place index resource being described.
     /// This member is required.
     public var indexName: Swift.String?
-    /// No longer used. Always returns RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
     /// Tags associated with place index resource.
     public var tags: [Swift.String:Swift.String]?
     /// The timestamp for when the place index resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
@@ -3390,7 +3326,6 @@ public struct DescribePlaceIndexOutput {
         description: Swift.String? = nil,
         indexArn: Swift.String? = nil,
         indexName: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         updateTime: ClientRuntime.Date? = nil
     )
@@ -3401,7 +3336,6 @@ public struct DescribePlaceIndexOutput {
         self.description = description
         self.indexArn = indexArn
         self.indexName = indexName
-        self.pricingPlan = pricingPlan
         self.tags = tags
         self.updateTime = updateTime
     }
@@ -3460,7 +3394,6 @@ extension DescribeRouteCalculatorOutput {
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
         value.dataSource = try reader["DataSource"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
         return value
@@ -3496,9 +3429,6 @@ public struct DescribeRouteCalculatorOutput {
     /// The optional description of the route calculator resource.
     /// This member is required.
     public var description: Swift.String?
-    /// Always returns RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
     /// Tags associated with route calculator resource.
     public var tags: [Swift.String:Swift.String]?
     /// The timestamp when the route calculator resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
@@ -3513,7 +3443,6 @@ public struct DescribeRouteCalculatorOutput {
         createTime: ClientRuntime.Date? = nil,
         dataSource: Swift.String? = nil,
         description: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         updateTime: ClientRuntime.Date? = nil
     )
@@ -3523,7 +3452,6 @@ public struct DescribeRouteCalculatorOutput {
         self.createTime = createTime
         self.dataSource = dataSource
         self.description = description
-        self.pricingPlan = pricingPlan
         self.tags = tags
         self.updateTime = updateTime
     }
@@ -3583,8 +3511,6 @@ extension DescribeTrackerOutput {
         value.kmsKeyEnableGeospatialQueries = try reader["KmsKeyEnableGeospatialQueries"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.positionFiltering = try reader["PositionFiltering"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
-        value.pricingPlanDataSource = try reader["PricingPlanDataSource"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.trackerArn = try reader["TrackerArn"].readIfPresent()
         value.trackerName = try reader["TrackerName"].readIfPresent()
@@ -3608,12 +3534,6 @@ public struct DescribeTrackerOutput {
     public var kmsKeyId: Swift.String?
     /// The position filtering method of the tracker resource.
     public var positionFiltering: LocationClientTypes.PositionFiltering?
-    /// Always returns RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
-    /// No longer used. Always returns an empty string.
-    @available(*, deprecated, message: "Deprecated. Unused. API deprecated since 2022-02-01")
-    public var pricingPlanDataSource: Swift.String?
     /// The tags associated with the tracker resource.
     public var tags: [Swift.String:Swift.String]?
     /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all Amazon Web Services.
@@ -3635,8 +3555,6 @@ public struct DescribeTrackerOutput {
         kmsKeyEnableGeospatialQueries: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         positionFiltering: LocationClientTypes.PositionFiltering? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
-        pricingPlanDataSource: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         trackerArn: Swift.String? = nil,
         trackerName: Swift.String? = nil,
@@ -3649,8 +3567,6 @@ public struct DescribeTrackerOutput {
         self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
         self.kmsKeyId = kmsKeyId
         self.positionFiltering = positionFiltering
-        self.pricingPlan = pricingPlan
-        self.pricingPlanDataSource = pricingPlanDataSource
         self.tags = tags
         self.trackerArn = trackerArn
         self.trackerName = trackerName
@@ -5308,8 +5224,6 @@ extension LocationClientTypes.ListGeofenceCollectionsResponseEntry {
         var value = LocationClientTypes.ListGeofenceCollectionsResponseEntry()
         value.collectionName = try reader["CollectionName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
-        value.pricingPlanDataSource = try reader["PricingPlanDataSource"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
         return value
@@ -5328,12 +5242,6 @@ extension LocationClientTypes {
         /// The description for the geofence collection
         /// This member is required.
         public var description: Swift.String?
-        /// No longer used. Always returns RequestBasedUsage.
-        @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-        public var pricingPlan: LocationClientTypes.PricingPlan?
-        /// No longer used. Always returns an empty string.
-        @available(*, deprecated, message: "Deprecated. Unused. API deprecated since 2022-02-01")
-        public var pricingPlanDataSource: Swift.String?
         /// Specifies a timestamp for when the resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ
         /// This member is required.
         public var updateTime: ClientRuntime.Date?
@@ -5342,16 +5250,12 @@ extension LocationClientTypes {
             collectionName: Swift.String? = nil,
             createTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
-            pricingPlan: LocationClientTypes.PricingPlan? = nil,
-            pricingPlanDataSource: Swift.String? = nil,
             updateTime: ClientRuntime.Date? = nil
         )
         {
             self.collectionName = collectionName
             self.createTime = createTime
             self.description = description
-            self.pricingPlan = pricingPlan
-            self.pricingPlanDataSource = pricingPlanDataSource
             self.updateTime = updateTime
         }
     }
@@ -5744,7 +5648,6 @@ extension LocationClientTypes.ListMapsResponseEntry {
         value.mapName = try reader["MapName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.dataSource = try reader["DataSource"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
         return value
@@ -5766,9 +5669,6 @@ extension LocationClientTypes {
         /// The name of the associated map resource.
         /// This member is required.
         public var mapName: Swift.String?
-        /// No longer used. Always returns RequestBasedUsage.
-        @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-        public var pricingPlan: LocationClientTypes.PricingPlan?
         /// The timestamp for when the map resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
         public var updateTime: ClientRuntime.Date?
@@ -5778,7 +5678,6 @@ extension LocationClientTypes {
             dataSource: Swift.String? = nil,
             description: Swift.String? = nil,
             mapName: Swift.String? = nil,
-            pricingPlan: LocationClientTypes.PricingPlan? = nil,
             updateTime: ClientRuntime.Date? = nil
         )
         {
@@ -5786,7 +5685,6 @@ extension LocationClientTypes {
             self.dataSource = dataSource
             self.description = description
             self.mapName = mapName
-            self.pricingPlan = pricingPlan
             self.updateTime = updateTime
         }
     }
@@ -5880,7 +5778,6 @@ extension LocationClientTypes.ListPlaceIndexesResponseEntry {
         value.indexName = try reader["IndexName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.dataSource = try reader["DataSource"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
         return value
@@ -5911,9 +5808,6 @@ extension LocationClientTypes {
         /// The name of the place index resource.
         /// This member is required.
         public var indexName: Swift.String?
-        /// No longer used. Always returns RequestBasedUsage.
-        @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-        public var pricingPlan: LocationClientTypes.PricingPlan?
         /// The timestamp for when the place index resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
         public var updateTime: ClientRuntime.Date?
@@ -5923,7 +5817,6 @@ extension LocationClientTypes {
             dataSource: Swift.String? = nil,
             description: Swift.String? = nil,
             indexName: Swift.String? = nil,
-            pricingPlan: LocationClientTypes.PricingPlan? = nil,
             updateTime: ClientRuntime.Date? = nil
         )
         {
@@ -5931,7 +5824,6 @@ extension LocationClientTypes {
             self.dataSource = dataSource
             self.description = description
             self.indexName = indexName
-            self.pricingPlan = pricingPlan
             self.updateTime = updateTime
         }
     }
@@ -6025,7 +5917,6 @@ extension LocationClientTypes.ListRouteCalculatorsResponseEntry {
         value.calculatorName = try reader["CalculatorName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.dataSource = try reader["DataSource"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
         return value
@@ -6058,9 +5949,6 @@ extension LocationClientTypes {
         /// The optional description of the route calculator resource.
         /// This member is required.
         public var description: Swift.String?
-        /// Always returns RequestBasedUsage.
-        @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-        public var pricingPlan: LocationClientTypes.PricingPlan?
         /// The timestamp when the route calculator resource was last updated in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         ///
         /// * For example, 2020–07-2T12:15:20.000Z+01:00
@@ -6072,7 +5960,6 @@ extension LocationClientTypes {
             createTime: ClientRuntime.Date? = nil,
             dataSource: Swift.String? = nil,
             description: Swift.String? = nil,
-            pricingPlan: LocationClientTypes.PricingPlan? = nil,
             updateTime: ClientRuntime.Date? = nil
         )
         {
@@ -6080,7 +5967,6 @@ extension LocationClientTypes {
             self.createTime = createTime
             self.dataSource = dataSource
             self.description = description
-            self.pricingPlan = pricingPlan
             self.updateTime = updateTime
         }
     }
@@ -6330,8 +6216,6 @@ extension LocationClientTypes.ListTrackersResponseEntry {
         var value = LocationClientTypes.ListTrackersResponseEntry()
         value.trackerName = try reader["TrackerName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
-        value.pricingPlan = try reader["PricingPlan"].readIfPresent()
-        value.pricingPlanDataSource = try reader["PricingPlanDataSource"].readIfPresent()
         value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
         value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: .dateTime)
         return value
@@ -6347,12 +6231,6 @@ extension LocationClientTypes {
         /// The description for the tracker resource.
         /// This member is required.
         public var description: Swift.String?
-        /// Always returns RequestBasedUsage.
-        @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
-        public var pricingPlan: LocationClientTypes.PricingPlan?
-        /// No longer used. Always returns an empty string.
-        @available(*, deprecated, message: "Deprecated. Unused. API deprecated since 2022-02-01")
-        public var pricingPlanDataSource: Swift.String?
         /// The name of the tracker resource.
         /// This member is required.
         public var trackerName: Swift.String?
@@ -6363,16 +6241,12 @@ extension LocationClientTypes {
         public init(
             createTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
-            pricingPlan: LocationClientTypes.PricingPlan? = nil,
-            pricingPlanDataSource: Swift.String? = nil,
             trackerName: Swift.String? = nil,
             updateTime: ClientRuntime.Date? = nil
         )
         {
             self.createTime = createTime
             self.description = description
-            self.pricingPlan = pricingPlan
-            self.pricingPlanDataSource = pricingPlanDataSource
             self.trackerName = trackerName
             self.updateTime = updateTime
         }
@@ -6736,42 +6610,6 @@ extension LocationClientTypes {
         }
     }
 
-}
-
-extension LocationClientTypes {
-
-    public enum PricingPlan: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// This pricing plan must be picked for mobile asset management use cases
-        case mobileassetmanagement
-        /// This pricing plan must be picked for mobile asset tracking use cases.
-        case mobileassettracking
-        /// This pricing plan should be used for request based billing.
-        case requestbasedusage
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PricingPlan] {
-            return [
-                .mobileassetmanagement,
-                .mobileassettracking,
-                .requestbasedusage,
-                .sdkUnknown("")
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .mobileassetmanagement: return "MobileAssetManagement"
-            case .mobileassettracking: return "MobileAssetTracking"
-            case .requestbasedusage: return "RequestBasedUsage"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
 }
 
 extension PutGeofenceInput: Swift.CustomDebugStringConvertible {
@@ -8314,8 +8152,6 @@ extension UpdateGeofenceCollectionInput {
     static func write(value: UpdateGeofenceCollectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Description"].write(value.description)
-        try writer["PricingPlan"].write(value.pricingPlan)
-        try writer["PricingPlanDataSource"].write(value.pricingPlanDataSource)
     }
 }
 
@@ -8325,24 +8161,14 @@ public struct UpdateGeofenceCollectionInput {
     public var collectionName: Swift.String?
     /// Updates the description for the geofence collection.
     public var description: Swift.String?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
-    /// This parameter is no longer used.
-    @available(*, deprecated, message: "Deprecated. No longer allowed. API deprecated since 2022-02-01")
-    public var pricingPlanDataSource: Swift.String?
 
     public init(
         collectionName: Swift.String? = nil,
-        description: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
-        pricingPlanDataSource: Swift.String? = nil
+        description: Swift.String? = nil
     )
     {
         self.collectionName = collectionName
         self.description = description
-        self.pricingPlan = pricingPlan
-        self.pricingPlanDataSource = pricingPlanDataSource
     }
 }
 
@@ -8531,7 +8357,6 @@ extension UpdateMapInput {
         guard let value else { return }
         try writer["ConfigurationUpdate"].write(value.configurationUpdate, with: LocationClientTypes.MapConfigurationUpdate.write(value:to:))
         try writer["Description"].write(value.description)
-        try writer["PricingPlan"].write(value.pricingPlan)
     }
 }
 
@@ -8543,21 +8368,16 @@ public struct UpdateMapInput {
     /// The name of the map resource to update.
     /// This member is required.
     public var mapName: Swift.String?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
 
     public init(
         configurationUpdate: LocationClientTypes.MapConfigurationUpdate? = nil,
         description: Swift.String? = nil,
-        mapName: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil
+        mapName: Swift.String? = nil
     )
     {
         self.configurationUpdate = configurationUpdate
         self.description = description
         self.mapName = mapName
-        self.pricingPlan = pricingPlan
     }
 }
 
@@ -8634,7 +8454,6 @@ extension UpdatePlaceIndexInput {
         guard let value else { return }
         try writer["DataSourceConfiguration"].write(value.dataSourceConfiguration, with: LocationClientTypes.DataSourceConfiguration.write(value:to:))
         try writer["Description"].write(value.description)
-        try writer["PricingPlan"].write(value.pricingPlan)
     }
 }
 
@@ -8646,21 +8465,16 @@ public struct UpdatePlaceIndexInput {
     /// The name of the place index resource to update.
     /// This member is required.
     public var indexName: Swift.String?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
 
     public init(
         dataSourceConfiguration: LocationClientTypes.DataSourceConfiguration? = nil,
         description: Swift.String? = nil,
-        indexName: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil
+        indexName: Swift.String? = nil
     )
     {
         self.dataSourceConfiguration = dataSourceConfiguration
         self.description = description
         self.indexName = indexName
-        self.pricingPlan = pricingPlan
     }
 }
 
@@ -8736,7 +8550,6 @@ extension UpdateRouteCalculatorInput {
     static func write(value: UpdateRouteCalculatorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Description"].write(value.description)
-        try writer["PricingPlan"].write(value.pricingPlan)
     }
 }
 
@@ -8746,19 +8559,14 @@ public struct UpdateRouteCalculatorInput {
     public var calculatorName: Swift.String?
     /// Updates the description for the route calculator resource.
     public var description: Swift.String?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
 
     public init(
         calculatorName: Swift.String? = nil,
-        description: Swift.String? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil
+        description: Swift.String? = nil
     )
     {
         self.calculatorName = calculatorName
         self.description = description
-        self.pricingPlan = pricingPlan
     }
 }
 
@@ -8837,8 +8645,6 @@ extension UpdateTrackerInput {
         try writer["EventBridgeEnabled"].write(value.eventBridgeEnabled)
         try writer["KmsKeyEnableGeospatialQueries"].write(value.kmsKeyEnableGeospatialQueries)
         try writer["PositionFiltering"].write(value.positionFiltering)
-        try writer["PricingPlan"].write(value.pricingPlan)
-        try writer["PricingPlanDataSource"].write(value.pricingPlanDataSource)
     }
 }
 
@@ -8857,12 +8663,6 @@ public struct UpdateTrackerInput {
     ///
     /// * AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This helps educe the effects of GPS noise when displaying device trajectories on a map, and can help control costs by reducing the number of geofence evaluations.
     public var positionFiltering: LocationClientTypes.PositionFiltering?
-    /// No longer used. If included, the only allowed value is RequestBasedUsage.
-    @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
-    public var pricingPlan: LocationClientTypes.PricingPlan?
-    /// This parameter is no longer used.
-    @available(*, deprecated, message: "Deprecated. No longer allowed. API deprecated since 2022-02-01")
-    public var pricingPlanDataSource: Swift.String?
     /// The name of the tracker resource to update.
     /// This member is required.
     public var trackerName: Swift.String?
@@ -8872,8 +8672,6 @@ public struct UpdateTrackerInput {
         eventBridgeEnabled: Swift.Bool? = nil,
         kmsKeyEnableGeospatialQueries: Swift.Bool? = nil,
         positionFiltering: LocationClientTypes.PositionFiltering? = nil,
-        pricingPlan: LocationClientTypes.PricingPlan? = nil,
-        pricingPlanDataSource: Swift.String? = nil,
         trackerName: Swift.String? = nil
     )
     {
@@ -8881,8 +8679,6 @@ public struct UpdateTrackerInput {
         self.eventBridgeEnabled = eventBridgeEnabled
         self.kmsKeyEnableGeospatialQueries = kmsKeyEnableGeospatialQueries
         self.positionFiltering = positionFiltering
-        self.pricingPlan = pricingPlan
-        self.pricingPlanDataSource = pricingPlanDataSource
         self.trackerName = trackerName
     }
 }

@@ -708,6 +708,7 @@ extension GreengrassV2ClientTypes {
     /// Contains information about a component to deploy.
     public struct ComponentDeploymentSpecification {
         /// The version of the component.
+        /// This member is required.
         public var componentVersion: Swift.String?
         /// The configuration updates to deploy for the component. You can define reset updates and merge updates. A reset updates the keys that you specify to the default configuration for the component. A merge updates the core device's component configuration with the keys and values that you specify. The IoT Greengrass Core software applies reset updates before it applies merge updates. For more information, see [Update component configurations](https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html) in the IoT Greengrass V2 Developer Guide.
         public var configurationUpdate: GreengrassV2ClientTypes.ComponentConfigurationUpdate?
@@ -2322,6 +2323,29 @@ enum GetComponentOutputError {
 
 extension GetComponentVersionArtifactInput {
 
+    static func headerProvider(_ value: GetComponentVersionArtifactInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let iotEndpointType = value.iotEndpointType {
+            items.add(Header(name: "x-amz-iot-endpoint-type", value: Swift.String(iotEndpointType.rawValue)))
+        }
+        return items
+    }
+}
+
+extension GetComponentVersionArtifactInput {
+
+    static func queryItemProvider(_ value: GetComponentVersionArtifactInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let s3EndpointType = value.s3EndpointType {
+            let s3EndpointTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "s3EndpointType".urlPercentEncoding(), value: Swift.String(s3EndpointType.rawValue).urlPercentEncoding())
+            items.append(s3EndpointTypeQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetComponentVersionArtifactInput {
+
     static func urlPathProvider(_ value: GetComponentVersionArtifactInput) -> Swift.String? {
         guard let arn = value.arn else {
             return nil
@@ -2340,14 +2364,22 @@ public struct GetComponentVersionArtifactInput {
     /// The name of the artifact. You can use the [GetComponent](https://docs.aws.amazon.com/greengrass/v2/APIReference/API_GetComponent.html) operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the artifact URI greengrass:SomeArtifact.zip, the artifact name is SomeArtifact.zip.
     /// This member is required.
     public var artifactName: Swift.String?
+    /// Determines if the Amazon S3 URL returned is a FIPS pre-signed URL endpoint. Specify fips if you want the returned Amazon S3 pre-signed URL to point to an Amazon S3 FIPS endpoint. If you don't specify a value, the default is standard.
+    public var iotEndpointType: GreengrassV2ClientTypes.IotEndpointType?
+    /// Specifies the endpoint to use when getting Amazon S3 pre-signed URLs. All Amazon Web Services Regions except US East (N. Virginia) use REGIONAL in all cases. In the US East (N. Virginia) Region the default is GLOBAL, but you can change it to REGIONAL with this parameter.
+    public var s3EndpointType: GreengrassV2ClientTypes.S3EndpointType?
 
     public init(
         arn: Swift.String? = nil,
-        artifactName: Swift.String? = nil
+        artifactName: Swift.String? = nil,
+        iotEndpointType: GreengrassV2ClientTypes.IotEndpointType? = nil,
+        s3EndpointType: GreengrassV2ClientTypes.S3EndpointType? = nil
     )
     {
         self.arn = arn
         self.artifactName = artifactName
+        self.iotEndpointType = iotEndpointType
+        self.s3EndpointType = s3EndpointType
     }
 }
 
@@ -2774,7 +2806,7 @@ extension GreengrassV2ClientTypes {
         public var componentVersion: Swift.String?
         /// Whether or not the component is a root component.
         public var isRoot: Swift.Bool
-        /// The most recent deployment source that brought the component to the Greengrass core device. For a thing group deployment or thing deployment, the source will be the The ID of the deployment. and for local deployments it will be LOCAL. Any deployment will attempt to reinstall currently broken components on the device, which will update the last installation source.
+        /// The most recent deployment source that brought the component to the Greengrass core device. For a thing group deployment or thing deployment, the source will be the ID of the last deployment that contained the component. For local deployments it will be LOCAL. Any deployment will attempt to reinstall currently broken components on the device, which will update the last installation source.
         public var lastInstallationSource: Swift.String?
         /// The last time the Greengrass core device sent a message containing a component's state to the Amazon Web Services Cloud. A component does not need to see a state change for this field to update.
         public var lastReportedTimestamp: ClientRuntime.Date?
@@ -3238,6 +3270,36 @@ extension GreengrassV2ClientTypes {
         }
     }
 
+}
+
+extension GreengrassV2ClientTypes {
+
+    public enum IotEndpointType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fips
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IotEndpointType] {
+            return [
+                .fips,
+                .standard,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fips: return "fips"
+            case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension GreengrassV2ClientTypes.LambdaContainerParams {
@@ -4102,7 +4164,7 @@ public struct ListDeploymentsInput {
     ///
     /// Default: LATEST_ONLY
     public var historyFilter: GreengrassV2ClientTypes.DeploymentHistoryFilter?
-    /// The maximum number of results to be returned per paginated request.
+    /// The maximum number of results to be returned per paginated request. Default: 50
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
     public var nextToken: Swift.String?
@@ -4686,6 +4748,36 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
+    }
+}
+
+extension GreengrassV2ClientTypes {
+
+    public enum S3EndpointType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case global
+        case regional
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3EndpointType] {
+            return [
+                .global,
+                .regional,
+                .sdkUnknown("")
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .global: return "GLOBAL"
+            case .regional: return "REGIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 

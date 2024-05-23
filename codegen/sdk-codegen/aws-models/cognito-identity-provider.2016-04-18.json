@@ -15700,6 +15700,12 @@
                     "traits": {
                         "smithy.api#enumValue": "FORCE_CHANGE_PASSWORD"
                     }
+                },
+                "EXTERNAL_PROVIDER": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EXTERNAL_PROVIDER"
+                    }
                 }
             }
         },

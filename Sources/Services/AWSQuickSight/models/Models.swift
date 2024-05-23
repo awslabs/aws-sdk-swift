@@ -21895,6 +21895,101 @@ enum DescribeIpRestrictionOutputError {
     }
 }
 
+extension DescribeKeyRegistrationInput {
+
+    static func queryItemProvider(_ value: DescribeKeyRegistrationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let defaultKeyOnly = value.defaultKeyOnly {
+            let defaultKeyOnlyQueryItem = ClientRuntime.SDKURLQueryItem(name: "default-key-only".urlPercentEncoding(), value: Swift.String(defaultKeyOnly).urlPercentEncoding())
+            items.append(defaultKeyOnlyQueryItem)
+        }
+        return items
+    }
+}
+
+extension DescribeKeyRegistrationInput {
+
+    static func urlPathProvider(_ value: DescribeKeyRegistrationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/key-registration"
+    }
+}
+
+public struct DescribeKeyRegistrationInput {
+    /// The ID of the Amazon Web Services account that contains the customer managed key registration that you want to describe.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// Determines whether the request returns the default key only.
+    public var defaultKeyOnly: Swift.Bool?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        defaultKeyOnly: Swift.Bool? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.defaultKeyOnly = defaultKeyOnly
+    }
+}
+
+extension DescribeKeyRegistrationOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeKeyRegistrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeKeyRegistrationOutput()
+        value.awsAccountId = try reader["AwsAccountId"].readIfPresent()
+        value.keyRegistration = try reader["KeyRegistration"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.RegisteredCustomerManagedKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+public struct DescribeKeyRegistrationOutput {
+    /// The ID of the Amazon Web Services account that contains the customer managed key registration specified in the request.
+    public var awsAccountId: Swift.String?
+    /// A list of RegisteredCustomerManagedKey objects in a Amazon QuickSight account.
+    public var keyRegistration: [QuickSightClientTypes.RegisteredCustomerManagedKey]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        keyRegistration: [QuickSightClientTypes.RegisteredCustomerManagedKey]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.keyRegistration = keyRegistration
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+enum DescribeKeyRegistrationOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension DescribeNamespaceInput {
 
     static func urlPathProvider(_ value: DescribeNamespaceInput) -> Swift.String? {
@@ -24395,6 +24490,50 @@ extension QuickSightClientTypes {
         )
         {
             self.availabilityStatus = availabilityStatus
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.FailedKeyRegistrationEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FailedKeyRegistrationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FailedKeyRegistrationEntry()
+        value.keyArn = try reader["KeyArn"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
+        value.senderFault = try reader["SenderFault"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension QuickSightClientTypes {
+    /// An entry that appears when a KeyRegistration update to Amazon QuickSight fails.
+    public struct FailedKeyRegistrationEntry {
+        /// The ARN of the KMS key that failed to update.
+        public var keyArn: Swift.String?
+        /// A message that provides information about why a FailedKeyRegistrationEntry error occurred.
+        /// This member is required.
+        public var message: Swift.String?
+        /// A boolean that indicates whether a FailedKeyRegistrationEntry resulted from user error. If the value of this property is True, the error was caused by user error. If the value of this property is False, the error occurred on the backend. If your job continues fail and with a FalseSenderFault value, contact Amazon Web Services Support.
+        /// This member is required.
+        public var senderFault: Swift.Bool
+        /// The HTTP status of a FailedKeyRegistrationEntry error.
+        /// This member is required.
+        public var statusCode: Swift.Int
+
+        public init(
+            keyArn: Swift.String? = nil,
+            message: Swift.String? = nil,
+            senderFault: Swift.Bool = false,
+            statusCode: Swift.Int = 0
+        )
+        {
+            self.keyArn = keyArn
+            self.message = message
+            self.senderFault = senderFault
+            self.statusCode = statusCode
         }
     }
 
@@ -43218,7 +43357,6 @@ extension QuickSightClientTypes {
         /// A list of groups whose permissions will be granted to Amazon QuickSight to access the cluster. These permissions are combined with the permissions granted to Amazon QuickSight by the DatabaseUser. If you choose to include this parameter, the RoleArn must grant access to redshift:JoinGroup.
         public var databaseGroups: [Swift.String]?
         /// The user whose permissions and group memberships will be used by Amazon QuickSight to access the cluster. If this user already exists in your database, Amazon QuickSight is granted the same permissions that the user has. If the user doesn't exist, set the value of AutoCreateDatabaseUser to True to create a new user with PUBLIC permissions.
-        /// This member is required.
         public var databaseUser: Swift.String?
         /// Use the RoleArn structure to allow Amazon QuickSight to call redshift:GetClusterCredentials on your cluster. The calling principal must have iam:PassRole access to pass the role to Amazon QuickSight. The role's trust policy must allow the Amazon QuickSight service principal to assume the role.
         /// This member is required.
@@ -44122,6 +44260,12 @@ public struct RegisterUserInput {
     ///
     /// * ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.
     ///
+    /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
+    ///
+    /// * AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.
+    ///
+    /// * ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.
+    ///
     /// * RESTRICTED_READER: This role isn't currently available for use.
     ///
     /// * RESTRICTED_AUTHOR: This role isn't currently available for use.
@@ -44219,6 +44363,47 @@ enum RegisterUserOutputError {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
+}
+
+extension QuickSightClientTypes.RegisteredCustomerManagedKey {
+
+    static func write(value: QuickSightClientTypes.RegisteredCustomerManagedKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultKey"].write(value.defaultKey)
+        try writer["KeyArn"].write(value.keyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredCustomerManagedKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.RegisteredCustomerManagedKey()
+        value.keyArn = try reader["KeyArn"].readIfPresent()
+        value.defaultKey = try reader["DefaultKey"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A customer managed key structure that contains the information listed below:
+    ///
+    /// * KeyArn - The ARN of a KMS key that is registered to a Amazon QuickSight account for encryption and decryption use.
+    ///
+    /// * DefaultKey - Indicates whether the current key is set as the default key for encryption and decryption use.
+    public struct RegisteredCustomerManagedKey {
+        /// Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use.
+        public var defaultKey: Swift.Bool
+        /// The ARN of the KMS key that is registered to a Amazon QuickSight account for encryption and decryption use.
+        public var keyArn: Swift.String?
+
+        public init(
+            defaultKey: Swift.Bool = false,
+            keyArn: Swift.String? = nil
+        )
+        {
+            self.defaultKey = defaultKey
+            self.keyArn = keyArn
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations {
@@ -50686,6 +50871,39 @@ extension QuickSightClientTypes {
             self.totalCellStyle = totalCellStyle
             self.totalsVisibility = totalsVisibility
             self.valueCellStyle = valueCellStyle
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.SuccessfulKeyRegistrationEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SuccessfulKeyRegistrationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SuccessfulKeyRegistrationEntry()
+        value.keyArn = try reader["KeyArn"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A success entry that occurs when a KeyRegistration job is successfully applied to the Amazon QuickSight account.
+    public struct SuccessfulKeyRegistrationEntry {
+        /// The ARN of the KMS key that is associated with the SuccessfulKeyRegistrationEntry entry.
+        /// This member is required.
+        public var keyArn: Swift.String?
+        /// The HTTP status of a SuccessfulKeyRegistrationEntry entry.
+        /// This member is required.
+        public var statusCode: Swift.Int
+
+        public init(
+            keyArn: Swift.String? = nil,
+            statusCode: Swift.Int = 0
+        )
+        {
+            self.keyArn = keyArn
+            self.statusCode = statusCode
         }
     }
 
@@ -58766,6 +58984,93 @@ enum UpdateIpRestrictionOutputError {
     }
 }
 
+extension UpdateKeyRegistrationInput {
+
+    static func urlPathProvider(_ value: UpdateKeyRegistrationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/key-registration"
+    }
+}
+
+extension UpdateKeyRegistrationInput {
+
+    static func write(value: UpdateKeyRegistrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyRegistration"].writeList(value.keyRegistration, memberWritingClosure: QuickSightClientTypes.RegisteredCustomerManagedKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+public struct UpdateKeyRegistrationInput {
+    /// The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A list of RegisteredCustomerManagedKey objects to be updated to the Amazon QuickSight account.
+    /// This member is required.
+    public var keyRegistration: [QuickSightClientTypes.RegisteredCustomerManagedKey]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        keyRegistration: [QuickSightClientTypes.RegisteredCustomerManagedKey]? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.keyRegistration = keyRegistration
+    }
+}
+
+extension UpdateKeyRegistrationOutput {
+
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKeyRegistrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateKeyRegistrationOutput()
+        value.failedKeyRegistration = try reader["FailedKeyRegistration"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FailedKeyRegistrationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.successfulKeyRegistration = try reader["SuccessfulKeyRegistration"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SuccessfulKeyRegistrationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+public struct UpdateKeyRegistrationOutput {
+    /// A list of all customer managed key registrations that failed to update.
+    public var failedKeyRegistration: [QuickSightClientTypes.FailedKeyRegistrationEntry]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// A list of all customer managed key registrations that were successfully updated.
+    public var successfulKeyRegistration: [QuickSightClientTypes.SuccessfulKeyRegistrationEntry]?
+
+    public init(
+        failedKeyRegistration: [QuickSightClientTypes.FailedKeyRegistrationEntry]? = nil,
+        requestId: Swift.String? = nil,
+        successfulKeyRegistration: [QuickSightClientTypes.SuccessfulKeyRegistrationEntry]? = nil
+    )
+    {
+        self.failedKeyRegistration = failedKeyRegistration
+        self.requestId = requestId
+        self.successfulKeyRegistration = successfulKeyRegistration
+    }
+}
+
+enum UpdateKeyRegistrationOutputError {
+
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension UpdatePublicSharingSettingsInput {
 
     static func urlPathProvider(_ value: UpdatePublicSharingSettingsInput) -> Swift.String? {
@@ -60248,7 +60553,7 @@ public struct UpdateUserInput {
     ///
     /// * ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.
     ///
-    /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q Business, can build stories with Amazon Q, and can generate executive summaries from dashboards.
+    /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
     ///
     /// * AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.
     ///
@@ -60589,7 +60894,7 @@ extension QuickSightClientTypes {
         ///
         /// * ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.
         ///
-        /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q Business, can build stories with Amazon Q, and can generate executive summaries from dashboards.
+        /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
         ///
         /// * AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.
         ///

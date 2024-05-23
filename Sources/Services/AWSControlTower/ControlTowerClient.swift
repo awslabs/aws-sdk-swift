@@ -239,7 +239,7 @@ extension ControlTowerClient {
 
     /// Performs the `DisableBaseline` operation on the `AWSControlTowerApis` service.
     ///
-    /// Disable an EnabledBaseline resource on the specified Target. This API starts an asynchronous operation to remove all resources deployed as part of the baseline enablement. The resource will vary depending on the enabled baseline.
+    /// Disable an EnabledBaseline resource on the specified Target. This API starts an asynchronous operation to remove all resources deployed as part of the baseline enablement. The resource will vary depending on the enabled baseline. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
     /// - Parameter DisableBaselineInput : [no documentation found]
     ///
@@ -347,7 +347,7 @@ extension ControlTowerClient {
 
     /// Performs the `EnableBaseline` operation on the `AWSControlTowerApis` service.
     ///
-    /// Enable (apply) a Baseline to a Target. This API starts an asynchronous operation to deploy resources specified by the Baseline to the specified Target.
+    /// Enable (apply) a Baseline to a Target. This API starts an asynchronous operation to deploy resources specified by the Baseline to the specified Target. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
     /// - Parameter EnableBaselineInput : [no documentation found]
     ///
@@ -455,7 +455,7 @@ extension ControlTowerClient {
 
     /// Performs the `GetBaseline` operation on the `AWSControlTowerApis` service.
     ///
-    /// Retrieve details about an existing Baseline resource by specifying its identifier.
+    /// Retrieve details about an existing Baseline resource by specifying its identifier. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
     /// - Parameter GetBaselineInput : [no documentation found]
     ///
@@ -507,7 +507,7 @@ extension ControlTowerClient {
 
     /// Performs the `GetBaselineOperation` operation on the `AWSControlTowerApis` service.
     ///
-    /// Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: EnableBaseline, DisableBaseline, UpdateEnabledBaseline, ResetEnabledBaseline. A status message is displayed in case of operation failure.
+    /// Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: EnableBaseline, DisableBaseline, UpdateEnabledBaseline, ResetEnabledBaseline. A status message is displayed in case of operation failure. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
     /// - Parameter GetBaselineOperationInput : [no documentation found]
     ///
@@ -767,7 +767,7 @@ extension ControlTowerClient {
 
     /// Performs the `GetLandingZoneOperation` operation on the `AWSControlTowerApis` service.
     ///
-    /// Returns the status of the specified landing zone operation. Details for an operation are available for 60 days.
+    /// Returns the status of the specified landing zone operation. Details for an operation are available for 90 days.
     ///
     /// - Parameter GetLandingZoneOperationInput : [no documentation found]
     ///
@@ -819,7 +819,7 @@ extension ControlTowerClient {
 
     /// Performs the `ListBaselines` operation on the `AWSControlTowerApis` service.
     ///
-    /// Returns a summary list of all available baselines.
+    /// Returns a summary list of all available baselines. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
     /// - Parameter ListBaselinesInput : [no documentation found]
     ///
@@ -868,9 +868,60 @@ extension ControlTowerClient {
         return result
     }
 
+    /// Performs the `ListControlOperations` operation on the `AWSControlTowerApis` service.
+    ///
+    /// Provides a list of operations in progress or queued.
+    ///
+    /// - Parameter ListControlOperationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListControlOperationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during processing of a request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
+    public func listControlOperations(input: ListControlOperationsInput) async throws -> ListControlOperationsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listControlOperations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "controltower")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListControlOperationsInput, ListControlOperationsOutput>(id: "listControlOperations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListControlOperationsInput, ListControlOperationsOutput>(ListControlOperationsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListControlOperationsInput, ListControlOperationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListControlOperationsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListControlOperationsInput, ListControlOperationsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListControlOperationsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListControlOperationsInput, ListControlOperationsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListControlOperationsInput, ListControlOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListControlOperationsInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<ListControlOperationsInput, ListControlOperationsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListControlOperationsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListControlOperationsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListControlOperationsOutput>(ListControlOperationsOutput.httpOutput(from:), ListControlOperationsOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListControlOperationsInput, ListControlOperationsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListEnabledBaselines` operation on the `AWSControlTowerApis` service.
     ///
-    /// Returns a list of summaries describing EnabledBaseline resources. You can filter the list by the corresponding Baseline or Target of the EnabledBaseline resources.
+    /// Returns a list of summaries describing EnabledBaseline resources. You can filter the list by the corresponding Baseline or Target of the EnabledBaseline resources. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
     /// - Parameter ListEnabledBaselinesInput : [no documentation found]
     ///
@@ -1071,7 +1122,7 @@ extension ControlTowerClient {
 
     /// Performs the `ResetEnabledBaseline` operation on the `AWSControlTowerApis` service.
     ///
-    /// Re-enables an EnabledBaseline resource. For example, this API can re-apply the existing Baseline after a new member account is moved to the target OU.
+    /// Re-enables an EnabledBaseline resource. For example, this API can re-apply the existing Baseline after a new member account is moved to the target OU. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
     /// - Parameter ResetEnabledBaselineInput : [no documentation found]
     ///
@@ -1276,7 +1327,7 @@ extension ControlTowerClient {
 
     /// Performs the `UpdateEnabledBaseline` operation on the `AWSControlTowerApis` service.
     ///
-    /// Updates an EnabledBaseline resource's applied parameters or version.
+    /// Updates an EnabledBaseline resource's applied parameters or version. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
     /// - Parameter UpdateEnabledBaselineInput : [no documentation found]
     ///

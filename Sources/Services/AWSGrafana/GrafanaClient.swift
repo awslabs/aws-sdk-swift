@@ -134,7 +134,7 @@ public struct GrafanaClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 extension GrafanaClient {
     /// Performs the `AssociateLicense` operation on the `AWSGrafanaControlPlane` service.
     ///
-    /// Assigns a Grafana Enterprise license to a workspace. Upgrading to Grafana Enterprise incurs additional fees. For more information, see [Upgrade a workspace to Grafana Enterprise](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html).
+    /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType, and pass in a valid Grafana Labs token for the grafanaToken. Upgrading to Grafana Enterprise incurs additional fees. For more information, see [Upgrade a workspace to Grafana Enterprise](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html).
     ///
     /// - Parameter AssociateLicenseInput : [no documentation found]
     ///
@@ -238,7 +238,7 @@ extension GrafanaClient {
 
     /// Performs the `CreateWorkspaceApiKey` operation on the `AWSGrafanaControlPlane` service.
     ///
-    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See [https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html](https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html) for available APIs and example requests.
+    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See [https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html](https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html) for available APIs and example requests. In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
     ///
     /// - Parameter CreateWorkspaceApiKeyInput : [no documentation found]
     ///
@@ -286,6 +286,114 @@ extension GrafanaClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateWorkspaceApiKeyOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkspaceApiKeyOutput>(CreateWorkspaceApiKeyOutput.httpOutput(from:), CreateWorkspaceApiKeyOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorkspaceApiKeyInput, CreateWorkspaceApiKeyOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `CreateWorkspaceServiceAccount` operation on the `AWSGrafanaControlPlane` service.
+    ///
+    /// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above. For more information about service accounts, see [Service accounts](https://docs.aws.amazon.com/grafana/latest/userguide/service-accounts.html) in the Amazon Managed Grafana User Guide. For more information about the Grafana HTTP APIs, see [Using Grafana HTTP APIs](https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html) in the Amazon Managed Grafana User Guide.
+    ///
+    /// - Parameter CreateWorkspaceServiceAccountInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkspaceServiceAccountOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
+    public func createWorkspaceServiceAccount(input: CreateWorkspaceServiceAccountInput) async throws -> CreateWorkspaceServiceAccountOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createWorkspaceServiceAccount")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "grafana")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateWorkspaceServiceAccountInput, CreateWorkspaceServiceAccountOutput>(id: "createWorkspaceServiceAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkspaceServiceAccountInput, CreateWorkspaceServiceAccountOutput>(CreateWorkspaceServiceAccountInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkspaceServiceAccountInput, CreateWorkspaceServiceAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorkspaceServiceAccountOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateWorkspaceServiceAccountInput, CreateWorkspaceServiceAccountOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateWorkspaceServiceAccountOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorkspaceServiceAccountInput, CreateWorkspaceServiceAccountOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateWorkspaceServiceAccountInput, CreateWorkspaceServiceAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkspaceServiceAccountInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateWorkspaceServiceAccountInput, CreateWorkspaceServiceAccountOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorkspaceServiceAccountOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateWorkspaceServiceAccountOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkspaceServiceAccountOutput>(CreateWorkspaceServiceAccountOutput.httpOutput(from:), CreateWorkspaceServiceAccountOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorkspaceServiceAccountInput, CreateWorkspaceServiceAccountOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `CreateWorkspaceServiceAccountToken` operation on the `AWSGrafanaControlPlane` service.
+    ///
+    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given [workspace service account](https://docs.aws.amazon.com/grafana/latest/userguide/service-accounts.html). The service account acts as a user for the API operations, and defines the permissions that are used by the API. When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a new key. This will disable the initial key. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    ///
+    /// - Parameter CreateWorkspaceServiceAccountTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkspaceServiceAccountTokenOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
+    public func createWorkspaceServiceAccountToken(input: CreateWorkspaceServiceAccountTokenInput) async throws -> CreateWorkspaceServiceAccountTokenOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createWorkspaceServiceAccountToken")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "grafana")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateWorkspaceServiceAccountTokenInput, CreateWorkspaceServiceAccountTokenOutput>(id: "createWorkspaceServiceAccountToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkspaceServiceAccountTokenInput, CreateWorkspaceServiceAccountTokenOutput>(CreateWorkspaceServiceAccountTokenInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkspaceServiceAccountTokenInput, CreateWorkspaceServiceAccountTokenOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateWorkspaceServiceAccountTokenOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<CreateWorkspaceServiceAccountTokenInput, CreateWorkspaceServiceAccountTokenOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateWorkspaceServiceAccountTokenOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateWorkspaceServiceAccountTokenInput, CreateWorkspaceServiceAccountTokenOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateWorkspaceServiceAccountTokenInput, CreateWorkspaceServiceAccountTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkspaceServiceAccountTokenInput.write(value:to:)))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware<CreateWorkspaceServiceAccountTokenInput, CreateWorkspaceServiceAccountTokenOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateWorkspaceServiceAccountTokenOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateWorkspaceServiceAccountTokenOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkspaceServiceAccountTokenOutput>(CreateWorkspaceServiceAccountTokenOutput.httpOutput(from:), CreateWorkspaceServiceAccountTokenOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateWorkspaceServiceAccountTokenInput, CreateWorkspaceServiceAccountTokenOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -342,7 +450,7 @@ extension GrafanaClient {
 
     /// Performs the `DeleteWorkspaceApiKey` operation on the `AWSGrafanaControlPlane` service.
     ///
-    /// Deletes a Grafana API key for the workspace.
+    /// Deletes a Grafana API key for the workspace. In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
     ///
     /// - Parameter DeleteWorkspaceApiKeyInput : [no documentation found]
     ///
@@ -386,6 +494,106 @@ extension GrafanaClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteWorkspaceApiKeyOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkspaceApiKeyOutput>(DeleteWorkspaceApiKeyOutput.httpOutput(from:), DeleteWorkspaceApiKeyOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkspaceApiKeyInput, DeleteWorkspaceApiKeyOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteWorkspaceServiceAccount` operation on the `AWSGrafanaControlPlane` service.
+    ///
+    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    ///
+    /// - Parameter DeleteWorkspaceServiceAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkspaceServiceAccountOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
+    public func deleteWorkspaceServiceAccount(input: DeleteWorkspaceServiceAccountInput) async throws -> DeleteWorkspaceServiceAccountOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteWorkspaceServiceAccount")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "grafana")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteWorkspaceServiceAccountInput, DeleteWorkspaceServiceAccountOutput>(id: "deleteWorkspaceServiceAccount")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkspaceServiceAccountInput, DeleteWorkspaceServiceAccountOutput>(DeleteWorkspaceServiceAccountInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkspaceServiceAccountInput, DeleteWorkspaceServiceAccountOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWorkspaceServiceAccountOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteWorkspaceServiceAccountInput, DeleteWorkspaceServiceAccountOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteWorkspaceServiceAccountOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWorkspaceServiceAccountOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteWorkspaceServiceAccountOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkspaceServiceAccountOutput>(DeleteWorkspaceServiceAccountOutput.httpOutput(from:), DeleteWorkspaceServiceAccountOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkspaceServiceAccountInput, DeleteWorkspaceServiceAccountOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteWorkspaceServiceAccountToken` operation on the `AWSGrafanaControlPlane` service.
+    ///
+    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or authorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    ///
+    /// - Parameter DeleteWorkspaceServiceAccountTokenInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkspaceServiceAccountTokenOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
+    public func deleteWorkspaceServiceAccountToken(input: DeleteWorkspaceServiceAccountTokenInput) async throws -> DeleteWorkspaceServiceAccountTokenOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteWorkspaceServiceAccountToken")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "grafana")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteWorkspaceServiceAccountTokenInput, DeleteWorkspaceServiceAccountTokenOutput>(id: "deleteWorkspaceServiceAccountToken")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkspaceServiceAccountTokenInput, DeleteWorkspaceServiceAccountTokenOutput>(DeleteWorkspaceServiceAccountTokenInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkspaceServiceAccountTokenInput, DeleteWorkspaceServiceAccountTokenOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteWorkspaceServiceAccountTokenOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<DeleteWorkspaceServiceAccountTokenInput, DeleteWorkspaceServiceAccountTokenOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteWorkspaceServiceAccountTokenOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteWorkspaceServiceAccountTokenOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteWorkspaceServiceAccountTokenOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkspaceServiceAccountTokenOutput>(DeleteWorkspaceServiceAccountTokenOutput.httpOutput(from:), DeleteWorkspaceServiceAccountTokenOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkspaceServiceAccountTokenInput, DeleteWorkspaceServiceAccountTokenOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -451,6 +659,7 @@ extension GrafanaClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
     /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
@@ -730,6 +939,108 @@ extension GrafanaClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListVersionsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVersionsOutput>(ListVersionsOutput.httpOutput(from:), ListVersionsOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVersionsInput, ListVersionsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListWorkspaceServiceAccountTokens` operation on the `AWSGrafanaControlPlane` service.
+    ///
+    /// Returns a list of tokens for a workspace service account. This does not return the key for each token. You cannot access keys after they are created. To create a new key, delete the token and recreate it. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    ///
+    /// - Parameter ListWorkspaceServiceAccountTokensInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkspaceServiceAccountTokensOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
+    public func listWorkspaceServiceAccountTokens(input: ListWorkspaceServiceAccountTokensInput) async throws -> ListWorkspaceServiceAccountTokensOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listWorkspaceServiceAccountTokens")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "grafana")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListWorkspaceServiceAccountTokensInput, ListWorkspaceServiceAccountTokensOutput>(id: "listWorkspaceServiceAccountTokens")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkspaceServiceAccountTokensInput, ListWorkspaceServiceAccountTokensOutput>(ListWorkspaceServiceAccountTokensInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkspaceServiceAccountTokensInput, ListWorkspaceServiceAccountTokensOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorkspaceServiceAccountTokensOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListWorkspaceServiceAccountTokensInput, ListWorkspaceServiceAccountTokensOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListWorkspaceServiceAccountTokensOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListWorkspaceServiceAccountTokensInput, ListWorkspaceServiceAccountTokensOutput>(ListWorkspaceServiceAccountTokensInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorkspaceServiceAccountTokensOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListWorkspaceServiceAccountTokensOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkspaceServiceAccountTokensOutput>(ListWorkspaceServiceAccountTokensOutput.httpOutput(from:), ListWorkspaceServiceAccountTokensOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorkspaceServiceAccountTokensInput, ListWorkspaceServiceAccountTokensOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListWorkspaceServiceAccounts` operation on the `AWSGrafanaControlPlane` service.
+    ///
+    /// Returns a list of service accounts for a workspace. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    ///
+    /// - Parameter ListWorkspaceServiceAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkspaceServiceAccountsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServerException` : Unexpected error while processing the request. Retry the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ThrottlingException` : The request was denied because of request throttling. Retry the request.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
+    public func listWorkspaceServiceAccounts(input: ListWorkspaceServiceAccountsInput) async throws -> ListWorkspaceServiceAccountsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listWorkspaceServiceAccounts")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "grafana")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListWorkspaceServiceAccountsInput, ListWorkspaceServiceAccountsOutput>(id: "listWorkspaceServiceAccounts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkspaceServiceAccountsInput, ListWorkspaceServiceAccountsOutput>(ListWorkspaceServiceAccountsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkspaceServiceAccountsInput, ListWorkspaceServiceAccountsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListWorkspaceServiceAccountsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware<ListWorkspaceServiceAccountsInput, ListWorkspaceServiceAccountsOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListWorkspaceServiceAccountsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListWorkspaceServiceAccountsInput, ListWorkspaceServiceAccountsOutput>(ListWorkspaceServiceAccountsInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListWorkspaceServiceAccountsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListWorkspaceServiceAccountsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkspaceServiceAccountsOutput>(ListWorkspaceServiceAccountsOutput.httpOutput(from:), ListWorkspaceServiceAccountsOutputError.httpError(from:)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListWorkspaceServiceAccountsInput, ListWorkspaceServiceAccountsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

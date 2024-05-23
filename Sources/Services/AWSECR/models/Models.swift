@@ -615,6 +615,8 @@ public struct CreatePullThroughCacheRuleInput {
     /// * GitHub Container Registry (github-container-registry) - ghcr.io
     ///
     /// * Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
+    ///
+    /// * GitLab Container Registry (gitlab-container-registry) - registry.gitlab.com
     /// This member is required.
     public var upstreamRegistryUrl: Swift.String?
 
@@ -7397,6 +7399,7 @@ extension ECRClientTypes {
         case dockerhub
         case ecrpublic
         case githubcontainerregistry
+        case gitlabcontainerregistry
         case k8s
         case quay
         case sdkUnknown(Swift.String)
@@ -7407,6 +7410,7 @@ extension ECRClientTypes {
                 .dockerhub,
                 .ecrpublic,
                 .githubcontainerregistry,
+                .gitlabcontainerregistry,
                 .k8s,
                 .quay,
                 .sdkUnknown("")
@@ -7424,6 +7428,7 @@ extension ECRClientTypes {
             case .dockerhub: return "docker-hub"
             case .ecrpublic: return "ecr-public"
             case .githubcontainerregistry: return "github-container-registry"
+            case .gitlabcontainerregistry: return "gitlab-container-registry"
             case .k8s: return "k8s"
             case .quay: return "quay"
             case let .sdkUnknown(s): return s
