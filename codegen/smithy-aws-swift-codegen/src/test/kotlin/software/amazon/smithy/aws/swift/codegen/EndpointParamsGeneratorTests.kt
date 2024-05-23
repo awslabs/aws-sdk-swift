@@ -80,38 +80,41 @@ class EndpointParamsGeneratorTests {
         endpointParamsGenerator.render(writer)
         val contents = writer.toString()
         val expected = """
-        public struct EndpointParams {
-            public let boolBar: Swift.Bool?
-            public let boolBaz: Swift.String?
-            public let boolFoo: Swift.Bool
-            public let endpoint: Swift.String?
-            public let region: Swift.String
-            public let stringBar: Swift.String?
-            public let stringBaz: Swift.String?
-            public let stringFoo: Swift.String?
-        
-            public init(
-                boolBar: Swift.Bool? = nil,
-                boolBaz: Swift.String? = nil,
-                boolFoo: Swift.Bool,
-                endpoint: Swift.String? = nil,
-                region: Swift.String,
-                stringBar: Swift.String? = nil,
-                stringBaz: Swift.String? = nil,
-                stringFoo: Swift.String? = nil
-            )
-            {
-                self.boolBar = boolBar
-                self.boolBaz = boolBaz
-                self.boolFoo = boolFoo
-                self.endpoint = endpoint
-                self.region = region
-                self.stringBar = stringBar
-                self.stringBaz = stringBaz
-                self.stringFoo = stringFoo
-            }
-        }
-        """.trimIndent()
+public struct EndpointParams {
+    public let boolBar: Swift.Bool?
+    public let boolBaz: Swift.String?
+    public let boolFoo: Swift.Bool
+    public let endpoint: Swift.String?
+    public let region: Swift.String
+    public let stringArrayBar: Swift.Array<Swift.String>?
+    public let stringBar: Swift.String?
+    public let stringBaz: Swift.String?
+    public let stringFoo: Swift.String?
+
+    public init(
+        boolBar: Swift.Bool? = nil,
+        boolBaz: Swift.String? = nil,
+        boolFoo: Swift.Bool,
+        endpoint: Swift.String? = nil,
+        region: Swift.String,
+        stringArrayBar: Swift.Array<Swift.String>? = nil,
+        stringBar: Swift.String? = nil,
+        stringBaz: Swift.String? = nil,
+        stringFoo: Swift.String? = nil
+    )
+    {
+        self.boolBar = boolBar
+        self.boolBaz = boolBaz
+        self.boolFoo = boolFoo
+        self.endpoint = endpoint
+        self.region = region
+        self.stringArrayBar = stringArrayBar
+        self.stringBar = stringBar
+        self.stringBaz = stringBaz
+        self.stringFoo = stringFoo
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expected)
     }
 }
