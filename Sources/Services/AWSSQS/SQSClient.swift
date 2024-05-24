@@ -6,6 +6,8 @@ import Foundation
 import Logging
 import SmithyJSON
 import SmithyReadWrite
+import SmithyRetries
+import SmithyRetriesAPI
 
 public class SQSClient: Client {
     public static let clientName = "SQSClient"
@@ -49,7 +51,7 @@ extension SQSClient {
 
         public var telemetryProvider: ClientRuntime.TelemetryProvider
 
-        public var retryStrategyOptions: ClientRuntime.RetryStrategyOptions
+        public var retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions
 
         public var clientLogMode: ClientRuntime.ClientLogMode
 
@@ -67,7 +69,7 @@ extension SQSClient {
 
         internal let logger: ClientRuntime.LogAgent
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any AWSClientRuntime.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: ClientRuntime.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: ClientRuntime.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: [ClientRuntime.AuthScheme]?, _ authSchemeResolver: ClientRuntime.AuthSchemeResolver) {
+        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any AWSClientRuntime.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: ClientRuntime.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: [ClientRuntime.AuthScheme]?, _ authSchemeResolver: ClientRuntime.AuthSchemeResolver) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
@@ -88,11 +90,11 @@ extension SQSClient {
             self.logger = telemetryProvider.loggerProvider.getLogger(name: SQSClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any AWSClientRuntime.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: ClientRuntime.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: ClientRuntime.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil) throws {
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any AWSClientRuntime.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: ClientRuntime.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil) throws {
             self.init(useFIPS, useDualStack, try appID ?? AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [SigV4AuthScheme()], authSchemeResolver ?? DefaultSQSAuthSchemeResolver())
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any AWSClientRuntime.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: ClientRuntime.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: ClientRuntime.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil) async throws {
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any AWSClientRuntime.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: SmithyRetriesAPI.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: ClientRuntime.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil) async throws {
             self.init(useFIPS, useDualStack, try appID ?? AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientConfigDefaultsProvider.region(region), try await AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [SigV4AuthScheme()], authSchemeResolver ?? DefaultSQSAuthSchemeResolver())
         }
 
@@ -195,7 +197,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<AddPermissionInput, AddPermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddPermissionInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<AddPermissionInput, AddPermissionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddPermissionInput, AddPermissionOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddPermissionOutput>(AddPermissionOutput.httpOutput(from:), AddPermissionOutputError.httpError(from:)))
@@ -261,7 +263,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelMessageMoveTaskInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMessageMoveTaskInput, CancelMessageMoveTaskOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMessageMoveTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMessageMoveTaskOutput>(CancelMessageMoveTaskOutput.httpOutput(from:), CancelMessageMoveTaskOutputError.httpError(from:)))
@@ -334,7 +336,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ChangeMessageVisibilityInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeMessageVisibilityInput, ChangeMessageVisibilityOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityOutput>(ChangeMessageVisibilityOutput.httpOutput(from:), ChangeMessageVisibilityOutputError.httpError(from:)))
@@ -400,7 +402,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ChangeMessageVisibilityBatchInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeMessageVisibilityBatchInput, ChangeMessageVisibilityBatchOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeMessageVisibilityBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeMessageVisibilityBatchOutput>(ChangeMessageVisibilityBatchOutput.httpOutput(from:), ChangeMessageVisibilityBatchOutputError.httpError(from:)))
@@ -481,7 +483,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<CreateQueueInput, CreateQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateQueueInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<CreateQueueInput, CreateQueueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueOutput>(CreateQueueOutput.httpOutput(from:), CreateQueueOutputError.httpError(from:)))
@@ -545,7 +547,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMessageInput, DeleteMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMessageInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<DeleteMessageInput, DeleteMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMessageInput, DeleteMessageOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMessageOutput>(DeleteMessageOutput.httpOutput(from:), DeleteMessageOutputError.httpError(from:)))
@@ -611,7 +613,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMessageBatchInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMessageBatchInput, DeleteMessageBatchOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMessageBatchOutput>(DeleteMessageBatchOutput.httpOutput(from:), DeleteMessageBatchOutputError.httpError(from:)))
@@ -673,7 +675,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteQueueInput, DeleteQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteQueueInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<DeleteQueueInput, DeleteQueueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueueInput, DeleteQueueOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueOutput>(DeleteQueueOutput.httpOutput(from:), DeleteQueueOutputError.httpError(from:)))
@@ -736,7 +738,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQueueAttributesInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueueAttributesInput, GetQueueAttributesOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueAttributesOutput>(GetQueueAttributesOutput.httpOutput(from:), GetQueueAttributesOutputError.httpError(from:)))
@@ -798,7 +800,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<GetQueueUrlInput, GetQueueUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetQueueUrlInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<GetQueueUrlInput, GetQueueUrlOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueueUrlInput, GetQueueUrlOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueUrlOutput>(GetQueueUrlOutput.httpOutput(from:), GetQueueUrlOutputError.httpError(from:)))
@@ -860,7 +862,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDeadLetterSourceQueuesInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeadLetterSourceQueuesInput, ListDeadLetterSourceQueuesOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeadLetterSourceQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeadLetterSourceQueuesOutput>(ListDeadLetterSourceQueuesOutput.httpOutput(from:), ListDeadLetterSourceQueuesOutputError.httpError(from:)))
@@ -926,7 +928,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMessageMoveTasksInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMessageMoveTasksInput, ListMessageMoveTasksOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMessageMoveTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMessageMoveTasksOutput>(ListMessageMoveTasksOutput.httpOutput(from:), ListMessageMoveTasksOutputError.httpError(from:)))
@@ -988,7 +990,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<ListQueueTagsInput, ListQueueTagsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListQueueTagsInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<ListQueueTagsInput, ListQueueTagsOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueueTagsInput, ListQueueTagsOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueueTagsOutput>(ListQueueTagsOutput.httpOutput(from:), ListQueueTagsOutputError.httpError(from:)))
@@ -1049,7 +1051,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<ListQueuesInput, ListQueuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListQueuesInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<ListQueuesInput, ListQueuesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueuesInput, ListQueuesOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuesOutput>(ListQueuesOutput.httpOutput(from:), ListQueuesOutputError.httpError(from:)))
@@ -1112,7 +1114,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<PurgeQueueInput, PurgeQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PurgeQueueInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<PurgeQueueInput, PurgeQueueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurgeQueueInput, PurgeQueueOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurgeQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurgeQueueOutput>(PurgeQueueOutput.httpOutput(from:), PurgeQueueOutputError.httpError(from:)))
@@ -1201,7 +1203,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<ReceiveMessageInput, ReceiveMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ReceiveMessageInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<ReceiveMessageInput, ReceiveMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReceiveMessageInput, ReceiveMessageOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReceiveMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReceiveMessageOutput>(ReceiveMessageOutput.httpOutput(from:), ReceiveMessageOutputError.httpError(from:)))
@@ -1269,7 +1271,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<RemovePermissionInput, RemovePermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemovePermissionInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<RemovePermissionInput, RemovePermissionOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemovePermissionInput, RemovePermissionOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemovePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemovePermissionOutput>(RemovePermissionOutput.httpOutput(from:), RemovePermissionOutputError.httpError(from:)))
@@ -1343,7 +1345,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<SendMessageInput, SendMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendMessageInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<SendMessageInput, SendMessageOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMessageInput, SendMessageOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMessageOutput>(SendMessageOutput.httpOutput(from:), SendMessageOutputError.httpError(from:)))
@@ -1421,7 +1423,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<SendMessageBatchInput, SendMessageBatchOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendMessageBatchInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<SendMessageBatchInput, SendMessageBatchOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMessageBatchInput, SendMessageBatchOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMessageBatchOutput>(SendMessageBatchOutput.httpOutput(from:), SendMessageBatchOutputError.httpError(from:)))
@@ -1492,7 +1494,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetQueueAttributesInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetQueueAttributesInput, SetQueueAttributesOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetQueueAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetQueueAttributesOutput>(SetQueueAttributesOutput.httpOutput(from:), SetQueueAttributesOutputError.httpError(from:)))
@@ -1560,7 +1562,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMessageMoveTaskInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMessageMoveTaskInput, StartMessageMoveTaskOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMessageMoveTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMessageMoveTaskOutput>(StartMessageMoveTaskOutput.httpOutput(from:), StartMessageMoveTaskOutputError.httpError(from:)))
@@ -1633,7 +1635,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<TagQueueInput, TagQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagQueueInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<TagQueueInput, TagQueueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagQueueInput, TagQueueOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagQueueOutput>(TagQueueOutput.httpOutput(from:), TagQueueOutputError.httpError(from:)))
@@ -1695,7 +1697,7 @@ extension SQSClient {
         builder.serialize(ClientRuntime.BodyMiddleware<UntagQueueInput, UntagQueueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagQueueInput.write(value:to:)))
         builder.interceptors.add(ContentTypeMiddleware<UntagQueueInput, UntagQueueOutput>(contentType: "application/x-amz-json-1.0"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagQueueInput, UntagQueueOutput>())
-        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagQueueOutput>(UntagQueueOutput.httpOutput(from:), UntagQueueOutputError.httpError(from:)))
