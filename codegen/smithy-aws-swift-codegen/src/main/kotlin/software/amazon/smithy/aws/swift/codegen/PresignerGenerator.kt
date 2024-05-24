@@ -13,6 +13,7 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Http.SdkHttpReque
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Middleware.NoopHandler
 import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.SwiftDelegator
+import software.amazon.smithy.swift.codegen.SwiftKind
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
@@ -80,7 +81,7 @@ class PresignerGenerator : SwiftIntegration {
 
         writer.addImport(AWSClientConfiguration)
         writer.addImport(SdkHttpRequest)
-        writer.addIndividualTypeImport("typealias", "Foundation", "TimeInterval")
+        writer.addIndividualTypeImport(SwiftKind.TYPEALIAS, "Foundation", "TimeInterval")
 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 

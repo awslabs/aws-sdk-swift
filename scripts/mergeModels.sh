@@ -25,7 +25,7 @@ mergeFiles() {
     TEMP=`mktemp`
     cat *.swift | grep -e "//\ Code\ generated" | sort | uniq >> ${TEMP}
     cat *.swift | grep -e "^import\ " -e "@_spi" | sort | uniq  >> ${TEMP}
-    cat *.swift | grep -ve "^import\ " | grep -ve "//\ Code\ generated" >> ${TEMP}
+    cat *.swift | grep -ve "^import\ " -ve "@_spi" -ve "//\ Code\ generated" >> ${TEMP}
     rm -f *.swift
     cat ${TEMP} | sed '/^$/N;/^\n$/D' > ${MODELS}
 }
