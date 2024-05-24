@@ -11,11 +11,18 @@ struct OSMetadata {
     let family: PlatformOperatingSystem
     let version: String?
     let additionalMetadata: [AdditionalMetadata]
+    #if targetEnvironment(simulator)
+    let simulatorMetadata = [AdditionalMetadata(name: "simulator")]
+    #endif
 
     init(family: PlatformOperatingSystem, version: String? = nil, additionalMetadata: [AdditionalMetadata] = []) {
         self.family = family
         self.version = version
+        #if targetEnvironment(simulator)
+        self.additionalMetadata = additionalMetadata + simulatorMetadata
+        #else
         self.additionalMetadata = additionalMetadata
+        #endif
     }
 }
 
