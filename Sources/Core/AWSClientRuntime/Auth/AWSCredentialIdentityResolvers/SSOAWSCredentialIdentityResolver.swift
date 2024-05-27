@@ -5,13 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
 
 /// A credential identity resolver that resolves credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
 /// [Details link](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html)
 public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
 
     /// - Parameters:
     ///   - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.

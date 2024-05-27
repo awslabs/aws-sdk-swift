@@ -5,9 +5,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct SmithyEventStreamsAPI.Message
+import protocol SmithyEventStreamsAPI.MessageEncoder
 import ClientRuntime
-
-extension AWSEventStream {
+import struct Foundation.Data
 
     /// Encodes a `Message` into a `Data` object
     /// to be sent over the wire.
@@ -15,9 +16,8 @@ extension AWSEventStream {
         public init() {}
 
         /// Encodes a `Message` into a `Data` object
-        public func encode(message: EventStream.Message) throws -> Data {
+        public func encode(message: Message) throws -> Data {
             let crtMessage = message.toCRTMessage()
             return try crtMessage.getEncoded()
         }
     }
-}

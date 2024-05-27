@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
+import AWSSDKHTTPAuth
 import XCTest
 import SmithyTestUtil
 import ClientRuntime
@@ -12,12 +14,12 @@ import ClientRuntime
 
 class CustomSigningPropertiesSetterTests: XCTestCase {
     private var customSetter: CustomSigningPropertiesSetter!
-    private var context: HttpContextBuilder!
+    private var context: ContextBuilder!
     private var signingProperties: Attributes!
 
     override func setUp() {
         customSetter = CustomSigningPropertiesSetter()
-        context = HttpContextBuilder()
+        context = ContextBuilder()
         signingProperties = Attributes()
     }
 
@@ -44,7 +46,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertTrue(try XCTUnwrap(signingProperties.get(key: AttributeKeys.unsignedBody)))
+        XCTAssertTrue(try XCTUnwrap(signingProperties.get(key: AWSSigningConfigKeys.unsignedBody)))
     }
 
     // Test unsigned body set to true for S3::putObject
@@ -57,7 +59,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertTrue(try XCTUnwrap(signingProperties.get(key: AttributeKeys.unsignedBody)))
+        XCTAssertTrue(try XCTUnwrap(signingProperties.get(key: AWSSigningConfigKeys.unsignedBody)))
     }
 
     // Test unsigned body set to true if it was set to true by default (from unsignedPayload trait)
@@ -65,7 +67,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         // Simulate unsigned body being set to true in auth schemes,
         // e.g., SigV4AuthScheme::customizeSigningProperties
         // before being passed to service speciic setter.
-        signingProperties.set(key: AttributeKeys.unsignedBody, value: true)
+        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: true)
         let tempCtx = context
             .withServiceName(value: "Glacier")
             .withOperation(value: "filler")
@@ -73,7 +75,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertTrue(try XCTUnwrap(signingProperties.get(key: AttributeKeys.unsignedBody)))
+        XCTAssertTrue(try XCTUnwrap(signingProperties.get(key: AWSSigningConfigKeys.unsignedBody)))
     }
 
     // Test unsigned body set to false if operation name doesn't match
@@ -86,7 +88,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertFalse(try XCTUnwrap(signingProperties.get(key: AttributeKeys.unsignedBody)))
+        XCTAssertFalse(try XCTUnwrap(signingProperties.get(key: AWSSigningConfigKeys.unsignedBody)))
     }
 
     // Test unsigned body set to false if flow type doesn't match
@@ -99,7 +101,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertFalse(try XCTUnwrap(signingProperties.get(key: AttributeKeys.unsignedBody)))
+        XCTAssertFalse(try XCTUnwrap(signingProperties.get(key: AWSSigningConfigKeys.unsignedBody)))
     }
 
     // Test signedBodyHeader flag set to .contentSha256 for S3
@@ -111,7 +113,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertEqual(signingProperties.get(key: AttributeKeys.signedBodyHeader), .contentSha256)
+        XCTAssertEqual(signingProperties.get(key: AWSSigningConfigKeys.signedBodyHeader), .contentSha256)
     }
 
     // Test signedBodyHeader flag set to .contentSha256 for S3 Control
@@ -123,7 +125,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertEqual(signingProperties.get(key: AttributeKeys.signedBodyHeader), .contentSha256)
+        XCTAssertEqual(signingProperties.get(key: AWSSigningConfigKeys.signedBodyHeader), .contentSha256)
     }
 
     // Test signedBodyHeader flag set to .contentSha256 for Glacier
@@ -135,12 +137,12 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertEqual(signingProperties.get(key: AttributeKeys.signedBodyHeader), .contentSha256)
+        XCTAssertEqual(signingProperties.get(key: AWSSigningConfigKeys.signedBodyHeader), .contentSha256)
     }
 
     // Test signedBodyHeader flag set to .none if unsignedBody set to true
     func testSignedBodyHeaderForUnsignedBodyContext() throws {
-        signingProperties.set(key: AttributeKeys.unsignedBody, value: true)
+        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: true)
         let tempCtx = context
             .withServiceName(value: "S3")
             .withOperation(value: "filler")
@@ -148,7 +150,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertEqual(signingProperties.get(key: AttributeKeys.signedBodyHeader), AWSSignedBodyHeader.none)
+        XCTAssertEqual(signingProperties.get(key: AWSSigningConfigKeys.signedBodyHeader), AWSSignedBodyHeader.none)
     }
 
     //MARK: Test S3-Specific Flags
@@ -161,7 +163,7 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertFalse(try XCTUnwrap(signingProperties.get(key: AttributeKeys.useDoubleURIEncode)))
+        XCTAssertFalse(try XCTUnwrap(signingProperties.get(key: AWSSigningConfigKeys.useDoubleURIEncode)))
     }
 
     func testShouldNormalizeURIPathIsFalseForS3() throws {
@@ -172,6 +174,6 @@ class CustomSigningPropertiesSetterTests: XCTestCase {
         try customSetter.setServiceSpecificSigningProperties(
             signingProperties: &signingProperties, context: tempCtx
         )
-        XCTAssertFalse(try XCTUnwrap(signingProperties.get(key: AttributeKeys.shouldNormalizeURIPath)))
+        XCTAssertFalse(try XCTUnwrap(signingProperties.get(key: AWSSigningConfigKeys.shouldNormalizeURIPath)))
     }
 }

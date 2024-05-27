@@ -5,8 +5,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
-import ClientRuntime
+import enum AWSSDKIdentity.FlowType
+import class Smithy.Context
+import struct Smithy.Attributes
+import enum Smithy.ClientError
 
 // Service-specific signing properties customization setter.
 public class CustomSigningPropertiesSetter {
@@ -19,9 +21,11 @@ public class CustomSigningPropertiesSetter {
         "S3": ["getObject", "putObject"]
     ]
 
+    public init() {}
+    
     public func setServiceSpecificSigningProperties(
         signingProperties: inout Attributes,
-        context: HttpContext
+        context: Context
     ) throws {
         guard servicesWithCustomizations.contains(context.getServiceName()) else {
             return
@@ -36,13 +40,13 @@ public class CustomSigningPropertiesSetter {
             serviceName: serviceName,
             opName: operationName
         )
-        let unsignedBody = (signingProperties.get(key: AttributeKeys.unsignedBody) ?? false) || shouldForceUnsignedBody
-        signingProperties.set(key: AttributeKeys.unsignedBody, value: unsignedBody)
+        let unsignedBody = (signingProperties.get(key: AWSSigningConfigKeys.unsignedBody) ?? false) || shouldForceUnsignedBody
+        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: unsignedBody)
 
         // Set signedBodyHeader flag
         let useSignedBodyHeader = usesSignedBodyHeader.contains(serviceName) && !unsignedBody
         signingProperties.set(
-            key: AttributeKeys.signedBodyHeader,
+            key: AWSSigningConfigKeys.signedBodyHeader,
             value: useSignedBodyHeader ? .contentSha256 : AWSSignedBodyHeader.none
         )
 
@@ -71,8 +75,8 @@ public class CustomSigningPropertiesSetter {
     private func setS3SpecificFlags(signingProperties: inout Attributes, serviceName: String) {
         let serviceIsS3 = serviceName == "S3"
         // Set useDoubleURIEncode to false IFF service is S3
-        signingProperties.set(key: AttributeKeys.useDoubleURIEncode, value: !serviceIsS3)
+        signingProperties.set(key: AWSSigningConfigKeys.useDoubleURIEncode, value: !serviceIsS3)
         // Set shouldNormalizeURIPath to false IFF service is S3
-        signingProperties.set(key: AttributeKeys.shouldNormalizeURIPath, value: !serviceIsS3)
+        signingProperties.set(key: AWSSigningConfigKeys.shouldNormalizeURIPath, value: !serviceIsS3)
     }
 }

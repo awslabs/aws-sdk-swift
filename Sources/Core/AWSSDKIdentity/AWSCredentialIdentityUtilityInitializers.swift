@@ -5,10 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import enum Smithy.ClientError
+import SmithyIdentityAPI
 import AwsCommonRuntimeKit
-import ClientRuntime
-
-public typealias CRTAWSCredentialIdentity = AwsCommonRuntimeKit.Credentials
 
 public extension AWSCredentialIdentity {
     /// Creates `AWSCredentialIdentity` from the provided `CRTAWSCredentialIdentity`.

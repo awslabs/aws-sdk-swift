@@ -5,23 +5,22 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
+import Smithy
+import SmithyIdentityAPI
 import class AwsCommonRuntimeKit.CredentialsProvider
 
-/// A type that can provide credentials for authenticating with an AWS service
-public protocol AWSCredentialIdentityResolver: IdentityResolver
-where IdentityT == AWSCredentialIdentity {}
+public extension AWSCredentialIdentityResolver {
 
-extension AWSCredentialIdentityResolver {
     /// Returns the underlying `AwsCommonRuntimeKit.CredentialsProvider`.
-    /// If `self` is not backed by a `AwsCommonRuntimeKit.CredentialsProvider` then this wraps `self` in a `CustomAWSCredentialIdentityResolver` which will create a `AwsCommonRuntimeKit.CredentialsProvider`.
+    /// If `self` is not backed by a `AwsCommonRuntimeKit.CredentialsProvider` then this wraps `self`
+    /// in a `CustomAWSCredentialIdentityResolver` which will create a `AwsCommonRuntimeKit.CredentialsProvider`.
     func getCRTAWSCredentialIdentityResolver() throws -> AwsCommonRuntimeKit.CredentialsProvider {
         let providerSourcedByCRT = try self as? (any AWSCredentialIdentityResolvedByCRT)
         ?? CustomAWSCredentialIdentityResolver(self)
         return providerSourcedByCRT.crtAWSCredentialIdentityResolver
     }
 
-    public func getIdentity(identityProperties: Attributes? = nil) async throws -> AWSCredentialIdentity {
+    func getIdentity(identityProperties: Attributes? = nil) async throws -> AWSCredentialIdentity {
         let crtAWSCredentialIdentity = try await self.getCRTAWSCredentialIdentityResolver().getCredentials()
         return try .init(crtAWSCredentialIdentity: crtAWSCredentialIdentity)
     }

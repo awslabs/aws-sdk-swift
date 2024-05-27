@@ -5,34 +5,34 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
+import SmithyHTTPAuthAPI
 import ClientRuntime
 
-public struct SigV4AAuthScheme: ClientRuntime.AuthScheme {
+public struct SigV4AAuthScheme: AuthScheme {
     public let schemeID: String = "aws.auth#sigv4a"
-    public let signer: ClientRuntime.Signer = AWSSigV4Signer()
+    public let signer: Signer = AWSSigV4Signer()
 
-    public init() {}
-
-    public func customizeSigningProperties(signingProperties: Attributes, context: HttpContext) throws -> Attributes {
+    public func customizeSigningProperties(signingProperties: Attributes, context: Context) throws -> Attributes {
         var updatedSigningProperties = signingProperties
 
         // Set signing algorithm flag
-        updatedSigningProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4a)
+        updatedSigningProperties.set(key: AWSSigningConfigKeys.awsSigningAlgorithm, value: .sigv4a)
 
         // Set bidirectional streaming flag
         updatedSigningProperties.set(
-            key: AttributeKeys.bidirectionalStreaming,
-            value: context.isBidirectionalStreamingEnabled()
+            key: AWSSigningConfigKeys.bidirectionalStreaming,
+            value: context.isBidirectionalStreamingEnabled
         )
 
         // Set signing name and signing region flags
-        updatedSigningProperties.set(key: AttributeKeys.signingName, value: context.getSigningName())
-        updatedSigningProperties.set(key: AttributeKeys.signingRegion, value: context.getSigningRegion())
+        updatedSigningProperties.set(key: AWSSigningConfigKeys.signingName, value: context.getSigningName())
+        updatedSigningProperties.set(key: AWSSigningConfigKeys.signingRegion, value: context.getSigningRegion())
 
         // Set expiration flag
         //
         // Expiration is only used for presigning (presign request flow or presign URL flow).
-        updatedSigningProperties.set(key: AttributeKeys.expiration, value: context.getExpiration())
+        updatedSigningProperties.set(key: AWSSigningConfigKeys.expiration, value: context.getExpiration())
 
         // Set signature type flag
         //
@@ -41,19 +41,19 @@ public struct SigV4AAuthScheme: ClientRuntime.AuthScheme {
         // .requestHeaders is the deafult signing used for AWS operations.
         let isPresignURLFlow = context.getFlowType() == .PRESIGN_URL
         updatedSigningProperties.set(
-            key: AttributeKeys.signatureType,
+            key: AWSSigningConfigKeys.signatureType,
             value: isPresignURLFlow ? .requestQueryParams : .requestHeaders
         )
 
         // Set unsignedBody to true IFF operation had unsigned payload trait.
         let unsignedBody = context.hasUnsignedPayloadTrait()
-        updatedSigningProperties.set(key: AttributeKeys.unsignedBody, value: unsignedBody)
+        updatedSigningProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: unsignedBody)
 
         // Set default values.
-        updatedSigningProperties.set(key: AttributeKeys.signedBodyHeader, value: AWSSignedBodyHeader.none)
-        updatedSigningProperties.set(key: AttributeKeys.useDoubleURIEncode, value: true)
-        updatedSigningProperties.set(key: AttributeKeys.shouldNormalizeURIPath, value: true)
-        updatedSigningProperties.set(key: AttributeKeys.omitSessionToken, value: false)
+        updatedSigningProperties.set(key: AWSSigningConfigKeys.signedBodyHeader, value: AWSSignedBodyHeader.none)
+        updatedSigningProperties.set(key: AWSSigningConfigKeys.useDoubleURIEncode, value: true)
+        updatedSigningProperties.set(key: AWSSigningConfigKeys.shouldNormalizeURIPath, value: true)
+        updatedSigningProperties.set(key: AWSSigningConfigKeys.omitSessionToken, value: false)
 
         // Set service-specific signing properties if needed.
         try CustomSigningPropertiesSetter().setServiceSpecificSigningProperties(

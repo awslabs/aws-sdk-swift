@@ -5,8 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct Smithy.Attributes
+import protocol SmithyIdentityAPI.AWSCredentialIdentityResolver
 import AwsCommonRuntimeKit
-import ClientRuntime
 
 /// The adapter used to return CRTAWSCredentialIdentity from AWSCredentialIdentityResolver.
 struct AWSCredentialIdentityResolverCRTAdapter: AwsCommonRuntimeKit.CredentialsProviding {

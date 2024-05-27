@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import SmithyIdentityAPI
+import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
@@ -19,7 +21,7 @@ import Foundation
 ///
 /// For more information see [Assume role credential provider](https://docs.aws.amazon.com/sdkref/latest/guide/feature-assume-role-credentials.html)
 public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
 
     /// Creates a credential identity resolver that uses another resolver to assume a role from the AWS Security Token Service (STS).
     ///

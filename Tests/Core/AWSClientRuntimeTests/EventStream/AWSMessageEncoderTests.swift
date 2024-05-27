@@ -10,7 +10,7 @@ import XCTest
 
 final class AWSMessageEncoderTests: XCTestCase {
 
-    let sut = AWSEventStream.AWSMessageEncoder()
+    let sut = AWSMessageEncoder()
 
     func testEncode_MessageWithAllHeaders() {
         let encodedMessage = try! sut.encode(message: validMessageWithAllHeaders)

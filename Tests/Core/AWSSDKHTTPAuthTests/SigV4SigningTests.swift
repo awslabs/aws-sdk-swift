@@ -5,13 +5,22 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
+import SmithyIdentityAPI
+import SmithyHTTPAPI
+import SmithyHTTPAuthAPI
+import SmithyEventStreamsAPI
+import SmithyEventStreamsAuthAPI
+import AWSSDKHTTPAuth
+import AWSSDKEventStreamsAuth
 import AwsCommonRuntimeKit
 import ClientRuntime
+import AWSClientRuntime
 import SmithyTimestamps
 import XCTest
 import SmithyTestUtil
 
-@testable import AWSClientRuntime
+//@testable import AWSClientRuntime
 
 class Sigv4SigningTests: XCTestCase {
     override func setUp() {
@@ -34,11 +43,11 @@ class Sigv4SigningTests: XCTestCase {
         let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
-        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
-        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
-        signingProperties.set(key: AttributeKeys.signingName, value: "test")
-        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AWSSigningConfigKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.signingName, value: "test")
+        signingProperties.set(key: AWSSigningConfigKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AWSSigningConfigKeys.awsSigningAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         let signedRequest = try await AWSSigV4Signer().signRequest(
@@ -67,10 +76,10 @@ class Sigv4SigningTests: XCTestCase {
         let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
-        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
-        signingProperties.set(key: AttributeKeys.signingName, value: "test")
-        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.signingName, value: "test")
+        signingProperties.set(key: AWSSigningConfigKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AWSSigningConfigKeys.awsSigningAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -103,11 +112,11 @@ class Sigv4SigningTests: XCTestCase {
         let credentials = MockIdentity()
 
         var signingProperties = Attributes()
-        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
-        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
-        signingProperties.set(key: AttributeKeys.signingName, value: "test")
-        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AWSSigningConfigKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.signingName, value: "test")
+        signingProperties.set(key: AWSSigningConfigKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AWSSigningConfigKeys.awsSigningAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -140,10 +149,10 @@ class Sigv4SigningTests: XCTestCase {
         let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
-        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
-        signingProperties.set(key: AttributeKeys.signingName, value: "test")
-        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AWSSigningConfigKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.signingName, value: "test")
+        signingProperties.set(key: AWSSigningConfigKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AWSSigningConfigKeys.awsSigningAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -176,10 +185,10 @@ class Sigv4SigningTests: XCTestCase {
         let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
-        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
-        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
-        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AWSSigningConfigKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AWSSigningConfigKeys.awsSigningAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -212,10 +221,10 @@ class Sigv4SigningTests: XCTestCase {
         let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
-        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
-        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
-        signingProperties.set(key: AttributeKeys.signingName, value: "test")
-        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AWSSigningConfigKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.signingName, value: "test")
+        signingProperties.set(key: AWSSigningConfigKeys.awsSigningAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -248,10 +257,10 @@ class Sigv4SigningTests: XCTestCase {
         let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
-        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
-        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
-        signingProperties.set(key: AttributeKeys.signingName, value: "test")
-        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AWSSigningConfigKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: false)
+        signingProperties.set(key: AWSSigningConfigKeys.signingName, value: "test")
+        signingProperties.set(key: AWSSigningConfigKeys.signingRegion, value: "us-east-1")
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -298,9 +307,9 @@ class Sigv4SigningTests: XCTestCase {
     func testSignEvent() async {
         let credentials = AWSCredentialIdentity(accessKey: "fake access key", secret: "fake secret key")
         
-        let encoder = AWSEventStream.AWSMessageEncoder()
+        let encoder = AWSClientRuntime.AWSMessageEncoder()
 
-        let message = EventStream.Message(
+        let message = Message(
             headers: [
                 .init(name: "some-header", value: .string("value")),
             ],
@@ -317,7 +326,7 @@ class Sigv4SigningTests: XCTestCase {
             credentials
         )
         
-        let context = HttpContextBuilder()
+        let context = ContextBuilder()
             .withSigningName(value: "testservice")
             .withRegion(value: "us-east-1")
             .withIdentityResolver(
@@ -377,7 +386,7 @@ class TestCustomAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         ))
     }
     
-    func getIdentity(identityProperties: Attributes?) async throws -> AWSClientRuntime.AWSCredentialIdentity {
+    func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
         return AWSCredentialIdentity(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",

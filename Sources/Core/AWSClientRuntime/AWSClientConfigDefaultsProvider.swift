@@ -5,9 +5,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import SmithyIdentityAPI
 import struct ClientRuntime.DefaultSDKRuntimeConfiguration
 import enum ClientRuntime.DefaultRetryErrorInfoProvider
-import protocol ClientRuntime.HTTPClient
+import protocol SmithyHTTPAPI.HTTPClient
 import class ClientRuntime.HttpClientConfiguration
 import protocol ClientRuntime.IdempotencyTokenGenerator
 import enum ClientRuntime.ClientLogMode

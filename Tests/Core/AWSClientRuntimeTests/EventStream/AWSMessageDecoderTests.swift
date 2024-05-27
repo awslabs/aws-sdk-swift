@@ -10,7 +10,7 @@ import XCTest
 
 final class AWSMessageDecoderTests: XCTestCase {
 
-    let sut = AWSEventStream.AWSMessageDecoder()
+    let sut = AWSMessageDecoder()
 
     func testDecode_MessageWithAllHeaders() {
         try! sut.feed(data: validMessageDataWithAllHeaders)

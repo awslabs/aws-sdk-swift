@@ -5,18 +5,26 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
+import SmithyIdentityAPI
+import SmithyHTTPAPI
+import SmithyHTTPAuthAPI
+import SmithyChecksumsAPI
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
 
-public class AWSSigV4Signer: ClientRuntime.Signer {
+public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
+
+    public init() {}
+
     public func signRequest<IdentityT: Identity>(
         requestBuilder: SdkHttpRequestBuilder,
         identity: IdentityT,
-        signingProperties: ClientRuntime.Attributes
+        signingProperties: Attributes
     ) async throws -> SdkHttpRequestBuilder {
         guard let isBidirectionalStreamingEnabled = signingProperties.get(
-            key: AttributeKeys.bidirectionalStreaming
+            key: AWSSigningConfigKeys.bidirectionalStreaming
         ) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming."
@@ -60,7 +68,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
                 signingConfig: crtSigningConfig,
                 signature: requestSignature,
                 trailingHeaders: unsignedRequest.trailingHeaders,
-                checksumAlgorithm: signingProperties.get(key: AttributeKeys.checksum)
+                checksumAlgorithm: signingProperties.get(key: AWSSigningConfigKeys.checksum)
             )
         }
 
@@ -70,35 +78,35 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
 
     private func constructSigningConfig(
         identity: AWSCredentialIdentity,
-        signingProperties: ClientRuntime.Attributes
+        signingProperties: Attributes
     ) throws -> AWSSigningConfig {
-        guard let unsignedBody = signingProperties.get(key: AttributeKeys.unsignedBody) else {
+        guard let unsignedBody = signingProperties.get(key: AWSSigningConfigKeys.unsignedBody) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body."
             )
         }
-        guard let signingName = signingProperties.get(key: AttributeKeys.signingName) else {
+        guard let signingName = signingProperties.get(key: AWSSigningConfigKeys.signingName) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing name."
             )
         }
-        guard let signingRegion = signingProperties.get(key: AttributeKeys.signingRegion) else {
+        guard let signingRegion = signingProperties.get(key: AWSSigningConfigKeys.signingRegion) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing region."
             )
         }
-        guard let signingAlgorithm = signingProperties.get(key: AttributeKeys.signingAlgorithm) else {
+        guard let signingAlgorithm = signingProperties.get(key: AWSSigningConfigKeys.awsSigningAlgorithm) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing algorithm."
             )
         }
 
-        let expiration: TimeInterval = signingProperties.get(key: AttributeKeys.expiration) ?? 0
-        let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: AttributeKeys.signedBodyHeader) ?? .none
+        let expiration: TimeInterval = signingProperties.get(key: AWSSigningConfigKeys.expiration) ?? 0
+        let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: AWSSigningConfigKeys.signedBodyHeader) ?? .none
 
         // Determine signed body value
-        let checksum = signingProperties.get(key: AttributeKeys.checksum)
-        let isChunkedEligibleStream = signingProperties.get(key: AttributeKeys.isChunkedEligibleStream) ?? false
+        let checksum = signingProperties.get(key: AWSSigningConfigKeys.checksum)
+        let isChunkedEligibleStream = signingProperties.get(key: AWSSigningConfigKeys.isChunkedEligibleStream) ?? false
 
         let signedBodyValue: AWSSignedBodyValue = determineSignedBodyValue(
             checksum: checksum,
@@ -107,11 +115,11 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         )
 
         let flags: SigningFlags = SigningFlags(
-            useDoubleURIEncode: signingProperties.get(key: AttributeKeys.useDoubleURIEncode) ?? true,
-            shouldNormalizeURIPath: signingProperties.get(key: AttributeKeys.shouldNormalizeURIPath) ?? true,
-            omitSessionToken: signingProperties.get(key: AttributeKeys.omitSessionToken) ?? false
+            useDoubleURIEncode: signingProperties.get(key: AWSSigningConfigKeys.useDoubleURIEncode) ?? true,
+            shouldNormalizeURIPath: signingProperties.get(key: AWSSigningConfigKeys.shouldNormalizeURIPath) ?? true,
+            omitSessionToken: signingProperties.get(key: AWSSigningConfigKeys.omitSessionToken) ?? false
         )
-        let signatureType: AWSSignatureType = signingProperties.get(key: AttributeKeys.signatureType) ?? .requestHeaders
+        let signatureType: AWSSignatureType = signingProperties.get(key: AWSSigningConfigKeys.signatureType) ?? .requestHeaders
 
         return AWSSigningConfig(
             credentials: identity,
@@ -127,18 +135,6 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         )
     }
 
-    public func signEvent(
-        payload: Data,
-        previousSignature: String,
-        signingProperties: Attributes
-    ) async throws -> SigningResult<EventStream.Message> {
-        let signingConfig = signingProperties.get(key: AWSEventStream.AWSMessageSigner.signingConfigKey)
-        guard let signingConfig else {
-            throw ClientError.dataNotFound("Failed to sign event stream message due to missing signing config.")
-        }
-        return try await signEvent(payload: payload, previousSignature: previousSignature, signingConfig: signingConfig)
-    }
-
     static let logger: SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
 
     public static func sigV4SignedURL(
@@ -149,7 +145,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         date: ClientRuntime.Date,
         expiration: TimeInterval,
         signingAlgorithm: AWSSigningAlgorithm
-    ) async -> ClientRuntime.URL? {
+    ) async -> URL? {
         do {
             let credentials = try await awsCredentialIdentityResolver.getIdentity(
                 identityProperties: Attributes()
@@ -181,30 +177,6 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             logger.error("Failed to generate presigned url: \(err)")
             return nil
         }
-    }
-
-    /// Signs the event payload and returns the signed event with :date and :chunk-signature headers
-    /// - Parameters:
-    ///   - payload: The event payload to sign
-    ///   - previousSignature: The signature of the previous event, this is used to calculate the signature of
-    ///                        the current event payload like a rolling signature calculation.
-    ///   - signingConfig: The signing configuration
-    /// - Returns: The signed event with :date and :chunk-signature headers
-    public func signEvent(payload: Data,
-                          previousSignature: String,
-                          signingConfig: AWSSigningConfig) async throws -> SigningResult<EventStream.Message> {
-        let signature = try await Signer.signEvent(event: payload,
-                                                   previousSignature: previousSignature,
-                                                   config: try signingConfig.toCRTType())
-        let binarySignature = signature.hexaData
-
-        let message = EventStream.Message(headers: [ .init(name: ":date",
-                                                           value: .timestamp(signingConfig.date)),
-                                                     .init(name: ":chunk-signature",
-                                                           value: .byteArray(binarySignature))],
-                                           payload: payload)
-
-        return SigningResult(output: message, signature: signature)
     }
 
     public static func sigV4SignedRequest(

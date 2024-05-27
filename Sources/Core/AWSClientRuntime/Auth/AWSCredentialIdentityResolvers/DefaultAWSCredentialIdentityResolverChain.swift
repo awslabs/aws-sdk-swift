@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
@@ -24,7 +25,7 @@ import Foundation
 ///
 /// The credentials retrieved from the chain are cached for 15 minutes.
 public struct DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityResolvedByCRT {
-    let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
 
     /// Creates a credential identity resolver that uses the default AWS credential identity resolver chain used by most AWS SDKs.
     public init() throws {

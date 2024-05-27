@@ -5,7 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
+import AWSSDKIdentity
+import SmithyIdentityAPI
 import AwsCommonRuntimeKit
 import Foundation
 
@@ -76,11 +77,8 @@ extension AWSSigningConfig {
             service: service,
             region: region,
             date: date,
-            credentials: try credentials.map {
-                try CRTAWSCredentialIdentity(awsCredentialIdentity: $0)
-            },
-            credentialsProvider: try awsCredentialIdentityResolver?
-                .getCRTAWSCredentialIdentityResolver(),
+            credentials: try credentials.map { try CRTAWSCredentialIdentity(awsCredentialIdentity: $0) },
+            credentialsProvider: try awsCredentialIdentityResolver?.getCRTAWSCredentialIdentityResolver(),
             expiration: expiration,
             signedBodyHeader: signedBodyHeader.toCRTType(),
             signedBodyValue: signedBodyValue.toCRTType(),

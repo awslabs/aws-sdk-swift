@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
+import SmithyHTTPAPI
 import XCTest
 import ClientRuntime
 import AwsCommonRuntimeKit
@@ -15,7 +17,7 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
 
     func testTreeHashAllZeroes() async throws {
         var completed = false
-        let context = HttpContextBuilder().build()
+        let context = ContextBuilder().build()
         let bytesIn5_5MB: Int = Int(1024 * 1024 * 5.5)
         let byteArray: [UInt8] = Array(repeating: 0, count: bytesIn5_5MB)
         let byteStream = ByteStream.stream(BufferedStream(data: .init(byteArray), isClosed: true))

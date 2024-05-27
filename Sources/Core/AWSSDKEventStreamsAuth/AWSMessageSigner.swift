@@ -5,13 +5,22 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
+import struct AWSSDKHTTPAuth.AWSSigningConfig
+import protocol SmithyEventStreamsAPI.MessageEncoder
+import struct SmithyEventStreamsAPI.Message
+import protocol SmithyEventStreamsAuthAPI.MessageSigner
+import protocol SmithyEventStreamsAuthAPI.MessageDataSigner
+import protocol SmithyHTTPAuthAPI.Signer
+import struct Smithy.Attributes
+import struct Smithy.AttributeKey
 
-extension AWSEventStream {
+// Code left indented to prevent Git diff from being blown up by whitespace changes.
+// Will fix after event stream modularizaion has been reviewed.
+
     /// Signs a `Message` using the AWS SigV4 signing algorithm
     public class AWSMessageSigner: MessageSigner {
         let encoder: MessageEncoder
-        let signer: () async throws -> ClientRuntime.Signer
+        let signer: () async throws -> MessageDataSigner
         let signingConfig: () async throws -> AWSSigningConfig
         let requestSignature: () -> String
         // Attribute key used to save AWSSigningConfig into signingProperties argument
@@ -39,7 +48,7 @@ extension AWSEventStream {
         }
 
         public init(encoder: MessageEncoder,
-                    signer: @escaping () async throws -> ClientRuntime.Signer,
+                    signer: @escaping () async throws -> MessageDataSigner,
                     signingConfig: @escaping () async throws -> AWSSigningConfig,
                     requestSignature: @escaping () -> String) {
             self.encoder = encoder
@@ -51,7 +60,7 @@ extension AWSEventStream {
         /// Signs a `Message` using the AWS SigV4 signing algorithm
         /// - Parameter message: `Message` to sign
         /// - Returns: Signed `Message` with `:chunk-signature` & `:date` headers
-        public func sign(message: ClientRuntime.EventStream.Message) async throws -> ClientRuntime.EventStream.Message {
+        public func sign(message: Message) async throws -> Message {
             // encode to bytes
             let encodedMessage = try encoder.encode(message: message)
             let signingConfig = try await self.signingConfig()
@@ -62,15 +71,15 @@ extension AWSEventStream {
             configWrapper.set(key: AWSMessageSigner.signingConfigKey, value: signingConfig)
             // Sign encoded bytes
             let signingResult = try await signer.signEvent(payload: encodedMessage,
-                                                                previousSignature: previousSignature,
-                                                                signingProperties: configWrapper)
+                                                           previousSignature: previousSignature,
+                                                           signingProperties: configWrapper)
             previousSignature = signingResult.signature
             return signingResult.output
         }
 
         /// Signs an empty `Message` using the AWS SigV4 signing algorithm
         /// - Returns: Signed `Message` with `:chunk-signature` & `:date` headers
-        public func signEmpty() async throws -> ClientRuntime.EventStream.Message {
+        public func signEmpty() async throws -> Message {
             let signingConfig = try await self.signingConfig()
             // Fetch signer
             let signer = try await self.signer()
@@ -84,4 +93,3 @@ extension AWSEventStream {
             return signingResult.output
         }
     }
-}

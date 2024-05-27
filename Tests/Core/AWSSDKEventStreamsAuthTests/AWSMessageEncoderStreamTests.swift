@@ -5,6 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
+import SmithyIdentityAPI
+import SmithyEventStreamsAPI
+import SmithyEventStreams
+import AWSSDKHTTPAuth
+import AWSSDKEventStreamsAuth
 import XCTest
 import AwsCommonRuntimeKit
 import ClientRuntime
@@ -23,7 +29,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
     let requestSignature = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     let serviceName = "test"
     let credentials = AWSCredentialIdentity(accessKey: "fake access key", secret: "fake secret key")
-    let messageEncoder = AWSEventStream.AWSMessageEncoder()
+    let messageEncoder = AWSMessageEncoder()
     
     override class func setUp() {
         AwsCommonRuntimeKit.CommonRuntimeKit.initialize()
@@ -32,7 +38,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
     // MARK: - Tests
     
     func testIterator_EndMessageSent() async throws {
-        let context = HttpContextBuilder()
+        let context = ContextBuilder()
             .withSigningRegion(value: region)
             .withSigningName(value: serviceName)
             .withRequestSignature(value: requestSignature)
@@ -46,15 +52,15 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             )
             .build()
 
-        let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+        let messageSigner = AWSMessageSigner(encoder: messageEncoder) {
             return AWSSigV4Signer()
         } signingConfig: {
             return try await context.makeEventStreamSigningConfig()
         } requestSignature: {
-            return context.getRequestSignature()
+            return context.requestSignature
         }
         
-        let sut = EventStream.DefaultMessageEncoderStream(
+        let sut = DefaultMessageEncoderStream(
             stream: baseStream,
             messageEncoder: messageEncoder,
             marshalClosure: TestEvent.marshal,
@@ -71,7 +77,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
     }
     
     func testReadAsync() async throws {
-        let context = HttpContextBuilder().withSigningRegion(value: region)
+        let context = ContextBuilder().withSigningRegion(value: region)
             .withSigningName(value: serviceName)
             .withRequestSignature(value: requestSignature)
             .withIdentityResolver(
@@ -84,15 +90,15 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             )
             .build()
         
-        let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+        let messageSigner = AWSMessageSigner(encoder: messageEncoder) {
             return AWSSigV4Signer()
         } signingConfig: {
             return try await context.makeEventStreamSigningConfig()
         } requestSignature: {
-            return context.getRequestSignature()
+            return context.requestSignature
         }
         
-        let sut = EventStream.DefaultMessageEncoderStream(
+        let sut = DefaultMessageEncoderStream(
             stream: baseStream,
             messageEncoder: messageEncoder,
             marshalClosure: TestEvent.marshal,
@@ -114,7 +120,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
     }
 
     func testInitialRequestEvent() async throws {
-        let context = HttpContextBuilder().withSigningRegion(value: region)
+        let context = ContextBuilder().withSigningRegion(value: region)
             .withSigningName(value: serviceName)
             .withRequestSignature(value: requestSignature)
             .withIdentityResolver(
@@ -127,38 +133,62 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             )
             .build()
 
-        let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+        let messageSigner = AWSMessageSigner(encoder: messageEncoder) {
             return AWSSigV4Signer()
         } signingConfig: {
             return try await context.makeEventStreamSigningConfig()
         } requestSignature: {
-            return context.getRequestSignature()
+            return context.requestSignature
         }
 
-        let sut = EventStream.DefaultMessageEncoderStream(
+        let sut = DefaultMessageEncoderStream<TestEvent>(
             stream: baseStream,
             messageEncoder: messageEncoder,
             marshalClosure: TestEvent.marshal,
             messageSigner: messageSigner,
-            initialRequestMessage: EventStream.Message(
-                headers: [EventStream.Header(name: ":event-type", value: .string("initial-request"))],
+            initialRequestMessage: Message(
+                headers: [Header(name: ":event-type", value: .string("initial-request"))],
                 payload: Data()
             )
         )
 
         let data = try await sut.readToEndAsync()
 
-        let messageDecoder = AWSEventStream.AWSMessageDecoder()
+        let messageDecoder = AWSMessageDecoder()
         try messageDecoder.feed(data: data ?? Data())
         let initialRequestMessage = try messageDecoder.message()
 
-        let payloadDecoder = AWSEventStream.AWSMessageDecoder()
+        let payloadDecoder = AWSMessageDecoder()
         try payloadDecoder.feed(data: initialRequestMessage?.payload ?? Data())
         let initialRequestPayload = try payloadDecoder.message()
 
         XCTAssertEqual(
             initialRequestPayload?.headers.first(where: { $0.name == ":event-type" })?.value,
             .string("initial-request")
+        )
+    }
+}
+
+class TestCustomAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
+    let credentials: AWSCredentialIdentity
+
+    init(credentials: AWSCredentialIdentity) {
+        self.credentials = credentials
+    }
+
+    convenience init() {
+        self.init(credentials: AWSCredentialIdentity(
+            accessKey: "AKIDEXAMPLE",
+            secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
+            expiration: .init(timeIntervalSinceNow: 30)
+        ))
+    }
+
+    func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        return AWSCredentialIdentity(
+            accessKey: "AKIDEXAMPLE",
+            secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
+            expiration: .init(timeIntervalSinceNow: 30)
         )
     }
 }

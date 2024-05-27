@@ -5,11 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct SmithyEventStreamsAPI.Message
 import AwsCommonRuntimeKit
 import ClientRuntime
 
-extension EventStream {
-    /// The type of the `EventStream.Message`
+// Code left indented to prevent Git diff from being blown up by whitespace changes.
+// Will fix after event stream modularizaion has been reviewed.
+
+    /// The type of the `Message`
     /// It allows for the message to be decoded into the correct type.
     public enum MessageType {
         /// Represents an `event` message type.
@@ -95,11 +98,10 @@ extension EventStream {
             public let message: String?
         }
     }
-}
 
-extension EventStream.Message {
+extension Message {
     /// Parses the protocol level headers into a `MessageType`
-    public func type() throws -> EventStream.MessageType {
+    public func type() throws -> MessageType {
         let headersByName = Dictionary(grouping: headers, by: \.name)
         // look for messageType header
         guard let messageTypeHeader = headersByName[":message-type"]?.first,
@@ -158,7 +160,7 @@ extension EventStream.Message {
     }
 }
 
-extension ClientRuntime.EventStream.Message {
+extension Message {
     func toCRTMessage() -> EventStreamMessage {
         let crtHeaders = headers.map { header in
             header.toCRTHeader()

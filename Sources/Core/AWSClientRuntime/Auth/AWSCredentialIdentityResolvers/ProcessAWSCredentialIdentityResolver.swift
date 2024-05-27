@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
@@ -26,7 +27,7 @@ import Foundation
 /// }
 /// Version here identifies the command output format version.
 public struct ProcessAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
 
     /// Creates a credentials provider that gets credentials from running a command or process.
     ///

@@ -5,17 +5,21 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct SmithyEventStreamsAPI.Message
+import struct SmithyEventStreamsAPI.Header
+import protocol SmithyEventStreamsAPI.MessageDecoder
 import AwsCommonRuntimeKit
 import ClientRuntime
+import struct Foundation.Data
 
-extension AWSEventStream {
+//extension AWSEventStream {
 
     /// AWS implementation of `MessageDecoder` for decoding event stream messages
     /// Note: This is class because struct does not allow using `self` in closure
     ///      and we need to use `self` to access `messageBuffer` per CRT API.
     public class AWSMessageDecoder: MessageDecoder {
         private var decoder: EventStreamMessageDecoder?
-        private var messageBuffer: [EventStream.Message] = []
+        private var messageBuffer: [Message] = []
         private var error: Error?
         private var initialMessage: Data = Data()
         private var onInitialResponseReceived: ((Data?) -> Void)?
@@ -45,10 +49,10 @@ extension AWSEventStream {
                 },
                 onComplete: {
                     self.logger.debug("onComplete")
-                    let message = EventStream.Message(headers: self.decodededHeaders.toHeaders(),
-                                                      payload: self.decodedPayload)
+                    let message = Message(headers: self.decodededHeaders.toHeaders(),
+                                          payload: self.decodedPayload)
                     if message.headers.contains(
-                        EventStream.Header(name: ":event-type", value: .string("initial-response"))
+                        Header(name: ":event-type", value: .string("initial-response"))
                     ) {
                         self.initialMessage = message.payload
                         self.onInitialResponseReceived?(self.initialMessage)
@@ -94,7 +98,7 @@ extension AWSEventStream {
         /// Returns the next message in the decoder's buffer
         /// and removes it from the buffer.
         /// If the buffer is empty then this returns `nil`.
-        public func message() throws -> EventStream.Message? {
+        public func message() throws -> Message? {
             try throwIfErrorOccurred()
 
             guard !messageBuffer.isEmpty else {
@@ -146,4 +150,4 @@ extension AWSEventStream {
             }
         }
     }
-}
+//}

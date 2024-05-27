@@ -5,16 +5,20 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import SmithyEventStreamsAPI
+import SmithyEventStreams
 import XCTest
 import ClientRuntime
-@testable import AWSClientRuntime
+import AWSClientRuntime
 
 final class AWSMessageDecoderStreamTests: XCTestCase {
     func testIterator() async throws {
-        let bufferedStream = BufferedStream(data: validMessageDataWithAllHeaders + validMessageDataEmptyPayload + validMessageDataNoHeaders,
-                                            isClosed: true)
-        let messageDecoder = AWSEventStream.AWSMessageDecoder()
-        let sut = EventStream.DefaultMessageDecoderStream<TestEvent>(
+        let bufferedStream = BufferedStream(
+            data: validMessageDataWithAllHeaders + validMessageDataEmptyPayload + validMessageDataNoHeaders,
+            isClosed: true
+        )
+        let messageDecoder = AWSMessageDecoder()
+        let sut = DefaultMessageDecoderStream<TestEvent>(
             stream: bufferedStream,
             messageDecoder: messageDecoder,
             unmarshalClosure: TestEvent.unmarshal

@@ -5,11 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct SmithyEventStreamsAPI.Header
+import enum SmithyEventStreamsAPI.HeaderValue
 import AwsCommonRuntimeKit
 import Foundation
 import ClientRuntime
 
-extension EventStream.Header {
+extension Header {
 
     /// Converts ClientRuntime EventStream.Header to CRT EventStreamHeader
     func toCRTHeader() -> EventStreamHeader {
@@ -17,7 +19,7 @@ extension EventStream.Header {
     }
 }
 
-extension EventStream.HeaderValue {
+extension HeaderValue {
 
     /// Converts ClientRuntime EventStream.HeaderValue to CRT EventStreamHeaderValue
     func toCRTHeaderValue() -> EventStreamHeaderValue {
@@ -47,7 +49,7 @@ extension EventStream.HeaderValue {
 extension EventStreamHeader {
 
     /// Converts CRT EventStreamHeader to ClientRuntime EventStream.Header
-    func toHeader() -> EventStream.Header {
+    func toHeader() -> Header {
         switch self.value {
         case .bool(value: let value):
             return .init(name: name, value: .bool(value))
@@ -74,7 +76,7 @@ extension EventStreamHeader {
 extension Array where Element == EventStreamHeader {
 
     /// Converts CRT EventStreamHeader array to ClientRuntime EventStream.Header array
-    func toHeaders() -> [EventStream.Header] {
+    func toHeaders() -> [Header] {
         self.map {
             $0.toHeader()
         }

@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import SmithyIdentityAPI
+
 public protocol AWSDefaultClientConfiguration {
     /// The AWS credential identity resolver to be used for AWS credentials.
     ///
