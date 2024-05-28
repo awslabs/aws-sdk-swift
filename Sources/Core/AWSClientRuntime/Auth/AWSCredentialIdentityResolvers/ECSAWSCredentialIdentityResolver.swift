@@ -67,7 +67,8 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByC
 
 private func retrieveHostPathAndQuery(from url: URL) throws -> (String, String) {
     guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-        throw HTTPClientError.pathCreationFailed("Absolute URI is malformed! Could not instantiate URLComponents from URL.")
+        let message = "Absolute URI is malformed! Could not instantiate URLComponents from URL."
+        throw HTTPClientError.pathCreationFailed(message)
     }
     guard let hostComponent = components.host else {
         throw HTTPClientError.pathCreationFailed("Absolute URI is malformed! Could not retrieve host from URL.")

@@ -5,11 +5,10 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes.Core.AWSClientConfiguration
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes.Core.AWSClientConfiguration
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Middleware.NoopHandler
 import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftDependency
@@ -22,6 +21,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenera
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_REQUEST
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Middleware.NoopHandler
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 
@@ -102,7 +102,7 @@ class PresignerGenerator : SwiftIntegration {
                         writer.write(
                             "throw \$N.unknownError(\"No HTTP client configured for presigned request\")",
                             SmithyTypes.ClientError
-                            )
+                        )
                     }
                 }
                 val operationStackName = "operation"

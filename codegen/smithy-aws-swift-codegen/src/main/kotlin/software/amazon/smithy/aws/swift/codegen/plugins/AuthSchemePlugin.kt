@@ -1,7 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftDependency

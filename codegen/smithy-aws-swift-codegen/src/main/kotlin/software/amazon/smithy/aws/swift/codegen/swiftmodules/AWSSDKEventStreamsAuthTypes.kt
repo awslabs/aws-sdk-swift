@@ -4,8 +4,7 @@ import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 
-object AWSSDKEventStreamsAuthTypes {
-}
+object AWSSDKEventStreamsAuthTypes
 
 private fun runtimeSymbol(name: String): Symbol = buildSymbol {
     this.name = name
