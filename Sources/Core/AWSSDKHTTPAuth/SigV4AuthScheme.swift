@@ -19,22 +19,22 @@ public struct SigV4AuthScheme: AuthScheme {
         var updatedSigningProperties = signingProperties
 
         // Set signing algorithm flag
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.awsSigningAlgorithm, value: .sigv4)
+        updatedSigningProperties.set(key: SigningPropertyKeys.awsSigningAlgorithm, value: .sigv4)
 
         // Set bidirectional streaming flag
         updatedSigningProperties.set(
-            key: AWSSigningConfigKeys.bidirectionalStreaming,
+            key: SigningPropertyKeys.bidirectionalStreaming,
             value: context.isBidirectionalStreamingEnabled
         )
 
         // Set signing name and signing region flags
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.signingName, value: context.getSigningName())
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.signingRegion, value: context.getSigningRegion())
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: context.getSigningName())
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingRegion, value: context.getSigningRegion())
 
         // Set expiration flag
         //
         // Expiration is only used for presigning (presign request flow or presign URL flow).
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.expiration, value: context.getExpiration())
+        updatedSigningProperties.set(key: SigningPropertyKeys.expiration, value: context.getExpiration())
 
         // Set signature type flag
         //
@@ -43,26 +43,26 @@ public struct SigV4AuthScheme: AuthScheme {
         // .requestHeaders is the deafult signing used for AWS operations.
         let isPresignURLFlow = context.getFlowType() == .PRESIGN_URL
         updatedSigningProperties.set(
-            key: AWSSigningConfigKeys.signatureType,
+            key: SigningPropertyKeys.signatureType,
             value: isPresignURLFlow ? .requestQueryParams : .requestHeaders
         )
 
         // Set unsignedBody to true IFF operation had unsigned payload trait.
         let unsignedBody = context.hasUnsignedPayloadTrait()
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: unsignedBody)
+        updatedSigningProperties.set(key: SigningPropertyKeys.unsignedBody, value: unsignedBody)
 
         // Set default values.
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.signedBodyHeader, value: AWSSignedBodyHeader.none)
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.useDoubleURIEncode, value: true)
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.shouldNormalizeURIPath, value: true)
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.omitSessionToken, value: false)
+        updatedSigningProperties.set(key: SigningPropertyKeys.signedBodyHeader, value: AWSSignedBodyHeader.none)
+        updatedSigningProperties.set(key: SigningPropertyKeys.useDoubleURIEncode, value: true)
+        updatedSigningProperties.set(key: SigningPropertyKeys.shouldNormalizeURIPath, value: true)
+        updatedSigningProperties.set(key: SigningPropertyKeys.omitSessionToken, value: false)
 
         // Copy checksum from middleware context to signing properties
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.checksum, value: context.checksum)
+        updatedSigningProperties.set(key: SigningPropertyKeys.checksum, value: context.checksum)
 
         // Copy chunked streaming eligiblity from middleware context to signing properties
         updatedSigningProperties.set(
-            key: AWSSigningConfigKeys.isChunkedEligibleStream,
+            key: SigningPropertyKeys.isChunkedEligibleStream,
             value: context.isChunkedEligibleStream
         )
 

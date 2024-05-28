@@ -6,7 +6,7 @@ import software.amazon.smithy.model.shapes.ListShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.shapes.TimestampShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Core.SDKURLQueryItem
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Core.SDKURLQueryItem
 import software.amazon.smithy.swift.codegen.Middleware
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter

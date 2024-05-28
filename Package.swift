@@ -154,7 +154,21 @@ func addServiceTarget(_ name: String) {
     package.targets += [
         .target(
             name: name,
-            dependencies: [.clientRuntime, .awsClientRuntime, .smithyRetriesAPI, .smithyRetries],
+            dependencies: [
+                .clientRuntime,
+                .awsClientRuntime,
+                .smithyRetriesAPI,
+                .smithyRetries,
+                .smithy,
+                .smithyIdentityAPI,
+                .smithyEventStreamsAPI,
+                .smithyEventStreamsAuthAPI,
+                .smithyEventStreams,
+                .smithyChecksumsAPI,
+                "AWSSDKIdentity",
+                "AWSSDKHTTPAuth",
+                "AWSSDKEventStreamsAuth",
+            ],
             path: "./Sources/Services/\(name)"
         )
     ]

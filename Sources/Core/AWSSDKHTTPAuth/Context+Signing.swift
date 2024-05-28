@@ -17,7 +17,7 @@ import struct Foundation.TimeInterval
 extension Context {
 
     public func getSigningAlgorithm() -> AWSSigningAlgorithm? {
-        return attributes.get(key: AWSSigningConfigKeys.awsSigningAlgorithm)
+        return attributes.get(key: SigningPropertyKeys.awsSigningAlgorithm)
     }
 
     /// Returns the signing config for the event stream message

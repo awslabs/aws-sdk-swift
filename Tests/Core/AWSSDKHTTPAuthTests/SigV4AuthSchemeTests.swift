@@ -36,7 +36,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AWSSigningConfigKeys.bidirectionalStreaming)))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.bidirectionalStreaming)))
     }
 
     func testBidirectionalStreamingIsFalseWhenFalseInContext() throws {
@@ -48,7 +48,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: AWSSigningConfigKeys.bidirectionalStreaming)))
+        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.bidirectionalStreaming)))
     }
 
     // AttributeKeys.signingName flag
@@ -62,7 +62,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual("TestSigningName", updatedProperties.get(key: AWSSigningConfigKeys.signingName))
+        XCTAssertEqual("TestSigningName", updatedProperties.get(key: SigningPropertyKeys.signingName))
     }
 
     // AttributeKeys.signingRegion flag
@@ -76,7 +76,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual("TestSigningRegion", updatedProperties.get(key: AWSSigningConfigKeys.signingRegion))
+        XCTAssertEqual("TestSigningRegion", updatedProperties.get(key: SigningPropertyKeys.signingRegion))
     }
 
     // AttributeKeys.expiration flag
@@ -90,7 +90,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(0, updatedProperties.get(key: AWSSigningConfigKeys.expiration))
+        XCTAssertEqual(0, updatedProperties.get(key: SigningPropertyKeys.expiration))
     }
 
     func testExpirationValueIsCopiedCorrectlyFromContext() throws {
@@ -103,7 +103,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(12345, updatedProperties.get(key: AWSSigningConfigKeys.expiration))
+        XCTAssertEqual(12345, updatedProperties.get(key: SigningPropertyKeys.expiration))
     }
 
     // AttributeKeys.signatureType flag
@@ -117,7 +117,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(AWSSignatureType.requestQueryParams, updatedProperties.get(key: AWSSigningConfigKeys.signatureType))
+        XCTAssertEqual(AWSSignatureType.requestQueryParams, updatedProperties.get(key: SigningPropertyKeys.signatureType))
     }
 
     func testSignatureTypeForNormalFlowIsRequestHeaders() throws {
@@ -129,7 +129,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(AWSSignatureType.requestHeaders, updatedProperties.get(key: AWSSigningConfigKeys.signatureType))
+        XCTAssertEqual(AWSSignatureType.requestHeaders, updatedProperties.get(key: SigningPropertyKeys.signatureType))
     }
 
     func testSignatureTypeForPresignRequestFlowIsRequestHeaders() throws {
@@ -141,7 +141,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(AWSSignatureType.requestHeaders, updatedProperties.get(key: AWSSigningConfigKeys.signatureType))
+        XCTAssertEqual(AWSSignatureType.requestHeaders, updatedProperties.get(key: SigningPropertyKeys.signatureType))
     }
 
     // AttributeKeys.unsignedBody flag
@@ -155,7 +155,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: AWSSigningConfigKeys.unsignedBody)))
+        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.unsignedBody)))
     }
 
     func testUnsignedBodyIsTrueWhenUnsignedPayloadTraitFlagIsFalseAndShouldForceUnsignedBodyIsTrue() throws {
@@ -167,7 +167,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: true)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AWSSigningConfigKeys.unsignedBody)))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.unsignedBody)))
     }
 
     func testUnsignedBodyIsTrueWhenUnsignedPayloadTraitFlagIsTrueAndShouldForceUnsignedBodyIsFalse() throws {
@@ -179,7 +179,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AWSSigningConfigKeys.unsignedBody)))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.unsignedBody)))
     }
 
     // AttributeKeys.signedBodyHeader flag
@@ -193,7 +193,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(updatedProperties.get(key: AWSSigningConfigKeys.signedBodyHeader), .contentSha256)
+        XCTAssertEqual(updatedProperties.get(key: SigningPropertyKeys.signedBodyHeader), .contentSha256)
     }
 
     func testUseSignedBodyHeaderWhenServiceIsGlacierAndUseUnsignedBodyIsFalse() throws {
@@ -205,7 +205,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(updatedProperties.get(key: AWSSigningConfigKeys.signedBodyHeader), .contentSha256)
+        XCTAssertEqual(updatedProperties.get(key: SigningPropertyKeys.signedBodyHeader), .contentSha256)
     }
 
     func testUseSignedBodyHeaderWhenServiceIsS3ControlAndUseUnsignedBodyIsFalse() throws {
@@ -217,7 +217,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(updatedProperties.get(key: AWSSigningConfigKeys.signedBodyHeader), .contentSha256)
+        XCTAssertEqual(updatedProperties.get(key: SigningPropertyKeys.signedBodyHeader), .contentSha256)
     }
 
     func testDontUseSignedBodyHeaderWhenUseUnsignedBodyIsTrue() throws {
@@ -229,7 +229,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: true)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertEqual(AWSSignedBodyHeader.none, updatedProperties.get(key: AWSSigningConfigKeys.signedBodyHeader))
+        XCTAssertEqual(AWSSignedBodyHeader.none, updatedProperties.get(key: SigningPropertyKeys.signedBodyHeader))
     }
 
     // S3-specific customizations
@@ -245,7 +245,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: AWSSigningConfigKeys.useDoubleURIEncode)))
+        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.useDoubleURIEncode)))
     }
 
     func testUseDoubleURIEncodeIsTrueWhenServiceIsntS3() throws {
@@ -257,7 +257,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AWSSigningConfigKeys.useDoubleURIEncode)))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.useDoubleURIEncode)))
     }
 
     // AttributeKeys.shouldNormalizeURIPath flag
@@ -271,7 +271,7 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: AWSSigningConfigKeys.shouldNormalizeURIPath)))
+        XCTAssertFalse(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.shouldNormalizeURIPath)))
     }
 
     func testShouldNormalizeURIPathIsTrueWhenServiceIsntS3() throws {
@@ -283,6 +283,6 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: AWSSigningConfigKeys.shouldNormalizeURIPath)))
+        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.shouldNormalizeURIPath)))
     }
 }

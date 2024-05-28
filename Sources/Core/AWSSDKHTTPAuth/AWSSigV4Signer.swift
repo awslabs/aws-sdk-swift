@@ -24,7 +24,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         signingProperties: Attributes
     ) async throws -> SdkHttpRequestBuilder {
         guard let isBidirectionalStreamingEnabled = signingProperties.get(
-            key: AWSSigningConfigKeys.bidirectionalStreaming
+            key: SigningPropertyKeys.bidirectionalStreaming
         ) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming."
@@ -68,7 +68,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
                 signingConfig: crtSigningConfig,
                 signature: requestSignature,
                 trailingHeaders: unsignedRequest.trailingHeaders,
-                checksumAlgorithm: signingProperties.get(key: AWSSigningConfigKeys.checksum)
+                checksumAlgorithm: signingProperties.get(key: SigningPropertyKeys.checksum)
             )
         }
 
@@ -80,33 +80,33 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         identity: AWSCredentialIdentity,
         signingProperties: Attributes
     ) throws -> AWSSigningConfig {
-        guard let unsignedBody = signingProperties.get(key: AWSSigningConfigKeys.unsignedBody) else {
+        guard let unsignedBody = signingProperties.get(key: SigningPropertyKeys.unsignedBody) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body."
             )
         }
-        guard let signingName = signingProperties.get(key: AWSSigningConfigKeys.signingName) else {
+        guard let signingName = signingProperties.get(key: SigningPropertyKeys.signingName) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing name."
             )
         }
-        guard let signingRegion = signingProperties.get(key: AWSSigningConfigKeys.signingRegion) else {
+        guard let signingRegion = signingProperties.get(key: SigningPropertyKeys.signingRegion) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing region."
             )
         }
-        guard let signingAlgorithm = signingProperties.get(key: AWSSigningConfigKeys.awsSigningAlgorithm) else {
+        guard let signingAlgorithm = signingProperties.get(key: SigningPropertyKeys.awsSigningAlgorithm) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing algorithm."
             )
         }
 
-        let expiration: TimeInterval = signingProperties.get(key: AWSSigningConfigKeys.expiration) ?? 0
-        let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: AWSSigningConfigKeys.signedBodyHeader) ?? .none
+        let expiration: TimeInterval = signingProperties.get(key: SigningPropertyKeys.expiration) ?? 0
+        let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: SigningPropertyKeys.signedBodyHeader) ?? .none
 
         // Determine signed body value
-        let checksum = signingProperties.get(key: AWSSigningConfigKeys.checksum)
-        let isChunkedEligibleStream = signingProperties.get(key: AWSSigningConfigKeys.isChunkedEligibleStream) ?? false
+        let checksum = signingProperties.get(key: SigningPropertyKeys.checksum)
+        let isChunkedEligibleStream = signingProperties.get(key: SigningPropertyKeys.isChunkedEligibleStream) ?? false
 
         let signedBodyValue: AWSSignedBodyValue = determineSignedBodyValue(
             checksum: checksum,
@@ -115,11 +115,11 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         )
 
         let flags: SigningFlags = SigningFlags(
-            useDoubleURIEncode: signingProperties.get(key: AWSSigningConfigKeys.useDoubleURIEncode) ?? true,
-            shouldNormalizeURIPath: signingProperties.get(key: AWSSigningConfigKeys.shouldNormalizeURIPath) ?? true,
-            omitSessionToken: signingProperties.get(key: AWSSigningConfigKeys.omitSessionToken) ?? false
+            useDoubleURIEncode: signingProperties.get(key: SigningPropertyKeys.useDoubleURIEncode) ?? true,
+            shouldNormalizeURIPath: signingProperties.get(key: SigningPropertyKeys.shouldNormalizeURIPath) ?? true,
+            omitSessionToken: signingProperties.get(key: SigningPropertyKeys.omitSessionToken) ?? false
         )
-        let signatureType: AWSSignatureType = signingProperties.get(key: AWSSigningConfigKeys.signatureType) ?? .requestHeaders
+        let signatureType: AWSSignatureType = signingProperties.get(key: SigningPropertyKeys.signatureType) ?? .requestHeaders
 
         return AWSSigningConfig(
             credentials: identity,

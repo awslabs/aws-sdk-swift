@@ -9,8 +9,8 @@ import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Core.AWSCl
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Http.SdkHttpRequest
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Middleware.NoopHandler
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Http.SdkHttpRequest
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes.Middleware.NoopHandler
 import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftWriter

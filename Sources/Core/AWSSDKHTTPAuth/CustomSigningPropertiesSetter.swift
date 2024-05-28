@@ -6,6 +6,7 @@
 //
 
 import enum AWSSDKIdentity.FlowType
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
 import class Smithy.Context
 import struct Smithy.Attributes
 import enum Smithy.ClientError
@@ -40,13 +41,13 @@ public class CustomSigningPropertiesSetter {
             serviceName: serviceName,
             opName: operationName
         )
-        let unsignedBody = (signingProperties.get(key: AWSSigningConfigKeys.unsignedBody) ?? false) || shouldForceUnsignedBody
-        signingProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: unsignedBody)
+        let unsignedBody = (signingProperties.get(key: SigningPropertyKeys.unsignedBody) ?? false) || shouldForceUnsignedBody
+        signingProperties.set(key: SigningPropertyKeys.unsignedBody, value: unsignedBody)
 
         // Set signedBodyHeader flag
         let useSignedBodyHeader = usesSignedBodyHeader.contains(serviceName) && !unsignedBody
         signingProperties.set(
-            key: AWSSigningConfigKeys.signedBodyHeader,
+            key: SigningPropertyKeys.signedBodyHeader,
             value: useSignedBodyHeader ? .contentSha256 : AWSSignedBodyHeader.none
         )
 
@@ -75,8 +76,8 @@ public class CustomSigningPropertiesSetter {
     private func setS3SpecificFlags(signingProperties: inout Attributes, serviceName: String) {
         let serviceIsS3 = serviceName == "S3"
         // Set useDoubleURIEncode to false IFF service is S3
-        signingProperties.set(key: AWSSigningConfigKeys.useDoubleURIEncode, value: !serviceIsS3)
+        signingProperties.set(key: SigningPropertyKeys.useDoubleURIEncode, value: !serviceIsS3)
         // Set shouldNormalizeURIPath to false IFF service is S3
-        signingProperties.set(key: AWSSigningConfigKeys.shouldNormalizeURIPath, value: !serviceIsS3)
+        signingProperties.set(key: SigningPropertyKeys.shouldNormalizeURIPath, value: !serviceIsS3)
     }
 }

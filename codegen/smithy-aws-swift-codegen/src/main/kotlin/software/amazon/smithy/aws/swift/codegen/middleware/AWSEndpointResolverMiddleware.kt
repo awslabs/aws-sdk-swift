@@ -6,6 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen.middleware
 
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.middleware.EndpointResolverMiddleware
 
@@ -19,13 +20,14 @@ class AWSEndpointResolverMiddleware(
     outputErrorSymbol: Symbol
 ) : EndpointResolverMiddleware(writer, inputSymbol, outputSymbol, outputErrorSymbol) {
     override fun renderExtensions() {
+        writer.addImport(SwiftDependency.SMITHY.target)
         writer.write(
             """
             extension EndpointResolverMiddleware: ApplyEndpoint {
                 public func apply(
                     request: SdkHttpRequest,
                     selectedAuthScheme: SelectedAuthScheme?,
-                    attributes: HttpContext) async throws -> SdkHttpRequest
+                    attributes: Smithy.Context) async throws -> SdkHttpRequest
                 {
                     let builder = request.toBuilder()
                     

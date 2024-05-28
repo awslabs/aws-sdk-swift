@@ -17,22 +17,22 @@ public struct SigV4AAuthScheme: AuthScheme {
         var updatedSigningProperties = signingProperties
 
         // Set signing algorithm flag
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.awsSigningAlgorithm, value: .sigv4a)
+        updatedSigningProperties.set(key: SigningPropertyKeys.awsSigningAlgorithm, value: .sigv4a)
 
         // Set bidirectional streaming flag
         updatedSigningProperties.set(
-            key: AWSSigningConfigKeys.bidirectionalStreaming,
+            key: SigningPropertyKeys.bidirectionalStreaming,
             value: context.isBidirectionalStreamingEnabled
         )
 
         // Set signing name and signing region flags
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.signingName, value: context.getSigningName())
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.signingRegion, value: context.getSigningRegion())
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: context.getSigningName())
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingRegion, value: context.getSigningRegion())
 
         // Set expiration flag
         //
         // Expiration is only used for presigning (presign request flow or presign URL flow).
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.expiration, value: context.getExpiration())
+        updatedSigningProperties.set(key: SigningPropertyKeys.expiration, value: context.getExpiration())
 
         // Set signature type flag
         //
@@ -41,19 +41,19 @@ public struct SigV4AAuthScheme: AuthScheme {
         // .requestHeaders is the deafult signing used for AWS operations.
         let isPresignURLFlow = context.getFlowType() == .PRESIGN_URL
         updatedSigningProperties.set(
-            key: AWSSigningConfigKeys.signatureType,
+            key: SigningPropertyKeys.signatureType,
             value: isPresignURLFlow ? .requestQueryParams : .requestHeaders
         )
 
         // Set unsignedBody to true IFF operation had unsigned payload trait.
         let unsignedBody = context.hasUnsignedPayloadTrait()
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.unsignedBody, value: unsignedBody)
+        updatedSigningProperties.set(key: SigningPropertyKeys.unsignedBody, value: unsignedBody)
 
         // Set default values.
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.signedBodyHeader, value: AWSSignedBodyHeader.none)
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.useDoubleURIEncode, value: true)
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.shouldNormalizeURIPath, value: true)
-        updatedSigningProperties.set(key: AWSSigningConfigKeys.omitSessionToken, value: false)
+        updatedSigningProperties.set(key: SigningPropertyKeys.signedBodyHeader, value: AWSSignedBodyHeader.none)
+        updatedSigningProperties.set(key: SigningPropertyKeys.useDoubleURIEncode, value: true)
+        updatedSigningProperties.set(key: SigningPropertyKeys.shouldNormalizeURIPath, value: true)
+        updatedSigningProperties.set(key: SigningPropertyKeys.omitSessionToken, value: false)
 
         // Set service-specific signing properties if needed.
         try CustomSigningPropertiesSetter().setServiceSpecificSigningProperties(
