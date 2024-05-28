@@ -5,7 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.protocols.ec2query
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.Shape

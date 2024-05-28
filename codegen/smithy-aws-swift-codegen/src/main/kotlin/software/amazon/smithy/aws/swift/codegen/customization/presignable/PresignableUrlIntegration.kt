@@ -1,6 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.customization.presignable
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
 import software.amazon.smithy.aws.swift.codegen.SigV4Utils
@@ -31,6 +31,7 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 
 internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.polly#Parrot_v1" to setOf(
@@ -102,8 +103,9 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         val operationMiddleware = resolveOperationMiddleware(protocolGenerator, protocolGeneratorContext, op)
 
         writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
-        writer.addImport(ClientRuntimeTypes.Http.SdkHttpRequest)
-        writer.addIndividualTypeImport("typealias", "Foundation", "TimeInterval")
+        writer.addImport(SwiftDependency.SMITHY.target)
+        writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
+        writer.addImport("Foundation")
 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
@@ -112,15 +114,15 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 "public func presignURL(config: \$L, expiration: \$N) async throws -> \$T {", "}",
                 serviceConfig.typeName,
                 FoundationTypes.TimeInterval,
-                ClientRuntimeTypes.Core.URL
+                FoundationTypes.URL,
             ) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
                 writer.write("let input = self")
                 if (protocolGeneratorContext.settings.useInterceptors) {
                     writer.write(
                         """
-                        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
-                            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+                        let client: (SdkHttpRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HttpResponse = { (_, _) in
+                            throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
                         }
                         """.trimIndent()
                     )

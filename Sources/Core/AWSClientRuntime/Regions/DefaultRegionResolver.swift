@@ -4,6 +4,8 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+
+import struct Smithy.SwiftLogger
 import ClientRuntime
 
 @_spi(FileBasedConfig)

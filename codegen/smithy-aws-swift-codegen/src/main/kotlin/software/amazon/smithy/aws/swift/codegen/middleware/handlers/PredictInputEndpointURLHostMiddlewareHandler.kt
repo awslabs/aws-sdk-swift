@@ -1,8 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen.middleware.handlers
 
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.Middleware
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.steps.OperationInitializeStep
@@ -22,28 +24,30 @@ class PredictInputEndpointURLHostMiddlewareHandler(
     }
 
     override fun generateMiddlewareClosure() {
-        writer.openBlock("if let endpoint = input.predictEndpoint, let url = \$N(string: endpoint), let host = url.host {", "}", ClientRuntimeTypes.Core.URL) {
-            writer.write("var copiedContext = context")
-            writer.write("copiedContext.attributes.set(key: AttributeKey<String>(name: \"Host\"), value: host)")
-            writer.write("return try await next.handle(context: copiedContext, input: input)")
+        writer.addImport(SwiftDependency.SMITHY.target)
+        writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
+        writer.openBlock("if let endpoint = input.predictEndpoint, let url = \$N(string: endpoint), let host = url.host {", "}", FoundationTypes.URL) {
+            writer.write("context.host = host")
+            writer.write("return try await next.handle(context: context, input: input)")
         }
     }
 
     override fun renderExtensions() {
+        writer.addImport("Foundation")
         writer.write(
             """
             extension $typeName: HttpInterceptor {
                 public typealias InputType = PredictInput
                 public typealias OutputType = PredictOutput
                 
-                public func modifyBeforeSerialization(context: some MutableInput<Self.InputType, HttpContext>) async throws {
+                public func modifyBeforeSerialization(context: some MutableInput<Self.InputType, Smithy.Context>) async throws {
                     if let endpoint = context.getInput().predictEndpoint, let url = ${'$'}N(string: endpoint), let host = url.host {
-                        context.getAttributes().set(key: AttributeKey<String>(name: "Host"), value: host)
+                        context.getAttributes().host = host
                     }
                 }
             }
             """.trimIndent(),
-            ClientRuntimeTypes.Core.URL
+            FoundationTypes.URL
         )
     }
 }

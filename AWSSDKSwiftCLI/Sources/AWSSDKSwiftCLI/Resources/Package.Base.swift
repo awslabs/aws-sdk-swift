@@ -147,6 +147,22 @@ func addDoccDependency() {
 
 // MARK: - Services
 
+let serviceTargetDependencies: [Target.Dependency] = [
+    .clientRuntime,
+    .awsClientRuntime,
+    .smithyRetriesAPI,
+    .smithyRetries,
+    .smithy,
+    .smithyIdentityAPI,
+    .smithyEventStreamsAPI,
+    .smithyEventStreamsAuthAPI,
+    .smithyEventStreams,
+    .smithyChecksumsAPI,
+    "AWSSDKIdentity",
+    "AWSSDKHTTPAuth",
+    "AWSSDKEventStreamsAuth",
+]
+
 func addServiceTarget(_ name: String) {
     package.products += [
         .library(name: name, targets: [name]),
@@ -154,21 +170,7 @@ func addServiceTarget(_ name: String) {
     package.targets += [
         .target(
             name: name,
-            dependencies: [
-                .clientRuntime,
-                .awsClientRuntime,
-                .smithyRetriesAPI,
-                .smithyRetries,
-                .smithy,
-                .smithyIdentityAPI,
-                .smithyEventStreamsAPI,
-                .smithyEventStreamsAuthAPI,
-                .smithyEventStreams,
-                .smithyChecksumsAPI,
-                "AWSSDKIdentity",
-                "AWSSDKHTTPAuth",
-                "AWSSDKEventStreamsAuth",
-            ],
+            dependencies: serviceTargetDependencies,
             path: "./Sources/Services/\(name)"
         )
     ]
@@ -285,7 +287,7 @@ func addProtocolTests() {
     for protocolTest in protocolTests {
         let target = Target.target(
             name: protocolTest.name,
-            dependencies: [.clientRuntime, .awsClientRuntime],
+            dependencies: serviceTargetDependencies,
             path: "\(protocolTest.sourcePath)/swift-codegen/\(protocolTest.name)"
         )
         let testTarget = protocolTest.buildOnly ? nil : Target.testTarget(

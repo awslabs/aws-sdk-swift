@@ -1,10 +1,6 @@
-/*
- * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0.
- */
+package software.amazon.smithy.aws.swift.codegen.swiftmodules
 
-package software.amazon.smithy.aws.swift.codegen
-
+import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 
@@ -37,7 +33,6 @@ object AWSClientRuntimeTypes {
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware")
         val EndpointResolverMiddleware = runtimeSymbol("EndpointResolverMiddleware")
         val FrameworkMetadata = runtimeSymbol("FrameworkMetadata")
-        val AWSCredentialIdentityResolver = runtimeSymbol("AWSCredentialIdentityResolver")
         val AWSClientConfiguration = runtimeSymbol("AWSClientConfiguration")
         val AWSEndpoint = runtimeSymbol("AWSEndpoint")
         val Partition = runtimeSymbol("Partition")

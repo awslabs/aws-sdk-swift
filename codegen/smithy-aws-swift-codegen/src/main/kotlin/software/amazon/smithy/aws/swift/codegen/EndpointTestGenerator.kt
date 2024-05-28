@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
@@ -22,6 +23,7 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.XCTestTypes
 import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
@@ -106,7 +108,7 @@ class EndpointTestGenerator(
                         }
                         writer.write(
                             "let expected = try \$L(urlString: \$S, headers: headers, properties: properties)",
-                            ClientRuntimeTypes.Core.Endpoint,
+                            SmithyHTTPAPITypes.Endpoint,
                             endpoint.url
                         ).write("")
                         writer.write("XCTAssertEqual(expected, actual)")

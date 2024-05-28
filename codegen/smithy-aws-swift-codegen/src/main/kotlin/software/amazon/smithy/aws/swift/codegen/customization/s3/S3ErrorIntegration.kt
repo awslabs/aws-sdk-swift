@@ -1,12 +1,11 @@
 package software.amazon.smithy.aws.swift.codegen.customization.s3
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.StructureShape
-import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SmithyXMLTypes
 import software.amazon.smithy.swift.codegen.StructureGenerator
 import software.amazon.smithy.swift.codegen.SwiftDependency
@@ -19,6 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
 class S3ErrorIntegration : SwiftIntegration {
@@ -39,7 +39,7 @@ class S3ErrorIntegration : SwiftIntegration {
         writer.addImport(SwiftDependency.SMITHY_XML.target)
         writer.write(
             "static func responseErrorBinding(httpResponse: \$N, reader: \$N, message: \$D, requestID: \$D, requestID2: \$D) async throws -> \$N {",
-            ClientRuntimeTypes.Http.HttpResponse,
+            SmithyHTTPAPITypes.HttpResponse,
             SmithyXMLTypes.Reader,
             SwiftTypes.String,
             SwiftTypes.String,

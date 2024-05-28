@@ -30,11 +30,11 @@ extension Context {
         guard let credentials = credentials as? AWSCredentialIdentity else {
             fatalError("Failed to retrieve AWS credentials for signing event stream messages.")
         }
-        guard let service = getSigningName() else {
+        guard let service = signingName else {
             fatalError("Signing name must not be nil, it must be set by the middleware during the request")
         }
 
-        guard let region = getSigningRegion() ?? getRegion() else {
+        guard let region = signingRegion ?? getRegion() else {
             fatalError("Signing region must not be nil, it must be set by the middleware during the request")
         }
 

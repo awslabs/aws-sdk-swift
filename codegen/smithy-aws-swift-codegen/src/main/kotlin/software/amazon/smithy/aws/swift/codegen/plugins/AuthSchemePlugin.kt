@@ -1,10 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
-import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -12,6 +12,8 @@ import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.model.toGeneric
 import software.amazon.smithy.swift.codegen.model.toOptional
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityAPITypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
@@ -25,17 +27,19 @@ class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target, false, "FileBasedConfig")
+        writer.addImport(AWSSwiftDependency.AWS_SDK_HTTP_AUTH.target)
+        writer.addImport(SwiftDependency.SMITHY_IDENTITY_API.target)
 
         writer.openBlock("public class $pluginName: Plugin {", "}") {
-            writer.write("private var authSchemes: \$N", ClientRuntimeTypes.Auth.AuthSchemes.toOptional())
-            writer.write("private var authSchemeResolver: \$N", ClientRuntimeTypes.Auth.AuthSchemeResolver.toOptional())
-            writer.write("private var awsCredentialIdentityResolver: \$N", AWSClientRuntimeTypes.Core.AWSCredentialIdentityResolver.toGeneric().toOptional())
+            writer.write("private var authSchemes: \$N", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional())
+            writer.write("private var authSchemeResolver: \$N", SmithyHTTPAuthAPITypes.AuthSchemeResolver.toOptional())
+            writer.write("private var awsCredentialIdentityResolver: \$N", SmithyIdentityAPITypes.AWSCredentialIdentityResolver.toGeneric().toOptional())
 
             writer.openBlock(
                 "public init(authSchemes: \$N = nil, authSchemeResolver: \$N = nil, awsCredentialIdentityResolver: \$N = nil) {", "}",
-                ClientRuntimeTypes.Auth.AuthSchemes.toOptional(),
+                SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(),
                 AuthSchemeResolverGenerator.getServiceSpecificAuthSchemeResolverName(ctx).toOptional(),
-                AWSClientRuntimeTypes.Core.AWSCredentialIdentityResolver.toGeneric().toOptional()
+                SmithyIdentityAPITypes.AWSCredentialIdentityResolver.toGeneric().toOptional()
             ) {
                 writer.write("self.authSchemeResolver = authSchemeResolver")
                 writer.write("self.authSchemes = authSchemes")

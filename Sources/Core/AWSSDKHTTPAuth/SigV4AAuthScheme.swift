@@ -13,6 +13,8 @@ public struct SigV4AAuthScheme: AuthScheme {
     public let schemeID: String = "aws.auth#sigv4a"
     public let signer: Signer = AWSSigV4Signer()
 
+    public init() {}
+    
     public func customizeSigningProperties(signingProperties: Attributes, context: Context) throws -> Attributes {
         var updatedSigningProperties = signingProperties
 
@@ -26,13 +28,13 @@ public struct SigV4AAuthScheme: AuthScheme {
         )
 
         // Set signing name and signing region flags
-        updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: context.getSigningName())
-        updatedSigningProperties.set(key: SigningPropertyKeys.signingRegion, value: context.getSigningRegion())
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: context.signingName)
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingRegion, value: context.signingRegion)
 
         // Set expiration flag
         //
         // Expiration is only used for presigning (presign request flow or presign URL flow).
-        updatedSigningProperties.set(key: SigningPropertyKeys.expiration, value: context.getExpiration())
+        updatedSigningProperties.set(key: SigningPropertyKeys.expiration, value: context.expiration)
 
         // Set signature type flag
         //

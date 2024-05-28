@@ -1,8 +1,10 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
+import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.aws.swift.codegen.SigV4Utils.Companion.getModeledAuthSchemesSupportedBySDK
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -19,6 +21,9 @@ class DefaultAWSAuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plu
         get() = true
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
+        writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+        writer.addImport(SwiftDependency.SMITHY_HTTP_AUTH_API.target)
+        writer.addImport(AWSSwiftDependency.AWS_SDK_IDENTITY.target)
         writer.openBlock("public class DefaultAWSAuthSchemePlugin: Plugin {", "}") {
             writer.openBlock("public init() {", "}") {
             }

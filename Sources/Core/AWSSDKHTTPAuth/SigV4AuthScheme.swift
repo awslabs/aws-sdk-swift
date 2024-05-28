@@ -28,13 +28,13 @@ public struct SigV4AuthScheme: AuthScheme {
         )
 
         // Set signing name and signing region flags
-        updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: context.getSigningName())
-        updatedSigningProperties.set(key: SigningPropertyKeys.signingRegion, value: context.getSigningRegion())
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: context.signingName)
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingRegion, value: context.signingRegion)
 
         // Set expiration flag
         //
         // Expiration is only used for presigning (presign request flow or presign URL flow).
-        updatedSigningProperties.set(key: SigningPropertyKeys.expiration, value: context.getExpiration())
+        updatedSigningProperties.set(key: SigningPropertyKeys.expiration, value: context.expiration)
 
         // Set signature type flag
         //
