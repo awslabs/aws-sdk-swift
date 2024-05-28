@@ -9,6 +9,7 @@ import Foundation
 import XCTest
 import AWSS3
 import AWSClientRuntime
+@_spi(Internal) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AwsCommonRuntimeKit
 import ClientRuntime
 
