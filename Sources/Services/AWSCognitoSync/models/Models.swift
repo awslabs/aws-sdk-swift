@@ -126,8 +126,7 @@ extension CognitoSyncClientTypes {
                 .failed,
                 .inProgress,
                 .notStarted,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1602,8 +1601,7 @@ extension CognitoSyncClientTypes {
         public static var allCases: [Operation] {
             return [
                 .remove,
-                .replace,
-                .sdkUnknown("")
+                .replace
             ]
         }
 
@@ -1636,8 +1634,7 @@ extension CognitoSyncClientTypes {
                 .adm,
                 .apns,
                 .apnsSandbox,
-                .gcm,
-                .sdkUnknown("")
+                .gcm
             ]
         }
 
@@ -2138,8 +2135,7 @@ extension CognitoSyncClientTypes {
         public static var allCases: [StreamingStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 

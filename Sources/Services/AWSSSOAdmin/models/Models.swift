@@ -490,8 +490,7 @@ extension SSOAdminClientTypes {
         public static var allCases: [ApplicationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -520,8 +519,7 @@ extension SSOAdminClientTypes {
         public static var allCases: [ApplicationVisibility] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -788,8 +786,7 @@ extension SSOAdminClientTypes {
 
         public static var allCases: [AuthenticationMethodType] {
             return [
-                .iam,
-                .sdkUnknown("")
+                .iam
             ]
         }
 
@@ -3411,8 +3408,7 @@ extension SSOAdminClientTypes {
         public static var allCases: [FederationProtocol] {
             return [
                 .oauth,
-                .saml,
-                .sdkUnknown("")
+                .saml
             ]
         }
 
@@ -3988,8 +3984,7 @@ extension SSOAdminClientTypes {
                 .authorizationCode,
                 .jwtBearer,
                 .refreshToken,
-                .tokenExchange,
-                .sdkUnknown("")
+                .tokenExchange
             ]
         }
 
@@ -4086,8 +4081,7 @@ extension SSOAdminClientTypes {
             return [
                 .creationFailed,
                 .creationInProgress,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4170,8 +4164,7 @@ extension SSOAdminClientTypes {
             return [
                 .active,
                 .createInProgress,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -4236,8 +4229,7 @@ extension SSOAdminClientTypes {
 
         public static var allCases: [JwksRetrievalOption] {
             return [
-                .openIdDiscovery,
-                .sdkUnknown("")
+                .openIdDiscovery
             ]
         }
 
@@ -6472,8 +6464,7 @@ extension SSOAdminClientTypes {
         public static var allCases: [PrincipalType] {
             return [
                 .group,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -6590,8 +6581,7 @@ extension SSOAdminClientTypes {
         public static var allCases: [ProvisionTargetType] {
             return [
                 .allProvisionedAccounts,
-                .awsAccount,
-                .sdkUnknown("")
+                .awsAccount
             ]
         }
 
@@ -6620,8 +6610,7 @@ extension SSOAdminClientTypes {
         public static var allCases: [ProvisioningStatus] {
             return [
                 .latestPermissionSetNotProvisioned,
-                .latestPermissionSetProvisioned,
-                .sdkUnknown("")
+                .latestPermissionSetProvisioned
             ]
         }
 
@@ -7299,8 +7288,7 @@ extension SSOAdminClientTypes {
         public static var allCases: [SignInOrigin] {
             return [
                 .application,
-                .identityCenter,
-                .sdkUnknown("")
+                .identityCenter
             ]
         }
 
@@ -7331,8 +7319,7 @@ extension SSOAdminClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -7470,8 +7457,7 @@ extension SSOAdminClientTypes {
 
         public static var allCases: [TargetType] {
             return [
-                .awsAccount,
-                .sdkUnknown("")
+                .awsAccount
             ]
         }
 
@@ -7626,8 +7612,7 @@ extension SSOAdminClientTypes {
 
         public static var allCases: [TrustedTokenIssuerType] {
             return [
-                .oidcJwt,
-                .sdkUnknown("")
+                .oidcJwt
             ]
         }
 

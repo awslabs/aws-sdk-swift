@@ -134,8 +134,7 @@ extension SESClientTypes {
         public static var allCases: [BehaviorOnMXFailure] {
             return [
                 .rejectmessage,
-                .usedefaultvalue,
-                .sdkUnknown("")
+                .usedefaultvalue
             ]
         }
 
@@ -259,8 +258,7 @@ extension SESClientTypes {
                 .exceededquota,
                 .messagetoolarge,
                 .temporaryfailure,
-                .undefined,
-                .sdkUnknown("")
+                .undefined
             ]
         }
 
@@ -456,8 +454,7 @@ extension SESClientTypes {
                 .messagerejected,
                 .success,
                 .templatedoesnotexist,
-                .transientfailure,
-                .sdkUnknown("")
+                .transientfailure
             ]
         }
 
@@ -780,8 +777,7 @@ extension SESClientTypes {
                 .deliveryOptions,
                 .eventDestinations,
                 .reputationOptions,
-                .trackingOptions,
-                .sdkUnknown("")
+                .trackingOptions
             ]
         }
 
@@ -1473,8 +1469,7 @@ extension SESClientTypes {
                 .failed,
                 .pending,
                 .success,
-                .temporaryfailure,
-                .sdkUnknown("")
+                .temporaryfailure
             ]
         }
 
@@ -2701,8 +2696,7 @@ extension SESClientTypes {
             return [
                 .emailHeader,
                 .linkTag,
-                .messageTag,
-                .sdkUnknown("")
+                .messageTag
             ]
         }
 
@@ -2738,8 +2732,7 @@ extension SESClientTypes {
                 .delivered,
                 .expanded,
                 .failed,
-                .relayed,
-                .sdkUnknown("")
+                .relayed
             ]
         }
 
@@ -2960,8 +2953,7 @@ extension SESClientTypes {
                 .open,
                 .reject,
                 .renderingFailure,
-                .send,
-                .sdkUnknown("")
+                .send
             ]
         }
 
@@ -3915,8 +3907,7 @@ extension SESClientTypes {
         public static var allCases: [IdentityType] {
             return [
                 .domain,
-                .emailaddress,
-                .sdkUnknown("")
+                .emailaddress
             ]
         }
 
@@ -4478,8 +4469,7 @@ extension SESClientTypes {
         public static var allCases: [InvocationType] {
             return [
                 .event,
-                .requestresponse,
-                .sdkUnknown("")
+                .requestresponse
             ]
         }
 
@@ -5430,8 +5420,7 @@ extension SESClientTypes {
             return [
                 .bounce,
                 .complaint,
-                .delivery,
-                .sdkUnknown("")
+                .delivery
             ]
         }
 
@@ -5769,8 +5758,7 @@ extension SESClientTypes {
         public static var allCases: [ReceiptFilterPolicy] {
             return [
                 .allow,
-                .block,
-                .sdkUnknown("")
+                .block
             ]
         }
 
@@ -6281,8 +6269,7 @@ extension SESClientTypes {
         public static var allCases: [SNSActionEncoding] {
             return [
                 .base64,
-                .utf8,
-                .sdkUnknown("")
+                .utf8
             ]
         }
 
@@ -7560,8 +7547,7 @@ extension SESClientTypes {
 
         public static var allCases: [StopScope] {
             return [
-                .ruleSet,
-                .sdkUnknown("")
+                .ruleSet
             ]
         }
 
@@ -7787,8 +7773,7 @@ extension SESClientTypes {
         public static var allCases: [TlsPolicy] {
             return [
                 .optional,
-                .require,
-                .sdkUnknown("")
+                .require
             ]
         }
 
@@ -8463,8 +8448,7 @@ extension SESClientTypes {
                 .notstarted,
                 .pending,
                 .success,
-                .temporaryfailure,
-                .sdkUnknown("")
+                .temporaryfailure
             ]
         }
 

@@ -17,8 +17,7 @@ extension ApplicationAutoScalingClientTypes {
             return [
                 .changeincapacity,
                 .exactcapacity,
-                .percentchangeincapacity,
-                .sdkUnknown("")
+                .percentchangeincapacity
             ]
         }
 
@@ -1575,8 +1574,7 @@ extension ApplicationAutoScalingClientTypes {
             return [
                 .average,
                 .maximum,
-                .minimum,
-                .sdkUnknown("")
+                .minimum
             ]
         }
 
@@ -1651,8 +1649,7 @@ extension ApplicationAutoScalingClientTypes {
                 .maximum,
                 .minimum,
                 .samplecount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -1728,8 +1725,7 @@ extension ApplicationAutoScalingClientTypes {
                 .rdsreaderaveragedatabaseconnections,
                 .sagemakerinferencecomponentinvocationspercopy,
                 .sagemakervariantinvocationsperinstance,
-                .sagemakervariantprovisionedconcurrencyutilization,
-                .sdkUnknown("")
+                .sagemakervariantprovisionedconcurrencyutilization
             ]
         }
 
@@ -1869,8 +1865,7 @@ extension ApplicationAutoScalingClientTypes {
         public static var allCases: [PolicyType] {
             return [
                 .stepscaling,
-                .targettrackingscaling,
-                .sdkUnknown("")
+                .targettrackingscaling
             ]
         }
 
@@ -2622,8 +2617,7 @@ extension ApplicationAutoScalingClientTypes {
                 .rdsclusterreadreplicacount,
                 .sagemakerinferencecomponentdesiredcopycount,
                 .sagemakervariantdesiredinstancecount,
-                .sagemakervariantdesiredprovisionedconcurrency,
-                .sdkUnknown("")
+                .sagemakervariantdesiredprovisionedconcurrency
             ]
         }
 
@@ -3039,8 +3033,7 @@ extension ApplicationAutoScalingClientTypes {
                 .overridden,
                 .pending,
                 .successful,
-                .unfulfilled,
-                .sdkUnknown("")
+                .unfulfilled
             ]
         }
 
@@ -3426,8 +3419,7 @@ extension ApplicationAutoScalingClientTypes {
                 .lambda,
                 .neptune,
                 .rds,
-                .sagemaker,
-                .sdkUnknown("")
+                .sagemaker
             ]
         }
 

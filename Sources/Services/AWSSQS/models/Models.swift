@@ -2322,8 +2322,7 @@ extension SQSClientTypes {
                 .messagegroupid,
                 .senderid,
                 .senttimestamp,
-                .sequencenumber,
-                .sdkUnknown("")
+                .sequencenumber
             ]
         }
 
@@ -2358,8 +2357,7 @@ extension SQSClientTypes {
 
         public static var allCases: [MessageSystemAttributeNameForSends] {
             return [
-                .awstraceheader,
-                .sdkUnknown("")
+                .awstraceheader
             ]
         }
 
@@ -2606,8 +2604,7 @@ extension SQSClientTypes {
                 .redriveallowpolicy,
                 .redrivepolicy,
                 .sqsmanagedsseenabled,
-                .visibilitytimeout,
-                .sdkUnknown("")
+                .visibilitytimeout
             ]
         }
 

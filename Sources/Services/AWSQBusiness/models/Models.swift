@@ -53,8 +53,7 @@ extension QBusinessClientTypes {
 
         public static var allCases: [APISchemaType] {
             return [
-                .openApiV3,
-                .sdkUnknown("")
+                .openApiV3
             ]
         }
 
@@ -299,8 +298,7 @@ extension QBusinessClientTypes {
                 .array,
                 .boolean,
                 .number,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -572,8 +570,7 @@ extension QBusinessClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -749,8 +746,7 @@ extension QBusinessClientTypes {
         public static var allCases: [AttachmentStatus] {
             return [
                 .failed,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -804,8 +800,7 @@ extension QBusinessClientTypes {
         public static var allCases: [AttachmentsControlMode] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -907,8 +902,7 @@ extension QBusinessClientTypes {
                 .date,
                 .number,
                 .string,
-                .stringList,
-                .sdkUnknown("")
+                .stringList
             ]
         }
 
@@ -937,8 +931,7 @@ extension QBusinessClientTypes {
 
         public static var allCases: [AttributeValueOperator] {
             return [
-                .delete,
-                .sdkUnknown("")
+                .delete
             ]
         }
 
@@ -1513,8 +1506,7 @@ extension QBusinessClientTypes {
             return [
                 .creatorMode,
                 .pluginMode,
-                .retrievalMode,
-                .sdkUnknown("")
+                .retrievalMode
             ]
         }
 
@@ -2045,8 +2037,7 @@ extension QBusinessClientTypes {
                 .ppt,
                 .rtf,
                 .xml,
-                .xslt,
-                .sdkUnknown("")
+                .xslt
             ]
         }
 
@@ -2928,8 +2919,7 @@ extension QBusinessClientTypes {
         public static var allCases: [CreatorModeControl] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3063,8 +3053,7 @@ extension QBusinessClientTypes {
                 .deleting,
                 .failed,
                 .pendingCreation,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3209,8 +3198,7 @@ extension QBusinessClientTypes {
                 .stopping,
                 .succeeded,
                 .syncing,
-                .syncingIndexing,
-                .sdkUnknown("")
+                .syncingIndexing
             ]
         }
 
@@ -4141,8 +4129,7 @@ extension QBusinessClientTypes {
                 .low,
                 .medium,
                 .none,
-                .veryHigh,
-                .sdkUnknown("")
+                .veryHigh
             ]
         }
 
@@ -4383,8 +4370,7 @@ extension QBusinessClientTypes {
 
         public static var allCases: [DocumentContentOperator] {
             return [
-                .delete,
-                .sdkUnknown("")
+                .delete
             ]
         }
 
@@ -4476,8 +4462,7 @@ extension QBusinessClientTypes {
                 .lessThanOrEquals,
                 .notContains,
                 .notEquals,
-                .notExists,
-                .sdkUnknown("")
+                .notExists
             ]
         }
 
@@ -4570,8 +4555,7 @@ extension QBusinessClientTypes {
                 .indexed,
                 .processing,
                 .received,
-                .updated,
-                .sdkUnknown("")
+                .updated
             ]
         }
 
@@ -4700,8 +4684,7 @@ extension QBusinessClientTypes {
                 .internalError,
                 .invalidRequest,
                 .resourceInactive,
-                .resourceNotFound,
-                .sdkUnknown("")
+                .resourceNotFound
             ]
         }
 
@@ -5955,8 +5938,7 @@ extension QBusinessClientTypes {
                 .deleting,
                 .failed,
                 .processing,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -6208,8 +6190,7 @@ extension QBusinessClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6241,8 +6222,7 @@ extension QBusinessClientTypes {
         public static var allCases: [IndexType] {
             return [
                 .enterprise,
-                .starter,
-                .sdkUnknown("")
+                .starter
             ]
         }
 
@@ -7662,8 +7642,7 @@ extension QBusinessClientTypes {
         public static var allCases: [MemberRelation] {
             return [
                 .and,
-                .or,
-                .sdkUnknown("")
+                .or
             ]
         }
 
@@ -7722,8 +7701,7 @@ extension QBusinessClientTypes {
         public static var allCases: [MembershipType] {
             return [
                 .datasource,
-                .index,
-                .sdkUnknown("")
+                .index
             ]
         }
 
@@ -7813,8 +7791,7 @@ extension QBusinessClientTypes {
         public static var allCases: [MessageType] {
             return [
                 .system,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -7843,8 +7820,7 @@ extension QBusinessClientTypes {
         public static var allCases: [MessageUsefulness] {
             return [
                 .notUseful,
-                .useful,
-                .sdkUnknown("")
+                .useful
             ]
         }
 
@@ -7934,8 +7910,7 @@ extension QBusinessClientTypes {
                 .notFactuallyCorrect,
                 .notHelpful,
                 .other,
-                .relevantSources,
-                .sdkUnknown("")
+                .relevantSources
             ]
         }
 
@@ -8118,8 +8093,7 @@ extension QBusinessClientTypes {
         public static var allCases: [NumberAttributeBoostingType] {
             return [
                 .prioritizeLargerValues,
-                .prioritizeSmallerValues,
-                .sdkUnknown("")
+                .prioritizeSmallerValues
             ]
         }
 
@@ -8304,8 +8278,7 @@ extension QBusinessClientTypes {
                 .deleteInProgress,
                 .ready,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -8364,8 +8337,7 @@ extension QBusinessClientTypes {
         public static var allCases: [PluginState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8400,8 +8372,7 @@ extension QBusinessClientTypes {
                 .jira,
                 .salesforce,
                 .serviceNow,
-                .zendesk,
-                .sdkUnknown("")
+                .zendesk
             ]
         }
 
@@ -8727,8 +8698,7 @@ extension QBusinessClientTypes {
         public static var allCases: [ReadAccessType] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -8808,8 +8778,7 @@ extension QBusinessClientTypes {
         public static var allCases: [ResponseScope] {
             return [
                 .enterpriseContentOnly,
-                .extendedKnowledgeEnabled,
-                .sdkUnknown("")
+                .extendedKnowledgeEnabled
             ]
         }
 
@@ -8926,8 +8895,7 @@ extension QBusinessClientTypes {
             return [
                 .active,
                 .creating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -8957,8 +8925,7 @@ extension QBusinessClientTypes {
         public static var allCases: [RetrieverType] {
             return [
                 .kendraIndex,
-                .nativeIndex,
-                .sdkUnknown("")
+                .nativeIndex
             ]
         }
 
@@ -9077,8 +9044,7 @@ extension QBusinessClientTypes {
         public static var allCases: [RuleType] {
             return [
                 .contentBlockerRule,
-                .contentRetrievalRule,
-                .sdkUnknown("")
+                .contentRetrievalRule
             ]
         }
 
@@ -9409,8 +9375,7 @@ extension QBusinessClientTypes {
         public static var allCases: [Status] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -9550,8 +9515,7 @@ extension QBusinessClientTypes {
                 .high,
                 .low,
                 .medium,
-                .veryHigh,
-                .sdkUnknown("")
+                .veryHigh
             ]
         }
 
@@ -10943,8 +10907,7 @@ extension QBusinessClientTypes {
             return [
                 .cannotParse,
                 .fieldValidationFailed,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -11054,8 +11017,7 @@ extension QBusinessClientTypes {
         public static var allCases: [WebExperienceSamplePromptsControlMode] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11090,8 +11052,7 @@ extension QBusinessClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .pendingAuthConfig,
-                .sdkUnknown("")
+                .pendingAuthConfig
             ]
         }
 

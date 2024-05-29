@@ -1585,8 +1585,7 @@ extension PaymentCryptographyClientTypes {
                 .rsa3072,
                 .rsa4096,
                 .tdes2key,
-                .tdes3key,
-                .sdkUnknown("")
+                .tdes3key
             ]
         }
 
@@ -1713,8 +1712,7 @@ extension PaymentCryptographyClientTypes {
         public static var allCases: [KeyCheckValueAlgorithm] {
             return [
                 .ansiX924,
-                .cmac,
-                .sdkUnknown("")
+                .cmac
             ]
         }
 
@@ -1747,8 +1745,7 @@ extension PaymentCryptographyClientTypes {
                 .asymmetricKeyPair,
                 .privateKey,
                 .publicKey,
-                .symmetricKey,
-                .sdkUnknown("")
+                .symmetricKey
             ]
         }
 
@@ -1781,8 +1778,7 @@ extension PaymentCryptographyClientTypes {
             return [
                 .exportable,
                 .nonExportable,
-                .sensitive,
-                .sdkUnknown("")
+                .sensitive
             ]
         }
 
@@ -1818,8 +1814,7 @@ extension PaymentCryptographyClientTypes {
                 .rootPublicKeyCertificate,
                 .tr31KeyBlock,
                 .tr34KeyBlock,
-                .trustedPublicKeyCertificate,
-                .sdkUnknown("")
+                .trustedPublicKeyCertificate
             ]
         }
 
@@ -1931,8 +1926,7 @@ extension PaymentCryptographyClientTypes {
         public static var allCases: [KeyOrigin] {
             return [
                 .awsPaymentCryptography,
-                .external,
-                .sdkUnknown("")
+                .external
             ]
         }
 
@@ -1966,8 +1960,7 @@ extension PaymentCryptographyClientTypes {
                 .createComplete,
                 .createInProgress,
                 .deleteComplete,
-                .deletePending,
-                .sdkUnknown("")
+                .deletePending
             ]
         }
 
@@ -2097,8 +2090,7 @@ extension PaymentCryptographyClientTypes {
                 .tr31P1PinGenerationKey,
                 .tr31S0AsymmetricKeyForDigitalSignature,
                 .tr31V1Ibm3624PinVerificationKey,
-                .tr31V2VisaPinVerificationKey,
-                .sdkUnknown("")
+                .tr31V2VisaPinVerificationKey
             ]
         }
 
@@ -2914,8 +2906,7 @@ extension PaymentCryptographyClientTypes {
 
         public static var allCases: [Tr34KeyBlockFormat] {
             return [
-                .x9Tr342012,
-                .sdkUnknown("")
+                .x9Tr342012
             ]
         }
 
@@ -3222,8 +3213,7 @@ extension PaymentCryptographyClientTypes {
             return [
                 .keyCryptogram,
                 .tr31KeyBlock,
-                .tr34KeyBlock,
-                .sdkUnknown("")
+                .tr34KeyBlock
             ]
         }
 
@@ -3253,8 +3243,7 @@ extension PaymentCryptographyClientTypes {
         public static var allCases: [WrappingKeySpec] {
             return [
                 .rsaOaepSha256,
-                .rsaOaepSha512,
-                .sdkUnknown("")
+                .rsaOaepSha512
             ]
         }
 

@@ -122,8 +122,7 @@ extension ShieldClientTypes {
         public static var allCases: [ApplicationLayerAutomaticResponseStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -456,8 +455,7 @@ extension ShieldClientTypes {
         public static var allCases: [AttackLayer] {
             return [
                 .application,
-                .network,
-                .sdkUnknown("")
+                .network
             ]
         }
 
@@ -544,8 +542,7 @@ extension ShieldClientTypes {
                 .sourceIpAddress,
                 .sourceUserAgent,
                 .wordpressPingbackReflector,
-                .wordpressPingbackSource,
-                .sdkUnknown("")
+                .wordpressPingbackSource
             ]
         }
 
@@ -784,8 +781,7 @@ extension ShieldClientTypes {
         public static var allCases: [AutoRenew] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3132,8 +3128,7 @@ extension ShieldClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -3171,8 +3166,7 @@ extension ShieldClientTypes {
                 .cloudfrontDistribution,
                 .elasticIpAllocation,
                 .globalAccelerator,
-                .route53HostedZone,
-                .sdkUnknown("")
+                .route53HostedZone
             ]
         }
 
@@ -3319,8 +3313,7 @@ extension ShieldClientTypes {
             return [
                 .max,
                 .mean,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -3412,8 +3405,7 @@ extension ShieldClientTypes {
             return [
                 .all,
                 .arbitrary,
-                .byResourceType,
-                .sdkUnknown("")
+                .byResourceType
             ]
         }
 
@@ -3661,8 +3653,7 @@ extension ShieldClientTypes {
         public static var allCases: [SubResourceType] {
             return [
                 .ip,
-                .url,
-                .sdkUnknown("")
+                .url
             ]
         }
 
@@ -3786,8 +3777,7 @@ extension ShieldClientTypes {
         public static var allCases: [SubscriptionState] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -4040,8 +4030,7 @@ extension ShieldClientTypes {
                 .bits,
                 .bytes,
                 .packets,
-                .requests,
-                .sdkUnknown("")
+                .requests
             ]
         }
 
@@ -4430,8 +4419,7 @@ extension ShieldClientTypes {
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .fieldValidationFailed,
-                .other,
-                .sdkUnknown("")
+                .other
             ]
         }
 

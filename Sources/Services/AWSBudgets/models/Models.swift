@@ -228,8 +228,7 @@ extension BudgetsClientTypes {
                 .reverseFailure,
                 .reverseInProgress,
                 .reverseSuccess,
-                .standby,
-                .sdkUnknown("")
+                .standby
             ]
         }
 
@@ -266,8 +265,7 @@ extension BudgetsClientTypes {
         public static var allCases: [ActionSubType] {
             return [
                 .stopEc2,
-                .stopRds,
-                .sdkUnknown("")
+                .stopRds
             ]
         }
 
@@ -337,8 +335,7 @@ extension BudgetsClientTypes {
             return [
                 .iam,
                 .scp,
-                .ssm,
-                .sdkUnknown("")
+                .ssm
             ]
         }
 
@@ -368,8 +365,7 @@ extension BudgetsClientTypes {
         public static var allCases: [ApprovalModel] {
             return [
                 .auto,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -442,8 +438,7 @@ extension BudgetsClientTypes {
         public static var allCases: [AutoAdjustType] {
             return [
                 .forecast,
-                .historical,
-                .sdkUnknown("")
+                .historical
             ]
         }
 
@@ -667,8 +662,7 @@ extension BudgetsClientTypes {
                 .riutilization,
                 .spcoverage,
                 .sputilization,
-                .usage,
-                .sdkUnknown("")
+                .usage
             ]
         }
 
@@ -780,8 +774,7 @@ extension BudgetsClientTypes {
             return [
                 .equalTo,
                 .greaterThan,
-                .lessThan,
-                .sdkUnknown("")
+                .lessThan
             ]
         }
 
@@ -2642,8 +2635,7 @@ extension BudgetsClientTypes {
                 .deleteaction,
                 .executeaction,
                 .system,
-                .updateaction,
-                .sdkUnknown("")
+                .updateaction
             ]
         }
 
@@ -2787,8 +2779,7 @@ extension BudgetsClientTypes {
                 .approvebudgetaction,
                 .resetbudgetaction,
                 .retrybudgetaction,
-                .reversebudgetaction,
-                .sdkUnknown("")
+                .reversebudgetaction
             ]
         }
 
@@ -3241,8 +3232,7 @@ extension BudgetsClientTypes {
         public static var allCases: [NotificationState] {
             return [
                 .alarm,
-                .ok,
-                .sdkUnknown("")
+                .ok
             ]
         }
 
@@ -3272,8 +3262,7 @@ extension BudgetsClientTypes {
         public static var allCases: [NotificationType] {
             return [
                 .actual,
-                .forecasted,
-                .sdkUnknown("")
+                .forecasted
             ]
         }
 
@@ -3632,8 +3621,7 @@ extension BudgetsClientTypes {
         public static var allCases: [SubscriptionType] {
             return [
                 .email,
-                .sns,
-                .sdkUnknown("")
+                .sns
             ]
         }
 
@@ -3728,8 +3716,7 @@ extension BudgetsClientTypes {
         public static var allCases: [ThresholdType] {
             return [
                 .absoluteValue,
-                .percentage,
-                .sdkUnknown("")
+                .percentage
             ]
         }
 
@@ -3838,8 +3825,7 @@ extension BudgetsClientTypes {
                 .annually,
                 .daily,
                 .monthly,
-                .quarterly,
-                .sdkUnknown("")
+                .quarterly
             ]
         }
 

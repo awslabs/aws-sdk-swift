@@ -602,8 +602,7 @@ extension TnbClientTypes {
 
         public static var allCases: [DescriptorContentType] {
             return [
-                .textPlain,
-                .sdkUnknown("")
+                .textPlain
             ]
         }
 
@@ -2187,8 +2186,7 @@ extension TnbClientTypes {
             return [
                 .instantiate,
                 .terminate,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -3273,8 +3271,7 @@ extension TnbClientTypes {
                 .cancelling,
                 .completed,
                 .failed,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -3318,8 +3315,7 @@ extension TnbClientTypes {
                 .notInstantiated,
                 .stopped,
                 .terminateInProgress,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -3356,8 +3352,7 @@ extension TnbClientTypes {
             return [
                 .created,
                 .error,
-                .onboarded,
-                .sdkUnknown("")
+                .onboarded
             ]
         }
 
@@ -3387,8 +3382,7 @@ extension TnbClientTypes {
         public static var allCases: [NsdOperationalState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3417,8 +3411,7 @@ extension TnbClientTypes {
         public static var allCases: [NsdUsageState] {
             return [
                 .inUse,
-                .notInUse,
-                .sdkUnknown("")
+                .notInUse
             ]
         }
 
@@ -3449,8 +3442,7 @@ extension TnbClientTypes {
             return [
                 .created,
                 .error,
-                .onboarded,
-                .sdkUnknown("")
+                .onboarded
             ]
         }
 
@@ -3480,8 +3472,7 @@ extension TnbClientTypes {
         public static var allCases: [OperationalState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3508,8 +3499,7 @@ extension TnbClientTypes {
 
         public static var allCases: [PackageContentType] {
             return [
-                .applicationZip,
-                .sdkUnknown("")
+                .applicationZip
             ]
         }
 
@@ -4032,8 +4022,7 @@ extension TnbClientTypes {
                 .inProgress,
                 .scheduled,
                 .skipped,
-                .started,
-                .sdkUnknown("")
+                .started
             ]
         }
 
@@ -4596,8 +4585,7 @@ extension TnbClientTypes {
 
         public static var allCases: [UpdateSolNetworkType] {
             return [
-                .modifyVnfInformation,
-                .sdkUnknown("")
+                .modifyVnfInformation
             ]
         }
 
@@ -4625,8 +4613,7 @@ extension TnbClientTypes {
         public static var allCases: [UsageState] {
             return [
                 .inUse,
-                .notInUse,
-                .sdkUnknown("")
+                .notInUse
             ]
         }
 
@@ -4999,8 +4986,7 @@ extension TnbClientTypes {
         public static var allCases: [VnfInstantiationState] {
             return [
                 .instantiated,
-                .notInstantiated,
-                .sdkUnknown("")
+                .notInstantiated
             ]
         }
 
@@ -5029,8 +5015,7 @@ extension TnbClientTypes {
         public static var allCases: [VnfOperationalState] {
             return [
                 .started,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 

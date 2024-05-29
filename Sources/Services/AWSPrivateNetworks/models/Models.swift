@@ -123,8 +123,7 @@ extension PrivateNetworksClientTypes {
             return [
                 .acknowledged,
                 .acknowledging,
-                .unacknowledged,
-                .sdkUnknown("")
+                .unacknowledged
             ]
         }
 
@@ -518,8 +517,7 @@ extension PrivateNetworksClientTypes {
             return [
                 .oneYear,
                 .sixtyDays,
-                .threeYears,
-                .sdkUnknown("")
+                .threeYears
             ]
         }
 
@@ -1174,8 +1172,7 @@ extension PrivateNetworksClientTypes {
             return [
                 .order,
                 .status,
-                .trafficGroup,
-                .sdkUnknown("")
+                .trafficGroup
             ]
         }
 
@@ -1205,8 +1202,7 @@ extension PrivateNetworksClientTypes {
         public static var allCases: [DeviceIdentifierStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -1235,8 +1231,7 @@ extension PrivateNetworksClientTypes {
         public static var allCases: [ElevationReference] {
             return [
                 .agl,
-                .amsl,
-                .sdkUnknown("")
+                .amsl
             ]
         }
 
@@ -1264,8 +1259,7 @@ extension PrivateNetworksClientTypes {
 
         public static var allCases: [ElevationUnit] {
             return [
-                .feet,
-                .sdkUnknown("")
+                .feet
             ]
         }
 
@@ -1663,8 +1657,7 @@ extension PrivateNetworksClientTypes {
             return [
                 .healthy,
                 .initial,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -2406,8 +2399,7 @@ extension PrivateNetworksClientTypes {
 
         public static var allCases: [NetworkFilterKeys] {
             return [
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -2586,8 +2578,7 @@ extension PrivateNetworksClientTypes {
         public static var allCases: [NetworkResourceDefinitionType] {
             return [
                 .deviceIdentifier,
-                .radioUnit,
-                .sdkUnknown("")
+                .radioUnit
             ]
         }
 
@@ -2616,8 +2607,7 @@ extension PrivateNetworksClientTypes {
         public static var allCases: [NetworkResourceFilterKeys] {
             return [
                 .order,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -2660,8 +2650,7 @@ extension PrivateNetworksClientTypes {
                 .pendingReturn,
                 .provisioned,
                 .provisioning,
-                .shipped,
-                .sdkUnknown("")
+                .shipped
             ]
         }
 
@@ -2695,8 +2684,7 @@ extension PrivateNetworksClientTypes {
 
         public static var allCases: [NetworkResourceType] {
             return [
-                .radioUnit,
-                .sdkUnknown("")
+                .radioUnit
             ]
         }
 
@@ -2802,8 +2790,7 @@ extension PrivateNetworksClientTypes {
 
         public static var allCases: [NetworkSiteFilterKeys] {
             return [
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -2837,8 +2824,7 @@ extension PrivateNetworksClientTypes {
                 .created,
                 .deleted,
                 .deprovisioning,
-                .provisioning,
-                .sdkUnknown("")
+                .provisioning
             ]
         }
 
@@ -2876,8 +2862,7 @@ extension PrivateNetworksClientTypes {
                 .created,
                 .deleted,
                 .deprovisioning,
-                .provisioning,
-                .sdkUnknown("")
+                .provisioning
             ]
         }
 
@@ -2970,8 +2955,7 @@ extension PrivateNetworksClientTypes {
         public static var allCases: [OrderFilterKeys] {
             return [
                 .networkSite,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -3774,8 +3758,7 @@ extension PrivateNetworksClientTypes {
             return [
                 .commitment,
                 .replace,
-                .return,
-                .sdkUnknown("")
+                .return
             ]
         }
 
@@ -3894,8 +3877,7 @@ extension PrivateNetworksClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

@@ -2294,8 +2294,7 @@ extension SNSClientTypes {
                 .krKr,
                 .ptBr,
                 .zhCn,
-                .zhTw,
-                .sdkUnknown("")
+                .zhTw
             ]
         }
 
@@ -3115,8 +3114,7 @@ extension SNSClientTypes {
             return [
                 .mms,
                 .sms,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -3966,8 +3964,7 @@ extension SNSClientTypes {
             return [
                 .premium,
                 .promotional,
-                .transactional,
-                .sdkUnknown("")
+                .transactional
             ]
         }
 
@@ -4034,8 +4031,7 @@ extension SNSClientTypes {
         public static var allCases: [SMSSandboxPhoneNumberVerificationStatus] {
             return [
                 .pending,
-                .verified,
-                .sdkUnknown("")
+                .verified
             ]
         }
 

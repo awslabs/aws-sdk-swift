@@ -137,8 +137,7 @@ extension B2biClientTypes {
 
         public static var allCases: [CapabilityType] {
             return [
-                .edi,
-                .sdkUnknown("")
+                .edi
             ]
         }
 
@@ -1134,8 +1133,7 @@ extension B2biClientTypes {
         public static var allCases: [FileFormat] {
             return [
                 .json,
-                .xml,
-                .sdkUnknown("")
+                .xml
             ]
         }
 
@@ -2188,8 +2186,7 @@ extension B2biClientTypes {
         public static var allCases: [Logging] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2877,8 +2874,7 @@ extension B2biClientTypes {
             return [
                 .failed,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2908,8 +2904,7 @@ extension B2biClientTypes {
         public static var allCases: [TransformerStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -3869,8 +3864,7 @@ extension B2biClientTypes {
                 .x12990,
                 .x12997,
                 .x12999,
-                .x12999X231,
-                .sdkUnknown("")
+                .x12999X231
             ]
         }
 
@@ -3976,8 +3970,7 @@ extension B2biClientTypes {
                 .version4010,
                 .version4030,
                 .version5010,
-                .version5010Hipaa,
-                .sdkUnknown("")
+                .version5010Hipaa
             ]
         }
 

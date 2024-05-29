@@ -204,8 +204,7 @@ extension BackupStorageClientTypes {
 
         public static var allCases: [DataChecksumAlgorithm] {
             return [
-                .sha256,
-                .sdkUnknown("")
+                .sha256
             ]
         }
 
@@ -1561,8 +1560,7 @@ extension BackupStorageClientTypes {
 
         public static var allCases: [SummaryChecksumAlgorithm] {
             return [
-                .summary,
-                .sdkUnknown("")
+                .summary
             ]
         }
 

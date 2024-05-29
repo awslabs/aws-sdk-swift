@@ -17,8 +17,7 @@ extension IoTSecureTunnelingClientTypes {
             return [
                 .all,
                 .destination,
-                .source,
-                .sdkUnknown("")
+                .source
             ]
         }
 
@@ -144,8 +143,7 @@ extension IoTSecureTunnelingClientTypes {
         public static var allCases: [ConnectionStatus] {
             return [
                 .connected,
-                .disconnected,
-                .sdkUnknown("")
+                .disconnected
             ]
         }
 
@@ -908,8 +906,7 @@ extension IoTSecureTunnelingClientTypes {
         public static var allCases: [TunnelStatus] {
             return [
                 .closed,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 

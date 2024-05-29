@@ -129,8 +129,7 @@ extension EvidentlyClientTypes {
         public static var allCases: [ChangeDirectionEnum] {
             return [
                 .decrease,
-                .increase,
-                .sdkUnknown("")
+                .increase
             ]
         }
 
@@ -1330,8 +1329,7 @@ extension EvidentlyClientTypes {
         public static var allCases: [EventType] {
             return [
                 .custom,
-                .evaluation,
-                .sdkUnknown("")
+                .evaluation
             ]
         }
 
@@ -1477,8 +1475,7 @@ extension EvidentlyClientTypes {
 
         public static var allCases: [ExperimentBaseStat] {
             return [
-                .mean,
-                .sdkUnknown("")
+                .mean
             ]
         }
 
@@ -1576,8 +1573,7 @@ extension EvidentlyClientTypes {
 
         public static var allCases: [ExperimentReportName] {
             return [
-                .bayesianInference,
-                .sdkUnknown("")
+                .bayesianInference
             ]
         }
 
@@ -1609,8 +1605,7 @@ extension EvidentlyClientTypes {
                 .baseStat,
                 .confidenceInterval,
                 .pValue,
-                .treatmentEffect,
-                .sdkUnknown("")
+                .treatmentEffect
             ]
         }
 
@@ -1647,8 +1642,7 @@ extension EvidentlyClientTypes {
                 .confidenceIntervalUpperbound,
                 .mean,
                 .pValue,
-                .treatmentEffect,
-                .sdkUnknown("")
+                .treatmentEffect
             ]
         }
 
@@ -1753,8 +1747,7 @@ extension EvidentlyClientTypes {
                 .completed,
                 .created,
                 .running,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1786,8 +1779,7 @@ extension EvidentlyClientTypes {
         public static var allCases: [ExperimentStopDesiredState] {
             return [
                 .cancelled,
-                .completed,
-                .sdkUnknown("")
+                .completed
             ]
         }
 
@@ -1814,8 +1806,7 @@ extension EvidentlyClientTypes {
 
         public static var allCases: [ExperimentType] {
             return [
-                .onlineAbExperiment,
-                .sdkUnknown("")
+                .onlineAbExperiment
             ]
         }
 
@@ -1942,8 +1933,7 @@ extension EvidentlyClientTypes {
         public static var allCases: [FeatureEvaluationStrategy] {
             return [
                 .allRules,
-                .defaultVariation,
-                .sdkUnknown("")
+                .defaultVariation
             ]
         }
 
@@ -1972,8 +1962,7 @@ extension EvidentlyClientTypes {
         public static var allCases: [FeatureStatus] {
             return [
                 .available,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2827,8 +2816,7 @@ extension EvidentlyClientTypes {
                 .completed,
                 .created,
                 .running,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2860,8 +2848,7 @@ extension EvidentlyClientTypes {
         public static var allCases: [LaunchStopDesiredState] {
             return [
                 .cancelled,
-                .completed,
-                .sdkUnknown("")
+                .completed
             ]
         }
 
@@ -2888,8 +2875,7 @@ extension EvidentlyClientTypes {
 
         public static var allCases: [LaunchType] {
             return [
-                .scheduledSplitsLaunch,
-                .sdkUnknown("")
+                .scheduledSplitsLaunch
             ]
         }
 
@@ -4036,8 +4022,7 @@ extension EvidentlyClientTypes {
         public static var allCases: [ProjectStatus] {
             return [
                 .available,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4676,8 +4661,7 @@ extension EvidentlyClientTypes {
         public static var allCases: [SegmentReferenceResourceType] {
             return [
                 .experiment,
-                .launch,
-                .sdkUnknown("")
+                .launch
             ]
         }
 
@@ -6065,8 +6049,7 @@ extension EvidentlyClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -6215,8 +6198,7 @@ extension EvidentlyClientTypes {
                 .boolean,
                 .double,
                 .long,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 

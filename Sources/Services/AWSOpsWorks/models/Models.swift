@@ -141,8 +141,7 @@ extension OpsWorksClientTypes {
                 .autobundleondeploy,
                 .awsflowrubysettings,
                 .documentroot,
-                .railsenv,
-                .sdkUnknown("")
+                .railsenv
             ]
         }
 
@@ -183,8 +182,7 @@ extension OpsWorksClientTypes {
                 .other,
                 .php,
                 .rails,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -218,8 +216,7 @@ extension OpsWorksClientTypes {
         public static var allCases: [Architecture] {
             return [
                 .i386,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -557,8 +554,7 @@ extension OpsWorksClientTypes {
         public static var allCases: [AutoScalingType] {
             return [
                 .load,
-                .timer,
-                .sdkUnknown("")
+                .timer
             ]
         }
 
@@ -1133,8 +1129,7 @@ extension OpsWorksClientTypes {
                 .utf32Le,
                 .utf7,
                 .utf8,
-                .utf8Sig,
-                .sdkUnknown("")
+                .utf8Sig
             ]
         }
 
@@ -1254,8 +1249,7 @@ extension OpsWorksClientTypes {
         public static var allCases: [CloudWatchLogsInitialPosition] {
             return [
                 .endOfFile,
-                .startOfFile,
-                .sdkUnknown("")
+                .startOfFile
             ]
         }
 
@@ -1376,8 +1370,7 @@ extension OpsWorksClientTypes {
         public static var allCases: [CloudWatchLogsTimeZone] {
             return [
                 .local,
-                .utc,
-                .sdkUnknown("")
+                .utc
             ]
         }
 
@@ -2879,8 +2872,7 @@ extension OpsWorksClientTypes {
                 .stop,
                 .undeploy,
                 .updateCustomCookbooks,
-                .updateDependencies,
-                .sdkUnknown("")
+                .updateDependencies
             ]
         }
 
@@ -5893,8 +5885,7 @@ extension OpsWorksClientTypes {
                 .passengerversion,
                 .railsstack,
                 .rubyversion,
-                .rubygemsversion,
-                .sdkUnknown("")
+                .rubygemsversion
             ]
         }
 
@@ -5966,8 +5957,7 @@ extension OpsWorksClientTypes {
                 .nodejsApp,
                 .phpApp,
                 .railsApp,
-                .web,
-                .sdkUnknown("")
+                .web
             ]
         }
 
@@ -7037,8 +7027,7 @@ extension OpsWorksClientTypes {
         public static var allCases: [RootDeviceType] {
             return [
                 .ebs,
-                .instanceStore,
-                .sdkUnknown("")
+                .instanceStore
             ]
         }
 
@@ -7491,8 +7480,7 @@ extension OpsWorksClientTypes {
                 .archive,
                 .git,
                 .s3,
-                .svn,
-                .sdkUnknown("")
+                .svn
             ]
         }
 
@@ -7697,8 +7685,7 @@ extension OpsWorksClientTypes {
 
         public static var allCases: [StackAttributesKeys] {
             return [
-                .color,
-                .sdkUnknown("")
+                .color
             ]
         }
 
@@ -9314,8 +9301,7 @@ extension OpsWorksClientTypes {
         public static var allCases: [VirtualizationType] {
             return [
                 .hvm,
-                .paravirtual,
-                .sdkUnknown("")
+                .paravirtual
             ]
         }
 
@@ -9527,8 +9513,7 @@ extension OpsWorksClientTypes {
             return [
                 .gp2,
                 .io1,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 

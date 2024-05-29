@@ -15,8 +15,7 @@ extension SSMContactsClientTypes {
         public static var allCases: [AcceptCodeValidation] {
             return [
                 .enforce,
-                .ignore,
-                .sdkUnknown("")
+                .ignore
             ]
         }
 
@@ -130,8 +129,7 @@ extension SSMContactsClientTypes {
         public static var allCases: [AcceptType] {
             return [
                 .delivered,
-                .read,
-                .sdkUnknown("")
+                .read
             ]
         }
 
@@ -262,8 +260,7 @@ extension SSMContactsClientTypes {
         public static var allCases: [ActivationStatus] {
             return [
                 .activated,
-                .notActivated,
-                .sdkUnknown("")
+                .notActivated
             ]
         }
 
@@ -332,8 +329,7 @@ extension SSMContactsClientTypes {
             return [
                 .email,
                 .sms,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -601,8 +597,7 @@ extension SSMContactsClientTypes {
             return [
                 .escalation,
                 .oncallSchedule,
-                .personal,
-                .sdkUnknown("")
+                .personal
             ]
         }
 
@@ -1129,8 +1124,7 @@ extension SSMContactsClientTypes {
                 .sun,
                 .thu,
                 .tue,
-                .wed,
-                .sdkUnknown("")
+                .wed
             ]
         }
 
@@ -3717,8 +3711,7 @@ extension SSMContactsClientTypes {
                 .error,
                 .read,
                 .sent,
-                .stop,
-                .sdkUnknown("")
+                .stop
             ]
         }
 
@@ -4202,8 +4195,7 @@ extension SSMContactsClientTypes {
         public static var allCases: [ShiftType] {
             return [
                 .overridden,
-                .regular,
-                .sdkUnknown("")
+                .regular
             ]
         }
 
@@ -5037,8 +5029,7 @@ extension SSMContactsClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

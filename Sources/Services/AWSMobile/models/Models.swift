@@ -955,8 +955,7 @@ extension MobileClientTypes {
                 .objc,
                 .osx,
                 .swift,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -1054,8 +1053,7 @@ extension MobileClientTypes {
             return [
                 .importing,
                 .normal,
-                .syncing,
-                .sdkUnknown("")
+                .syncing
             ]
         }
 

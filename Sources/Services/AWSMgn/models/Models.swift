@@ -74,8 +74,7 @@ extension MgnClientTypes {
                 .other,
                 .refactoring,
                 .security,
-                .validation,
-                .sdkUnknown("")
+                .validation
             ]
         }
 
@@ -231,8 +230,7 @@ extension MgnClientTypes {
             return [
                 .error,
                 .healthy,
-                .lagging,
-                .sdkUnknown("")
+                .lagging
             ]
         }
 
@@ -264,8 +262,7 @@ extension MgnClientTypes {
             return [
                 .completed,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -676,8 +673,7 @@ extension MgnClientTypes {
             return [
                 .legacyBios,
                 .uefi,
-                .useSource,
-                .sdkUnknown("")
+                .useSource
             ]
         }
 
@@ -915,8 +911,7 @@ extension MgnClientTypes {
             return [
                 .cutover,
                 .readyForCutover,
-                .readyForTest,
-                .sdkUnknown("")
+                .readyForTest
             ]
         }
 
@@ -2008,8 +2003,7 @@ extension MgnClientTypes {
                 .notConverging,
                 .snapshotsFailure,
                 .unstableNetwork,
-                .unsupportedVmConfiguration,
-                .sdkUnknown("")
+                .unsupportedVmConfiguration
             ]
         }
 
@@ -2239,8 +2233,7 @@ extension MgnClientTypes {
                 .launchReplicationServer,
                 .pairReplicationServerWithAgent,
                 .startDataTransfer,
-                .wait,
-                .sdkUnknown("")
+                .wait
             ]
         }
 
@@ -2284,8 +2277,7 @@ extension MgnClientTypes {
                 .inProgress,
                 .notStarted,
                 .skipped,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2337,8 +2329,7 @@ extension MgnClientTypes {
                 .rescan,
                 .shippingSnapshot,
                 .stalled,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -3809,8 +3800,7 @@ extension MgnClientTypes {
                 .failed,
                 .pending,
                 .started,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4122,8 +4112,7 @@ extension MgnClientTypes {
                 .stopped,
                 .succeeded,
                 .unknown,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -4535,8 +4524,7 @@ extension MgnClientTypes {
         public static var allCases: [ImportErrorType] {
             return [
                 .processingError,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -4569,8 +4557,7 @@ extension MgnClientTypes {
                 .failed,
                 .pending,
                 .started,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4865,8 +4852,7 @@ extension MgnClientTypes {
                 .diagnostic,
                 .startCutover,
                 .startTest,
-                .terminate,
-                .sdkUnknown("")
+                .terminate
             ]
         }
 
@@ -5079,8 +5065,7 @@ extension MgnClientTypes {
                 .snapshotEnd,
                 .snapshotFail,
                 .snapshotStart,
-                .usingPreviousSnapshot,
-                .sdkUnknown("")
+                .usingPreviousSnapshot
             ]
         }
 
@@ -5212,8 +5197,7 @@ extension MgnClientTypes {
             return [
                 .completed,
                 .pending,
-                .started,
-                .sdkUnknown("")
+                .started
             ]
         }
 
@@ -5243,8 +5227,7 @@ extension MgnClientTypes {
         public static var allCases: [JobType] {
             return [
                 .launch,
-                .terminate,
-                .sdkUnknown("")
+                .terminate
             ]
         }
 
@@ -5384,8 +5367,7 @@ extension MgnClientTypes {
         public static var allCases: [LaunchDisposition] {
             return [
                 .started,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -5420,8 +5402,7 @@ extension MgnClientTypes {
                 .inProgress,
                 .launched,
                 .pending,
-                .terminated,
-                .sdkUnknown("")
+                .terminated
             ]
         }
 
@@ -5873,8 +5854,7 @@ extension MgnClientTypes {
                 .readyForCutover,
                 .readyForTest,
                 .stopped,
-                .testing,
-                .sdkUnknown("")
+                .testing
             ]
         }
 
@@ -7380,8 +7360,7 @@ extension MgnClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -7468,8 +7447,7 @@ extension MgnClientTypes {
             return [
                 .cutoverOnly,
                 .testAndCutover,
-                .testOnly,
-                .sdkUnknown("")
+                .testOnly
             ]
         }
 
@@ -8050,8 +8028,7 @@ extension MgnClientTypes {
         public static var allCases: [ReplicationConfigurationDataPlaneRouting] {
             return [
                 .privateIp,
-                .publicIp,
-                .sdkUnknown("")
+                .publicIp
             ]
         }
 
@@ -8082,8 +8059,7 @@ extension MgnClientTypes {
             return [
                 .gp2,
                 .gp3,
-                .st1,
-                .sdkUnknown("")
+                .st1
             ]
         }
 
@@ -8113,8 +8089,7 @@ extension MgnClientTypes {
         public static var allCases: [ReplicationConfigurationEbsEncryption] {
             return [
                 .custom,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -8210,8 +8185,7 @@ extension MgnClientTypes {
                 .io2,
                 .sc1,
                 .st1,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -8352,8 +8326,7 @@ extension MgnClientTypes {
         public static var allCases: [ReplicationType] {
             return [
                 .agentBased,
-                .snapshotShipping,
-                .sdkUnknown("")
+                .snapshotShipping
             ]
         }
 
@@ -9192,8 +9165,7 @@ extension MgnClientTypes {
         public static var allCases: [SsmDocumentType] {
             return [
                 .automation,
-                .command,
-                .sdkUnknown("")
+                .command
             ]
         }
 
@@ -9293,8 +9265,7 @@ extension MgnClientTypes {
 
         public static var allCases: [SsmParameterStoreParameterType] {
             return [
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -10007,8 +9978,7 @@ extension MgnClientTypes {
         public static var allCases: [TargetInstanceTypeRightSizingMethod] {
             return [
                 .basic,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -12258,8 +12228,7 @@ extension MgnClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -12366,8 +12335,7 @@ extension MgnClientTypes {
                 .io2,
                 .sc1,
                 .st1,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -12519,8 +12487,7 @@ extension MgnClientTypes {
             return [
                 .error,
                 .healthy,
-                .lagging,
-                .sdkUnknown("")
+                .lagging
             ]
         }
 
@@ -12552,8 +12519,7 @@ extension MgnClientTypes {
             return [
                 .completed,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 

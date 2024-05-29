@@ -460,8 +460,7 @@ extension Route53RecoveryClusterClientTypes {
         public static var allCases: [RoutingControlState] {
             return [
                 .off,
-                .on,
-                .sdkUnknown("")
+                .on
             ]
         }
 
@@ -850,8 +849,7 @@ extension Route53RecoveryClusterClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

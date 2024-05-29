@@ -127,8 +127,7 @@ extension PinpointEmailClientTypes {
         public static var allCases: [BehaviorOnMxFailure] {
             return [
                 .rejectMessage,
-                .useDefaultValue,
-                .sdkUnknown("")
+                .useDefaultValue
             ]
         }
 
@@ -1095,8 +1094,7 @@ extension PinpointEmailClientTypes {
             return [
                 .active,
                 .disabled,
-                .pendingExpiration,
-                .sdkUnknown("")
+                .pendingExpiration
             ]
         }
 
@@ -1178,8 +1176,7 @@ extension PinpointEmailClientTypes {
         public static var allCases: [DeliverabilityTestStatus] {
             return [
                 .completed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -1282,8 +1279,7 @@ extension PinpointEmailClientTypes {
             return [
                 .emailHeader,
                 .linkTag,
-                .messageTag,
-                .sdkUnknown("")
+                .messageTag
             ]
         }
 
@@ -1376,8 +1372,7 @@ extension PinpointEmailClientTypes {
                 .notStarted,
                 .pending,
                 .success,
-                .temporaryFailure,
-                .sdkUnknown("")
+                .temporaryFailure
             ]
         }
 
@@ -1757,8 +1752,7 @@ extension PinpointEmailClientTypes {
                 .open,
                 .reject,
                 .renderingFailure,
-                .send,
-                .sdkUnknown("")
+                .send
             ]
         }
 
@@ -2735,8 +2729,7 @@ extension PinpointEmailClientTypes {
             return [
                 .domain,
                 .emailAddress,
-                .managedDomain,
-                .sdkUnknown("")
+                .managedDomain
             ]
         }
 
@@ -3541,8 +3534,7 @@ extension PinpointEmailClientTypes {
                 .failed,
                 .pending,
                 .success,
-                .temporaryFailure,
-                .sdkUnknown("")
+                .temporaryFailure
             ]
         }
 
@@ -5069,8 +5061,7 @@ extension PinpointEmailClientTypes {
         public static var allCases: [TlsPolicy] {
             return [
                 .optional,
-                .require,
-                .sdkUnknown("")
+                .require
             ]
         }
 
@@ -5360,8 +5351,7 @@ extension PinpointEmailClientTypes {
         public static var allCases: [WarmupStatus] {
             return [
                 .done,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 

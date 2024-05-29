@@ -2159,8 +2159,7 @@ extension Route53RecoveryControlConfigClientTypes {
             return [
                 .and,
                 .atleast,
-                .or,
-                .sdkUnknown("")
+                .or
             ]
         }
 
@@ -2231,8 +2230,7 @@ extension Route53RecoveryControlConfigClientTypes {
             return [
                 .deployed,
                 .pending,
-                .pendingDeletion,
-                .sdkUnknown("")
+                .pendingDeletion
             ]
         }
 

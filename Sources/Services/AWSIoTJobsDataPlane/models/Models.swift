@@ -422,8 +422,7 @@ extension IoTJobsDataPlaneClientTypes {
                 .rejected,
                 .removed,
                 .succeeded,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 

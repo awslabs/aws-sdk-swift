@@ -222,8 +222,7 @@ extension IoTSiteWiseClientTypes {
                 .maximum,
                 .minimum,
                 .standardDeviation,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -526,8 +525,7 @@ extension IoTSiteWiseClientTypes {
 
         public static var allCases: [AssetErrorCode] {
             return [
-                .internalFailure,
-                .sdkUnknown("")
+                .internalFailure
             ]
         }
 
@@ -1212,8 +1210,7 @@ extension IoTSiteWiseClientTypes {
                 .deleting,
                 .failed,
                 .propagating,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1355,8 +1352,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [AssetModelType] {
             return [
                 .assetModel,
-                .componentModel,
-                .sdkUnknown("")
+                .componentModel
             ]
         }
 
@@ -1619,8 +1615,7 @@ extension IoTSiteWiseClientTypes {
 
         public static var allCases: [AssetRelationshipType] {
             return [
-                .hierarchy,
-                .sdkUnknown("")
+                .hierarchy
             ]
         }
 
@@ -1654,8 +1649,7 @@ extension IoTSiteWiseClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2085,8 +2079,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [AuthMode] {
             return [
                 .iam,
-                .sso,
-                .sdkUnknown("")
+                .sso
             ]
         }
 
@@ -2280,8 +2273,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [BatchEntryCompletionStatus] {
             return [
                 .error,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2390,8 +2382,7 @@ extension IoTSiteWiseClientTypes {
             return [
                 .accessdeniedexception,
                 .invalidrequestexception,
-                .resourcenotfoundexception,
-                .sdkUnknown("")
+                .resourcenotfoundexception
             ]
         }
 
@@ -2711,8 +2702,7 @@ extension IoTSiteWiseClientTypes {
             return [
                 .accessdeniedexception,
                 .invalidrequestexception,
-                .resourcenotfoundexception,
-                .sdkUnknown("")
+                .resourcenotfoundexception
             ]
         }
 
@@ -2880,8 +2870,7 @@ extension IoTSiteWiseClientTypes {
             return [
                 .accessdeniedexception,
                 .invalidrequestexception,
-                .resourcenotfoundexception,
-                .sdkUnknown("")
+                .resourcenotfoundexception
             ]
         }
 
@@ -3403,8 +3392,7 @@ extension IoTSiteWiseClientTypes {
                 .resourcenotfoundexception,
                 .serviceunavailableexception,
                 .throttlingexception,
-                .timestampoutofrangeexception,
-                .sdkUnknown("")
+                .timestampoutofrangeexception
             ]
         }
 
@@ -3517,8 +3505,7 @@ extension IoTSiteWiseClientTypes {
                 .inSync,
                 .outOfSync,
                 .syncFailed,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -3592,8 +3579,7 @@ extension IoTSiteWiseClientTypes {
                 .quality,
                 .timestampNanoOffset,
                 .timestampSeconds,
-                .value,
-                .sdkUnknown("")
+                .value
             ]
         }
 
@@ -3794,8 +3780,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [ComputeLocation] {
             return [
                 .cloud,
-                .edge,
-                .sdkUnknown("")
+                .edge
             ]
         }
 
@@ -3859,8 +3844,7 @@ extension IoTSiteWiseClientTypes {
             return [
                 .active,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -7781,8 +7765,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [DetailedErrorCode] {
             return [
                 .incompatibleComputeLocation,
-                .incompatibleForwardingConfiguration,
-                .sdkUnknown("")
+                .incompatibleForwardingConfiguration
             ]
         }
 
@@ -7986,8 +7969,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [DisassociatedDataStorageState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8016,8 +7998,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [EncryptionType] {
             return [
                 .kmsBasedEncryption,
-                .sitewiseDefaultEncryption,
-                .sdkUnknown("")
+                .sitewiseDefaultEncryption
             ]
         }
 
@@ -8046,8 +8027,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [ErrorCode] {
             return [
                 .internalFailure,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -8487,8 +8467,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [ForwardingConfigState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -9477,8 +9456,7 @@ extension IoTSiteWiseClientTypes {
             return [
                 .group,
                 .iam,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -9570,8 +9548,7 @@ extension IoTSiteWiseClientTypes {
 
         public static var allCases: [ImageFileType] {
             return [
-                .png,
-                .sdkUnknown("")
+                .png
             ]
         }
 
@@ -9783,8 +9760,7 @@ extension IoTSiteWiseClientTypes {
                 .completedWithFailures,
                 .failed,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -10234,8 +10210,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [ListAssetModelPropertiesFilter] {
             return [
                 .all,
-                .base,
-                .sdkUnknown("")
+                .base
             ]
         }
 
@@ -10472,8 +10447,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [ListAssetPropertiesFilter] {
             return [
                 .all,
-                .base,
-                .sdkUnknown("")
+                .base
             ]
         }
 
@@ -10718,8 +10692,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [ListAssetsFilter] {
             return [
                 .all,
-                .topLevel,
-                .sdkUnknown("")
+                .topLevel
             ]
         }
 
@@ -10984,8 +10957,7 @@ extension IoTSiteWiseClientTypes {
                 .completedWithFailures,
                 .failed,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -11853,8 +11825,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [ListTimeSeriesType] {
             return [
                 .associated,
-                .disassociated,
-                .sdkUnknown("")
+                .disassociated
             ]
         }
 
@@ -11885,8 +11856,7 @@ extension IoTSiteWiseClientTypes {
             return [
                 .error,
                 .info,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -12128,8 +12098,7 @@ extension IoTSiteWiseClientTypes {
             return [
                 .internalFailure,
                 .limitExceeded,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -12244,8 +12213,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [Permission] {
             return [
                 .administrator,
-                .viewer,
-                .sdkUnknown("")
+                .viewer
             ]
         }
 
@@ -12312,8 +12280,7 @@ extension IoTSiteWiseClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -12597,8 +12564,7 @@ extension IoTSiteWiseClientTypes {
                 .double,
                 .integer,
                 .string,
-                .struct,
-                .sdkUnknown("")
+                .struct
             ]
         }
 
@@ -12663,8 +12629,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [PropertyNotificationState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13086,8 +13051,7 @@ extension IoTSiteWiseClientTypes {
             return [
                 .bad,
                 .good,
-                .uncertain,
-                .sdkUnknown("")
+                .uncertain
             ]
         }
 
@@ -13279,8 +13243,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .portal,
-                .project,
-                .sdkUnknown("")
+                .project
             ]
         }
 
@@ -13379,8 +13342,7 @@ extension IoTSiteWiseClientTypes {
                 .double,
                 .int,
                 .string,
-                .timestamp,
-                .sdkUnknown("")
+                .timestamp
             ]
         }
 
@@ -13450,8 +13412,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [StorageType] {
             return [
                 .multiLayerStorage,
-                .sitewiseDefaultStorage,
-                .sdkUnknown("")
+                .sitewiseDefaultStorage
             ]
         }
 
@@ -13590,8 +13551,7 @@ extension IoTSiteWiseClientTypes {
 
         public static var allCases: [TargetResourceType] {
             return [
-                .asset,
-                .sdkUnknown("")
+                .asset
             ]
         }
 
@@ -13695,8 +13655,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [TimeOrdering] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -13921,8 +13880,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [TraversalDirection] {
             return [
                 .child,
-                .parent,
-                .sdkUnknown("")
+                .parent
             ]
         }
 
@@ -13949,8 +13907,7 @@ extension IoTSiteWiseClientTypes {
 
         public static var allCases: [TraversalType] {
             return [
-                .pathToRoot,
-                .sdkUnknown("")
+                .pathToRoot
             ]
         }
 
@@ -15291,8 +15248,7 @@ extension IoTSiteWiseClientTypes {
         public static var allCases: [WarmTierState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 

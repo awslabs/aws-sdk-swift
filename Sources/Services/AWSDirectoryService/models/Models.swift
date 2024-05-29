@@ -809,8 +809,7 @@ extension DirectoryClientTypes {
                 .deregisterFailed,
                 .registered,
                 .registering,
-                .registerFailed,
-                .sdkUnknown("")
+                .registerFailed
             ]
         }
 
@@ -843,8 +842,7 @@ extension DirectoryClientTypes {
         public static var allCases: [CertificateType] {
             return [
                 .clientCertAuth,
-                .clientLdaps,
-                .sdkUnknown("")
+                .clientLdaps
             ]
         }
 
@@ -909,8 +907,7 @@ extension DirectoryClientTypes {
         public static var allCases: [ClientAuthenticationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -939,8 +936,7 @@ extension DirectoryClientTypes {
         public static var allCases: [ClientAuthenticationType] {
             return [
                 .smartCard,
-                .smartCardOrPassword,
-                .sdkUnknown("")
+                .smartCardOrPassword
             ]
         }
 
@@ -3670,8 +3666,7 @@ extension DirectoryClientTypes {
                 .failed,
                 .requested,
                 .updated,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4002,8 +3997,7 @@ extension DirectoryClientTypes {
         public static var allCases: [DirectoryEdition] {
             return [
                 .enterprise,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -4227,8 +4221,7 @@ extension DirectoryClientTypes {
         public static var allCases: [DirectorySize] {
             return [
                 .large,
-                .small,
-                .sdkUnknown("")
+                .small
             ]
         }
 
@@ -4275,8 +4268,7 @@ extension DirectoryClientTypes {
                 .inoperable,
                 .requested,
                 .restorefailed,
-                .restoring,
-                .sdkUnknown("")
+                .restoring
             ]
         }
 
@@ -4318,8 +4310,7 @@ extension DirectoryClientTypes {
                 .adConnector,
                 .microsoftAd,
                 .sharedMicrosoftAd,
-                .simpleAd,
-                .sdkUnknown("")
+                .simpleAd
             ]
         }
 
@@ -4861,8 +4852,7 @@ extension DirectoryClientTypes {
                 .deleting,
                 .failed,
                 .impaired,
-                .restoring,
-                .sdkUnknown("")
+                .restoring
             ]
         }
 
@@ -5952,8 +5942,7 @@ extension DirectoryClientTypes {
                 .addFailed,
                 .removed,
                 .removeFailed,
-                .removing,
-                .sdkUnknown("")
+                .removing
             ]
         }
 
@@ -6026,8 +6015,7 @@ extension DirectoryClientTypes {
                 .disabled,
                 .enabled,
                 .enableFailed,
-                .enabling,
-                .sdkUnknown("")
+                .enabling
             ]
         }
 
@@ -6056,8 +6044,7 @@ extension DirectoryClientTypes {
 
         public static var allCases: [LDAPSType] {
             return [
-                .client,
-                .sdkUnknown("")
+                .client
             ]
         }
 
@@ -6618,8 +6605,7 @@ extension DirectoryClientTypes {
         public static var allCases: [OSVersion] {
             return [
                 .version2012,
-                .version2019,
-                .sdkUnknown("")
+                .version2019
             ]
         }
 
@@ -6746,8 +6732,7 @@ extension DirectoryClientTypes {
                 .chap,
                 .mschapv1,
                 .mschapv2,
-                .pap,
-                .sdkUnknown("")
+                .pap
             ]
         }
 
@@ -6858,8 +6843,7 @@ extension DirectoryClientTypes {
             return [
                 .completed,
                 .creating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -6998,8 +6982,7 @@ extension DirectoryClientTypes {
         public static var allCases: [RegionType] {
             return [
                 .additional,
-                .primary,
-                .sdkUnknown("")
+                .primary
             ]
         }
 
@@ -7468,8 +7451,7 @@ extension DirectoryClientTypes {
 
         public static var allCases: [ReplicationScope] {
             return [
-                .domain,
-                .sdkUnknown("")
+                .domain
             ]
         }
 
@@ -7703,8 +7685,7 @@ extension DirectoryClientTypes {
                 .initializing,
                 .replicating,
                 .rollbackInProgress,
-                .updatingSchema,
-                .sdkUnknown("")
+                .updatingSchema
             ]
         }
 
@@ -7740,8 +7721,7 @@ extension DirectoryClientTypes {
         public static var allCases: [SelectiveAuth] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8060,8 +8040,7 @@ extension DirectoryClientTypes {
         public static var allCases: [ShareMethod] {
             return [
                 .handshake,
-                .organizations,
-                .sdkUnknown("")
+                .organizations
             ]
         }
 
@@ -8104,8 +8083,7 @@ extension DirectoryClientTypes {
                 .rejectFailed,
                 .shared,
                 .shareFailed,
-                .sharing,
-                .sdkUnknown("")
+                .sharing
             ]
         }
 
@@ -8375,8 +8353,7 @@ extension DirectoryClientTypes {
             return [
                 .completed,
                 .creating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -8406,8 +8383,7 @@ extension DirectoryClientTypes {
         public static var allCases: [SnapshotType] {
             return [
                 .auto,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -8605,8 +8581,7 @@ extension DirectoryClientTypes {
 
         public static var allCases: [TargetType] {
             return [
-                .account,
-                .sdkUnknown("")
+                .account
             ]
         }
 
@@ -8638,8 +8613,7 @@ extension DirectoryClientTypes {
                 .deleted,
                 .failed,
                 .registered,
-                .topicNotFound,
-                .sdkUnknown("")
+                .topicNotFound
             ]
         }
 
@@ -8748,8 +8722,7 @@ extension DirectoryClientTypes {
             return [
                 .oneWayIncoming,
                 .oneWayOutgoing,
-                .twoWay,
-                .sdkUnknown("")
+                .twoWay
             ]
         }
 
@@ -8797,8 +8770,7 @@ extension DirectoryClientTypes {
                 .updating,
                 .verified,
                 .verifying,
-                .verifyFailed,
-                .sdkUnknown("")
+                .verifyFailed
             ]
         }
 
@@ -8836,8 +8808,7 @@ extension DirectoryClientTypes {
         public static var allCases: [TrustType] {
             return [
                 .external,
-                .forest,
-                .sdkUnknown("")
+                .forest
             ]
         }
 
@@ -9483,8 +9454,7 @@ extension DirectoryClientTypes {
             return [
                 .updated,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -9591,8 +9561,7 @@ extension DirectoryClientTypes {
 
         public static var allCases: [UpdateType] {
             return [
-                .os,
-                .sdkUnknown("")
+                .os
             ]
         }
 

@@ -850,8 +850,7 @@ extension ResourceGroupsClientTypes {
             return [
                 .updateComplete,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -912,8 +911,7 @@ extension ResourceGroupsClientTypes {
         public static var allCases: [GroupFilterName] {
             return [
                 .configurationtype,
-                .resourcetype,
-                .sdkUnknown("")
+                .resourcetype
             ]
         }
 
@@ -973,8 +971,7 @@ extension ResourceGroupsClientTypes {
         public static var allCases: [GroupLifecycleEventsDesiredStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -1007,8 +1004,7 @@ extension ResourceGroupsClientTypes {
                 .active,
                 .error,
                 .inactive,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -1658,8 +1654,7 @@ extension ResourceGroupsClientTypes {
                 .cloudformationStackInactive,
                 .cloudformationStackNotExisting,
                 .cloudformationStackUnassumableRole,
-                .resourceTypeNotSupported,
-                .sdkUnknown("")
+                .resourceTypeNotSupported
             ]
         }
 
@@ -1690,8 +1685,7 @@ extension ResourceGroupsClientTypes {
         public static var allCases: [QueryType] {
             return [
                 .cloudformationStack10,
-                .tagFilters10,
-                .sdkUnknown("")
+                .tagFilters10
             ]
         }
 
@@ -1749,8 +1743,7 @@ extension ResourceGroupsClientTypes {
 
         public static var allCases: [ResourceFilterName] {
             return [
-                .resourcetype,
-                .sdkUnknown("")
+                .resourcetype
             ]
         }
 
@@ -1905,8 +1898,7 @@ extension ResourceGroupsClientTypes {
 
         public static var allCases: [ResourceStatusValue] {
             return [
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 

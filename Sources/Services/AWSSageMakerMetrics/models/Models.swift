@@ -129,8 +129,7 @@ extension SageMakerMetricsClientTypes {
                 .conflictError,
                 .internalError,
                 .metricLimitExceeded,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 

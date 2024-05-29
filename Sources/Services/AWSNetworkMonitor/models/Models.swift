@@ -52,8 +52,7 @@ extension NetworkMonitorClientTypes {
         public static var allCases: [AddressFamily] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -997,8 +996,7 @@ extension NetworkMonitorClientTypes {
                 .deleting,
                 .error,
                 .inactive,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1230,8 +1228,7 @@ extension NetworkMonitorClientTypes {
                 .deleting,
                 .error,
                 .inactive,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1264,8 +1261,7 @@ extension NetworkMonitorClientTypes {
         public static var allCases: [ModelProtocol] {
             return [
                 .icmp,
-                .tcp,
-                .sdkUnknown("")
+                .tcp
             ]
         }
 

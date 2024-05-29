@@ -575,8 +575,7 @@ extension MigrationHubConfigClientTypes {
 
         public static var allCases: [TargetType] {
             return [
-                .account,
-                .sdkUnknown("")
+                .account
             ]
         }
 

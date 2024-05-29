@@ -234,8 +234,7 @@ extension RedshiftClientTypes {
             return [
                 .recommendNodeConfig,
                 .resizeCluster,
-                .restoreCluster,
-                .sdkUnknown("")
+                .restoreCluster
             ]
         }
 
@@ -392,8 +391,7 @@ extension RedshiftClientTypes {
             return [
                 .auto,
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -425,8 +423,7 @@ extension RedshiftClientTypes {
             return [
                 .applying,
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -880,8 +877,7 @@ extension RedshiftClientTypes {
         public static var allCases: [AuthorizationStatus] {
             return [
                 .authorized,
-                .revoking,
-                .sdkUnknown("")
+                .revoking
             ]
         }
 
@@ -5746,8 +5742,7 @@ extension RedshiftClientTypes {
                 .available,
                 .deauthorized,
                 .pendingAuthorization,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -5780,8 +5775,7 @@ extension RedshiftClientTypes {
         public static var allCases: [DataShareStatusForConsumer] {
             return [
                 .active,
-                .available,
-                .sdkUnknown("")
+                .available
             ]
         }
 
@@ -5816,8 +5810,7 @@ extension RedshiftClientTypes {
                 .authorized,
                 .deauthorized,
                 .pendingAuthorization,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -13478,8 +13471,7 @@ extension RedshiftClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -15152,8 +15144,7 @@ extension RedshiftClientTypes {
         public static var allCases: [LogDestinationType] {
             return [
                 .cloudwatch,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -15218,8 +15209,7 @@ extension RedshiftClientTypes {
         public static var allCases: [Mode] {
             return [
                 .highPerformance,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -17256,8 +17246,7 @@ extension RedshiftClientTypes {
                 .estimatedDiskUtilizationPercent,
                 .mode,
                 .nodeType,
-                .numNodes,
-                .sdkUnknown("")
+                .numNodes
             ]
         }
 
@@ -17372,8 +17361,7 @@ extension RedshiftClientTypes {
                 .gt,
                 .in,
                 .le,
-                .lt,
-                .sdkUnknown("")
+                .lt
             ]
         }
 
@@ -17527,8 +17515,7 @@ extension RedshiftClientTypes {
         public static var allCases: [ParameterApplyType] {
             return [
                 .dynamic,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -17612,8 +17599,7 @@ extension RedshiftClientTypes {
                 .active,
                 .connectionfailure,
                 .inactive,
-                .runtimefailure,
-                .sdkUnknown("")
+                .runtimefailure
             ]
         }
 
@@ -18211,8 +18197,7 @@ extension RedshiftClientTypes {
         public static var allCases: [RecommendedActionType] {
             return [
                 .cli,
-                .sql,
-                .sdkUnknown("")
+                .sql
             ]
         }
 
@@ -18781,8 +18766,7 @@ extension RedshiftClientTypes {
         public static var allCases: [ReservedNodeExchangeActionType] {
             return [
                 .resizeCluster,
-                .restoreCluster,
-                .sdkUnknown("")
+                .restoreCluster
             ]
         }
 
@@ -18922,8 +18906,7 @@ extension RedshiftClientTypes {
                 .pending,
                 .requested,
                 .retrying,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -19096,8 +19079,7 @@ extension RedshiftClientTypes {
         public static var allCases: [ReservedNodeOfferingType] {
             return [
                 .regular,
-                .upgradable,
-                .sdkUnknown("")
+                .upgradable
             ]
         }
 
@@ -20697,8 +20679,7 @@ extension RedshiftClientTypes {
             return [
                 .active,
                 .failed,
-                .modifying,
-                .sdkUnknown("")
+                .modifying
             ]
         }
 
@@ -20862,8 +20843,7 @@ extension RedshiftClientTypes {
         public static var allCases: [ScheduledActionFilterName] {
             return [
                 .clusterIdentifier,
-                .iamRole,
-                .sdkUnknown("")
+                .iamRole
             ]
         }
 
@@ -20966,8 +20946,7 @@ extension RedshiftClientTypes {
         public static var allCases: [ScheduledActionState] {
             return [
                 .active,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -21078,8 +21057,7 @@ extension RedshiftClientTypes {
             return [
                 .pauseCluster,
                 .resizeCluster,
-                .resumeCluster,
-                .sdkUnknown("")
+                .resumeCluster
             ]
         }
 
@@ -21140,8 +21118,7 @@ extension RedshiftClientTypes {
         public static var allCases: [ServiceAuthorization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -21418,8 +21395,7 @@ extension RedshiftClientTypes {
             return [
                 .createTime,
                 .sourceType,
-                .totalSize,
-                .sdkUnknown("")
+                .totalSize
             ]
         }
 
@@ -21982,8 +21958,7 @@ extension RedshiftClientTypes {
         public static var allCases: [SortByOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -22055,8 +22030,7 @@ extension RedshiftClientTypes {
                 .clusterParameterGroup,
                 .clusterSecurityGroup,
                 .clusterSnapshot,
-                .scheduledAction,
-                .sdkUnknown("")
+                .scheduledAction
             ]
         }
 
@@ -22569,8 +22543,7 @@ extension RedshiftClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -23165,8 +23138,7 @@ extension RedshiftClientTypes {
             return [
                 .disable,
                 .emitMetric,
-                .log,
-                .sdkUnknown("")
+                .log
             ]
         }
 
@@ -23198,8 +23170,7 @@ extension RedshiftClientTypes {
             return [
                 .concurrencyScaling,
                 .crossRegionDatasharing,
-                .spectrum,
-                .sdkUnknown("")
+                .spectrum
             ]
         }
 
@@ -23229,8 +23200,7 @@ extension RedshiftClientTypes {
         public static var allCases: [UsageLimitLimitType] {
             return [
                 .dataScanned,
-                .time,
-                .sdkUnknown("")
+                .time
             ]
         }
 
@@ -23298,8 +23268,7 @@ extension RedshiftClientTypes {
             return [
                 .daily,
                 .monthly,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -23406,8 +23375,7 @@ extension RedshiftClientTypes {
                 .failed,
                 .modifying,
                 .needsAttention,
-                .syncing,
-                .sdkUnknown("")
+                .syncing
             ]
         }
 

@@ -52,8 +52,7 @@ extension MediaPackageV2ClientTypes {
         public static var allCases: [AdMarkerDash] {
             return [
                 .binary,
-                .xml,
-                .sdkUnknown("")
+                .xml
             ]
         }
 
@@ -80,8 +79,7 @@ extension MediaPackageV2ClientTypes {
 
         public static var allCases: [AdMarkerHls] {
             return [
-                .daterange,
-                .sdkUnknown("")
+                .daterange
             ]
         }
 
@@ -215,8 +213,7 @@ extension MediaPackageV2ClientTypes {
         public static var allCases: [CmafEncryptionMethod] {
             return [
                 .cbcs,
-                .cenc,
-                .sdkUnknown("")
+                .cenc
             ]
         }
 
@@ -291,8 +288,7 @@ extension MediaPackageV2ClientTypes {
                 .conflictingOperation,
                 .idempotentParameterMismatch,
                 .resourceAlreadyExists,
-                .resourceInUse,
-                .sdkUnknown("")
+                .resourceInUse
             ]
         }
 
@@ -323,8 +319,7 @@ extension MediaPackageV2ClientTypes {
         public static var allCases: [ContainerType] {
             return [
                 .cmaf,
-                .ts,
-                .sdkUnknown("")
+                .ts
             ]
         }
 
@@ -1042,8 +1037,7 @@ extension MediaPackageV2ClientTypes {
         public static var allCases: [DashDrmSignaling] {
             return [
                 .individual,
-                .referenced,
-                .sdkUnknown("")
+                .referenced
             ]
         }
 
@@ -1078,8 +1072,7 @@ extension MediaPackageV2ClientTypes {
                 .drmKeyRotation,
                 .none,
                 .sourceChanges,
-                .sourceDisruptions,
-                .sdkUnknown("")
+                .sourceDisruptions
             ]
         }
 
@@ -1109,8 +1102,7 @@ extension MediaPackageV2ClientTypes {
 
         public static var allCases: [DashSegmentTemplateFormat] {
             return [
-                .numberWithTimeline,
-                .sdkUnknown("")
+                .numberWithTimeline
             ]
         }
 
@@ -1179,8 +1171,7 @@ extension MediaPackageV2ClientTypes {
                 .httpHead,
                 .httpIso,
                 .httpXsdate,
-                .utcDirect,
-                .sdkUnknown("")
+                .utcDirect
             ]
         }
 
@@ -1527,8 +1518,7 @@ extension MediaPackageV2ClientTypes {
                 .clearKeyAes128,
                 .fairplay,
                 .playready,
-                .widevine,
-                .sdkUnknown("")
+                .widevine
             ]
         }
 
@@ -3139,8 +3129,7 @@ extension MediaPackageV2ClientTypes {
                 .presetAudio2,
                 .presetAudio3,
                 .shared,
-                .unencrypted,
-                .sdkUnknown("")
+                .unencrypted
             ]
         }
 
@@ -3188,8 +3177,7 @@ extension MediaPackageV2ClientTypes {
                 .presetVideo7,
                 .presetVideo8,
                 .shared,
-                .unencrypted,
-                .sdkUnknown("")
+                .unencrypted
             ]
         }
 
@@ -3428,8 +3416,7 @@ extension MediaPackageV2ClientTypes {
             return [
                 .channel,
                 .channelGroup,
-                .originEndpoint,
-                .sdkUnknown("")
+                .originEndpoint
             ]
         }
 
@@ -3539,8 +3526,7 @@ extension MediaPackageV2ClientTypes {
                 .providerAdvertisement,
                 .providerOverlayPlacementOpportunity,
                 .providerPlacementOpportunity,
-                .spliceInsert,
-                .sdkUnknown("")
+                .spliceInsert
             ]
         }
 
@@ -3872,8 +3858,7 @@ extension MediaPackageV2ClientTypes {
         public static var allCases: [TsEncryptionMethod] {
             return [
                 .aes128,
-                .sampleAes,
-                .sdkUnknown("")
+                .sampleAes
             ]
         }
 
@@ -4598,8 +4583,7 @@ extension MediaPackageV2ClientTypes {
                 .urlPort,
                 .urlScheme,
                 .urlUnknownHost,
-                .urlUserInfo,
-                .sdkUnknown("")
+                .urlUserInfo
             ]
         }
 

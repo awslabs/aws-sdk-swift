@@ -57,8 +57,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [AccessDeniedExceptionReason] {
             return [
                 .accountDisabled,
-                .insufficientAccountReputation,
-                .sdkUnknown("")
+                .insufficientAccountReputation
             ]
         }
 
@@ -120,8 +119,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [AccountAttributeName] {
             return [
                 .accountTier,
-                .defaultProtectConfigurationId,
-                .sdkUnknown("")
+                .defaultProtectConfigurationId
             ]
         }
 
@@ -201,8 +199,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .registrations,
                 .registrationAttachments,
                 .senderIds,
-                .verifiedDestinationNumbers,
-                .sdkUnknown("")
+                .verifiedDestinationNumbers
             ]
         }
 
@@ -446,8 +443,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .deleted,
                 .uploadComplete,
                 .uploadFailed,
-                .uploadInProgress,
-                .sdkUnknown("")
+                .uploadInProgress
             ]
         }
 
@@ -476,8 +472,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public static var allCases: [AttachmentUploadErrorReason] {
             return [
-                .internalError,
-                .sdkUnknown("")
+                .internalError
             ]
         }
 
@@ -581,8 +576,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .defaultSenderId,
                 .eventDestinationName,
                 .matchingEventTypes,
-                .protectConfigurationId,
-                .sdkUnknown("")
+                .protectConfigurationId
             ]
         }
 
@@ -792,8 +786,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .submitRegistrationVersionNotAllowed,
                 .twoWayConfigMismatch,
                 .verificationAlreadyComplete,
-                .verificationCodeExpired,
-                .sdkUnknown("")
+                .verificationCodeExpired
             ]
         }
 
@@ -5326,8 +5319,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [DestinationCountryParameterKey] {
             return [
                 .inEntityId,
-                .inTemplateId,
-                .sdkUnknown("")
+                .inTemplateId
             ]
         }
 
@@ -5806,8 +5798,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .voiceInitiated,
                 .voiceNoAnswer,
                 .voiceRinging,
-                .voiceTtlExpired,
-                .sdkUnknown("")
+                .voiceTtlExpired
             ]
         }
 
@@ -5878,8 +5869,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .conditional,
                 .optional,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -5911,8 +5901,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .attachment,
                 .select,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -6081,8 +6070,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .automaticResponse,
                 .optIn,
-                .optOut,
-                .sdkUnknown("")
+                .optOut
             ]
         }
 
@@ -6141,8 +6129,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public static var allCases: [KeywordFilterName] {
             return [
-                .keywordAction,
-                .sdkUnknown("")
+                .keywordAction
             ]
         }
 
@@ -6270,8 +6257,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .koKr,
                 .ptBr,
                 .zhCn,
-                .zhTw,
-                .sdkUnknown("")
+                .zhTw
             ]
         }
 
@@ -6595,8 +6581,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [MessageType] {
             return [
                 .promotional,
-                .transactional,
-                .sdkUnknown("")
+                .transactional
             ]
         }
 
@@ -6627,8 +6612,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .mms,
                 .sms,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -6664,8 +6648,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .associating,
                 .deleted,
                 .disassociating,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -6703,8 +6686,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .shortCode,
                 .simulator,
                 .tenDlc,
-                .tollFree,
-                .sdkUnknown("")
+                .tollFree
             ]
         }
 
@@ -6804,8 +6786,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public static var allCases: [OptedOutFilterName] {
             return [
-                .endUserOptedOut,
-                .sdkUnknown("")
+                .endUserOptedOut
             ]
         }
 
@@ -6969,8 +6950,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .selfManagedOptOutsEnabled,
                 .status,
                 .twoWayChannelArn,
-                .twoWayEnabled,
-                .sdkUnknown("")
+                .twoWayEnabled
             ]
         }
 
@@ -7176,8 +7156,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .sharedRoutesEnabled,
                 .status,
                 .twoWayChannelArn,
-                .twoWayEnabled,
-                .sdkUnknown("")
+                .twoWayEnabled
             ]
         }
 
@@ -7334,8 +7313,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [PoolOriginationIdentitiesFilterName] {
             return [
                 .isoCountryCode,
-                .numberCapability,
-                .sdkUnknown("")
+                .numberCapability
             ]
         }
 
@@ -7366,8 +7344,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .active,
                 .creating,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -7460,8 +7437,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [ProtectConfigurationFilterName] {
             return [
                 .accountDefault,
-                .deletionProtectionEnabled,
-                .sdkUnknown("")
+                .deletionProtectionEnabled
             ]
         }
 
@@ -7541,8 +7517,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [ProtectStatus] {
             return [
                 .allow,
-                .block,
-                .sdkUnknown("")
+                .block
             ]
         }
 
@@ -7910,8 +7885,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .associateAfterComplete,
                 .associateBeforeSubmit,
-                .associateOnApproval,
-                .sdkUnknown("")
+                .associateOnApproval
             ]
         }
 
@@ -7972,8 +7946,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [RegistrationAssociationFilterName] {
             return [
                 .isoCountryCode,
-                .resourceType,
-                .sdkUnknown("")
+                .resourceType
             ]
         }
 
@@ -8080,8 +8053,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public static var allCases: [RegistrationAttachmentFilterName] {
             return [
-                .attachmentStatus,
-                .sdkUnknown("")
+                .attachmentStatus
             ]
         }
 
@@ -8217,8 +8189,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .deleteRegistrationDisassociates,
                 .disassociateAllAllowsDeleteRegistration,
-                .disassociateAllClosesRegistration,
-                .sdkUnknown("")
+                .disassociateAllClosesRegistration
             ]
         }
 
@@ -8450,8 +8421,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [RegistrationFilterName] {
             return [
                 .registrationStatus,
-                .registrationType,
-                .sdkUnknown("")
+                .registrationType
             ]
         }
 
@@ -8661,8 +8631,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .provisioning,
                 .requiresUpdates,
                 .reviewing,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -8813,8 +8782,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [RegistrationTypeFilterName] {
             return [
                 .supportedAssociationIsoCountryCode,
-                .supportedAssociationResourceType,
-                .sdkUnknown("")
+                .supportedAssociationResourceType
             ]
         }
 
@@ -8872,8 +8840,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public static var allCases: [RegistrationVersionFilterName] {
             return [
-                .registrationVersionStatus,
-                .sdkUnknown("")
+                .registrationVersionStatus
             ]
         }
 
@@ -8973,8 +8940,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .draft,
                 .reviewing,
                 .revoked,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -9683,8 +9649,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .longCode,
                 .simulator,
                 .tenDlc,
-                .tollFree,
-                .sdkUnknown("")
+                .tollFree
             ]
         }
 
@@ -9784,8 +9749,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .registration,
                 .registrationAttachment,
                 .senderId,
-                .verifiedDestinationNumber,
-                .sdkUnknown("")
+                .verifiedDestinationNumber
             ]
         }
 
@@ -10445,8 +10409,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .isoCountryCode,
                 .messageType,
                 .registered,
-                .senderId,
-                .sdkUnknown("")
+                .senderId
             ]
         }
 
@@ -10630,8 +10593,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .senderIdsPerAccount,
                 .tagsPerResource,
                 .verificationAttemptsPerDay,
-                .verifiedDestinationNumbersPerAccount,
-                .sdkUnknown("")
+                .verifiedDestinationNumbersPerAccount
             ]
         }
 
@@ -11216,8 +11178,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .mediaMessageMonthlySpendLimit,
                 .textMessageMonthlySpendLimit,
-                .voiceMessageMonthlySpendLimit,
-                .sdkUnknown("")
+                .voiceMessageMonthlySpendLimit
             ]
         }
 
@@ -12591,8 +12552,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .unknownRegistrationType,
                 .unknownRegistrationVersion,
                 .verificationCodeMismatch,
-                .voiceCapabilityNotAvailable,
-                .sdkUnknown("")
+                .voiceCapabilityNotAvailable
             ]
         }
 
@@ -12658,8 +12618,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [VerificationChannel] {
             return [
                 .text,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -12688,8 +12647,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [VerificationStatus] {
             return [
                 .pending,
-                .verified,
-                .sdkUnknown("")
+                .verified
             ]
         }
 
@@ -12747,8 +12705,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public static var allCases: [VerifiedDestinationNumberFilterName] {
             return [
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -13047,8 +13004,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .vicki,
                 .vitoria,
                 .zeina,
-                .zhiyu,
-                .sdkUnknown("")
+                .zhiyu
             ]
         }
 
@@ -13134,8 +13090,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public static var allCases: [VoiceMessageBodyTextType] {
             return [
                 .ssml,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 

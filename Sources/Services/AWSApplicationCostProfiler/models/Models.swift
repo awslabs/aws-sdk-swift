@@ -118,8 +118,7 @@ extension ApplicationCostProfilerClientTypes {
         public static var allCases: [Format] {
             return [
                 .csv,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -593,8 +592,7 @@ extension ApplicationCostProfilerClientTypes {
             return [
                 .all,
                 .daily,
-                .monthly,
-                .sdkUnknown("")
+                .monthly
             ]
         }
 
@@ -628,8 +626,7 @@ extension ApplicationCostProfilerClientTypes {
                 .afSouth1,
                 .apEast1,
                 .euSouth1,
-                .meSouth1,
-                .sdkUnknown("")
+                .meSouth1
             ]
         }
 

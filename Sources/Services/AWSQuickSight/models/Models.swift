@@ -693,8 +693,7 @@ extension QuickSightClientTypes {
                 .parameterNotFound,
                 .parameterTypeInvalid,
                 .parameterValueIncompatible,
-                .sourceNotFound,
-                .sdkUnknown("")
+                .sourceNotFound
             ]
         }
 
@@ -741,8 +740,7 @@ extension QuickSightClientTypes {
                 .directQuicksightViewerOrOwner,
                 .quicksightOwner,
                 .quicksightUser,
-                .quicksightViewerOrOwner,
-                .sdkUnknown("")
+                .quicksightViewerOrOwner
             ]
         }
 
@@ -965,8 +963,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [AnchorOption] {
             return [
-                .now,
-                .sdkUnknown("")
+                .now
             ]
         }
 
@@ -1305,8 +1302,7 @@ extension QuickSightClientTypes {
                 .large,
                 .medium,
                 .small,
-                .whole,
-                .sdkUnknown("")
+                .whole
             ]
         }
 
@@ -1339,8 +1335,7 @@ extension QuickSightClientTypes {
             return [
                 .large,
                 .medium,
-                .small,
-                .sdkUnknown("")
+                .small
             ]
         }
 
@@ -1443,8 +1438,7 @@ extension QuickSightClientTypes {
         public static var allCases: [AssetBundleExportFormat] {
             return [
                 .cloudformationJson,
-                .quicksightJson,
-                .sdkUnknown("")
+                .quicksightJson
             ]
         }
 
@@ -1510,8 +1504,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [AssetBundleExportJobAnalysisPropertyToOverride] {
             return [
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -1576,8 +1569,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [AssetBundleExportJobDashboardPropertyToOverride] {
             return [
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -1642,8 +1634,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [AssetBundleExportJobDataSetPropertyToOverride] {
             return [
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -1742,8 +1733,7 @@ extension QuickSightClientTypes {
                 .secretArn,
                 .username,
                 .warehouse,
-                .workGroup,
-                .sdkUnknown("")
+                .workGroup
             ]
         }
 
@@ -1861,8 +1851,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [AssetBundleExportJobRefreshSchedulePropertyToOverride] {
             return [
-                .startAfterDateTime,
-                .sdkUnknown("")
+                .startAfterDateTime
             ]
         }
 
@@ -1925,8 +1914,7 @@ extension QuickSightClientTypes {
                 .failed,
                 .inProgress,
                 .queuedForImmediateExecution,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -2055,8 +2043,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [AssetBundleExportJobThemePropertyToOverride] {
             return [
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -2125,8 +2112,7 @@ extension QuickSightClientTypes {
             return [
                 .dnsResolvers,
                 .name,
-                .roleArn,
-                .sdkUnknown("")
+                .roleArn
             ]
         }
 
@@ -2218,8 +2204,7 @@ extension QuickSightClientTypes {
         public static var allCases: [AssetBundleImportFailureAction] {
             return [
                 .doNothing,
-                .rollback,
-                .sdkUnknown("")
+                .rollback
             ]
         }
 
@@ -3170,8 +3155,7 @@ extension QuickSightClientTypes {
                 .failedRollbackInProgress,
                 .inProgress,
                 .queuedForImmediateExecution,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -3678,8 +3662,7 @@ extension QuickSightClientTypes {
             return [
                 .disabled,
                 .draft,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3881,8 +3864,7 @@ extension QuickSightClientTypes {
                 .activeDirectory,
                 .iamAndQuicksight,
                 .iamIdentityCenter,
-                .iamOnly,
-                .sdkUnknown("")
+                .iamOnly
             ]
         }
 
@@ -3933,8 +3915,7 @@ extension QuickSightClientTypes {
                 .stdevp,
                 .sum,
                 .var,
-                .varp,
-                .sdkUnknown("")
+                .varp
             ]
         }
 
@@ -4036,8 +4017,7 @@ extension QuickSightClientTypes {
         public static var allCases: [AxisBinding] {
             return [
                 .primaryYaxis,
-                .secondaryYaxis,
-                .sdkUnknown("")
+                .secondaryYaxis
             ]
         }
 
@@ -4695,8 +4675,7 @@ extension QuickSightClientTypes {
         public static var allCases: [BarChartOrientation] {
             return [
                 .horizontal,
-                .vertical,
-                .sdkUnknown("")
+                .vertical
             ]
         }
 
@@ -4865,8 +4844,7 @@ extension QuickSightClientTypes {
             return [
                 .clustered,
                 .stacked,
-                .stackedPercent,
-                .sdkUnknown("")
+                .stackedPercent
             ]
         }
 
@@ -4900,8 +4878,7 @@ extension QuickSightClientTypes {
                 .darkGray,
                 .imagery,
                 .lightGray,
-                .street,
-                .sdkUnknown("")
+                .street
             ]
         }
 
@@ -5341,8 +5318,7 @@ extension QuickSightClientTypes {
         public static var allCases: [BoxPlotFillStyle] {
             return [
                 .solid,
-                .transparent,
-                .sdkUnknown("")
+                .transparent
             ]
         }
 
@@ -5906,8 +5882,7 @@ extension QuickSightClientTypes {
         public static var allCases: [CategoricalAggregationFunction] {
             return [
                 .count,
-                .distinctCount,
-                .sdkUnknown("")
+                .distinctCount
             ]
         }
 
@@ -6172,8 +6147,7 @@ extension QuickSightClientTypes {
         public static var allCases: [CategoryFilterFunction] {
             return [
                 .contains,
-                .exact,
-                .sdkUnknown("")
+                .exact
             ]
         }
 
@@ -6210,8 +6184,7 @@ extension QuickSightClientTypes {
                 .doesNotEqual,
                 .endsWith,
                 .equals,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 
@@ -6242,8 +6215,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [CategoryFilterSelectAllOptions] {
             return [
-                .filterAllValues,
-                .sdkUnknown("")
+                .filterAllValues
             ]
         }
 
@@ -6273,8 +6245,7 @@ extension QuickSightClientTypes {
             return [
                 .customFilter,
                 .customFilterList,
-                .filterList,
-                .sdkUnknown("")
+                .filterList
             ]
         }
 
@@ -6481,8 +6452,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ColorFillType] {
             return [
                 .discrete,
-                .gradient,
-                .sdkUnknown("")
+                .gradient
             ]
         }
 
@@ -6637,8 +6607,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ColumnDataRole] {
             return [
                 .dimension,
-                .measure,
-                .sdkUnknown("")
+                .measure
             ]
         }
 
@@ -6667,8 +6636,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ColumnDataSubType] {
             return [
                 .fixed,
-                .float,
-                .sdkUnknown("")
+                .float
             ]
         }
 
@@ -6701,8 +6669,7 @@ extension QuickSightClientTypes {
                 .datetime,
                 .decimal,
                 .integer,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -6984,8 +6951,7 @@ extension QuickSightClientTypes {
             return [
                 .greaterIsBetter,
                 .lesserIsBetter,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -7015,8 +6981,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ColumnRole] {
             return [
                 .dimension,
-                .measure,
-                .sdkUnknown("")
+                .measure
             ]
         }
 
@@ -7170,8 +7135,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ColumnTagName] {
             return [
                 .columnDescription,
-                .columnGeographicRole,
-                .sdkUnknown("")
+                .columnGeographicRole
             ]
         }
 
@@ -7711,8 +7675,7 @@ extension QuickSightClientTypes {
             return [
                 .difference,
                 .percent,
-                .percentDifference,
-                .sdkUnknown("")
+                .percentDifference
             ]
         }
 
@@ -8108,8 +8071,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [ConditionalFormattingIconDisplayOption] {
             return [
-                .iconOnly,
-                .sdkUnknown("")
+                .iconOnly
             ]
         }
 
@@ -8198,8 +8160,7 @@ extension QuickSightClientTypes {
                 .threeCircle,
                 .threeColorArrow,
                 .threeGrayArrow,
-                .threeShape,
-                .sdkUnknown("")
+                .threeShape
             ]
         }
 
@@ -8324,8 +8285,7 @@ extension QuickSightClientTypes {
             return [
                 .collective,
                 .range,
-                .singular,
-                .sdkUnknown("")
+                .singular
             ]
         }
 
@@ -11363,8 +11323,7 @@ extension QuickSightClientTypes {
         public static var allCases: [CrossDatasetTypes] {
             return [
                 .allDatasets,
-                .singleDataset,
-                .sdkUnknown("")
+                .singleDataset
             ]
         }
 
@@ -11720,8 +11679,7 @@ extension QuickSightClientTypes {
                 .doNotScale,
                 .fitToHeight,
                 .fitToWidth,
-                .scaleToVisual,
-                .sdkUnknown("")
+                .scaleToVisual
             ]
         }
 
@@ -11752,8 +11710,7 @@ extension QuickSightClientTypes {
         public static var allCases: [CustomContentType] {
             return [
                 .image,
-                .otherEmbeddedContent,
-                .sdkUnknown("")
+                .otherEmbeddedContent
             ]
         }
 
@@ -12201,8 +12158,7 @@ extension QuickSightClientTypes {
         public static var allCases: [DashboardBehavior] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12283,8 +12239,7 @@ extension QuickSightClientTypes {
                 .parameterNotFound,
                 .parameterTypeInvalid,
                 .parameterValueIncompatible,
-                .sourceNotFound,
-                .sdkUnknown("")
+                .sourceNotFound
             ]
         }
 
@@ -12331,8 +12286,7 @@ extension QuickSightClientTypes {
                 .directQuicksightViewerOrOwner,
                 .quicksightOwner,
                 .quicksightUser,
-                .quicksightViewerOrOwner,
-                .sdkUnknown("")
+                .quicksightViewerOrOwner
             ]
         }
 
@@ -12616,8 +12570,7 @@ extension QuickSightClientTypes {
         public static var allCases: [DashboardUIState] {
             return [
                 .collapsed,
-                .expanded,
-                .sdkUnknown("")
+                .expanded
             ]
         }
 
@@ -13138,8 +13091,7 @@ extension QuickSightClientTypes {
             return [
                 .percent,
                 .value,
-                .valueAndPercent,
-                .sdkUnknown("")
+                .valueAndPercent
             ]
         }
 
@@ -13254,8 +13206,7 @@ extension QuickSightClientTypes {
         public static var allCases: [DataLabelOverlap] {
             return [
                 .disableOverlap,
-                .enableOverlap,
-                .sdkUnknown("")
+                .enableOverlap
             ]
         }
 
@@ -13292,8 +13243,7 @@ extension QuickSightClientTypes {
                 .left,
                 .outside,
                 .right,
-                .top,
-                .sdkUnknown("")
+                .top
             ]
         }
 
@@ -13850,8 +13800,7 @@ extension QuickSightClientTypes {
                 .directQuicksightSoleOwner,
                 .directQuicksightViewerOrOwner,
                 .quicksightOwner,
-                .quicksightViewerOrOwner,
-                .sdkUnknown("")
+                .quicksightViewerOrOwner
             ]
         }
 
@@ -13923,8 +13872,7 @@ extension QuickSightClientTypes {
         public static var allCases: [DataSetImportMode] {
             return [
                 .directQuery,
-                .spice,
-                .sdkUnknown("")
+                .spice
             ]
         }
 
@@ -14368,8 +14316,7 @@ extension QuickSightClientTypes {
                 .genericSqlFailure,
                 .timeout,
                 .unknown,
-                .unknownHost,
-                .sdkUnknown("")
+                .unknownHost
             ]
         }
 
@@ -14408,8 +14355,7 @@ extension QuickSightClientTypes {
                 .datasourceName,
                 .directQuicksightOwner,
                 .directQuicksightSoleOwner,
-                .directQuicksightViewerOrOwner,
-                .sdkUnknown("")
+                .directQuicksightViewerOrOwner
             ]
         }
 
@@ -14774,8 +14720,7 @@ extension QuickSightClientTypes {
                 .teradata,
                 .timestream,
                 .trino,
-                .twitter,
-                .sdkUnknown("")
+                .twitter
             ]
         }
 
@@ -15001,8 +14946,7 @@ extension QuickSightClientTypes {
         public static var allCases: [DatasetParameterValueType] {
             return [
                 .multiValued,
-                .singleValued,
-                .sdkUnknown("")
+                .singleValued
             ]
         }
 
@@ -15035,8 +14979,7 @@ extension QuickSightClientTypes {
                 .count,
                 .distinctCount,
                 .max,
-                .min,
-                .sdkUnknown("")
+                .min
             ]
         }
 
@@ -15631,8 +15574,7 @@ extension QuickSightClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -15676,8 +15618,7 @@ extension QuickSightClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -16023,8 +15964,7 @@ extension QuickSightClientTypes {
                 .stdevp,
                 .sum,
                 .var,
-                .varp,
-                .sdkUnknown("")
+                .varp
             ]
         }
 
@@ -23682,8 +23622,7 @@ extension QuickSightClientTypes {
                 .date,
                 .number,
                 .percent,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -24063,8 +24002,7 @@ extension QuickSightClientTypes {
             return [
                 .enterprise,
                 .enterpriseAndQ,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -24096,8 +24034,7 @@ extension QuickSightClientTypes {
             return [
                 .anonymous,
                 .iam,
-                .quicksight,
-                .sdkUnknown("")
+                .quicksight
             ]
         }
 
@@ -24282,8 +24219,7 @@ extension QuickSightClientTypes {
                 .ingestion,
                 .namespace,
                 .user,
-                .vpcConnection,
-                .sdkUnknown("")
+                .vpcConnection
             ]
         }
 
@@ -24854,8 +24790,7 @@ extension QuickSightClientTypes {
                 .elf,
                 .json,
                 .tsv,
-                .xlsx,
-                .sdkUnknown("")
+                .xlsx
             ]
         }
 
@@ -25293,8 +25228,7 @@ extension QuickSightClientTypes {
             return [
                 .conditionalValueFilter,
                 .enforcedValueFilter,
-                .namedValueFilter,
-                .sdkUnknown("")
+                .namedValueFilter
             ]
         }
 
@@ -25775,8 +25709,7 @@ extension QuickSightClientTypes {
             return [
                 .allValues,
                 .nonNullsOnly,
-                .nullsOnly,
-                .sdkUnknown("")
+                .nullsOnly
             ]
         }
 
@@ -25919,8 +25852,7 @@ extension QuickSightClientTypes {
         public static var allCases: [FilterOperator] {
             return [
                 .stringequals,
-                .stringlike,
-                .sdkUnknown("")
+                .stringlike
             ]
         }
 
@@ -26262,8 +26194,7 @@ extension QuickSightClientTypes {
         public static var allCases: [FilterVisualScope] {
             return [
                 .allVisuals,
-                .selectedVisuals,
-                .sdkUnknown("")
+                .selectedVisuals
             ]
         }
 
@@ -26363,8 +26294,7 @@ extension QuickSightClientTypes {
                 .folderName,
                 .parentFolderArn,
                 .quicksightOwner,
-                .quicksightViewerOrOwner,
-                .sdkUnknown("")
+                .quicksightViewerOrOwner
             ]
         }
 
@@ -26533,8 +26463,7 @@ extension QuickSightClientTypes {
         public static var allCases: [FolderType] {
             return [
                 .restricted,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -26649,8 +26578,7 @@ extension QuickSightClientTypes {
         public static var allCases: [FontDecoration] {
             return [
                 .none,
-                .underline,
-                .sdkUnknown("")
+                .underline
             ]
         }
 
@@ -26710,8 +26638,7 @@ extension QuickSightClientTypes {
         public static var allCases: [FontStyle] {
             return [
                 .italic,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 
@@ -26771,8 +26698,7 @@ extension QuickSightClientTypes {
         public static var allCases: [FontWeightName] {
             return [
                 .bold,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 
@@ -26897,8 +26823,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ForecastComputationSeasonality] {
             return [
                 .automatic,
-                .custom,
-                .sdkUnknown("")
+                .custom
             ]
         }
 
@@ -27568,8 +27493,7 @@ extension QuickSightClientTypes {
                 .percentageByPreviousStage,
                 .valueAndPercentageByFirstStage,
                 .valueAndPercentageByPreviousStage,
-                .valueOnly,
-                .sdkUnknown("")
+                .valueOnly
             ]
         }
 
@@ -28385,8 +28309,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [GeoSpatialCountryCode] {
             return [
-                .us,
-                .sdkUnknown("")
+                .us
             ]
         }
 
@@ -28424,8 +28347,7 @@ extension QuickSightClientTypes {
                 .latitude,
                 .longitude,
                 .postcode,
-                .state,
-                .sdkUnknown("")
+                .state
             ]
         }
 
@@ -28891,8 +28813,7 @@ extension QuickSightClientTypes {
             return [
                 .cluster,
                 .heatmap,
-                .point,
-                .sdkUnknown("")
+                .point
             ]
         }
 
@@ -29605,8 +29526,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [GroupFilterAttribute] {
             return [
-                .groupName,
-                .sdkUnknown("")
+                .groupName
             ]
         }
 
@@ -29632,8 +29552,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [GroupFilterOperator] {
             return [
-                .startswith,
-                .sdkUnknown("")
+                .startswith
             ]
         }
 
@@ -30205,8 +30124,7 @@ extension QuickSightClientTypes {
         public static var allCases: [HistogramBinType] {
             return [
                 .binCount,
-                .binWidth,
-                .sdkUnknown("")
+                .binWidth
             ]
         }
 
@@ -30405,8 +30323,7 @@ extension QuickSightClientTypes {
                 .auto,
                 .center,
                 .left,
-                .right,
-                .sdkUnknown("")
+                .right
             ]
         }
 
@@ -30567,8 +30484,7 @@ extension QuickSightClientTypes {
                 .thumbsUp,
                 .triangle,
                 .twoBar,
-                .x,
-                .sdkUnknown("")
+                .x
             ]
         }
 
@@ -30650,8 +30566,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [IdentityStore] {
             return [
-                .quicksight,
-                .sdkUnknown("")
+                .quicksight
             ]
         }
 
@@ -30681,8 +30596,7 @@ extension QuickSightClientTypes {
             return [
                 .iam,
                 .iamIdentityCenter,
-                .quicksight,
-                .sdkUnknown("")
+                .quicksight
             ]
         }
 
@@ -30951,8 +30865,7 @@ extension QuickSightClientTypes {
                 .sqlTableNotFound,
                 .sslCertificateValidationFailure,
                 .unresolvableHost,
-                .unroutableHost,
-                .sdkUnknown("")
+                .unroutableHost
             ]
         }
 
@@ -31024,8 +30937,7 @@ extension QuickSightClientTypes {
         public static var allCases: [IngestionRequestSource] {
             return [
                 .manual,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -31059,8 +30971,7 @@ extension QuickSightClientTypes {
                 .edit,
                 .fullRefresh,
                 .incrementalRefresh,
-                .initialIngestion,
-                .sdkUnknown("")
+                .initialIngestion
             ]
         }
 
@@ -31099,8 +31010,7 @@ extension QuickSightClientTypes {
                 .failed,
                 .initialized,
                 .queued,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -31134,8 +31044,7 @@ extension QuickSightClientTypes {
         public static var allCases: [IngestionType] {
             return [
                 .fullRefresh,
-                .incrementalRefresh,
-                .sdkUnknown("")
+                .incrementalRefresh
             ]
         }
 
@@ -31219,8 +31128,7 @@ extension QuickSightClientTypes {
                 .decimal,
                 .integer,
                 .json,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -31963,8 +31871,7 @@ extension QuickSightClientTypes {
                 .inner,
                 .left,
                 .outer,
-                .right,
-                .sdkUnknown("")
+                .right
             ]
         }
 
@@ -32469,8 +32376,7 @@ extension QuickSightClientTypes {
         public static var allCases: [KPISparklineType] {
             return [
                 .area,
-                .line,
-                .sdkUnknown("")
+                .line
             ]
         }
 
@@ -32630,8 +32536,7 @@ extension QuickSightClientTypes {
         public static var allCases: [KPIVisualStandardLayoutType] {
             return [
                 .classic,
-                .vertical,
-                .sdkUnknown("")
+                .vertical
             ]
         }
 
@@ -32782,8 +32687,7 @@ extension QuickSightClientTypes {
                 .filterControl,
                 .parameterControl,
                 .textBox,
-                .visual,
-                .sdkUnknown("")
+                .visual
             ]
         }
 
@@ -32881,8 +32785,7 @@ extension QuickSightClientTypes {
                 .auto,
                 .bottom,
                 .right,
-                .top,
-                .sdkUnknown("")
+                .top
             ]
         }
 
@@ -33236,8 +33139,7 @@ extension QuickSightClientTypes {
             return [
                 .dashed,
                 .dotted,
-                .solid,
-                .sdkUnknown("")
+                .solid
             ]
         }
 
@@ -33334,8 +33236,7 @@ extension QuickSightClientTypes {
                 .diamond,
                 .roundedSquare,
                 .square,
-                .triangle,
-                .sdkUnknown("")
+                .triangle
             ]
         }
 
@@ -33520,8 +33421,7 @@ extension QuickSightClientTypes {
             return [
                 .area,
                 .line,
-                .stackedArea,
-                .sdkUnknown("")
+                .stackedArea
             ]
         }
 
@@ -33615,8 +33515,7 @@ extension QuickSightClientTypes {
             return [
                 .linear,
                 .smooth,
-                .stepped,
-                .sdkUnknown("")
+                .stepped
             ]
         }
 
@@ -37325,8 +37224,7 @@ extension QuickSightClientTypes {
             return [
                 .day,
                 .hour,
-                .week,
-                .sdkUnknown("")
+                .week
             ]
         }
 
@@ -37395,8 +37293,7 @@ extension QuickSightClientTypes {
         public static var allCases: [MapZoomMode] {
             return [
                 .auto,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -37633,8 +37530,7 @@ extension QuickSightClientTypes {
         public static var allCases: [MaximumMinimumComputationType] {
             return [
                 .maximum,
-                .minimum,
-                .sdkUnknown("")
+                .minimum
             ]
         }
 
@@ -37749,8 +37645,7 @@ extension QuickSightClientTypes {
                 .dashboard,
                 .dataset,
                 .datasource,
-                .topic,
-                .sdkUnknown("")
+                .topic
             ]
         }
 
@@ -37908,8 +37803,7 @@ extension QuickSightClientTypes {
             return [
                 .interpolate,
                 .showAsBlank,
-                .showAsZero,
-                .sdkUnknown("")
+                .showAsZero
             ]
         }
 
@@ -38007,8 +37901,7 @@ extension QuickSightClientTypes {
                 .stdevp,
                 .sum,
                 .var,
-                .varp,
-                .sdkUnknown("")
+                .varp
             ]
         }
 
@@ -38160,8 +38053,7 @@ extension QuickSightClientTypes {
                 .stdevp,
                 .sum,
                 .var,
-                .varp,
-                .sdkUnknown("")
+                .varp
             ]
         }
 
@@ -38206,8 +38098,7 @@ extension QuickSightClientTypes {
                 .dateRangeFilter,
                 .numericEqualityFilter,
                 .numericRangeFilter,
-                .relativeDateFilter,
-                .sdkUnknown("")
+                .relativeDateFilter
             ]
         }
 
@@ -38270,8 +38161,7 @@ extension QuickSightClientTypes {
         public static var allCases: [NamespaceErrorType] {
             return [
                 .internalServiceError,
-                .permissionDenied,
-                .sdkUnknown("")
+                .permissionDenied
             ]
         }
 
@@ -38357,8 +38247,7 @@ extension QuickSightClientTypes {
                 .creating,
                 .deleting,
                 .nonRetryableFailure,
-                .retryableFailure,
-                .sdkUnknown("")
+                .retryableFailure
             ]
         }
 
@@ -38459,8 +38348,7 @@ extension QuickSightClientTypes {
         public static var allCases: [NegativeValueDisplayMode] {
             return [
                 .negative,
-                .positive,
-                .sdkUnknown("")
+                .positive
             ]
         }
 
@@ -38551,8 +38439,7 @@ extension QuickSightClientTypes {
                 .deletionFailed,
                 .deletionScheduled,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -38786,8 +38673,7 @@ extension QuickSightClientTypes {
                 .millions,
                 .none,
                 .thousands,
-                .trillions,
-                .sdkUnknown("")
+                .trillions
             ]
         }
 
@@ -38987,8 +38873,7 @@ extension QuickSightClientTypes {
         public static var allCases: [NumericEqualityMatchOperator] {
             return [
                 .doesNotEqual,
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -39015,8 +38900,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [NumericFilterSelectAllOptions] {
             return [
-                .filterAllValues,
-                .sdkUnknown("")
+                .filterAllValues
             ]
         }
 
@@ -39259,8 +39143,7 @@ extension QuickSightClientTypes {
             return [
                 .comma,
                 .dot,
-                .space,
-                .sdkUnknown("")
+                .space
             ]
         }
 
@@ -39497,8 +39380,7 @@ extension QuickSightClientTypes {
         public static var allCases: [OtherCategories] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -39653,8 +39535,7 @@ extension QuickSightClientTypes {
             return [
                 .dashed,
                 .dotted,
-                .solid,
-                .sdkUnknown("")
+                .solid
             ]
         }
 
@@ -39806,8 +39687,7 @@ extension QuickSightClientTypes {
         public static var allCases: [PaperOrientation] {
             return [
                 .landscape,
-                .portrait,
-                .sdkUnknown("")
+                .portrait
             ]
         }
 
@@ -39854,8 +39734,7 @@ extension QuickSightClientTypes {
                 .jisB5,
                 .usLegal,
                 .usLetter,
-                .usTabloidLedger,
-                .sdkUnknown("")
+                .usTabloidLedger
             ]
         }
 
@@ -40415,8 +40294,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ParameterValueType] {
             return [
                 .multiValued,
-                .singleValued,
-                .sdkUnknown("")
+                .singleValued
             ]
         }
 
@@ -41300,8 +41178,7 @@ extension QuickSightClientTypes {
             return [
                 .field,
                 .fieldTotal,
-                .grandTotal,
-                .sdkUnknown("")
+                .grandTotal
             ]
         }
 
@@ -41440,8 +41317,7 @@ extension QuickSightClientTypes {
                 .countMetricColumn,
                 .emptyColumnHeader,
                 .hierarchyRowsLayoutColumn,
-                .multipleRowMetricsColumn,
-                .sdkUnknown("")
+                .multipleRowMetricsColumn
             ]
         }
 
@@ -41472,8 +41348,7 @@ extension QuickSightClientTypes {
         public static var allCases: [PivotTableFieldCollapseState] {
             return [
                 .collapsed,
-                .expanded,
-                .sdkUnknown("")
+                .expanded
             ]
         }
 
@@ -41730,8 +41605,7 @@ extension QuickSightClientTypes {
         public static var allCases: [PivotTableMetricPlacement] {
             return [
                 .column,
-                .row,
-                .sdkUnknown("")
+                .row
             ]
         }
 
@@ -41941,8 +41815,7 @@ extension QuickSightClientTypes {
         public static var allCases: [PivotTableRowsLayout] {
             return [
                 .hierarchy,
-                .tabular,
-                .sdkUnknown("")
+                .tabular
             ]
         }
 
@@ -42047,8 +41920,7 @@ extension QuickSightClientTypes {
             return [
                 .all,
                 .custom,
-                .last,
-                .sdkUnknown("")
+                .last
             ]
         }
 
@@ -42443,8 +42315,7 @@ extension QuickSightClientTypes {
             return [
                 .actual,
                 .comparison,
-                .hidden,
-                .sdkUnknown("")
+                .hidden
             ]
         }
 
@@ -42537,8 +42408,7 @@ extension QuickSightClientTypes {
         public static var allCases: [PropertyRole] {
             return [
                 .id,
-                .primary,
-                .sdkUnknown("")
+                .primary
             ]
         }
 
@@ -42569,8 +42439,7 @@ extension QuickSightClientTypes {
             return [
                 .dimension,
                 .inherit,
-                .measure,
-                .sdkUnknown("")
+                .measure
             ]
         }
 
@@ -42600,8 +42469,7 @@ extension QuickSightClientTypes {
         public static var allCases: [PurchaseMode] {
             return [
                 .autoPurchase,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -42877,8 +42745,7 @@ extension QuickSightClientTypes {
             return [
                 .auto,
                 .independent,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -43091,8 +42958,7 @@ extension QuickSightClientTypes {
         public static var allCases: [RadarChartShape] {
             return [
                 .circle,
-                .polygon,
-                .sdkUnknown("")
+                .polygon
             ]
         }
 
@@ -43712,8 +43578,7 @@ extension QuickSightClientTypes {
             return [
                 .center,
                 .left,
-                .right,
-                .sdkUnknown("")
+                .right
             ]
         }
 
@@ -43743,8 +43608,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ReferenceLineLabelVerticalPosition] {
             return [
                 .above,
-                .below,
-                .sdkUnknown("")
+                .below
             ]
         }
 
@@ -43775,8 +43639,7 @@ extension QuickSightClientTypes {
             return [
                 .dashed,
                 .dotted,
-                .solid,
-                .sdkUnknown("")
+                .solid
             ]
         }
 
@@ -43806,8 +43669,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ReferenceLineSeriesType] {
             return [
                 .bar,
-                .line,
-                .sdkUnknown("")
+                .line
             ]
         }
 
@@ -43957,8 +43819,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ReferenceLineValueLabelRelativePosition] {
             return [
                 .afterCustomLabel,
-                .beforeCustomLabel,
-                .sdkUnknown("")
+                .beforeCustomLabel
             ]
         }
 
@@ -44089,8 +43950,7 @@ extension QuickSightClientTypes {
                 .minute15,
                 .minute30,
                 .monthly,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -44772,8 +44632,7 @@ extension QuickSightClientTypes {
                 .next,
                 .now,
                 .previous,
-                .this,
-                .sdkUnknown("")
+                .this
             ]
         }
 
@@ -44924,8 +44783,7 @@ extension QuickSightClientTypes {
                 .extraSmall,
                 .large,
                 .medium,
-                .small,
-                .sdkUnknown("")
+                .small
             ]
         }
 
@@ -44996,8 +44854,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ResizeOption] {
             return [
                 .fixed,
-                .responsive,
-                .sdkUnknown("")
+                .responsive
             ]
         }
 
@@ -45175,8 +45032,7 @@ extension QuickSightClientTypes {
                 .deleted,
                 .updateFailed,
                 .updateInProgress,
-                .updateSuccessful,
-                .sdkUnknown("")
+                .updateSuccessful
             ]
         }
 
@@ -45354,8 +45210,7 @@ extension QuickSightClientTypes {
                 .author,
                 .authorPro,
                 .reader,
-                .readerPro,
-                .sdkUnknown("")
+                .readerPro
             ]
         }
 
@@ -45567,8 +45422,7 @@ extension QuickSightClientTypes {
         public static var allCases: [RowLevelPermissionFormatVersion] {
             return [
                 .version1,
-                .version2,
-                .sdkUnknown("")
+                .version2
             ]
         }
 
@@ -45597,8 +45451,7 @@ extension QuickSightClientTypes {
         public static var allCases: [RowLevelPermissionPolicy] {
             return [
                 .denyAccess,
-                .grantAccess,
-                .sdkUnknown("")
+                .grantAccess
             ]
         }
 
@@ -47428,8 +47281,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SectionPageBreakStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -47493,8 +47345,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [SelectAllValueOptions] {
             return [
-                .allValues,
-                .sdkUnknown("")
+                .allValues
             ]
         }
 
@@ -47520,8 +47371,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [SelectedFieldOptions] {
             return [
-                .allFields,
-                .sdkUnknown("")
+                .allFields
             ]
         }
 
@@ -47580,8 +47430,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SelectedTooltipType] {
             return [
                 .basic,
-                .detailed,
-                .sdkUnknown("")
+                .detailed
             ]
         }
 
@@ -47792,8 +47641,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [ServiceType] {
             return [
-                .redshift,
-                .sdkUnknown("")
+                .redshift
             ]
         }
 
@@ -47970,8 +47818,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SharingModel] {
             return [
                 .account,
-                .namespace,
-                .sdkUnknown("")
+                .namespace
             ]
         }
 
@@ -48031,8 +47878,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SheetContentType] {
             return [
                 .interactive,
-                .paginated,
-                .sdkUnknown("")
+                .paginated
             ]
         }
 
@@ -48061,8 +47907,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SheetControlDateTimePickerType] {
             return [
                 .dateRange,
-                .singleValued,
-                .sdkUnknown("")
+                .singleValued
             ]
         }
 
@@ -48191,8 +48036,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SheetControlListType] {
             return [
                 .multiSelect,
-                .singleSelect,
-                .sdkUnknown("")
+                .singleSelect
             ]
         }
 
@@ -48221,8 +48065,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SheetControlSliderType] {
             return [
                 .range,
-                .singlePoint,
-                .sdkUnknown("")
+                .singlePoint
             ]
         }
 
@@ -48688,8 +48531,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [SimpleAttributeAggregationFunction] {
             return [
-                .uniqueValue,
-                .sdkUnknown("")
+                .uniqueValue
             ]
         }
 
@@ -48766,8 +48608,7 @@ extension QuickSightClientTypes {
                 .stdevp,
                 .sum,
                 .var,
-                .varp,
-                .sdkUnknown("")
+                .varp
             ]
         }
 
@@ -48813,8 +48654,7 @@ extension QuickSightClientTypes {
                 .max,
                 .min,
                 .none,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -48876,8 +48716,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [SingleYAxisOption] {
             return [
-                .primaryYAxis,
-                .sdkUnknown("")
+                .primaryYAxis
             ]
         }
 
@@ -48942,8 +48781,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SmallMultiplesAxisPlacement] {
             return [
                 .inside,
-                .outside,
-                .sdkUnknown("")
+                .outside
             ]
         }
 
@@ -49009,8 +48847,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SmallMultiplesAxisScale] {
             return [
                 .independent,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -49260,8 +49097,7 @@ extension QuickSightClientTypes {
             return [
                 .csv,
                 .excel,
-                .pdf,
-                .sdkUnknown("")
+                .pdf
             ]
         }
 
@@ -49371,8 +49207,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SnapshotFileSheetSelectionScope] {
             return [
                 .allVisuals,
-                .selectedVisuals,
-                .sdkUnknown("")
+                .selectedVisuals
             ]
         }
 
@@ -49565,8 +49400,7 @@ extension QuickSightClientTypes {
                 .completed,
                 .failed,
                 .queued,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -49725,8 +49559,7 @@ extension QuickSightClientTypes {
         public static var allCases: [SortDirection] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -49845,8 +49678,7 @@ extension QuickSightClientTypes {
             return [
                 .empty,
                 .null,
-                .other,
-                .sdkUnknown("")
+                .other
             ]
         }
 
@@ -50005,8 +49837,7 @@ extension QuickSightClientTypes {
         public static var allCases: [StarburstProductType] {
             return [
                 .enterprise,
-                .galaxy,
-                .sdkUnknown("")
+                .galaxy
             ]
         }
 
@@ -50452,8 +50283,7 @@ extension QuickSightClientTypes {
         public static var allCases: [Status] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -50783,8 +50613,7 @@ extension QuickSightClientTypes {
             return [
                 .metricHeader,
                 .total,
-                .value,
-                .sdkUnknown("")
+                .value
             ]
         }
 
@@ -51000,8 +50829,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TableBorderStyle] {
             return [
                 .none,
-                .solid,
-                .sdkUnknown("")
+                .solid
             ]
         }
 
@@ -51070,8 +50898,7 @@ extension QuickSightClientTypes {
             return [
                 .doNotScale,
                 .fitToCellHeight,
-                .fitToCellWidth,
-                .sdkUnknown("")
+                .fitToCellWidth
             ]
         }
 
@@ -51413,8 +51240,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [TableFieldIconSetType] {
             return [
-                .link,
-                .sdkUnknown("")
+                .link
             ]
         }
 
@@ -51802,8 +51628,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TableOrientation] {
             return [
                 .horizontal,
-                .vertical,
-                .sdkUnknown("")
+                .vertical
             ]
         }
 
@@ -52069,8 +51894,7 @@ extension QuickSightClientTypes {
             return [
                 .auto,
                 .end,
-                .start,
-                .sdkUnknown("")
+                .start
             ]
         }
 
@@ -52100,8 +51924,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TableTotalsScrollStatus] {
             return [
                 .pinned,
-                .scrolled,
-                .sdkUnknown("")
+                .scrolled
             ]
         }
 
@@ -52383,8 +52206,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [TargetVisualOptions] {
             return [
-                .allVisuals,
-                .sdkUnknown("")
+                .allVisuals
             ]
         }
 
@@ -52539,8 +52361,7 @@ extension QuickSightClientTypes {
                 .accessDenied,
                 .dataSetNotFound,
                 .internalFailure,
-                .sourceNotFound,
-                .sdkUnknown("")
+                .sourceNotFound
             ]
         }
 
@@ -53113,8 +52934,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TextQualifier] {
             return [
                 .doubleQuote,
-                .singleQuote,
-                .sdkUnknown("")
+                .singleQuote
             ]
         }
 
@@ -53143,8 +52963,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TextWrap] {
             return [
                 .none,
-                .wrap,
-                .sdkUnknown("")
+                .wrap
             ]
         }
 
@@ -53343,8 +53162,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [ThemeErrorType] {
             return [
-                .internalFailure,
-                .sdkUnknown("")
+                .internalFailure
             ]
         }
 
@@ -53425,8 +53243,7 @@ extension QuickSightClientTypes {
             return [
                 .all,
                 .custom,
-                .quicksight,
-                .sdkUnknown("")
+                .quicksight
             ]
         }
 
@@ -53858,8 +53675,7 @@ extension QuickSightClientTypes {
                 .quarter,
                 .second,
                 .week,
-                .year,
-                .sdkUnknown("")
+                .year
             ]
         }
 
@@ -54171,8 +53987,7 @@ extension QuickSightClientTypes {
             return [
                 .bar,
                 .both,
-                .line,
-                .sdkUnknown("")
+                .line
             ]
         }
 
@@ -54202,8 +54017,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TooltipTitleType] {
             return [
                 .none,
-                .primaryValue,
-                .sdkUnknown("")
+                .primaryValue
             ]
         }
 
@@ -54232,8 +54046,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TopBottomComputationType] {
             return [
                 .bottom,
-                .top,
-                .sdkUnknown("")
+                .top
             ]
         }
 
@@ -54478,8 +54291,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TopBottomSortOrder] {
             return [
                 .absoluteDifference,
-                .percentDifference,
-                .sdkUnknown("")
+                .percentDifference
             ]
         }
 
@@ -55203,8 +55015,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TopicNumericSeparatorSymbol] {
             return [
                 .comma,
-                .dot,
-                .sdkUnknown("")
+                .dot
             ]
         }
 
@@ -55422,8 +55233,7 @@ extension QuickSightClientTypes {
                 .completed,
                 .failed,
                 .initialized,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -55509,8 +55319,7 @@ extension QuickSightClientTypes {
                 .next,
                 .now,
                 .previous,
-                .this,
-                .sdkUnknown("")
+                .this
             ]
         }
 
@@ -55546,8 +55355,7 @@ extension QuickSightClientTypes {
                 .daily,
                 .hourly,
                 .monthly,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -55674,8 +55482,7 @@ extension QuickSightClientTypes {
                 .quarter,
                 .second,
                 .week,
-                .year,
-                .sdkUnknown("")
+                .year
             ]
         }
 
@@ -55710,8 +55517,7 @@ extension QuickSightClientTypes {
         public static var allCases: [TopicUserExperienceVersion] {
             return [
                 .legacy,
-                .newReaderExperience,
-                .sdkUnknown("")
+                .newReaderExperience
             ]
         }
 
@@ -56519,8 +56325,7 @@ extension QuickSightClientTypes {
             return [
                 .newTab,
                 .newWindow,
-                .sameTab,
-                .sdkUnknown("")
+                .sameTab
             ]
         }
 
@@ -56595,8 +56400,7 @@ extension QuickSightClientTypes {
         public static var allCases: [UndefinedSpecifiedValueType] {
             return [
                 .least,
-                .most,
-                .sdkUnknown("")
+                .most
             ]
         }
 
@@ -60960,8 +60764,7 @@ extension QuickSightClientTypes {
                 .reader,
                 .readerPro,
                 .restrictedAuthor,
-                .restrictedReader,
-                .sdkUnknown("")
+                .restrictedReader
             ]
         }
 
@@ -61079,8 +60882,7 @@ extension QuickSightClientTypes {
             return [
                 .available,
                 .partiallyAvailable,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -61124,8 +60926,7 @@ extension QuickSightClientTypes {
                 .deletionInProgress,
                 .updateFailed,
                 .updateInProgress,
-                .updateSuccessful,
-                .sdkUnknown("")
+                .updateSuccessful
             ]
         }
 
@@ -61267,8 +61068,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ValidationStrategyMode] {
             return [
                 .lenient,
-                .strict,
-                .sdkUnknown("")
+                .strict
             ]
         }
 
@@ -61297,8 +61097,7 @@ extension QuickSightClientTypes {
         public static var allCases: [ValueWhenUnsetOption] {
             return [
                 .null,
-                .recommendedValue,
-                .sdkUnknown("")
+                .recommendedValue
             ]
         }
 
@@ -61331,8 +61130,7 @@ extension QuickSightClientTypes {
                 .auto,
                 .bottom,
                 .middle,
-                .top,
-                .sdkUnknown("")
+                .top
             ]
         }
 
@@ -61363,8 +61161,7 @@ extension QuickSightClientTypes {
         public static var allCases: [Visibility] {
             return [
                 .hidden,
-                .visible,
-                .sdkUnknown("")
+                .visible
             ]
         }
 
@@ -61730,8 +61527,7 @@ extension QuickSightClientTypes {
         public static var allCases: [VisualCustomActionTrigger] {
             return [
                 .dataPointClick,
-                .dataPointMenu,
-                .sdkUnknown("")
+                .dataPointMenu
             ]
         }
 
@@ -62431,8 +62227,7 @@ extension QuickSightClientTypes {
         public static var allCases: [WidgetStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -62553,8 +62348,7 @@ extension QuickSightClientTypes {
         public static var allCases: [WordCloudCloudLayout] {
             return [
                 .fluid,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 
@@ -62774,8 +62568,7 @@ extension QuickSightClientTypes {
         public static var allCases: [WordCloudWordCasing] {
             return [
                 .existingCase,
-                .lowerCase,
-                .sdkUnknown("")
+                .lowerCase
             ]
         }
 
@@ -62804,8 +62597,7 @@ extension QuickSightClientTypes {
         public static var allCases: [WordCloudWordOrientation] {
             return [
                 .horizontal,
-                .horizontalAndVertical,
-                .sdkUnknown("")
+                .horizontalAndVertical
             ]
         }
 
@@ -62838,8 +62630,7 @@ extension QuickSightClientTypes {
                 .large,
                 .medium,
                 .none,
-                .small,
-                .sdkUnknown("")
+                .small
             ]
         }
 
@@ -62870,8 +62661,7 @@ extension QuickSightClientTypes {
         public static var allCases: [WordCloudWordScaling] {
             return [
                 .emphasize,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 

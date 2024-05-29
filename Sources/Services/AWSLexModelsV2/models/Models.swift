@@ -182,8 +182,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [AggregatedUtterancesFilterName] {
             return [
-                .utterance,
-                .sdkUnknown("")
+                .utterance
             ]
         }
 
@@ -211,8 +210,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AggregatedUtterancesFilterOperator] {
             return [
                 .contains,
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -241,8 +239,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AggregatedUtterancesSortAttribute] {
             return [
                 .hitcount,
-                .missedcount,
-                .sdkUnknown("")
+                .missedcount
             ]
         }
 
@@ -392,8 +389,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AnalyticsBinByName] {
             return [
                 .conversationstarttime,
-                .utterancetimestamp,
-                .sdkUnknown("")
+                .utterancetimestamp
             ]
         }
 
@@ -495,8 +491,7 @@ extension LexModelsV2ClientTypes {
                 .botversion,
                 .channel,
                 .localeid,
-                .modality,
-                .sdkUnknown("")
+                .modality
             ]
         }
 
@@ -530,8 +525,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .equals,
                 .greaterthan,
-                .lessthan,
-                .sdkUnknown("")
+                .lessthan
             ]
         }
 
@@ -563,8 +557,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .intentendstate,
                 .intentlevel,
-                .intentname,
-                .sdkUnknown("")
+                .intentname
             ]
         }
 
@@ -720,8 +713,7 @@ extension LexModelsV2ClientTypes {
                 .localeid,
                 .modality,
                 .originatingrequestid,
-                .sessionid,
-                .sdkUnknown("")
+                .sessionid
             ]
         }
 
@@ -871,8 +863,7 @@ extension LexModelsV2ClientTypes {
                 .dropped,
                 .failure,
                 .success,
-                .switched,
-                .sdkUnknown("")
+                .switched
             ]
         }
 
@@ -1038,8 +1029,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AnalyticsIntentStageField] {
             return [
                 .intentstagename,
-                .switchedtointent,
-                .sdkUnknown("")
+                .switchedtointent
             ]
         }
 
@@ -1194,8 +1184,7 @@ extension LexModelsV2ClientTypes {
                 .localeid,
                 .modality,
                 .originatingrequestid,
-                .sessionid,
-                .sdkUnknown("")
+                .sessionid
             ]
         }
 
@@ -1345,8 +1334,7 @@ extension LexModelsV2ClientTypes {
                 .dropped,
                 .failed,
                 .retry,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -1466,8 +1454,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AnalyticsInterval] {
             return [
                 .oneday,
-                .onehour,
-                .sdkUnknown("")
+                .onehour
             ]
         }
 
@@ -1498,8 +1485,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .avg,
                 .max,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -1533,8 +1519,7 @@ extension LexModelsV2ClientTypes {
                 .dtmf,
                 .multimode,
                 .speech,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -1565,8 +1550,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AnalyticsNodeType] {
             return [
                 .exit,
-                .inner,
-                .sdkUnknown("")
+                .inner
             ]
         }
 
@@ -1683,8 +1667,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AnalyticsSessionField] {
             return [
                 .conversationendstate,
-                .localeid,
-                .sdkUnknown("")
+                .localeid
             ]
         }
 
@@ -1847,8 +1830,7 @@ extension LexModelsV2ClientTypes {
                 .localeid,
                 .modality,
                 .originatingrequestid,
-                .sessionid,
-                .sdkUnknown("")
+                .sessionid
             ]
         }
 
@@ -2007,8 +1989,7 @@ extension LexModelsV2ClientTypes {
                 .duration,
                 .failure,
                 .success,
-                .turnsperconversation,
-                .sdkUnknown("")
+                .turnsperconversation
             ]
         }
 
@@ -2136,8 +2117,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .conversationstarttime,
                 .duration,
-                .numberofturns,
-                .sdkUnknown("")
+                .numberofturns
             ]
         }
 
@@ -2167,8 +2147,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AnalyticsSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -2220,8 +2199,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [AnalyticsUtteranceAttributeName] {
             return [
-                .lastusedintent,
-                .sdkUnknown("")
+                .lastusedintent
             ]
         }
 
@@ -2275,8 +2253,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AnalyticsUtteranceField] {
             return [
                 .utterancestate,
-                .utterancetext,
-                .sdkUnknown("")
+                .utterancetext
             ]
         }
 
@@ -2431,8 +2408,7 @@ extension LexModelsV2ClientTypes {
                 .originatingrequestid,
                 .sessionid,
                 .utterancestate,
-                .utterancetext,
-                .sdkUnknown("")
+                .utterancetext
             ]
         }
 
@@ -2578,8 +2554,7 @@ extension LexModelsV2ClientTypes {
                 .count,
                 .detected,
                 .missed,
-                .utterancetimestamp,
-                .sdkUnknown("")
+                .utterancetimestamp
             ]
         }
 
@@ -2699,8 +2674,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [AnalyticsUtteranceSortByName] {
             return [
-                .utterancetimestamp,
-                .sdkUnknown("")
+                .utterancetimestamp
             ]
         }
 
@@ -2785,8 +2759,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [AssociatedTranscriptFilterName] {
             return [
                 .intentid,
-                .slottypeid,
-                .sdkUnknown("")
+                .slottypeid
             ]
         }
 
@@ -2934,8 +2907,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [AudioRecognitionStrategy] {
             return [
-                .useslotvaluesascustomvocabulary,
-                .sdkUnknown("")
+                .useslotvaluesascustomvocabulary
             ]
         }
 
@@ -3540,8 +3512,7 @@ extension LexModelsV2ClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3577,8 +3548,7 @@ extension LexModelsV2ClientTypes {
                 .available,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -3787,8 +3757,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [BotFilterName] {
             return [
                 .botname,
-                .bottype,
-                .sdkUnknown("")
+                .bottype
             ]
         }
 
@@ -3819,8 +3788,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .contains,
                 .equals,
-                .notequals,
-                .sdkUnknown("")
+                .notequals
             ]
         }
 
@@ -3995,8 +3963,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [BotLocaleFilterName] {
             return [
-                .botlocalename,
-                .sdkUnknown("")
+                .botlocalename
             ]
         }
 
@@ -4024,8 +3991,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [BotLocaleFilterOperator] {
             return [
                 .contains,
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -4151,8 +4117,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [BotLocaleSortAttribute] {
             return [
-                .botlocalename,
-                .sdkUnknown("")
+                .botlocalename
             ]
         }
 
@@ -4225,8 +4190,7 @@ extension LexModelsV2ClientTypes {
                 .importing,
                 .notbuilt,
                 .processing,
-                .readyexpresstesting,
-                .sdkUnknown("")
+                .readyexpresstesting
             ]
         }
 
@@ -4454,8 +4418,7 @@ extension LexModelsV2ClientTypes {
                 .processing,
                 .stopped,
                 .stopping,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4539,8 +4502,7 @@ extension LexModelsV2ClientTypes {
                 .deleting,
                 .enabled,
                 .enabling,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -4610,8 +4572,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [BotSortAttribute] {
             return [
-                .botname,
-                .sdkUnknown("")
+                .botname
             ]
         }
 
@@ -4682,8 +4643,7 @@ extension LexModelsV2ClientTypes {
                 .importing,
                 .inactive,
                 .updating,
-                .versioning,
-                .sdkUnknown("")
+                .versioning
             ]
         }
 
@@ -4774,8 +4734,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [BotType] {
             return [
                 .bot,
-                .botnetwork,
-                .sdkUnknown("")
+                .botnetwork
             ]
         }
 
@@ -4834,8 +4793,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [BotVersionReplicaSortAttribute] {
             return [
-                .botversion,
-                .sdkUnknown("")
+                .botversion
             ]
         }
 
@@ -4940,8 +4898,7 @@ extension LexModelsV2ClientTypes {
                 .available,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -4970,8 +4927,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [BotVersionSortAttribute] {
             return [
-                .botversion,
-                .sdkUnknown("")
+                .botversion
             ]
         }
 
@@ -5213,8 +5169,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [BuiltInIntentSortAttribute] {
             return [
-                .intentsignature,
-                .sdkUnknown("")
+                .intentsignature
             ]
         }
 
@@ -5302,8 +5257,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [BuiltInSlotTypeSortAttribute] {
             return [
-                .slottypesignature,
-                .sdkUnknown("")
+                .slottypesignature
             ]
         }
 
@@ -5703,8 +5657,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .dropped,
                 .failure,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -6075,8 +6028,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [ConversationLogsInputModeFilter] {
             return [
                 .speech,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -8097,8 +8049,7 @@ extension LexModelsV2ClientTypes {
                 .deleting,
                 .exporting,
                 .importing,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -11938,8 +11889,7 @@ extension LexModelsV2ClientTypes {
                 .evaluateconditional,
                 .fulfillintent,
                 .invokedialogcodehook,
-                .startintent,
-                .sdkUnknown("")
+                .startintent
             ]
         }
 
@@ -12102,8 +12052,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [Effect] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -12222,8 +12171,7 @@ extension LexModelsV2ClientTypes {
                 .duplicateInput,
                 .internalServerFailure,
                 .resourceAlreadyExists,
-                .resourceDoesNotExist,
-                .sdkUnknown("")
+                .resourceDoesNotExist
             ]
         }
 
@@ -12361,8 +12309,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [ExportFilterName] {
             return [
-                .exportresourcetype,
-                .sdkUnknown("")
+                .exportresourcetype
             ]
         }
 
@@ -12390,8 +12337,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [ExportFilterOperator] {
             return [
                 .contains,
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -12467,8 +12413,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [ExportSortAttribute] {
             return [
-                .lastupdateddatetime,
-                .sdkUnknown("")
+                .lastupdateddatetime
             ]
         }
 
@@ -12531,8 +12476,7 @@ extension LexModelsV2ClientTypes {
                 .completed,
                 .deleting,
                 .failed,
-                .inprogress,
-                .sdkUnknown("")
+                .inprogress
             ]
         }
 
@@ -13022,8 +12966,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [GenerationSortByAttribute] {
             return [
                 .creationstarttime,
-                .lastupdatedtime,
-                .sdkUnknown("")
+                .lastupdatedtime
             ]
         }
 
@@ -13054,8 +12997,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .complete,
                 .failed,
-                .inprogress,
-                .sdkUnknown("")
+                .inprogress
             ]
         }
 
@@ -13361,8 +13303,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .csv,
                 .lexjson,
-                .tsv,
-                .sdkUnknown("")
+                .tsv
             ]
         }
 
@@ -13427,8 +13368,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [ImportFilterName] {
             return [
-                .importresourcetype,
-                .sdkUnknown("")
+                .importresourcetype
             ]
         }
 
@@ -13456,8 +13396,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [ImportFilterOperator] {
             return [
                 .contains,
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -13539,8 +13478,7 @@ extension LexModelsV2ClientTypes {
                 .bot,
                 .botlocale,
                 .customvocabulary,
-                .testset,
-                .sdkUnknown("")
+                .testset
             ]
         }
 
@@ -13569,8 +13507,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [ImportSortAttribute] {
             return [
-                .lastupdateddatetime,
-                .sdkUnknown("")
+                .lastupdateddatetime
             ]
         }
 
@@ -13633,8 +13570,7 @@ extension LexModelsV2ClientTypes {
                 .completed,
                 .deleting,
                 .failed,
-                .inprogress,
-                .sdkUnknown("")
+                .inprogress
             ]
         }
 
@@ -14135,8 +14071,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [IntentFilterName] {
             return [
-                .intentname,
-                .sdkUnknown("")
+                .intentname
             ]
         }
 
@@ -14164,8 +14099,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [IntentFilterOperator] {
             return [
                 .contains,
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -14297,8 +14231,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [IntentSortAttribute] {
             return [
                 .intentname,
-                .lastupdateddatetime,
-                .sdkUnknown("")
+                .lastupdateddatetime
             ]
         }
 
@@ -14366,8 +14299,7 @@ extension LexModelsV2ClientTypes {
                 .fulfillmentinprogress,
                 .inprogress,
                 .readyforfulfillment,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -18083,8 +18015,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .append,
                 .failonconflict,
-                .overwrite,
-                .sdkUnknown("")
+                .overwrite
             ]
         }
 
@@ -18201,8 +18132,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [MessageSelectionStrategy] {
             return [
                 .ordered,
-                .random,
-                .sdkUnknown("")
+                .random
             ]
         }
 
@@ -18329,8 +18259,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [ObfuscationSettingType] {
             return [
                 .defaultobfuscation,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -18862,8 +18791,7 @@ extension LexModelsV2ClientTypes {
                 .retry2,
                 .retry3,
                 .retry4,
-                .retry5,
-                .sdkUnknown("")
+                .retry5
             ]
         }
 
@@ -19750,8 +19678,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SearchOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -20053,8 +19980,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SlotConstraint] {
             return [
                 .optional,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -20182,8 +20108,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [SlotFilterName] {
             return [
-                .slotname,
-                .sdkUnknown("")
+                .slotname
             ]
         }
 
@@ -20211,8 +20136,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SlotFilterOperator] {
             return [
                 .contains,
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -20350,8 +20274,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SlotResolutionStrategy] {
             return [
                 .default,
-                .enhancedfallback,
-                .sdkUnknown("")
+                .enhancedfallback
             ]
         }
 
@@ -20451,8 +20374,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SlotShape] {
             return [
                 .list,
-                .scalar,
-                .sdkUnknown("")
+                .scalar
             ]
         }
 
@@ -20481,8 +20403,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SlotSortAttribute] {
             return [
                 .lastupdateddatetime,
-                .slotname,
-                .sdkUnknown("")
+                .slotname
             ]
         }
 
@@ -20602,8 +20523,7 @@ extension LexModelsV2ClientTypes {
                 .composite,
                 .custom,
                 .extended,
-                .externalgrammar,
-                .sdkUnknown("")
+                .externalgrammar
             ]
         }
 
@@ -20671,8 +20591,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SlotTypeFilterName] {
             return [
                 .externalsourcetype,
-                .slottypename,
-                .sdkUnknown("")
+                .slottypename
             ]
         }
 
@@ -20701,8 +20620,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SlotTypeFilterOperator] {
             return [
                 .contains,
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -20731,8 +20649,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SlotTypeSortAttribute] {
             return [
                 .lastupdateddatetime,
-                .slottypename,
-                .sdkUnknown("")
+                .slottypename
             ]
         }
 
@@ -21101,8 +21018,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .concatenation,
                 .originalvalue,
-                .topresolution,
-                .sdkUnknown("")
+                .topresolution
             ]
         }
 
@@ -21183,8 +21099,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -22234,8 +22149,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [TestExecutionApiMode] {
             return [
                 .nonstreaming,
-                .streaming,
-                .sdkUnknown("")
+                .streaming
             ]
         }
 
@@ -22264,8 +22178,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [TestExecutionModality] {
             return [
                 .audio,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -22370,8 +22283,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [TestExecutionSortAttribute] {
             return [
                 .creationdatetime,
-                .testsetname,
-                .sdkUnknown("")
+                .testsetname
             ]
         }
 
@@ -22441,8 +22353,7 @@ extension LexModelsV2ClientTypes {
                 .pending,
                 .stopped,
                 .stopping,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -22575,8 +22486,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .executionerror,
                 .matched,
-                .mismatched,
-                .sdkUnknown("")
+                .mismatched
             ]
         }
 
@@ -22612,8 +22522,7 @@ extension LexModelsV2ClientTypes {
                 .intentclassificationtestresults,
                 .overalltestresults,
                 .slotresolutiontestresults,
-                .utterancelevelresults,
-                .sdkUnknown("")
+                .utterancelevelresults
             ]
         }
 
@@ -22757,8 +22666,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .completed,
                 .failed,
-                .inprogress,
-                .sdkUnknown("")
+                .inprogress
             ]
         }
 
@@ -22855,8 +22763,7 @@ extension LexModelsV2ClientTypes {
                 .failed,
                 .generating,
                 .pending,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -23031,8 +22938,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [TestSetModality] {
             return [
                 .audio,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -23100,8 +23006,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [TestSetSortAttribute] {
             return [
                 .lastupdateddatetime,
-                .testsetname,
-                .sdkUnknown("")
+                .testsetname
             ]
         }
 
@@ -23167,8 +23072,7 @@ extension LexModelsV2ClientTypes {
                 .importing,
                 .pendingannotation,
                 .ready,
-                .validationerror,
-                .sdkUnknown("")
+                .validationerror
             ]
         }
 
@@ -23546,8 +23450,7 @@ extension LexModelsV2ClientTypes {
             return [
                 .days,
                 .hours,
-                .weeks,
-                .sdkUnknown("")
+                .weeks
             ]
         }
 
@@ -23606,8 +23509,7 @@ extension LexModelsV2ClientTypes {
 
         public static var allCases: [TranscriptFormat] {
             return [
-                .lex,
-                .sdkUnknown("")
+                .lex
             ]
         }
 
@@ -25758,8 +25660,7 @@ extension LexModelsV2ClientTypes {
                 .custompayload,
                 .imageresponsecard,
                 .plaintext,
-                .ssml,
-                .sdkUnknown("")
+                .ssml
             ]
         }
 
@@ -26129,8 +26030,7 @@ extension LexModelsV2ClientTypes {
         public static var allCases: [VoiceEngine] {
             return [
                 .neural,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 

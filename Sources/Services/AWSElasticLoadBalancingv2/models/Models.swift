@@ -133,8 +133,7 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .authenticateOidc,
                 .fixedResponse,
                 .forward,
-                .redirect,
-                .sdkUnknown("")
+                .redirect
             ]
         }
 
@@ -454,8 +453,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public static var allCases: [AnomalyResultEnum] {
             return [
                 .anomalous,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 
@@ -486,8 +484,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             return [
                 .allow,
                 .authenticate,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -601,8 +598,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             return [
                 .allow,
                 .authenticate,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -2780,8 +2776,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public static var allCases: [DescribeTargetHealthInputIncludeEnum] {
             return [
                 .all,
-                .anomaly,
-                .sdkUnknown("")
+                .anomaly
             ]
         }
 
@@ -3337,8 +3332,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public static var allCases: [EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum] {
             return [
                 .off,
-                .on,
-                .sdkUnknown("")
+                .on
             ]
         }
 
@@ -4062,8 +4056,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             return [
                 .dualstack,
                 .dualstackWithoutPublicIpv4,
-                .ipv4,
-                .sdkUnknown("")
+                .ipv4
             ]
         }
 
@@ -4533,8 +4526,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public static var allCases: [LoadBalancerSchemeEnum] {
             return [
                 .internal,
-                .internetFacing,
-                .sdkUnknown("")
+                .internetFacing
             ]
         }
 
@@ -4598,8 +4590,7 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .active,
                 .activeImpaired,
                 .failed,
-                .provisioning,
-                .sdkUnknown("")
+                .provisioning
             ]
         }
 
@@ -4632,8 +4623,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             return [
                 .application,
                 .gateway,
-                .network,
-                .sdkUnknown("")
+                .network
             ]
         }
 
@@ -4700,8 +4690,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public static var allCases: [MitigationInEffectEnum] {
             return [
                 .no,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 
@@ -5461,8 +5450,7 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .tcp,
                 .tcpUdp,
                 .tls,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -5639,8 +5627,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public static var allCases: [RedirectActionStatusCodeEnum] {
             return [
                 .http301,
-                .http302,
-                .sdkUnknown("")
+                .http302
             ]
         }
 
@@ -6075,8 +6062,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
         public static var allCases: [RevocationType] {
             return [
-                .crl,
-                .sdkUnknown("")
+                .crl
             ]
         }
 
@@ -7198,8 +7184,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public static var allCases: [TargetGroupIpAddressTypeEnum] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -7474,8 +7459,7 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .notRegistered,
                 .registrationInProgress,
                 .responseCodeMismatch,
-                .timeout,
-                .sdkUnknown("")
+                .timeout
             ]
         }
 
@@ -7524,8 +7508,7 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .unavailable,
                 .unhealthy,
                 .unhealthyDraining,
-                .unused,
-                .sdkUnknown("")
+                .unused
             ]
         }
 
@@ -7563,8 +7546,7 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .alb,
                 .instance,
                 .ip,
-                .lambda,
-                .sdkUnknown("")
+                .lambda
             ]
         }
 
@@ -8263,8 +8245,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public static var allCases: [TrustStoreStatus] {
             return [
                 .active,
-                .creating,
-                .sdkUnknown("")
+                .creating
             ]
         }
 

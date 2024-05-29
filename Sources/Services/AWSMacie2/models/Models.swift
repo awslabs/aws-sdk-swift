@@ -243,8 +243,7 @@ extension Macie2ClientTypes {
         public static var allCases: [AdminStatus] {
             return [
                 .disablingInProgress,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -371,8 +370,7 @@ extension Macie2ClientTypes {
                 .s3ObjectOversize,
                 .s3Throttled,
                 .s3UserAccessDenied,
-                .unknownError,
-                .sdkUnknown("")
+                .unknownError
             ]
         }
 
@@ -460,8 +458,7 @@ extension Macie2ClientTypes {
             return [
                 .false,
                 .true,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -579,8 +576,7 @@ extension Macie2ClientTypes {
         public static var allCases: [AutomatedDiscoveryStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -610,8 +606,7 @@ extension Macie2ClientTypes {
         public static var allCases: [AvailabilityCode] {
             return [
                 .available,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -1284,8 +1279,7 @@ extension Macie2ClientTypes {
 
         public static var allCases: [BucketMetadataErrorCode] {
             return [
-                .accessDenied,
-                .sdkUnknown("")
+                .accessDenied
             ]
         }
 
@@ -1806,8 +1800,7 @@ extension Macie2ClientTypes {
             return [
                 .add,
                 .remove,
-                .replace,
-                .sdkUnknown("")
+                .replace
             ]
         }
 
@@ -2705,8 +2698,7 @@ extension Macie2ClientTypes {
 
         public static var allCases: [Currency] {
             return [
-                .usd,
-                .sdkUnknown("")
+                .usd
             ]
         }
 
@@ -2877,8 +2869,7 @@ extension Macie2ClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -2909,8 +2900,7 @@ extension Macie2ClientTypes {
         public static var allCases: [DataIdentifierType] {
             return [
                 .custom,
-                .managed,
-                .sdkUnknown("")
+                .managed
             ]
         }
 
@@ -2949,8 +2939,7 @@ extension Macie2ClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -4105,8 +4094,7 @@ extension Macie2ClientTypes {
             return [
                 .notPublic,
                 .public,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -4277,8 +4265,7 @@ extension Macie2ClientTypes {
                 .none,
                 .unknown,
                 .awsKms,
-                .awsKmsDsse,
-                .sdkUnknown("")
+                .awsKmsDsse
             ]
         }
 
@@ -4311,8 +4298,7 @@ extension Macie2ClientTypes {
         public static var allCases: [ErrorCode] {
             return [
                 .clienterror,
-                .internalerror,
-                .sdkUnknown("")
+                .internalerror
             ]
         }
 
@@ -4528,8 +4514,7 @@ extension Macie2ClientTypes {
 
         public static var allCases: [FindingActionType] {
             return [
-                .awsApiCall,
-                .sdkUnknown("")
+                .awsApiCall
             ]
         }
 
@@ -4594,8 +4579,7 @@ extension Macie2ClientTypes {
         public static var allCases: [FindingCategory] {
             return [
                 .classification,
-                .policy,
-                .sdkUnknown("")
+                .policy
             ]
         }
 
@@ -4658,8 +4642,7 @@ extension Macie2ClientTypes {
             return [
                 .fifteenMinutes,
                 .oneHour,
-                .sixHours,
-                .sdkUnknown("")
+                .sixHours
             ]
         }
 
@@ -4690,8 +4673,7 @@ extension Macie2ClientTypes {
         public static var allCases: [FindingStatisticsSortAttributeName] {
             return [
                 .count,
-                .groupkey,
-                .sdkUnknown("")
+                .groupkey
             ]
         }
 
@@ -4768,8 +4750,7 @@ extension Macie2ClientTypes {
                 .sensitivedataS3objectCustomidentifier,
                 .sensitivedataS3objectFinancial,
                 .sensitivedataS3objectMultiple,
-                .sensitivedataS3objectPersonal,
-                .sdkUnknown("")
+                .sensitivedataS3objectPersonal
             ]
         }
 
@@ -4808,8 +4789,7 @@ extension Macie2ClientTypes {
         public static var allCases: [FindingsFilterAction] {
             return [
                 .archive,
-                .noop,
-                .sdkUnknown("")
+                .noop
             ]
         }
 
@@ -6733,8 +6713,7 @@ extension Macie2ClientTypes {
                 .classificationdetailsJobid,
                 .resourcesaffectedS3bucketName,
                 .severityDescription,
-                .type,
-                .sdkUnknown("")
+                .type
             ]
         }
 
@@ -7093,8 +7072,7 @@ extension Macie2ClientTypes {
             return [
                 .false,
                 .true,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -7126,8 +7104,7 @@ extension Macie2ClientTypes {
             return [
                 .false,
                 .true,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -7170,8 +7147,7 @@ extension Macie2ClientTypes {
                 .lt,
                 .lte,
                 .ne,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 
@@ -7379,8 +7355,7 @@ extension Macie2ClientTypes {
                 .idle,
                 .paused,
                 .running,
-                .userPaused,
-                .sdkUnknown("")
+                .userPaused
             ]
         }
 
@@ -7496,8 +7471,7 @@ extension Macie2ClientTypes {
         public static var allCases: [JobType] {
             return [
                 .oneTime,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -7588,8 +7562,7 @@ extension Macie2ClientTypes {
         public static var allCases: [LastRunErrorStatusCode] {
             return [
                 .error,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -8261,8 +8234,7 @@ extension Macie2ClientTypes {
                 .createdat,
                 .jobstatus,
                 .jobtype,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -8332,8 +8304,7 @@ extension Macie2ClientTypes {
                 .createdat,
                 .jobstatus,
                 .jobtype,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -8982,8 +8953,7 @@ extension Macie2ClientTypes {
         public static var allCases: [MacieStatus] {
             return [
                 .enabled,
-                .paused,
-                .sdkUnknown("")
+                .paused
             ]
         }
 
@@ -9019,8 +8989,7 @@ extension Macie2ClientTypes {
                 .exclude,
                 .include,
                 .none,
-                .recommended,
-                .sdkUnknown("")
+                .recommended
             ]
         }
 
@@ -9430,8 +9399,7 @@ extension Macie2ClientTypes {
         public static var allCases: [OrderBy] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -9461,8 +9429,7 @@ extension Macie2ClientTypes {
         public static var allCases: [OriginType] {
             return [
                 .automatedSensitiveDataDiscovery,
-                .sensitiveDataDiscoveryJob,
-                .sdkUnknown("")
+                .sensitiveDataDiscoveryJob
             ]
         }
 
@@ -9778,8 +9745,7 @@ extension Macie2ClientTypes {
                 .paused,
                 .regiondisabled,
                 .removed,
-                .resigned,
-                .sdkUnknown("")
+                .resigned
             ]
         }
 
@@ -10069,8 +10035,7 @@ extension Macie2ClientTypes {
         public static var allCases: [RetrievalMode] {
             return [
                 .assumeRole,
-                .callerCredentials,
-                .sdkUnknown("")
+                .callerCredentials
             ]
         }
 
@@ -10140,8 +10105,7 @@ extension Macie2ClientTypes {
             return [
                 .error,
                 .processing,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -10172,8 +10136,7 @@ extension Macie2ClientTypes {
         public static var allCases: [RevealStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10708,8 +10671,7 @@ extension Macie2ClientTypes {
                 .objectExtension,
                 .objectKey,
                 .objectLastModifiedDate,
-                .objectSize,
-                .sdkUnknown("")
+                .objectSize
             ]
         }
 
@@ -10807,8 +10769,7 @@ extension Macie2ClientTypes {
         public static var allCases: [SearchResourcesComparator] {
             return [
                 .eq,
-                .ne,
-                .sdkUnknown("")
+                .ne
             ]
         }
 
@@ -11031,8 +10992,7 @@ extension Macie2ClientTypes {
                 .accountId,
                 .s3BucketEffectivePermission,
                 .s3BucketName,
-                .s3BucketSharedAccess,
-                .sdkUnknown("")
+                .s3BucketSharedAccess
             ]
         }
 
@@ -11068,8 +11028,7 @@ extension Macie2ClientTypes {
                 .accountId,
                 .resourceName,
                 .s3ClassifiableObjectCount,
-                .s3ClassifiableSizeInBytes,
-                .sdkUnknown("")
+                .s3ClassifiableSizeInBytes
             ]
         }
 
@@ -11267,8 +11226,7 @@ extension Macie2ClientTypes {
                 .credentials,
                 .customIdentifier,
                 .financialInformation,
-                .personalInformation,
-                .sdkUnknown("")
+                .personalInformation
             ]
         }
 
@@ -11692,8 +11650,7 @@ extension Macie2ClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -11766,8 +11723,7 @@ extension Macie2ClientTypes {
                 .external,
                 .internal,
                 .notShared,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -11857,8 +11813,7 @@ extension Macie2ClientTypes {
                 .accountId,
                 .s3BucketEffectivePermission,
                 .s3BucketName,
-                .s3BucketSharedAccess,
-                .sdkUnknown("")
+                .s3BucketSharedAccess
             ]
         }
 
@@ -12026,8 +11981,7 @@ extension Macie2ClientTypes {
                 .outposts,
                 .reducedRedundancy,
                 .standard,
-                .standardIa,
-                .sdkUnknown("")
+                .standardIa
             ]
         }
 
@@ -12275,8 +12229,7 @@ extension Macie2ClientTypes {
 
         public static var allCases: [TagTarget] {
             return [
-                .s3Object,
-                .sdkUnknown("")
+                .s3Object
             ]
         }
 
@@ -12473,8 +12426,7 @@ extension Macie2ClientTypes {
         public static var allCases: [TimeRange] {
             return [
                 .monthToDate,
-                .past30Days,
-                .sdkUnknown("")
+                .past30Days
             ]
         }
 
@@ -12507,8 +12459,7 @@ extension Macie2ClientTypes {
                 .aes256,
                 .none,
                 .awsKms,
-                .awsKmsDsse,
-                .sdkUnknown("")
+                .awsKmsDsse
             ]
         }
 
@@ -12558,8 +12509,7 @@ extension Macie2ClientTypes {
                 .resultNotSigned,
                 .roleTooPermissive,
                 .unsupportedFindingType,
-                .unsupportedObjectType,
-                .sdkUnknown("")
+                .unsupportedObjectType
             ]
         }
 
@@ -12595,8 +12545,7 @@ extension Macie2ClientTypes {
 
         public static var allCases: [Unit] {
             return [
-                .terabytes,
-                .sdkUnknown("")
+                .terabytes
             ]
         }
 
@@ -13854,8 +13803,7 @@ extension Macie2ClientTypes {
                 .gte,
                 .lt,
                 .lte,
-                .ne,
-                .sdkUnknown("")
+                .ne
             ]
         }
 
@@ -13894,8 +13842,7 @@ extension Macie2ClientTypes {
                 .accountid,
                 .freetrialstartdate,
                 .servicelimit,
-                .total,
-                .sdkUnknown("")
+                .total
             ]
         }
 
@@ -13960,8 +13907,7 @@ extension Macie2ClientTypes {
                 .accountid,
                 .freetrialstartdate,
                 .servicelimitvalue,
-                .total,
-                .sdkUnknown("")
+                .total
             ]
         }
 
@@ -14033,8 +13979,7 @@ extension Macie2ClientTypes {
                 .automatedObjectMonitoring,
                 .automatedSensitiveDataDiscovery,
                 .dataInventoryEvaluation,
-                .sensitiveDataDiscovery,
-                .sdkUnknown("")
+                .sensitiveDataDiscovery
             ]
         }
 
@@ -14166,8 +14111,7 @@ extension Macie2ClientTypes {
                 .assumedrole,
                 .federateduser,
                 .iamuser,
-                .root,
-                .sdkUnknown("")
+                .root
             ]
         }
 

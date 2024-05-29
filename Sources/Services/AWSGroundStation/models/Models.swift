@@ -72,8 +72,7 @@ extension GroundStationClientTypes {
                 .active,
                 .failed,
                 .inactive,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -134,8 +133,7 @@ extension GroundStationClientTypes {
         public static var allCases: [AngleUnits] {
             return [
                 .degreeAngle,
-                .radian,
-                .sdkUnknown("")
+                .radian
             ]
         }
 
@@ -313,8 +311,7 @@ extension GroundStationClientTypes {
         public static var allCases: [AuditResults] {
             return [
                 .healthy,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -403,8 +400,7 @@ extension GroundStationClientTypes {
             return [
                 .ghz,
                 .khz,
-                .mhz,
-                .sdkUnknown("")
+                .mhz
             ]
         }
 
@@ -499,8 +495,7 @@ extension GroundStationClientTypes {
         public static var allCases: [CapabilityHealth] {
             return [
                 .healthy,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -539,8 +534,7 @@ extension GroundStationClientTypes {
                 .invalidIpOwnership,
                 .notAuthorizedToCreateSlr,
                 .noRegisteredAgent,
-                .unverifiedIpOwnership,
-                .sdkUnknown("")
+                .unverifiedIpOwnership
             ]
         }
 
@@ -673,8 +667,7 @@ extension GroundStationClientTypes {
                 .dataflowEndpoint,
                 .s3Recording,
                 .tracking,
-                .uplinkEcho,
-                .sdkUnknown("")
+                .uplinkEcho
             ]
         }
 
@@ -1007,8 +1000,7 @@ extension GroundStationClientTypes {
                 .postpass,
                 .prepass,
                 .scheduled,
-                .scheduling,
-                .sdkUnknown("")
+                .scheduling
             ]
         }
 
@@ -1444,8 +1436,7 @@ extension GroundStationClientTypes {
             return [
                 .preferred,
                 .removed,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -2374,8 +2365,7 @@ extension GroundStationClientTypes {
 
         public static var allCases: [EirpUnits] {
             return [
-                .dbw,
-                .sdkUnknown("")
+                .dbw
             ]
         }
 
@@ -2497,8 +2487,7 @@ extension GroundStationClientTypes {
                 .creating,
                 .deleted,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -2599,8 +2588,7 @@ extension GroundStationClientTypes {
                 .metadataInvalid,
                 .timeRangeInvalid,
                 .trajectoryInvalid,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -2730,8 +2718,7 @@ extension GroundStationClientTypes {
         public static var allCases: [EphemerisSource] {
             return [
                 .customerProvided,
-                .spaceTrack,
-                .sdkUnknown("")
+                .spaceTrack
             ]
         }
 
@@ -2768,8 +2755,7 @@ extension GroundStationClientTypes {
                 .error,
                 .expired,
                 .invalid,
-                .validating,
-                .sdkUnknown("")
+                .validating
             ]
         }
 
@@ -2916,8 +2902,7 @@ extension GroundStationClientTypes {
             return [
                 .ghz,
                 .khz,
-                .mhz,
-                .sdkUnknown("")
+                .mhz
             ]
         }
 
@@ -4474,8 +4459,7 @@ extension GroundStationClientTypes {
             return [
                 .leftHand,
                 .none,
-                .rightHand,
-                .sdkUnknown("")
+                .rightHand
             ]
         }
 

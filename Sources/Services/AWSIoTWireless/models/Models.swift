@@ -171,8 +171,7 @@ extension IoTWirelessClientTypes {
             return [
                 .oneday,
                 .onehour,
-                .oneweek,
-                .sdkUnknown("")
+                .oneweek
             ]
         }
 
@@ -243,8 +242,7 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [ApplicationConfigType] {
             return [
-                .semtechgeolocation,
-                .sdkUnknown("")
+                .semtechgeolocation
             ]
         }
 
@@ -775,8 +773,7 @@ extension IoTWirelessClientTypes {
             return [
                 .critical,
                 .low,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 
@@ -1160,8 +1157,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [ConnectionStatus] {
             return [
                 .connected,
-                .disconnected,
-                .sdkUnknown("")
+                .disconnected
             ]
         }
 
@@ -3142,8 +3138,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [DeviceProfileType] {
             return [
                 .lorawan,
-                .sidewalk,
-                .sdkUnknown("")
+                .sidewalk
             ]
         }
 
@@ -3245,8 +3240,7 @@ extension IoTWirelessClientTypes {
                 .provisioned,
                 .registerednotseen,
                 .registeredreachable,
-                .registeredunreachable,
-                .sdkUnknown("")
+                .registeredunreachable
             ]
         }
 
@@ -3314,8 +3308,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [DimensionName] {
             return [
                 .deviceid,
-                .gatewayid,
-                .sdkUnknown("")
+                .gatewayid
             ]
         }
 
@@ -3761,8 +3754,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [DlClass] {
             return [
                 .classb,
-                .classc,
-                .sdkUnknown("")
+                .classc
             ]
         }
 
@@ -3793,8 +3785,7 @@ extension IoTWirelessClientTypes {
             return [
                 .concurrent,
                 .sequential,
-                .usingUplinkGateway,
-                .sdkUnknown("")
+                .usingUplinkGateway
             ]
         }
 
@@ -3872,8 +3863,7 @@ extension IoTWirelessClientTypes {
                 .discovered,
                 .lost,
                 .nack,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -3990,8 +3980,7 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [EventNotificationPartnerType] {
             return [
-                .sidewalk,
-                .sdkUnknown("")
+                .sidewalk
             ]
         }
 
@@ -4021,8 +4010,7 @@ extension IoTWirelessClientTypes {
             return [
                 .sidewalkaccount,
                 .wirelessdevice,
-                .wirelessgateway,
-                .sdkUnknown("")
+                .wirelessgateway
             ]
         }
 
@@ -4052,8 +4040,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [EventNotificationTopicStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4082,8 +4069,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [ExpressionType] {
             return [
                 .mqtttopic,
-                .rulename,
-                .sdkUnknown("")
+                .rulename
             ]
         }
 
@@ -4186,8 +4172,7 @@ extension IoTWirelessClientTypes {
                 .packageNotSupported,
                 .sessioncntReplay,
                 .successful,
-                .wrongDescriptor,
-                .sdkUnknown("")
+                .wrongDescriptor
             ]
         }
 
@@ -4268,8 +4253,7 @@ extension IoTWirelessClientTypes {
                 .fuotadone,
                 .fuotasessionWaiting,
                 .inFuotasession,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -7021,8 +7005,7 @@ extension IoTWirelessClientTypes {
                 .gatewayeui,
                 .partneraccountid,
                 .wirelessdeviceid,
-                .wirelessgatewayid,
-                .sdkUnknown("")
+                .wirelessgatewayid
             ]
         }
 
@@ -7062,8 +7045,7 @@ extension IoTWirelessClientTypes {
                 .failed,
                 .initialized,
                 .initializing,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -10063,8 +10045,7 @@ extension IoTWirelessClientTypes {
             return [
                 .disabled,
                 .error,
-                .info,
-                .sdkUnknown("")
+                .info
             ]
         }
 
@@ -10317,8 +10298,7 @@ extension IoTWirelessClientTypes {
                 .customCommandIdGet,
                 .customCommandIdNotify,
                 .customCommandIdResp,
-                .customCommandIdSet,
-                .sdkUnknown("")
+                .customCommandIdSet
             ]
         }
 
@@ -10405,8 +10385,7 @@ extension IoTWirelessClientTypes {
                 .gatewayrssi,
                 .gatewaysnr,
                 .gatewayuptime,
-                .gatewayuplinkcount,
-                .sdkUnknown("")
+                .gatewayuplinkcount
             ]
         }
 
@@ -10463,8 +10442,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [MetricQueryStatus] {
             return [
                 .failed,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -10545,8 +10523,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [MulticastFrameInfo] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10696,8 +10673,7 @@ extension IoTWirelessClientTypes {
                 .failed,
                 .initialized,
                 .onboarded,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -10864,8 +10840,7 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [PartnerType] {
             return [
-                .sidewalk,
-                .sdkUnknown("")
+                .sidewalk
             ]
         }
 
@@ -10893,8 +10868,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [PositionConfigurationFec] {
             return [
                 .none,
-                .rose,
-                .sdkUnknown("")
+                .rose
             ]
         }
 
@@ -10964,8 +10938,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [PositionConfigurationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10994,8 +10967,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [PositionResourceType] {
             return [
                 .wirelessdevice,
-                .wirelessgateway,
-                .sdkUnknown("")
+                .wirelessgateway
             ]
         }
 
@@ -11072,8 +11044,7 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [PositionSolverProvider] {
             return [
-                .semtech,
-                .sdkUnknown("")
+                .semtech
             ]
         }
 
@@ -11099,8 +11070,7 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [PositionSolverType] {
             return [
-                .gnss,
-                .sdkUnknown("")
+                .gnss
             ]
         }
 
@@ -11171,8 +11141,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [PositioningConfigStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12525,8 +12494,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [SigningAlg] {
             return [
                 .ed25519,
-                .p256r1,
-                .sdkUnknown("")
+                .p256r1
             ]
         }
 
@@ -13048,8 +13016,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [SummaryMetricConfigurationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13226,8 +13193,7 @@ extension IoTWirelessClientTypes {
                 .in865,
                 .kr920,
                 .ru864,
-                .us915,
-                .sdkUnknown("")
+                .us915
             ]
         }
 
@@ -15326,8 +15292,7 @@ extension IoTWirelessClientTypes {
                 .join,
                 .registration,
                 .rejoin,
-                .uplinkData,
-                .sdkUnknown("")
+                .uplinkData
             ]
         }
 
@@ -15399,8 +15364,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [WirelessDeviceFrameInfo] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15433,8 +15397,7 @@ extension IoTWirelessClientTypes {
                 .deveui,
                 .sidewalkmanufacturingsn,
                 .thingname,
-                .wirelessdeviceid,
-                .sdkUnknown("")
+                .wirelessdeviceid
             ]
         }
 
@@ -15590,8 +15553,7 @@ extension IoTWirelessClientTypes {
                 .activated,
                 .provisioned,
                 .registered,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -15698,8 +15660,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [WirelessDeviceType] {
             return [
                 .lorawan,
-                .sidewalk,
-                .sdkUnknown("")
+                .sidewalk
             ]
         }
 
@@ -15729,8 +15690,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [WirelessGatewayEvent] {
             return [
                 .cupsRequest,
-                .certificate,
-                .sdkUnknown("")
+                .certificate
             ]
         }
 
@@ -15800,8 +15760,7 @@ extension IoTWirelessClientTypes {
             return [
                 .gatewayeui,
                 .thingname,
-                .wirelessgatewayid,
-                .sdkUnknown("")
+                .wirelessgatewayid
             ]
         }
 
@@ -15876,8 +15835,7 @@ extension IoTWirelessClientTypes {
         public static var allCases: [WirelessGatewayServiceType] {
             return [
                 .cups,
-                .lns,
-                .sdkUnknown("")
+                .lns
             ]
         }
 
@@ -15955,8 +15913,7 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [WirelessGatewayTaskDefinitionType] {
             return [
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -15992,8 +15949,7 @@ extension IoTWirelessClientTypes {
                 .firstRetry,
                 .inProgress,
                 .pending,
-                .secondRetry,
-                .sdkUnknown("")
+                .secondRetry
             ]
         }
 
@@ -16025,8 +15981,7 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [WirelessGatewayType] {
             return [
-                .lorawan,
-                .sdkUnknown("")
+                .lorawan
             ]
         }
 

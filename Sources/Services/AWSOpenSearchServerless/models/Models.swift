@@ -147,8 +147,7 @@ extension OpenSearchServerlessClientTypes {
 
         public static var allCases: [AccessPolicyType] {
             return [
-                .data,
-                .sdkUnknown("")
+                .data
             ]
         }
 
@@ -690,8 +689,7 @@ extension OpenSearchServerlessClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -768,8 +766,7 @@ extension OpenSearchServerlessClientTypes {
             return [
                 .search,
                 .timeseries,
-                .vectorsearch,
-                .sdkUnknown("")
+                .vectorsearch
             ]
         }
 
@@ -2695,8 +2692,7 @@ extension OpenSearchServerlessClientTypes {
 
         public static var allCases: [LifecyclePolicyType] {
             return [
-                .retention,
-                .sdkUnknown("")
+                .retention
             ]
         }
 
@@ -3374,8 +3370,7 @@ extension OpenSearchServerlessClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
-                .index,
-                .sdkUnknown("")
+                .index
             ]
         }
 
@@ -3585,8 +3580,7 @@ extension OpenSearchServerlessClientTypes {
 
         public static var allCases: [SecurityConfigType] {
             return [
-                .saml,
-                .sdkUnknown("")
+                .saml
             ]
         }
 
@@ -3754,8 +3748,7 @@ extension OpenSearchServerlessClientTypes {
         public static var allCases: [SecurityPolicyType] {
             return [
                 .encryption,
-                .network,
-                .sdkUnknown("")
+                .network
             ]
         }
 
@@ -3846,8 +3839,7 @@ extension OpenSearchServerlessClientTypes {
         public static var allCases: [StandbyReplicas] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4932,8 +4924,7 @@ extension OpenSearchServerlessClientTypes {
                 .active,
                 .deleting,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 

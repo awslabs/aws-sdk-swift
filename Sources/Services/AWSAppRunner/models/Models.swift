@@ -233,8 +233,7 @@ extension AppRunnerClientTypes {
         public static var allCases: [AutoScalingConfigurationStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -362,8 +361,7 @@ extension AppRunnerClientTypes {
             return [
                 .failed,
                 .pendingValidation,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -557,8 +555,7 @@ extension AppRunnerClientTypes {
         public static var allCases: [ConfigurationSource] {
             return [
                 .api,
-                .repository,
-                .sdkUnknown("")
+                .repository
             ]
         }
 
@@ -637,8 +634,7 @@ extension AppRunnerClientTypes {
                 .available,
                 .deleted,
                 .error,
-                .pendingHandshake,
-                .sdkUnknown("")
+                .pendingHandshake
             ]
         }
 
@@ -1313,8 +1309,7 @@ extension AppRunnerClientTypes {
                 .creating,
                 .deleteFailed,
                 .deleting,
-                .pendingCertificateDnsValidation,
-                .sdkUnknown("")
+                .pendingCertificateDnsValidation
             ]
         }
 
@@ -2352,8 +2347,7 @@ extension AppRunnerClientTypes {
         public static var allCases: [EgressType] {
             return [
                 .default,
-                .vpc,
-                .sdkUnknown("")
+                .vpc
             ]
         }
 
@@ -2475,8 +2469,7 @@ extension AppRunnerClientTypes {
         public static var allCases: [HealthCheckProtocol] {
             return [
                 .http,
-                .tcp,
-                .sdkUnknown("")
+                .tcp
             ]
         }
 
@@ -2608,8 +2601,7 @@ extension AppRunnerClientTypes {
         public static var allCases: [ImageRepositoryType] {
             return [
                 .ecr,
-                .ecrPublic,
-                .sdkUnknown("")
+                .ecrPublic
             ]
         }
 
@@ -2860,8 +2852,7 @@ extension AppRunnerClientTypes {
         public static var allCases: [IpAddressType] {
             return [
                 .dualStack,
-                .ipv4,
-                .sdkUnknown("")
+                .ipv4
             ]
         }
 
@@ -3751,8 +3742,7 @@ extension AppRunnerClientTypes {
         public static var allCases: [ObservabilityConfigurationStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -3827,8 +3817,7 @@ extension AppRunnerClientTypes {
                 .rollbackFailed,
                 .rollbackInProgress,
                 .rollbackSucceeded,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3926,8 +3915,7 @@ extension AppRunnerClientTypes {
                 .pauseService,
                 .resumeService,
                 .startDeployment,
-                .updateService,
-                .sdkUnknown("")
+                .updateService
             ]
         }
 
@@ -4035,8 +4023,7 @@ extension AppRunnerClientTypes {
         public static var allCases: [ProviderType] {
             return [
                 .bitbucket,
-                .github,
-                .sdkUnknown("")
+                .github
             ]
         }
 
@@ -4197,8 +4184,7 @@ extension AppRunnerClientTypes {
                 .php81,
                 .python3,
                 .python311,
-                .ruby31,
-                .sdkUnknown("")
+                .ruby31
             ]
         }
 
@@ -4430,8 +4416,7 @@ extension AppRunnerClientTypes {
                 .deleteFailed,
                 .operationInProgress,
                 .paused,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -4561,8 +4546,7 @@ extension AppRunnerClientTypes {
 
         public static var allCases: [SourceCodeVersionType] {
             return [
-                .branch,
-                .sdkUnknown("")
+                .branch
             ]
         }
 
@@ -4838,8 +4822,7 @@ extension AppRunnerClientTypes {
 
         public static var allCases: [TracingVendor] {
             return [
-                .awsxray,
-                .sdkUnknown("")
+                .awsxray
             ]
         }
 
@@ -5242,8 +5225,7 @@ extension AppRunnerClientTypes {
         public static var allCases: [VpcConnectorStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -5394,8 +5376,7 @@ extension AppRunnerClientTypes {
                 .failedUpdate,
                 .pendingCreation,
                 .pendingDeletion,
-                .pendingUpdate,
-                .sdkUnknown("")
+                .pendingUpdate
             ]
         }
 

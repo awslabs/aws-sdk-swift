@@ -504,8 +504,7 @@ extension IvsClientTypes {
         public static var allCases: [ChannelLatencyMode] {
             return [
                 .lowlatency,
-                .normallatency,
-                .sdkUnknown("")
+                .normallatency
             ]
         }
 
@@ -647,8 +646,7 @@ extension IvsClientTypes {
                 .advancedhdchanneltype,
                 .advancedsdchanneltype,
                 .basicchanneltype,
-                .standardchanneltype,
-                .sdkUnknown("")
+                .standardchanneltype
             ]
         }
 
@@ -3044,8 +3042,7 @@ extension IvsClientTypes {
             return [
                 .active,
                 .createfailed,
-                .creating,
-                .sdkUnknown("")
+                .creating
             ]
         }
 
@@ -3124,8 +3121,7 @@ extension IvsClientTypes {
         public static var allCases: [RecordingMode] {
             return [
                 .disabled,
-                .interval,
-                .sdkUnknown("")
+                .interval
             ]
         }
 
@@ -3195,8 +3191,7 @@ extension IvsClientTypes {
                 .fullHd,
                 .hd,
                 .lowestResolution,
-                .sd,
-                .sdkUnknown("")
+                .sd
             ]
         }
 
@@ -3229,8 +3224,7 @@ extension IvsClientTypes {
             return [
                 .all,
                 .custom,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3650,8 +3644,7 @@ extension IvsClientTypes {
             return [
                 .starving,
                 .streamhealthy,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -3860,8 +3853,7 @@ extension IvsClientTypes {
         public static var allCases: [StreamState] {
             return [
                 .streamlive,
-                .streamoffline,
-                .sdkUnknown("")
+                .streamoffline
             ]
         }
 
@@ -4134,8 +4126,7 @@ extension IvsClientTypes {
                 .fullHd,
                 .hd,
                 .lowestResolution,
-                .sd,
-                .sdkUnknown("")
+                .sd
             ]
         }
 
@@ -4166,8 +4157,7 @@ extension IvsClientTypes {
         public static var allCases: [ThumbnailConfigurationStorage] {
             return [
                 .latest,
-                .sequential,
-                .sdkUnknown("")
+                .sequential
             ]
         }
 
@@ -4196,8 +4186,7 @@ extension IvsClientTypes {
         public static var allCases: [TranscodePreset] {
             return [
                 .constrainedbandwidthtranscodepreset,
-                .higherbandwidthtranscodepreset,
-                .sdkUnknown("")
+                .higherbandwidthtranscodepreset
             ]
         }
 

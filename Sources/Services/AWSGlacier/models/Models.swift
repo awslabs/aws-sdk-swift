@@ -147,8 +147,7 @@ extension GlacierClientTypes {
             return [
                 .archiveretrieval,
                 .inventoryretrieval,
-                .select,
-                .sdkUnknown("")
+                .select
             ]
         }
 
@@ -387,8 +386,7 @@ extension GlacierClientTypes {
                 .bucketownerread,
                 .private,
                 .publicread,
-                .publicreadwrite,
-                .sdkUnknown("")
+                .publicreadwrite
             ]
         }
 
@@ -1390,8 +1388,7 @@ extension GlacierClientTypes {
         public static var allCases: [EncryptionType] {
             return [
                 .kms,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -1418,8 +1415,7 @@ extension GlacierClientTypes {
 
         public static var allCases: [ExpressionType] {
             return [
-                .sql,
-                .sdkUnknown("")
+                .sql
             ]
         }
 
@@ -1449,8 +1445,7 @@ extension GlacierClientTypes {
             return [
                 .ignore,
                 .none,
-                .use,
-                .sdkUnknown("")
+                .use
             ]
         }
 
@@ -3523,8 +3518,7 @@ extension GlacierClientTypes {
                 .read,
                 .readAcp,
                 .write,
-                .writeAcp,
-                .sdkUnknown("")
+                .writeAcp
             ]
         }
 
@@ -3703,8 +3697,7 @@ extension GlacierClientTypes {
         public static var allCases: [QuoteFields] {
             return [
                 .always,
-                .asneeded,
-                .sdkUnknown("")
+                .asneeded
             ]
         }
 
@@ -4293,8 +4286,7 @@ extension GlacierClientTypes {
             return [
                 .failed,
                 .inprogress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4326,8 +4318,7 @@ extension GlacierClientTypes {
             return [
                 .reducedredundancy,
                 .standard,
-                .standardinfrequentaccess,
-                .sdkUnknown("")
+                .standardinfrequentaccess
             ]
         }
 
@@ -4359,8 +4350,7 @@ extension GlacierClientTypes {
             return [
                 .amazoncustomerbyemail,
                 .canonicaluser,
-                .group,
-                .sdkUnknown("")
+                .group
             ]
         }
 

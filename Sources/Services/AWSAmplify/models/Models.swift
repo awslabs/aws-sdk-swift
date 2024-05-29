@@ -671,8 +671,7 @@ extension AmplifyClientTypes {
         public static var allCases: [CertificateType] {
             return [
                 .amplifyManaged,
-                .custom,
-                .sdkUnknown("")
+                .custom
             ]
         }
 
@@ -2057,8 +2056,7 @@ extension AmplifyClientTypes {
                 .pendingDeployment,
                 .pendingVerification,
                 .requestingCertificate,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2779,8 +2777,7 @@ extension AmplifyClientTypes {
                 .pending,
                 .provisioning,
                 .running,
-                .succeed,
-                .sdkUnknown("")
+                .succeed
             ]
         }
 
@@ -2892,8 +2889,7 @@ extension AmplifyClientTypes {
                 .manual,
                 .release,
                 .retry,
-                .webHook,
-                .sdkUnknown("")
+                .webHook
             ]
         }
 
@@ -3757,8 +3753,7 @@ extension AmplifyClientTypes {
             return [
                 .web,
                 .webCompute,
-                .webDynamic,
-                .sdkUnknown("")
+                .webDynamic
             ]
         }
 
@@ -3831,8 +3826,7 @@ extension AmplifyClientTypes {
             return [
                 .sigv4,
                 .ssh,
-                .token,
-                .sdkUnknown("")
+                .token
             ]
         }
 
@@ -3911,8 +3905,7 @@ extension AmplifyClientTypes {
                 .development,
                 .experimental,
                 .production,
-                .pullRequest,
-                .sdkUnknown("")
+                .pullRequest
             ]
         }
 
@@ -5025,8 +5018,7 @@ extension AmplifyClientTypes {
                 .pendingVerification,
                 .requestingCertificate,
                 .updateComplete,
-                .updateFailed,
-                .sdkUnknown("")
+                .updateFailed
             ]
         }
 

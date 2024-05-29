@@ -224,8 +224,7 @@ extension ResiliencehubClientTypes {
                 .composite,
                 .event,
                 .logs,
-                .metric,
-                .sdkUnknown("")
+                .metric
             ]
         }
 
@@ -495,8 +494,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [AppAssessmentScheduleType] {
             return [
                 .daily,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -622,8 +620,7 @@ extension ResiliencehubClientTypes {
                 .changesDetected,
                 .notAssessed,
                 .policyBreached,
-                .policyMet,
-                .sdkUnknown("")
+                .policyMet
             ]
         }
 
@@ -750,8 +747,7 @@ extension ResiliencehubClientTypes {
             return [
                 .detected,
                 .notChecked,
-                .notDetected,
-                .sdkUnknown("")
+                .notDetected
             ]
         }
 
@@ -833,8 +829,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [AppStatusType] {
             return [
                 .active,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -989,8 +984,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [AssessmentInvoker] {
             return [
                 .system,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -1023,8 +1017,7 @@ extension ResiliencehubClientTypes {
                 .failed,
                 .inprogress,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -1298,8 +1291,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [ComplianceStatus] {
             return [
                 .policyBreached,
-                .policyMet,
-                .sdkUnknown("")
+                .policyMet
             ]
         }
 
@@ -1449,8 +1441,7 @@ extension ResiliencehubClientTypes {
                 .bestRegionRecovery,
                 .leastChange,
                 .leastCost,
-                .leastErrors,
-                .sdkUnknown("")
+                .leastErrors
             ]
         }
 
@@ -1573,8 +1564,7 @@ extension ResiliencehubClientTypes {
                 .daily,
                 .hourly,
                 .monthly,
-                .yearly,
-                .sdkUnknown("")
+                .yearly
             ]
         }
 
@@ -2186,8 +2176,7 @@ extension ResiliencehubClientTypes {
             return [
                 .anyLocation,
                 .sameContinent,
-                .sameCountry,
-                .sdkUnknown("")
+                .sameCountry
             ]
         }
 
@@ -3717,8 +3706,7 @@ extension ResiliencehubClientTypes {
             return [
                 .added,
                 .notEqual,
-                .removed,
-                .sdkUnknown("")
+                .removed
             ]
         }
 
@@ -3824,8 +3812,7 @@ extension ResiliencehubClientTypes {
                 .az,
                 .hardware,
                 .region,
-                .software,
-                .sdkUnknown("")
+                .software
             ]
         }
 
@@ -3858,8 +3845,7 @@ extension ResiliencehubClientTypes {
             return [
                 .detected,
                 .notChecked,
-                .notDetected,
-                .sdkUnknown("")
+                .notDetected
             ]
         }
 
@@ -3889,8 +3875,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [DriftType] {
             return [
                 .applicationCompliance,
-                .appComponentResiliencyComplianceStatus,
-                .sdkUnknown("")
+                .appComponentResiliencyComplianceStatus
             ]
         }
 
@@ -4001,8 +3986,7 @@ extension ResiliencehubClientTypes {
                 .l1,
                 .l2,
                 .l3,
-                .l4,
-                .sdkUnknown("")
+                .l4
             ]
         }
 
@@ -4078,8 +4062,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [EventType] {
             return [
                 .driftDetected,
-                .scheduledAssessmentFailure,
-                .sdkUnknown("")
+                .scheduledAssessmentFailure
             ]
         }
 
@@ -4110,8 +4093,7 @@ extension ResiliencehubClientTypes {
             return [
                 .alreadyImplemented,
                 .complexityOfImplementation,
-                .notRelevant,
-                .sdkUnknown("")
+                .notRelevant
             ]
         }
 
@@ -4186,8 +4168,7 @@ extension ResiliencehubClientTypes {
                 .multiSite,
                 .noRecoveryPlan,
                 .pilotLight,
-                .warmStandby,
-                .sdkUnknown("")
+                .warmStandby
             ]
         }
 
@@ -6319,8 +6300,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [PermissionModelType] {
             return [
                 .legacyIamUser,
-                .roleBased,
-                .sdkUnknown("")
+                .roleBased
             ]
         }
 
@@ -6349,8 +6329,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [PhysicalIdentifierType] {
             return [
                 .arn,
-                .native,
-                .sdkUnknown("")
+                .native
             ]
         }
 
@@ -6800,8 +6779,7 @@ extension ResiliencehubClientTypes {
             return [
                 .breachedCanMeet,
                 .breachedUnattainable,
-                .metCanImprove,
-                .sdkUnknown("")
+                .metCanImprove
             ]
         }
 
@@ -6933,8 +6911,7 @@ extension ResiliencehubClientTypes {
                 .excluded,
                 .implemented,
                 .inactive,
-                .notImplemented,
-                .sdkUnknown("")
+                .notImplemented
             ]
         }
 
@@ -7071,8 +7048,7 @@ extension ResiliencehubClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -7211,8 +7187,7 @@ extension ResiliencehubClientTypes {
             return [
                 .alarm,
                 .sop,
-                .test,
-                .sdkUnknown("")
+                .test
             ]
         }
 
@@ -7323,8 +7298,7 @@ extension ResiliencehubClientTypes {
                 .important,
                 .missionCritical,
                 .nonCritical,
-                .notApplicable,
-                .sdkUnknown("")
+                .notApplicable
             ]
         }
 
@@ -7399,8 +7373,7 @@ extension ResiliencehubClientTypes {
                 .alarm,
                 .compliance,
                 .sop,
-                .test,
-                .sdkUnknown("")
+                .test
             ]
         }
 
@@ -7675,8 +7648,7 @@ extension ResiliencehubClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -7707,8 +7679,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [ResourceImportStrategyType] {
             return [
                 .addOnly,
-                .replaceAll,
-                .sdkUnknown("")
+                .replaceAll
             ]
         }
 
@@ -7820,8 +7791,7 @@ extension ResiliencehubClientTypes {
                 .eks,
                 .resource,
                 .resourceGroup,
-                .terraform,
-                .sdkUnknown("")
+                .terraform
             ]
         }
 
@@ -7905,8 +7875,7 @@ extension ResiliencehubClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -7937,8 +7906,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [ResourceSourceType] {
             return [
                 .appTemplate,
-                .discovered,
-                .sdkUnknown("")
+                .discovered
             ]
         }
 
@@ -8143,8 +8111,7 @@ extension ResiliencehubClientTypes {
 
         public static var allCases: [SopServiceType] {
             return [
-                .ssm,
-                .sdkUnknown("")
+                .ssm
             ]
         }
 
@@ -8343,8 +8310,7 @@ extension ResiliencehubClientTypes {
         public static var allCases: [TemplateFormat] {
             return [
                 .cfnJson,
-                .cfnYaml,
-                .sdkUnknown("")
+                .cfnYaml
             ]
         }
 
@@ -8489,8 +8455,7 @@ extension ResiliencehubClientTypes {
             return [
                 .high,
                 .medium,
-                .small,
-                .sdkUnknown("")
+                .small
             ]
         }
 
@@ -8524,8 +8489,7 @@ extension ResiliencehubClientTypes {
                 .az,
                 .hardware,
                 .region,
-                .software,
-                .sdkUnknown("")
+                .software
             ]
         }
 

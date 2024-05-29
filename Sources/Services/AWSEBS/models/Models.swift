@@ -58,8 +58,7 @@ extension EBSClientTypes {
         public static var allCases: [AccessDeniedExceptionReason] {
             return [
                 .dependencyAccessDenied,
-                .unauthorizedAccount,
-                .sdkUnknown("")
+                .unauthorizedAccount
             ]
         }
 
@@ -159,8 +158,7 @@ extension EBSClientTypes {
 
         public static var allCases: [ChecksumAggregationMethod] {
             return [
-                .checksumAggregationLinear,
-                .sdkUnknown("")
+                .checksumAggregationLinear
             ]
         }
 
@@ -186,8 +184,7 @@ extension EBSClientTypes {
 
         public static var allCases: [ChecksumAlgorithm] {
             return [
-                .checksumAlgorithmSha256,
-                .sdkUnknown("")
+                .checksumAlgorithmSha256
             ]
         }
 
@@ -984,8 +981,7 @@ extension EBSClientTypes {
             return [
                 .accountThrottled,
                 .dependencyRequestThrottled,
-                .resourceLevelThrottle,
-                .sdkUnknown("")
+                .resourceLevelThrottle
             ]
         }
 
@@ -1061,8 +1057,7 @@ extension EBSClientTypes {
                 .dependencyResourceNotFound,
                 .grantNotFound,
                 .imageNotFound,
-                .snapshotNotFound,
-                .sdkUnknown("")
+                .snapshotNotFound
             ]
         }
 
@@ -1095,8 +1090,7 @@ extension EBSClientTypes {
             return [
                 .none,
                 .sseEbs,
-                .sseKms,
-                .sdkUnknown("")
+                .sseKms
             ]
         }
 
@@ -1166,8 +1160,7 @@ extension EBSClientTypes {
 
         public static var allCases: [ServiceQuotaExceededExceptionReason] {
             return [
-                .dependencyServiceQuotaExceeded,
-                .sdkUnknown("")
+                .dependencyServiceQuotaExceeded
             ]
         }
 
@@ -1372,8 +1365,7 @@ extension EBSClientTypes {
             return [
                 .completed,
                 .error,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1508,8 +1500,7 @@ extension EBSClientTypes {
                 .invalidTag,
                 .invalidVolumeSize,
                 .unrelatedSnapshots,
-                .writeRequestTimeout,
-                .sdkUnknown("")
+                .writeRequestTimeout
             ]
         }
 

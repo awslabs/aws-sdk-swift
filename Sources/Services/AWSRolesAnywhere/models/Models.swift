@@ -85,8 +85,7 @@ extension RolesAnywhereClientTypes {
             return [
                 .x509issuer,
                 .x509san,
-                .x509subject,
-                .sdkUnknown("")
+                .x509subject
             ]
         }
 
@@ -1889,8 +1888,7 @@ extension RolesAnywhereClientTypes {
 
         public static var allCases: [NotificationChannel] {
             return [
-                .all,
-                .sdkUnknown("")
+                .all
             ]
         }
 
@@ -1918,8 +1916,7 @@ extension RolesAnywhereClientTypes {
         public static var allCases: [NotificationEvent] {
             return [
                 .caCertificateExpiry,
-                .endEntityCertificateExpiry,
-                .sdkUnknown("")
+                .endEntityCertificateExpiry
             ]
         }
 
@@ -2831,8 +2828,7 @@ extension RolesAnywhereClientTypes {
             return [
                 .awsAcmPca,
                 .certificateBundle,
-                .selfSignedRepository,
-                .sdkUnknown("")
+                .selfSignedRepository
             ]
         }
 

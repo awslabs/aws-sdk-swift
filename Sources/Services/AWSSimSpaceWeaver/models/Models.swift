@@ -58,8 +58,7 @@ extension SimSpaceWeaverClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -93,8 +92,7 @@ extension SimSpaceWeaverClientTypes {
             return [
                 .started,
                 .stopped,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -788,8 +786,7 @@ extension SimSpaceWeaverClientTypes {
                 .byrequest,
                 .byspatialsubdivision,
                 .perworker,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -1414,8 +1411,7 @@ extension SimSpaceWeaverClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -1450,8 +1446,7 @@ extension SimSpaceWeaverClientTypes {
             return [
                 .started,
                 .stopped,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -1572,8 +1567,7 @@ extension SimSpaceWeaverClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -1613,8 +1607,7 @@ extension SimSpaceWeaverClientTypes {
                 .deleted,
                 .started,
                 .stopped,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 

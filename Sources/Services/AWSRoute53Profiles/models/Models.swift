@@ -1496,8 +1496,7 @@ extension Route53ProfilesClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1659,8 +1658,7 @@ extension Route53ProfilesClientTypes {
             return [
                 .notShared,
                 .sharedByMe,
-                .sharedWithMe,
-                .sdkUnknown("")
+                .sharedWithMe
             ]
         }
 

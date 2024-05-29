@@ -168,8 +168,7 @@ extension EntityResolutionClientTypes {
         public static var allCases: [AttributeMatchingModel] {
             return [
                 .manyToMany,
-                .oneToOne,
-                .sdkUnknown("")
+                .oneToOne
             ]
         }
 
@@ -1272,8 +1271,7 @@ extension EntityResolutionClientTypes {
         public static var allCases: [DeleteUniqueIdErrorType] {
             return [
                 .serviceError,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -1302,8 +1300,7 @@ extension EntityResolutionClientTypes {
         public static var allCases: [DeleteUniqueIdStatus] {
             return [
                 .accepted,
-                .completed,
-                .sdkUnknown("")
+                .completed
             ]
         }
 
@@ -2535,8 +2532,7 @@ extension EntityResolutionClientTypes {
 
         public static var allCases: [IdMappingType] {
             return [
-                .provider,
-                .sdkUnknown("")
+                .provider
             ]
         }
 
@@ -2823,8 +2819,7 @@ extension EntityResolutionClientTypes {
         public static var allCases: [IdNamespaceType] {
             return [
                 .source,
-                .target,
-                .sdkUnknown("")
+                .target
             ]
         }
 
@@ -2882,8 +2877,7 @@ extension EntityResolutionClientTypes {
 
         public static var allCases: [IncrementalRunType] {
             return [
-                .immediate,
-                .sdkUnknown("")
+                .immediate
             ]
         }
 
@@ -3108,8 +3102,7 @@ extension EntityResolutionClientTypes {
                 .failed,
                 .queued,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4494,8 +4487,7 @@ extension EntityResolutionClientTypes {
             return [
                 .mlMatching,
                 .provider,
-                .ruleMatching,
-                .sdkUnknown("")
+                .ruleMatching
             ]
         }
 
@@ -4676,8 +4668,7 @@ extension EntityResolutionClientTypes {
                 .phoneNumber,
                 .providerId,
                 .string,
-                .uniqueId,
-                .sdkUnknown("")
+                .uniqueId
             ]
         }
 
@@ -4832,8 +4823,7 @@ extension EntityResolutionClientTypes {
         public static var allCases: [ServiceType] {
             return [
                 .assignment,
-                .idMapping,
-                .sdkUnknown("")
+                .idMapping
             ]
         }
 
@@ -5015,8 +5005,7 @@ extension EntityResolutionClientTypes {
         public static var allCases: [StatementEffect] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 

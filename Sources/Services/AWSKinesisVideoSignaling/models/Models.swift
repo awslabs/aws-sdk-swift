@@ -408,8 +408,7 @@ extension KinesisVideoSignalingClientTypes {
 
         public static var allCases: [Service] {
             return [
-                .turn,
-                .sdkUnknown("")
+                .turn
             ]
         }
 

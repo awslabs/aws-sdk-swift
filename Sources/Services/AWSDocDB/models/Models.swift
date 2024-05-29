@@ -165,8 +165,7 @@ extension DocDBClientTypes {
         public static var allCases: [ApplyMethod] {
             return [
                 .immediate,
-                .pendingReboot,
-                .sdkUnknown("")
+                .pendingReboot
             ]
         }
 
@@ -8597,8 +8596,7 @@ extension DocDBClientTypes {
                 .dbInstance,
                 .dbParameterGroup,
                 .dbSecurityGroup,
-                .dbSnapshot,
-                .sdkUnknown("")
+                .dbSnapshot
             ]
         }
 

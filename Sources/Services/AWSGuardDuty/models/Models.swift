@@ -502,8 +502,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [AdminStatus] {
             return [
                 .disableInProgress,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -757,8 +756,7 @@ extension GuardDutyClientTypes {
             return [
                 .all,
                 .new,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1557,8 +1555,7 @@ extension GuardDutyClientTypes {
                 .eksClusterName,
                 .instanceId,
                 .managementType,
-                .resourceType,
-                .sdkUnknown("")
+                .resourceType
             ]
         }
 
@@ -1736,8 +1733,7 @@ extension GuardDutyClientTypes {
                 .eksClusterName,
                 .instanceId,
                 .issue,
-                .updatedAt,
-                .sdkUnknown("")
+                .updatedAt
             ]
         }
 
@@ -1804,8 +1800,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [CoverageStatisticsType] {
             return [
                 .countByCoverageStatus,
-                .countByResourceType,
-                .sdkUnknown("")
+                .countByResourceType
             ]
         }
 
@@ -1834,8 +1829,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [CoverageStatus] {
             return [
                 .healthy,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -2711,8 +2705,7 @@ extension GuardDutyClientTypes {
                 .scanId,
                 .scanStartTime,
                 .scanStatus,
-                .scanType,
-                .sdkUnknown("")
+                .scanType
             ]
         }
 
@@ -2781,8 +2774,7 @@ extension GuardDutyClientTypes {
                 .ec2MalwareScan,
                 .flowLogs,
                 .kubernetesAuditLogs,
-                .s3Logs,
-                .sdkUnknown("")
+                .s3Logs
             ]
         }
 
@@ -2930,8 +2922,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [DataSourceStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3920,8 +3911,7 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [DestinationType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -4050,8 +4040,7 @@ extension GuardDutyClientTypes {
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
                 .runtimeMonitoring,
-                .s3DataEvents,
-                .sdkUnknown("")
+                .s3DataEvents
             ]
         }
 
@@ -4176,8 +4165,7 @@ extension GuardDutyClientTypes {
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
                 .runtimeMonitoring,
-                .s3DataEvents,
-                .sdkUnknown("")
+                .s3DataEvents
             ]
         }
 
@@ -4214,8 +4202,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [DetectorStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4544,8 +4531,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [EbsSnapshotPreservation] {
             return [
                 .noRetention,
-                .retentionWithFinding,
-                .sdkUnknown("")
+                .retentionWithFinding
             ]
         }
 
@@ -4996,8 +4982,7 @@ extension GuardDutyClientTypes {
             return [
                 .ec2AgentManagement,
                 .ecsFargateAgentManagement,
-                .eksAddonManagement,
-                .sdkUnknown("")
+                .eksAddonManagement
             ]
         }
 
@@ -5027,8 +5012,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [FeatureStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5057,8 +5041,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [Feedback] {
             return [
                 .notUseful,
-                .useful,
-                .sdkUnknown("")
+                .useful
             ]
         }
 
@@ -5087,8 +5070,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [FilterAction] {
             return [
                 .archive,
-                .noop,
-                .sdkUnknown("")
+                .noop
             ]
         }
 
@@ -5343,8 +5325,7 @@ extension GuardDutyClientTypes {
             return [
                 .fifteenMinutes,
                 .oneHour,
-                .sixHours,
-                .sdkUnknown("")
+                .sixHours
             ]
         }
 
@@ -5372,8 +5353,7 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [FindingStatisticType] {
             return [
-                .countBySeverity,
-                .sdkUnknown("")
+                .countBySeverity
             ]
         }
 
@@ -5503,8 +5483,7 @@ extension GuardDutyClientTypes {
                 .flowLogs,
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
-                .s3DataEvents,
-                .sdkUnknown("")
+                .s3DataEvents
             ]
         }
 
@@ -7232,8 +7211,7 @@ extension GuardDutyClientTypes {
                 .otxCsv,
                 .proofPoint,
                 .stix,
-                .txt,
-                .sdkUnknown("")
+                .txt
             ]
         }
 
@@ -7276,8 +7254,7 @@ extension GuardDutyClientTypes {
                 .deleted,
                 .deletePending,
                 .error,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -9179,8 +9156,7 @@ extension GuardDutyClientTypes {
             return [
                 .autoManaged,
                 .disabled,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -9658,8 +9634,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [OrderBy] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -9698,8 +9673,7 @@ extension GuardDutyClientTypes {
                 .lambdaNetworkLogs,
                 .rdsLoginEvents,
                 .runtimeMonitoring,
-                .s3DataEvents,
-                .sdkUnknown("")
+                .s3DataEvents
             ]
         }
 
@@ -9735,8 +9709,7 @@ extension GuardDutyClientTypes {
             return [
                 .ec2AgentManagement,
                 .ecsFargateAgentManagement,
-                .eksAddonManagement,
-                .sdkUnknown("")
+                .eksAddonManagement
             ]
         }
 
@@ -9768,8 +9741,7 @@ extension GuardDutyClientTypes {
             return [
                 .all,
                 .new,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -10796,8 +10768,7 @@ extension GuardDutyClientTypes {
                 .frequent,
                 .infrequent,
                 .rare,
-                .unseen,
-                .sdkUnknown("")
+                .unseen
             ]
         }
 
@@ -10826,8 +10797,7 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [ProfileType] {
             return [
-                .frequency,
-                .sdkUnknown("")
+                .frequency
             ]
         }
 
@@ -10890,8 +10860,7 @@ extension GuardDutyClientTypes {
                 .pendingVerification,
                 .publishing,
                 .stopped,
-                .unableToPublishFixDestinationProperty,
-                .sdkUnknown("")
+                .unableToPublishFixDestinationProperty
             ]
         }
 
@@ -11277,8 +11246,7 @@ extension GuardDutyClientTypes {
             return [
                 .ec2,
                 .ecs,
-                .eks,
-                .sdkUnknown("")
+                .eks
             ]
         }
 
@@ -11763,8 +11731,7 @@ extension GuardDutyClientTypes {
 
         public static var allCases: [ScanCriterionKey] {
             return [
-                .ec2InstanceTag,
-                .sdkUnknown("")
+                .ec2InstanceTag
             ]
         }
 
@@ -11961,8 +11928,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [ScanResult] {
             return [
                 .clean,
-                .infected,
-                .sdkUnknown("")
+                .infected
             ]
         }
 
@@ -12021,8 +11987,7 @@ extension GuardDutyClientTypes {
                 .completed,
                 .failed,
                 .running,
-                .skipped,
-                .sdkUnknown("")
+                .skipped
             ]
         }
 
@@ -12094,8 +12059,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [ScanType] {
             return [
                 .guarddutyInitiated,
-                .onDemand,
-                .sdkUnknown("")
+                .onDemand
             ]
         }
 
@@ -12742,8 +12706,7 @@ extension GuardDutyClientTypes {
                 .otxCsv,
                 .proofPoint,
                 .stix,
-                .txt,
-                .sdkUnknown("")
+                .txt
             ]
         }
 
@@ -12786,8 +12749,7 @@ extension GuardDutyClientTypes {
                 .deleted,
                 .deletePending,
                 .error,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -13982,8 +13944,7 @@ extension GuardDutyClientTypes {
                 .rdsDbiProtectionProvisioned,
                 .rdsDbiProtectionServerless,
                 .rdsLoginEvents,
-                .s3DataEvents,
-                .sdkUnknown("")
+                .s3DataEvents
             ]
         }
 
@@ -14093,8 +14054,7 @@ extension GuardDutyClientTypes {
                 .sumByFeatures,
                 .sumByResource,
                 .topAccountsByFeature,
-                .topResources,
-                .sdkUnknown("")
+                .topResources
             ]
         }
 

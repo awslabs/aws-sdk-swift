@@ -74,8 +74,7 @@ extension CloudSearchDomainClientTypes {
         public static var allCases: [ContentType] {
             return [
                 .applicationJson,
-                .applicationXml,
-                .sdkUnknown("")
+                .applicationXml
             ]
         }
 
@@ -320,8 +319,7 @@ extension CloudSearchDomainClientTypes {
                 .dismax,
                 .lucene,
                 .simple,
-                .structured,
-                .sdkUnknown("")
+                .structured
             ]
         }
 

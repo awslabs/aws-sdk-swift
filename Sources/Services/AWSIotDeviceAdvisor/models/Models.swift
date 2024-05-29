@@ -15,8 +15,7 @@ extension IotDeviceAdvisorClientTypes {
         public static var allCases: [AuthenticationMethod] {
             return [
                 .signatureversion4,
-                .x509clientcertificate,
-                .sdkUnknown("")
+                .x509clientcertificate
             ]
         }
 
@@ -989,8 +988,7 @@ extension IotDeviceAdvisorClientTypes {
                 .mqttv311,
                 .mqttv311Overwebsocket,
                 .mqttv5,
-                .mqttv5Overwebsocket,
-                .sdkUnknown("")
+                .mqttv5Overwebsocket
             ]
         }
 
@@ -1174,8 +1172,7 @@ extension IotDeviceAdvisorClientTypes {
                 .pending,
                 .running,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1525,8 +1522,7 @@ extension IotDeviceAdvisorClientTypes {
                 .pending,
                 .running,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1793,8 +1789,7 @@ extension IotDeviceAdvisorClientTypes {
                 .pending,
                 .running,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1830,8 +1825,7 @@ extension IotDeviceAdvisorClientTypes {
         public static var allCases: [TestCaseScenarioType] {
             return [
                 .advanced,
-                .basic,
-                .sdkUnknown("")
+                .basic
             ]
         }
 

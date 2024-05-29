@@ -53,8 +53,7 @@ extension CloudSearchClientTypes {
                 .full,
                 .light,
                 .minimal,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -252,8 +251,7 @@ extension CloudSearchClientTypes {
                 .th,
                 .tr,
                 .zhHans,
-                .zhHant,
-                .sdkUnknown("")
+                .zhHant
             ]
         }
 
@@ -2788,8 +2786,7 @@ extension CloudSearchClientTypes {
                 .literal,
                 .literalArray,
                 .text,
-                .textArray,
-                .sdkUnknown("")
+                .textArray
             ]
         }
 
@@ -3353,8 +3350,7 @@ extension CloudSearchClientTypes {
                 .active,
                 .failedtovalidate,
                 .processing,
-                .requiresindexdocuments,
-                .sdkUnknown("")
+                .requiresindexdocuments
             ]
         }
 
@@ -3473,8 +3469,7 @@ extension CloudSearchClientTypes {
                 .searchPreviousgenerationSmall,
                 .searchPreviousgenerationXlarge,
                 .searchSmall,
-                .searchXlarge,
-                .sdkUnknown("")
+                .searchXlarge
             ]
         }
 
@@ -3747,8 +3742,7 @@ extension CloudSearchClientTypes {
             return [
                 .high,
                 .low,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3812,8 +3806,7 @@ extension CloudSearchClientTypes {
         public static var allCases: [TLSSecurityPolicy] {
             return [
                 .policyMinTls10201907,
-                .policyMinTls12201907,
-                .sdkUnknown("")
+                .policyMinTls12201907
             ]
         }
 

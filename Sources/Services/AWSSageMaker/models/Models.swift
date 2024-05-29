@@ -67,8 +67,7 @@ extension SageMakerClientTypes {
                 .inProgress,
                 .stopped,
                 .stopping,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -433,8 +432,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AdditionalS3DataSourceDataType] {
             return [
                 .s3object,
-                .s3prefix,
-                .sdkUnknown("")
+                .s3prefix
             ]
         }
 
@@ -502,8 +500,7 @@ extension SageMakerClientTypes {
                 .first,
                 .max,
                 .min,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -566,8 +563,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AlgorithmSortBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -691,8 +687,7 @@ extension SageMakerClientTypes {
                 .deleting,
                 .failed,
                 .inProgress,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1671,8 +1666,7 @@ extension SageMakerClientTypes {
             return [
                 .creationtime,
                 .lastmodifiedtime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -2004,8 +1998,7 @@ extension SageMakerClientTypes {
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
                 .mlTrn132xlarge,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -2185,8 +2178,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AppNetworkAccessType] {
             return [
                 .publicinternetonly,
-                .vpconly,
-                .sdkUnknown("")
+                .vpconly
             ]
         }
 
@@ -2215,8 +2207,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AppSecurityGroupManagement] {
             return [
                 .customer,
-                .service,
-                .sdkUnknown("")
+                .service
             ]
         }
 
@@ -2243,8 +2234,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [AppSortKey] {
             return [
-                .creationtime,
-                .sdkUnknown("")
+                .creationtime
             ]
         }
 
@@ -2322,8 +2312,7 @@ extension SageMakerClientTypes {
                 .deleting,
                 .failed,
                 .inservice,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -2369,8 +2358,7 @@ extension SageMakerClientTypes {
                 .kernelgateway,
                 .rsessiongateway,
                 .rstudioserverpro,
-                .tensorboard,
-                .sdkUnknown("")
+                .tensorboard
             ]
         }
 
@@ -2448,8 +2436,7 @@ extension SageMakerClientTypes {
                 .custom,
                 .md5Hash,
                 .s3Etag,
-                .s3Version,
-                .sdkUnknown("")
+                .s3Version
             ]
         }
 
@@ -2570,8 +2557,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AssemblyType] {
             return [
                 .line,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -2684,8 +2670,7 @@ extension SageMakerClientTypes {
                 .contributedTo,
                 .derivedFrom,
                 .produced,
-                .sameAs,
-                .sdkUnknown("")
+                .sameAs
             ]
         }
 
@@ -2944,8 +2929,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AsyncNotificationTopicTypes] {
             return [
                 .errorNotificationTopic,
-                .successNotificationTopic,
-                .sdkUnknown("")
+                .successNotificationTopic
             ]
         }
 
@@ -3055,8 +3039,7 @@ extension SageMakerClientTypes {
             return [
                 .gzip,
                 .snappy,
-                .zlib,
-                .sdkUnknown("")
+                .zlib
             ]
         }
 
@@ -3093,8 +3076,7 @@ extension SageMakerClientTypes {
                 .json,
                 .orc,
                 .parquet,
-                .textfile,
-                .sdkUnknown("")
+                .textfile
             ]
         }
 
@@ -3126,8 +3108,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AuthMode] {
             return [
                 .iam,
-                .sso,
-                .sdkUnknown("")
+                .sso
             ]
         }
 
@@ -3170,8 +3151,7 @@ extension SageMakerClientTypes {
                 .mlp,
                 .nnTorch,
                 .randomforest,
-                .xgboost,
-                .sdkUnknown("")
+                .xgboost
             ]
         }
 
@@ -3502,8 +3482,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AutoMLChannelType] {
             return [
                 .training,
-                .validation,
-                .sdkUnknown("")
+                .validation
             ]
         }
 
@@ -3900,8 +3879,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AutoMLJobObjectiveType] {
             return [
                 .maximize,
-                .minimize,
-                .sdkUnknown("")
+                .minimize
             ]
         }
 
@@ -3964,8 +3942,7 @@ extension SageMakerClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .trainingModels,
-                .sdkUnknown("")
+                .trainingModels
             ]
         }
 
@@ -4017,8 +3994,7 @@ extension SageMakerClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -4178,8 +4154,7 @@ extension SageMakerClientTypes {
                 .recall,
                 .recallMacro,
                 .rmse,
-                .wape,
-                .sdkUnknown("")
+                .wape
             ]
         }
 
@@ -4271,8 +4246,7 @@ extension SageMakerClientTypes {
                 .rougelSum,
                 .trainingLoss,
                 .validationLoss,
-                .wape,
-                .sdkUnknown("")
+                .wape
             ]
         }
 
@@ -4327,8 +4301,7 @@ extension SageMakerClientTypes {
             return [
                 .auto,
                 .ensembling,
-                .hyperparameterTuning,
-                .sdkUnknown("")
+                .hyperparameterTuning
             ]
         }
 
@@ -4486,8 +4459,7 @@ extension SageMakerClientTypes {
                 .tabular,
                 .textClassification,
                 .textGeneration,
-                .timeseriesForecasting,
-                .sdkUnknown("")
+                .timeseriesForecasting
             ]
         }
 
@@ -4547,8 +4519,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AutoMLProcessingUnit] {
             return [
                 .cpu,
-                .gpu,
-                .sdkUnknown("")
+                .gpu
             ]
         }
 
@@ -4660,8 +4631,7 @@ extension SageMakerClientTypes {
             return [
                 .augmentedManifestFile,
                 .manifestFile,
-                .s3Prefix,
-                .sdkUnknown("")
+                .s3Prefix
             ]
         }
 
@@ -4736,8 +4706,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -4767,8 +4736,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AutoMLSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -4909,8 +4877,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [AutotuneMode] {
             return [
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4938,8 +4905,7 @@ extension SageMakerClientTypes {
         public static var allCases: [AwsManagedHumanLoopRequestSource] {
             return [
                 .rekognitionDetectModerationLabelsImageV3,
-                .textractAnalyzeDocumentFormsV1,
-                .sdkUnknown("")
+                .textractAnalyzeDocumentFormsV1
             ]
         }
 
@@ -5189,8 +5155,7 @@ extension SageMakerClientTypes {
         public static var allCases: [BatchStrategy] {
             return [
                 .multiRecord,
-                .singleRecord,
-                .sdkUnknown("")
+                .singleRecord
             ]
         }
 
@@ -5437,8 +5402,7 @@ extension SageMakerClientTypes {
         public static var allCases: [BooleanOperator] {
             return [
                 .and,
-                .or,
-                .sdkUnknown("")
+                .or
             ]
         }
 
@@ -5639,8 +5603,7 @@ extension SageMakerClientTypes {
             return [
                 .creationtime,
                 .finalobjectivemetricvalue,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -5676,8 +5639,7 @@ extension SageMakerClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -5711,8 +5673,7 @@ extension SageMakerClientTypes {
             return [
                 .processing,
                 .training,
-                .transform,
-                .sdkUnknown("")
+                .transform
             ]
         }
 
@@ -5852,8 +5813,7 @@ extension SageMakerClientTypes {
         public static var allCases: [CapacitySizeType] {
             return [
                 .capacityPercent,
-                .instanceCount,
-                .sdkUnknown("")
+                .instanceCount
             ]
         }
 
@@ -5921,8 +5881,7 @@ extension SageMakerClientTypes {
             return [
                 .input,
                 .inputAndOutput,
-                .output,
-                .sdkUnknown("")
+                .output
             ]
         }
 
@@ -5984,8 +5943,7 @@ extension SageMakerClientTypes {
         public static var allCases: [CaptureStatus] {
             return [
                 .started,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -6402,8 +6360,7 @@ extension SageMakerClientTypes {
             return [
                 .categorical,
                 .numerical,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -6668,8 +6625,7 @@ extension SageMakerClientTypes {
             return [
                 .paragraph,
                 .sentence,
-                .token,
-                .sdkUnknown("")
+                .token
             ]
         }
 
@@ -6815,8 +6771,7 @@ extension SageMakerClientTypes {
                 .turkish,
                 .ukrainian,
                 .urdu,
-                .yoruba,
-                .sdkUnknown("")
+                .yoruba
             ]
         }
 
@@ -7019,8 +6974,7 @@ extension SageMakerClientTypes {
                 .pending,
                 .running,
                 .shuttingDown,
-                .systemUpdating,
-                .sdkUnknown("")
+                .systemUpdating
             ]
         }
 
@@ -7156,8 +7110,7 @@ extension SageMakerClientTypes {
                 .mlT3Medium,
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
-                .mlTrn132xlarge,
-                .sdkUnknown("")
+                .mlTrn132xlarge
             ]
         }
 
@@ -7368,8 +7321,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ClusterSortBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -7408,8 +7360,7 @@ extension SageMakerClientTypes {
                 .inservice,
                 .rollingback,
                 .systemupdating,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -7602,8 +7553,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .lastModifiedTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -7633,8 +7583,7 @@ extension SageMakerClientTypes {
         public static var allCases: [CodeRepositorySortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -7873,8 +7822,7 @@ extension SageMakerClientTypes {
             return [
                 .list,
                 .set,
-                .vector,
-                .sdkUnknown("")
+                .vector
             ]
         }
 
@@ -7912,8 +7860,7 @@ extension SageMakerClientTypes {
                 .inprogress,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -8026,8 +7973,7 @@ extension SageMakerClientTypes {
         public static var allCases: [CompleteOnConvergence] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8056,8 +8002,7 @@ extension SageMakerClientTypes {
         public static var allCases: [CompressionType] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -8086,8 +8031,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ConditionOutcome] {
             return [
                 .false,
-                .true,
-                .sdkUnknown("")
+                .true
             ]
         }
 
@@ -8307,8 +8251,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ContainerMode] {
             return [
                 .multiModel,
-                .singleModel,
-                .sdkUnknown("")
+                .singleModel
             ]
         }
 
@@ -8337,8 +8280,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ContentClassifier] {
             return [
                 .freeOfAdultContent,
-                .freeOfPersonallyIdentifiableInformation,
-                .sdkUnknown("")
+                .freeOfPersonallyIdentifiableInformation
             ]
         }
 
@@ -14524,8 +14466,7 @@ extension SageMakerClientTypes {
         public static var allCases: [CrossAccountFilterOption] {
             return [
                 .crossAccount,
-                .sameAccount,
-                .sdkUnknown("")
+                .sameAccount
             ]
         }
 
@@ -14911,8 +14852,7 @@ extension SageMakerClientTypes {
         public static var allCases: [DataDistributionType] {
             return [
                 .fullyreplicated,
-                .shardedbys3key,
-                .sdkUnknown("")
+                .shardedbys3key
             ]
         }
 
@@ -15163,8 +15103,7 @@ extension SageMakerClientTypes {
         public static var allCases: [DataSourceName] {
             return [
                 .salesforcegenie,
-                .snowflake,
-                .sdkUnknown("")
+                .snowflake
             ]
         }
 
@@ -26796,8 +26735,7 @@ extension SageMakerClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -26832,8 +26770,7 @@ extension SageMakerClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -26907,8 +26844,7 @@ extension SageMakerClientTypes {
                 .inprogress,
                 .readytodeploy,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -27150,8 +27086,7 @@ extension SageMakerClientTypes {
             return [
                 .namecontains,
                 .percentage,
-                .selection,
-                .sdkUnknown("")
+                .selection
             ]
         }
 
@@ -27280,8 +27215,7 @@ extension SageMakerClientTypes {
         public static var allCases: [DirectInternetAccess] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -27312,8 +27246,7 @@ extension SageMakerClientTypes {
             return [
                 .ascendants,
                 .both,
-                .descendants,
-                .sdkUnknown("")
+                .descendants
             ]
         }
 
@@ -27656,8 +27589,7 @@ extension SageMakerClientTypes {
                 .inservice,
                 .pending,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -28513,8 +28445,7 @@ extension SageMakerClientTypes {
                 .inprogress,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -28653,8 +28584,7 @@ extension SageMakerClientTypes {
         public static var allCases: [EdgePresetDeploymentStatus] {
             return [
                 .completed,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -28681,8 +28611,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [EdgePresetDeploymentType] {
             return [
-                .greengrassv2component,
-                .sdkUnknown("")
+                .greengrassv2component
             ]
         }
 
@@ -28755,8 +28684,7 @@ extension SageMakerClientTypes {
         public static var allCases: [EnabledOrDisabled] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -28872,8 +28800,7 @@ extension SageMakerClientTypes {
         public static var allCases: [EndpointConfigSortKey] {
             return [
                 .creationtime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -29239,8 +29166,7 @@ extension SageMakerClientTypes {
             return [
                 .creationtime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -29284,8 +29210,7 @@ extension SageMakerClientTypes {
                 .rollingBack,
                 .systemUpdating,
                 .updateRollbackFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -29461,8 +29386,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ExecutionRoleIdentityConfig] {
             return [
                 .disabled,
-                .userProfileName,
-                .sdkUnknown("")
+                .userProfileName
             ]
         }
 
@@ -29501,8 +29425,7 @@ extension SageMakerClientTypes {
                 .inProgress,
                 .pending,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -29833,8 +29756,7 @@ extension SageMakerClientTypes {
         public static var allCases: [FailureHandlingPolicy] {
             return [
                 .donothing,
-                .rollbackonfailure,
-                .sdkUnknown("")
+                .rollbackonfailure
             ]
         }
 
@@ -30029,8 +29951,7 @@ extension SageMakerClientTypes {
                 .creationTime,
                 .featureGroupStatus,
                 .name,
-                .offlineStoreStatus,
-                .sdkUnknown("")
+                .offlineStoreStatus
             ]
         }
 
@@ -30061,8 +29982,7 @@ extension SageMakerClientTypes {
         public static var allCases: [FeatureGroupSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -30097,8 +30017,7 @@ extension SageMakerClientTypes {
                 .createFailed,
                 .creating,
                 .deleteFailed,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -30277,8 +30196,7 @@ extension SageMakerClientTypes {
         public static var allCases: [FeatureStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -30309,8 +30227,7 @@ extension SageMakerClientTypes {
             return [
                 .fractional,
                 .integral,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -30384,8 +30301,7 @@ extension SageMakerClientTypes {
         public static var allCases: [FileSystemAccessMode] {
             return [
                 .ro,
-                .rw,
-                .sdkUnknown("")
+                .rw
             ]
         }
 
@@ -30510,8 +30426,7 @@ extension SageMakerClientTypes {
         public static var allCases: [FileSystemType] {
             return [
                 .efs,
-                .fsxlustre,
-                .sdkUnknown("")
+                .fsxlustre
             ]
         }
 
@@ -30552,8 +30467,7 @@ extension SageMakerClientTypes {
                 .futurefill,
                 .futurefillvalue,
                 .middlefill,
-                .middlefillvalue,
-                .sdkUnknown("")
+                .middlefillvalue
             ]
         }
 
@@ -30747,8 +30661,7 @@ extension SageMakerClientTypes {
         public static var allCases: [FlatInvocations] {
             return [
                 .continue,
-                .stop,
-                .sdkUnknown("")
+                .stop
             ]
         }
 
@@ -30819,8 +30732,7 @@ extension SageMakerClientTypes {
                 .active,
                 .deleting,
                 .failed,
-                .initializing,
-                .sdkUnknown("")
+                .initializing
             ]
         }
 
@@ -30915,8 +30827,7 @@ extension SageMakerClientTypes {
                 .sklearn,
                 .tensorflow,
                 .tflite,
-                .xgboost,
-                .sdkUnknown("")
+                .xgboost
             ]
         }
 
@@ -31675,8 +31586,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .hubContentName,
-                .hubContentStatus,
-                .sdkUnknown("")
+                .hubContentStatus
             ]
         }
 
@@ -31712,8 +31622,7 @@ extension SageMakerClientTypes {
                 .deleteFailed,
                 .deleting,
                 .importing,
-                .importFailed,
-                .sdkUnknown("")
+                .importFailed
             ]
         }
 
@@ -31745,8 +31654,7 @@ extension SageMakerClientTypes {
         public static var allCases: [HubContentType] {
             return [
                 .model,
-                .notebook,
-                .sdkUnknown("")
+                .notebook
             ]
         }
 
@@ -31876,8 +31784,7 @@ extension SageMakerClientTypes {
                 .accountIdOwner,
                 .creationTime,
                 .hubName,
-                .hubStatus,
-                .sdkUnknown("")
+                .hubStatus
             ]
         }
 
@@ -31918,8 +31825,7 @@ extension SageMakerClientTypes {
                 .deleting,
                 .inService,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -33036,8 +32942,7 @@ extension SageMakerClientTypes {
         public static var allCases: [HumanTaskUiStatus] {
             return [
                 .active,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -33159,8 +33064,7 @@ extension SageMakerClientTypes {
                 .auto,
                 .linear,
                 .logarithmic,
-                .reverseLogarithmic,
-                .sdkUnknown("")
+                .reverseLogarithmic
             ]
         }
 
@@ -33493,8 +33397,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [HyperParameterTuningAllocationStrategy] {
             return [
-                .prioritized,
-                .sdkUnknown("")
+                .prioritized
             ]
         }
 
@@ -33739,8 +33642,7 @@ extension SageMakerClientTypes {
         public static var allCases: [HyperParameterTuningJobObjectiveType] {
             return [
                 .maximize,
-                .minimize,
-                .sdkUnknown("")
+                .minimize
             ]
         }
 
@@ -33882,8 +33784,7 @@ extension SageMakerClientTypes {
             return [
                 .creationtime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -33923,8 +33824,7 @@ extension SageMakerClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -33994,8 +33894,7 @@ extension SageMakerClientTypes {
                 .bayesian,
                 .grid,
                 .hyperband,
-                .random,
-                .sdkUnknown("")
+                .random
             ]
         }
 
@@ -34143,8 +34042,7 @@ extension SageMakerClientTypes {
         public static var allCases: [HyperParameterTuningJobWarmStartType] {
             return [
                 .identicalDataAndAlgorithm,
-                .transferLearning,
-                .sdkUnknown("")
+                .transferLearning
             ]
         }
 
@@ -34541,8 +34439,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .imageName,
-                .lastModifiedTime,
-                .sdkUnknown("")
+                .lastModifiedTime
             ]
         }
 
@@ -34572,8 +34469,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ImageSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -34612,8 +34508,7 @@ extension SageMakerClientTypes {
                 .deleteFailed,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -34711,8 +34606,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .lastModifiedTime,
-                .version,
-                .sdkUnknown("")
+                .version
             ]
         }
 
@@ -34742,8 +34636,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ImageVersionSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -34778,8 +34671,7 @@ extension SageMakerClientTypes {
                 .createFailed,
                 .creating,
                 .deleteFailed,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -35118,8 +35010,7 @@ extension SageMakerClientTypes {
             return [
                 .creationtime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -35273,8 +35164,7 @@ extension SageMakerClientTypes {
                 .deleting,
                 .failed,
                 .inService,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -35410,8 +35300,7 @@ extension SageMakerClientTypes {
         public static var allCases: [InferenceExecutionMode] {
             return [
                 .direct,
-                .serial,
-                .sdkUnknown("")
+                .serial
             ]
         }
 
@@ -35533,8 +35422,7 @@ extension SageMakerClientTypes {
                 .running,
                 .starting,
                 .stopping,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -35569,8 +35457,7 @@ extension SageMakerClientTypes {
         public static var allCases: [InferenceExperimentStopDesiredState] {
             return [
                 .cancelled,
-                .completed,
-                .sdkUnknown("")
+                .completed
             ]
         }
 
@@ -35673,8 +35560,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [InferenceExperimentType] {
             return [
-                .shadowMode,
-                .sdkUnknown("")
+                .shadowMode
             ]
         }
 
@@ -36236,8 +36122,7 @@ extension SageMakerClientTypes {
         public static var allCases: [InputMode] {
             return [
                 .file,
-                .pipe,
-                .sdkUnknown("")
+                .pipe
             ]
         }
 
@@ -36670,8 +36555,7 @@ extension SageMakerClientTypes {
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
-                .mlT3Xlarge,
-                .sdkUnknown("")
+                .mlT3Xlarge
             ]
         }
 
@@ -36956,8 +36840,7 @@ extension SageMakerClientTypes {
             return [
                 .inference,
                 .notebookKernel,
-                .training,
-                .sdkUnknown("")
+                .training
             ]
         }
 
@@ -36987,8 +36870,7 @@ extension SageMakerClientTypes {
         public static var allCases: [JoinSource] {
             return [
                 .input,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -37786,8 +37668,7 @@ extension SageMakerClientTypes {
                 .initializing,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -38011,8 +37892,7 @@ extension SageMakerClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -38092,8 +37972,7 @@ extension SageMakerClientTypes {
                 .action,
                 .artifact,
                 .context,
-                .trialComponent,
-                .sdkUnknown("")
+                .trialComponent
             ]
         }
 
@@ -39538,8 +39417,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -39891,8 +39769,7 @@ extension SageMakerClientTypes {
             return [
                 .creationtime,
                 .lastmodifiedtime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -40205,8 +40082,7 @@ extension SageMakerClientTypes {
                 .creationtime,
                 .devicefleetname,
                 .lastmodifiedtime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -40363,8 +40239,7 @@ extension SageMakerClientTypes {
                 .edgepackagingjobstatus,
                 .lastmodifiedtime,
                 .modelname,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -42144,8 +42019,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -42280,8 +42154,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [ListLabelingJobsForWorkteamSortByOptions] {
             return [
-                .creationTime,
-                .sdkUnknown("")
+                .creationTime
             ]
         }
 
@@ -46132,8 +46005,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ListWorkforcesSortByOptions] {
             return [
                 .createdate,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -46252,8 +46124,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ListWorkteamsSortByOptions] {
             return [
                 .createdate,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -46282,8 +46153,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ManagedInstanceScalingStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -46516,8 +46386,7 @@ extension SageMakerClientTypes {
             return [
                 .test,
                 .train,
-                .validation,
-                .sdkUnknown("")
+                .validation
             ]
         }
 
@@ -46734,8 +46603,7 @@ extension SageMakerClientTypes {
             return [
                 .approved,
                 .pendingManualApproval,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -46918,8 +46786,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ModelCacheSetting] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -47082,8 +46949,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -47113,8 +46979,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ModelCardExportJobSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -47145,8 +47010,7 @@ extension SageMakerClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -47279,8 +47143,7 @@ extension SageMakerClientTypes {
                 .deleteFailed,
                 .deleteInprogress,
                 .deletePending,
-                .exportjobsDeleted,
-                .sdkUnknown("")
+                .exportjobsDeleted
             ]
         }
 
@@ -47344,8 +47207,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ModelCardSortBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -47374,8 +47236,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ModelCardSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -47408,8 +47269,7 @@ extension SageMakerClientTypes {
                 .approved,
                 .archived,
                 .draft,
-                .pendingreview,
-                .sdkUnknown("")
+                .pendingreview
             ]
         }
 
@@ -47496,8 +47356,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [ModelCardVersionSortBy] {
             return [
-                .version,
-                .sdkUnknown("")
+                .version
             ]
         }
 
@@ -47626,8 +47485,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ModelCompressionType] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -48292,8 +48150,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [ModelInfrastructureType] {
             return [
-                .realTimeInference,
-                .sdkUnknown("")
+                .realTimeInference
             ]
         }
 
@@ -48425,8 +48282,7 @@ extension SageMakerClientTypes {
                 .domain,
                 .framework,
                 .frameworkversion,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -48924,8 +48780,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ModelPackageGroupSortBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -48962,8 +48817,7 @@ extension SageMakerClientTypes {
                 .deleting,
                 .failed,
                 .inProgress,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -49046,8 +48900,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ModelPackageSortBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -49082,8 +48935,7 @@ extension SageMakerClientTypes {
                 .deleting,
                 .failed,
                 .inProgress,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -49257,8 +49109,7 @@ extension SageMakerClientTypes {
             return [
                 .both,
                 .unversioned,
-                .versioned,
-                .sdkUnknown("")
+                .versioned
             ]
         }
 
@@ -49589,8 +49440,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ModelSortKey] {
             return [
                 .creationtime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -49686,8 +49536,7 @@ extension SageMakerClientTypes {
             return [
                 .promote,
                 .remove,
-                .retain,
-                .sdkUnknown("")
+                .retain
             ]
         }
 
@@ -49815,8 +49664,7 @@ extension SageMakerClientTypes {
                 .deleted,
                 .deleting,
                 .inService,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -49874,8 +49722,7 @@ extension SageMakerClientTypes {
         public static var allCases: [MonitoringAlertHistorySortKey] {
             return [
                 .creationtime,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -49949,8 +49796,7 @@ extension SageMakerClientTypes {
         public static var allCases: [MonitoringAlertStatus] {
             return [
                 .inAlert,
-                .ok,
-                .sdkUnknown("")
+                .ok
             ]
         }
 
@@ -50300,8 +50146,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .scheduledTime,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -50559,8 +50404,7 @@ extension SageMakerClientTypes {
         public static var allCases: [MonitoringJobDefinitionSortKey] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -50802,8 +50646,7 @@ extension SageMakerClientTypes {
             return [
                 .binaryClassification,
                 .multiclassClassification,
-                .regression,
-                .sdkUnknown("")
+                .regression
             ]
         }
 
@@ -51045,8 +50888,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -51209,8 +51051,7 @@ extension SageMakerClientTypes {
                 .dataQuality,
                 .modelBias,
                 .modelExplainability,
-                .modelQuality,
-                .sdkUnknown("")
+                .modelQuality
             ]
         }
 
@@ -51397,8 +51238,7 @@ extension SageMakerClientTypes {
                 .mlEia1Xlarge,
                 .mlEia2Large,
                 .mlEia2Medium,
-                .mlEia2Xlarge,
-                .sdkUnknown("")
+                .mlEia2Xlarge
             ]
         }
 
@@ -51433,8 +51273,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .lastModifiedTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -51464,8 +51303,7 @@ extension SageMakerClientTypes {
         public static var allCases: [NotebookInstanceLifecycleConfigSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -51570,8 +51408,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -51601,8 +51438,7 @@ extension SageMakerClientTypes {
         public static var allCases: [NotebookInstanceSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -51641,8 +51477,7 @@ extension SageMakerClientTypes {
                 .pending,
                 .stopped,
                 .stopping,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -51749,8 +51584,7 @@ extension SageMakerClientTypes {
         public static var allCases: [NotebookOutputOption] {
             return [
                 .allowed,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -51812,8 +51646,7 @@ extension SageMakerClientTypes {
             return [
                 .failed,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -51963,8 +51796,7 @@ extension SageMakerClientTypes {
             return [
                 .active,
                 .blocked,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -52304,8 +52136,7 @@ extension SageMakerClientTypes {
                 .lessThan,
                 .lessThanOrEqualTo,
                 .notEquals,
-                .notExists,
-                .sdkUnknown("")
+                .notExists
             ]
         }
 
@@ -52342,8 +52173,7 @@ extension SageMakerClientTypes {
         public static var allCases: [OrderKey] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -52372,8 +52202,7 @@ extension SageMakerClientTypes {
         public static var allCases: [OutputCompressionType] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -52862,8 +52691,7 @@ extension SageMakerClientTypes {
                 .categorical,
                 .continuous,
                 .freeText,
-                .integer,
-                .sdkUnknown("")
+                .integer
             ]
         }
 
@@ -53347,8 +53175,7 @@ extension SageMakerClientTypes {
                 .failed,
                 .stopped,
                 .stopping,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -53661,8 +53488,7 @@ extension SageMakerClientTypes {
         public static var allCases: [PipelineStatus] {
             return [
                 .active,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -53780,8 +53606,7 @@ extension SageMakerClientTypes {
             return [
                 .binaryClassification,
                 .multiclassClassification,
-                .regression,
-                .sdkUnknown("")
+                .regression
             ]
         }
 
@@ -54029,8 +53854,7 @@ extension SageMakerClientTypes {
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
-                .mlT3Xlarge,
-                .sdkUnknown("")
+                .mlT3Xlarge
             ]
         }
 
@@ -54244,8 +54068,7 @@ extension SageMakerClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -54488,8 +54311,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ProcessingS3CompressionType] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -54518,8 +54340,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ProcessingS3DataDistributionType] {
             return [
                 .fullyreplicated,
-                .shardedbys3key,
-                .sdkUnknown("")
+                .shardedbys3key
             ]
         }
 
@@ -54548,8 +54369,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ProcessingS3DataType] {
             return [
                 .manifestFile,
-                .s3Prefix,
-                .sdkUnknown("")
+                .s3Prefix
             ]
         }
 
@@ -54641,8 +54461,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ProcessingS3InputMode] {
             return [
                 .file,
-                .pipe,
-                .sdkUnknown("")
+                .pipe
             ]
         }
 
@@ -54717,8 +54536,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ProcessingS3UploadMode] {
             return [
                 .continuous,
-                .endOfJob,
-                .sdkUnknown("")
+                .endOfJob
             ]
         }
 
@@ -54779,8 +54597,7 @@ extension SageMakerClientTypes {
         public static var allCases: [Processor] {
             return [
                 .cpu,
-                .gpu,
-                .sdkUnknown("")
+                .gpu
             ]
         }
 
@@ -54927,8 +54744,7 @@ extension SageMakerClientTypes {
                 .mlEia1Xlarge,
                 .mlEia2Large,
                 .mlEia2Medium,
-                .mlEia2Xlarge,
-                .sdkUnknown("")
+                .mlEia2Xlarge
             ]
         }
 
@@ -55376,8 +55192,7 @@ extension SageMakerClientTypes {
                 .mlT2Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
-                .mlTrn132xlarge,
-                .sdkUnknown("")
+                .mlTrn132xlarge
             ]
         }
 
@@ -56069,8 +55884,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ProfilingStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -56180,8 +55994,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ProjectSortBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -56210,8 +56023,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ProjectSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -56256,8 +56068,7 @@ extension SageMakerClientTypes {
                 .pending,
                 .updateCompleted,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -57018,8 +56829,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RStudioServerProAccessStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -57175,8 +56985,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RStudioServerProUserGroup] {
             return [
                 .admin,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -57670,8 +57479,7 @@ extension SageMakerClientTypes {
                 .inProgress,
                 .pending,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -57749,8 +57557,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RecommendationJobSupportedEndpointType] {
             return [
                 .realtime,
-                .serverless,
-                .sdkUnknown("")
+                .serverless
             ]
         }
 
@@ -57779,8 +57586,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RecommendationJobType] {
             return [
                 .advanced,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -57912,8 +57718,7 @@ extension SageMakerClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .notApplicable,
-                .sdkUnknown("")
+                .notApplicable
             ]
         }
 
@@ -57942,8 +57747,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [RecommendationStepType] {
             return [
-                .benchmark,
-                .sdkUnknown("")
+                .benchmark
             ]
         }
 
@@ -57971,8 +57775,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RecordWrapper] {
             return [
                 .none,
-                .recordio,
-                .sdkUnknown("")
+                .recordio
             ]
         }
 
@@ -58094,8 +57897,7 @@ extension SageMakerClientTypes {
                 .gzip,
                 .none,
                 .snappy,
-                .zstd,
-                .sdkUnknown("")
+                .zstd
             ]
         }
 
@@ -58128,8 +57930,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RedshiftResultFormat] {
             return [
                 .csv,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -58451,8 +58252,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RepositoryAccessMode] {
             return [
                 .platform,
-                .vpc,
-                .sdkUnknown("")
+                .vpc
             ]
         }
 
@@ -58592,8 +58392,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [ResourceCatalogSortBy] {
             return [
-                .creationTime,
-                .sdkUnknown("")
+                .creationTime
             ]
         }
 
@@ -58621,8 +58420,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ResourceCatalogSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -58989,8 +58787,7 @@ extension SageMakerClientTypes {
                 .pipeline,
                 .pipelineExecution,
                 .project,
-                .trainingJob,
-                .sdkUnknown("")
+                .trainingJob
             ]
         }
 
@@ -59058,8 +58855,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RetentionType] {
             return [
                 .delete,
-                .retain,
-                .sdkUnknown("")
+                .retain
             ]
         }
 
@@ -59250,8 +59046,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RootAccess] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -59280,8 +59075,7 @@ extension SageMakerClientTypes {
         public static var allCases: [RoutingStrategy] {
             return [
                 .leastOutstandingRequests,
-                .random,
-                .sdkUnknown("")
+                .random
             ]
         }
 
@@ -59318,8 +59112,7 @@ extension SageMakerClientTypes {
                 .issuesFound,
                 .noIssuesFound,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -59352,8 +59145,7 @@ extension SageMakerClientTypes {
         public static var allCases: [S3DataDistribution] {
             return [
                 .fullyReplicated,
-                .shardedByS3Key,
-                .sdkUnknown("")
+                .shardedByS3Key
             ]
         }
 
@@ -59448,8 +59240,7 @@ extension SageMakerClientTypes {
             return [
                 .augmentedManifestFile,
                 .manifestFile,
-                .s3Prefix,
-                .sdkUnknown("")
+                .s3Prefix
             ]
         }
 
@@ -59554,8 +59345,7 @@ extension SageMakerClientTypes {
         public static var allCases: [S3ModelDataType] {
             return [
                 .s3object,
-                .s3prefix,
-                .sdkUnknown("")
+                .s3prefix
             ]
         }
 
@@ -59663,8 +59453,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SagemakerServicecatalogStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -59863,8 +59652,7 @@ extension SageMakerClientTypes {
                 .failed,
                 .pending,
                 .scheduled,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -60143,8 +59931,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SearchSortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -60203,8 +59990,7 @@ extension SageMakerClientTypes {
                 .stopping,
                 .training,
                 .updating,
-                .uploading,
-                .sdkUnknown("")
+                .uploading
             ]
         }
 
@@ -60871,8 +60657,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SharingType] {
             return [
                 .private,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -60933,8 +60718,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SkipModelValidation] {
             return [
                 .all,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -60963,8 +60747,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SortActionsBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -60991,8 +60774,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [SortArtifactsBy] {
             return [
-                .creationTime,
-                .sdkUnknown("")
+                .creationTime
             ]
         }
 
@@ -61026,8 +60808,7 @@ extension SageMakerClientTypes {
                 .destinationArn,
                 .destinationType,
                 .sourceArn,
-                .sourceType,
-                .sdkUnknown("")
+                .sourceType
             ]
         }
 
@@ -61061,8 +60842,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -61092,8 +60872,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SortContextsBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -61122,8 +60901,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SortExperimentsBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -61154,8 +60932,7 @@ extension SageMakerClientTypes {
             return [
                 .creationTime,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -61185,8 +60962,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SortLineageGroupsBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -61215,8 +60991,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -61245,8 +61020,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SortPipelineExecutionsBy] {
             return [
                 .creationTime,
-                .pipelineExecutionArn,
-                .sdkUnknown("")
+                .pipelineExecutionArn
             ]
         }
 
@@ -61275,8 +61049,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SortPipelinesBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -61305,8 +61078,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SortTrialComponentsBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -61335,8 +61107,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SortTrialsBy] {
             return [
                 .creationTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -61763,8 +61534,7 @@ extension SageMakerClientTypes {
         public static var allCases: [SpaceSortKey] {
             return [
                 .creationtime,
-                .lastmodifiedtime,
-                .sdkUnknown("")
+                .lastmodifiedtime
             ]
         }
 
@@ -61803,8 +61573,7 @@ extension SageMakerClientTypes {
                 .inservice,
                 .pending,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -61873,8 +61642,7 @@ extension SageMakerClientTypes {
                 .line,
                 .none,
                 .recordio,
-                .tfrecord,
-                .sdkUnknown("")
+                .tfrecord
             ]
         }
 
@@ -61917,8 +61685,7 @@ extension SageMakerClientTypes {
                 .readytodeploy,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -62336,8 +62103,7 @@ extension SageMakerClientTypes {
                 .maximum,
                 .minimum,
                 .sampleCount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -62377,8 +62143,7 @@ extension SageMakerClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -63277,8 +63042,7 @@ extension SageMakerClientTypes {
         public static var allCases: [StorageType] {
             return [
                 .inMemory,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -63311,8 +63075,7 @@ extension SageMakerClientTypes {
                 .codeeditor,
                 .jupyterlab,
                 .jupyterserver,
-                .kernelgateway,
-                .sdkUnknown("")
+                .kernelgateway
             ]
         }
 
@@ -63391,8 +63154,7 @@ extension SageMakerClientTypes {
             return [
                 .creationtime,
                 .lastmodifiedtime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -63422,8 +63184,7 @@ extension SageMakerClientTypes {
         public static var allCases: [StudioWebPortal] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -63525,8 +63286,7 @@ extension SageMakerClientTypes {
             return [
                 .default,
                 .glue,
-                .iceberg,
-                .sdkUnknown("")
+                .iceberg
             ]
         }
 
@@ -63765,8 +63525,7 @@ extension SageMakerClientTypes {
                 .sbeC,
                 .sitaraAm57x,
                 .x86Win32,
-                .x86Win64,
-                .sdkUnknown("")
+                .x86Win64
             ]
         }
 
@@ -63899,8 +63658,7 @@ extension SageMakerClientTypes {
                 .intelGraphics,
                 .mali,
                 .nna,
-                .nvidia,
-                .sdkUnknown("")
+                .nvidia
             ]
         }
 
@@ -63937,8 +63695,7 @@ extension SageMakerClientTypes {
                 .armEabi,
                 .armEabihf,
                 .x86,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -63970,8 +63727,7 @@ extension SageMakerClientTypes {
         public static var allCases: [TargetPlatformOs] {
             return [
                 .android,
-                .linux,
-                .sdkUnknown("")
+                .linux
             ]
         }
 
@@ -64341,8 +64097,7 @@ extension SageMakerClientTypes {
         public static var allCases: [ThroughputMode] {
             return [
                 .onDemand,
-                .provisioned,
-                .sdkUnknown("")
+                .provisioned
             ]
         }
 
@@ -64698,8 +64453,7 @@ extension SageMakerClientTypes {
             return [
                 .allAtOnce,
                 .canary,
-                .linear,
-                .sdkUnknown("")
+                .linear
             ]
         }
 
@@ -64729,8 +64483,7 @@ extension SageMakerClientTypes {
         public static var allCases: [TrafficType] {
             return [
                 .phases,
-                .stairs,
-                .sdkUnknown("")
+                .stairs
             ]
         }
 
@@ -64800,8 +64553,7 @@ extension SageMakerClientTypes {
             return [
                 .fastfile,
                 .file,
-                .pipe,
-                .sdkUnknown("")
+                .pipe
             ]
         }
 
@@ -64965,8 +64717,7 @@ extension SageMakerClientTypes {
                 .mlP548xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
-                .mlTrn132xlarge,
-                .sdkUnknown("")
+                .mlTrn132xlarge
             ]
         }
 
@@ -65397,8 +65148,7 @@ extension SageMakerClientTypes {
         public static var allCases: [TrainingJobEarlyStoppingType] {
             return [
                 .auto,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -65431,8 +65181,7 @@ extension SageMakerClientTypes {
                 .creationtime,
                 .finalobjectivemetricvalue,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -65469,8 +65218,7 @@ extension SageMakerClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -65634,8 +65382,7 @@ extension SageMakerClientTypes {
         public static var allCases: [TrainingRepositoryAccessMode] {
             return [
                 .platform,
-                .vpc,
-                .sdkUnknown("")
+                .vpc
             ]
         }
 
@@ -66051,8 +65798,7 @@ extension SageMakerClientTypes {
                 .mlR7i4xlarge,
                 .mlR7i8xlarge,
                 .mlR7iLarge,
-                .mlR7iXlarge,
-                .sdkUnknown("")
+                .mlR7iXlarge
             ]
         }
 
@@ -66396,8 +66142,7 @@ extension SageMakerClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -67029,8 +66774,7 @@ extension SageMakerClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -67426,8 +67170,7 @@ extension SageMakerClientTypes {
                 .hours,
                 .minutes,
                 .seconds,
-                .weeks,
-                .sdkUnknown("")
+                .weeks
             ]
         }
 
@@ -70930,8 +70673,7 @@ extension SageMakerClientTypes {
         public static var allCases: [UserProfileSortKey] {
             return [
                 .creationtime,
-                .lastmodifiedtime,
-                .sdkUnknown("")
+                .lastmodifiedtime
             ]
         }
 
@@ -70970,8 +70712,7 @@ extension SageMakerClientTypes {
                 .inservice,
                 .pending,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -71163,8 +70904,7 @@ extension SageMakerClientTypes {
             return [
                 .datacaptureconfig,
                 .desiredinstancecount,
-                .desiredweight,
-                .sdkUnknown("")
+                .desiredweight
             ]
         }
 
@@ -71200,8 +70940,7 @@ extension SageMakerClientTypes {
                 .baking,
                 .creating,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -71269,8 +71008,7 @@ extension SageMakerClientTypes {
                 .archived,
                 .notProvided,
                 .stable,
-                .toBeArchived,
-                .sdkUnknown("")
+                .toBeArchived
             ]
         }
 
@@ -71409,8 +71147,7 @@ extension SageMakerClientTypes {
                 .available,
                 .inuse,
                 .reused,
-                .terminated,
-                .sdkUnknown("")
+                .terminated
             ]
         }
 
@@ -71601,8 +71338,7 @@ extension SageMakerClientTypes {
                 .deleting,
                 .failed,
                 .initializing,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 

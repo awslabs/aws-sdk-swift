@@ -385,8 +385,7 @@ extension NetworkFirewallClientTypes {
                 .error,
                 .failed,
                 .ready,
-                .scaling,
-                .sdkUnknown("")
+                .scaling
             ]
         }
 
@@ -532,8 +531,7 @@ extension NetworkFirewallClientTypes {
             return [
                 .capacityConstrained,
                 .inSync,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -2215,8 +2213,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [EncryptionType] {
             return [
                 .awsOwnedKmsKey,
-                .customerKms,
-                .sdkUnknown("")
+                .customerKms
             ]
         }
 
@@ -2608,8 +2605,7 @@ extension NetworkFirewallClientTypes {
             return [
                 .deleting,
                 .provisioning,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -2639,8 +2635,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [GeneratedRulesType] {
             return [
                 .allowlist,
-                .denylist,
-                .sdkUnknown("")
+                .denylist
             ]
         }
 
@@ -2760,8 +2755,7 @@ extension NetworkFirewallClientTypes {
             return [
                 .dualstack,
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -2880,8 +2874,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [IdentifiedType] {
             return [
                 .statelessRuleContainsTcpFlags,
-                .statelessRuleForwardingAsymmetrically,
-                .sdkUnknown("")
+                .statelessRuleForwardingAsymmetrically
             ]
         }
 
@@ -3678,8 +3671,7 @@ extension NetworkFirewallClientTypes {
             return [
                 .cloudwatchLogs,
                 .kinesisDataFirehose,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -3709,8 +3701,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [LogType] {
             return [
                 .alert,
-                .flow,
-                .sdkUnknown("")
+                .flow
             ]
         }
 
@@ -3832,8 +3823,7 @@ extension NetworkFirewallClientTypes {
 
         public static var allCases: [OverrideAction] {
             return [
-                .dropToAlert,
-                .sdkUnknown("")
+                .dropToAlert
             ]
         }
 
@@ -3894,8 +3884,7 @@ extension NetworkFirewallClientTypes {
             return [
                 .capacityConstrained,
                 .inSync,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -4169,8 +4158,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [ResourceManagedStatus] {
             return [
                 .account,
-                .managed,
-                .sdkUnknown("")
+                .managed
             ]
         }
 
@@ -4199,8 +4187,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [ResourceManagedType] {
             return [
                 .awsManagedDomainLists,
-                .awsManagedThreatSignatures,
-                .sdkUnknown("")
+                .awsManagedThreatSignatures
             ]
         }
 
@@ -4305,8 +4292,7 @@ extension NetworkFirewallClientTypes {
             return [
                 .active,
                 .deleting,
-                .error,
-                .sdkUnknown("")
+                .error
             ]
         }
 
@@ -4338,8 +4324,7 @@ extension NetworkFirewallClientTypes {
             return [
                 .drop,
                 .pass,
-                .reject,
-                .sdkUnknown("")
+                .reject
             ]
         }
 
@@ -4597,8 +4582,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [RuleGroupType] {
             return [
                 .stateful,
-                .stateless,
-                .sdkUnknown("")
+                .stateless
             ]
         }
 
@@ -4665,8 +4649,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [RuleOrder] {
             return [
                 .defaultActionOrder,
-                .strictOrder,
-                .sdkUnknown("")
+                .strictOrder
             ]
         }
 
@@ -5014,8 +4997,7 @@ extension NetworkFirewallClientTypes {
                 .alert,
                 .drop,
                 .pass,
-                .reject,
-                .sdkUnknown("")
+                .reject
             ]
         }
 
@@ -5141,8 +5123,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [StatefulRuleDirection] {
             return [
                 .any,
-                .forward,
-                .sdkUnknown("")
+                .forward
             ]
         }
 
@@ -5311,8 +5292,7 @@ extension NetworkFirewallClientTypes {
                 .tcp,
                 .tftp,
                 .tls,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -5476,8 +5456,7 @@ extension NetworkFirewallClientTypes {
             return [
                 .continue,
                 .drop,
-                .reject,
-                .sdkUnknown("")
+                .reject
             ]
         }
 
@@ -5595,8 +5574,7 @@ extension NetworkFirewallClientTypes {
                 .psh,
                 .rst,
                 .syn,
-                .urg,
-                .sdkUnknown("")
+                .urg
             ]
         }
 
@@ -5916,8 +5894,7 @@ extension NetworkFirewallClientTypes {
         public static var allCases: [TargetType] {
             return [
                 .httpHost,
-                .tlsSni,
-                .sdkUnknown("")
+                .tlsSni
             ]
         }
 

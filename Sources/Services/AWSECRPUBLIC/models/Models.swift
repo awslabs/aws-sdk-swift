@@ -1472,8 +1472,7 @@ extension ECRPUBLICClientTypes {
                 .invalidimagedigest,
                 .invalidimagetag,
                 .kmserror,
-                .missingdigestandtag,
-                .sdkUnknown("")
+                .missingdigestandtag
             ]
         }
 
@@ -1980,8 +1979,7 @@ extension ECRPUBLICClientTypes {
         public static var allCases: [LayerAvailability] {
             return [
                 .available,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -2046,8 +2044,7 @@ extension ECRPUBLICClientTypes {
         public static var allCases: [LayerFailureCode] {
             return [
                 .invalidlayerdigest,
-                .missinglayerdigest,
-                .sdkUnknown("")
+                .missinglayerdigest
             ]
         }
 
@@ -2687,8 +2684,7 @@ extension ECRPUBLICClientTypes {
             return [
                 .active,
                 .pending,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 

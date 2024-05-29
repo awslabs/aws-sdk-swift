@@ -256,8 +256,7 @@ extension IdentitystoreClientTypes {
         public static var allCases: [ConflictExceptionReason] {
             return [
                 .concurrentModification,
-                .uniquenessConstraintViolation,
-                .sdkUnknown("")
+                .uniquenessConstraintViolation
             ]
         }
 
@@ -2363,8 +2362,7 @@ extension IdentitystoreClientTypes {
                 .group,
                 .groupMembership,
                 .identityStore,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 

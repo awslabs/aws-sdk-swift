@@ -449,8 +449,7 @@ extension KafkaConnectClientTypes {
                 .deleting,
                 .failed,
                 .running,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -989,8 +988,7 @@ extension KafkaConnectClientTypes {
         public static var allCases: [CustomPluginContentType] {
             return [
                 .jar,
-                .zip,
-                .sdkUnknown("")
+                .zip
             ]
         }
 
@@ -1191,8 +1189,7 @@ extension KafkaConnectClientTypes {
                 .creating,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2060,8 +2057,7 @@ extension KafkaConnectClientTypes {
         public static var allCases: [KafkaClusterClientAuthenticationType] {
             return [
                 .iam,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -2167,8 +2163,7 @@ extension KafkaConnectClientTypes {
         public static var allCases: [KafkaClusterEncryptionInTransitType] {
             return [
                 .plaintext,
-                .tls,
-                .sdkUnknown("")
+                .tls
             ]
         }
 
@@ -3677,8 +3672,7 @@ extension KafkaConnectClientTypes {
         public static var allCases: [WorkerConfigurationState] {
             return [
                 .active,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 

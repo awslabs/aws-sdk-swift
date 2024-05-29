@@ -310,8 +310,7 @@ extension FraudDetectorClientTypes {
                 .complete,
                 .failed,
                 .inProgress,
-                .inProgressInitializing,
-                .sdkUnknown("")
+                .inProgressInitializing
             ]
         }
 
@@ -1670,8 +1669,7 @@ extension FraudDetectorClientTypes {
             return [
                 .event,
                 .externalModelScore,
-                .modelScore,
-                .sdkUnknown("")
+                .modelScore
             ]
         }
 
@@ -1707,8 +1705,7 @@ extension FraudDetectorClientTypes {
                 .datetime,
                 .float,
                 .integer,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -2991,8 +2988,7 @@ extension FraudDetectorClientTypes {
             return [
                 .active,
                 .draft,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -3358,8 +3354,7 @@ extension FraudDetectorClientTypes {
         public static var allCases: [EventIngestion] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -6020,8 +6015,7 @@ extension FraudDetectorClientTypes {
 
         public static var allCases: [Language] {
             return [
-                .detectorpl,
-                .sdkUnknown("")
+                .detectorpl
             ]
         }
 
@@ -6238,8 +6232,7 @@ extension FraudDetectorClientTypes {
             return [
                 .append,
                 .remove,
-                .replace,
-                .sdkUnknown("")
+                .replace
             ]
         }
 
@@ -6434,8 +6427,7 @@ extension FraudDetectorClientTypes {
         public static var allCases: [ModelEndpointStatus] {
             return [
                 .associated,
-                .dissociated,
-                .sdkUnknown("")
+                .dissociated
             ]
         }
 
@@ -6520,8 +6512,7 @@ extension FraudDetectorClientTypes {
         public static var allCases: [ModelInputDataFormat] {
             return [
                 .csv,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -6594,8 +6585,7 @@ extension FraudDetectorClientTypes {
         public static var allCases: [ModelOutputDataFormat] {
             return [
                 .csv,
-                .jsonlines,
-                .sdkUnknown("")
+                .jsonlines
             ]
         }
 
@@ -6653,8 +6643,7 @@ extension FraudDetectorClientTypes {
 
         public static var allCases: [ModelSource] {
             return [
-                .sagemaker,
-                .sdkUnknown("")
+                .sagemaker
             ]
         }
 
@@ -6684,8 +6673,7 @@ extension FraudDetectorClientTypes {
             return [
                 .accountTakeoverInsights,
                 .onlineFraudInsights,
-                .transactionFraudInsights,
-                .sdkUnknown("")
+                .transactionFraudInsights
             ]
         }
 
@@ -6891,8 +6879,7 @@ extension FraudDetectorClientTypes {
             return [
                 .active,
                 .inactive,
-                .trainingCancelled,
-                .sdkUnknown("")
+                .trainingCancelled
             ]
         }
 
@@ -7855,8 +7842,7 @@ extension FraudDetectorClientTypes {
         public static var allCases: [RuleExecutionMode] {
             return [
                 .allMatched,
-                .firstMatched,
-                .sdkUnknown("")
+                .firstMatched
             ]
         }
 
@@ -8290,8 +8276,7 @@ extension FraudDetectorClientTypes {
         public static var allCases: [TrainingDataSourceEnum] {
             return [
                 .externalEvents,
-                .ingestedEvents,
-                .sdkUnknown("")
+                .ingestedEvents
             ]
         }
 
@@ -8501,8 +8486,7 @@ extension FraudDetectorClientTypes {
                 .auto,
                 .fraud,
                 .ignore,
-                .legit,
-                .sdkUnknown("")
+                .legit
             ]
         }
 

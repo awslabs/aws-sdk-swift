@@ -223,8 +223,7 @@ extension MTurkClientTypes {
             return [
                 .approved,
                 .rejected,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -387,8 +386,7 @@ extension MTurkClientTypes {
                 .lessthan,
                 .lessthanorequalto,
                 .notequalto,
-                .notin,
-                .sdkUnknown("")
+                .notin
             ]
         }
 
@@ -1281,8 +1279,7 @@ extension MTurkClientTypes {
                 .hitexpired,
                 .hitextended,
                 .hitreviewable,
-                .ping,
-                .sdkUnknown("")
+                .ping
             ]
         }
 
@@ -1865,8 +1862,7 @@ extension MTurkClientTypes {
             return [
                 .accept,
                 .discoverpreviewandaccept,
-                .previewandaccept,
-                .sdkUnknown("")
+                .previewandaccept
             ]
         }
 
@@ -1931,8 +1927,7 @@ extension MTurkClientTypes {
                 .markedforreview,
                 .notreviewed,
                 .reviewedappropriate,
-                .reviewedinappropriate,
-                .sdkUnknown("")
+                .reviewedinappropriate
             ]
         }
 
@@ -1969,8 +1964,7 @@ extension MTurkClientTypes {
                 .disposed,
                 .reviewable,
                 .reviewing,
-                .unassignable,
-                .sdkUnknown("")
+                .unassignable
             ]
         }
 
@@ -3004,8 +2998,7 @@ extension MTurkClientTypes {
             return [
                 .email,
                 .sns,
-                .sqs,
-                .sdkUnknown("")
+                .sqs
             ]
         }
 
@@ -3035,8 +3028,7 @@ extension MTurkClientTypes {
         public static var allCases: [NotifyWorkersFailureCode] {
             return [
                 .hardfailure,
-                .softfailure,
-                .sdkUnknown("")
+                .softfailure
             ]
         }
 
@@ -3426,8 +3418,7 @@ extension MTurkClientTypes {
         public static var allCases: [QualificationStatus] {
             return [
                 .granted,
-                .revoked,
-                .sdkUnknown("")
+                .revoked
             ]
         }
 
@@ -3542,8 +3533,7 @@ extension MTurkClientTypes {
         public static var allCases: [QualificationTypeStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -3799,8 +3789,7 @@ extension MTurkClientTypes {
                 .cancelled,
                 .failed,
                 .intended,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3869,8 +3858,7 @@ extension MTurkClientTypes {
         public static var allCases: [ReviewPolicyLevel] {
             return [
                 .assignment,
-                .hit,
-                .sdkUnknown("")
+                .hit
             ]
         }
 
@@ -3981,8 +3969,7 @@ extension MTurkClientTypes {
         public static var allCases: [ReviewableHITStatus] {
             return [
                 .reviewable,
-                .reviewing,
-                .sdkUnknown("")
+                .reviewing
             ]
         }
 

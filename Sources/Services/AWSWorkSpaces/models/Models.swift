@@ -127,8 +127,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [AccessPropertyValue] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -204,8 +203,7 @@ extension WorkSpacesClientTypes {
                 .linkingFailed,
                 .linkNotFound,
                 .pendingAcceptanceByTargetAccount,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -288,8 +286,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [Application] {
             return [
                 .microsoftOffice2016,
-                .microsoftOffice2019,
-                .sdkUnknown("")
+                .microsoftOffice2019
             ]
         }
 
@@ -320,8 +317,7 @@ extension WorkSpacesClientTypes {
             return [
                 .bundle,
                 .image,
-                .workspace,
-                .sdkUnknown("")
+                .workspace
             ]
         }
 
@@ -660,8 +656,7 @@ extension WorkSpacesClientTypes {
                 .insufficientMemory,
                 .internalServerError,
                 .unsupportedOperatingSystem,
-                .workspaceUnreachable,
-                .sdkUnknown("")
+                .workspaceUnreachable
             ]
         }
 
@@ -707,8 +702,7 @@ extension WorkSpacesClientTypes {
                 .pendingUninstall,
                 .pendingUninstallDeployment,
                 .removed,
-                .uninstalling,
-                .sdkUnknown("")
+                .uninstalling
             ]
         }
 
@@ -781,8 +775,7 @@ extension WorkSpacesClientTypes {
                 .associatedWithSharedAccount,
                 .notAssociated,
                 .pendingAssociation,
-                .pendingDisassociation,
-                .sdkUnknown("")
+                .pendingDisassociation
             ]
         }
 
@@ -876,8 +869,7 @@ extension WorkSpacesClientTypes {
 
         public static var allCases: [BundleAssociatedResourceType] {
             return [
-                .application,
-                .sdkUnknown("")
+                .application
             ]
         }
 
@@ -961,8 +953,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [BundleType] {
             return [
                 .regular,
-                .standby,
-                .sdkUnknown("")
+                .standby
             ]
         }
 
@@ -1028,8 +1019,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [CertificateBasedAuthStatusEnum] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1066,8 +1056,7 @@ extension WorkSpacesClientTypes {
                 .deviceTypeLinux,
                 .deviceTypeOsx,
                 .deviceTypeWeb,
-                .deviceTypeWindows,
-                .sdkUnknown("")
+                .deviceTypeWindows
             ]
         }
 
@@ -1182,8 +1171,7 @@ extension WorkSpacesClientTypes {
                 .power,
                 .powerpro,
                 .standard,
-                .value,
-                .sdkUnknown("")
+                .value
             ]
         }
 
@@ -1480,8 +1468,7 @@ extension WorkSpacesClientTypes {
             return [
                 .created,
                 .creating,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -1513,8 +1500,7 @@ extension WorkSpacesClientTypes {
             return [
                 .connected,
                 .disconnected,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -2488,8 +2474,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [DataReplication] {
             return [
                 .noReplication,
-                .primaryAsSource,
-                .sdkUnknown("")
+                .primaryAsSource
             ]
         }
 
@@ -2549,8 +2534,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [DedicatedTenancyAccountType] {
             return [
                 .sourceAccount,
-                .targetAccount,
-                .sdkUnknown("")
+                .targetAccount
             ]
         }
 
@@ -2581,8 +2565,7 @@ extension WorkSpacesClientTypes {
             return [
                 .completed,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -2610,8 +2593,7 @@ extension WorkSpacesClientTypes {
 
         public static var allCases: [DedicatedTenancySupportEnum] {
             return [
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2639,8 +2621,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [DedicatedTenancySupportResultEnum] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2824,8 +2805,7 @@ extension WorkSpacesClientTypes {
 
         public static var allCases: [DeletableCertificateBasedAuthProperty] {
             return [
-                .certificateBasedAuthPropertiesCertificateAuthorityArn,
-                .sdkUnknown("")
+                .certificateBasedAuthPropertiesCertificateAuthorityArn
             ]
         }
 
@@ -2853,8 +2833,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [DeletableSamlProperty] {
             return [
                 .samlPropertiesRelayStateParameterName,
-                .samlPropertiesUserAccessUrl,
-                .sdkUnknown("")
+                .samlPropertiesUserAccessUrl
             ]
         }
 
@@ -5617,8 +5596,7 @@ extension WorkSpacesClientTypes {
 
         public static var allCases: [ImageAssociatedResourceType] {
             return [
-                .application,
-                .sdkUnknown("")
+                .application
             ]
         }
 
@@ -5728,8 +5706,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [ImageType] {
             return [
                 .owned,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -6448,8 +6425,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [LogUploadEnum] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -6562,8 +6538,7 @@ extension WorkSpacesClientTypes {
             return [
                 .computeType,
                 .rootVolume,
-                .userVolume,
-                .sdkUnknown("")
+                .userVolume
             ]
         }
 
@@ -6624,8 +6599,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [ModificationStateEnum] {
             return [
                 .updateInitiated,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -7279,8 +7253,7 @@ extension WorkSpacesClientTypes {
                 .windows7,
                 .windowsServer2016,
                 .windowsServer2019,
-                .windowsServer2022,
-                .sdkUnknown("")
+                .windowsServer2022
             ]
         }
 
@@ -7342,8 +7315,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [OperatingSystemType] {
             return [
                 .linux,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -7493,8 +7465,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [ModelProtocol] {
             return [
                 .pcoip,
-                .wsp,
-                .sdkUnknown("")
+                .wsp
             ]
         }
 
@@ -7705,8 +7676,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [ReconnectEnum] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8368,8 +8338,7 @@ extension WorkSpacesClientTypes {
             return [
                 .alwaysOn,
                 .autoStop,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -8450,8 +8419,7 @@ extension WorkSpacesClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .enabledWithDirectoryLoginFallback,
-                .sdkUnknown("")
+                .enabledWithDirectoryLoginFallback
             ]
         }
 
@@ -8619,8 +8587,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [StandbyWorkspaceRelationshipType] {
             return [
                 .primary,
-                .standby,
-                .sdkUnknown("")
+                .standby
             ]
         }
 
@@ -8901,8 +8868,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [TargetWorkspaceState] {
             return [
                 .adminMaintenance,
-                .available,
-                .sdkUnknown("")
+                .available
             ]
         }
 
@@ -8931,8 +8897,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [Tenancy] {
             return [
                 .dedicated,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -9650,8 +9615,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [WorkSpaceApplicationLicenseType] {
             return [
                 .licensed,
-                .unlicensed,
-                .sdkUnknown("")
+                .unlicensed
             ]
         }
 
@@ -9684,8 +9648,7 @@ extension WorkSpacesClientTypes {
                 .available,
                 .error,
                 .pending,
-                .uninstallOnly,
-                .sdkUnknown("")
+                .uninstallOnly
             ]
         }
 
@@ -9714,8 +9677,7 @@ extension WorkSpacesClientTypes {
 
         public static var allCases: [WorkSpaceAssociatedResourceType] {
             return [
-                .application,
-                .sdkUnknown("")
+                .application
             ]
         }
 
@@ -10054,8 +10016,7 @@ extension WorkSpacesClientTypes {
             return [
                 .available,
                 .error,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -10296,8 +10257,7 @@ extension WorkSpacesClientTypes {
                 .deregistering,
                 .error,
                 .registered,
-                .registering,
-                .sdkUnknown("")
+                .registering
             ]
         }
 
@@ -10329,8 +10289,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [WorkspaceDirectoryType] {
             return [
                 .adConnector,
-                .simpleAd,
-                .sdkUnknown("")
+                .simpleAd
             ]
         }
 
@@ -10488,8 +10447,7 @@ extension WorkSpacesClientTypes {
                 .windowsUpdatesEnabled,
                 .workspacesByolAccountDisabled,
                 .workspacesByolAccountNotFound,
-                .zeroRearmCount,
-                .sdkUnknown("")
+                .zeroRearmCount
             ]
         }
 
@@ -10552,8 +10510,7 @@ extension WorkSpacesClientTypes {
                 .byolGraphicsG4dnByop,
                 .byolRegular,
                 .byolRegularByop,
-                .byolRegularWsp,
-                .sdkUnknown("")
+                .byolRegularWsp
             ]
         }
 
@@ -10587,8 +10544,7 @@ extension WorkSpacesClientTypes {
         public static var allCases: [WorkspaceImageRequiredTenancy] {
             return [
                 .dedicated,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -10619,8 +10575,7 @@ extension WorkSpacesClientTypes {
             return [
                 .available,
                 .error,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -10891,8 +10846,7 @@ extension WorkSpacesClientTypes {
                 .terminated,
                 .terminating,
                 .unhealthy,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 

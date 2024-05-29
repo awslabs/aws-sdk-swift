@@ -140,8 +140,7 @@ extension CognitoIdentityProviderClientTypes {
                 .block,
                 .mfaIfConfigured,
                 .mfaRequired,
-                .noAction,
-                .sdkUnknown("")
+                .noAction
             ]
         }
 
@@ -2798,8 +2797,7 @@ extension CognitoIdentityProviderClientTypes {
             return [
                 .audit,
                 .enforced,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -2831,8 +2829,7 @@ extension CognitoIdentityProviderClientTypes {
             return [
                 .email,
                 .phoneNumber,
-                .preferredUsername,
-                .sdkUnknown("")
+                .preferredUsername
             ]
         }
 
@@ -3074,8 +3071,7 @@ extension CognitoIdentityProviderClientTypes {
                 .boolean,
                 .datetime,
                 .number,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -3220,8 +3216,7 @@ extension CognitoIdentityProviderClientTypes {
                 .refreshToken,
                 .refreshTokenAuth,
                 .userPasswordAuth,
-                .userSrpAuth,
-                .sdkUnknown("")
+                .userSrpAuth
             ]
         }
 
@@ -3311,8 +3306,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [ChallengeName] {
             return [
                 .mfa,
-                .password,
-                .sdkUnknown("")
+                .password
             ]
         }
 
@@ -3357,8 +3351,7 @@ extension CognitoIdentityProviderClientTypes {
                 .passwordVerifier,
                 .selectMfaType,
                 .smsMfa,
-                .softwareTokenMfa,
-                .sdkUnknown("")
+                .softwareTokenMfa
             ]
         }
 
@@ -3395,8 +3388,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [ChallengeResponse] {
             return [
                 .failure,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -3716,8 +3708,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [CompromisedCredentialsEventActionType] {
             return [
                 .block,
-                .noAction,
-                .sdkUnknown("")
+                .noAction
             ]
         }
 
@@ -5141,8 +5132,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public static var allCases: [CustomEmailSenderLambdaVersionType] {
             return [
-                .v10,
-                .sdkUnknown("")
+                .v10
             ]
         }
 
@@ -5207,8 +5197,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public static var allCases: [CustomSMSSenderLambdaVersionType] {
             return [
-                .v10,
-                .sdkUnknown("")
+                .v10
             ]
         }
 
@@ -5236,8 +5225,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [DefaultEmailOptionType] {
             return [
                 .confirmWithCode,
-                .confirmWithLink,
-                .sdkUnknown("")
+                .confirmWithLink
             ]
         }
 
@@ -5797,8 +5785,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [DeletionProtectionType] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -5827,8 +5814,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [DeliveryMediumType] {
             return [
                 .email,
-                .sms,
-                .sdkUnknown("")
+                .sms
             ]
         }
 
@@ -6433,8 +6419,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [DeviceRememberedStatusType] {
             return [
                 .notRemembered,
-                .remembered,
-                .sdkUnknown("")
+                .remembered
             ]
         }
 
@@ -6605,8 +6590,7 @@ extension CognitoIdentityProviderClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6737,8 +6721,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [EmailSendingAccountType] {
             return [
                 .cognitoDefault,
-                .developer,
-                .sdkUnknown("")
+                .developer
             ]
         }
 
@@ -6890,8 +6873,7 @@ extension CognitoIdentityProviderClientTypes {
             return [
                 .passwordChange,
                 .signIn,
-                .signUp,
-                .sdkUnknown("")
+                .signUp
             ]
         }
 
@@ -6923,8 +6905,7 @@ extension CognitoIdentityProviderClientTypes {
             return [
                 .fail,
                 .inprogress,
-                .pass,
-                .sdkUnknown("")
+                .pass
             ]
         }
 
@@ -6988,8 +6969,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public static var allCases: [EventSourceName] {
             return [
-                .userNotification,
-                .sdkUnknown("")
+                .userNotification
             ]
         }
 
@@ -7023,8 +7003,7 @@ extension CognitoIdentityProviderClientTypes {
                 .passwordchange,
                 .resendcode,
                 .signin,
-                .signup,
-                .sdkUnknown("")
+                .signup
             ]
         }
 
@@ -7106,8 +7085,7 @@ extension CognitoIdentityProviderClientTypes {
                 .allowUserPasswordAuth,
                 .allowUserSrpAuth,
                 .customAuthFlowOnly,
-                .userPasswordAuth,
-                .sdkUnknown("")
+                .userPasswordAuth
             ]
         }
 
@@ -7142,8 +7120,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [FeedbackValueType] {
             return [
                 .invalid,
-                .valid,
-                .sdkUnknown("")
+                .valid
             ]
         }
 
@@ -8501,8 +8478,7 @@ extension CognitoIdentityProviderClientTypes {
                 .loginwithamazon,
                 .oidc,
                 .saml,
-                .signinwithapple,
-                .sdkUnknown("")
+                .signinwithapple
             ]
         }
 
@@ -10205,8 +10181,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public static var allCases: [LogLevel] {
             return [
-                .error,
-                .sdkUnknown("")
+                .error
             ]
         }
 
@@ -10309,8 +10284,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [MessageActionType] {
             return [
                 .resend,
-                .suppress,
-                .sdkUnknown("")
+                .suppress
             ]
         }
 
@@ -10596,8 +10570,7 @@ extension CognitoIdentityProviderClientTypes {
             return [
                 .clientCredentials,
                 .code,
-                .implicit,
-                .sdkUnknown("")
+                .implicit
             ]
         }
 
@@ -10726,8 +10699,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [PreTokenGenerationLambdaVersionType] {
             return [
                 .v10,
-                .v20,
-                .sdkUnknown("")
+                .v20
             ]
         }
 
@@ -10833,8 +10805,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [PreventUserExistenceErrorTypes] {
             return [
                 .enabled,
-                .legacy,
-                .sdkUnknown("")
+                .legacy
             ]
         }
 
@@ -10940,8 +10911,7 @@ extension CognitoIdentityProviderClientTypes {
             return [
                 .adminOnly,
                 .verifiedEmail,
-                .verifiedPhoneNumber,
-                .sdkUnknown("")
+                .verifiedPhoneNumber
             ]
         }
 
@@ -11531,8 +11501,7 @@ extension CognitoIdentityProviderClientTypes {
             return [
                 .accounttakeover,
                 .block,
-                .norisk,
-                .sdkUnknown("")
+                .norisk
             ]
         }
 
@@ -11601,8 +11570,7 @@ extension CognitoIdentityProviderClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -12696,8 +12664,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [StatusType] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12910,8 +12877,7 @@ extension CognitoIdentityProviderClientTypes {
                 .days,
                 .hours,
                 .minutes,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -14555,8 +14521,7 @@ extension CognitoIdentityProviderClientTypes {
                 .pending,
                 .stopped,
                 .stopping,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -15168,8 +15133,7 @@ extension CognitoIdentityProviderClientTypes {
             return [
                 .off,
                 .on,
-                .optional,
-                .sdkUnknown("")
+                .optional
             ]
         }
 
@@ -15472,8 +15436,7 @@ extension CognitoIdentityProviderClientTypes {
                 .forceChangePassword,
                 .resetRequired,
                 .unconfirmed,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -15581,8 +15544,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [UsernameAttributeType] {
             return [
                 .email,
-                .phoneNumber,
-                .sdkUnknown("")
+                .phoneNumber
             ]
         }
 
@@ -15742,8 +15704,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [VerifiedAttributeType] {
             return [
                 .email,
-                .phoneNumber,
-                .sdkUnknown("")
+                .phoneNumber
             ]
         }
 
@@ -15880,8 +15841,7 @@ extension CognitoIdentityProviderClientTypes {
         public static var allCases: [VerifySoftwareTokenResponseType] {
             return [
                 .error,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 

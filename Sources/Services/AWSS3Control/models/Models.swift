@@ -486,8 +486,7 @@ extension S3ControlClientTypes {
             return [
                 .createmultiregionaccesspoint,
                 .deletemultiregionaccesspoint,
-                .putmultiregionaccesspointpolicy,
-                .sdkUnknown("")
+                .putmultiregionaccesspointpolicy
             ]
         }
 
@@ -711,8 +710,7 @@ extension S3ControlClientTypes {
                 .authenticatedRead,
                 .private,
                 .publicRead,
-                .publicReadWrite,
-                .sdkUnknown("")
+                .publicReadWrite
             ]
         }
 
@@ -816,8 +814,7 @@ extension S3ControlClientTypes {
                 .euWest1,
                 .saEast1,
                 .usWest1,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -855,8 +852,7 @@ extension S3ControlClientTypes {
         public static var allCases: [BucketVersioningStatus] {
             return [
                 .enabled,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -2968,8 +2964,7 @@ extension S3ControlClientTypes {
         public static var allCases: [DeleteMarkerReplicationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3802,8 +3797,7 @@ extension S3ControlClientTypes {
         public static var allCases: [ExistingObjectReplicationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3832,8 +3826,7 @@ extension S3ControlClientTypes {
         public static var allCases: [ExpirationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3862,8 +3855,7 @@ extension S3ControlClientTypes {
         public static var allCases: [Format] {
             return [
                 .csv,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -3927,8 +3919,7 @@ extension S3ControlClientTypes {
 
         public static var allCases: [GeneratedManifestFormat] {
             return [
-                .s3inventoryreportCsv20211130,
-                .sdkUnknown("")
+                .s3inventoryreportCsv20211130
             ]
         }
 
@@ -6363,8 +6354,7 @@ extension S3ControlClientTypes {
             return [
                 .directoryGroup,
                 .directoryUser,
-                .iam,
-                .sdkUnknown("")
+                .iam
             ]
         }
 
@@ -6830,8 +6820,7 @@ extension S3ControlClientTypes {
                 .bucket,
                 .ignore,
                 .key,
-                .versionid,
-                .sdkUnknown("")
+                .versionid
             ]
         }
 
@@ -6862,8 +6851,7 @@ extension S3ControlClientTypes {
         public static var allCases: [JobManifestFormat] {
             return [
                 .s3batchoperationsCsv20180820,
-                .s3inventoryreportCsv20161130,
-                .sdkUnknown("")
+                .s3inventoryreportCsv20161130
             ]
         }
 
@@ -7256,8 +7244,7 @@ extension S3ControlClientTypes {
 
         public static var allCases: [JobReportFormat] {
             return [
-                .reportCsv20180820,
-                .sdkUnknown("")
+                .reportCsv20180820
             ]
         }
 
@@ -7285,8 +7272,7 @@ extension S3ControlClientTypes {
         public static var allCases: [JobReportScope] {
             return [
                 .alltasks,
-                .failedtasksonly,
-                .sdkUnknown("")
+                .failedtasksonly
             ]
         }
 
@@ -7337,8 +7323,7 @@ extension S3ControlClientTypes {
                 .pausing,
                 .preparing,
                 .ready,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -9132,8 +9117,7 @@ extension S3ControlClientTypes {
         public static var allCases: [MFADelete] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -9162,8 +9146,7 @@ extension S3ControlClientTypes {
         public static var allCases: [MFADeleteStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -9304,8 +9287,7 @@ extension S3ControlClientTypes {
         public static var allCases: [MetricsStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -9499,8 +9481,7 @@ extension S3ControlClientTypes {
                 .inconsistentAcrossRegions,
                 .partiallyCreated,
                 .partiallyDeleted,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -9559,8 +9540,7 @@ extension S3ControlClientTypes {
         public static var allCases: [NetworkOrigin] {
             return [
                 .internet,
-                .vpc,
-                .sdkUnknown("")
+                .vpc
             ]
         }
 
@@ -9805,8 +9785,7 @@ extension S3ControlClientTypes {
         public static var allCases: [ObjectLambdaAccessPointAliasStatus] {
             return [
                 .provisioning,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -9839,8 +9818,7 @@ extension S3ControlClientTypes {
                 .getobjectpartnumber,
                 .getobjectrange,
                 .headobjectpartnumber,
-                .headobjectrange,
-                .sdkUnknown("")
+                .headobjectrange
             ]
         }
 
@@ -9999,8 +9977,7 @@ extension S3ControlClientTypes {
                 .getobject,
                 .headobject,
                 .listobjects,
-                .listobjectsv2,
-                .sdkUnknown("")
+                .listobjectsv2
             ]
         }
 
@@ -10045,8 +10022,7 @@ extension S3ControlClientTypes {
                 .s3putobjectlegalhold,
                 .s3putobjectretention,
                 .s3putobjecttagging,
-                .s3replicateobject,
-                .sdkUnknown("")
+                .s3replicateobject
             ]
         }
 
@@ -10080,8 +10056,7 @@ extension S3ControlClientTypes {
 
         public static var allCases: [OutputSchemaVersion] {
             return [
-                .v1,
-                .sdkUnknown("")
+                .v1
             ]
         }
 
@@ -10107,8 +10082,7 @@ extension S3ControlClientTypes {
 
         public static var allCases: [OwnerOverride] {
             return [
-                .destination,
-                .sdkUnknown("")
+                .destination
             ]
         }
 
@@ -10138,8 +10112,7 @@ extension S3ControlClientTypes {
             return [
                 .read,
                 .readwrite,
-                .write,
-                .sdkUnknown("")
+                .write
             ]
         }
 
@@ -10264,8 +10237,7 @@ extension S3ControlClientTypes {
         public static var allCases: [Privilege] {
             return [
                 .default,
-                .minimal,
-                .sdkUnknown("")
+                .minimal
             ]
         }
 
@@ -11693,8 +11665,7 @@ extension S3ControlClientTypes {
         public static var allCases: [ReplicaModificationsStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11939,8 +11910,7 @@ extension S3ControlClientTypes {
         public static var allCases: [ReplicationRuleStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11973,8 +11943,7 @@ extension S3ControlClientTypes {
                 .completed,
                 .failed,
                 .none,
-                .replica,
-                .sdkUnknown("")
+                .replica
             ]
         }
 
@@ -12019,8 +11988,7 @@ extension S3ControlClientTypes {
                 .outposts,
                 .reducedRedundancy,
                 .standard,
-                .standardIa,
-                .sdkUnknown("")
+                .standardIa
             ]
         }
 
@@ -12095,8 +12063,7 @@ extension S3ControlClientTypes {
         public static var allCases: [ReplicationTimeStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12156,8 +12123,7 @@ extension S3ControlClientTypes {
         public static var allCases: [RequestedJobStatus] {
             return [
                 .cancelled,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -12336,8 +12302,7 @@ extension S3ControlClientTypes {
                 .bucketOwnerRead,
                 .private,
                 .publicRead,
-                .publicReadWrite,
-                .sdkUnknown("")
+                .publicReadWrite
             ]
         }
 
@@ -12375,8 +12340,7 @@ extension S3ControlClientTypes {
                 .crc32,
                 .crc32c,
                 .sha1,
-                .sha256,
-                .sdkUnknown("")
+                .sha256
             ]
         }
 
@@ -12599,8 +12563,7 @@ extension S3ControlClientTypes {
         public static var allCases: [S3GlacierJobTier] {
             return [
                 .bulk,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -12711,8 +12674,7 @@ extension S3ControlClientTypes {
             return [
                 .canonical,
                 .emailAddress,
-                .group,
-                .sdkUnknown("")
+                .group
             ]
         }
 
@@ -12893,8 +12855,7 @@ extension S3ControlClientTypes {
         public static var allCases: [S3MetadataDirective] {
             return [
                 .copy,
-                .replace,
-                .sdkUnknown("")
+                .replace
             ]
         }
 
@@ -12955,8 +12916,7 @@ extension S3ControlClientTypes {
         public static var allCases: [S3ObjectLockLegalHoldStatus] {
             return [
                 .off,
-                .on,
-                .sdkUnknown("")
+                .on
             ]
         }
 
@@ -12985,8 +12945,7 @@ extension S3ControlClientTypes {
         public static var allCases: [S3ObjectLockMode] {
             return [
                 .compliance,
-                .governance,
-                .sdkUnknown("")
+                .governance
             ]
         }
 
@@ -13015,8 +12974,7 @@ extension S3ControlClientTypes {
         public static var allCases: [S3ObjectLockRetentionMode] {
             return [
                 .compliance,
-                .governance,
-                .sdkUnknown("")
+                .governance
             ]
         }
 
@@ -13179,8 +13137,7 @@ extension S3ControlClientTypes {
                 .read,
                 .readAcp,
                 .write,
-                .writeAcp,
-                .sdkUnknown("")
+                .writeAcp
             ]
         }
 
@@ -13210,8 +13167,7 @@ extension S3ControlClientTypes {
 
         public static var allCases: [S3PrefixType] {
             return [
-                .object,
-                .sdkUnknown("")
+                .object
             ]
         }
 
@@ -13298,8 +13254,7 @@ extension S3ControlClientTypes {
         public static var allCases: [S3SSEAlgorithm] {
             return [
                 .aes256,
-                .kms,
-                .sdkUnknown("")
+                .kms
             ]
         }
 
@@ -13470,8 +13425,7 @@ extension S3ControlClientTypes {
                 .intelligentTiering,
                 .onezoneIa,
                 .standard,
-                .standardIa,
-                .sdkUnknown("")
+                .standardIa
             ]
         }
 
@@ -13764,8 +13718,7 @@ extension S3ControlClientTypes {
         public static var allCases: [SseKmsEncryptedObjectsStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -14646,8 +14599,7 @@ extension S3ControlClientTypes {
                 .glacier,
                 .intelligentTiering,
                 .onezoneIa,
-                .standardIa,
-                .sdkUnknown("")
+                .standardIa
             ]
         }
 

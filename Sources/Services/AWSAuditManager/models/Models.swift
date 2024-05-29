@@ -138,8 +138,7 @@ extension AuditManagerClientTypes {
             return [
                 .active,
                 .inactive,
-                .pendingActivation,
-                .sdkUnknown("")
+                .pendingActivation
             ]
         }
 
@@ -181,8 +180,7 @@ extension AuditManagerClientTypes {
                 .inactive,
                 .reviewed,
                 .underReview,
-                .updateMetadata,
-                .sdkUnknown("")
+                .updateMetadata
             ]
         }
 
@@ -956,8 +954,7 @@ extension AuditManagerClientTypes {
 
         public static var allCases: [AssessmentReportDestinationType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -1089,8 +1086,7 @@ extension AuditManagerClientTypes {
             return [
                 .complete,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -1163,8 +1159,7 @@ extension AuditManagerClientTypes {
         public static var allCases: [AssessmentStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -2279,8 +2274,7 @@ extension AuditManagerClientTypes {
                 .automate,
                 .defer,
                 .ignore,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -2349,8 +2343,7 @@ extension AuditManagerClientTypes {
             return [
                 .active,
                 .reviewed,
-                .underReview,
-                .sdkUnknown("")
+                .underReview
             ]
         }
 
@@ -2382,8 +2375,7 @@ extension AuditManagerClientTypes {
             return [
                 .inactive,
                 .reviewed,
-                .underReview,
-                .sdkUnknown("")
+                .underReview
             ]
         }
 
@@ -2413,8 +2405,7 @@ extension AuditManagerClientTypes {
         public static var allCases: [ControlType] {
             return [
                 .custom,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -3204,8 +3195,7 @@ extension AuditManagerClientTypes {
             return [
                 .complete,
                 .inProgress,
-                .underReview,
-                .sdkUnknown("")
+                .underReview
             ]
         }
 
@@ -3522,8 +3512,7 @@ extension AuditManagerClientTypes {
         public static var allCases: [DeleteResources] {
             return [
                 .all,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -3865,8 +3854,7 @@ extension AuditManagerClientTypes {
             return [
                 .completed,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -3955,8 +3943,7 @@ extension AuditManagerClientTypes {
                 .disabled,
                 .disableInProgress,
                 .enabled,
-                .enableInProgress,
-                .sdkUnknown("")
+                .enableInProgress
             ]
         }
 
@@ -4021,8 +4008,7 @@ extension AuditManagerClientTypes {
 
         public static var allCases: [ExportDestinationType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -4192,8 +4178,7 @@ extension AuditManagerClientTypes {
         public static var allCases: [FrameworkType] {
             return [
                 .custom,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -5746,8 +5731,7 @@ extension AuditManagerClientTypes {
             return [
                 .inputText,
                 .selectFromList,
-                .uploadFile,
-                .sdkUnknown("")
+                .uploadFile
             ]
         }
 
@@ -6984,8 +6968,7 @@ extension AuditManagerClientTypes {
                 .assessmentReport,
                 .control,
                 .controlSet,
-                .delegation,
-                .sdkUnknown("")
+                .delegation
             ]
         }
 
@@ -7296,8 +7279,7 @@ extension AuditManagerClientTypes {
         public static var allCases: [RoleType] {
             return [
                 .processOwner,
-                .resourceOwner,
-                .sdkUnknown("")
+                .resourceOwner
             ]
         }
 
@@ -7460,8 +7442,7 @@ extension AuditManagerClientTypes {
                 .deregistrationPolicy,
                 .evidenceFinderEnablement,
                 .isAwsOrgEnabled,
-                .snsTopic,
-                .sdkUnknown("")
+                .snsTopic
             ]
         }
 
@@ -7564,8 +7545,7 @@ extension AuditManagerClientTypes {
             return [
                 .accept,
                 .decline,
-                .revoke,
-                .sdkUnknown("")
+                .revoke
             ]
         }
 
@@ -7607,8 +7587,7 @@ extension AuditManagerClientTypes {
                 .failed,
                 .replicating,
                 .revoked,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -7643,8 +7622,7 @@ extension AuditManagerClientTypes {
         public static var allCases: [ShareRequestType] {
             return [
                 .received,
-                .sent,
-                .sdkUnknown("")
+                .sent
             ]
         }
 
@@ -7675,8 +7653,7 @@ extension AuditManagerClientTypes {
             return [
                 .daily,
                 .monthly,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -7805,8 +7782,7 @@ extension AuditManagerClientTypes {
         public static var allCases: [SourceSetUpOption] {
             return [
                 .proceduralControlsMapping,
-                .systemControlsMapping,
-                .sdkUnknown("")
+                .systemControlsMapping
             ]
         }
 
@@ -7841,8 +7817,7 @@ extension AuditManagerClientTypes {
                 .awsCloudtrail,
                 .awsConfig,
                 .awsSecurityHub,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -9147,8 +9122,7 @@ extension AuditManagerClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

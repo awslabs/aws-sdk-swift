@@ -521,8 +521,7 @@ extension ChimeSDKMeetingsClientTypes {
             return [
                 .fhd,
                 .none,
-                .uhd,
-                .sdkUnknown("")
+                .uhd
             ]
         }
 
@@ -1688,8 +1687,7 @@ extension ChimeSDKMeetingsClientTypes {
                 .none,
                 .receive,
                 .send,
-                .sendReceive,
-                .sdkUnknown("")
+                .sendReceive
             ]
         }
 
@@ -1852,8 +1850,7 @@ extension ChimeSDKMeetingsClientTypes {
         public static var allCases: [MeetingFeatureStatus] {
             return [
                 .available,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -2522,8 +2519,7 @@ extension ChimeSDKMeetingsClientTypes {
 
         public static var allCases: [TranscribeContentIdentificationType] {
             return [
-                .pii,
-                .sdkUnknown("")
+                .pii
             ]
         }
 
@@ -2549,8 +2545,7 @@ extension ChimeSDKMeetingsClientTypes {
 
         public static var allCases: [TranscribeContentRedactionType] {
             return [
-                .pii,
-                .sdkUnknown("")
+                .pii
             ]
         }
 
@@ -2602,8 +2597,7 @@ extension ChimeSDKMeetingsClientTypes {
                 .koKr,
                 .ptBr,
                 .thTh,
-                .zhCn,
-                .sdkUnknown("")
+                .zhCn
             ]
         }
 
@@ -2642,8 +2636,7 @@ extension ChimeSDKMeetingsClientTypes {
 
         public static var allCases: [TranscribeMedicalContentIdentificationType] {
             return [
-                .phi,
-                .sdkUnknown("")
+                .phi
             ]
         }
 
@@ -2669,8 +2662,7 @@ extension ChimeSDKMeetingsClientTypes {
 
         public static var allCases: [TranscribeMedicalLanguageCode] {
             return [
-                .enUs,
-                .sdkUnknown("")
+                .enUs
             ]
         }
 
@@ -2708,8 +2700,7 @@ extension ChimeSDKMeetingsClientTypes {
                 .euWest1,
                 .usEast1,
                 .usEast2,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -2751,8 +2742,7 @@ extension ChimeSDKMeetingsClientTypes {
                 .oncology,
                 .primarycare,
                 .radiology,
-                .urology,
-                .sdkUnknown("")
+                .urology
             ]
         }
 
@@ -2785,8 +2775,7 @@ extension ChimeSDKMeetingsClientTypes {
         public static var allCases: [TranscribeMedicalType] {
             return [
                 .conversation,
-                .dictation,
-                .sdkUnknown("")
+                .dictation
             ]
         }
 
@@ -2817,8 +2806,7 @@ extension ChimeSDKMeetingsClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -2870,8 +2858,7 @@ extension ChimeSDKMeetingsClientTypes {
                 .usEast1,
                 .usEast2,
                 .usGovWest1,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -2913,8 +2900,7 @@ extension ChimeSDKMeetingsClientTypes {
             return [
                 .mask,
                 .remove,
-                .tag,
-                .sdkUnknown("")
+                .tag
             ]
         }
 
@@ -3263,8 +3249,7 @@ extension ChimeSDKMeetingsClientTypes {
             return [
                 .fhd,
                 .hd,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 

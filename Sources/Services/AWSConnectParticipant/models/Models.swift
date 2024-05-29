@@ -55,8 +55,7 @@ extension ConnectParticipantClientTypes {
             return [
                 .approved,
                 .inProgress,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -147,8 +146,7 @@ extension ConnectParticipantClientTypes {
                 .participantLeft,
                 .transferFailed,
                 .transferSucceeded,
-                .typing,
-                .sdkUnknown("")
+                .typing
             ]
         }
 
@@ -339,8 +337,7 @@ extension ConnectParticipantClientTypes {
         public static var allCases: [ConnectionType] {
             return [
                 .connectionCredentials,
-                .websocket,
-                .sdkUnknown("")
+                .websocket
             ]
         }
 
@@ -981,8 +978,7 @@ extension ConnectParticipantClientTypes {
                 .customer,
                 .customBot,
                 .supervisor,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -1109,8 +1105,7 @@ extension ConnectParticipantClientTypes {
                 .instance,
                 .participant,
                 .phoneNumber,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -1145,8 +1140,7 @@ extension ConnectParticipantClientTypes {
         public static var allCases: [ScanDirection] {
             return [
                 .backward,
-                .forward,
-                .sdkUnknown("")
+                .forward
             ]
         }
 
@@ -1429,8 +1423,7 @@ extension ConnectParticipantClientTypes {
         public static var allCases: [SortKey] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 

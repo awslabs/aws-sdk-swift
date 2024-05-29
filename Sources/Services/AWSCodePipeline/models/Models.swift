@@ -227,8 +227,7 @@ extension CodePipelineClientTypes {
                 .deploy,
                 .invoke,
                 .source,
-                .test,
-                .sdkUnknown("")
+                .test
             ]
         }
 
@@ -360,8 +359,7 @@ extension CodePipelineClientTypes {
             return [
                 .boolean,
                 .number,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -822,8 +820,7 @@ extension CodePipelineClientTypes {
                 .abandoned,
                 .failed,
                 .inprogress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -894,8 +891,7 @@ extension CodePipelineClientTypes {
             return [
                 .aws,
                 .custom,
-                .thirdparty,
-                .sdkUnknown("")
+                .thirdparty
             ]
         }
 
@@ -1665,8 +1661,7 @@ extension CodePipelineClientTypes {
         public static var allCases: [ApprovalStatus] {
             return [
                 .approved,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -1830,8 +1825,7 @@ extension CodePipelineClientTypes {
 
         public static var allCases: [ArtifactLocationType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -1953,8 +1947,7 @@ extension CodePipelineClientTypes {
 
         public static var allCases: [ArtifactStoreType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -2019,8 +2012,7 @@ extension CodePipelineClientTypes {
 
         public static var allCases: [BlockerType] {
             return [
-                .schedule,
-                .sdkUnknown("")
+                .schedule
             ]
         }
 
@@ -2857,8 +2849,7 @@ extension CodePipelineClientTypes {
 
         public static var allCases: [EncryptionKeyType] {
             return [
-                .kms,
-                .sdkUnknown("")
+                .kms
             ]
         }
 
@@ -2953,8 +2944,7 @@ extension CodePipelineClientTypes {
             return [
                 .parallel,
                 .queued,
-                .superseded,
-                .sdkUnknown("")
+                .superseded
             ]
         }
 
@@ -3015,8 +3005,7 @@ extension CodePipelineClientTypes {
         public static var allCases: [ExecutionType] {
             return [
                 .rollback,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -3082,8 +3071,7 @@ extension CodePipelineClientTypes {
         public static var allCases: [ExecutorType] {
             return [
                 .jobworker,
-                .lambda,
-                .sdkUnknown("")
+                .lambda
             ]
         }
 
@@ -3187,8 +3175,7 @@ extension CodePipelineClientTypes {
                 .permissionerror,
                 .revisionoutofsync,
                 .revisionunavailable,
-                .systemunavailable,
-                .sdkUnknown("")
+                .systemunavailable
             ]
         }
 
@@ -3829,8 +3816,7 @@ extension CodePipelineClientTypes {
             return [
                 .closed,
                 .open,
-                .updated,
-                .sdkUnknown("")
+                .updated
             ]
         }
 
@@ -4736,8 +4722,7 @@ extension CodePipelineClientTypes {
                 .inprogress,
                 .queued,
                 .succeeded,
-                .timedout,
-                .sdkUnknown("")
+                .timedout
             ]
         }
 
@@ -5956,8 +5941,7 @@ extension CodePipelineClientTypes {
                 .stopped,
                 .stopping,
                 .succeeded,
-                .superseded,
-                .sdkUnknown("")
+                .superseded
             ]
         }
 
@@ -6317,8 +6301,7 @@ extension CodePipelineClientTypes {
 
         public static var allCases: [PipelineTriggerProviderType] {
             return [
-                .codestarsourceconnection,
-                .sdkUnknown("")
+                .codestarsourceconnection
             ]
         }
 
@@ -6346,8 +6329,7 @@ extension CodePipelineClientTypes {
         public static var allCases: [PipelineType] {
             return [
                 .v1,
-                .v2,
-                .sdkUnknown("")
+                .v2
             ]
         }
 
@@ -7359,8 +7341,7 @@ extension CodePipelineClientTypes {
 
         public static var allCases: [Result] {
             return [
-                .rollback,
-                .sdkUnknown("")
+                .rollback
             ]
         }
 
@@ -7709,8 +7690,7 @@ extension CodePipelineClientTypes {
             return [
                 .commitId,
                 .imageDigest,
-                .s3ObjectVersionId,
-                .sdkUnknown("")
+                .s3ObjectVersionId
             ]
         }
 
@@ -7863,8 +7843,7 @@ extension CodePipelineClientTypes {
                 .inprogress,
                 .stopped,
                 .stopping,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -7973,8 +7952,7 @@ extension CodePipelineClientTypes {
         public static var allCases: [StageRetryMode] {
             return [
                 .allActions,
-                .failedActions,
-                .sdkUnknown("")
+                .failedActions
             ]
         }
 
@@ -8054,8 +8032,7 @@ extension CodePipelineClientTypes {
         public static var allCases: [StageTransitionType] {
             return [
                 .inbound,
-                .outbound,
-                .sdkUnknown("")
+                .outbound
             ]
         }
 
@@ -8170,8 +8147,7 @@ extension CodePipelineClientTypes {
         public static var allCases: [StartTimeRange] {
             return [
                 .all,
-                .latest,
-                .sdkUnknown("")
+                .latest
             ]
         }
 
@@ -8665,8 +8641,7 @@ extension CodePipelineClientTypes {
                 .putactionrevision,
                 .startpipelineexecution,
                 .webhook,
-                .webhookv2,
-                .sdkUnknown("")
+                .webhookv2
             ]
         }
 
@@ -9009,8 +8984,7 @@ extension CodePipelineClientTypes {
             return [
                 .githubHmac,
                 .ip,
-                .unauthenticated,
-                .sdkUnknown("")
+                .unauthenticated
             ]
         }
 

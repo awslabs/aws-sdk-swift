@@ -520,8 +520,7 @@ extension QLDBClientTypes {
             return [
                 .enabled,
                 .kmsKeyInaccessible,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -551,8 +550,7 @@ extension QLDBClientTypes {
         public static var allCases: [ErrorCause] {
             return [
                 .iamPermissionRevoked,
-                .kinesisStreamNotFound,
-                .sdkUnknown("")
+                .kinesisStreamNotFound
             ]
         }
 
@@ -689,8 +687,7 @@ extension QLDBClientTypes {
             return [
                 .cancelled,
                 .completed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -1283,8 +1280,7 @@ extension QLDBClientTypes {
                 .active,
                 .creating,
                 .deleted,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -1810,8 +1806,7 @@ extension QLDBClientTypes {
             return [
                 .ionBinary,
                 .ionText,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -1841,8 +1836,7 @@ extension QLDBClientTypes {
         public static var allCases: [PermissionsMode] {
             return [
                 .allowAll,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -2153,8 +2147,7 @@ extension QLDBClientTypes {
             return [
                 .noEncryption,
                 .sseKms,
-                .sseS3,
-                .sdkUnknown("")
+                .sseS3
             ]
         }
 
@@ -2294,8 +2287,7 @@ extension QLDBClientTypes {
                 .canceled,
                 .completed,
                 .failed,
-                .impaired,
-                .sdkUnknown("")
+                .impaired
             ]
         }
 

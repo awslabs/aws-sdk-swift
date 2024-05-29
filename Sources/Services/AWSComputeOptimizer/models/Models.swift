@@ -93,8 +93,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [AutoScalingConfiguration] {
             return [
                 .targetTrackingScalingCpu,
-                .targetTrackingScalingMemory,
-                .sdkUnknown("")
+                .targetTrackingScalingMemory
             ]
         }
 
@@ -469,8 +468,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [CpuVendorArchitecture] {
             return [
                 .awsArm64,
-                .current,
-                .sdkUnknown("")
+                .current
             ]
         }
 
@@ -499,8 +497,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [Currency] {
             return [
                 .cny,
-                .usd,
-                .sdkUnknown("")
+                .usd
             ]
         }
 
@@ -533,8 +530,7 @@ extension ComputeOptimizerClientTypes {
                 .high,
                 .low,
                 .medium,
-                .veryLow,
-                .sdkUnknown("")
+                .veryLow
             ]
         }
 
@@ -610,8 +606,7 @@ extension ComputeOptimizerClientTypes {
                 .percent0,
                 .percent10,
                 .percent20,
-                .percent30,
-                .sdkUnknown("")
+                .percent30
             ]
         }
 
@@ -642,8 +637,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [CustomizableMetricName] {
             return [
                 .cpuUtilization,
-                .memoryUtilization,
-                .sdkUnknown("")
+                .memoryUtilization
             ]
         }
 
@@ -715,8 +709,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .p90,
                 .p95,
-                .p995,
-                .sdkUnknown("")
+                .p995
             ]
         }
 
@@ -994,8 +987,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [EBSFilterName] {
             return [
-                .finding,
-                .sdkUnknown("")
+                .finding
             ]
         }
 
@@ -1023,8 +1015,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [EBSFinding] {
             return [
                 .notOptimized,
-                .optimized,
-                .sdkUnknown("")
+                .optimized
             ]
         }
 
@@ -1057,8 +1048,7 @@ extension ComputeOptimizerClientTypes {
                 .volumeReadBytesPerSecond,
                 .volumeReadOpsPerSecond,
                 .volumeWriteBytesPerSecond,
-                .volumeWriteOpsPerSecond,
-                .sdkUnknown("")
+                .volumeWriteOpsPerSecond
             ]
         }
 
@@ -1117,8 +1107,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .costExplorerRightsizing,
                 .costOptimizationHub,
-                .publicPricing,
-                .sdkUnknown("")
+                .publicPricing
             ]
         }
 
@@ -1308,8 +1297,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .costExplorerRightsizing,
                 .costOptimizationHub,
-                .publicPricing,
-                .sdkUnknown("")
+                .publicPricing
             ]
         }
 
@@ -1370,8 +1358,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [ECSServiceLaunchType] {
             return [
                 .ec2,
-                .fargate,
-                .sdkUnknown("")
+                .fargate
             ]
         }
 
@@ -1400,8 +1387,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [ECSServiceMetricName] {
             return [
                 .cpu,
-                .memory,
-                .sdkUnknown("")
+                .memory
             ]
         }
 
@@ -1430,8 +1416,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [ECSServiceMetricStatistic] {
             return [
                 .average,
-                .maximum,
-                .sdkUnknown("")
+                .maximum
             ]
         }
 
@@ -1683,8 +1668,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [ECSServiceRecommendationFilterName] {
             return [
                 .finding,
-                .findingReasonCode,
-                .sdkUnknown("")
+                .findingReasonCode
             ]
         }
 
@@ -1715,8 +1699,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .optimized,
                 .overProvisioned,
-                .underProvisioned,
-                .sdkUnknown("")
+                .underProvisioned
             ]
         }
 
@@ -1750,8 +1733,7 @@ extension ComputeOptimizerClientTypes {
                 .cpuOverProvisioned,
                 .cpuUnderProvisioned,
                 .memoryOverProvisioned,
-                .memoryUnderProvisioned,
-                .sdkUnknown("")
+                .memoryUnderProvisioned
             ]
         }
 
@@ -2017,8 +1999,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [EnhancedInfrastructureMetrics] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -2074,8 +2055,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [EnrollmentFilterName] {
             return [
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -2916,8 +2896,7 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsNetworkInBytesPerSecondMaximum,
                 .utilizationMetricsNetworkOutBytesPerSecondMaximum,
                 .utilizationMetricsNetworkPacketsInPerSecondMaximum,
-                .utilizationMetricsNetworkPacketsOutPerSecondMaximum,
-                .sdkUnknown("")
+                .utilizationMetricsNetworkPacketsOutPerSecondMaximum
             ]
         }
 
@@ -3062,8 +3041,7 @@ extension ComputeOptimizerClientTypes {
                 .serviceArn,
                 .tags,
                 .utilizationMetricsCpuMaximum,
-                .utilizationMetricsMemoryMaximum,
-                .sdkUnknown("")
+                .utilizationMetricsMemoryMaximum
             ]
         }
 
@@ -3256,8 +3234,7 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsNetworkInBytesPerSecondMaximum,
                 .utilizationMetricsNetworkOutBytesPerSecondMaximum,
                 .utilizationMetricsNetworkPacketsInPerSecondMaximum,
-                .utilizationMetricsNetworkPacketsOutPerSecondMaximum,
-                .sdkUnknown("")
+                .utilizationMetricsNetworkPacketsOutPerSecondMaximum
             ]
         }
 
@@ -3413,8 +3390,7 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsDurationAverage,
                 .utilizationMetricsDurationMaximum,
                 .utilizationMetricsMemoryAverage,
-                .utilizationMetricsMemoryMaximum,
-                .sdkUnknown("")
+                .utilizationMetricsMemoryMaximum
             ]
         }
 
@@ -3510,8 +3486,7 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsOperatingSystem,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .resourceArn,
-                .tags,
-                .sdkUnknown("")
+                .tags
             ]
         }
 
@@ -3625,8 +3600,7 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsVolumeReadOpsPerSecondMaximum,
                 .utilizationMetricsVolumeWriteBytesPerSecondMaximum,
                 .utilizationMetricsVolumeWriteOpsPerSecondMaximum,
-                .volumeArn,
-                .sdkUnknown("")
+                .volumeArn
             ]
         }
 
@@ -3735,8 +3709,7 @@ extension ComputeOptimizerClientTypes {
                 .insufficientNewrelicMetrics,
                 .integrationSuccess,
                 .newrelicIntegrationError,
-                .noExternalMetricSet,
-                .sdkUnknown("")
+                .noExternalMetricSet
             ]
         }
 
@@ -3808,8 +3781,7 @@ extension ComputeOptimizerClientTypes {
                 .datadog,
                 .dynatrace,
                 .instana,
-                .newrelic,
-                .sdkUnknown("")
+                .newrelic
             ]
         }
 
@@ -3838,8 +3810,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [FileFormat] {
             return [
-                .csv,
-                .sdkUnknown("")
+                .csv
             ]
         }
 
@@ -3940,8 +3911,7 @@ extension ComputeOptimizerClientTypes {
                 .finding,
                 .findingReasonCodes,
                 .inferredWorkloadTypes,
-                .recommendationSourceType,
-                .sdkUnknown("")
+                .recommendationSourceType
             ]
         }
 
@@ -3976,8 +3946,7 @@ extension ComputeOptimizerClientTypes {
                 .notOptimized,
                 .optimized,
                 .overProvisioned,
-                .underProvisioned,
-                .sdkUnknown("")
+                .underProvisioned
             ]
         }
 
@@ -4008,8 +3977,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [FindingReasonCode] {
             return [
                 .memoryOverProvisioned,
-                .memoryUnderProvisioned,
-                .sdkUnknown("")
+                .memoryUnderProvisioned
             ]
         }
 
@@ -5450,8 +5418,7 @@ extension ComputeOptimizerClientTypes {
                 .nginx,
                 .postgreSql,
                 .redis,
-                .sqlserver,
-                .sdkUnknown("")
+                .sqlserver
             ]
         }
 
@@ -5487,8 +5454,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [InferredWorkloadTypesPreference] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -5548,8 +5514,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [InstanceIdle] {
             return [
                 .false,
-                .true,
-                .sdkUnknown("")
+                .true
             ]
         }
 
@@ -5789,8 +5754,7 @@ extension ComputeOptimizerClientTypes {
                 .networkBandwidthOverProvisioned,
                 .networkBandwidthUnderProvisioned,
                 .networkPpsOverProvisioned,
-                .networkPpsUnderProvisioned,
-                .sdkUnknown("")
+                .networkPpsUnderProvisioned
             ]
         }
 
@@ -5943,8 +5907,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .costExplorerRightsizing,
                 .costOptimizationHub,
-                .publicPricing,
-                .sdkUnknown("")
+                .publicPricing
             ]
         }
 
@@ -6013,8 +5976,7 @@ extension ComputeOptimizerClientTypes {
                 .shuttingDown,
                 .stopped,
                 .stopping,
-                .terminated,
-                .sdkUnknown("")
+                .terminated
             ]
         }
 
@@ -6154,8 +6116,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [JobFilterName] {
             return [
                 .jobStatus,
-                .resourceType,
-                .sdkUnknown("")
+                .resourceType
             ]
         }
 
@@ -6188,8 +6149,7 @@ extension ComputeOptimizerClientTypes {
                 .complete,
                 .failed,
                 .inProgress,
-                .queued,
-                .sdkUnknown("")
+                .queued
             ]
         }
 
@@ -6275,8 +6235,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [LambdaFunctionMemoryMetricName] {
             return [
-                .duration,
-                .sdkUnknown("")
+                .duration
             ]
         }
 
@@ -6306,8 +6265,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .expected,
                 .lowerBound,
-                .upperBound,
-                .sdkUnknown("")
+                .upperBound
             ]
         }
 
@@ -6419,8 +6377,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [LambdaFunctionMetricName] {
             return [
                 .duration,
-                .memory,
-                .sdkUnknown("")
+                .memory
             ]
         }
 
@@ -6449,8 +6406,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [LambdaFunctionMetricStatistic] {
             return [
                 .average,
-                .maximum,
-                .sdkUnknown("")
+                .maximum
             ]
         }
 
@@ -6617,8 +6573,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [LambdaFunctionRecommendationFilterName] {
             return [
                 .finding,
-                .findingReasonCode,
-                .sdkUnknown("")
+                .findingReasonCode
             ]
         }
 
@@ -6649,8 +6604,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .notOptimized,
                 .optimized,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -6684,8 +6638,7 @@ extension ComputeOptimizerClientTypes {
                 .inconclusive,
                 .insufficientData,
                 .memoryOverProvisioned,
-                .memoryUnderProvisioned,
-                .sdkUnknown("")
+                .memoryUnderProvisioned
             ]
         }
 
@@ -6784,8 +6737,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .costExplorerRightsizing,
                 .costOptimizationHub,
-                .publicPricing,
-                .sdkUnknown("")
+                .publicPricing
             ]
         }
 
@@ -6911,8 +6863,7 @@ extension ComputeOptimizerClientTypes {
                 .enterprise,
                 .free,
                 .noLicenseEditionFound,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -6945,8 +6896,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .insufficientMetrics,
                 .notOptimized,
-                .optimized,
-                .sdkUnknown("")
+                .optimized
             ]
         }
 
@@ -6980,8 +6930,7 @@ extension ComputeOptimizerClientTypes {
                 .cwAppInsightsDisabled,
                 .cwAppInsightsError,
                 .licenseOverProvisioned,
-                .optimized,
-                .sdkUnknown("")
+                .optimized
             ]
         }
 
@@ -7012,8 +6961,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [LicenseModel] {
             return [
                 .bringYourOwnLicense,
-                .licenseIncluded,
-                .sdkUnknown("")
+                .licenseIncluded
             ]
         }
 
@@ -7040,8 +6988,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [LicenseName] {
             return [
-                .sqlserver,
-                .sdkUnknown("")
+                .sqlserver
             ]
         }
 
@@ -7184,8 +7131,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .licenseFinding,
                 .licenseFindingReasonCode,
-                .licenseName,
-                .sdkUnknown("")
+                .licenseName
             ]
         }
 
@@ -7300,8 +7246,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .days14,
                 .days32,
-                .days93,
-                .sdkUnknown("")
+                .days93
             ]
         }
 
@@ -7390,8 +7335,7 @@ extension ComputeOptimizerClientTypes {
                 .networkInBytesPerSecond,
                 .networkOutBytesPerSecond,
                 .networkPacketsInPerSecond,
-                .networkPacketsOutPerSecond,
-                .sdkUnknown("")
+                .networkPacketsOutPerSecond
             ]
         }
 
@@ -7463,8 +7407,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [MetricSourceProvider] {
             return [
-                .cloudwatchappinsights,
-                .sdkUnknown("")
+                .cloudwatchappinsights
             ]
         }
 
@@ -7492,8 +7435,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [MetricStatistic] {
             return [
                 .average,
-                .maximum,
-                .sdkUnknown("")
+                .maximum
             ]
         }
 
@@ -7526,8 +7468,7 @@ extension ComputeOptimizerClientTypes {
                 .high,
                 .low,
                 .medium,
-                .veryLow,
-                .sdkUnknown("")
+                .veryLow
             ]
         }
 
@@ -7640,8 +7581,7 @@ extension ComputeOptimizerClientTypes {
                 .instanceStoreAvailability,
                 .networkInterface,
                 .storageInterface,
-                .virtualizationType,
-                .sdkUnknown("")
+                .virtualizationType
             ]
         }
 
@@ -7710,8 +7650,7 @@ extension ComputeOptimizerClientTypes {
 
         public static var allCases: [PreferredResourceName] {
             return [
-                .ec2InstanceTypes,
-                .sdkUnknown("")
+                .ec2InstanceTypes
             ]
         }
 
@@ -7995,8 +7934,7 @@ extension ComputeOptimizerClientTypes {
                 .inferredWorkloadTypes,
                 .lookbackPeriodPreference,
                 .preferredResources,
-                .utilizationPreferences,
-                .sdkUnknown("")
+                .utilizationPreferences
             ]
         }
 
@@ -8164,8 +8102,7 @@ extension ComputeOptimizerClientTypes {
                 .ec2Instance,
                 .ecsService,
                 .lambdaFunction,
-                .license,
-                .sdkUnknown("")
+                .license
             ]
         }
 
@@ -8332,8 +8269,7 @@ extension ComputeOptimizerClientTypes {
                 .ecsService,
                 .lambdaFunction,
                 .license,
-                .notApplicable,
-                .sdkUnknown("")
+                .notApplicable
             ]
         }
 
@@ -8432,8 +8368,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [SavingsEstimationMode] {
             return [
                 .afterDiscounts,
-                .beforeDiscounts,
-                .sdkUnknown("")
+                .beforeDiscounts
             ]
         }
 
@@ -8547,8 +8482,7 @@ extension ComputeOptimizerClientTypes {
             return [
                 .accountId,
                 .organization,
-                .resourceArn,
-                .sdkUnknown("")
+                .resourceArn
             ]
         }
 
@@ -8672,8 +8606,7 @@ extension ComputeOptimizerClientTypes {
                 .active,
                 .failed,
                 .inactive,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 

@@ -54,8 +54,7 @@ extension DocDBElasticClientTypes {
         public static var allCases: [Auth] {
             return [
                 .plainText,
-                .secretArn,
-                .sdkUnknown("")
+                .secretArn
             ]
         }
 
@@ -1592,8 +1591,7 @@ extension DocDBElasticClientTypes {
         public static var allCases: [SnapshotType] {
             return [
                 .automated,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -1722,8 +1720,7 @@ extension DocDBElasticClientTypes {
                 .stopped,
                 .stopping,
                 .updating,
-                .vpcEndpointLimitExceeded,
-                .sdkUnknown("")
+                .vpcEndpointLimitExceeded
             ]
         }
 
@@ -2240,8 +2237,7 @@ extension DocDBElasticClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

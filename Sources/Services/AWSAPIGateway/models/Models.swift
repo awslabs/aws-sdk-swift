@@ -119,8 +119,7 @@ extension APIGatewayClientTypes {
         public static var allCases: [ApiKeySourceType] {
             return [
                 .authorizer,
-                .header,
-                .sdkUnknown("")
+                .header
             ]
         }
 
@@ -147,8 +146,7 @@ extension APIGatewayClientTypes {
 
         public static var allCases: [ApiKeysFormat] {
             return [
-                .csv,
-                .sdkUnknown("")
+                .csv
             ]
         }
 
@@ -293,8 +291,7 @@ extension APIGatewayClientTypes {
             return [
                 .cognitoUserPools,
                 .request,
-                .token,
-                .sdkUnknown("")
+                .token
             ]
         }
 
@@ -410,8 +407,7 @@ extension APIGatewayClientTypes {
                 .size237Gb,
                 .size28Point4Gb,
                 .size58Point2Gb,
-                .size6Point1Gb,
-                .sdkUnknown("")
+                .size6Point1Gb
             ]
         }
 
@@ -453,8 +449,7 @@ extension APIGatewayClientTypes {
                 .createInProgress,
                 .deleteInProgress,
                 .flushInProgress,
-                .notAvailable,
-                .sdkUnknown("")
+                .notAvailable
             ]
         }
 
@@ -623,8 +618,7 @@ extension APIGatewayClientTypes {
         public static var allCases: [ConnectionType] {
             return [
                 .internet,
-                .vpcLink,
-                .sdkUnknown("")
+                .vpcLink
             ]
         }
 
@@ -653,8 +647,7 @@ extension APIGatewayClientTypes {
         public static var allCases: [ContentHandlingStrategy] {
             return [
                 .convertToBinary,
-                .convertToText,
-                .sdkUnknown("")
+                .convertToText
             ]
         }
 
@@ -4212,8 +4205,7 @@ extension APIGatewayClientTypes {
                 .resource,
                 .response,
                 .responseBody,
-                .responseHeader,
-                .sdkUnknown("")
+                .responseHeader
             ]
         }
 
@@ -4400,8 +4392,7 @@ extension APIGatewayClientTypes {
                 .pending,
                 .pendingCertificateReimport,
                 .pendingOwnershipVerification,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4473,8 +4464,7 @@ extension APIGatewayClientTypes {
             return [
                 .edge,
                 .private,
-                .regional,
-                .sdkUnknown("")
+                .regional
             ]
         }
 
@@ -4714,8 +4704,7 @@ extension APIGatewayClientTypes {
                 .throttled,
                 .unauthorized,
                 .unsupportedMediaType,
-                .wafFiltered,
-                .sdkUnknown("")
+                .wafFiltered
             ]
         }
 
@@ -10150,8 +10139,7 @@ extension APIGatewayClientTypes {
                 .awsProxy,
                 .http,
                 .httpProxy,
-                .mock,
-                .sdkUnknown("")
+                .mock
             ]
         }
 
@@ -10227,8 +10215,7 @@ extension APIGatewayClientTypes {
         public static var allCases: [LocationStatusType] {
             return [
                 .documented,
-                .undocumented,
-                .sdkUnknown("")
+                .undocumented
             ]
         }
 
@@ -10627,8 +10614,7 @@ extension APIGatewayClientTypes {
                 .move,
                 .remove,
                 .replace,
-                .test,
-                .sdkUnknown("")
+                .test
             ]
         }
 
@@ -11490,8 +11476,7 @@ extension APIGatewayClientTypes {
         public static var allCases: [PutMode] {
             return [
                 .merge,
-                .overwrite,
-                .sdkUnknown("")
+                .overwrite
             ]
         }
 
@@ -11705,8 +11690,7 @@ extension APIGatewayClientTypes {
             return [
                 .day,
                 .month,
-                .week,
-                .sdkUnknown("")
+                .week
             ]
         }
 
@@ -12044,8 +12028,7 @@ extension APIGatewayClientTypes {
         public static var allCases: [SecurityPolicy] {
             return [
                 .tls10,
-                .tls12,
-                .sdkUnknown("")
+                .tls12
             ]
         }
 
@@ -12720,8 +12703,7 @@ extension APIGatewayClientTypes {
             return [
                 .failWith403,
                 .succeedWithoutResponseHeader,
-                .succeedWithResponseHeader,
-                .sdkUnknown("")
+                .succeedWithResponseHeader
             ]
         }
 
@@ -15655,8 +15637,7 @@ extension APIGatewayClientTypes {
                 .available,
                 .deleting,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 

@@ -559,8 +559,7 @@ extension DetectiveClientTypes {
             return [
                 .asffSecurityhubFinding,
                 .detectiveCore,
-                .eksAudit,
-                .sdkUnknown("")
+                .eksAudit
             ]
         }
 
@@ -623,8 +622,7 @@ extension DetectiveClientTypes {
             return [
                 .disabled,
                 .started,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -1081,8 +1079,7 @@ extension DetectiveClientTypes {
         public static var allCases: [EntityType] {
             return [
                 .iamRole,
-                .iamUser,
-                .sdkUnknown("")
+                .iamUser
             ]
         }
 
@@ -1113,8 +1110,7 @@ extension DetectiveClientTypes {
             return [
                 .internalerror,
                 .invalidgrapharn,
-                .invalidrequestbody,
-                .sdkUnknown("")
+                .invalidrequestbody
             ]
         }
 
@@ -1146,8 +1142,7 @@ extension DetectiveClientTypes {
             return [
                 .createdTime,
                 .severity,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -1634,8 +1629,7 @@ extension DetectiveClientTypes {
                 .newUserAgent,
                 .relatedFinding,
                 .relatedFindingGroup,
-                .ttpObserved,
-                .sdkUnknown("")
+                .ttpObserved
             ]
         }
 
@@ -1763,8 +1757,7 @@ extension DetectiveClientTypes {
         public static var allCases: [InvitationType] {
             return [
                 .invitation,
-                .organization,
-                .sdkUnknown("")
+                .organization
             ]
         }
 
@@ -2586,8 +2579,7 @@ extension DetectiveClientTypes {
         public static var allCases: [MemberDisabledReason] {
             return [
                 .volumeTooHigh,
-                .volumeUnknown,
-                .sdkUnknown("")
+                .volumeUnknown
             ]
         }
 
@@ -2622,8 +2614,7 @@ extension DetectiveClientTypes {
                 .enabled,
                 .invited,
                 .verificationFailed,
-                .verificationInProgress,
-                .sdkUnknown("")
+                .verificationInProgress
             ]
         }
 
@@ -2787,8 +2778,7 @@ extension DetectiveClientTypes {
 
         public static var allCases: [Reason] {
             return [
-                .awsThreatIntelligence,
-                .sdkUnknown("")
+                .awsThreatIntelligence
             ]
         }
 
@@ -3025,8 +3015,7 @@ extension DetectiveClientTypes {
                 .high,
                 .informational,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -3087,8 +3076,7 @@ extension DetectiveClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -3270,8 +3258,7 @@ extension DetectiveClientTypes {
         public static var allCases: [State] {
             return [
                 .active,
-                .archived,
-                .sdkUnknown("")
+                .archived
             ]
         }
 
@@ -3302,8 +3289,7 @@ extension DetectiveClientTypes {
             return [
                 .failed,
                 .running,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 

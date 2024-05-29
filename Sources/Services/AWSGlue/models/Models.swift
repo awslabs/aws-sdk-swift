@@ -114,8 +114,7 @@ extension GlueClientTypes {
         public static var allCases: [AdditionalOptionKeys] {
             return [
                 .cacheoption,
-                .observationsoption,
-                .sdkUnknown("")
+                .observationsoption
             ]
         }
 
@@ -170,8 +169,7 @@ extension GlueClientTypes {
                 .sum,
                 .sumdistinct,
                 .varPop,
-                .varSamp,
-                .sdkUnknown("")
+                .varSamp
             ]
         }
 
@@ -840,8 +838,7 @@ extension GlueClientTypes {
                 .internalError,
                 .invalidPartitionTypeDataError,
                 .missingPartitionValueError,
-                .unsupportedPartitionCharacterError,
-                .sdkUnknown("")
+                .unsupportedPartitionCharacterError
             ]
         }
 
@@ -2777,8 +2774,7 @@ extension GlueClientTypes {
                 .failed,
                 .rollingBack,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2813,8 +2809,7 @@ extension GlueClientTypes {
                 .active,
                 .creating,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3220,8 +3215,7 @@ extension GlueClientTypes {
             return [
                 .disabled,
                 .ssekms,
-                .ssekmswithservicerole,
-                .sdkUnknown("")
+                .ssekmswithservicerole
             ]
         }
 
@@ -3813,8 +3807,7 @@ extension GlueClientTypes {
         public static var allCases: [CloudWatchEncryptionMode] {
             return [
                 .disabled,
-                .ssekms,
-                .sdkUnknown("")
+                .ssekms
             ]
         }
 
@@ -4743,8 +4736,7 @@ extension GlueClientTypes {
                 .running,
                 .starting,
                 .stopped,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -5011,8 +5003,7 @@ extension GlueClientTypes {
                 .decimal,
                 .double,
                 .long,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -5052,8 +5043,7 @@ extension GlueClientTypes {
                 .greaterThan,
                 .greaterThanEquals,
                 .lessThan,
-                .lessThanEquals,
-                .sdkUnknown("")
+                .lessThanEquals
             ]
         }
 
@@ -5097,8 +5087,7 @@ extension GlueClientTypes {
                 .forwardAll,
                 .full,
                 .fullAll,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -5133,8 +5122,7 @@ extension GlueClientTypes {
         public static var allCases: [CompressionType] {
             return [
                 .bzip2,
-                .gzip,
-                .sdkUnknown("")
+                .gzip
             ]
         }
 
@@ -5784,8 +5772,7 @@ extension GlueClientTypes {
                 .port,
                 .secretId,
                 .skipCustomJdbcCertValidation,
-                .userName,
-                .sdkUnknown("")
+                .userName
             ]
         }
 
@@ -5864,8 +5851,7 @@ extension GlueClientTypes {
                 .marketplace,
                 .mongodb,
                 .network,
-                .sftp,
-                .sdkUnknown("")
+                .sftp
             ]
         }
 
@@ -6121,8 +6107,7 @@ extension GlueClientTypes {
                 .error,
                 .failed,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -6351,8 +6336,7 @@ extension GlueClientTypes {
                 .completed,
                 .failed,
                 .running,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -6383,8 +6367,7 @@ extension GlueClientTypes {
         public static var allCases: [CrawlerLineageSettings] {
             return [
                 .disable,
-                .enable,
-                .sdkUnknown("")
+                .enable
             ]
         }
 
@@ -6578,8 +6561,7 @@ extension GlueClientTypes {
             return [
                 .ready,
                 .running,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -9471,8 +9453,7 @@ extension GlueClientTypes {
             return [
                 .absent,
                 .present,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -9504,8 +9485,7 @@ extension GlueClientTypes {
             return [
                 .lazysimpleserde,
                 .none,
-                .opencsvserde,
-                .sdkUnknown("")
+                .opencsvserde
             ]
         }
 
@@ -9712,8 +9692,7 @@ extension GlueClientTypes {
         public static var allCases: [DQStopJobOnFailureTiming] {
             return [
                 .afterdataload,
-                .immediate,
-                .sdkUnknown("")
+                .immediate
             ]
         }
 
@@ -9742,8 +9721,7 @@ extension GlueClientTypes {
         public static var allCases: [DQTransformOutput] {
             return [
                 .evaluationresults,
-                .primaryinput,
-                .sdkUnknown("")
+                .primaryinput
             ]
         }
 
@@ -9811,8 +9789,7 @@ extension GlueClientTypes {
             return [
                 .avro,
                 .json,
-                .protobuf,
-                .sdkUnknown("")
+                .protobuf
             ]
         }
 
@@ -10323,8 +10300,7 @@ extension GlueClientTypes {
             return [
                 .error,
                 .fail,
-                .pass,
-                .sdkUnknown("")
+                .pass
             ]
         }
 
@@ -10964,8 +10940,7 @@ extension GlueClientTypes {
             return [
                 .deleteFromDatabase,
                 .deprecateInDatabase,
-                .log,
-                .sdkUnknown("")
+                .log
             ]
         }
 
@@ -12836,8 +12811,7 @@ extension GlueClientTypes {
         public static var allCases: [DeltaTargetCompressionType] {
             return [
                 .snappy,
-                .uncompressed,
-                .sdkUnknown("")
+                .uncompressed
             ]
         }
 
@@ -13673,8 +13647,7 @@ extension GlueClientTypes {
         public static var allCases: [EnableHybridValues] {
             return [
                 .false,
-                .true,
-                .sdkUnknown("")
+                .true
             ]
         }
 
@@ -14099,8 +14072,7 @@ extension GlueClientTypes {
         public static var allCases: [ExecutionClass] {
             return [
                 .flex,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -14162,8 +14134,7 @@ extension GlueClientTypes {
             return [
                 .mustExist,
                 .none,
-                .notExist,
-                .sdkUnknown("")
+                .notExist
             ]
         }
 
@@ -14341,8 +14312,7 @@ extension GlueClientTypes {
                 .invalidresponseexception,
                 .operationnotsupportedexception,
                 .operationtimeoutexception,
-                .throttlingexception,
-                .sdkUnknown("")
+                .throttlingexception
             ]
         }
 
@@ -14461,8 +14431,7 @@ extension GlueClientTypes {
                 .dpuHour,
                 .endTime,
                 .startTime,
-                .state,
-                .sdkUnknown("")
+                .state
             ]
         }
 
@@ -14644,8 +14613,7 @@ extension GlueClientTypes {
         public static var allCases: [FilterLogicalOperator] {
             return [
                 .and,
-                .or,
-                .sdkUnknown("")
+                .or
             ]
         }
 
@@ -14684,8 +14652,7 @@ extension GlueClientTypes {
                 .isnull,
                 .lt,
                 .lte,
-                .regex,
-                .sdkUnknown("")
+                .regex
             ]
         }
 
@@ -14727,8 +14694,7 @@ extension GlueClientTypes {
                 .gt,
                 .le,
                 .lt,
-                .ne,
-                .sdkUnknown("")
+                .ne
             ]
         }
 
@@ -14800,8 +14766,7 @@ extension GlueClientTypes {
         public static var allCases: [FilterValueType] {
             return [
                 .columnextracted,
-                .constant,
-                .sdkUnknown("")
+                .constant
             ]
         }
 
@@ -21320,8 +21285,7 @@ extension GlueClientTypes {
                 .long,
                 .short,
                 .string,
-                .timestamp,
-                .sdkUnknown("")
+                .timestamp
             ]
         }
 
@@ -21723,8 +21687,7 @@ extension GlueClientTypes {
                 .gzip,
                 .lzo,
                 .snappy,
-                .uncompressed,
-                .sdkUnknown("")
+                .uncompressed
             ]
         }
 
@@ -22196,8 +22159,7 @@ extension GlueClientTypes {
                 .oracle,
                 .postgresql,
                 .redshift,
-                .sqlserver,
-                .sdkUnknown("")
+                .sqlserver
             ]
         }
 
@@ -22532,8 +22494,7 @@ extension GlueClientTypes {
                 .timeWithTimezone,
                 .tinyint,
                 .varbinary,
-                .varchar,
-                .sdkUnknown("")
+                .varchar
             ]
         }
 
@@ -22599,8 +22560,7 @@ extension GlueClientTypes {
         public static var allCases: [JdbcMetadataEntry] {
             return [
                 .comments,
-                .rawtypes,
-                .sdkUnknown("")
+                .rawtypes
             ]
         }
 
@@ -22929,8 +22889,7 @@ extension GlueClientTypes {
         public static var allCases: [JobBookmarksEncryptionMode] {
             return [
                 .csekms,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -23206,8 +23165,7 @@ extension GlueClientTypes {
                 .stopping,
                 .succeeded,
                 .timeout,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -23484,8 +23442,7 @@ extension GlueClientTypes {
                 .leftAnti,
                 .leftSemi,
                 .outer,
-                .right,
-                .sdkUnknown("")
+                .right
             ]
         }
 
@@ -23952,8 +23909,7 @@ extension GlueClientTypes {
         public static var allCases: [Language] {
             return [
                 .python,
-                .scala,
-                .sdkUnknown("")
+                .scala
             ]
         }
 
@@ -24081,8 +24037,7 @@ extension GlueClientTypes {
             return [
                 .cancelled,
                 .failed,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -25892,8 +25847,7 @@ extension GlueClientTypes {
         public static var allCases: [Logical] {
             return [
                 .and,
-                .any,
-                .sdkUnknown("")
+                .any
             ]
         }
 
@@ -25920,8 +25874,7 @@ extension GlueClientTypes {
 
         public static var allCases: [LogicalOperator] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -26228,8 +26181,7 @@ extension GlueClientTypes {
         public static var allCases: [MLUserDataEncryptionModeString] {
             return [
                 .disabled,
-                .ssekms,
-                .sdkUnknown("")
+                .ssekms
             ]
         }
 
@@ -26496,8 +26448,7 @@ extension GlueClientTypes {
 
         public static var allCases: [MetadataOperation] {
             return [
-                .create,
-                .sdkUnknown("")
+                .create
             ]
         }
 
@@ -26893,8 +26844,7 @@ extension GlueClientTypes {
             return [
                 .crawler,
                 .job,
-                .trigger,
-                .sdkUnknown("")
+                .trigger
             ]
         }
 
@@ -27398,8 +27348,7 @@ extension GlueClientTypes {
                 .int,
                 .list,
                 .null,
-                .str,
-                .sdkUnknown("")
+                .str
             ]
         }
 
@@ -27439,8 +27388,7 @@ extension GlueClientTypes {
                 .lzo,
                 .none,
                 .snappy,
-                .uncompressed,
-                .sdkUnknown("")
+                .uncompressed
             ]
         }
 
@@ -27656,8 +27604,7 @@ extension GlueClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -27778,8 +27725,7 @@ extension GlueClientTypes {
                 .delete,
                 .drop,
                 .insert,
-                .select,
-                .sdkUnknown("")
+                .select
             ]
         }
 
@@ -27819,8 +27765,7 @@ extension GlueClientTypes {
                 .cellFilterPermission,
                 .columnPermission,
                 .nestedCellPermission,
-                .nestedPermission,
-                .sdkUnknown("")
+                .nestedPermission
             ]
         }
 
@@ -27936,8 +27881,7 @@ extension GlueClientTypes {
                 .columnaudit,
                 .columnmasking,
                 .rowaudit,
-                .rowmasking,
-                .sdkUnknown("")
+                .rowmasking
             ]
         }
 
@@ -28174,8 +28118,7 @@ extension GlueClientTypes {
             return [
                 .group,
                 .role,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -28739,8 +28682,7 @@ extension GlueClientTypes {
                 .disabled,
                 .quillemet,
                 .quote,
-                .singleQuote,
-                .sdkUnknown("")
+                .singleQuote
             ]
         }
 
@@ -28858,8 +28800,7 @@ extension GlueClientTypes {
             return [
                 .crawlEventMode,
                 .crawlEverything,
-                .crawlNewFoldersOnly,
-                .sdkUnknown("")
+                .crawlNewFoldersOnly
             ]
         }
 
@@ -29220,8 +29161,7 @@ extension GlueClientTypes {
         public static var allCases: [RegistryStatus] {
             return [
                 .available,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -29619,8 +29559,7 @@ extension GlueClientTypes {
             return [
                 .all,
                 .federated,
-                .foreign,
-                .sdkUnknown("")
+                .foreign
             ]
         }
 
@@ -29652,8 +29591,7 @@ extension GlueClientTypes {
             return [
                 .archive,
                 .file,
-                .jar,
-                .sdkUnknown("")
+                .jar
             ]
         }
 
@@ -30680,8 +30618,7 @@ extension GlueClientTypes {
             return [
                 .disabled,
                 .ssekms,
-                .sses3,
-                .sdkUnknown("")
+                .sses3
             ]
         }
 
@@ -31312,8 +31249,7 @@ extension GlueClientTypes {
             return [
                 .notScheduled,
                 .scheduled,
-                .transitioning,
-                .sdkUnknown("")
+                .transitioning
             ]
         }
 
@@ -31529,8 +31465,7 @@ extension GlueClientTypes {
 
         public static var allCases: [SchemaDiffType] {
             return [
-                .syntaxDiff,
-                .sdkUnknown("")
+                .syntaxDiff
             ]
         }
 
@@ -31702,8 +31637,7 @@ extension GlueClientTypes {
             return [
                 .available,
                 .deleting,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -31843,8 +31777,7 @@ extension GlueClientTypes {
                 .available,
                 .deleting,
                 .failure,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -32146,8 +32079,7 @@ extension GlueClientTypes {
                 .ctrla,
                 .pipe,
                 .semicolon,
-                .tab,
-                .sdkUnknown("")
+                .tab
             ]
         }
 
@@ -32383,8 +32315,7 @@ extension GlueClientTypes {
                 .ready,
                 .stopped,
                 .stopping,
-                .timeout,
-                .sdkUnknown("")
+                .timeout
             ]
         }
 
@@ -32701,8 +32632,7 @@ extension GlueClientTypes {
         public static var allCases: [Sort] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -32760,8 +32690,7 @@ extension GlueClientTypes {
         public static var allCases: [SortDirectionType] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -32790,8 +32719,7 @@ extension GlueClientTypes {
         public static var allCases: [SourceControlAuthStrategy] {
             return [
                 .awsSecretsManager,
-                .personalAccessToken,
-                .sdkUnknown("")
+                .personalAccessToken
             ]
         }
 
@@ -32897,8 +32825,7 @@ extension GlueClientTypes {
                 .awsCodeCommit,
                 .bitbucket,
                 .github,
-                .gitlab,
-                .sdkUnknown("")
+                .gitlab
             ]
         }
 
@@ -34392,8 +34319,7 @@ extension GlueClientTypes {
                 .earliest,
                 .latest,
                 .timestamp,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -34565,8 +34491,7 @@ extension GlueClientTypes {
                 .cancelling,
                 .error,
                 .running,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -35593,8 +35518,7 @@ extension GlueClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .starting,
-                .sdkUnknown("")
+                .starting
             ]
         }
 
@@ -35669,8 +35593,7 @@ extension GlueClientTypes {
 
         public static var allCases: [TableOptimizerType] {
             return [
-                .compaction,
-                .sdkUnknown("")
+                .compaction
             ]
         }
 
@@ -35838,8 +35761,7 @@ extension GlueClientTypes {
                 .hudi,
                 .json,
                 .orc,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -36031,8 +35953,7 @@ extension GlueClientTypes {
             return [
                 .started,
                 .status,
-                .taskRunType,
-                .sdkUnknown("")
+                .taskRunType
             ]
         }
 
@@ -36103,8 +36024,7 @@ extension GlueClientTypes {
                 .stopped,
                 .stopping,
                 .succeeded,
-                .timeout,
-                .sdkUnknown("")
+                .timeout
             ]
         }
 
@@ -36144,8 +36064,7 @@ extension GlueClientTypes {
                 .exportLabels,
                 .findMatches,
                 .importLabels,
-                .labelingSetGeneration,
-                .sdkUnknown("")
+                .labelingSetGeneration
             ]
         }
 
@@ -36391,8 +36310,7 @@ extension GlueClientTypes {
                 .lastModified,
                 .name,
                 .status,
-                .transformType,
-                .sdkUnknown("")
+                .transformType
             ]
         }
 
@@ -36457,8 +36375,7 @@ extension GlueClientTypes {
             return [
                 .deleting,
                 .notReady,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -36486,8 +36403,7 @@ extension GlueClientTypes {
 
         public static var allCases: [TransformType] {
             return [
-                .findMatches,
-                .sdkUnknown("")
+                .findMatches
             ]
         }
 
@@ -36624,8 +36540,7 @@ extension GlueClientTypes {
                 .deactivated,
                 .deactivating,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -36664,8 +36579,7 @@ extension GlueClientTypes {
                 .conditional,
                 .event,
                 .onDemand,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -36827,8 +36741,7 @@ extension GlueClientTypes {
         public static var allCases: [UnionType] {
             return [
                 .all,
-                .distinct,
-                .sdkUnknown("")
+                .distinct
             ]
         }
 
@@ -36920,8 +36833,7 @@ extension GlueClientTypes {
         public static var allCases: [UpdateBehavior] {
             return [
                 .log,
-                .updateInDatabase,
-                .sdkUnknown("")
+                .updateInDatabase
             ]
         }
 
@@ -37032,8 +36944,7 @@ extension GlueClientTypes {
         public static var allCases: [UpdateCatalogBehavior] {
             return [
                 .log,
-                .updateInDatabase,
-                .sdkUnknown("")
+                .updateInDatabase
             ]
         }
 
@@ -39358,8 +39269,7 @@ extension GlueClientTypes {
             return [
                 .athena,
                 .redshift,
-                .spark,
-                .sdkUnknown("")
+                .spark
             ]
         }
 
@@ -39447,8 +39357,7 @@ extension GlueClientTypes {
                 .g4x,
                 .g8x,
                 .standard,
-                .z2x,
-                .sdkUnknown("")
+                .z2x
             ]
         }
 
@@ -39722,8 +39631,7 @@ extension GlueClientTypes {
                 .error,
                 .running,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 

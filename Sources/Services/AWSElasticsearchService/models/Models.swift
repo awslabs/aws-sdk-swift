@@ -647,8 +647,7 @@ extension ElasticsearchClientTypes {
         public static var allCases: [AutoTuneDesiredState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -895,8 +894,7 @@ extension ElasticsearchClientTypes {
                 .disableInProgress,
                 .enabled,
                 .enableInProgress,
-                .error,
-                .sdkUnknown("")
+                .error
             ]
         }
 
@@ -985,8 +983,7 @@ extension ElasticsearchClientTypes {
 
         public static var allCases: [AutoTuneType] {
             return [
-                .scheduledAction,
-                .sdkUnknown("")
+                .scheduledAction
             ]
         }
 
@@ -1568,8 +1565,7 @@ extension ElasticsearchClientTypes {
                 .pending,
                 .pendingUserInput,
                 .validating,
-                .validationFailed,
-                .sdkUnknown("")
+                .validationFailed
             ]
         }
 
@@ -2444,8 +2440,7 @@ extension ElasticsearchClientTypes {
                 .eligible,
                 .inProgress,
                 .notEligible,
-                .pendingUpdate,
-                .sdkUnknown("")
+                .pendingUpdate
             ]
         }
 
@@ -3167,8 +3162,7 @@ extension ElasticsearchClientTypes {
             return [
                 .packageid,
                 .packagename,
-                .packagestatus,
-                .sdkUnknown("")
+                .packagestatus
             ]
         }
 
@@ -3907,8 +3901,7 @@ extension ElasticsearchClientTypes {
                 .associating,
                 .associationFailed,
                 .dissociating,
-                .dissociationFailed,
-                .sdkUnknown("")
+                .dissociationFailed
             ]
         }
 
@@ -3950,8 +3943,7 @@ extension ElasticsearchClientTypes {
                 .isolated,
                 .modifying,
                 .updating,
-                .upgrading,
-                .sdkUnknown("")
+                .upgrading
             ]
         }
 
@@ -4252,8 +4244,7 @@ extension ElasticsearchClientTypes {
                 .t2MicroElasticsearch,
                 .t2SmallElasticsearch,
                 .ultrawarm1LargeElasticsearch,
-                .ultrawarm1MediumElasticsearch,
-                .sdkUnknown("")
+                .ultrawarm1MediumElasticsearch
             ]
         }
 
@@ -4338,8 +4329,7 @@ extension ElasticsearchClientTypes {
         public static var allCases: [ESWarmPartitionInstanceType] {
             return [
                 .ultrawarm1LargeElasticsearch,
-                .ultrawarm1MediumElasticsearch,
-                .sdkUnknown("")
+                .ultrawarm1MediumElasticsearch
             ]
         }
 
@@ -4857,8 +4847,7 @@ extension ElasticsearchClientTypes {
         public static var allCases: [EngineType] {
             return [
                 .elasticsearch,
-                .opensearch,
-                .sdkUnknown("")
+                .opensearch
             ]
         }
 
@@ -5397,8 +5386,7 @@ extension ElasticsearchClientTypes {
                 .deleting,
                 .pendingAcceptance,
                 .rejected,
-                .rejecting,
-                .sdkUnknown("")
+                .rejecting
             ]
         }
 
@@ -5431,8 +5419,7 @@ extension ElasticsearchClientTypes {
         public static var allCases: [InitiatedBy] {
             return [
                 .customer,
-                .service,
-                .sdkUnknown("")
+                .service
             ]
         }
 
@@ -6591,8 +6578,7 @@ extension ElasticsearchClientTypes {
                 .auditLogs,
                 .esApplicationLogs,
                 .indexSlowLogs,
-                .searchSlowLogs,
-                .sdkUnknown("")
+                .searchSlowLogs
             ]
         }
 
@@ -6778,8 +6764,7 @@ extension ElasticsearchClientTypes {
             return [
                 .active,
                 .processing,
-                .requiresindexdocuments,
-                .sdkUnknown("")
+                .requiresindexdocuments
             ]
         }
 
@@ -6963,8 +6948,7 @@ extension ElasticsearchClientTypes {
                 .provisioning,
                 .rejected,
                 .validating,
-                .validationFailed,
-                .sdkUnknown("")
+                .validationFailed
             ]
         }
 
@@ -7004,8 +6988,7 @@ extension ElasticsearchClientTypes {
                 .completed,
                 .failed,
                 .pending,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -7141,8 +7124,7 @@ extension ElasticsearchClientTypes {
                 .deleteFailed,
                 .deleting,
                 .validating,
-                .validationFailed,
-                .sdkUnknown("")
+                .validationFailed
             ]
         }
 
@@ -7175,8 +7157,7 @@ extension ElasticsearchClientTypes {
 
         public static var allCases: [PackageType] {
             return [
-                .txtDictionary,
-                .sdkUnknown("")
+                .txtDictionary
             ]
         }
 
@@ -7245,8 +7226,7 @@ extension ElasticsearchClientTypes {
         public static var allCases: [PrincipalType] {
             return [
                 .awsAccount,
-                .awsService,
-                .sdkUnknown("")
+                .awsService
             ]
         }
 
@@ -7275,8 +7255,7 @@ extension ElasticsearchClientTypes {
         public static var allCases: [PropertyValueType] {
             return [
                 .plainText,
-                .stringifiedJson,
-                .sdkUnknown("")
+                .stringifiedJson
             ]
         }
 
@@ -7701,8 +7680,7 @@ extension ElasticsearchClientTypes {
             return [
                 .allUpfront,
                 .noUpfront,
-                .partialUpfront,
-                .sdkUnknown("")
+                .partialUpfront
             ]
         }
 
@@ -7877,8 +7855,7 @@ extension ElasticsearchClientTypes {
         public static var allCases: [RollbackOnDisable] {
             return [
                 .defaultRollback,
-                .noRollback,
-                .sdkUnknown("")
+                .noRollback
             ]
         }
 
@@ -8052,8 +8029,7 @@ extension ElasticsearchClientTypes {
         public static var allCases: [ScheduledAutoTuneActionType] {
             return [
                 .jvmHeapSizeTuning,
-                .jvmYoungGenTuning,
-                .sdkUnknown("")
+                .jvmYoungGenTuning
             ]
         }
 
@@ -8126,8 +8102,7 @@ extension ElasticsearchClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -8451,8 +8426,7 @@ extension ElasticsearchClientTypes {
             return [
                 .policyMinTls10201907,
                 .policyMinTls12201907,
-                .policyMinTls12Pfs202310,
-                .sdkUnknown("")
+                .policyMinTls12Pfs202310
             ]
         }
 
@@ -8520,8 +8494,7 @@ extension ElasticsearchClientTypes {
 
         public static var allCases: [TimeUnit] {
             return [
-                .hours,
-                .sdkUnknown("")
+                .hours
             ]
         }
 
@@ -9021,8 +8994,7 @@ extension ElasticsearchClientTypes {
                 .failed,
                 .inProgress,
                 .succeeded,
-                .succeededWithIssues,
-                .sdkUnknown("")
+                .succeededWithIssues
             ]
         }
 
@@ -9055,8 +9027,7 @@ extension ElasticsearchClientTypes {
             return [
                 .preUpgradeCheck,
                 .snapshot,
-                .upgrade,
-                .sdkUnknown("")
+                .upgrade
             ]
         }
 
@@ -9287,8 +9258,7 @@ extension ElasticsearchClientTypes {
                 .gp2,
                 .gp3,
                 .io1,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -9411,8 +9381,7 @@ extension ElasticsearchClientTypes {
         public static var allCases: [VpcEndpointErrorCode] {
             return [
                 .endpointNotFound,
-                .serverError,
-                .sdkUnknown("")
+                .serverError
             ]
         }
 
@@ -9466,8 +9435,7 @@ extension ElasticsearchClientTypes {
                 .deleteFailed,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 

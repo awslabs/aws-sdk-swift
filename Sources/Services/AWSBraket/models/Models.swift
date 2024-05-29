@@ -126,8 +126,7 @@ extension BraketClientTypes {
 
         public static var allCases: [AssociationType] {
             return [
-                .reservationTimeWindowArn,
-                .sdkUnknown("")
+                .reservationTimeWindowArn
             ]
         }
 
@@ -316,8 +315,7 @@ extension BraketClientTypes {
         public static var allCases: [CancellationStatus] {
             return [
                 .cancelled,
-                .cancelling,
-                .sdkUnknown("")
+                .cancelling
             ]
         }
 
@@ -346,8 +344,7 @@ extension BraketClientTypes {
         public static var allCases: [CompressionType] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -886,8 +883,7 @@ extension BraketClientTypes {
             return [
                 .offline,
                 .online,
-                .retired,
-                .sdkUnknown("")
+                .retired
             ]
         }
 
@@ -968,8 +964,7 @@ extension BraketClientTypes {
         public static var allCases: [DeviceType] {
             return [
                 .qpu,
-                .simulator,
-                .sdkUnknown("")
+                .simulator
             ]
         }
 
@@ -1444,8 +1439,7 @@ extension BraketClientTypes {
 
         public static var allCases: [HybridJobAdditionalAttributeName] {
             return [
-                .queueInfo,
-                .sdkUnknown("")
+                .queueInfo
             ]
         }
 
@@ -1675,8 +1669,7 @@ extension BraketClientTypes {
                 .mlP316xlarge,
                 .mlP32xlarge,
                 .mlP38xlarge,
-                .mlP4d24xlarge,
-                .sdkUnknown("")
+                .mlP4d24xlarge
             ]
         }
 
@@ -1871,8 +1864,7 @@ extension BraketClientTypes {
                 .running,
                 .startingInstance,
                 .uploadingResults,
-                .waitingForPriority,
-                .sdkUnknown("")
+                .waitingForPriority
             ]
         }
 
@@ -1956,8 +1948,7 @@ extension BraketClientTypes {
                 .completed,
                 .failed,
                 .queued,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -2148,8 +2139,7 @@ extension BraketClientTypes {
 
         public static var allCases: [QuantumTaskAdditionalAttributeName] {
             return [
-                .queueInfo,
-                .sdkUnknown("")
+                .queueInfo
             ]
         }
 
@@ -2230,8 +2220,7 @@ extension BraketClientTypes {
                 .created,
                 .failed,
                 .queued,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -2338,8 +2327,7 @@ extension BraketClientTypes {
         public static var allCases: [QueueName] {
             return [
                 .jobsQueue,
-                .quantumTasksQueue,
-                .sdkUnknown("")
+                .quantumTasksQueue
             ]
         }
 
@@ -2368,8 +2356,7 @@ extension BraketClientTypes {
         public static var allCases: [QueuePriority] {
             return [
                 .normal,
-                .priority,
-                .sdkUnknown("")
+                .priority
             ]
         }
 
@@ -2675,8 +2662,7 @@ extension BraketClientTypes {
                 .gt,
                 .gte,
                 .lt,
-                .lte,
-                .sdkUnknown("")
+                .lte
             ]
         }
 
@@ -2840,8 +2826,7 @@ extension BraketClientTypes {
                 .gt,
                 .gte,
                 .lt,
-                .lte,
-                .sdkUnknown("")
+                .lte
             ]
         }
 

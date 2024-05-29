@@ -64,8 +64,7 @@ extension Route53ClientTypes {
                 .maxHostedZonesByOwner,
                 .maxReusableDelegationSetsByOwner,
                 .maxTrafficPoliciesByOwner,
-                .maxTrafficPolicyInstancesByOwner,
-                .sdkUnknown("")
+                .maxTrafficPolicyInstancesByOwner
             ]
         }
 
@@ -483,8 +482,7 @@ extension Route53ClientTypes {
             return [
                 .create,
                 .delete,
-                .upsert,
-                .sdkUnknown("")
+                .upsert
             ]
         }
 
@@ -758,8 +756,7 @@ extension Route53ClientTypes {
         public static var allCases: [ChangeStatus] {
             return [
                 .insync,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1055,8 +1052,7 @@ extension Route53ClientTypes {
         public static var allCases: [CidrCollectionChangeAction] {
             return [
                 .deleteIfExists,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -1334,8 +1330,7 @@ extension Route53ClientTypes {
                 .usIsoWest1,
                 .usIsobEast1,
                 .usWest1,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -1443,8 +1438,7 @@ extension Route53ClientTypes {
                 .greaterthanorequaltothreshold,
                 .greaterthanthreshold,
                 .lessthanorequaltothreshold,
-                .lessthanthreshold,
-                .sdkUnknown("")
+                .lessthanthreshold
             ]
         }
 
@@ -5556,8 +5550,7 @@ extension Route53ClientTypes {
                 .saEast1,
                 .usEast1,
                 .usWest1,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -5604,8 +5597,7 @@ extension Route53ClientTypes {
                 .httpsStrMatch,
                 .httpStrMatch,
                 .recoveryControl,
-                .tcp,
-                .sdkUnknown("")
+                .tcp
             ]
         }
 
@@ -5843,8 +5835,7 @@ extension Route53ClientTypes {
         public static var allCases: [HostedZoneLimitType] {
             return [
                 .maxRrsetsByZone,
-                .maxVpcsAssociatedByZone,
-                .sdkUnknown("")
+                .maxVpcsAssociatedByZone
             ]
         }
 
@@ -6092,8 +6083,7 @@ extension Route53ClientTypes {
 
         public static var allCases: [HostedZoneType] {
             return [
-                .privateHostedZone,
-                .sdkUnknown("")
+                .privateHostedZone
             ]
         }
 
@@ -6207,8 +6197,7 @@ extension Route53ClientTypes {
             return [
                 .healthy,
                 .lastknownstatus,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -9776,8 +9765,7 @@ extension Route53ClientTypes {
                 .soa,
                 .spf,
                 .srv,
-                .txt,
-                .sdkUnknown("")
+                .txt
             ]
         }
 
@@ -9821,8 +9809,7 @@ extension Route53ClientTypes {
                 .childhealthchecks,
                 .fullyqualifieddomainname,
                 .regions,
-                .resourcepath,
-                .sdkUnknown("")
+                .resourcepath
             ]
         }
 
@@ -10129,8 +10116,7 @@ extension Route53ClientTypes {
         public static var allCases: [ResourceRecordSetFailover] {
             return [
                 .primary,
-                .secondary,
-                .sdkUnknown("")
+                .secondary
             ]
         }
 
@@ -10217,8 +10203,7 @@ extension Route53ClientTypes {
                 .usEast1,
                 .usEast2,
                 .usWest1,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -10347,8 +10332,7 @@ extension Route53ClientTypes {
 
         public static var allCases: [ReusableDelegationSetLimitType] {
             return [
-                .maxZonesByReusableDelegationSet,
-                .sdkUnknown("")
+                .maxZonesByReusableDelegationSet
             ]
         }
 
@@ -10384,8 +10368,7 @@ extension Route53ClientTypes {
                 .maximum,
                 .minimum,
                 .samplecount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -10497,8 +10480,7 @@ extension Route53ClientTypes {
         public static var allCases: [TagResourceType] {
             return [
                 .healthcheck,
-                .hostedzone,
-                .sdkUnknown("")
+                .hostedzone
             ]
         }
 
@@ -11930,8 +11912,7 @@ extension Route53ClientTypes {
                 .usIsoWest1,
                 .usIsobEast1,
                 .usWest1,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 

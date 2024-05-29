@@ -19,8 +19,7 @@ extension SsmSapClientTypes {
                 .elasticIp,
                 .overlay,
                 .unknown,
-                .vpcSubnet,
-                .sdkUnknown("")
+                .vpcSubnet
             ]
         }
 
@@ -174,8 +173,7 @@ extension SsmSapClientTypes {
                 .refreshFailed,
                 .registering,
                 .registrationFailed,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -219,8 +217,7 @@ extension SsmSapClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -301,8 +298,7 @@ extension SsmSapClientTypes {
         public static var allCases: [ApplicationType] {
             return [
                 .hana,
-                .sapAbap,
-                .sdkUnknown("")
+                .sapAbap
             ]
         }
 
@@ -401,8 +397,7 @@ extension SsmSapClientTypes {
 
         public static var allCases: [BackintMode] {
             return [
-                .awsbackup,
-                .sdkUnknown("")
+                .awsbackup
             ]
         }
 
@@ -436,8 +431,7 @@ extension SsmSapClientTypes {
                 .none,
                 .offline,
                 .online,
-                .standby,
-                .sdkUnknown("")
+                .standby
             ]
         }
 
@@ -616,8 +610,7 @@ extension SsmSapClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .undefined,
-                .sdkUnknown("")
+                .undefined
             ]
         }
 
@@ -709,8 +702,7 @@ extension SsmSapClientTypes {
                 .hana,
                 .hanaNode,
                 .wd,
-                .webdisp,
-                .sdkUnknown("")
+                .webdisp
             ]
         }
 
@@ -780,8 +772,7 @@ extension SsmSapClientTypes {
 
         public static var allCases: [ConnectedEntityType] {
             return [
-                .dbms,
-                .sdkUnknown("")
+                .dbms
             ]
         }
 
@@ -807,8 +798,7 @@ extension SsmSapClientTypes {
 
         public static var allCases: [CredentialType] {
             return [
-                .admin,
-                .sdkUnknown("")
+                .admin
             ]
         }
 
@@ -948,8 +938,7 @@ extension SsmSapClientTypes {
         public static var allCases: [DatabaseConnectionMethod] {
             return [
                 .direct,
-                .overlay,
-                .sdkUnknown("")
+                .overlay
             ]
         }
 
@@ -986,8 +975,7 @@ extension SsmSapClientTypes {
                 .starting,
                 .stopped,
                 .unknown,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -1071,8 +1059,7 @@ extension SsmSapClientTypes {
         public static var allCases: [DatabaseType] {
             return [
                 .system,
-                .tenant,
-                .sdkUnknown("")
+                .tenant
             ]
         }
 
@@ -1274,8 +1261,7 @@ extension SsmSapClientTypes {
             return [
                 .equals,
                 .greaterThanOrEquals,
-                .lessThanOrEquals,
-                .sdkUnknown("")
+                .lessThanOrEquals
             ]
         }
 
@@ -1746,8 +1732,7 @@ extension SsmSapClientTypes {
                 .leader,
                 .standby,
                 .unknown,
-                .worker,
-                .sdkUnknown("")
+                .worker
             ]
         }
 
@@ -2477,8 +2462,7 @@ extension SsmSapClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -2514,8 +2498,7 @@ extension SsmSapClientTypes {
                 .logreplay,
                 .logreplayReadaccess,
                 .none,
-                .primary,
-                .sdkUnknown("")
+                .primary
             ]
         }
 
@@ -2549,8 +2532,7 @@ extension SsmSapClientTypes {
             return [
                 .error,
                 .inprogress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2578,8 +2560,7 @@ extension SsmSapClientTypes {
 
         public static var allCases: [PermissionActionType] {
             return [
-                .restore,
-                .sdkUnknown("")
+                .restore
             ]
         }
 
@@ -2804,8 +2785,7 @@ extension SsmSapClientTypes {
                 .none,
                 .primary,
                 .sync,
-                .syncmem,
-                .sdkUnknown("")
+                .syncmem
             ]
         }
 

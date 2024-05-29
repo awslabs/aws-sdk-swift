@@ -90,8 +90,7 @@ extension CloudHSMV2ClientTypes {
 
         public static var allCases: [BackupPolicy] {
             return [
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -154,8 +153,7 @@ extension CloudHSMV2ClientTypes {
 
         public static var allCases: [BackupRetentionType] {
             return [
-                .days,
-                .sdkUnknown("")
+                .days
             ]
         }
 
@@ -187,8 +185,7 @@ extension CloudHSMV2ClientTypes {
                 .createInProgress,
                 .deleted,
                 .pendingDeletion,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -599,8 +596,7 @@ extension CloudHSMV2ClientTypes {
                 .initialized,
                 .initializeInProgress,
                 .uninitialized,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -1404,8 +1400,7 @@ extension CloudHSMV2ClientTypes {
                 .createInProgress,
                 .degraded,
                 .deleted,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 

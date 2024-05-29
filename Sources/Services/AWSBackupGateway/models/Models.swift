@@ -643,8 +643,7 @@ extension BackupGatewayClientTypes {
 
         public static var allCases: [GatewayType] {
             return [
-                .backupVm,
-                .sdkUnknown("")
+                .backupVm
             ]
         }
 
@@ -1138,8 +1137,7 @@ extension BackupGatewayClientTypes {
                 .error,
                 .offline,
                 .online,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -2016,8 +2014,7 @@ extension BackupGatewayClientTypes {
                 .failed,
                 .partiallyFailed,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 

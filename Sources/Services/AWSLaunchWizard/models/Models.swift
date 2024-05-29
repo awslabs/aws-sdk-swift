@@ -382,8 +382,7 @@ extension LaunchWizardClientTypes {
         public static var allCases: [DeploymentFilterKey] {
             return [
                 .deploymentStatus,
-                .workloadName,
-                .sdkUnknown("")
+                .workloadName
             ]
         }
 
@@ -426,8 +425,7 @@ extension LaunchWizardClientTypes {
                 .deleteInProgress,
                 .failed,
                 .inProgress,
-                .validating,
-                .sdkUnknown("")
+                .validating
             ]
         }
 
@@ -475,8 +473,7 @@ extension LaunchWizardClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -1271,8 +1268,7 @@ extension LaunchWizardClientTypes {
                 .active,
                 .deleted,
                 .disabled,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -1307,8 +1303,7 @@ extension LaunchWizardClientTypes {
                 .active,
                 .deleted,
                 .disabled,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 

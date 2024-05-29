@@ -237,8 +237,7 @@ extension LakeFormationClientTypes {
         public static var allCases: [ApplicationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -857,8 +856,7 @@ extension LakeFormationClientTypes {
                 .le,
                 .lt,
                 .ne,
-                .notContains,
-                .sdkUnknown("")
+                .notContains
             ]
         }
 
@@ -1383,8 +1381,7 @@ extension LakeFormationClientTypes {
                 .lfTagPolicy,
                 .lfTagPolicyDatabase,
                 .lfTagPolicyTable,
-                .table,
-                .sdkUnknown("")
+                .table
             ]
         }
 
@@ -2272,8 +2269,7 @@ extension LakeFormationClientTypes {
         public static var allCases: [EnableStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2545,8 +2541,7 @@ extension LakeFormationClientTypes {
             return [
                 .lastModified,
                 .resourceArn,
-                .roleArn,
-                .sdkUnknown("")
+                .roleArn
             ]
         }
 
@@ -4894,8 +4889,7 @@ extension LakeFormationClientTypes {
             return [
                 .compaction,
                 .garbageCollection,
-                .generic,
-                .sdkUnknown("")
+                .generic
             ]
         }
 
@@ -5003,8 +4997,7 @@ extension LakeFormationClientTypes {
                 .drop,
                 .grantWithLfTagExpression,
                 .insert,
-                .select,
-                .sdkUnknown("")
+                .select
             ]
         }
 
@@ -5048,8 +5041,7 @@ extension LakeFormationClientTypes {
                 .cellFilterPermission,
                 .columnPermission,
                 .nestedCellPermission,
-                .nestedPermission,
-                .sdkUnknown("")
+                .nestedPermission
             ]
         }
 
@@ -5407,8 +5399,7 @@ extension LakeFormationClientTypes {
                 .expired,
                 .finished,
                 .pending,
-                .workunitsAvailable,
-                .sdkUnknown("")
+                .workunitsAvailable
             ]
         }
 
@@ -5798,8 +5789,7 @@ extension LakeFormationClientTypes {
         public static var allCases: [ResourceShareType] {
             return [
                 .all,
-                .foreign,
-                .sdkUnknown("")
+                .foreign
             ]
         }
 
@@ -5828,8 +5818,7 @@ extension LakeFormationClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .database,
-                .table,
-                .sdkUnknown("")
+                .table
             ]
         }
 
@@ -6821,8 +6810,7 @@ extension LakeFormationClientTypes {
                 .aborted,
                 .active,
                 .committed,
-                .commitInProgress,
-                .sdkUnknown("")
+                .commitInProgress
             ]
         }
 
@@ -6859,8 +6847,7 @@ extension LakeFormationClientTypes {
                 .active,
                 .all,
                 .committed,
-                .completed,
-                .sdkUnknown("")
+                .completed
             ]
         }
 
@@ -6892,8 +6879,7 @@ extension LakeFormationClientTypes {
         public static var allCases: [TransactionType] {
             return [
                 .readAndWrite,
-                .readOnly,
-                .sdkUnknown("")
+                .readOnly
             ]
         }
 

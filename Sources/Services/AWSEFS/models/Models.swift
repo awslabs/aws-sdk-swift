@@ -3099,8 +3099,7 @@ extension EFSClientTypes {
                 .deleted,
                 .deleting,
                 .error,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3587,8 +3586,7 @@ extension EFSClientTypes {
         public static var allCases: [PerformanceMode] {
             return [
                 .generalPurpose,
-                .maxIo,
-                .sdkUnknown("")
+                .maxIo
             ]
         }
 
@@ -4169,8 +4167,7 @@ extension EFSClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .replicating,
-                .sdkUnknown("")
+                .replicating
             ]
         }
 
@@ -4208,8 +4205,7 @@ extension EFSClientTypes {
                 .enabling,
                 .error,
                 .paused,
-                .pausing,
-                .sdkUnknown("")
+                .pausing
             ]
         }
 
@@ -4243,8 +4239,7 @@ extension EFSClientTypes {
         public static var allCases: [Resource] {
             return [
                 .filesystem,
-                .mounttarget,
-                .sdkUnknown("")
+                .mounttarget
             ]
         }
 
@@ -4305,8 +4300,7 @@ extension EFSClientTypes {
         public static var allCases: [ResourceIdType] {
             return [
                 .longid,
-                .shortid,
-                .sdkUnknown("")
+                .shortid
             ]
         }
 
@@ -4464,8 +4458,7 @@ extension EFSClientTypes {
                 .disabled,
                 .disabling,
                 .enabled,
-                .enabling,
-                .sdkUnknown("")
+                .enabling
             ]
         }
 
@@ -4733,8 +4726,7 @@ extension EFSClientTypes {
             return [
                 .bursting,
                 .elastic,
-                .provisioned,
-                .sdkUnknown("")
+                .provisioned
             ]
         }
 
@@ -4822,8 +4814,7 @@ extension EFSClientTypes {
                 .after365Days,
                 .after60Days,
                 .after7Days,
-                .after90Days,
-                .sdkUnknown("")
+                .after90Days
             ]
         }
 
@@ -4873,8 +4864,7 @@ extension EFSClientTypes {
                 .after365Days,
                 .after60Days,
                 .after7Days,
-                .after90Days,
-                .sdkUnknown("")
+                .after90Days
             ]
         }
 
@@ -4908,8 +4898,7 @@ extension EFSClientTypes {
 
         public static var allCases: [TransitionToPrimaryStorageClassRules] {
             return [
-                .after1Access,
-                .sdkUnknown("")
+                .after1Access
             ]
         }
 

@@ -207,8 +207,7 @@ extension LexRuntimeClientTypes {
             return [
                 .confirmed,
                 .denied,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -273,8 +272,7 @@ extension LexRuntimeClientTypes {
 
         public static var allCases: [ContentType] {
             return [
-                .generic,
-                .sdkUnknown("")
+                .generic
             ]
         }
 
@@ -542,8 +540,7 @@ extension LexRuntimeClientTypes {
                 .confirmIntent,
                 .delegate,
                 .elicitIntent,
-                .elicitSlot,
-                .sdkUnknown("")
+                .elicitSlot
             ]
         }
 
@@ -583,8 +580,7 @@ extension LexRuntimeClientTypes {
                 .elicitSlot,
                 .failed,
                 .fulfilled,
-                .readyForFulfillment,
-                .sdkUnknown("")
+                .readyForFulfillment
             ]
         }
 
@@ -619,8 +615,7 @@ extension LexRuntimeClientTypes {
             return [
                 .failed,
                 .fulfilled,
-                .readyForFulfillment,
-                .sdkUnknown("")
+                .readyForFulfillment
             ]
         }
 
@@ -1060,8 +1055,7 @@ extension LexRuntimeClientTypes {
                 .composite,
                 .customPayload,
                 .plainText,
-                .ssml,
-                .sdkUnknown("")
+                .ssml
             ]
         }
 

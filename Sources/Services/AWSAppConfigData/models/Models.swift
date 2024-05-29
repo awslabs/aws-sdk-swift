@@ -87,8 +87,7 @@ extension AppConfigDataClientTypes {
 
         public static var allCases: [BadRequestReason] {
             return [
-                .invalidParameters,
-                .sdkUnknown("")
+                .invalidParameters
             ]
         }
 
@@ -296,8 +295,7 @@ extension AppConfigDataClientTypes {
             return [
                 .corrupted,
                 .expired,
-                .pollIntervalNotSatisfied,
-                .sdkUnknown("")
+                .pollIntervalNotSatisfied
             ]
         }
 
@@ -385,8 +383,7 @@ extension AppConfigDataClientTypes {
                 .configuration,
                 .configurationProfile,
                 .deployment,
-                .environment,
-                .sdkUnknown("")
+                .environment
             ]
         }
 

@@ -52,8 +52,7 @@ extension FinspacedataClientTypes {
         public static var allCases: [ApiAccess] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -92,8 +91,7 @@ extension FinspacedataClientTypes {
                 .manageattributesets,
                 .manageclusters,
                 .manageusersandgroups,
-                .viewauditdata,
-                .sdkUnknown("")
+                .viewauditdata
             ]
         }
 
@@ -260,8 +258,7 @@ extension FinspacedataClientTypes {
             return [
                 .append,
                 .modify,
-                .replace,
-                .sdkUnknown("")
+                .replace
             ]
         }
 
@@ -461,8 +458,7 @@ extension FinspacedataClientTypes {
                 .integer,
                 .smallint,
                 .string,
-                .tinyint,
-                .sdkUnknown("")
+                .tinyint
             ]
         }
 
@@ -1310,8 +1306,7 @@ extension FinspacedataClientTypes {
                 .running,
                 .starting,
                 .success,
-                .timeout,
-                .sdkUnknown("")
+                .timeout
             ]
         }
 
@@ -1519,8 +1514,7 @@ extension FinspacedataClientTypes {
         public static var allCases: [DatasetKind] {
             return [
                 .nonTabular,
-                .tabular,
-                .sdkUnknown("")
+                .tabular
             ]
         }
 
@@ -1602,8 +1596,7 @@ extension FinspacedataClientTypes {
                 .failed,
                 .pending,
                 .running,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2059,8 +2052,7 @@ extension FinspacedataClientTypes {
                 .serviceQuotaExceeded,
                 .throttling,
                 .userRecoverable,
-                .validation,
-                .sdkUnknown("")
+                .validation
             ]
         }
 
@@ -2096,8 +2088,7 @@ extension FinspacedataClientTypes {
         public static var allCases: [ExportFileFormat] {
             return [
                 .delimitedText,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -3020,8 +3011,7 @@ extension FinspacedataClientTypes {
                 .pending,
                 .running,
                 .stopRequested,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -3777,8 +3767,7 @@ extension FinspacedataClientTypes {
         public static var allCases: [LocationType] {
             return [
                 .ingestion,
-                .sagemaker,
-                .sdkUnknown("")
+                .sagemaker
             ]
         }
 
@@ -3937,8 +3926,7 @@ extension FinspacedataClientTypes {
             return [
                 .additionInProgress,
                 .additionSuccess,
-                .removalInProgress,
-                .sdkUnknown("")
+                .removalInProgress
             ]
         }
 
@@ -4943,8 +4931,7 @@ extension FinspacedataClientTypes {
             return [
                 .creating,
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4974,8 +4961,7 @@ extension FinspacedataClientTypes {
         public static var allCases: [UserType] {
             return [
                 .appUser,
-                .superUser,
-                .sdkUnknown("")
+                .superUser
             ]
         }
 

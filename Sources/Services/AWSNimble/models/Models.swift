@@ -242,8 +242,7 @@ extension NimbleClientTypes {
         public static var allCases: [AutomaticTerminationMode] {
             return [
                 .activated,
-                .deactivated,
-                .sdkUnknown("")
+                .deactivated
             ]
         }
 
@@ -3145,8 +3144,7 @@ extension NimbleClientTypes {
 
         public static var allCases: [LaunchProfilePersona] {
             return [
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -3174,8 +3172,7 @@ extension NimbleClientTypes {
         public static var allCases: [LaunchProfilePlatform] {
             return [
                 .linux,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -3216,8 +3213,7 @@ extension NimbleClientTypes {
                 .deleteInProgress,
                 .ready,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -3278,8 +3274,7 @@ extension NimbleClientTypes {
                 .launchProfileUpdateInProgress,
                 .launchProfileWithStreamSessionsNotDeleted,
                 .streamingImageNotFound,
-                .streamingImageNotReady,
-                .sdkUnknown("")
+                .streamingImageNotReady
             ]
         }
 
@@ -3327,8 +3322,7 @@ extension NimbleClientTypes {
                 .validationFailedInternalServerError,
                 .validationInProgress,
                 .validationNotStarted,
-                .validationSuccess,
-                .sdkUnknown("")
+                .validationSuccess
             ]
         }
 
@@ -3374,8 +3368,7 @@ extension NimbleClientTypes {
                 .validationFailedUnauthorized,
                 .validationInProgress,
                 .validationNotStarted,
-                .validationSuccess,
-                .sdkUnknown("")
+                .validationSuccess
             ]
         }
 
@@ -3415,8 +3408,7 @@ extension NimbleClientTypes {
                 .validateActiveDirectoryStudioComponent,
                 .validateNetworkAclAssociation,
                 .validateSecurityGroupAssociation,
-                .validateSubnetAssociation,
-                .sdkUnknown("")
+                .validateSubnetAssociation
             ]
         }
 
@@ -4935,8 +4927,7 @@ extension NimbleClientTypes {
         public static var allCases: [SessionBackupMode] {
             return [
                 .automatic,
-                .deactivated,
-                .sdkUnknown("")
+                .deactivated
             ]
         }
 
@@ -4965,8 +4956,7 @@ extension NimbleClientTypes {
         public static var allCases: [SessionPersistenceMode] {
             return [
                 .activated,
-                .deactivated,
-                .sdkUnknown("")
+                .deactivated
             ]
         }
 
@@ -5577,8 +5567,7 @@ extension NimbleClientTypes {
         public static var allCases: [StreamingClipboardMode] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5728,8 +5717,7 @@ extension NimbleClientTypes {
 
         public static var allCases: [StreamingImageEncryptionConfigurationKeyType] {
             return [
-                .customerManagedKey,
-                .sdkUnknown("")
+                .customerManagedKey
             ]
         }
 
@@ -5769,8 +5757,7 @@ extension NimbleClientTypes {
                 .deleteInProgress,
                 .ready,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -5816,8 +5803,7 @@ extension NimbleClientTypes {
                 .streamingImageDeleted,
                 .streamingImageDeleteInProgress,
                 .streamingImageReady,
-                .streamingImageUpdateInProgress,
-                .sdkUnknown("")
+                .streamingImageUpdateInProgress
             ]
         }
 
@@ -5873,8 +5859,7 @@ extension NimbleClientTypes {
                 .g52xlarge,
                 .g54xlarge,
                 .g58xlarge,
-                .g5Xlarge,
-                .sdkUnknown("")
+                .g5Xlarge
             ]
         }
 
@@ -6167,8 +6152,7 @@ extension NimbleClientTypes {
                 .startInProgress,
                 .stopped,
                 .stopFailed,
-                .stopInProgress,
-                .sdkUnknown("")
+                .stopInProgress
             ]
         }
 
@@ -6234,8 +6218,7 @@ extension NimbleClientTypes {
                 .streamingSessionStarted,
                 .streamingSessionStartInProgress,
                 .streamingSessionStopped,
-                .streamingSessionStopInProgress,
-                .sdkUnknown("")
+                .streamingSessionStopInProgress
             ]
         }
 
@@ -6276,8 +6259,7 @@ extension NimbleClientTypes {
 
         public static var allCases: [StreamingSessionStorageMode] {
             return [
-                .upload,
-                .sdkUnknown("")
+                .upload
             ]
         }
 
@@ -6421,8 +6403,7 @@ extension NimbleClientTypes {
                 .deleted,
                 .deleteFailed,
                 .deleteInProgress,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -6463,8 +6444,7 @@ extension NimbleClientTypes {
                 .streamCreateInProgress,
                 .streamDeleted,
                 .streamDeleteInProgress,
-                .streamReady,
-                .sdkUnknown("")
+                .streamReady
             ]
         }
 
@@ -6835,8 +6815,7 @@ extension NimbleClientTypes {
         public static var allCases: [StudioComponentInitializationScriptRunContext] {
             return [
                 .systemInitialization,
-                .userInitialization,
-                .sdkUnknown("")
+                .userInitialization
             ]
         }
 
@@ -6878,8 +6857,7 @@ extension NimbleClientTypes {
                 .deleteInProgress,
                 .ready,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -6931,8 +6909,7 @@ extension NimbleClientTypes {
                 .studioComponentDeleted,
                 .studioComponentDeleteInProgress,
                 .studioComponentUpdated,
-                .studioComponentUpdateInProgress,
-                .sdkUnknown("")
+                .studioComponentUpdateInProgress
             ]
         }
 
@@ -6973,8 +6950,7 @@ extension NimbleClientTypes {
                 .amazonFsxForLustre,
                 .amazonFsxForWindows,
                 .awsManagedMicrosoftAd,
-                .custom,
-                .sdkUnknown("")
+                .custom
             ]
         }
 
@@ -7082,8 +7058,7 @@ extension NimbleClientTypes {
                 .computeFarm,
                 .custom,
                 .licenseService,
-                .sharedFileSystem,
-                .sdkUnknown("")
+                .sharedFileSystem
             ]
         }
 
@@ -7154,8 +7129,7 @@ extension NimbleClientTypes {
         public static var allCases: [StudioEncryptionConfigurationKeyType] {
             return [
                 .awsOwnedKey,
-                .customerManagedKey,
-                .sdkUnknown("")
+                .customerManagedKey
             ]
         }
 
@@ -7223,8 +7197,7 @@ extension NimbleClientTypes {
 
         public static var allCases: [StudioPersona] {
             return [
-                .administrator,
-                .sdkUnknown("")
+                .administrator
             ]
         }
 
@@ -7264,8 +7237,7 @@ extension NimbleClientTypes {
                 .deleteInProgress,
                 .ready,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -7335,8 +7307,7 @@ extension NimbleClientTypes {
                 .studioUpdateInProgress,
                 .studioWithLaunchProfilesNotDeleted,
                 .studioWithStreamingImagesNotDeleted,
-                .studioWithStudioComponentsNotDeleted,
-                .sdkUnknown("")
+                .studioWithStudioComponentsNotDeleted
             ]
         }
 
@@ -8321,8 +8292,7 @@ extension NimbleClientTypes {
         public static var allCases: [VolumeRetentionMode] {
             return [
                 .delete,
-                .retain,
-                .sdkUnknown("")
+                .retain
             ]
         }
 

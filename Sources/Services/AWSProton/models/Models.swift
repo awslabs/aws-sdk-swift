@@ -166,8 +166,7 @@ extension ProtonClientTypes {
         public static var allCases: [BlockerStatus] {
             return [
                 .active,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -194,8 +193,7 @@ extension ProtonClientTypes {
 
         public static var allCases: [BlockerType] {
             return [
-                .automated,
-                .sdkUnknown("")
+                .automated
             ]
         }
 
@@ -693,8 +691,7 @@ extension ProtonClientTypes {
         public static var allCases: [ComponentDeploymentUpdateType] {
             return [
                 .currentVersion,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3336,8 +3333,7 @@ extension ProtonClientTypes {
                 .deleteInProgress,
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3481,8 +3477,7 @@ extension ProtonClientTypes {
                 .component,
                 .environment,
                 .serviceInstance,
-                .servicePipeline,
-                .sdkUnknown("")
+                .servicePipeline
             ]
         }
 
@@ -3517,8 +3512,7 @@ extension ProtonClientTypes {
                 .currentVersion,
                 .majorVersion,
                 .minorVersion,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3774,8 +3768,7 @@ extension ProtonClientTypes {
         public static var allCases: [EnvironmentAccountConnectionRequesterAccountType] {
             return [
                 .environmentAccount,
-                .managementAccount,
-                .sdkUnknown("")
+                .managementAccount
             ]
         }
 
@@ -3806,8 +3799,7 @@ extension ProtonClientTypes {
             return [
                 .connected,
                 .pending,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -7200,8 +7192,7 @@ extension ProtonClientTypes {
                 .lastDeploymentAttemptedAtBefore,
                 .name,
                 .serviceName,
-                .templateName,
-                .sdkUnknown("")
+                .templateName
             ]
         }
 
@@ -7348,8 +7339,7 @@ extension ProtonClientTypes {
                 .lastDeploymentAttemptedAt,
                 .name,
                 .serviceName,
-                .templateName,
-                .sdkUnknown("")
+                .templateName
             ]
         }
 
@@ -8050,8 +8040,7 @@ extension ProtonClientTypes {
         public static var allCases: [ProvisionedResourceEngine] {
             return [
                 .cloudformation,
-                .terraform,
-                .sdkUnknown("")
+                .terraform
             ]
         }
 
@@ -8078,8 +8067,7 @@ extension ProtonClientTypes {
 
         public static var allCases: [Provisioning] {
             return [
-                .customerManaged,
-                .sdkUnknown("")
+                .customerManaged
             ]
         }
 
@@ -8313,8 +8301,7 @@ extension ProtonClientTypes {
             return [
                 .bitbucket,
                 .github,
-                .githubEnterprise,
-                .sdkUnknown("")
+                .githubEnterprise
             ]
         }
 
@@ -8528,8 +8515,7 @@ extension ProtonClientTypes {
                 .initiated,
                 .inProgress,
                 .queued,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -8611,8 +8597,7 @@ extension ProtonClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -8794,8 +8779,7 @@ extension ProtonClientTypes {
                 .failed,
                 .initiated,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -9505,8 +9489,7 @@ extension ProtonClientTypes {
                 .updateFailedCleanupComplete,
                 .updateFailedCleanupFailed,
                 .updateFailedCleanupInProgress,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -9850,8 +9833,7 @@ extension ProtonClientTypes {
 
         public static var allCases: [ServiceTemplateSupportedComponentSourceType] {
             return [
-                .directlyDefined,
-                .sdkUnknown("")
+                .directlyDefined
             ]
         }
 
@@ -10061,8 +10043,7 @@ extension ProtonClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -10192,8 +10173,7 @@ extension ProtonClientTypes {
         public static var allCases: [SyncType] {
             return [
                 .serviceSync,
-                .templateSync,
-                .sdkUnknown("")
+                .templateSync
             ]
         }
 
@@ -10381,8 +10361,7 @@ extension ProtonClientTypes {
         public static var allCases: [TemplateType] {
             return [
                 .environment,
-                .service,
-                .sdkUnknown("")
+                .service
             ]
         }
 
@@ -10438,8 +10417,7 @@ extension ProtonClientTypes {
                 .draft,
                 .published,
                 .registrationFailed,
-                .registrationInProgress,
-                .sdkUnknown("")
+                .registrationInProgress
             ]
         }
 

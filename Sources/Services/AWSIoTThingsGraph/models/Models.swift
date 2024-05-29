@@ -370,8 +370,7 @@ extension IoTThingsGraphClientTypes {
 
         public static var allCases: [DefinitionLanguage] {
             return [
-                .graphql,
-                .sdkUnknown("")
+                .graphql
             ]
         }
 
@@ -739,8 +738,7 @@ extension IoTThingsGraphClientTypes {
         public static var allCases: [DeploymentTarget] {
             return [
                 .cloud,
-                .greengrass,
-                .sdkUnknown("")
+                .greengrass
             ]
         }
 
@@ -1113,8 +1111,7 @@ extension IoTThingsGraphClientTypes {
                 .name,
                 .namespace,
                 .referencedEntityId,
-                .semanticTypePath,
-                .sdkUnknown("")
+                .semanticTypePath
             ]
         }
 
@@ -1161,8 +1158,7 @@ extension IoTThingsGraphClientTypes {
                 .mapping,
                 .property,
                 .service,
-                .state,
-                .sdkUnknown("")
+                .state
             ]
         }
 
@@ -1229,8 +1225,7 @@ extension IoTThingsGraphClientTypes {
                 .stepSucceeded,
                 .thingActionTask,
                 .thingActionTaskFailed,
-                .thingActionTaskSucceeded,
-                .sdkUnknown("")
+                .thingActionTaskSucceeded
             ]
         }
 
@@ -1319,8 +1314,7 @@ extension IoTThingsGraphClientTypes {
                 .aborted,
                 .failed,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1467,8 +1461,7 @@ extension IoTThingsGraphClientTypes {
 
         public static var allCases: [FlowTemplateFilterName] {
             return [
-                .deviceModelId,
-                .sdkUnknown("")
+                .deviceModelId
             ]
         }
 
@@ -2498,8 +2491,7 @@ extension IoTThingsGraphClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2527,8 +2519,7 @@ extension IoTThingsGraphClientTypes {
 
         public static var allCases: [NamespaceDeletionStatusErrorCodes] {
             return [
-                .validationFailed,
-                .sdkUnknown("")
+                .validationFailed
             ]
         }
 
@@ -3206,8 +3197,7 @@ extension IoTThingsGraphClientTypes {
                 .failed,
                 .notDeployed,
                 .pendingDelete,
-                .undeployInProgress,
-                .sdkUnknown("")
+                .undeployInProgress
             ]
         }
 
@@ -3329,8 +3319,7 @@ extension IoTThingsGraphClientTypes {
             return [
                 .greengrassGroupName,
                 .status,
-                .systemTemplateId,
-                .sdkUnknown("")
+                .systemTemplateId
             ]
         }
 
@@ -3491,8 +3480,7 @@ extension IoTThingsGraphClientTypes {
 
         public static var allCases: [SystemTemplateFilterName] {
             return [
-                .flowTemplateId,
-                .sdkUnknown("")
+                .flowTemplateId
             ]
         }
 
@@ -4103,8 +4091,7 @@ extension IoTThingsGraphClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 

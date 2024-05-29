@@ -2427,8 +2427,7 @@ extension CloudDirectoryClientTypes {
                 .notnodeexception,
                 .notpolicyexception,
                 .resourcenotfoundexception,
-                .validationexception,
-                .sdkUnknown("")
+                .validationexception
             ]
         }
 
@@ -3004,8 +3003,7 @@ extension CloudDirectoryClientTypes {
                 .resourcenotfoundexception,
                 .stillcontainslinksexception,
                 .unsupportedindextypeexception,
-                .validationexception,
-                .sdkUnknown("")
+                .validationexception
             ]
         }
 
@@ -3368,8 +3366,7 @@ extension CloudDirectoryClientTypes {
         public static var allCases: [ConsistencyLevel] {
             return [
                 .eventual,
-                .serializable,
-                .sdkUnknown("")
+                .serializable
             ]
         }
 
@@ -4916,8 +4913,7 @@ extension CloudDirectoryClientTypes {
             return [
                 .deleted,
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5321,8 +5317,7 @@ extension CloudDirectoryClientTypes {
                 .datetime,
                 .number,
                 .string,
-                .variant,
-                .sdkUnknown("")
+                .variant
             ]
         }
 
@@ -5458,8 +5453,7 @@ extension CloudDirectoryClientTypes {
         public static var allCases: [FacetStyle] {
             return [
                 .dynamic,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -9308,8 +9302,7 @@ extension CloudDirectoryClientTypes {
                 .index,
                 .leafNode,
                 .node,
-                .policy,
-                .sdkUnknown("")
+                .policy
             ]
         }
 
@@ -9632,8 +9625,7 @@ extension CloudDirectoryClientTypes {
                 .first,
                 .inclusive,
                 .last,
-                .lastBeforeMissingValues,
-                .sdkUnknown("")
+                .lastBeforeMissingValues
             ]
         }
 
@@ -9749,8 +9741,7 @@ extension CloudDirectoryClientTypes {
         public static var allCases: [RequiredAttributeBehavior] {
             return [
                 .notRequired,
-                .requiredAlways,
-                .sdkUnknown("")
+                .requiredAlways
             ]
         }
 
@@ -9894,8 +9885,7 @@ extension CloudDirectoryClientTypes {
                 .binaryLength,
                 .numberComparison,
                 .stringFromSet,
-                .stringLength,
-                .sdkUnknown("")
+                .stringLength
             ]
         }
 
@@ -10635,8 +10625,7 @@ extension CloudDirectoryClientTypes {
         public static var allCases: [UpdateActionType] {
             return [
                 .createOrUpdate,
-                .delete,
-                .sdkUnknown("")
+                .delete
             ]
         }
 

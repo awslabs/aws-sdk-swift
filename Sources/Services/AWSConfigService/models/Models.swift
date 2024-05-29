@@ -343,8 +343,7 @@ extension ConfigClientTypes {
         public static var allCases: [AggregateConformancePackComplianceSummaryGroupKey] {
             return [
                 .accountId,
-                .awsRegion,
-                .sdkUnknown("")
+                .awsRegion
             ]
         }
 
@@ -552,8 +551,7 @@ extension ConfigClientTypes {
             return [
                 .failed,
                 .outdated,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -583,8 +581,7 @@ extension ConfigClientTypes {
         public static var allCases: [AggregatedSourceType] {
             return [
                 .account,
-                .organization,
-                .sdkUnknown("")
+                .organization
             ]
         }
 
@@ -915,8 +912,7 @@ extension ConfigClientTypes {
         public static var allCases: [ChronologicalOrder] {
             return [
                 .forward,
-                .reverse,
-                .sdkUnknown("")
+                .reverse
             ]
         }
 
@@ -1145,8 +1141,7 @@ extension ConfigClientTypes {
                 .compliant,
                 .insufficientData,
                 .nonCompliant,
-                .notApplicable,
-                .sdkUnknown("")
+                .notApplicable
             ]
         }
 
@@ -1397,8 +1392,7 @@ extension ConfigClientTypes {
         public static var allCases: [ConfigRuleComplianceSummaryGroupKey] {
             return [
                 .accountId,
-                .awsRegion,
-                .sdkUnknown("")
+                .awsRegion
             ]
         }
 
@@ -1531,8 +1525,7 @@ extension ConfigClientTypes {
                 .active,
                 .deleting,
                 .deletingResults,
-                .evaluating,
-                .sdkUnknown("")
+                .evaluating
             ]
         }
 
@@ -1846,8 +1839,7 @@ extension ConfigClientTypes {
                 .resourcedeleted,
                 .resourcedeletednotrecorded,
                 .resourcediscovered,
-                .resourcenotrecorded,
-                .sdkUnknown("")
+                .resourcenotrecorded
             ]
         }
 
@@ -2121,8 +2113,7 @@ extension ConfigClientTypes {
             return [
                 .compliant,
                 .insufficientData,
-                .nonCompliant,
-                .sdkUnknown("")
+                .nonCompliant
             ]
         }
 
@@ -2391,8 +2382,7 @@ extension ConfigClientTypes {
                 .createFailed,
                 .createInProgress,
                 .deleteFailed,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -3628,8 +3618,7 @@ extension ConfigClientTypes {
             return [
                 .failure,
                 .notApplicable,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -5807,8 +5796,7 @@ extension ConfigClientTypes {
         public static var allCases: [EvaluationMode] {
             return [
                 .detective,
-                .proactive,
-                .sdkUnknown("")
+                .proactive
             ]
         }
 
@@ -6026,8 +6014,7 @@ extension ConfigClientTypes {
 
         public static var allCases: [EventSource] {
             return [
-                .awsConfig,
-                .sdkUnknown("")
+                .awsConfig
             ]
         }
 
@@ -9528,8 +9515,7 @@ extension ConfigClientTypes {
                 .sixHours,
                 .threeHours,
                 .twelveHours,
-                .twentyfourHours,
-                .sdkUnknown("")
+                .twentyfourHours
             ]
         }
 
@@ -9575,8 +9561,7 @@ extension ConfigClientTypes {
                 .deleteSuccessful,
                 .updateFailed,
                 .updateInProgress,
-                .updateSuccessful,
-                .sdkUnknown("")
+                .updateSuccessful
             ]
         }
 
@@ -9688,8 +9673,7 @@ extension ConfigClientTypes {
                 .configurationitemchangenotification,
                 .configurationsnapshotdeliverycompleted,
                 .oversizedconfigurationitemchangenotification,
-                .schedulednotification,
-                .sdkUnknown("")
+                .schedulednotification
             ]
         }
 
@@ -10585,8 +10569,7 @@ extension ConfigClientTypes {
             return [
                 .configurationItemChangeNotification,
                 .oversizedConfigurationItemChangeNotifcation,
-                .scheduledNotification,
-                .sdkUnknown("")
+                .scheduledNotification
             ]
         }
 
@@ -10616,8 +10599,7 @@ extension ConfigClientTypes {
         public static var allCases: [OrganizationConfigRuleTriggerTypeNoSN] {
             return [
                 .configurationItemChangeNotification,
-                .oversizedConfigurationItemChangeNotifcation,
-                .sdkUnknown("")
+                .oversizedConfigurationItemChangeNotifcation
             ]
         }
 
@@ -11211,8 +11193,7 @@ extension ConfigClientTypes {
                 .deleteSuccessful,
                 .updateFailed,
                 .updateInProgress,
-                .updateSuccessful,
-                .sdkUnknown("")
+                .updateSuccessful
             ]
         }
 
@@ -11309,8 +11290,7 @@ extension ConfigClientTypes {
                 .deleteSuccessful,
                 .updateFailed,
                 .updateInProgress,
-                .updateSuccessful,
-                .sdkUnknown("")
+                .updateSuccessful
             ]
         }
 
@@ -11360,8 +11340,7 @@ extension ConfigClientTypes {
                 .deleteSuccessful,
                 .updateFailed,
                 .updateInProgress,
-                .updateSuccessful,
-                .sdkUnknown("")
+                .updateSuccessful
             ]
         }
 
@@ -11437,8 +11416,7 @@ extension ConfigClientTypes {
             return [
                 .aws,
                 .customLambda,
-                .customPolicy,
-                .sdkUnknown("")
+                .customPolicy
             ]
         }
 
@@ -12686,8 +12664,7 @@ extension ConfigClientTypes {
             return [
                 .failure,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -12717,8 +12694,7 @@ extension ConfigClientTypes {
         public static var allCases: [RecordingFrequency] {
             return [
                 .continuous,
-                .daily,
-                .sdkUnknown("")
+                .daily
             ]
         }
 
@@ -13024,8 +13000,7 @@ extension ConfigClientTypes {
             return [
                 .allSupportedResourceTypes,
                 .exclusionByResourceTypes,
-                .inclusionByResourceTypes,
-                .sdkUnknown("")
+                .inclusionByResourceTypes
             ]
         }
 
@@ -13286,8 +13261,7 @@ extension ConfigClientTypes {
                 .failed,
                 .inProgress,
                 .queued,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -13412,8 +13386,7 @@ extension ConfigClientTypes {
             return [
                 .failed,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -13516,8 +13489,7 @@ extension ConfigClientTypes {
 
         public static var allCases: [RemediationTargetType] {
             return [
-                .ssmDocument,
-                .sdkUnknown("")
+                .ssmDocument
             ]
         }
 
@@ -13580,8 +13552,7 @@ extension ConfigClientTypes {
 
         public static var allCases: [ResourceConfigurationSchemaType] {
             return [
-                .cfnResourceSchema,
-                .sdkUnknown("")
+                .cfnResourceSchema
             ]
         }
 
@@ -13676,8 +13647,7 @@ extension ConfigClientTypes {
             return [
                 .accountId,
                 .awsRegion,
-                .resourceType,
-                .sdkUnknown("")
+                .resourceType
             ]
         }
 
@@ -13831,8 +13801,7 @@ extension ConfigClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -14919,8 +14888,7 @@ extension ConfigClientTypes {
                 .webacl,
                 .webaclv2,
                 .workspacesconnectionalias,
-                .workspacesworkspace,
-                .sdkUnknown("")
+                .workspacesworkspace
             ]
         }
 
@@ -15384,8 +15352,7 @@ extension ConfigClientTypes {
 
         public static var allCases: [ResourceValueType] {
             return [
-                .resourceId,
-                .sdkUnknown("")
+                .resourceId
             ]
         }
 
@@ -15681,8 +15648,7 @@ extension ConfigClientTypes {
 
         public static var allCases: [SortBy] {
             return [
-                .score,
-                .sdkUnknown("")
+                .score
             ]
         }
 
@@ -15710,8 +15676,7 @@ extension ConfigClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 

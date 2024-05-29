@@ -103,8 +103,7 @@ extension MediaStoreClientTypes {
         public static var allCases: [ContainerLevelMetrics] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -172,8 +171,7 @@ extension MediaStoreClientTypes {
             return [
                 .active,
                 .creating,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -1225,8 +1223,7 @@ extension MediaStoreClientTypes {
                 .delete,
                 .get,
                 .head,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 

@@ -15,8 +15,7 @@ extension DAXClientTypes {
         public static var allCases: [ChangeType] {
             return [
                 .immediate,
-                .requiresReboot,
-                .sdkUnknown("")
+                .requiresReboot
             ]
         }
 
@@ -195,8 +194,7 @@ extension DAXClientTypes {
         public static var allCases: [ClusterEndpointEncryptionType] {
             return [
                 .none,
-                .tls,
-                .sdkUnknown("")
+                .tls
             ]
         }
 
@@ -1903,8 +1901,7 @@ extension DAXClientTypes {
             return [
                 .conditional,
                 .false,
-                .true,
-                .sdkUnknown("")
+                .true
             ]
         }
 
@@ -2517,8 +2514,7 @@ extension DAXClientTypes {
         public static var allCases: [ParameterType] {
             return [
                 .default,
-                .nodeTypeSpecific,
-                .sdkUnknown("")
+                .nodeTypeSpecific
             ]
         }
 
@@ -2687,8 +2683,7 @@ extension DAXClientTypes {
                 .disabled,
                 .disabling,
                 .enabled,
-                .enabling,
-                .sdkUnknown("")
+                .enabling
             ]
         }
 
@@ -2813,8 +2808,7 @@ extension DAXClientTypes {
             return [
                 .cluster,
                 .parameterGroup,
-                .subnetGroup,
-                .sdkUnknown("")
+                .subnetGroup
             ]
         }
 

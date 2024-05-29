@@ -101,8 +101,7 @@ extension WorkMailClientTypes {
         public static var allCases: [AccessControlRuleEffect] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -131,8 +130,7 @@ extension WorkMailClientTypes {
         public static var allCases: [AccessEffect] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -460,8 +458,7 @@ extension WorkMailClientTypes {
         public static var allCases: [AvailabilityProviderType] {
             return [
                 .ews,
-                .lambda,
-                .sdkUnknown("")
+                .lambda
             ]
         }
 
@@ -3654,8 +3651,7 @@ extension WorkMailClientTypes {
             return [
                 .failed,
                 .pending,
-                .verified,
-                .sdkUnknown("")
+                .verified
             ]
         }
 
@@ -3828,8 +3824,7 @@ extension WorkMailClientTypes {
             return [
                 .deleted,
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3898,8 +3893,7 @@ extension WorkMailClientTypes {
             return [
                 .group,
                 .resource,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -4022,8 +4016,7 @@ extension WorkMailClientTypes {
                 .drafts,
                 .inbox,
                 .junkEmail,
-                .sentItems,
-                .sdkUnknown("")
+                .sentItems
             ]
         }
 
@@ -4986,8 +4979,7 @@ extension WorkMailClientTypes {
         public static var allCases: [ImpersonationRoleType] {
             return [
                 .fullAccess,
-                .readOnly,
-                .sdkUnknown("")
+                .readOnly
             ]
         }
 
@@ -7101,8 +7093,7 @@ extension WorkMailClientTypes {
                 .cancelled,
                 .completed,
                 .failed,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -7184,8 +7175,7 @@ extension WorkMailClientTypes {
         public static var allCases: [MemberType] {
             return [
                 .group,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -7387,8 +7377,7 @@ extension WorkMailClientTypes {
         public static var allCases: [MobileDeviceAccessRuleEffect] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -7615,8 +7604,7 @@ extension WorkMailClientTypes {
             return [
                 .fullAccess,
                 .sendAs,
-                .sendOnBehalf,
-                .sdkUnknown("")
+                .sendOnBehalf
             ]
         }
 
@@ -8546,8 +8534,7 @@ extension WorkMailClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .equipment,
-                .room,
-                .sdkUnknown("")
+                .room
             ]
         }
 
@@ -8578,8 +8565,7 @@ extension WorkMailClientTypes {
             return [
                 .delete,
                 .none,
-                .permanentlyDelete,
-                .sdkUnknown("")
+                .permanentlyDelete
             ]
         }
 
@@ -9951,8 +9937,7 @@ extension WorkMailClientTypes {
                 .remoteUser,
                 .resource,
                 .systemUser,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 

@@ -614,8 +614,7 @@ extension MigrationHubOrchestratorClientTypes {
                 .integer,
                 .string,
                 .stringlist,
-                .stringmap,
-                .sdkUnknown("")
+                .stringmap
             ]
         }
 
@@ -2645,8 +2644,7 @@ extension MigrationHubOrchestratorClientTypes {
                 .pausingFailed,
                 .starting,
                 .userAttentionRequired,
-                .workflowFailed,
-                .sdkUnknown("")
+                .workflowFailed
             ]
         }
 
@@ -2758,8 +2756,7 @@ extension MigrationHubOrchestratorClientTypes {
         public static var allCases: [Owner] {
             return [
                 .awsmanaged,
-                .custom,
-                .sdkUnknown("")
+                .custom
             ]
         }
 
@@ -2862,8 +2859,7 @@ extension MigrationHubOrchestratorClientTypes {
         public static var allCases: [PluginHealth] {
             return [
                 .pluginHealthy,
-                .pluginUnhealthy,
-                .sdkUnknown("")
+                .pluginUnhealthy
             ]
         }
 
@@ -3090,8 +3086,7 @@ extension MigrationHubOrchestratorClientTypes {
         public static var allCases: [RunEnvironment] {
             return [
                 .aws,
-                .onpremise,
-                .sdkUnknown("")
+                .onpremise
             ]
         }
 
@@ -3205,8 +3200,7 @@ extension MigrationHubOrchestratorClientTypes {
         public static var allCases: [StepActionType] {
             return [
                 .automated,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -3293,8 +3287,7 @@ extension MigrationHubOrchestratorClientTypes {
                 .paused,
                 .pausing,
                 .ready,
-                .userAttentionRequired,
-                .sdkUnknown("")
+                .userAttentionRequired
             ]
         }
 
@@ -3429,8 +3422,7 @@ extension MigrationHubOrchestratorClientTypes {
                 .paused,
                 .ready,
                 .skipped,
-                .userAttentionRequired,
-                .sdkUnknown("")
+                .userAttentionRequired
             ]
         }
 
@@ -3615,8 +3607,7 @@ extension MigrationHubOrchestratorClientTypes {
             return [
                 .all,
                 .none,
-                .single,
-                .sdkUnknown("")
+                .single
             ]
         }
 
@@ -3711,8 +3702,7 @@ extension MigrationHubOrchestratorClientTypes {
                 .creating,
                 .creationFailed,
                 .pendingCreation,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 

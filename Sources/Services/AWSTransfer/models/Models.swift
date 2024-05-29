@@ -52,8 +52,7 @@ extension TransferClientTypes {
         public static var allCases: [AgreementStatusType] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -174,8 +173,7 @@ extension TransferClientTypes {
 
         public static var allCases: [As2Transport] {
             return [
-                .http,
-                .sdkUnknown("")
+                .http
             ]
         }
 
@@ -205,8 +203,7 @@ extension TransferClientTypes {
             return [
                 .active,
                 .inactive,
-                .pendingRotation,
-                .sdkUnknown("")
+                .pendingRotation
             ]
         }
 
@@ -236,8 +233,7 @@ extension TransferClientTypes {
         public static var allCases: [CertificateType] {
             return [
                 .certificate,
-                .certificateWithPrivateKey,
-                .sdkUnknown("")
+                .certificateWithPrivateKey
             ]
         }
 
@@ -268,8 +264,7 @@ extension TransferClientTypes {
             return [
                 .encryption,
                 .signing,
-                .tls,
-                .sdkUnknown("")
+                .tls
             ]
         }
 
@@ -299,8 +294,7 @@ extension TransferClientTypes {
         public static var allCases: [CompressionEnum] {
             return [
                 .disabled,
-                .zlib,
-                .sdkUnknown("")
+                .zlib
             ]
         }
 
@@ -1329,8 +1323,7 @@ extension TransferClientTypes {
         public static var allCases: [CustomStepStatus] {
             return [
                 .failure,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -3733,8 +3726,7 @@ extension TransferClientTypes {
         public static var allCases: [DirectoryListingOptimization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3763,8 +3755,7 @@ extension TransferClientTypes {
         public static var allCases: [Domain] {
             return [
                 .efs,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -3836,8 +3827,7 @@ extension TransferClientTypes {
                 .aes192Cbc,
                 .aes256Cbc,
                 .desEde3Cbc,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3867,8 +3857,7 @@ extension TransferClientTypes {
 
         public static var allCases: [EncryptionType] {
             return [
-                .pgp,
-                .sdkUnknown("")
+                .pgp
             ]
         }
 
@@ -3965,8 +3954,7 @@ extension TransferClientTypes {
             return [
                 .public,
                 .vpc,
-                .vpcEndpoint,
-                .sdkUnknown("")
+                .vpcEndpoint
             ]
         }
 
@@ -4057,8 +4045,7 @@ extension TransferClientTypes {
                 .notFound,
                 .permissionDenied,
                 .throttled,
-                .timeout,
-                .sdkUnknown("")
+                .timeout
             ]
         }
 
@@ -4128,8 +4115,7 @@ extension TransferClientTypes {
                 .completed,
                 .exception,
                 .handlingException,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -4282,8 +4268,7 @@ extension TransferClientTypes {
         public static var allCases: [HomeDirectoryType] {
             return [
                 .logical,
-                .path,
-                .sdkUnknown("")
+                .path
             ]
         }
 
@@ -4380,8 +4365,7 @@ extension TransferClientTypes {
                 .apiGateway,
                 .awsDirectoryService,
                 .awsLambda,
-                .serviceManaged,
-                .sdkUnknown("")
+                .serviceManaged
             ]
         }
 
@@ -6430,8 +6414,7 @@ extension TransferClientTypes {
         public static var allCases: [MapType] {
             return [
                 .directory,
-                .file,
-                .sdkUnknown("")
+                .file
             ]
         }
 
@@ -6460,8 +6443,7 @@ extension TransferClientTypes {
         public static var allCases: [MdnResponse] {
             return [
                 .none,
-                .sync,
-                .sdkUnknown("")
+                .sync
             ]
         }
 
@@ -6498,8 +6480,7 @@ extension TransferClientTypes {
                 .sha1,
                 .sha256,
                 .sha384,
-                .sha512,
-                .sdkUnknown("")
+                .sha512
             ]
         }
 
@@ -6532,8 +6513,7 @@ extension TransferClientTypes {
         public static var allCases: [OverwriteExisting] {
             return [
                 .false,
-                .true,
-                .sdkUnknown("")
+                .true
             ]
         }
 
@@ -6607,8 +6587,7 @@ extension TransferClientTypes {
         public static var allCases: [ProfileType] {
             return [
                 .local,
-                .partner,
-                .sdkUnknown("")
+                .partner
             ]
         }
 
@@ -6641,8 +6620,7 @@ extension TransferClientTypes {
                 .as2,
                 .ftp,
                 .ftps,
-                .sftp,
-                .sdkUnknown("")
+                .sftp
             ]
         }
 
@@ -6972,8 +6950,7 @@ extension TransferClientTypes {
         public static var allCases: [SecurityPolicyProtocol] {
             return [
                 .ftps,
-                .sftp,
-                .sdkUnknown("")
+                .sftp
             ]
         }
 
@@ -7002,8 +6979,7 @@ extension TransferClientTypes {
         public static var allCases: [SecurityPolicyResourceType] {
             return [
                 .connector,
-                .server,
-                .sdkUnknown("")
+                .server
             ]
         }
 
@@ -7173,8 +7149,7 @@ extension TransferClientTypes {
         public static var allCases: [SetStatOption] {
             return [
                 .default,
-                .enableNoOp,
-                .sdkUnknown("")
+                .enableNoOp
             ]
         }
 
@@ -7207,8 +7182,7 @@ extension TransferClientTypes {
                 .password,
                 .publicKey,
                 .publicKeyAndPassword,
-                .publicKeyOrPassword,
-                .sdkUnknown("")
+                .publicKeyOrPassword
             ]
         }
 
@@ -7289,8 +7263,7 @@ extension TransferClientTypes {
                 .sha1,
                 .sha256,
                 .sha384,
-                .sha512,
-                .sdkUnknown("")
+                .sha512
             ]
         }
 
@@ -7613,8 +7586,7 @@ extension TransferClientTypes {
                 .starting,
                 .startFailed,
                 .stopping,
-                .stopFailed,
-                .sdkUnknown("")
+                .stopFailed
             ]
         }
 
@@ -8102,8 +8074,7 @@ extension TransferClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .enforced,
-                .sdkUnknown("")
+                .enforced
             ]
         }
 
@@ -9285,8 +9256,7 @@ extension TransferClientTypes {
                 .custom,
                 .decrypt,
                 .delete,
-                .tag,
-                .sdkUnknown("")
+                .tag
             ]
         }
 

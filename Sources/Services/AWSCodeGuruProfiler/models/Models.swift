@@ -14,8 +14,7 @@ extension CodeGuruProfilerClientTypes {
 
         public static var allCases: [ActionGroup] {
             return [
-                .agentPermissions,
-                .sdkUnknown("")
+                .agentPermissions
             ]
         }
 
@@ -215,8 +214,7 @@ extension CodeGuruProfilerClientTypes {
                 .memoryUsageLimitPercent,
                 .minimumTimeForReportingInMilliseconds,
                 .reportingIntervalInMilliseconds,
-                .samplingIntervalInMilliseconds,
-                .sdkUnknown("")
+                .samplingIntervalInMilliseconds
             ]
         }
 
@@ -290,8 +288,7 @@ extension CodeGuruProfilerClientTypes {
             return [
                 .p1d,
                 .pt1h,
-                .pt5m,
-                .sdkUnknown("")
+                .pt5m
             ]
         }
 
@@ -613,8 +610,7 @@ extension CodeGuruProfilerClientTypes {
         public static var allCases: [ComputePlatform] {
             return [
                 .awslambda,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -1011,8 +1007,7 @@ extension CodeGuruProfilerClientTypes {
 
         public static var allCases: [EventPublisher] {
             return [
-                .anomalyDetection,
-                .sdkUnknown("")
+                .anomalyDetection
             ]
         }
 
@@ -1042,8 +1037,7 @@ extension CodeGuruProfilerClientTypes {
         public static var allCases: [FeedbackType] {
             return [
                 .negative,
-                .positive,
-                .sdkUnknown("")
+                .positive
             ]
         }
 
@@ -2255,8 +2249,7 @@ extension CodeGuruProfilerClientTypes {
                 .lambdaMemoryLimitInMb,
                 .lambdaPreviousExecutionTimeInMilliseconds,
                 .lambdaRemainingTimeInMilliseconds,
-                .lambdaTimeGapBetweenInvokesInMilliseconds,
-                .sdkUnknown("")
+                .lambdaTimeGapBetweenInvokesInMilliseconds
             ]
         }
 
@@ -2330,8 +2323,7 @@ extension CodeGuruProfilerClientTypes {
 
         public static var allCases: [MetricType] {
             return [
-                .aggregatedrelativetotaltime,
-                .sdkUnknown("")
+                .aggregatedrelativetotaltime
             ]
         }
 
@@ -2387,8 +2379,7 @@ extension CodeGuruProfilerClientTypes {
         public static var allCases: [OrderBy] {
             return [
                 .timestampAscending,
-                .timestampDescending,
-                .sdkUnknown("")
+                .timestampDescending
             ]
         }
 

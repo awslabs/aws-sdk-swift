@@ -85,8 +85,7 @@ extension MigrationHubStrategyClientTypes {
                 .binaryAnalysis,
                 .databaseAnalysis,
                 .runtimeAnalysis,
-                .sourceCodeAnalysis,
-                .sdkUnknown("")
+                .sourceCodeAnalysis
             ]
         }
 
@@ -233,8 +232,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -335,8 +333,7 @@ extension MigrationHubStrategyClientTypes {
                 .unknown,
                 .visualbasic,
                 .weblogic,
-                .websphere,
-                .sdkUnknown("")
+                .websphere
             ]
         }
 
@@ -417,8 +414,7 @@ extension MigrationHubStrategyClientTypes {
                 .credentialError,
                 .otherError,
                 .permissionError,
-                .unsupportedError,
-                .sdkUnknown("")
+                .unsupportedError
             ]
         }
 
@@ -462,8 +458,7 @@ extension MigrationHubStrategyClientTypes {
                 .errorCategory,
                 .notDefined,
                 .serverId,
-                .strategy,
-                .sdkUnknown("")
+                .strategy
             ]
         }
 
@@ -734,8 +729,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .all,
                 .known,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -798,8 +792,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .ads,
                 .manualImport,
-                .srCollector,
-                .sdkUnknown("")
+                .srCollector
             ]
         }
 
@@ -833,8 +826,7 @@ extension MigrationHubStrategyClientTypes {
                 .complete,
                 .failed,
                 .inProgress,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -1020,8 +1012,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .cert,
                 .ntlm,
-                .ssh,
-                .sdkUnknown("")
+                .ssh
             ]
         }
 
@@ -1085,8 +1076,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .awsElasticBeanstalk,
                 .awsFargate,
-                .noneSpecified,
-                .sdkUnknown("")
+                .noneSpecified
             ]
         }
 
@@ -1116,8 +1106,7 @@ extension MigrationHubStrategyClientTypes {
         public static var allCases: [BinaryAnalyzerName] {
             return [
                 .bytecodeAnalyzer,
-                .dllAnalyzer,
-                .sdkUnknown("")
+                .dllAnalyzer
             ]
         }
 
@@ -1256,8 +1245,7 @@ extension MigrationHubStrategyClientTypes {
         public static var allCases: [CollectorHealth] {
             return [
                 .collectorHealthy,
-                .collectorUnhealthy,
-                .sdkUnknown("")
+                .collectorUnhealthy
             ]
         }
 
@@ -1290,8 +1278,7 @@ extension MigrationHubStrategyClientTypes {
                 .contains,
                 .equals,
                 .notContains,
-                .notEquals,
-                .sdkUnknown("")
+                .notEquals
             ]
         }
 
@@ -1471,8 +1458,7 @@ extension MigrationHubStrategyClientTypes {
                 .ads,
                 .import,
                 .mhsrCollector,
-                .mpa,
-                .sdkUnknown("")
+                .mpa
             ]
         }
 
@@ -1531,8 +1517,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .awsManaged,
                 .noPreference,
-                .selfManage,
-                .sdkUnknown("")
+                .selfManage
             ]
         }
 
@@ -2448,8 +2433,7 @@ extension MigrationHubStrategyClientTypes {
         public static var allCases: [GroupName] {
             return [
                 .externalId,
-                .externalSourceType,
-                .sdkUnknown("")
+                .externalSourceType
             ]
         }
 
@@ -2526,8 +2510,7 @@ extension MigrationHubStrategyClientTypes {
                 .mysql,
                 .noneSpecified,
                 .oracleDatabase,
-                .sap,
-                .sdkUnknown("")
+                .sap
             ]
         }
 
@@ -2593,8 +2576,7 @@ extension MigrationHubStrategyClientTypes {
 
         public static var allCases: [HomogeneousTargetDatabaseEngine] {
             return [
-                .noneSpecified,
-                .sdkUnknown("")
+                .noneSpecified
             ]
         }
 
@@ -2746,8 +2728,7 @@ extension MigrationHubStrategyClientTypes {
                 .importFailed,
                 .importInProgress,
                 .importPartialSuccess,
-                .importSuccess,
-                .sdkUnknown("")
+                .importSuccess
             ]
         }
 
@@ -2782,8 +2763,7 @@ extension MigrationHubStrategyClientTypes {
         public static var allCases: [InclusionStatus] {
             return [
                 .excludeFromRecommendation,
-                .includeInRecommendation,
-                .sdkUnknown("")
+                .includeInRecommendation
             ]
         }
 
@@ -3465,8 +3445,7 @@ extension MigrationHubStrategyClientTypes {
                 .amazonElasticKubernetesService,
                 .awsElasticBeanstalk,
                 .awsFargate,
-                .noneSpecified,
-                .sdkUnknown("")
+                .noneSpecified
             ]
         }
 
@@ -3530,8 +3509,7 @@ extension MigrationHubStrategyClientTypes {
         public static var allCases: [OSType] {
             return [
                 .linux,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -3560,8 +3538,7 @@ extension MigrationHubStrategyClientTypes {
         public static var allCases: [OutputFormat] {
             return [
                 .excel,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -3619,8 +3596,7 @@ extension MigrationHubStrategyClientTypes {
 
         public static var allCases: [PipelineType] {
             return [
-                .azureDevops,
-                .sdkUnknown("")
+                .azureDevops
             ]
         }
 
@@ -3804,8 +3780,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -3936,8 +3911,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .database,
                 .databaseProcess,
-                .process,
-                .sdkUnknown("")
+                .process
             ]
         }
 
@@ -4014,8 +3988,7 @@ extension MigrationHubStrategyClientTypes {
                 .databaseAnalyzer,
                 .empPaAnalyzer,
                 .rehostAnalyzer,
-                .sctAnalyzer,
-                .sdkUnknown("")
+                .sctAnalyzer
             ]
         }
 
@@ -4057,8 +4030,7 @@ extension MigrationHubStrategyClientTypes {
                 .dcStarted,
                 .dcStopped,
                 .dcSuccess,
-                .dcToBeScheduled,
-                .sdkUnknown("")
+                .dcToBeScheduled
             ]
         }
 
@@ -4096,8 +4068,7 @@ extension MigrationHubStrategyClientTypes {
                 .analysisFailed,
                 .analysisStarted,
                 .analysisSuccess,
-                .analysisToBeScheduled,
-                .sdkUnknown("")
+                .analysisToBeScheduled
             ]
         }
 
@@ -4195,8 +4166,7 @@ extension MigrationHubStrategyClientTypes {
                 .amazonElasticCloudCompute,
                 .amazonElasticContainerService,
                 .amazonElasticKubernetesService,
-                .noneSpecified,
-                .sdkUnknown("")
+                .noneSpecified
             ]
         }
 
@@ -4237,8 +4207,7 @@ extension MigrationHubStrategyClientTypes {
                 .notDefined,
                 .osName,
                 .serverId,
-                .strategy,
-                .sdkUnknown("")
+                .strategy
             ]
         }
 
@@ -4395,8 +4364,7 @@ extension MigrationHubStrategyClientTypes {
                 .connectivityError,
                 .credentialError,
                 .otherError,
-                .permissionError,
-                .sdkUnknown("")
+                .permissionError
             ]
         }
 
@@ -4434,8 +4402,7 @@ extension MigrationHubStrategyClientTypes {
                 .endofsupportwindowsserver,
                 .other,
                 .redhat,
-                .windowsserver,
-                .sdkUnknown("")
+                .windowsserver
             ]
         }
 
@@ -4647,8 +4614,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -4678,8 +4644,7 @@ extension MigrationHubStrategyClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -4751,8 +4716,7 @@ extension MigrationHubStrategyClientTypes {
                 .bytecodeAnalyzer,
                 .csharpAnalyzer,
                 .javaAnalyzer,
-                .portingAssistant,
-                .sdkUnknown("")
+                .portingAssistant
             ]
         }
 
@@ -4834,8 +4798,7 @@ extension MigrationHubStrategyClientTypes {
                 .analysisSuccess,
                 .analysisToBeScheduled,
                 .configured,
-                .unconfigured,
-                .sdkUnknown("")
+                .unconfigured
             ]
         }
 
@@ -5190,8 +5153,7 @@ extension MigrationHubStrategyClientTypes {
                 .replatform,
                 .repurchase,
                 .retain,
-                .retirement,
-                .sdkUnknown("")
+                .retirement
             ]
         }
 
@@ -5268,8 +5230,7 @@ extension MigrationHubStrategyClientTypes {
                 .notRecommended,
                 .potential,
                 .recommended,
-                .viableOption,
-                .sdkUnknown("")
+                .viableOption
             ]
         }
 
@@ -5388,8 +5349,7 @@ extension MigrationHubStrategyClientTypes {
                 .mysql,
                 .noneSpecified,
                 .oracleDatabase,
-                .sap,
-                .sdkUnknown("")
+                .sap
             ]
         }
 
@@ -5450,8 +5410,7 @@ extension MigrationHubStrategyClientTypes {
                 .awsElasticBeanstalk,
                 .awsFargate,
                 .babelfishAuroraPostgresql,
-                .noneSpecified,
-                .sdkUnknown("")
+                .noneSpecified
             ]
         }
 
@@ -5581,8 +5540,7 @@ extension MigrationHubStrategyClientTypes {
                 .portingAssistant,
                 .sct,
                 .strategyRecommendationSupport,
-                .wwama,
-                .sdkUnknown("")
+                .wwama
             ]
         }
 
@@ -5843,8 +5801,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .azureDevopsGit,
                 .github,
-                .githubEnterprise,
-                .sdkUnknown("")
+                .githubEnterprise
             ]
         }
 
@@ -5907,8 +5864,7 @@ extension MigrationHubStrategyClientTypes {
             return [
                 .azureDevopsGit,
                 .github,
-                .githubEnterprise,
-                .sdkUnknown("")
+                .githubEnterprise
             ]
         }
 

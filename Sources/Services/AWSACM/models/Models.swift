@@ -312,8 +312,7 @@ extension ACMClientTypes {
                 .issued,
                 .pendingValidation,
                 .revoked,
-                .validationTimedOut,
-                .sdkUnknown("")
+                .validationTimedOut
             ]
         }
 
@@ -458,8 +457,7 @@ extension ACMClientTypes {
         public static var allCases: [CertificateTransparencyLoggingPreference] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -490,8 +488,7 @@ extension ACMClientTypes {
             return [
                 .amazonIssued,
                 .imported,
-                .private,
-                .sdkUnknown("")
+                .private
             ]
         }
 
@@ -686,8 +683,7 @@ extension ACMClientTypes {
             return [
                 .failed,
                 .pendingValidation,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -1010,8 +1006,7 @@ extension ACMClientTypes {
                 .ocspSigning,
                 .timeStamping,
                 .tlsWebClientAuthentication,
-                .tlsWebServerAuthentication,
-                .sdkUnknown("")
+                .tlsWebServerAuthentication
             ]
         }
 
@@ -1080,8 +1075,7 @@ extension ACMClientTypes {
                 .pcaNameConstraintsValidation,
                 .pcaRequestFailed,
                 .pcaResourceNotFound,
-                .slrNotFound,
-                .sdkUnknown("")
+                .slrNotFound
             ]
         }
 
@@ -1621,8 +1615,7 @@ extension ACMClientTypes {
                 .rsa1024,
                 .rsa2048,
                 .rsa3072,
-                .rsa4096,
-                .sdkUnknown("")
+                .rsa4096
             ]
         }
 
@@ -1700,8 +1693,7 @@ extension ACMClientTypes {
                 .enchiperOnly,
                 .keyAgreement,
                 .keyEncipherment,
-                .nonRepudation,
-                .sdkUnknown("")
+                .nonRepudation
             ]
         }
 
@@ -1999,8 +1991,7 @@ extension ACMClientTypes {
 
         public static var allCases: [RecordType] {
             return [
-                .cname,
-                .sdkUnknown("")
+                .cname
             ]
         }
 
@@ -2148,8 +2139,7 @@ extension ACMClientTypes {
         public static var allCases: [RenewalEligibility] {
             return [
                 .eligible,
-                .ineligible,
-                .sdkUnknown("")
+                .ineligible
             ]
         }
 
@@ -2182,8 +2172,7 @@ extension ACMClientTypes {
                 .failed,
                 .pendingAutoRenewal,
                 .pendingValidation,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2621,8 +2610,7 @@ extension ACMClientTypes {
                 .privilegeWithdrawn,
                 .removeFromCrl,
                 .superceded,
-                .unspecified,
-                .sdkUnknown("")
+                .unspecified
             ]
         }
 
@@ -2657,8 +2645,7 @@ extension ACMClientTypes {
 
         public static var allCases: [SortBy] {
             return [
-                .createdAt,
-                .sdkUnknown("")
+                .createdAt
             ]
         }
 
@@ -2686,8 +2673,7 @@ extension ACMClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -2965,8 +2951,7 @@ extension ACMClientTypes {
         public static var allCases: [ValidationMethod] {
             return [
                 .dns,
-                .email,
-                .sdkUnknown("")
+                .email
             ]
         }
 

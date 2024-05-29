@@ -149,8 +149,7 @@ extension EventBridgeClientTypes {
                 .options,
                 .patch,
                 .post,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -184,8 +183,7 @@ extension EventBridgeClientTypes {
         public static var allCases: [ApiDestinationState] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -319,8 +317,7 @@ extension EventBridgeClientTypes {
                 .disabled,
                 .enabled,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -353,8 +350,7 @@ extension EventBridgeClientTypes {
         public static var allCases: [AssignPublicIp] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -867,8 +863,7 @@ extension EventBridgeClientTypes {
             return [
                 .apiKey,
                 .basic,
-                .oauthClientCredentials,
-                .sdkUnknown("")
+                .oauthClientCredentials
             ]
         }
 
@@ -1091,8 +1086,7 @@ extension EventBridgeClientTypes {
             return [
                 .get,
                 .post,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -1221,8 +1215,7 @@ extension EventBridgeClientTypes {
                 .deauthorized,
                 .deauthorizing,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4050,8 +4043,7 @@ extension EventBridgeClientTypes {
                 .deleteFailed,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4191,8 +4183,7 @@ extension EventBridgeClientTypes {
             return [
                 .active,
                 .deleted,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -4557,8 +4548,7 @@ extension EventBridgeClientTypes {
             return [
                 .ec2,
                 .external,
-                .fargate,
-                .sdkUnknown("")
+                .fargate
             ]
         }
 
@@ -5928,8 +5918,7 @@ extension EventBridgeClientTypes {
         public static var allCases: [PlacementConstraintType] {
             return [
                 .distinctInstance,
-                .memberOf,
-                .sdkUnknown("")
+                .memberOf
             ]
         }
 
@@ -5997,8 +5986,7 @@ extension EventBridgeClientTypes {
             return [
                 .binpack,
                 .random,
-                .spread,
-                .sdkUnknown("")
+                .spread
             ]
         }
 
@@ -6095,8 +6083,7 @@ extension EventBridgeClientTypes {
 
         public static var allCases: [PropagateTags] {
             return [
-                .taskDefinition,
-                .sdkUnknown("")
+                .taskDefinition
             ]
         }
 
@@ -7156,8 +7143,7 @@ extension EventBridgeClientTypes {
                 .completed,
                 .failed,
                 .running,
-                .starting,
-                .sdkUnknown("")
+                .starting
             ]
         }
 
@@ -7221,8 +7207,7 @@ extension EventBridgeClientTypes {
         public static var allCases: [ReplicationState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7468,8 +7453,7 @@ extension EventBridgeClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .enabledWithAllCloudtrailManagementEvents,
-                .sdkUnknown("")
+                .enabledWithAllCloudtrailManagementEvents
             ]
         }
 

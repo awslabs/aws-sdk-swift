@@ -17,8 +17,7 @@ extension MediaPackageVodClientTypes {
             return [
                 .none,
                 .passthrough,
-                .scte35Enhanced,
-                .sdkUnknown("")
+                .scte35Enhanced
             ]
         }
 
@@ -1487,8 +1486,7 @@ extension MediaPackageVodClientTypes {
         public static var allCases: [EncryptionMethod] {
             return [
                 .aes128,
-                .sampleAes,
-                .sdkUnknown("")
+                .sampleAes
             ]
         }
 
@@ -2089,8 +2087,7 @@ extension MediaPackageVodClientTypes {
         public static var allCases: [ManifestLayout] {
             return [
                 .compact,
-                .full,
-                .sdkUnknown("")
+                .full
             ]
         }
 
@@ -2404,8 +2401,7 @@ extension MediaPackageVodClientTypes {
                 .presetAudio2,
                 .presetAudio3,
                 .shared,
-                .unencrypted,
-                .sdkUnknown("")
+                .unencrypted
             ]
         }
 
@@ -2453,8 +2449,7 @@ extension MediaPackageVodClientTypes {
                 .presetVideo7,
                 .presetVideo8,
                 .shared,
-                .unencrypted,
-                .sdkUnknown("")
+                .unencrypted
             ]
         }
 
@@ -2491,8 +2486,7 @@ extension MediaPackageVodClientTypes {
         public static var allCases: [Profile] {
             return [
                 .hbbtv15,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -2521,8 +2515,7 @@ extension MediaPackageVodClientTypes {
         public static var allCases: [ScteMarkersSource] {
             return [
                 .manifest,
-                .segments,
-                .sdkUnknown("")
+                .segments
             ]
         }
 
@@ -2553,8 +2546,7 @@ extension MediaPackageVodClientTypes {
             return [
                 .numberWithDuration,
                 .numberWithTimeline,
-                .timeWithTimeline,
-                .sdkUnknown("")
+                .timeWithTimeline
             ]
         }
 
@@ -2675,8 +2667,7 @@ extension MediaPackageVodClientTypes {
             return [
                 .original,
                 .videoBitrateAscending,
-                .videoBitrateDescending,
-                .sdkUnknown("")
+                .videoBitrateDescending
             ]
         }
 
@@ -3065,8 +3056,7 @@ extension MediaPackageVodClientTypes {
 
         public static var allCases: [__PeriodTriggersElement] {
             return [
-                .ads,
-                .sdkUnknown("")
+                .ads
             ]
         }
 

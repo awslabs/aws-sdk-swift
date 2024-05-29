@@ -15,8 +15,7 @@ extension ResourceExplorer2ClientTypes {
         public static var allCases: [AWSServiceAccessStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1048,8 +1047,7 @@ extension ResourceExplorer2ClientTypes {
                 .creating,
                 .deleted,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1083,8 +1081,7 @@ extension ResourceExplorer2ClientTypes {
         public static var allCases: [IndexType] {
             return [
                 .aggregator,
-                .local,
-                .sdkUnknown("")
+                .local
             ]
         }
 

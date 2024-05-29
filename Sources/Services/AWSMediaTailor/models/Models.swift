@@ -54,8 +54,7 @@ extension MediaTailorClientTypes {
             return [
                 .autodetectSigv4,
                 .s3Sigv4,
-                .secretsManagerAccessToken,
-                .sdkUnknown("")
+                .secretsManagerAccessToken
             ]
         }
 
@@ -205,8 +204,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [AdMarkupType] {
             return [
                 .daterange,
-                .scte35Enhanced,
-                .sdkUnknown("")
+                .scte35Enhanced
             ]
         }
 
@@ -293,8 +291,7 @@ extension MediaTailorClientTypes {
             return [
                 .info,
                 .playbackWarning,
-                .schedulingError,
-                .sdkUnknown("")
+                .schedulingError
             ]
         }
 
@@ -709,8 +706,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [ChannelState] {
             return [
                 .running,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -2839,8 +2835,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [FillPolicy] {
             return [
                 .fullAvailOnly,
-                .partialAvail,
-                .sdkUnknown("")
+                .partialAvail
             ]
         }
 
@@ -3424,8 +3419,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [InsertionMode] {
             return [
                 .playerSelect,
-                .stitchedOnly,
-                .sdkUnknown("")
+                .stitchedOnly
             ]
         }
 
@@ -4302,8 +4296,7 @@ extension MediaTailorClientTypes {
 
         public static var allCases: [LogType] {
             return [
-                .asRun,
-                .sdkUnknown("")
+                .asRun
             ]
         }
 
@@ -4364,8 +4357,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [MessageType] {
             return [
                 .spliceInsert,
-                .timeSignal,
-                .sdkUnknown("")
+                .timeSignal
             ]
         }
 
@@ -4396,8 +4388,7 @@ extension MediaTailorClientTypes {
             return [
                 .afterLiveEdge,
                 .behindLiveEdge,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -4425,8 +4416,7 @@ extension MediaTailorClientTypes {
 
         public static var allCases: [Operator] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -4454,8 +4444,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [OriginManifestType] {
             return [
                 .multiPeriod,
-                .singlePeriod,
-                .sdkUnknown("")
+                .singlePeriod
             ]
         }
 
@@ -4605,8 +4594,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [PlaybackMode] {
             return [
                 .linear,
-                .loop,
-                .sdkUnknown("")
+                .loop
             ]
         }
 
@@ -5070,8 +5058,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [RelativePosition] {
             return [
                 .afterProgram,
-                .beforeProgram,
-                .sdkUnknown("")
+                .beforeProgram
             ]
         }
 
@@ -5343,8 +5330,7 @@ extension MediaTailorClientTypes {
             return [
                 .alternateMedia,
                 .fillerSlate,
-                .program,
-                .sdkUnknown("")
+                .program
             ]
         }
 
@@ -5840,8 +5826,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [Tier] {
             return [
                 .basic,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -5979,8 +5964,7 @@ extension MediaTailorClientTypes {
         public static var allCases: [ModelType] {
             return [
                 .dash,
-                .hls,
-                .sdkUnknown("")
+                .hls
             ]
         }
 

@@ -15,8 +15,7 @@ extension CognitoIdentityClientTypes {
         public static var allCases: [AmbiguousRoleResolutionType] {
             return [
                 .authenticatedRole,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -705,8 +704,7 @@ extension CognitoIdentityClientTypes {
         public static var allCases: [ErrorCode] {
             return [
                 .accessDenied,
-                .internalServerError,
-                .sdkUnknown("")
+                .internalServerError
             ]
         }
 
@@ -1952,8 +1950,7 @@ extension CognitoIdentityClientTypes {
                 .contains,
                 .equals,
                 .notEqual,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 
@@ -2233,8 +2230,7 @@ extension CognitoIdentityClientTypes {
         public static var allCases: [RoleMappingType] {
             return [
                 .rules,
-                .token,
-                .sdkUnknown("")
+                .token
             ]
         }
 

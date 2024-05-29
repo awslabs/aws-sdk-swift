@@ -102,8 +102,7 @@ extension CostOptimizationHubClientTypes {
                 .purchaseSavingsPlans,
                 .rightsize,
                 .stop,
-                .upgrade,
-                .sdkUnknown("")
+                .upgrade
             ]
         }
 
@@ -851,8 +850,7 @@ extension CostOptimizationHubClientTypes {
         public static var allCases: [EnrollmentStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -1243,8 +1241,7 @@ extension CostOptimizationHubClientTypes {
                 .low,
                 .medium,
                 .veryHigh,
-                .veryLow,
-                .sdkUnknown("")
+                .veryLow
             ]
         }
 
@@ -1687,8 +1684,7 @@ extension CostOptimizationHubClientTypes {
         public static var allCases: [MemberAccountDiscountVisibility] {
             return [
                 .all,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1829,8 +1825,7 @@ extension CostOptimizationHubClientTypes {
         public static var allCases: [Order] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -2581,8 +2576,7 @@ extension CostOptimizationHubClientTypes {
                 .openSearchReservedInstances,
                 .rdsReservedInstances,
                 .redshiftReservedInstances,
-                .sageMakerSavingsPlans,
-                .sdkUnknown("")
+                .sageMakerSavingsPlans
             ]
         }
 
@@ -2694,8 +2688,7 @@ extension CostOptimizationHubClientTypes {
         public static var allCases: [SavingsEstimationMode] {
             return [
                 .afterDiscounts,
-                .beforeDiscounts,
-                .sdkUnknown("")
+                .beforeDiscounts
             ]
         }
 
@@ -2791,8 +2784,7 @@ extension CostOptimizationHubClientTypes {
         public static var allCases: [Source] {
             return [
                 .computeOptimizer,
-                .costExplorer,
-                .sdkUnknown("")
+                .costExplorer
             ]
         }
 
@@ -3205,8 +3197,7 @@ extension CostOptimizationHubClientTypes {
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .fieldValidationFailed,
-                .other,
-                .sdkUnknown("")
+                .other
             ]
         }
 

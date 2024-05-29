@@ -15,8 +15,7 @@ extension PipesClientTypes {
         public static var allCases: [AssignPublicIp] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -243,8 +242,7 @@ extension PipesClientTypes {
         public static var allCases: [BatchJobDependencyType] {
             return [
                 .nToN,
-                .sequential,
-                .sdkUnknown("")
+                .sequential
             ]
         }
 
@@ -314,8 +312,7 @@ extension PipesClientTypes {
             return [
                 .gpu,
                 .memory,
-                .vcpu,
-                .sdkUnknown("")
+                .vcpu
             ]
         }
 
@@ -957,8 +954,7 @@ extension PipesClientTypes {
         public static var allCases: [DynamoDBStreamStartPosition] {
             return [
                 .latest,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -1101,8 +1097,7 @@ extension PipesClientTypes {
 
         public static var allCases: [EcsEnvironmentFileType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -1275,8 +1270,7 @@ extension PipesClientTypes {
         public static var allCases: [EcsResourceRequirementType] {
             return [
                 .gpu,
-                .inferenceaccelerator,
-                .sdkUnknown("")
+                .inferenceaccelerator
             ]
         }
 
@@ -1492,8 +1486,7 @@ extension PipesClientTypes {
 
         public static var allCases: [IncludeExecutionDataOption] {
             return [
-                .all,
-                .sdkUnknown("")
+                .all
             ]
         }
 
@@ -1569,8 +1562,7 @@ extension PipesClientTypes {
             return [
                 .atTimestamp,
                 .latest,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -1602,8 +1594,7 @@ extension PipesClientTypes {
             return [
                 .ec2,
                 .external,
-                .fargate,
-                .sdkUnknown("")
+                .fargate
             ]
         }
 
@@ -1834,8 +1825,7 @@ extension PipesClientTypes {
                 .error,
                 .info,
                 .off,
-                .trace,
-                .sdkUnknown("")
+                .trace
             ]
         }
 
@@ -1940,8 +1930,7 @@ extension PipesClientTypes {
         public static var allCases: [MSKStartPosition] {
             return [
                 .latest,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -2036,8 +2025,7 @@ extension PipesClientTypes {
 
         public static var allCases: [OnPartialBatchItemFailureStreams] {
             return [
-                .automaticBisect,
-                .sdkUnknown("")
+                .automaticBisect
             ]
         }
 
@@ -2872,8 +2860,7 @@ extension PipesClientTypes {
                 .stopFailed,
                 .updateFailed,
                 .updateRollbackFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3245,8 +3232,7 @@ extension PipesClientTypes {
         public static var allCases: [PipeTargetInvocationType] {
             return [
                 .fireAndForget,
-                .requestResponse,
-                .sdkUnknown("")
+                .requestResponse
             ]
         }
 
@@ -3675,8 +3661,7 @@ extension PipesClientTypes {
         public static var allCases: [PlacementConstraintType] {
             return [
                 .distinctInstance,
-                .memberOf,
-                .sdkUnknown("")
+                .memberOf
             ]
         }
 
@@ -3749,8 +3734,7 @@ extension PipesClientTypes {
             return [
                 .binpack,
                 .random,
-                .spread,
-                .sdkUnknown("")
+                .spread
             ]
         }
 
@@ -3778,8 +3762,7 @@ extension PipesClientTypes {
 
         public static var allCases: [PropagateTags] {
             return [
-                .taskDefinition,
-                .sdkUnknown("")
+                .taskDefinition
             ]
         }
 
@@ -3807,8 +3790,7 @@ extension PipesClientTypes {
         public static var allCases: [RequestedPipeState] {
             return [
                 .running,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -3839,8 +3821,7 @@ extension PipesClientTypes {
             return [
                 .deleted,
                 .running,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -3966,8 +3947,7 @@ extension PipesClientTypes {
             return [
                 .json,
                 .plain,
-                .w3c,
-                .sdkUnknown("")
+                .w3c
             ]
         }
 
@@ -4130,8 +4110,7 @@ extension PipesClientTypes {
         public static var allCases: [SelfManagedKafkaStartPosition] {
             return [
                 .latest,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 

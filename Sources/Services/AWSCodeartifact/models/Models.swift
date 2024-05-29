@@ -53,8 +53,7 @@ extension CodeartifactClientTypes {
         public static var allCases: [AllowPublish] {
             return [
                 .allow,
-                .block,
-                .sdkUnknown("")
+                .block
             ]
         }
 
@@ -83,8 +82,7 @@ extension CodeartifactClientTypes {
         public static var allCases: [AllowUpstream] {
             return [
                 .allow,
-                .block,
-                .sdkUnknown("")
+                .block
             ]
         }
 
@@ -2655,8 +2653,7 @@ extension CodeartifactClientTypes {
         public static var allCases: [DomainStatus] {
             return [
                 .active,
-                .deleted,
-                .sdkUnknown("")
+                .deleted
             ]
         }
 
@@ -2734,8 +2731,7 @@ extension CodeartifactClientTypes {
 
         public static var allCases: [ExternalConnectionStatus] {
             return [
-                .available,
-                .sdkUnknown("")
+                .available
             ]
         }
 
@@ -3674,8 +3670,7 @@ extension CodeartifactClientTypes {
                 .md5,
                 .sha1,
                 .sha256,
-                .sha512,
-                .sdkUnknown("")
+                .sha512
             ]
         }
 
@@ -5527,8 +5522,7 @@ extension CodeartifactClientTypes {
                 .nuget,
                 .pypi,
                 .ruby,
-                .swift,
-                .sdkUnknown("")
+                .swift
             ]
         }
 
@@ -5591,8 +5585,7 @@ extension CodeartifactClientTypes {
         public static var allCases: [PackageGroupAllowedRepositoryUpdateType] {
             return [
                 .added,
-                .removed,
-                .sdkUnknown("")
+                .removed
             ]
         }
 
@@ -5621,8 +5614,7 @@ extension CodeartifactClientTypes {
         public static var allCases: [PackageGroupAssociationType] {
             return [
                 .strong,
-                .weak,
-                .sdkUnknown("")
+                .weak
             ]
         }
 
@@ -5788,8 +5780,7 @@ extension CodeartifactClientTypes {
                 .allow,
                 .allowSpecificRepositories,
                 .block,
-                .inherit,
-                .sdkUnknown("")
+                .inherit
             ]
         }
 
@@ -5822,8 +5813,7 @@ extension CodeartifactClientTypes {
             return [
                 .externalUpstream,
                 .internalUpstream,
-                .publish,
-                .sdkUnknown("")
+                .publish
             ]
         }
 
@@ -6209,8 +6199,7 @@ extension CodeartifactClientTypes {
                 .mismatchedStatus,
                 .notAllowed,
                 .notFound,
-                .skipped,
-                .sdkUnknown("")
+                .skipped
             ]
         }
 
@@ -6276,8 +6265,7 @@ extension CodeartifactClientTypes {
             return [
                 .external,
                 .internal,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -6305,8 +6293,7 @@ extension CodeartifactClientTypes {
 
         public static var allCases: [PackageVersionSortType] {
             return [
-                .publishedTime,
-                .sdkUnknown("")
+                .publishedTime
             ]
         }
 
@@ -6342,8 +6329,7 @@ extension CodeartifactClientTypes {
                 .disposed,
                 .published,
                 .unfinished,
-                .unlisted,
-                .sdkUnknown("")
+                .unlisted
             ]
         }
 
@@ -7240,8 +7226,7 @@ extension CodeartifactClientTypes {
                 .domain,
                 .package,
                 .packageVersion,
-                .repository,
-                .sdkUnknown("")
+                .repository
             ]
         }
 
@@ -8203,8 +8188,7 @@ extension CodeartifactClientTypes {
                 .encryptionKeyError,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

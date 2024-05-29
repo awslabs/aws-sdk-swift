@@ -105,8 +105,7 @@ extension FSxClientTypes {
                 .domainNotFound,
                 .incompatibleDomainMode,
                 .invalidDomainStage,
-                .wrongVpc,
-                .sdkUnknown("")
+                .wrongVpc
             ]
         }
 
@@ -335,8 +334,7 @@ extension FSxClientTypes {
                 .volumeInitializeWithSnapshot,
                 .volumeRestore,
                 .volumeUpdate,
-                .volumeUpdateWithSnapshot,
-                .sdkUnknown("")
+                .volumeUpdateWithSnapshot
             ]
         }
 
@@ -472,8 +470,7 @@ extension FSxClientTypes {
                 .createFailed,
                 .creating,
                 .deleteFailed,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -681,8 +678,7 @@ extension FSxClientTypes {
                 .new,
                 .newChanged,
                 .newChangedDeleted,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -769,8 +765,7 @@ extension FSxClientTypes {
                 .minutes,
                 .months,
                 .none,
-                .years,
-                .sdkUnknown("")
+                .years
             ]
         }
 
@@ -1055,8 +1050,7 @@ extension FSxClientTypes {
                 .deleted,
                 .failed,
                 .pending,
-                .transferring,
-                .sdkUnknown("")
+                .transferring
             ]
         }
 
@@ -1174,8 +1168,7 @@ extension FSxClientTypes {
             return [
                 .automatic,
                 .awsBackup,
-                .userInitiated,
-                .sdkUnknown("")
+                .userInitiated
             ]
         }
 
@@ -3625,8 +3618,7 @@ extension FSxClientTypes {
         public static var allCases: [DataCompressionType] {
             return [
                 .lz4,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3931,8 +3923,7 @@ extension FSxClientTypes {
                 .deleting,
                 .failed,
                 .misconfigured,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4241,8 +4232,7 @@ extension FSxClientTypes {
                 .dataRepoAssociationId,
                 .fileCacheId,
                 .fileSystemId,
-                .taskLifecycle,
-                .sdkUnknown("")
+                .taskLifecycle
             ]
         }
 
@@ -4281,8 +4271,7 @@ extension FSxClientTypes {
                 .executing,
                 .failed,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4403,8 +4392,7 @@ extension FSxClientTypes {
                 .autoTriggeredEviction,
                 .eviction,
                 .export,
-                .import,
-                .sdkUnknown("")
+                .import
             ]
         }
 
@@ -4830,8 +4818,7 @@ extension FSxClientTypes {
 
         public static var allCases: [DeleteFileSystemOpenZFSOption] {
             return [
-                .deleteChildVolumesAndSnapshots,
-                .sdkUnknown("")
+                .deleteChildVolumesAndSnapshots
             ]
         }
 
@@ -5011,8 +4998,7 @@ extension FSxClientTypes {
 
         public static var allCases: [DeleteOpenZFSVolumeOption] {
             return [
-                .deleteChildVolumesAndSnapshots,
-                .sdkUnknown("")
+                .deleteChildVolumesAndSnapshots
             ]
         }
 
@@ -6348,8 +6334,7 @@ extension FSxClientTypes {
         public static var allCases: [DiskIopsConfigurationMode] {
             return [
                 .automatic,
-                .userProvisioned,
-                .sdkUnknown("")
+                .userProvisioned
             ]
         }
 
@@ -6378,8 +6363,7 @@ extension FSxClientTypes {
         public static var allCases: [DriveCacheType] {
             return [
                 .none,
-                .read,
-                .sdkUnknown("")
+                .read
             ]
         }
 
@@ -6447,8 +6431,7 @@ extension FSxClientTypes {
             return [
                 .changed,
                 .deleted,
-                .new,
-                .sdkUnknown("")
+                .new
             ]
         }
 
@@ -6796,8 +6779,7 @@ extension FSxClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6878,8 +6860,7 @@ extension FSxClientTypes {
 
         public static var allCases: [FileCacheLustreDeploymentType] {
             return [
-                .cache1,
-                .sdkUnknown("")
+                .cache1
             ]
         }
 
@@ -7005,8 +6986,7 @@ extension FSxClientTypes {
 
         public static var allCases: [FileCacheType] {
             return [
-                .lustre,
-                .sdkUnknown("")
+                .lustre
             ]
         }
 
@@ -7281,8 +7261,7 @@ extension FSxClientTypes {
                 .failed,
                 .misconfigured,
                 .misconfiguredUnavailable,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -7317,8 +7296,7 @@ extension FSxClientTypes {
         public static var allCases: [FileSystemMaintenanceOperation] {
             return [
                 .backingUp,
-                .patching,
-                .sdkUnknown("")
+                .patching
             ]
         }
 
@@ -7390,8 +7368,7 @@ extension FSxClientTypes {
                 .lustre,
                 .ontap,
                 .openzfs,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -7462,8 +7439,7 @@ extension FSxClientTypes {
                 .fileCacheType,
                 .fileSystemId,
                 .fileSystemType,
-                .volumeId,
-                .sdkUnknown("")
+                .volumeId
             ]
         }
 
@@ -7499,8 +7475,7 @@ extension FSxClientTypes {
             return [
                 .cache,
                 .none,
-                .origin,
-                .sdkUnknown("")
+                .origin
             ]
         }
 
@@ -7612,8 +7587,7 @@ extension FSxClientTypes {
         public static var allCases: [InputOntapVolumeType] {
             return [
                 .dp,
-                .rw,
-                .sdkUnknown("")
+                .rw
             ]
         }
 
@@ -8116,8 +8090,7 @@ extension FSxClientTypes {
                 .disabled,
                 .errorOnly,
                 .warnError,
-                .warnOnly,
-                .sdkUnknown("")
+                .warnOnly
             ]
         }
 
@@ -8152,8 +8125,7 @@ extension FSxClientTypes {
                 .persistent1,
                 .persistent2,
                 .scratch1,
-                .scratch2,
-                .sdkUnknown("")
+                .scratch2
             ]
         }
 
@@ -8566,8 +8538,7 @@ extension FSxClientTypes {
 
         public static var allCases: [NfsVersion] {
             return [
-                .nfs3,
-                .sdkUnknown("")
+                .nfs3
             ]
         }
 
@@ -8641,8 +8612,7 @@ extension FSxClientTypes {
             return [
                 .multiAz1,
                 .singleAz1,
-                .singleAz2,
-                .sdkUnknown("")
+                .singleAz2
             ]
         }
 
@@ -8913,8 +8883,7 @@ extension FSxClientTypes {
             return [
                 .dp,
                 .ls,
-                .rw,
-                .sdkUnknown("")
+                .rw
             ]
         }
 
@@ -8989,8 +8958,7 @@ extension FSxClientTypes {
             return [
                 .clone,
                 .fullCopy,
-                .incrementalCopy,
-                .sdkUnknown("")
+                .incrementalCopy
             ]
         }
 
@@ -9077,8 +9045,7 @@ extension FSxClientTypes {
             return [
                 .lz4,
                 .none,
-                .zstd,
-                .sdkUnknown("")
+                .zstd
             ]
         }
 
@@ -9110,8 +9077,7 @@ extension FSxClientTypes {
             return [
                 .multiAz1,
                 .singleAz1,
-                .singleAz2,
-                .sdkUnknown("")
+                .singleAz2
             ]
         }
 
@@ -9297,8 +9263,7 @@ extension FSxClientTypes {
         public static var allCases: [OpenZFSQuotaType] {
             return [
                 .group,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -9499,8 +9464,7 @@ extension FSxClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .permanentlyDisabled,
-                .sdkUnknown("")
+                .permanentlyDisabled
             ]
         }
 
@@ -9634,8 +9598,7 @@ extension FSxClientTypes {
 
         public static var allCases: [ReportFormat] {
             return [
-                .reportCsv20191124,
-                .sdkUnknown("")
+                .reportCsv20191124
             ]
         }
 
@@ -9661,8 +9624,7 @@ extension FSxClientTypes {
 
         public static var allCases: [ReportScope] {
             return [
-                .failedFilesOnly,
-                .sdkUnknown("")
+                .failedFilesOnly
             ]
         }
 
@@ -9778,8 +9740,7 @@ extension FSxClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .fileSystem,
-                .volume,
-                .sdkUnknown("")
+                .volume
             ]
         }
 
@@ -9808,8 +9769,7 @@ extension FSxClientTypes {
         public static var allCases: [RestoreOpenZFSVolumeOption] {
             return [
                 .deleteClonedVolumes,
-                .deleteIntermediateSnapshots,
-                .sdkUnknown("")
+                .deleteIntermediateSnapshots
             ]
         }
 
@@ -9998,8 +9958,7 @@ extension FSxClientTypes {
                 .months,
                 .seconds,
                 .unspecified,
-                .years,
-                .sdkUnknown("")
+                .years
             ]
         }
 
@@ -10073,8 +10032,7 @@ extension FSxClientTypes {
             return [
                 .mixed,
                 .ntfs,
-                .unix,
-                .sdkUnknown("")
+                .unix
             ]
         }
 
@@ -10279,8 +10237,7 @@ extension FSxClientTypes {
                 .totalThroughputCapacity,
                 .totalUserInitiatedBackups,
                 .totalUserTags,
-                .volumesPerFileSystem,
-                .sdkUnknown("")
+                .volumesPerFileSystem
             ]
         }
 
@@ -10462,8 +10419,7 @@ extension FSxClientTypes {
         public static var allCases: [SnaplockType] {
             return [
                 .compliance,
-                .enterprise,
-                .sdkUnknown("")
+                .enterprise
             ]
         }
 
@@ -10595,8 +10551,7 @@ extension FSxClientTypes {
         public static var allCases: [SnapshotFilterName] {
             return [
                 .fileSystemId,
-                .volumeId,
-                .sdkUnknown("")
+                .volumeId
             ]
         }
 
@@ -10629,8 +10584,7 @@ extension FSxClientTypes {
                 .available,
                 .creating,
                 .deleting,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -10821,8 +10775,7 @@ extension FSxClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .updatedOptimizing,
-                .sdkUnknown("")
+                .updatedOptimizing
             ]
         }
 
@@ -10855,8 +10808,7 @@ extension FSxClientTypes {
         public static var allCases: [StorageType] {
             return [
                 .hdd,
-                .ssd,
-                .sdkUnknown("")
+                .ssd
             ]
         }
 
@@ -11010,8 +10962,7 @@ extension FSxClientTypes {
 
         public static var allCases: [StorageVirtualMachineFilterName] {
             return [
-                .fileSystemId,
-                .sdkUnknown("")
+                .fileSystemId
             ]
         }
 
@@ -11047,8 +10998,7 @@ extension FSxClientTypes {
                 .deleting,
                 .failed,
                 .misconfigured,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -11121,8 +11071,7 @@ extension FSxClientTypes {
             return [
                 .mixed,
                 .ntfs,
-                .unix,
-                .sdkUnknown("")
+                .unix
             ]
         }
 
@@ -11156,8 +11105,7 @@ extension FSxClientTypes {
                 .default,
                 .dpDestination,
                 .syncDestination,
-                .syncSource,
-                .sdkUnknown("")
+                .syncSource
             ]
         }
 
@@ -11462,8 +11410,7 @@ extension FSxClientTypes {
                 .all,
                 .auto,
                 .none,
-                .snapshotOnly,
-                .sdkUnknown("")
+                .snapshotOnly
             ]
         }
 
@@ -11492,8 +11439,7 @@ extension FSxClientTypes {
 
         public static var allCases: [Unit] {
             return [
-                .days,
-                .sdkUnknown("")
+                .days
             ]
         }
 
@@ -12362,8 +12308,7 @@ extension FSxClientTypes {
             return [
                 .deleteClonedVolumes,
                 .deleteIntermediateData,
-                .deleteIntermediateSnapshots,
-                .sdkUnknown("")
+                .deleteIntermediateSnapshots
             ]
         }
 
@@ -12921,8 +12866,7 @@ extension FSxClientTypes {
         public static var allCases: [VolumeFilterName] {
             return [
                 .fileSystemId,
-                .storageVirtualMachineId,
-                .sdkUnknown("")
+                .storageVirtualMachineId
             ]
         }
 
@@ -12961,8 +12905,7 @@ extension FSxClientTypes {
                 .deleting,
                 .failed,
                 .misconfigured,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -13034,8 +12977,7 @@ extension FSxClientTypes {
         public static var allCases: [VolumeStyle] {
             return [
                 .flexgroup,
-                .flexvol,
-                .sdkUnknown("")
+                .flexvol
             ]
         }
 
@@ -13064,8 +13006,7 @@ extension FSxClientTypes {
         public static var allCases: [VolumeType] {
             return [
                 .ontap,
-                .openzfs,
-                .sdkUnknown("")
+                .openzfs
             ]
         }
 
@@ -13098,8 +13039,7 @@ extension FSxClientTypes {
                 .disabled,
                 .failureOnly,
                 .successAndFailure,
-                .successOnly,
-                .sdkUnknown("")
+                .successOnly
             ]
         }
 
@@ -13248,8 +13188,7 @@ extension FSxClientTypes {
             return [
                 .multiAz1,
                 .singleAz1,
-                .singleAz2,
-                .sdkUnknown("")
+                .singleAz2
             ]
         }
 

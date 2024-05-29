@@ -1017,8 +1017,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public static var allCases: [ApplicationMode] {
             return [
                 .interactive,
-                .streaming,
-                .sdkUnknown("")
+                .streaming
             ]
         }
 
@@ -1087,8 +1086,7 @@ extension KinesisAnalyticsV2ClientTypes {
             return [
                 .restoreFromCustomSnapshot,
                 .restoreFromLatestSnapshot,
-                .skipRestoreFromSnapshot,
-                .sdkUnknown("")
+                .skipRestoreFromSnapshot
             ]
         }
 
@@ -1213,8 +1211,7 @@ extension KinesisAnalyticsV2ClientTypes {
                 .running,
                 .starting,
                 .stopping,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1341,8 +1338,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public static var allCases: [ArtifactType] {
             return [
                 .dependencyJar,
-                .udf,
-                .sdkUnknown("")
+                .udf
             ]
         }
 
@@ -1793,8 +1789,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public static var allCases: [CodeContentType] {
             return [
                 .plaintext,
-                .zipfile,
-                .sdkUnknown("")
+                .zipfile
             ]
         }
 
@@ -1931,8 +1926,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public static var allCases: [ConfigurationType] {
             return [
                 .custom,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -3970,8 +3964,7 @@ extension KinesisAnalyticsV2ClientTypes {
             return [
                 .lastStoppedPoint,
                 .now,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -4998,8 +4991,7 @@ extension KinesisAnalyticsV2ClientTypes {
                 .debug,
                 .error,
                 .info,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -5117,8 +5109,7 @@ extension KinesisAnalyticsV2ClientTypes {
                 .application,
                 .operator,
                 .parallelism,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -5648,8 +5639,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public static var allCases: [RecordFormatType] {
             return [
                 .csv,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -6097,8 +6087,7 @@ extension KinesisAnalyticsV2ClientTypes {
                 .sql10,
                 .zeppelinFlink10,
                 .zeppelinFlink20,
-                .zeppelinFlink30,
-                .sdkUnknown("")
+                .zeppelinFlink30
             ]
         }
 
@@ -6560,8 +6549,7 @@ extension KinesisAnalyticsV2ClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -7380,8 +7368,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public static var allCases: [UrlType] {
             return [
                 .flinkDashboardUrl,
-                .zeppelinUiUrl,
-                .sdkUnknown("")
+                .zeppelinUiUrl
             ]
         }
 

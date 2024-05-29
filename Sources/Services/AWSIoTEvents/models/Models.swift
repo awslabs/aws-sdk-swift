@@ -368,8 +368,7 @@ extension IoTEventsClientTypes {
                 .activating,
                 .active,
                 .failed,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -597,8 +596,7 @@ extension IoTEventsClientTypes {
             return [
                 .error,
                 .info,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -656,8 +654,7 @@ extension IoTEventsClientTypes {
             return [
                 .complete,
                 .failed,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -914,8 +911,7 @@ extension IoTEventsClientTypes {
                 .greaterOrEqual,
                 .less,
                 .lessOrEqual,
-                .notEqual,
-                .sdkUnknown("")
+                .notEqual
             ]
         }
 
@@ -2103,8 +2099,7 @@ extension IoTEventsClientTypes {
                 .draft,
                 .failed,
                 .inactive,
-                .paused,
-                .sdkUnknown("")
+                .paused
             ]
         }
 
@@ -2483,8 +2478,7 @@ extension IoTEventsClientTypes {
         public static var allCases: [EvaluationMethod] {
             return [
                 .batch,
-                .serial,
-                .sdkUnknown("")
+                .serial
             ]
         }
 
@@ -2879,8 +2873,7 @@ extension IoTEventsClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3942,8 +3935,7 @@ extension IoTEventsClientTypes {
             return [
                 .debug,
                 .error,
-                .info,
-                .sdkUnknown("")
+                .info
             ]
         }
 
@@ -4238,8 +4230,7 @@ extension IoTEventsClientTypes {
         public static var allCases: [PayloadType] {
             return [
                 .json,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 

@@ -280,8 +280,7 @@ extension TranscribeStreamingClientTypes {
                 .frCa,
                 .frFr,
                 .itIt,
-                .ptBr,
-                .sdkUnknown("")
+                .ptBr
             ]
         }
 
@@ -546,8 +545,7 @@ extension TranscribeStreamingClientTypes {
 
         public static var allCases: [ContentIdentificationType] {
             return [
-                .pii,
-                .sdkUnknown("")
+                .pii
             ]
         }
 
@@ -575,8 +573,7 @@ extension TranscribeStreamingClientTypes {
         public static var allCases: [ContentRedactionOutput] {
             return [
                 .redacted,
-                .redactedAndUnredacted,
-                .sdkUnknown("")
+                .redactedAndUnredacted
             ]
         }
 
@@ -603,8 +600,7 @@ extension TranscribeStreamingClientTypes {
 
         public static var allCases: [ContentRedactionType] {
             return [
-                .pii,
-                .sdkUnknown("")
+                .pii
             ]
         }
 
@@ -817,8 +813,7 @@ extension TranscribeStreamingClientTypes {
         public static var allCases: [ItemType] {
             return [
                 .pronunciation,
-                .punctuation,
-                .sdkUnknown("")
+                .punctuation
             ]
         }
 
@@ -871,8 +866,7 @@ extension TranscribeStreamingClientTypes {
                 .koKr,
                 .ptBr,
                 .thTh,
-                .zhCn,
-                .sdkUnknown("")
+                .zhCn
             ]
         }
 
@@ -993,8 +987,7 @@ extension TranscribeStreamingClientTypes {
             return [
                 .flac,
                 .oggOpus,
-                .pcm,
-                .sdkUnknown("")
+                .pcm
             ]
         }
 
@@ -1058,8 +1051,7 @@ extension TranscribeStreamingClientTypes {
 
         public static var allCases: [MedicalContentIdentificationType] {
             return [
-                .phi,
-                .sdkUnknown("")
+                .phi
             ]
         }
 
@@ -1346,8 +1338,7 @@ extension TranscribeStreamingClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -1377,8 +1368,7 @@ extension TranscribeStreamingClientTypes {
         public static var allCases: [ParticipantRole] {
             return [
                 .agent,
-                .customer,
-                .sdkUnknown("")
+                .customer
             ]
         }
 
@@ -1563,8 +1553,7 @@ extension TranscribeStreamingClientTypes {
                 .mixed,
                 .negative,
                 .neutral,
-                .positive,
-                .sdkUnknown("")
+                .positive
             ]
         }
 
@@ -1650,8 +1639,7 @@ extension TranscribeStreamingClientTypes {
                 .oncology,
                 .primarycare,
                 .radiology,
-                .urology,
-                .sdkUnknown("")
+                .urology
             ]
         }
 
@@ -2741,8 +2729,7 @@ extension TranscribeStreamingClientTypes {
         public static var allCases: [ModelType] {
             return [
                 .conversation,
-                .dictation,
-                .sdkUnknown("")
+                .dictation
             ]
         }
 
@@ -2844,8 +2831,7 @@ extension TranscribeStreamingClientTypes {
             return [
                 .mask,
                 .remove,
-                .tag,
-                .sdkUnknown("")
+                .tag
             ]
         }
 

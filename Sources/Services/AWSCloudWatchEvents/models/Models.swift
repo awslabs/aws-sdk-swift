@@ -149,8 +149,7 @@ extension CloudWatchEventsClientTypes {
                 .options,
                 .patch,
                 .post,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -184,8 +183,7 @@ extension CloudWatchEventsClientTypes {
         public static var allCases: [ApiDestinationState] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -283,8 +281,7 @@ extension CloudWatchEventsClientTypes {
                 .disabled,
                 .enabled,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -317,8 +314,7 @@ extension CloudWatchEventsClientTypes {
         public static var allCases: [AssignPublicIp] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -833,8 +829,7 @@ extension CloudWatchEventsClientTypes {
             return [
                 .apiKey,
                 .basic,
-                .oauthClientCredentials,
-                .sdkUnknown("")
+                .oauthClientCredentials
             ]
         }
 
@@ -1057,8 +1052,7 @@ extension CloudWatchEventsClientTypes {
             return [
                 .get,
                 .post,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -1187,8 +1181,7 @@ extension CloudWatchEventsClientTypes {
                 .deauthorized,
                 .deauthorizing,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3600,8 +3593,7 @@ extension CloudWatchEventsClientTypes {
             return [
                 .active,
                 .deleted,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -3927,8 +3919,7 @@ extension CloudWatchEventsClientTypes {
             return [
                 .ec2,
                 .external,
-                .fargate,
-                .sdkUnknown("")
+                .fargate
             ]
         }
 
@@ -5213,8 +5204,7 @@ extension CloudWatchEventsClientTypes {
         public static var allCases: [PlacementConstraintType] {
             return [
                 .distinctInstance,
-                .memberOf,
-                .sdkUnknown("")
+                .memberOf
             ]
         }
 
@@ -5282,8 +5272,7 @@ extension CloudWatchEventsClientTypes {
             return [
                 .binpack,
                 .random,
-                .spread,
-                .sdkUnknown("")
+                .spread
             ]
         }
 
@@ -5348,8 +5337,7 @@ extension CloudWatchEventsClientTypes {
 
         public static var allCases: [PropagateTags] {
             return [
-                .taskDefinition,
-                .sdkUnknown("")
+                .taskDefinition
             ]
         }
 
@@ -6367,8 +6355,7 @@ extension CloudWatchEventsClientTypes {
                 .completed,
                 .failed,
                 .running,
-                .starting,
-                .sdkUnknown("")
+                .starting
             ]
         }
 
@@ -6578,8 +6565,7 @@ extension CloudWatchEventsClientTypes {
         public static var allCases: [RuleState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 

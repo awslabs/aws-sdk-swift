@@ -54,8 +54,7 @@ extension ARCZonalShiftClientTypes {
         public static var allCases: [AppliedStatus] {
             return [
                 .applied,
-                .notApplied,
-                .sdkUnknown("")
+                .notApplied
             ]
         }
 
@@ -84,8 +83,7 @@ extension ARCZonalShiftClientTypes {
         public static var allCases: [AutoshiftAppliedStatus] {
             return [
                 .applied,
-                .notApplied,
-                .sdkUnknown("")
+                .notApplied
             ]
         }
 
@@ -114,8 +112,7 @@ extension ARCZonalShiftClientTypes {
         public static var allCases: [AutoshiftExecutionStatus] {
             return [
                 .active,
-                .completed,
-                .sdkUnknown("")
+                .completed
             ]
         }
 
@@ -394,8 +391,7 @@ extension ARCZonalShiftClientTypes {
                 .practiceConfigurationDoesNotExist,
                 .simultaneousZonalShiftsConflict,
                 .zonalShiftAlreadyExists,
-                .zonalShiftStatusNotActive,
-                .sdkUnknown("")
+                .zonalShiftStatusNotActive
             ]
         }
 
@@ -465,8 +461,7 @@ extension ARCZonalShiftClientTypes {
 
         public static var allCases: [ControlConditionType] {
             return [
-                .cloudwatch,
-                .sdkUnknown("")
+                .cloudwatch
             ]
         }
 
@@ -1212,8 +1207,7 @@ extension ARCZonalShiftClientTypes {
                 .failed,
                 .interrupted,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1849,8 +1843,7 @@ extension ARCZonalShiftClientTypes {
                 .invalidStatus,
                 .invalidToken,
                 .missingValue,
-                .unsupportedAz,
-                .sdkUnknown("")
+                .unsupportedAz
             ]
         }
 
@@ -1887,8 +1880,7 @@ extension ARCZonalShiftClientTypes {
         public static var allCases: [ZonalAutoshiftStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1998,8 +1990,7 @@ extension ARCZonalShiftClientTypes {
             return [
                 .active,
                 .canceled,
-                .expired,
-                .sdkUnknown("")
+                .expired
             ]
         }
 

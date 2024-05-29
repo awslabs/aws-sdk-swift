@@ -291,8 +291,7 @@ extension OpsWorksCMClientTypes {
                 .deleting,
                 .failed,
                 .inProgress,
-                .ok,
-                .sdkUnknown("")
+                .ok
             ]
         }
 
@@ -323,8 +322,7 @@ extension OpsWorksCMClientTypes {
         public static var allCases: [BackupType] {
             return [
                 .automated,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -1580,8 +1578,7 @@ extension OpsWorksCMClientTypes {
         public static var allCases: [MaintenanceStatus] {
             return [
                 .failed,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -1619,8 +1616,7 @@ extension OpsWorksCMClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2027,8 +2023,7 @@ extension OpsWorksCMClientTypes {
                 .setup,
                 .terminated,
                 .underMaintenance,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 

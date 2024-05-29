@@ -2204,8 +2204,7 @@ extension SFNClientTypes {
         public static var allCases: [ExecutionRedriveFilter] {
             return [
                 .notRedriven,
-                .redriven,
-                .sdkUnknown("")
+                .redriven
             ]
         }
 
@@ -2236,8 +2235,7 @@ extension SFNClientTypes {
             return [
                 .notRedrivable,
                 .redrivable,
-                .redrivableByMapRun,
-                .sdkUnknown("")
+                .redrivableByMapRun
             ]
         }
 
@@ -2352,8 +2350,7 @@ extension SFNClientTypes {
                 .pendingRedrive,
                 .running,
                 .succeeded,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -3003,8 +3000,7 @@ extension SFNClientTypes {
                 .tasktimedout,
                 .waitstateaborted,
                 .waitstateentered,
-                .waitstateexited,
-                .sdkUnknown("")
+                .waitstateexited
             ]
         }
 
@@ -3253,8 +3249,7 @@ extension SFNClientTypes {
             return [
                 .debug,
                 .info,
-                .trace,
-                .sdkUnknown("")
+                .trace
             ]
         }
 
@@ -4420,8 +4415,7 @@ extension SFNClientTypes {
                 .all,
                 .error,
                 .fatal,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -4831,8 +4825,7 @@ extension SFNClientTypes {
                 .aborted,
                 .failed,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -6029,8 +6022,7 @@ extension SFNClientTypes {
         public static var allCases: [StateMachineStatus] {
             return [
                 .active,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -6059,8 +6051,7 @@ extension SFNClientTypes {
         public static var allCases: [StateMachineType] {
             return [
                 .express,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -6245,8 +6236,7 @@ extension SFNClientTypes {
             return [
                 .failed,
                 .succeeded,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -6865,8 +6855,7 @@ extension SFNClientTypes {
                 .caughtError,
                 .failed,
                 .retriable,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -7569,8 +7558,7 @@ extension SFNClientTypes {
         public static var allCases: [ValidateStateMachineDefinitionResultCode] {
             return [
                 .fail,
-                .ok,
-                .sdkUnknown("")
+                .ok
             ]
         }
 
@@ -7597,8 +7585,7 @@ extension SFNClientTypes {
 
         public static var allCases: [ValidateStateMachineDefinitionSeverity] {
             return [
-                .error,
-                .sdkUnknown("")
+                .error
             ]
         }
 
@@ -7672,8 +7659,7 @@ extension SFNClientTypes {
                 .apiDoesNotSupportLabeledArns,
                 .cannotUpdateCompletedMapRun,
                 .invalidRoutingConfiguration,
-                .missingRequiredParameter,
-                .sdkUnknown("")
+                .missingRequiredParameter
             ]
         }
 

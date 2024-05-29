@@ -1691,8 +1691,7 @@ extension RedshiftDataClientTypes {
                 .finished,
                 .picked,
                 .started,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -1735,8 +1734,7 @@ extension RedshiftDataClientTypes {
                 .finished,
                 .picked,
                 .started,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 

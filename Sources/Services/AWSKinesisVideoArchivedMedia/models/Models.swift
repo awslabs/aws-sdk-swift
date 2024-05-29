@@ -83,8 +83,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [ClipFragmentSelectorType] {
             return [
                 .producerTimestamp,
-                .serverTimestamp,
-                .sdkUnknown("")
+                .serverTimestamp
             ]
         }
 
@@ -144,8 +143,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [ContainerFormat] {
             return [
                 .fragmentedMp4,
-                .mpegTs,
-                .sdkUnknown("")
+                .mpegTs
             ]
         }
 
@@ -174,8 +172,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [DASHDisplayFragmentNumber] {
             return [
                 .always,
-                .never,
-                .sdkUnknown("")
+                .never
             ]
         }
 
@@ -204,8 +201,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [DASHDisplayFragmentTimestamp] {
             return [
                 .always,
-                .never,
-                .sdkUnknown("")
+                .never
             ]
         }
 
@@ -263,8 +259,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [DASHFragmentSelectorType] {
             return [
                 .producerTimestamp,
-                .serverTimestamp,
-                .sdkUnknown("")
+                .serverTimestamp
             ]
         }
 
@@ -295,8 +290,7 @@ extension KinesisVideoArchivedMediaClientTypes {
             return [
                 .live,
                 .liveReplay,
-                .onDemand,
-                .sdkUnknown("")
+                .onDemand
             ]
         }
 
@@ -355,8 +349,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [Format] {
             return [
                 .jpeg,
-                .png,
-                .sdkUnknown("")
+                .png
             ]
         }
 
@@ -383,8 +376,7 @@ extension KinesisVideoArchivedMediaClientTypes {
 
         public static var allCases: [FormatConfigKey] {
             return [
-                .jpegquality,
-                .sdkUnknown("")
+                .jpegquality
             ]
         }
 
@@ -500,8 +492,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [FragmentSelectorType] {
             return [
                 .producerTimestamp,
-                .serverTimestamp,
-                .sdkUnknown("")
+                .serverTimestamp
             ]
         }
 
@@ -1111,8 +1102,7 @@ extension KinesisVideoArchivedMediaClientTypes {
             return [
                 .always,
                 .never,
-                .onDiscontinuity,
-                .sdkUnknown("")
+                .onDiscontinuity
             ]
         }
 
@@ -1142,8 +1132,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [HLSDisplayFragmentTimestamp] {
             return [
                 .always,
-                .never,
-                .sdkUnknown("")
+                .never
             ]
         }
 
@@ -1201,8 +1190,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [HLSFragmentSelectorType] {
             return [
                 .producerTimestamp,
-                .serverTimestamp,
-                .sdkUnknown("")
+                .serverTimestamp
             ]
         }
 
@@ -1233,8 +1221,7 @@ extension KinesisVideoArchivedMediaClientTypes {
             return [
                 .live,
                 .liveReplay,
-                .onDemand,
-                .sdkUnknown("")
+                .onDemand
             ]
         }
 
@@ -1336,8 +1323,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [ImageError] {
             return [
                 .mediaError,
-                .noMedia,
-                .sdkUnknown("")
+                .noMedia
             ]
         }
 
@@ -1366,8 +1352,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public static var allCases: [ImageSelectorType] {
             return [
                 .producerTimestamp,
-                .serverTimestamp,
-                .sdkUnknown("")
+                .serverTimestamp
             ]
         }
 

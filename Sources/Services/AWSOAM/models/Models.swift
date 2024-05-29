@@ -1504,8 +1504,7 @@ extension OAMClientTypes {
                 .awsCloudwatchMetric,
                 .awsInternetmonitorMonitor,
                 .awsLogsLoggroup,
-                .awsXrayTrace,
-                .sdkUnknown("")
+                .awsXrayTrace
             ]
         }
 

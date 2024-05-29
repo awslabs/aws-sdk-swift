@@ -52,8 +52,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [ArtifactNamespace] {
             return [
                 .buildId,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -82,8 +81,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [ArtifactPackaging] {
             return [
                 .none,
-                .zip,
-                .sdkUnknown("")
+                .zip
             ]
         }
 
@@ -114,8 +112,7 @@ extension CodeBuildClientTypes {
             return [
                 .codepipeline,
                 .noArtifacts,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -149,8 +146,7 @@ extension CodeBuildClientTypes {
                 .basicAuth,
                 .codeconnections,
                 .oauth,
-                .personalAccessToken,
-                .sdkUnknown("")
+                .personalAccessToken
             ]
         }
 
@@ -678,8 +674,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [BatchReportModeType] {
             return [
                 .reportAggregatedBatch,
-                .reportIndividualBuilds,
-                .sdkUnknown("")
+                .reportIndividualBuilds
             ]
         }
 
@@ -755,8 +750,7 @@ extension CodeBuildClientTypes {
             return [
                 .full,
                 .none,
-                .readOnly,
-                .sdkUnknown("")
+                .readOnly
             ]
         }
 
@@ -1338,8 +1332,7 @@ extension CodeBuildClientTypes {
                 .inProgress,
                 .stopped,
                 .submitted,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1519,8 +1512,7 @@ extension CodeBuildClientTypes {
                 .provisioning,
                 .queued,
                 .submitted,
-                .uploadArtifacts,
-                .sdkUnknown("")
+                .uploadArtifacts
             ]
         }
 
@@ -1643,8 +1635,7 @@ extension CodeBuildClientTypes {
             return [
                 .localCustomCache,
                 .localDockerLayerCache,
-                .localSourceCache,
-                .sdkUnknown("")
+                .localSourceCache
             ]
         }
 
@@ -1676,8 +1667,7 @@ extension CodeBuildClientTypes {
             return [
                 .local,
                 .noCache,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -1895,8 +1885,7 @@ extension CodeBuildClientTypes {
                 .buildLambda1gb,
                 .buildLambda2gb,
                 .buildLambda4gb,
-                .buildLambda8gb,
-                .sdkUnknown("")
+                .buildLambda8gb
             ]
         }
 
@@ -2444,8 +2433,7 @@ extension CodeBuildClientTypes {
 
         public static var allCases: [CredentialProviderType] {
             return [
-                .secretsManager,
-                .sdkUnknown("")
+                .secretsManager
             ]
         }
 
@@ -3274,8 +3262,7 @@ extension CodeBuildClientTypes {
                 .linuxGpuContainer,
                 .linuxLambdaContainer,
                 .windowsContainer,
-                .windowsServer2019Container,
-                .sdkUnknown("")
+                .windowsServer2019Container
             ]
         }
 
@@ -3362,8 +3349,7 @@ extension CodeBuildClientTypes {
             return [
                 .parameterStore,
                 .plaintext,
-                .secretsManager,
-                .sdkUnknown("")
+                .secretsManager
             ]
         }
 
@@ -3422,8 +3408,7 @@ extension CodeBuildClientTypes {
 
         public static var allCases: [FileSystemType] {
             return [
-                .efs,
-                .sdkUnknown("")
+                .efs
             ]
         }
 
@@ -3592,8 +3577,7 @@ extension CodeBuildClientTypes {
             return [
                 .actionRequired,
                 .createFailed,
-                .updateFailed,
-                .sdkUnknown("")
+                .updateFailed
             ]
         }
 
@@ -3623,8 +3607,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [FleetOverflowBehavior] {
             return [
                 .onDemand,
-                .queue,
-                .sdkUnknown("")
+                .queue
             ]
         }
 
@@ -3651,8 +3634,7 @@ extension CodeBuildClientTypes {
 
         public static var allCases: [FleetScalingMetricType] {
             return [
-                .fleetUtilizationRate,
-                .sdkUnknown("")
+                .fleetUtilizationRate
             ]
         }
 
@@ -3678,8 +3660,7 @@ extension CodeBuildClientTypes {
 
         public static var allCases: [FleetScalingType] {
             return [
-                .targetTrackingScaling,
-                .sdkUnknown("")
+                .targetTrackingScaling
             ]
         }
 
@@ -3709,8 +3690,7 @@ extension CodeBuildClientTypes {
             return [
                 .createdTime,
                 .lastModifiedTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -3808,8 +3788,7 @@ extension CodeBuildClientTypes {
                 .pendingDeletion,
                 .rotating,
                 .updateRollbackFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4026,8 +4005,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [ImagePullCredentialsType] {
             return [
                 .codebuild,
-                .serviceRole,
-                .sdkUnknown("")
+                .serviceRole
             ]
         }
 
@@ -4259,8 +4237,7 @@ extension CodeBuildClientTypes {
                 .nodeJs,
                 .php,
                 .python,
-                .ruby,
-                .sdkUnknown("")
+                .ruby
             ]
         }
 
@@ -5461,8 +5438,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [LogsConfigStatusType] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5655,8 +5631,7 @@ extension CodeBuildClientTypes {
                 .amazonLinux,
                 .debian,
                 .ubuntu,
-                .windowsServer,
-                .sdkUnknown("")
+                .windowsServer
             ]
         }
 
@@ -6416,8 +6391,7 @@ extension CodeBuildClientTypes {
             return [
                 .createdTime,
                 .lastModifiedTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -6626,8 +6600,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [ProjectVisibilityType] {
             return [
                 .private,
-                .publicRead,
-                .sdkUnknown("")
+                .publicRead
             ]
         }
 
@@ -6856,8 +6829,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [ReportCodeCoverageSortByType] {
             return [
                 .filePath,
-                .lineCoveragePercentage,
-                .sdkUnknown("")
+                .lineCoveragePercentage
             ]
         }
 
@@ -6927,8 +6899,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [ReportExportConfigType] {
             return [
                 .noExport,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -7044,8 +7015,7 @@ extension CodeBuildClientTypes {
             return [
                 .createdTime,
                 .lastModifiedTime,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -7075,8 +7045,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [ReportGroupStatusType] {
             return [
                 .active,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -7119,8 +7088,7 @@ extension CodeBuildClientTypes {
                 .linesMissed,
                 .lineCoverage,
                 .passRate,
-                .total,
-                .sdkUnknown("")
+                .total
             ]
         }
 
@@ -7192,8 +7160,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [ReportPackagingType] {
             return [
                 .none,
-                .zip,
-                .sdkUnknown("")
+                .zip
             ]
         }
 
@@ -7228,8 +7195,7 @@ extension CodeBuildClientTypes {
                 .failed,
                 .generating,
                 .incomplete,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -7261,8 +7227,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [ReportType] {
             return [
                 .codeCoverage,
-                .test,
-                .sdkUnknown("")
+                .test
             ]
         }
 
@@ -7508,8 +7473,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [RetryBuildBatchType] {
             return [
                 .retryAllBuilds,
-                .retryFailedBuilds,
-                .sdkUnknown("")
+                .retryFailedBuilds
             ]
         }
 
@@ -7817,8 +7781,7 @@ extension CodeBuildClientTypes {
                 .github,
                 .githubEnterprise,
                 .gitlab,
-                .gitlabSelfManaged,
-                .sdkUnknown("")
+                .gitlabSelfManaged
             ]
         }
 
@@ -7850,8 +7813,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [SharedResourceSortByType] {
             return [
                 .arn,
-                .modifiedTime,
-                .sdkUnknown("")
+                .modifiedTime
             ]
         }
 
@@ -7880,8 +7842,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [SortOrderType] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -7948,8 +7909,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [SourceAuthType] {
             return [
                 .codeconnections,
-                .oauth,
-                .sdkUnknown("")
+                .oauth
             ]
         }
 
@@ -8033,8 +7993,7 @@ extension CodeBuildClientTypes {
                 .gitlab,
                 .gitlabSelfManaged,
                 .noSource,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -8518,8 +8477,7 @@ extension CodeBuildClientTypes {
                 .inProgress,
                 .stopped,
                 .succeeded,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -9591,8 +9549,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [WebhookBuildType] {
             return [
                 .build,
-                .buildBatch,
-                .sdkUnknown("")
+                .buildBatch
             ]
         }
 
@@ -9740,8 +9697,7 @@ extension CodeBuildClientTypes {
                 .headRef,
                 .releaseName,
                 .tagName,
-                .workflowName,
-                .sdkUnknown("")
+                .workflowName
             ]
         }
 

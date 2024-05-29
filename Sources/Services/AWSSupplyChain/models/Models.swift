@@ -109,8 +109,7 @@ extension SupplyChainClientTypes {
                 .inProgress,
                 .new,
                 .queued,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -293,8 +292,7 @@ extension SupplyChainClientTypes {
                 .shipment,
                 .shipmentStop,
                 .shipmentStopOrder,
-                .supplyPlan,
-                .sdkUnknown("")
+                .supplyPlan
             ]
         }
 

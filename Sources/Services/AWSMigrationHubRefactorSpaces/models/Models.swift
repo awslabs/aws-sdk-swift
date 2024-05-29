@@ -53,8 +53,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public static var allCases: [ApiGatewayEndpointType] {
             return [
                 .private,
-                .regional,
-                .sdkUnknown("")
+                .regional
             ]
         }
 
@@ -238,8 +237,7 @@ extension MigrationHubRefactorSpacesClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1615,8 +1613,7 @@ extension MigrationHubRefactorSpacesClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -1809,8 +1806,7 @@ extension MigrationHubRefactorSpacesClientTypes {
                 .resourceRetrievalFailure,
                 .resourceUpdateFailure,
                 .serviceEndpointHealthCheckFailure,
-                .stateTransitionFailure,
-                .sdkUnknown("")
+                .stateTransitionFailure
             ]
         }
 
@@ -1883,8 +1879,7 @@ extension MigrationHubRefactorSpacesClientTypes {
                 .transitGatewayAttachment,
                 .vpc,
                 .vpcEndpointServiceConfiguration,
-                .vpcLink,
-                .sdkUnknown("")
+                .vpcLink
             ]
         }
 
@@ -2661,8 +2656,7 @@ extension MigrationHubRefactorSpacesClientTypes {
                 .options,
                 .patch,
                 .post,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -3410,8 +3404,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public static var allCases: [NetworkFabricType] {
             return [
                 .none,
-                .transitGateway,
-                .sdkUnknown("")
+                .transitGateway
             ]
         }
 
@@ -3438,8 +3431,7 @@ extension MigrationHubRefactorSpacesClientTypes {
 
         public static var allCases: [ProxyType] {
             return [
-                .apiGateway,
-                .sdkUnknown("")
+                .apiGateway
             ]
         }
 
@@ -3582,8 +3574,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public static var allCases: [RouteActivationState] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -3620,8 +3611,7 @@ extension MigrationHubRefactorSpacesClientTypes {
                 .deleting,
                 .failed,
                 .inactive,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3770,8 +3760,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public static var allCases: [RouteType] {
             return [
                 .default,
-                .uriPath,
-                .sdkUnknown("")
+                .uriPath
             ]
         }
 
@@ -3800,8 +3789,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         public static var allCases: [ServiceEndpointType] {
             return [
                 .lambda,
-                .url,
-                .sdkUnknown("")
+                .url
             ]
         }
 
@@ -3895,8 +3883,7 @@ extension MigrationHubRefactorSpacesClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 

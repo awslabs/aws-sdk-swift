@@ -19,8 +19,7 @@ extension EMRClientTypes {
                 .cancelAndWait,
                 .continue,
                 .terminateCluster,
-                .terminateJobFlow,
-                .sdkUnknown("")
+                .terminateJobFlow
             ]
         }
 
@@ -362,8 +361,7 @@ extension EMRClientTypes {
             return [
                 .changeInCapacity,
                 .exactCapacity,
-                .percentChangeInCapacity,
-                .sdkUnknown("")
+                .percentChangeInCapacity
             ]
         }
 
@@ -442,8 +440,7 @@ extension EMRClientTypes {
         public static var allCases: [AuthMode] {
             return [
                 .iam,
-                .sso,
-                .sdkUnknown("")
+                .sso
             ]
         }
 
@@ -547,8 +544,7 @@ extension EMRClientTypes {
                 .detached,
                 .detaching,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -614,8 +610,7 @@ extension EMRClientTypes {
             return [
                 .cleanupFailure,
                 .provisionFailure,
-                .userRequest,
-                .sdkUnknown("")
+                .userRequest
             ]
         }
 
@@ -977,8 +972,7 @@ extension EMRClientTypes {
         public static var allCases: [CancelStepsRequestStatus] {
             return [
                 .failed,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -1291,8 +1285,7 @@ extension EMRClientTypes {
                 .terminated,
                 .terminatedWithErrors,
                 .terminating,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -1369,8 +1362,7 @@ extension EMRClientTypes {
                 .internalError,
                 .stepFailure,
                 .userRequest,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -1573,8 +1565,7 @@ extension EMRClientTypes {
                 .greaterThan,
                 .greaterThanOrEqual,
                 .lessThan,
-                .lessThanOrEqual,
-                .sdkUnknown("")
+                .lessThanOrEqual
             ]
         }
 
@@ -1665,8 +1656,7 @@ extension EMRClientTypes {
             return [
                 .instancefleetunits,
                 .instances,
-                .vcpu,
-                .sdkUnknown("")
+                .vcpu
             ]
         }
 
@@ -3071,8 +3061,7 @@ extension EMRClientTypes {
 
         public static var allCases: [ExecutionEngineType] {
             return [
-                .emr,
-                .sdkUnknown("")
+                .emr
             ]
         }
 
@@ -3583,8 +3572,7 @@ extension EMRClientTypes {
         public static var allCases: [IdcUserAssignment] {
             return [
                 .optional,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -3613,8 +3601,7 @@ extension EMRClientTypes {
         public static var allCases: [IdentityType] {
             return [
                 .group,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -3724,8 +3711,7 @@ extension EMRClientTypes {
         public static var allCases: [InstanceCollectionType] {
             return [
                 .instanceFleet,
-                .instanceGroup,
-                .sdkUnknown("")
+                .instanceGroup
             ]
         }
 
@@ -4009,8 +3995,7 @@ extension EMRClientTypes {
                 .running,
                 .suspended,
                 .terminated,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -4079,8 +4064,7 @@ extension EMRClientTypes {
                 .clusterTerminated,
                 .instanceFailure,
                 .internalError,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -4199,8 +4183,7 @@ extension EMRClientTypes {
             return [
                 .core,
                 .master,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -4584,8 +4567,7 @@ extension EMRClientTypes {
                 .shuttingDown,
                 .suspended,
                 .terminated,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -4658,8 +4640,7 @@ extension EMRClientTypes {
                 .clusterTerminated,
                 .instanceFailure,
                 .internalError,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -4764,8 +4745,7 @@ extension EMRClientTypes {
             return [
                 .core,
                 .master,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -4840,8 +4820,7 @@ extension EMRClientTypes {
             return [
                 .core,
                 .master,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -4877,8 +4856,7 @@ extension EMRClientTypes {
                 .bootstrapping,
                 .provisioning,
                 .running,
-                .terminated,
-                .sdkUnknown("")
+                .terminated
             ]
         }
 
@@ -4947,8 +4925,7 @@ extension EMRClientTypes {
                 .clusterTerminated,
                 .instanceFailure,
                 .internalError,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -5386,8 +5363,7 @@ extension EMRClientTypes {
                 .shuttingDown,
                 .starting,
                 .terminated,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -6816,8 +6792,7 @@ extension EMRClientTypes {
         public static var allCases: [MarketType] {
             return [
                 .onDemand,
-                .spot,
-                .sdkUnknown("")
+                .spot
             ]
         }
 
@@ -7217,8 +7192,7 @@ extension EMRClientTypes {
                 .startPending,
                 .stopped,
                 .stopping,
-                .stopPending,
-                .sdkUnknown("")
+                .stopPending
             ]
         }
 
@@ -7469,8 +7443,7 @@ extension EMRClientTypes {
         public static var allCases: [OnDemandCapacityReservationPreference] {
             return [
                 .none,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 
@@ -7497,8 +7470,7 @@ extension EMRClientTypes {
 
         public static var allCases: [OnDemandCapacityReservationUsageStrategy] {
             return [
-                .useCapacityReservationsFirst,
-                .sdkUnknown("")
+                .useCapacityReservationsFirst
             ]
         }
 
@@ -7524,8 +7496,7 @@ extension EMRClientTypes {
 
         public static var allCases: [OnDemandProvisioningAllocationStrategy] {
             return [
-                .lowestPrice,
-                .sdkUnknown("")
+                .lowestPrice
             ]
         }
 
@@ -7621,8 +7592,7 @@ extension EMRClientTypes {
 
         public static var allCases: [OutputNotebookFormat] {
             return [
-                .html,
-                .sdkUnknown("")
+                .html
             ]
         }
 
@@ -7752,8 +7722,7 @@ extension EMRClientTypes {
                 .cluster,
                 .none,
                 .partition,
-                .spread,
-                .sdkUnknown("")
+                .spread
             ]
         }
 
@@ -8123,8 +8092,7 @@ extension EMRClientTypes {
         public static var allCases: [ReconfigurationType] {
             return [
                 .merge,
-                .overwrite,
-                .sdkUnknown("")
+                .overwrite
             ]
         }
 
@@ -8410,8 +8378,7 @@ extension EMRClientTypes {
         public static var allCases: [RepoUpgradeOnBoot] {
             return [
                 .none,
-                .security,
-                .sdkUnknown("")
+                .security
             ]
         }
 
@@ -8684,8 +8651,7 @@ extension EMRClientTypes {
         public static var allCases: [ScaleDownBehavior] {
             return [
                 .terminateAtInstanceHour,
-                .terminateAtTaskCompletion,
-                .sdkUnknown("")
+                .terminateAtTaskCompletion
             ]
         }
 
@@ -9409,8 +9375,7 @@ extension EMRClientTypes {
                 .capacityOptimized,
                 .diversified,
                 .lowestPrice,
-                .priceCapacityOptimized,
-                .sdkUnknown("")
+                .priceCapacityOptimized
             ]
         }
 
@@ -9492,8 +9457,7 @@ extension EMRClientTypes {
         public static var allCases: [SpotProvisioningTimeoutAction] {
             return [
                 .switchToOnDemand,
-                .terminateCluster,
-                .sdkUnknown("")
+                .terminateCluster
             ]
         }
 
@@ -9683,8 +9647,7 @@ extension EMRClientTypes {
                 .maximum,
                 .minimum,
                 .sampleCount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -9767,8 +9730,7 @@ extension EMRClientTypes {
         public static var allCases: [StepCancellationOption] {
             return [
                 .sendInterrupt,
-                .terminateProcess,
-                .sdkUnknown("")
+                .terminateProcess
             ]
         }
 
@@ -9896,8 +9858,7 @@ extension EMRClientTypes {
                 .failed,
                 .interrupted,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -9989,8 +9950,7 @@ extension EMRClientTypes {
                 .failed,
                 .interrupted,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -10053,8 +10013,7 @@ extension EMRClientTypes {
 
         public static var allCases: [StepStateChangeReasonCode] {
             return [
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -10689,8 +10648,7 @@ extension EMRClientTypes {
                 .teraBits,
                 .teraBitsPerSecond,
                 .teraBytes,
-                .teraBytesPerSecond,
-                .sdkUnknown("")
+                .teraBytesPerSecond
             ]
         }
 

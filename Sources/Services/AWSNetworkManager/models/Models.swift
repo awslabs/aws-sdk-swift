@@ -651,8 +651,7 @@ extension NetworkManagerClientTypes {
                 .pendingNetworkUpdate,
                 .pendingTagAcceptance,
                 .rejected,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -692,8 +691,7 @@ extension NetworkManagerClientTypes {
                 .connect,
                 .siteToSiteVpn,
                 .transitGatewayRouteTable,
-                .vpc,
-                .sdkUnknown("")
+                .vpc
             ]
         }
 
@@ -787,8 +785,7 @@ extension NetworkManagerClientTypes {
             return [
                 .add,
                 .modify,
-                .remove,
-                .sdkUnknown("")
+                .remove
             ]
         }
 
@@ -826,8 +823,7 @@ extension NetworkManagerClientTypes {
                 .failedGeneration,
                 .outOfDate,
                 .pendingGeneration,
-                .readyToExecute,
-                .sdkUnknown("")
+                .readyToExecute
             ]
         }
 
@@ -864,8 +860,7 @@ extension NetworkManagerClientTypes {
                 .complete,
                 .failed,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -910,8 +905,7 @@ extension NetworkManagerClientTypes {
                 .coreNetworkEdge,
                 .coreNetworkSegment,
                 .segmentsConfiguration,
-                .segmentActionsConfiguration,
-                .sdkUnknown("")
+                .segmentActionsConfiguration
             ]
         }
 
@@ -1180,8 +1174,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .deleted,
                 .deleting,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1303,8 +1296,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -1512,8 +1504,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .deleting,
                 .pending,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1544,8 +1535,7 @@ extension NetworkManagerClientTypes {
         public static var allCases: [ConnectionStatus] {
             return [
                 .down,
-                .up,
-                .sdkUnknown("")
+                .up
             ]
         }
 
@@ -1574,8 +1564,7 @@ extension NetworkManagerClientTypes {
         public static var allCases: [ConnectionType] {
             return [
                 .bgp,
-                .ipsec,
-                .sdkUnknown("")
+                .ipsec
             ]
         }
 
@@ -1966,8 +1955,7 @@ extension NetworkManagerClientTypes {
         public static var allCases: [CoreNetworkPolicyAlias] {
             return [
                 .latest,
-                .live,
-                .sdkUnknown("")
+                .live
             ]
         }
 
@@ -2211,8 +2199,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .creating,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3516,8 +3503,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .deleted,
                 .deleting,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -4571,8 +4557,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .deleting,
                 .pending,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -7701,8 +7686,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .deleting,
                 .pending,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -7900,8 +7884,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .deleted,
                 .deleting,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -7936,8 +7919,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .deleting,
                 .pending,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -9184,8 +9166,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -9214,8 +9195,7 @@ extension NetworkManagerClientTypes {
 
         public static var allCases: [PeeringType] {
             return [
-                .transitGateway,
-                .sdkUnknown("")
+                .transitGateway
             ]
         }
 
@@ -9894,8 +9874,7 @@ extension NetworkManagerClientTypes {
                 .transitGatewayAttachment,
                 .transitGatewayAttachmentNotFound,
                 .transitGatewayAttachmentNotInTransitGateway,
-                .transitGatewayAttachmentStableRouteTableNotFound,
-                .sdkUnknown("")
+                .transitGatewayAttachmentStableRouteTableNotFound
             ]
         }
 
@@ -9933,8 +9912,7 @@ extension NetworkManagerClientTypes {
         public static var allCases: [RouteAnalysisCompletionResultCode] {
             return [
                 .connected,
-                .notConnected,
-                .sdkUnknown("")
+                .notConnected
             ]
         }
 
@@ -10061,8 +10039,7 @@ extension NetworkManagerClientTypes {
             return [
                 .completed,
                 .failed,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -10092,8 +10069,7 @@ extension NetworkManagerClientTypes {
         public static var allCases: [RouteState] {
             return [
                 .active,
-                .blackhole,
-                .sdkUnknown("")
+                .blackhole
             ]
         }
 
@@ -10151,8 +10127,7 @@ extension NetworkManagerClientTypes {
         public static var allCases: [RouteTableType] {
             return [
                 .coreNetworkSegment,
-                .transitGatewayRouteTable,
-                .sdkUnknown("")
+                .transitGatewayRouteTable
             ]
         }
 
@@ -10181,8 +10156,7 @@ extension NetworkManagerClientTypes {
         public static var allCases: [RouteType] {
             return [
                 .propagated,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -10342,8 +10316,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .deleting,
                 .pending,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -10772,8 +10745,7 @@ extension NetworkManagerClientTypes {
                 .available,
                 .deleted,
                 .deleting,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -10882,8 +10854,7 @@ extension NetworkManagerClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -10982,8 +10953,7 @@ extension NetworkManagerClientTypes {
         public static var allCases: [TunnelProtocol] {
             return [
                 .gre,
-                .noEncap,
-                .sdkUnknown("")
+                .noEncap
             ]
         }
 
@@ -11934,8 +11904,7 @@ extension NetworkManagerClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

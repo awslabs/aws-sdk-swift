@@ -752,8 +752,7 @@ extension LocationClientTypes {
                 .internalservererror,
                 .resourcenotfounderror,
                 .throttlingerror,
-                .validationerror,
-                .sdkUnknown("")
+                .validationerror
             ]
         }
 
@@ -3714,8 +3713,7 @@ extension LocationClientTypes {
         public static var allCases: [DimensionUnit] {
             return [
                 .feet,
-                .meters,
-                .sdkUnknown("")
+                .meters
             ]
         }
 
@@ -3807,8 +3805,7 @@ extension LocationClientTypes {
         public static var allCases: [DistanceUnit] {
             return [
                 .kilometers,
-                .miles,
-                .sdkUnknown("")
+                .miles
             ]
         }
 
@@ -4833,8 +4830,7 @@ extension LocationClientTypes {
         public static var allCases: [IntendedUse] {
             return [
                 .singleuse,
-                .storage,
-                .sdkUnknown("")
+                .storage
             ]
         }
 
@@ -6383,8 +6379,7 @@ extension LocationClientTypes {
         public static var allCases: [OptimizationMode] {
             return [
                 .fastestroute,
-                .shortestroute,
-                .sdkUnknown("")
+                .shortestroute
             ]
         }
 
@@ -6560,8 +6555,7 @@ extension LocationClientTypes {
             return [
                 .accuracybased,
                 .distancebased,
-                .timebased,
-                .sdkUnknown("")
+                .timebased
             ]
         }
 
@@ -6874,8 +6868,7 @@ extension LocationClientTypes {
                 .othervalidationerror,
                 .positionsnotfound,
                 .routenotfound,
-                .routetoolong,
-                .sdkUnknown("")
+                .routetoolong
             ]
         }
 
@@ -7689,8 +7682,7 @@ extension LocationClientTypes {
         public static var allCases: [Status] {
             return [
                 .active,
-                .expired,
-                .sdkUnknown("")
+                .expired
             ]
         }
 
@@ -7954,8 +7946,7 @@ extension LocationClientTypes {
                 .car,
                 .motorcycle,
                 .truck,
-                .walking,
-                .sdkUnknown("")
+                .walking
             ]
         }
 
@@ -8845,8 +8836,7 @@ extension LocationClientTypes {
                 .fieldvalidationfailed,
                 .missing,
                 .other,
-                .unknownoperation,
-                .sdkUnknown("")
+                .unknownoperation
             ]
         }
 
@@ -8878,8 +8868,7 @@ extension LocationClientTypes {
         public static var allCases: [VehicleWeightUnit] {
             return [
                 .kilograms,
-                .pounds,
-                .sdkUnknown("")
+                .pounds
             ]
         }
 

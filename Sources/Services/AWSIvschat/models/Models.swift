@@ -55,8 +55,7 @@ extension IvschatClientTypes {
             return [
                 .deleteMessage,
                 .disconnectUser,
-                .sendMessage,
-                .sdkUnknown("")
+                .sendMessage
             ]
         }
 
@@ -392,8 +391,7 @@ extension IvschatClientTypes {
 
         public static var allCases: [CreateLoggingConfigurationState] {
             return [
-                .active,
-                .sdkUnknown("")
+                .active
             ]
         }
 
@@ -877,8 +875,7 @@ extension IvschatClientTypes {
         public static var allCases: [FallbackResult] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -1439,8 +1436,7 @@ extension IvschatClientTypes {
                 .deleteFailed,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1658,8 +1654,7 @@ extension IvschatClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
-                .room,
-                .sdkUnknown("")
+                .room
             ]
         }
 
@@ -2222,8 +2217,7 @@ extension IvschatClientTypes {
 
         public static var allCases: [UpdateLoggingConfigurationState] {
             return [
-                .active,
-                .sdkUnknown("")
+                .active
             ]
         }
 
@@ -2474,8 +2468,7 @@ extension IvschatClientTypes {
             return [
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

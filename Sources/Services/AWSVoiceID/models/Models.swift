@@ -178,8 +178,7 @@ extension VoiceIDClientTypes {
                 .speakerExpired,
                 .speakerIdNotProvided,
                 .speakerNotEnrolled,
-                .speakerOptedOut,
-                .sdkUnknown("")
+                .speakerOptedOut
             ]
         }
 
@@ -349,8 +348,7 @@ extension VoiceIDClientTypes {
                 .enrollmentAlreadyExists,
                 .fraudsterMustBelongToAtLeastOneWatchlist,
                 .speakerNotSet,
-                .speakerOptedOut,
-                .sdkUnknown("")
+                .speakerOptedOut
             ]
         }
 
@@ -1468,8 +1466,7 @@ extension VoiceIDClientTypes {
             return [
                 .active,
                 .pending,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -1575,8 +1572,7 @@ extension VoiceIDClientTypes {
         public static var allCases: [DuplicateRegistrationAction] {
             return [
                 .registerAsNew,
-                .skip,
-                .sdkUnknown("")
+                .skip
             ]
         }
 
@@ -1787,8 +1783,7 @@ extension VoiceIDClientTypes {
         public static var allCases: [ExistingEnrollmentAction] {
             return [
                 .overwrite,
-                .skip,
-                .sdkUnknown("")
+                .skip
             ]
         }
 
@@ -1848,8 +1843,7 @@ extension VoiceIDClientTypes {
         public static var allCases: [FraudDetectionAction] {
             return [
                 .fail,
-                .ignore,
-                .sdkUnknown("")
+                .ignore
             ]
         }
 
@@ -1911,8 +1905,7 @@ extension VoiceIDClientTypes {
             return [
                 .highRisk,
                 .lowRisk,
-                .notEnoughSpeech,
-                .sdkUnknown("")
+                .notEnoughSpeech
             ]
         }
 
@@ -1942,8 +1935,7 @@ extension VoiceIDClientTypes {
         public static var allCases: [FraudDetectionReason] {
             return [
                 .knownFraudster,
-                .voiceSpoofing,
-                .sdkUnknown("")
+                .voiceSpoofing
             ]
         }
 
@@ -2194,8 +2186,7 @@ extension VoiceIDClientTypes {
                 .completedWithErrors,
                 .failed,
                 .inProgress,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -3265,8 +3256,7 @@ extension VoiceIDClientTypes {
                 .fraudster,
                 .session,
                 .speaker,
-                .watchlist,
-                .sdkUnknown("")
+                .watchlist
             ]
         }
 
@@ -3370,8 +3360,7 @@ extension VoiceIDClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -3591,8 +3580,7 @@ extension VoiceIDClientTypes {
                 .completedWithErrors,
                 .failed,
                 .inProgress,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -3694,8 +3682,7 @@ extension VoiceIDClientTypes {
                 .enrolled,
                 .expired,
                 .optedOut,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -4009,8 +3996,7 @@ extension VoiceIDClientTypes {
             return [
                 .ended,
                 .ongoing,
-                .pendingConfiguration,
-                .sdkUnknown("")
+                .pendingConfiguration
             ]
         }
 

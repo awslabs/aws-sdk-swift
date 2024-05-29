@@ -152,8 +152,7 @@ extension Cloud9ClientTypes {
         public static var allCases: [ConnectionType] {
             return [
                 .connectSsh,
-                .connectSsm,
-                .sdkUnknown("")
+                .connectSsm
             ]
         }
 
@@ -965,8 +964,7 @@ extension Cloud9ClientTypes {
                 .createFailed,
                 .creating,
                 .deleteFailed,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -1064,8 +1062,7 @@ extension Cloud9ClientTypes {
                 .error,
                 .ready,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1099,8 +1096,7 @@ extension Cloud9ClientTypes {
         public static var allCases: [EnvironmentType] {
             return [
                 .ec2,
-                .ssh,
-                .sdkUnknown("")
+                .ssh
             ]
         }
 
@@ -1418,8 +1414,7 @@ extension Cloud9ClientTypes {
         public static var allCases: [ManagedCredentialsAction] {
             return [
                 .disable,
-                .enable,
-                .sdkUnknown("")
+                .enable
             ]
         }
 
@@ -1466,8 +1461,7 @@ extension Cloud9ClientTypes {
                 .pendingRemovalByCollaborator,
                 .pendingRemovalByOwner,
                 .pendingStartRemovalByCollaborator,
-                .pendingStartRemovalByOwner,
-                .sdkUnknown("")
+                .pendingStartRemovalByOwner
             ]
         }
 
@@ -1505,8 +1499,7 @@ extension Cloud9ClientTypes {
         public static var allCases: [MemberPermissions] {
             return [
                 .readOnly,
-                .readWrite,
-                .sdkUnknown("")
+                .readWrite
             ]
         }
 
@@ -1582,8 +1575,7 @@ extension Cloud9ClientTypes {
             return [
                 .owner,
                 .readOnly,
-                .readWrite,
-                .sdkUnknown("")
+                .readWrite
             ]
         }
 

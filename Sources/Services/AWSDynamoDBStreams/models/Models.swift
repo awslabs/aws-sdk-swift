@@ -480,8 +480,7 @@ extension DynamoDBStreamsClientTypes {
         public static var allCases: [KeyType] {
             return [
                 .hash,
-                .range,
-                .sdkUnknown("")
+                .range
             ]
         }
 
@@ -633,8 +632,7 @@ extension DynamoDBStreamsClientTypes {
             return [
                 .insert,
                 .modify,
-                .remove,
-                .sdkUnknown("")
+                .remove
             ]
         }
 
@@ -839,8 +837,7 @@ extension DynamoDBStreamsClientTypes {
                 .afterSequenceNumber,
                 .atSequenceNumber,
                 .latest,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -1069,8 +1066,7 @@ extension DynamoDBStreamsClientTypes {
                 .disabled,
                 .disabling,
                 .enabled,
-                .enabling,
-                .sdkUnknown("")
+                .enabling
             ]
         }
 
@@ -1105,8 +1101,7 @@ extension DynamoDBStreamsClientTypes {
                 .keysOnly,
                 .newAndOldImages,
                 .newImage,
-                .oldImage,
-                .sdkUnknown("")
+                .oldImage
             ]
         }
 

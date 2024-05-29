@@ -149,8 +149,7 @@ extension LookoutMetricsClientTypes {
         public static var allCases: [AggregationFunction] {
             return [
                 .avg,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -292,8 +291,7 @@ extension LookoutMetricsClientTypes {
         public static var allCases: [AlertStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -388,8 +386,7 @@ extension LookoutMetricsClientTypes {
         public static var allCases: [AlertType] {
             return [
                 .lambda,
-                .sns,
-                .sdkUnknown("")
+                .sns
             ]
         }
 
@@ -424,8 +421,7 @@ extension LookoutMetricsClientTypes {
                 .failed,
                 .failedToSchedule,
                 .inProgress,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -542,8 +538,7 @@ extension LookoutMetricsClientTypes {
                 .activationFailure,
                 .backTestActivationFailure,
                 .deactivationFailure,
-                .deletionFailure,
-                .sdkUnknown("")
+                .deletionFailure
             ]
         }
 
@@ -592,8 +587,7 @@ extension LookoutMetricsClientTypes {
                 .deleting,
                 .failed,
                 .inactive,
-                .learning,
-                .sdkUnknown("")
+                .learning
             ]
         }
 
@@ -1185,8 +1179,7 @@ extension LookoutMetricsClientTypes {
         public static var allCases: [CSVFileCompression] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1254,8 +1247,7 @@ extension LookoutMetricsClientTypes {
             return [
                 .high,
                 .low,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1803,8 +1795,7 @@ extension LookoutMetricsClientTypes {
                 .invalidRowsCompliance,
                 .rowsPartialCompliance,
                 .rowsProcessed,
-                .timeSeriesCount,
-                .sdkUnknown("")
+                .timeSeriesCount
             ]
         }
 
@@ -2980,8 +2971,7 @@ extension LookoutMetricsClientTypes {
 
         public static var allCases: [FilterOperation] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -3013,8 +3003,7 @@ extension LookoutMetricsClientTypes {
                 .p1d,
                 .pt10m,
                 .pt1h,
-                .pt5m,
-                .sdkUnknown("")
+                .pt5m
             ]
         }
 
@@ -3471,8 +3460,7 @@ extension LookoutMetricsClientTypes {
         public static var allCases: [JsonFileCompression] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -4669,8 +4657,7 @@ extension LookoutMetricsClientTypes {
         public static var allCases: [RelationshipType] {
             return [
                 .causeOfInputAnomalyGroup,
-                .effectOfInputAnomalyGroup,
-                .sdkUnknown("")
+                .effectOfInputAnomalyGroup
             ]
         }
 
@@ -4948,8 +4935,7 @@ extension LookoutMetricsClientTypes {
             return [
                 .json,
                 .longText,
-                .shortText,
-                .sdkUnknown("")
+                .shortText
             ]
         }
 
@@ -5631,8 +5617,7 @@ extension LookoutMetricsClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

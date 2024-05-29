@@ -55,8 +55,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [AccessDeniedExceptionReason] {
             return [
-                .insufficientPermissions,
-                .sdkUnknown("")
+                .insufficientPermissions
             ]
         }
 
@@ -129,8 +128,7 @@ extension CleanRoomsClientTypes {
                 .count,
                 .countDistinct,
                 .sum,
-                .sumDistinct,
-                .sdkUnknown("")
+                .sumDistinct
             ]
         }
 
@@ -206,8 +204,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [AggregationType] {
             return [
-                .countDistinct,
-                .sdkUnknown("")
+                .countDistinct
             ]
         }
 
@@ -233,8 +230,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [AnalysisFormat] {
             return [
-                .sql,
-                .sdkUnknown("")
+                .sql
             ]
         }
 
@@ -260,8 +256,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [AnalysisMethod] {
             return [
-                .directQuery,
-                .sdkUnknown("")
+                .directQuery
             ]
         }
 
@@ -616,8 +611,7 @@ extension CleanRoomsClientTypes {
             return [
                 .aggregation,
                 .custom,
-                .list,
-                .sdkUnknown("")
+                .list
             ]
         }
 
@@ -902,8 +896,7 @@ extension CleanRoomsClientTypes {
             return [
                 .invalid,
                 .unableToValidate,
-                .valid,
-                .sdkUnknown("")
+                .valid
             ]
         }
 
@@ -996,8 +989,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [AnalysisTemplateValidationType] {
             return [
-                .differentialPrivacy,
-                .sdkUnknown("")
+                .differentialPrivacy
             ]
         }
 
@@ -2066,8 +2058,7 @@ extension CleanRoomsClientTypes {
         public static var allCases: [CollaborationQueryLogStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2605,8 +2596,7 @@ extension CleanRoomsClientTypes {
             return [
                 .aggregation,
                 .custom,
-                .list,
-                .sdkUnknown("")
+                .list
             ]
         }
 
@@ -2908,8 +2898,7 @@ extension CleanRoomsClientTypes {
             return [
                 .alreadyExists,
                 .invalidState,
-                .subresourcesExist,
-                .sdkUnknown("")
+                .subresourcesExist
             ]
         }
 
@@ -4342,8 +4331,7 @@ extension CleanRoomsClientTypes {
                 .count,
                 .countDistinct,
                 .stddev,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -4771,8 +4759,7 @@ extension CleanRoomsClientTypes {
         public static var allCases: [FilterableMemberStatus] {
             return [
                 .active,
-                .invited,
-                .sdkUnknown("")
+                .invited
             ]
         }
 
@@ -5896,8 +5883,7 @@ extension CleanRoomsClientTypes {
         public static var allCases: [JoinOperator] {
             return [
                 .and,
-                .or,
-                .sdkUnknown("")
+                .or
             ]
         }
 
@@ -5924,8 +5910,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [JoinRequiredOption] {
             return [
-                .queryRunner,
-                .sdkUnknown("")
+                .queryRunner
             ]
         }
 
@@ -7468,8 +7453,7 @@ extension CleanRoomsClientTypes {
         public static var allCases: [MemberAbility] {
             return [
                 .canQuery,
-                .canReceiveResults,
-                .sdkUnknown("")
+                .canReceiveResults
             ]
         }
 
@@ -7544,8 +7528,7 @@ extension CleanRoomsClientTypes {
                 .active,
                 .invited,
                 .left,
-                .removed,
-                .sdkUnknown("")
+                .removed
             ]
         }
 
@@ -7893,8 +7876,7 @@ extension CleanRoomsClientTypes {
         public static var allCases: [MembershipQueryLogStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7925,8 +7907,7 @@ extension CleanRoomsClientTypes {
             return [
                 .active,
                 .collaborationDeleted,
-                .removed,
-                .sdkUnknown("")
+                .removed
             ]
         }
 
@@ -8075,8 +8056,7 @@ extension CleanRoomsClientTypes {
                 .timestamptz,
                 .timetz,
                 .varbyte,
-                .varchar,
-                .sdkUnknown("")
+                .varchar
             ]
         }
 
@@ -8450,8 +8430,7 @@ extension CleanRoomsClientTypes {
         public static var allCases: [PrivacyBudgetTemplateAutoRefresh] {
             return [
                 .calendarMonth,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -8623,8 +8602,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [PrivacyBudgetType] {
             return [
-                .differentialPrivacy,
-                .sdkUnknown("")
+                .differentialPrivacy
             ]
         }
 
@@ -9100,8 +9078,7 @@ extension CleanRoomsClientTypes {
                 .started,
                 .submitted,
                 .success,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -9184,8 +9161,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [ProtectedQueryType] {
             return [
-                .sql,
-                .sdkUnknown("")
+                .sql
             ]
         }
 
@@ -9299,8 +9275,7 @@ extension CleanRoomsClientTypes {
                 .collaboration,
                 .configuredTable,
                 .configuredTableAssociation,
-                .membership,
-                .sdkUnknown("")
+                .membership
             ]
         }
 
@@ -9331,8 +9306,7 @@ extension CleanRoomsClientTypes {
         public static var allCases: [ResultFormat] {
             return [
                 .csv,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -9405,8 +9379,7 @@ extension CleanRoomsClientTypes {
                 .toTimestamp,
                 .trim,
                 .trunc,
-                .upper,
-                .sdkUnknown("")
+                .upper
             ]
         }
 
@@ -9584,8 +9557,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [SchemaConfiguration] {
             return [
-                .differentialPrivacy,
-                .sdkUnknown("")
+                .differentialPrivacy
             ]
         }
 
@@ -9613,8 +9585,7 @@ extension CleanRoomsClientTypes {
         public static var allCases: [SchemaStatus] {
             return [
                 .notReady,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -9722,8 +9693,7 @@ extension CleanRoomsClientTypes {
                 .analysisProvidersNotConfigured,
                 .analysisRuleMissing,
                 .analysisTemplatesNotConfigured,
-                .differentialPrivacyPolicyNotConfigured,
-                .sdkUnknown("")
+                .differentialPrivacyPolicyNotConfigured
             ]
         }
 
@@ -9826,8 +9796,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [SchemaType] {
             return [
-                .table,
-                .sdkUnknown("")
+                .table
             ]
         }
 
@@ -10096,8 +10065,7 @@ extension CleanRoomsClientTypes {
 
         public static var allCases: [TargetProtectedQueryStatus] {
             return [
-                .cancelled,
-                .sdkUnknown("")
+                .cancelled
             ]
         }
 
@@ -11105,8 +11073,7 @@ extension CleanRoomsClientTypes {
                 .fieldValidationFailed,
                 .iamSynchronizationDelay,
                 .invalidConfiguration,
-                .invalidQuery,
-                .sdkUnknown("")
+                .invalidQuery
             ]
         }
 

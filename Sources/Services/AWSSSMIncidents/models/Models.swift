@@ -2023,8 +2023,7 @@ extension SSMIncidentsClientTypes {
         public static var allCases: [IncidentRecordStatus] {
             return [
                 .open,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -2313,8 +2312,7 @@ extension SSMIncidentsClientTypes {
                 .metric,
                 .other,
                 .parent,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -3321,8 +3319,7 @@ extension SSMIncidentsClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -3503,8 +3500,7 @@ extension SSMIncidentsClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3629,8 +3625,7 @@ extension SSMIncidentsClientTypes {
                 .replicationSet,
                 .resourcePolicy,
                 .responsePlan,
-                .timelineEvent,
-                .sdkUnknown("")
+                .timelineEvent
             ]
         }
 
@@ -3700,8 +3695,7 @@ extension SSMIncidentsClientTypes {
 
         public static var allCases: [ServiceCode] {
             return [
-                .ssmIncidents,
-                .sdkUnknown("")
+                .ssmIncidents
             ]
         }
 
@@ -3789,8 +3783,7 @@ extension SSMIncidentsClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -3882,8 +3875,7 @@ extension SSMIncidentsClientTypes {
         public static var allCases: [SsmTargetAccount] {
             return [
                 .impactedAccount,
-                .responsePlanOwnerAccount,
-                .sdkUnknown("")
+                .responsePlanOwnerAccount
             ]
         }
 
@@ -4197,8 +4189,7 @@ extension SSMIncidentsClientTypes {
 
         public static var allCases: [TimelineEventSort] {
             return [
-                .eventTime,
-                .sdkUnknown("")
+                .eventTime
             ]
         }
 
@@ -4939,8 +4930,7 @@ extension SSMIncidentsClientTypes {
         public static var allCases: [VariableType] {
             return [
                 .incidentRecordArn,
-                .involvedResources,
-                .sdkUnknown("")
+                .involvedResources
             ]
         }
 

@@ -245,8 +245,7 @@ extension PricingClientTypes {
 
         public static var allCases: [FilterType] {
             return [
-                .termMatch,
-                .sdkUnknown("")
+                .termMatch
             ]
         }
 

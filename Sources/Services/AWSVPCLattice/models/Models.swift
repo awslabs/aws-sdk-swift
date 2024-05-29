@@ -116,8 +116,7 @@ extension VPCLatticeClientTypes {
         public static var allCases: [AuthPolicyState] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -146,8 +145,7 @@ extension VPCLatticeClientTypes {
         public static var allCases: [AuthType] {
             return [
                 .awsIam,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3390,8 +3388,7 @@ extension VPCLatticeClientTypes {
         public static var allCases: [HealthCheckProtocolVersion] {
             return [
                 .http1,
-                .http2,
-                .sdkUnknown("")
+                .http2
             ]
         }
 
@@ -3511,8 +3508,7 @@ extension VPCLatticeClientTypes {
         public static var allCases: [IpAddressType] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -3543,8 +3539,7 @@ extension VPCLatticeClientTypes {
         public static var allCases: [LambdaEventStructureVersion] {
             return [
                 .v1,
-                .v2,
-                .sdkUnknown("")
+                .v2
             ]
         }
 
@@ -4520,8 +4515,7 @@ extension VPCLatticeClientTypes {
             return [
                 .http,
                 .https,
-                .tlsPassthrough,
-                .sdkUnknown("")
+                .tlsPassthrough
             ]
         }
 
@@ -5276,8 +5270,7 @@ extension VPCLatticeClientTypes {
                 .createFailed,
                 .createInProgress,
                 .deleteFailed,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -5468,8 +5461,7 @@ extension VPCLatticeClientTypes {
                 .deleteFailed,
                 .deleteInProgress,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -5646,8 +5638,7 @@ extension VPCLatticeClientTypes {
                 .createFailed,
                 .createInProgress,
                 .deleteFailed,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -5957,8 +5948,7 @@ extension VPCLatticeClientTypes {
             return [
                 .http,
                 .https,
-                .tcp,
-                .sdkUnknown("")
+                .tcp
             ]
         }
 
@@ -5993,8 +5983,7 @@ extension VPCLatticeClientTypes {
             return [
                 .grpc,
                 .http1,
-                .http2,
-                .sdkUnknown("")
+                .http2
             ]
         }
 
@@ -6035,8 +6024,7 @@ extension VPCLatticeClientTypes {
                 .createFailed,
                 .createInProgress,
                 .deleteFailed,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -6162,8 +6150,7 @@ extension VPCLatticeClientTypes {
                 .alb,
                 .instance,
                 .ip,
-                .lambda,
-                .sdkUnknown("")
+                .lambda
             ]
         }
 
@@ -6208,8 +6195,7 @@ extension VPCLatticeClientTypes {
                 .initial,
                 .unavailable,
                 .unhealthy,
-                .unused,
-                .sdkUnknown("")
+                .unused
             ]
         }
 
@@ -7285,8 +7271,7 @@ extension VPCLatticeClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

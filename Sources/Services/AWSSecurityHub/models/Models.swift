@@ -552,8 +552,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [AdminStatus] {
             return [
                 .disableInProgress,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -745,8 +744,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [AssociationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -775,8 +773,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [AssociationType] {
             return [
                 .applied,
-                .inherited,
-                .sdkUnknown("")
+                .inherited
             ]
         }
 
@@ -805,8 +802,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [AutoEnableStandards] {
             return [
                 .default,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -870,8 +866,7 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [AutomationRulesActionType] {
             return [
-                .findingFieldsUpdate,
-                .sdkUnknown("")
+                .findingFieldsUpdate
             ]
         }
 
@@ -18537,8 +18532,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [AwsIamAccessKeyStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -25618,8 +25612,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [AwsS3BucketNotificationConfigurationS3KeyFilterRuleName] {
             return [
                 .prefix,
-                .suffix,
-                .sdkUnknown("")
+                .suffix
             ]
         }
 
@@ -31195,8 +31188,7 @@ extension SecurityHubClientTypes {
                 .failed,
                 .notAvailable,
                 .passed,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -31312,8 +31304,7 @@ extension SecurityHubClientTypes {
             return [
                 .failed,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -31527,8 +31518,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [ControlFindingGenerator] {
             return [
                 .securityControl,
-                .standardControl,
-                .sdkUnknown("")
+                .standardControl
             ]
         }
 
@@ -31557,8 +31547,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [ControlStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -32459,8 +32448,7 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [DateRangeUnit] {
             return [
-                .days,
-                .sdkUnknown("")
+                .days
             ]
         }
 
@@ -34288,8 +34276,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [FindingHistoryUpdateSourceType] {
             return [
                 .batchImportFindings,
-                .batchUpdateFindings,
-                .sdkUnknown("")
+                .batchUpdateFindings
             ]
         }
 
@@ -35950,8 +35937,7 @@ extension SecurityHubClientTypes {
             return [
                 .receiveFindingsFromSecurityHub,
                 .sendFindingsToSecurityHub,
-                .updateFindingsInSecurityHub,
-                .sdkUnknown("")
+                .updateFindingsInSecurityHub
             ]
         }
 
@@ -37454,8 +37440,7 @@ extension SecurityHubClientTypes {
             return [
                 .observed,
                 .removalFailed,
-                .removed,
-                .sdkUnknown("")
+                .removed
             ]
         }
 
@@ -37511,8 +37496,7 @@ extension SecurityHubClientTypes {
                 .spyware,
                 .trojan,
                 .virus,
-                .worm,
-                .sdkUnknown("")
+                .worm
             ]
         }
 
@@ -37615,8 +37599,7 @@ extension SecurityHubClientTypes {
                 .contains,
                 .equals,
                 .notContains,
-                .notEquals,
-                .sdkUnknown("")
+                .notEquals
             ]
         }
 
@@ -37876,8 +37859,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [NetworkDirection] {
             return [
                 .in,
-                .out,
-                .sdkUnknown("")
+                .out
             ]
         }
 
@@ -38283,8 +38265,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [OrganizationConfigurationConfigurationType] {
             return [
                 .central,
-                .local,
-                .sdkUnknown("")
+                .local
             ]
         }
 
@@ -38315,8 +38296,7 @@ extension SecurityHubClientTypes {
             return [
                 .enabled,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -38536,8 +38516,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [ParameterValueType] {
             return [
                 .custom,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -38568,8 +38547,7 @@ extension SecurityHubClientTypes {
             return [
                 .aws,
                 .awsCn,
-                .awsUsGov,
-                .sdkUnknown("")
+                .awsUsGov
             ]
         }
 
@@ -39201,8 +39179,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [RecordState] {
             return [
                 .active,
-                .archived,
-                .sdkUnknown("")
+                .archived
             ]
         }
 
@@ -39231,8 +39208,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [RegionAvailabilityStatus] {
             return [
                 .available,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -41067,8 +41043,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [RuleStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -41314,8 +41289,7 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [SecurityControlProperty] {
             return [
-                .parameters,
-                .sdkUnknown("")
+                .parameters
             ]
         }
 
@@ -41605,8 +41579,7 @@ extension SecurityHubClientTypes {
                 .high,
                 .informational,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -41642,8 +41615,7 @@ extension SecurityHubClientTypes {
                 .critical,
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -41857,8 +41829,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -42277,8 +42248,7 @@ extension SecurityHubClientTypes {
                 .failed,
                 .incomplete,
                 .pending,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -42729,8 +42699,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [StatusReasonCode] {
             return [
                 .internalError,
-                .noAvailableConfigurationRecorder,
-                .sdkUnknown("")
+                .noAvailableConfigurationRecorder
             ]
         }
 
@@ -42869,8 +42838,7 @@ extension SecurityHubClientTypes {
                 .notContains,
                 .notEquals,
                 .prefix,
-                .prefixNotEquals,
-                .sdkUnknown("")
+                .prefixNotEquals
             ]
         }
 
@@ -43054,8 +43022,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [TargetType] {
             return [
                 .account,
-                .organizationalUnit,
-                .sdkUnknown("")
+                .organizationalUnit
             ]
         }
 
@@ -43212,8 +43179,7 @@ extension SecurityHubClientTypes {
                 .commandAndControl,
                 .dropSite,
                 .exploitSite,
-                .keylogger,
-                .sdkUnknown("")
+                .keylogger
             ]
         }
 
@@ -43264,8 +43230,7 @@ extension SecurityHubClientTypes {
                 .ipv6Address,
                 .mutex,
                 .process,
-                .url,
-                .sdkUnknown("")
+                .url
             ]
         }
 
@@ -43379,8 +43344,7 @@ extension SecurityHubClientTypes {
                 .accessDenied,
                 .invalidInput,
                 .limitExceeded,
-                .notFound,
-                .sdkUnknown("")
+                .notFound
             ]
         }
 
@@ -44370,8 +44334,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [UpdateStatus] {
             return [
                 .ready,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -44404,8 +44367,7 @@ extension SecurityHubClientTypes {
                 .benignPositive,
                 .falsePositive,
                 .truePositive,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -44719,8 +44681,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [VulnerabilityExploitAvailable] {
             return [
                 .no,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 
@@ -44751,8 +44712,7 @@ extension SecurityHubClientTypes {
             return [
                 .no,
                 .partial,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 
@@ -45010,8 +44970,7 @@ extension SecurityHubClientTypes {
                 .deferred,
                 .inProgress,
                 .new,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -45047,8 +45006,7 @@ extension SecurityHubClientTypes {
                 .new,
                 .notified,
                 .resolved,
-                .suppressed,
-                .sdkUnknown("")
+                .suppressed
             ]
         }
 

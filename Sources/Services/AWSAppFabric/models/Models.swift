@@ -174,8 +174,7 @@ extension AppFabricClientTypes {
                 .connected,
                 .connectionValidationFailed,
                 .pendingConnect,
-                .tokenAutoRotationFailed,
-                .sdkUnknown("")
+                .tokenAutoRotationFailed
             ]
         }
 
@@ -439,8 +438,7 @@ extension AppFabricClientTypes {
         public static var allCases: [AuthType] {
             return [
                 .apiKey,
-                .oauth2,
-                .sdkUnknown("")
+                .oauth2
             ]
         }
 
@@ -1502,8 +1500,7 @@ extension AppFabricClientTypes {
         public static var allCases: [Format] {
             return [
                 .json,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -1966,8 +1963,7 @@ extension AppFabricClientTypes {
         public static var allCases: [IngestionDestinationStatus] {
             return [
                 .active,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -2023,8 +2019,7 @@ extension AppFabricClientTypes {
         public static var allCases: [IngestionState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2096,8 +2091,7 @@ extension AppFabricClientTypes {
 
         public static var allCases: [IngestionType] {
             return [
-                .auditLog,
-                .sdkUnknown("")
+                .auditLog
             ]
         }
 
@@ -2651,8 +2645,7 @@ extension AppFabricClientTypes {
         public static var allCases: [Persona] {
             return [
                 .admin,
-                .enduser,
-                .sdkUnknown("")
+                .enduser
             ]
         }
 
@@ -2769,8 +2762,7 @@ extension AppFabricClientTypes {
                 .completed,
                 .expired,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -2839,8 +2831,7 @@ extension AppFabricClientTypes {
         public static var allCases: [Schema] {
             return [
                 .ocsf,
-                .raw,
-                .sdkUnknown("")
+                .raw
             ]
         }
 
@@ -3852,8 +3843,7 @@ extension AppFabricClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

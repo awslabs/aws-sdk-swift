@@ -297,8 +297,7 @@ extension TrustedAdvisorClientTypes {
         public static var allCases: [ExclusionStatus] {
             return [
                 .excluded,
-                .included,
-                .sdkUnknown("")
+                .included
             ]
         }
 
@@ -1771,8 +1770,7 @@ extension TrustedAdvisorClientTypes {
                 .japanese,
                 .korean,
                 .spanish,
-                .traditionalChinese,
-                .sdkUnknown("")
+                .traditionalChinese
             ]
         }
 
@@ -1814,8 +1812,7 @@ extension TrustedAdvisorClientTypes {
                 .dismissed,
                 .inProgress,
                 .pendingResponse,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -1854,8 +1851,7 @@ extension TrustedAdvisorClientTypes {
                 .operationalExcellence,
                 .performance,
                 .security,
-                .serviceLimits,
-                .sdkUnknown("")
+                .serviceLimits
             ]
         }
 
@@ -2080,8 +2076,7 @@ extension TrustedAdvisorClientTypes {
                 .securityHub,
                 .stir,
                 .taCheck,
-                .wellArchitected,
-                .sdkUnknown("")
+                .wellArchitected
             ]
         }
 
@@ -2123,8 +2118,7 @@ extension TrustedAdvisorClientTypes {
             return [
                 .error,
                 .ok,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -2253,8 +2247,7 @@ extension TrustedAdvisorClientTypes {
         public static var allCases: [RecommendationType] {
             return [
                 .priority,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -2323,8 +2316,7 @@ extension TrustedAdvisorClientTypes {
             return [
                 .error,
                 .ok,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -2562,8 +2554,7 @@ extension TrustedAdvisorClientTypes {
                 .dismissed,
                 .inProgress,
                 .pendingResponse,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -2604,8 +2595,7 @@ extension TrustedAdvisorClientTypes {
                 .other,
                 .otherMethodsAvailable,
                 .temporaryAccount,
-                .validBusinessCase,
-                .sdkUnknown("")
+                .validBusinessCase
             ]
         }
 

@@ -59,8 +59,7 @@ extension LookoutEquipmentClientTypes {
                 .modelPromoted,
                 .retrainingCancelled,
                 .retrainingCustomerError,
-                .retrainingInternalError,
-                .sdkUnknown("")
+                .retrainingInternalError
             ]
         }
 
@@ -1036,8 +1035,7 @@ extension LookoutEquipmentClientTypes {
                 .pt15m,
                 .pt1h,
                 .pt30m,
-                .pt5m,
-                .sdkUnknown("")
+                .pt5m
             ]
         }
 
@@ -1097,8 +1095,7 @@ extension LookoutEquipmentClientTypes {
                 .active,
                 .created,
                 .importInProgress,
-                .ingestionInProgress,
-                .sdkUnknown("")
+                .ingestionInProgress
             ]
         }
 
@@ -3198,8 +3195,7 @@ extension LookoutEquipmentClientTypes {
             return [
                 .addWhenEmpty,
                 .noImport,
-                .overwrite,
-                .sdkUnknown("")
+                .overwrite
             ]
         }
 
@@ -3282,8 +3278,7 @@ extension LookoutEquipmentClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -3602,8 +3597,7 @@ extension LookoutEquipmentClientTypes {
                 .pending,
                 .running,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -3769,8 +3763,7 @@ extension LookoutEquipmentClientTypes {
                 .failed,
                 .importInProgress,
                 .inProgress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -3992,8 +3985,7 @@ extension LookoutEquipmentClientTypes {
             return [
                 .anomaly,
                 .neutral,
-                .noAnomaly,
-                .sdkUnknown("")
+                .noAnomaly
             ]
         }
 
@@ -4201,8 +4193,7 @@ extension LookoutEquipmentClientTypes {
         public static var allCases: [LatestInferenceResult] {
             return [
                 .anomalous,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 
@@ -5473,8 +5464,7 @@ extension LookoutEquipmentClientTypes {
         public static var allCases: [ModelPromoteMode] {
             return [
                 .managed,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -5505,8 +5495,7 @@ extension LookoutEquipmentClientTypes {
             return [
                 .cannotDetermineQuality,
                 .poorQualityDetected,
-                .qualityThresholdMet,
-                .sdkUnknown("")
+                .qualityThresholdMet
             ]
         }
 
@@ -5540,8 +5529,7 @@ extension LookoutEquipmentClientTypes {
                 .failed,
                 .importInProgress,
                 .inProgress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -5670,8 +5658,7 @@ extension LookoutEquipmentClientTypes {
             return [
                 .import,
                 .retraining,
-                .training,
-                .sdkUnknown("")
+                .training
             ]
         }
 
@@ -5707,8 +5694,7 @@ extension LookoutEquipmentClientTypes {
                 .failed,
                 .importInProgress,
                 .inProgress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -5835,8 +5821,7 @@ extension LookoutEquipmentClientTypes {
             return [
                 .decreasing,
                 .increasing,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -6029,8 +6014,7 @@ extension LookoutEquipmentClientTypes {
                 .pending,
                 .running,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -6563,8 +6547,7 @@ extension LookoutEquipmentClientTypes {
         public static var allCases: [StatisticalIssueStatus] {
             return [
                 .noIssueDetected,
-                .potentialIssueDetected,
-                .sdkUnknown("")
+                .potentialIssueDetected
             ]
         }
 
@@ -6887,8 +6870,7 @@ extension LookoutEquipmentClientTypes {
                 .pt30m,
                 .pt30s,
                 .pt5m,
-                .pt5s,
-                .sdkUnknown("")
+                .pt5s
             ]
         }
 

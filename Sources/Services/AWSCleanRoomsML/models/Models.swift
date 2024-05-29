@@ -89,8 +89,7 @@ extension CleanRoomsMLClientTypes {
                 .active,
                 .createFailed,
                 .createInProgress,
-                .createPending,
-                .sdkUnknown("")
+                .createPending
             ]
         }
 
@@ -246,8 +245,7 @@ extension CleanRoomsMLClientTypes {
                 .createPending,
                 .deleteFailed,
                 .deleteInProgress,
-                .deletePending,
-                .sdkUnknown("")
+                .deletePending
             ]
         }
 
@@ -363,8 +361,7 @@ extension CleanRoomsMLClientTypes {
                 .createPending,
                 .deleteFailed,
                 .deleteInProgress,
-                .deletePending,
-                .sdkUnknown("")
+                .deletePending
             ]
         }
 
@@ -570,8 +567,7 @@ extension CleanRoomsMLClientTypes {
         public static var allCases: [AudienceSizeType] {
             return [
                 .absolute,
-                .percentage,
-                .sdkUnknown("")
+                .percentage
             ]
         }
 
@@ -647,8 +643,7 @@ extension CleanRoomsMLClientTypes {
                 .itemId,
                 .numericalFeature,
                 .timestamp,
-                .userId,
-                .sdkUnknown("")
+                .userId
             ]
         }
 
@@ -717,8 +712,7 @@ extension CleanRoomsMLClientTypes {
 
         public static var allCases: [ConfiguredAudienceModelStatus] {
             return [
-                .active,
-                .sdkUnknown("")
+                .active
             ]
         }
 
@@ -1309,8 +1303,7 @@ extension CleanRoomsMLClientTypes {
 
         public static var allCases: [DatasetType] {
             return [
-                .interactions,
-                .sdkUnknown("")
+                .interactions
             ]
         }
 
@@ -2725,8 +2718,7 @@ extension CleanRoomsMLClientTypes {
         public static var allCases: [PolicyExistenceCondition] {
             return [
                 .policyMustExist,
-                .policyMustNotExist,
-                .sdkUnknown("")
+                .policyMustNotExist
             ]
         }
 
@@ -2988,8 +2980,7 @@ extension CleanRoomsMLClientTypes {
         public static var allCases: [SharedAudienceMetrics] {
             return [
                 .all,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3241,8 +3232,7 @@ extension CleanRoomsMLClientTypes {
         public static var allCases: [TagOnCreatePolicy] {
             return [
                 .fromParentResource,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3347,8 +3337,7 @@ extension CleanRoomsMLClientTypes {
 
         public static var allCases: [TrainingDatasetStatus] {
             return [
-                .active,
-                .sdkUnknown("")
+                .active
             ]
         }
 

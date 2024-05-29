@@ -627,8 +627,7 @@ extension IoTDataPlaneClientTypes {
         public static var allCases: [PayloadFormatIndicator] {
             return [
                 .unspecifiedBytes,
-                .utf8Data,
-                .sdkUnknown("")
+                .utf8Data
             ]
         }
 

@@ -440,8 +440,7 @@ extension ServiceDiscoveryClientTypes {
         public static var allCases: [CustomHealthStatus] {
             return [
                 .healthy,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -1076,8 +1075,7 @@ extension ServiceDiscoveryClientTypes {
                 .beginsWith,
                 .between,
                 .eq,
-                .in,
-                .sdkUnknown("")
+                .in
             ]
         }
 
@@ -1586,8 +1584,7 @@ extension ServiceDiscoveryClientTypes {
             return [
                 .http,
                 .https,
-                .tcp,
-                .sdkUnknown("")
+                .tcp
             ]
         }
 
@@ -1619,8 +1616,7 @@ extension ServiceDiscoveryClientTypes {
             return [
                 .healthy,
                 .unhealthy,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -1654,8 +1650,7 @@ extension ServiceDiscoveryClientTypes {
                 .all,
                 .healthy,
                 .healthyOrElseAll,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -2516,8 +2511,7 @@ extension ServiceDiscoveryClientTypes {
             return [
                 .httpName,
                 .name,
-                .type,
-                .sdkUnknown("")
+                .type
             ]
         }
 
@@ -2678,8 +2672,7 @@ extension ServiceDiscoveryClientTypes {
             return [
                 .dnsPrivate,
                 .dnsPublic,
-                .http,
-                .sdkUnknown("")
+                .http
             ]
         }
 
@@ -2852,8 +2845,7 @@ extension ServiceDiscoveryClientTypes {
                 .serviceId,
                 .status,
                 .type,
-                .updateDate,
-                .sdkUnknown("")
+                .updateDate
             ]
         }
 
@@ -2926,8 +2918,7 @@ extension ServiceDiscoveryClientTypes {
                 .fail,
                 .pending,
                 .submitted,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2999,8 +2990,7 @@ extension ServiceDiscoveryClientTypes {
             return [
                 .instance,
                 .namespace,
-                .service,
-                .sdkUnknown("")
+                .service
             ]
         }
 
@@ -3038,8 +3028,7 @@ extension ServiceDiscoveryClientTypes {
                 .deregisterInstance,
                 .registerInstance,
                 .updateNamespace,
-                .updateService,
-                .sdkUnknown("")
+                .updateService
             ]
         }
 
@@ -3334,8 +3323,7 @@ extension ServiceDiscoveryClientTypes {
                 .a,
                 .aaaa,
                 .cname,
-                .srv,
-                .sdkUnknown("")
+                .srv
             ]
         }
 
@@ -3634,8 +3622,7 @@ extension ServiceDiscoveryClientTypes {
         public static var allCases: [RoutingPolicy] {
             return [
                 .multivalue,
-                .weighted,
-                .sdkUnknown("")
+                .weighted
             ]
         }
 
@@ -3921,8 +3908,7 @@ extension ServiceDiscoveryClientTypes {
 
         public static var allCases: [ServiceFilterName] {
             return [
-                .namespaceId,
-                .sdkUnknown("")
+                .namespaceId
             ]
         }
 
@@ -4067,8 +4053,7 @@ extension ServiceDiscoveryClientTypes {
             return [
                 .dns,
                 .dnsHttp,
-                .http,
-                .sdkUnknown("")
+                .http
             ]
         }
 
@@ -4096,8 +4081,7 @@ extension ServiceDiscoveryClientTypes {
 
         public static var allCases: [ServiceTypeOption] {
             return [
-                .http,
-                .sdkUnknown("")
+                .http
             ]
         }
 

@@ -170,8 +170,7 @@ extension PollyClientTypes {
                 .generative,
                 .longForm,
                 .neural,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -239,8 +238,7 @@ extension PollyClientTypes {
         public static var allCases: [Gender] {
             return [
                 .female,
-                .male,
-                .sdkUnknown("")
+                .male
             ]
         }
 
@@ -769,8 +767,7 @@ extension PollyClientTypes {
                 .ruRu,
                 .svSe,
                 .trTr,
-                .yueCn,
-                .sdkUnknown("")
+                .yueCn
             ]
         }
 
@@ -1346,8 +1343,7 @@ extension PollyClientTypes {
                 .json,
                 .mp3,
                 .oggVorbis,
-                .pcm,
-                .sdkUnknown("")
+                .pcm
             ]
         }
 
@@ -1494,8 +1490,7 @@ extension PollyClientTypes {
                 .sentence,
                 .ssml,
                 .viseme,
-                .word,
-                .sdkUnknown("")
+                .word
             ]
         }
 
@@ -2134,8 +2129,7 @@ extension PollyClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -2203,8 +2197,7 @@ extension PollyClientTypes {
         public static var allCases: [TextType] {
             return [
                 .ssml,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -2551,8 +2544,7 @@ extension PollyClientTypes {
                 .vitoria,
                 .zayd,
                 .zeina,
-                .zhiyu,
-                .sdkUnknown("")
+                .zhiyu
             ]
         }
 

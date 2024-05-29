@@ -90,8 +90,7 @@ extension DeadlineClientTypes {
 
         public static var allCases: [AcceleratorType] {
             return [
-                .gpu,
-                .sdkUnknown("")
+                .gpu
             ]
         }
 
@@ -1254,8 +1253,7 @@ extension DeadlineClientTypes {
         public static var allCases: [AutoScalingMode] {
             return [
                 .eventBasedAutoScaling,
-                .noScaling,
-                .sdkUnknown("")
+                .noScaling
             ]
         }
 
@@ -1286,8 +1284,7 @@ extension DeadlineClientTypes {
             return [
                 .growing,
                 .shrinking,
-                .steady,
-                .sdkUnknown("")
+                .steady
             ]
         }
 
@@ -1541,8 +1538,7 @@ extension DeadlineClientTypes {
         public static var allCases: [BudgetActionType] {
             return [
                 .stopSchedulingAndCancelTasks,
-                .stopSchedulingAndCompleteTasks,
-                .sdkUnknown("")
+                .stopSchedulingAndCompleteTasks
             ]
         }
 
@@ -1605,8 +1601,7 @@ extension DeadlineClientTypes {
         public static var allCases: [BudgetStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -1736,8 +1731,7 @@ extension DeadlineClientTypes {
                 .greaterThanEqualTo,
                 .lessThan,
                 .lessThanEqualTo,
-                .notEqual,
-                .sdkUnknown("")
+                .notEqual
             ]
         }
 
@@ -1776,8 +1770,7 @@ extension DeadlineClientTypes {
                 .failed,
                 .interrupted,
                 .neverAttempted,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1876,8 +1869,7 @@ extension DeadlineClientTypes {
                 .conflictException,
                 .resourceAlreadyExists,
                 .resourceInUse,
-                .statusConflict,
-                .sdkUnknown("")
+                .statusConflict
             ]
         }
 
@@ -2031,8 +2023,7 @@ extension DeadlineClientTypes {
         public static var allCases: [CpuArchitectureType] {
             return [
                 .arm64,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -2580,8 +2571,7 @@ extension DeadlineClientTypes {
         public static var allCases: [CreateJobTargetTaskRunStatus] {
             return [
                 .ready,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -3411,8 +3401,7 @@ extension DeadlineClientTypes {
             return [
                 .linux,
                 .macos,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -3564,8 +3553,7 @@ extension DeadlineClientTypes {
         public static var allCases: [DeadlinePrincipalType] {
             return [
                 .group,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -3596,8 +3584,7 @@ extension DeadlineClientTypes {
             return [
                 .none,
                 .stopSchedulingAndCancelTasks,
-                .stopSchedulingAndCompleteTasks,
-                .sdkUnknown("")
+                .stopSchedulingAndCompleteTasks
             ]
         }
 
@@ -4316,8 +4303,7 @@ extension DeadlineClientTypes {
         public static var allCases: [DependencyConsumerResolutionStatus] {
             return [
                 .resolved,
-                .unresolved,
-                .sdkUnknown("")
+                .unresolved
             ]
         }
 
@@ -4389,8 +4375,7 @@ extension DeadlineClientTypes {
 
         public static var allCases: [DesiredWorkerStatus] {
             return [
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -4739,8 +4724,7 @@ extension DeadlineClientTypes {
         public static var allCases: [Ec2MarketType] {
             return [
                 .onDemand,
-                .spot,
-                .sdkUnknown("")
+                .spot
             ]
         }
 
@@ -5003,8 +4987,7 @@ extension DeadlineClientTypes {
         public static var allCases: [EnvironmentTemplateType] {
             return [
                 .json,
-                .yaml,
-                .sdkUnknown("")
+                .yaml
             ]
         }
 
@@ -5227,8 +5210,7 @@ extension DeadlineClientTypes {
         public static var allCases: [FileSystemLocationType] {
             return [
                 .local,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -5514,8 +5496,7 @@ extension DeadlineClientTypes {
                 .createFailed,
                 .createInProgress,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -8329,8 +8310,7 @@ extension DeadlineClientTypes {
         public static var allCases: [JobAttachmentsFileSystem] {
             return [
                 .copied,
-                .virtual,
-                .sdkUnknown("")
+                .virtual
             ]
         }
 
@@ -8536,8 +8516,7 @@ extension DeadlineClientTypes {
                 .internalserverexception,
                 .maxpayloadsizeexceeded,
                 .resourcenotfoundexception,
-                .validationexception,
-                .sdkUnknown("")
+                .validationexception
             ]
         }
 
@@ -8619,8 +8598,7 @@ extension DeadlineClientTypes {
                 .updateInProgress,
                 .updateSucceeded,
                 .uploadFailed,
-                .uploadInProgress,
-                .sdkUnknown("")
+                .uploadInProgress
             ]
         }
 
@@ -9077,8 +9055,7 @@ extension DeadlineClientTypes {
                 .pending,
                 .ready,
                 .succeeded,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -9111,8 +9088,7 @@ extension DeadlineClientTypes {
         public static var allCases: [JobTemplateType] {
             return [
                 .json,
-                .yaml,
-                .sdkUnknown("")
+                .yaml
             ]
         }
 
@@ -9145,8 +9121,7 @@ extension DeadlineClientTypes {
                 .createInProgress,
                 .deleteInProgress,
                 .notReady,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -11964,8 +11939,7 @@ extension DeadlineClientTypes {
         public static var allCases: [LogicalOperator] {
             return [
                 .and,
-                .or,
-                .sdkUnknown("")
+                .or
             ]
         }
 
@@ -12067,8 +12041,7 @@ extension DeadlineClientTypes {
                 .contributor,
                 .manager,
                 .owner,
-                .viewer,
-                .sdkUnknown("")
+                .viewer
             ]
         }
 
@@ -12367,8 +12340,7 @@ extension DeadlineClientTypes {
         public static var allCases: [PathFormat] {
             return [
                 .posix,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -12446,8 +12418,7 @@ extension DeadlineClientTypes {
                 .daily,
                 .hourly,
                 .monthly,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -12578,8 +12549,7 @@ extension DeadlineClientTypes {
         public static var allCases: [QueueBlockedReason] {
             return [
                 .budgetThresholdReached,
-                .noBudgetConfigured,
-                .sdkUnknown("")
+                .noBudgetConfigured
             ]
         }
 
@@ -12651,8 +12621,7 @@ extension DeadlineClientTypes {
                 .active,
                 .stopped,
                 .stopSchedulingAndCancelTasks,
-                .stopSchedulingAndCompleteTasks,
-                .sdkUnknown("")
+                .stopSchedulingAndCompleteTasks
             ]
         }
 
@@ -12811,8 +12780,7 @@ extension DeadlineClientTypes {
             return [
                 .idle,
                 .scheduling,
-                .schedulingBlocked,
-                .sdkUnknown("")
+                .schedulingBlocked
             ]
         }
 
@@ -13018,8 +12986,7 @@ extension DeadlineClientTypes {
         public static var allCases: [RunAs] {
             return [
                 .queueConfiguredUser,
-                .workerAgentUser,
-                .sdkUnknown("")
+                .workerAgentUser
             ]
         }
 
@@ -13813,8 +13780,7 @@ extension DeadlineClientTypes {
         public static var allCases: [ServiceManagedFleetOperatingSystemFamily] {
             return [
                 .linux,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -13915,8 +13881,7 @@ extension DeadlineClientTypes {
         public static var allCases: [ServiceQuotaExceededExceptionReason] {
             return [
                 .kmsKeyLimitExceeded,
-                .serviceQuotaExceededException,
-                .sdkUnknown("")
+                .serviceQuotaExceededException
             ]
         }
 
@@ -14035,8 +14000,7 @@ extension DeadlineClientTypes {
                 .reclaiming,
                 .running,
                 .scheduled,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -14139,8 +14103,7 @@ extension DeadlineClientTypes {
                 .started,
                 .updateFailed,
                 .updateInProgress,
-                .updateSucceeded,
-                .sdkUnknown("")
+                .updateSucceeded
             ]
         }
 
@@ -14170,8 +14133,7 @@ extension DeadlineClientTypes {
 
         public static var allCases: [SessionLifecycleTargetStatus] {
             return [
-                .ended,
-                .sdkUnknown("")
+                .ended
             ]
         }
 
@@ -14274,8 +14236,7 @@ extension DeadlineClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .timeout,
-                .sdkUnknown("")
+                .timeout
             ]
         }
 
@@ -14333,8 +14294,7 @@ extension DeadlineClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -14887,8 +14847,7 @@ extension DeadlineClientTypes {
                 .createComplete,
                 .updateFailed,
                 .updateInProgress,
-                .updateSucceeded,
-                .sdkUnknown("")
+                .updateSucceeded
             ]
         }
 
@@ -14956,8 +14915,7 @@ extension DeadlineClientTypes {
                 .float,
                 .int,
                 .path,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -15253,8 +15211,7 @@ extension DeadlineClientTypes {
                 .pending,
                 .ready,
                 .succeeded,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -15289,8 +15246,7 @@ extension DeadlineClientTypes {
             return [
                 .linux,
                 .macos,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -15647,8 +15603,7 @@ extension DeadlineClientTypes {
                 .scheduled,
                 .starting,
                 .succeeded,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -15861,8 +15816,7 @@ extension DeadlineClientTypes {
                 .pending,
                 .ready,
                 .succeeded,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -16436,8 +16390,7 @@ extension DeadlineClientTypes {
 
         public static var allCases: [UpdateJobLifecycleStatus] {
             return [
-                .archived,
-                .sdkUnknown("")
+                .archived
             ]
         }
 
@@ -16766,8 +16719,7 @@ extension DeadlineClientTypes {
             return [
                 .active,
                 .stopSchedulingAndCancelTasks,
-                .stopSchedulingAndCompleteTasks,
-                .sdkUnknown("")
+                .stopSchedulingAndCompleteTasks
             ]
         }
 
@@ -17641,8 +17593,7 @@ extension DeadlineClientTypes {
             return [
                 .started,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -17682,8 +17633,7 @@ extension DeadlineClientTypes {
                 .licenseProduct,
                 .queueId,
                 .usageType,
-                .userId,
-                .sdkUnknown("")
+                .userId
             ]
         }
 
@@ -17721,8 +17671,7 @@ extension DeadlineClientTypes {
                 .avg,
                 .max,
                 .min,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -17787,8 +17736,7 @@ extension DeadlineClientTypes {
         public static var allCases: [UsageType] {
             return [
                 .compute,
-                .license,
-                .sdkUnknown("")
+                .license
             ]
         }
 
@@ -17971,8 +17919,7 @@ extension DeadlineClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -18269,8 +18216,7 @@ extension DeadlineClientTypes {
                 .running,
                 .started,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 

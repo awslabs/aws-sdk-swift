@@ -438,8 +438,7 @@ extension GreengrassV2ClientTypes {
                 .deprecated,
                 .failed,
                 .initiated,
-                .requested,
-                .sdkUnknown("")
+                .requested
             ]
         }
 
@@ -666,8 +665,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [ComponentDependencyType] {
             return [
                 .hard,
-                .soft,
-                .sdkUnknown("")
+                .soft
             ]
         }
 
@@ -907,8 +905,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [ComponentVisibilityScope] {
             return [
                 .private,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -1076,8 +1073,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [CoreDeviceStatus] {
             return [
                 .healthy,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -1600,8 +1596,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [DeploymentComponentUpdatePolicyAction] {
             return [
                 .notifyComponents,
-                .skipNotifyComponents,
-                .sdkUnknown("")
+                .skipNotifyComponents
             ]
         }
 
@@ -1661,8 +1656,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [DeploymentFailureHandlingPolicy] {
             return [
                 .doNothing,
-                .rollback,
-                .sdkUnknown("")
+                .rollback
             ]
         }
 
@@ -1691,8 +1685,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [DeploymentHistoryFilter] {
             return [
                 .all,
-                .latestOnly,
-                .sdkUnknown("")
+                .latestOnly
             ]
         }
 
@@ -1813,8 +1806,7 @@ extension GreengrassV2ClientTypes {
                 .canceled,
                 .completed,
                 .failed,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -2172,8 +2164,7 @@ extension GreengrassV2ClientTypes {
                 .queued,
                 .rejected,
                 .succeeded,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -2868,8 +2859,7 @@ extension GreengrassV2ClientTypes {
                 .new,
                 .running,
                 .starting,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -2904,8 +2894,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [InstalledComponentTopologyFilter] {
             return [
                 .all,
-                .root,
-                .sdkUnknown("")
+                .root
             ]
         }
 
@@ -2978,8 +2967,7 @@ extension GreengrassV2ClientTypes {
 
         public static var allCases: [IoTJobAbortAction] {
             return [
-                .cancel,
-                .sdkUnknown("")
+                .cancel
             ]
         }
 
@@ -3100,8 +3088,7 @@ extension GreengrassV2ClientTypes {
                 .all,
                 .failed,
                 .rejected,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -3283,8 +3270,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [IotEndpointType] {
             return [
                 .fips,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -3422,8 +3408,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [LambdaEventSourceType] {
             return [
                 .iotCore,
-                .pubSub,
-                .sdkUnknown("")
+                .pubSub
             ]
         }
 
@@ -3533,8 +3518,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [LambdaFilesystemPermission] {
             return [
                 .ro,
-                .rw,
-                .sdkUnknown("")
+                .rw
             ]
         }
 
@@ -3613,8 +3597,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [LambdaInputPayloadEncodingType] {
             return [
                 .binary,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -3643,8 +3626,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [LambdaIsolationMode] {
             return [
                 .greengrassContainer,
-                .noContainer,
-                .sdkUnknown("")
+                .noContainer
             ]
         }
 
@@ -4512,8 +4494,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [RecipeOutputFormat] {
             return [
                 .json,
-                .yaml,
-                .sdkUnknown("")
+                .yaml
             ]
         }
 
@@ -4762,8 +4743,7 @@ extension GreengrassV2ClientTypes {
         public static var allCases: [S3EndpointType] {
             return [
                 .global,
-                .regional,
-                .sdkUnknown("")
+                .regional
             ]
         }
 
@@ -5246,8 +5226,7 @@ extension GreengrassV2ClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -5280,8 +5259,7 @@ extension GreengrassV2ClientTypes {
             return [
                 .active,
                 .deleted,
-                .discontinued,
-                .sdkUnknown("")
+                .discontinued
             ]
         }
 

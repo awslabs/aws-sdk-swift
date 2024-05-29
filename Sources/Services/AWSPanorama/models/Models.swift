@@ -162,8 +162,7 @@ extension PanoramaClientTypes {
             return [
                 .error,
                 .notAvailable,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -211,8 +210,7 @@ extension PanoramaClientTypes {
                 .removalInProgress,
                 .removalPending,
                 .removalRequested,
-                .removalSucceeded,
-                .sdkUnknown("")
+                .removalSucceeded
             ]
         }
 
@@ -343,8 +341,7 @@ extension PanoramaClientTypes {
         public static var allCases: [ConnectionType] {
             return [
                 .dhcp,
-                .staticIp,
-                .sdkUnknown("")
+                .staticIp
             ]
         }
 
@@ -2235,8 +2232,7 @@ extension PanoramaClientTypes {
             return [
                 .removed,
                 .running,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -2368,8 +2364,7 @@ extension PanoramaClientTypes {
                 .online,
                 .pending,
                 .rebooting,
-                .updateNeeded,
-                .sdkUnknown("")
+                .updateNeeded
             ]
         }
 
@@ -2406,8 +2401,7 @@ extension PanoramaClientTypes {
         public static var allCases: [DeviceBrand] {
             return [
                 .awsPanorama,
-                .lenovo,
-                .sdkUnknown("")
+                .lenovo
             ]
         }
 
@@ -2442,8 +2436,7 @@ extension PanoramaClientTypes {
                 .error,
                 .notAvailable,
                 .offline,
-                .online,
-                .sdkUnknown("")
+                .online
             ]
         }
 
@@ -2563,8 +2556,7 @@ extension PanoramaClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .stopError,
-                .sdkUnknown("")
+                .stopError
             ]
         }
 
@@ -2610,8 +2602,7 @@ extension PanoramaClientTypes {
                 .error,
                 .failed,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2644,8 +2635,7 @@ extension PanoramaClientTypes {
         public static var allCases: [DeviceType] {
             return [
                 .panoramaAppliance,
-                .panoramaApplianceDeveloperKit,
-                .sdkUnknown("")
+                .panoramaApplianceDeveloperKit
             ]
         }
 
@@ -2862,8 +2852,7 @@ extension PanoramaClientTypes {
 
         public static var allCases: [JobResourceType] {
             return [
-                .package,
-                .sdkUnknown("")
+                .package
             ]
         }
 
@@ -2891,8 +2880,7 @@ extension PanoramaClientTypes {
         public static var allCases: [JobType] {
             return [
                 .ota,
-                .reboot,
-                .sdkUnknown("")
+                .reboot
             ]
         }
 
@@ -3454,8 +3442,7 @@ extension PanoramaClientTypes {
                 .createdTime,
                 .deviceAggregatedStatus,
                 .deviceId,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -4001,8 +3988,7 @@ extension PanoramaClientTypes {
             return [
                 .connected,
                 .connecting,
-                .notConnected,
-                .sdkUnknown("")
+                .notConnected
             ]
         }
 
@@ -4204,8 +4190,7 @@ extension PanoramaClientTypes {
                 .businessLogic,
                 .mediaSink,
                 .mediaSource,
-                .mlModel,
-                .sdkUnknown("")
+                .mlModel
             ]
         }
 
@@ -4289,8 +4274,7 @@ extension PanoramaClientTypes {
             return [
                 .failed,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4428,8 +4412,7 @@ extension PanoramaClientTypes {
                 .error,
                 .notAvailable,
                 .paused,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -4560,8 +4543,7 @@ extension PanoramaClientTypes {
         public static var allCases: [NodeSignalValue] {
             return [
                 .pause,
-                .resume,
-                .sdkUnknown("")
+                .resume
             ]
         }
 
@@ -4881,8 +4863,7 @@ extension PanoramaClientTypes {
             return [
                 .failed,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4912,8 +4893,7 @@ extension PanoramaClientTypes {
         public static var allCases: [PackageImportJobType] {
             return [
                 .marketplaceNodePackageVersion,
-                .nodePackageVersion,
-                .sdkUnknown("")
+                .nodePackageVersion
             ]
         }
 
@@ -5108,8 +5088,7 @@ extension PanoramaClientTypes {
                 .deleting,
                 .failed,
                 .registerCompleted,
-                .registerPending,
-                .sdkUnknown("")
+                .registerPending
             ]
         }
 
@@ -5148,8 +5127,7 @@ extension PanoramaClientTypes {
                 .float32,
                 .int32,
                 .media,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -5704,8 +5682,7 @@ extension PanoramaClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -5797,8 +5774,7 @@ extension PanoramaClientTypes {
                 .processingDeployment,
                 .processingRemoval,
                 .removalFailed,
-                .removalSucceeded,
-                .sdkUnknown("")
+                .removalSucceeded
             ]
         }
 
@@ -5945,8 +5921,7 @@ extension PanoramaClientTypes {
 
         public static var allCases: [TemplateType] {
             return [
-                .rtspCameraStream,
-                .sdkUnknown("")
+                .rtspCameraStream
             ]
         }
 
@@ -6133,8 +6108,7 @@ extension PanoramaClientTypes {
                 .inProgress,
                 .pending,
                 .rebooting,
-                .verifying,
-                .sdkUnknown("")
+                .verifying
             ]
         }
 
@@ -6296,8 +6270,7 @@ extension PanoramaClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

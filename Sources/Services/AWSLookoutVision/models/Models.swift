@@ -633,8 +633,7 @@ extension LookoutVisionClientTypes {
                 .updateComplete,
                 .updateFailedRollbackComplete,
                 .updateFailedRollbackInProgress,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -2157,8 +2156,7 @@ extension LookoutVisionClientTypes {
                 .hostingFailed,
                 .startingHosting,
                 .stoppingHosting,
-                .systemUpdating,
-                .sdkUnknown("")
+                .systemUpdating
             ]
         }
 
@@ -2424,8 +2422,7 @@ extension LookoutVisionClientTypes {
                 .created,
                 .failed,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2532,8 +2529,7 @@ extension LookoutVisionClientTypes {
                 .systemUpdating,
                 .trained,
                 .training,
-                .trainingFailed,
-                .sdkUnknown("")
+                .trainingFailed
             ]
         }
 
@@ -2798,8 +2794,7 @@ extension LookoutVisionClientTypes {
                 .model,
                 .modelPackageJob,
                 .project,
-                .trial,
-                .sdkUnknown("")
+                .trial
             ]
         }
 
@@ -3342,8 +3337,7 @@ extension LookoutVisionClientTypes {
 
         public static var allCases: [TargetDevice] {
             return [
-                .jetsonXavier,
-                .sdkUnknown("")
+                .jetsonXavier
             ]
         }
 
@@ -3418,8 +3412,7 @@ extension LookoutVisionClientTypes {
 
         public static var allCases: [TargetPlatformAccelerator] {
             return [
-                .nvidia,
-                .sdkUnknown("")
+                .nvidia
             ]
         }
 
@@ -3447,8 +3440,7 @@ extension LookoutVisionClientTypes {
         public static var allCases: [TargetPlatformArch] {
             return [
                 .arm64,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -3475,8 +3467,7 @@ extension LookoutVisionClientTypes {
 
         public static var allCases: [TargetPlatformOs] {
             return [
-                .linux,
-                .sdkUnknown("")
+                .linux
             ]
         }
 

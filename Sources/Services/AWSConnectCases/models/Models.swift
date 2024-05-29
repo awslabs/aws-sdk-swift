@@ -220,8 +220,7 @@ extension ConnectCasesClientTypes {
             return [
                 .caseCreated,
                 .caseUpdated,
-                .relatedItemCreated,
-                .sdkUnknown("")
+                .relatedItemCreated
             ]
         }
 
@@ -558,8 +557,7 @@ extension ConnectCasesClientTypes {
 
         public static var allCases: [CommentBodyTextType] {
             return [
-                .plaintext,
-                .sdkUnknown("")
+                .plaintext
             ]
         }
 
@@ -1608,8 +1606,7 @@ extension ConnectCasesClientTypes {
             return [
                 .active,
                 .creationFailed,
-                .creationInProgress,
-                .sdkUnknown("")
+                .creationInProgress
             ]
         }
 
@@ -1958,8 +1955,7 @@ extension ConnectCasesClientTypes {
         public static var allCases: [FieldNamespace] {
             return [
                 .custom,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -2134,8 +2130,7 @@ extension ConnectCasesClientTypes {
                 .singleSelect,
                 .text,
                 .url,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -3836,8 +3831,7 @@ extension ConnectCasesClientTypes {
         public static var allCases: [Order] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -4029,8 +4023,7 @@ extension ConnectCasesClientTypes {
             return [
                 .comment,
                 .contact,
-                .file,
-                .sdkUnknown("")
+                .file
             ]
         }
 
@@ -4650,8 +4643,7 @@ extension ConnectCasesClientTypes {
         public static var allCases: [TemplateStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 

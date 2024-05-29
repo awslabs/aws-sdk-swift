@@ -197,8 +197,7 @@ extension ImagebuilderClientTypes {
             return [
                 .import,
                 .scheduled,
-                .userInitiated,
-                .sdkUnknown("")
+                .userInitiated
             ]
         }
 
@@ -617,8 +616,7 @@ extension ImagebuilderClientTypes {
 
         public static var allCases: [ComponentFormat] {
             return [
-                .shell,
-                .sdkUnknown("")
+                .shell
             ]
         }
 
@@ -757,8 +755,7 @@ extension ImagebuilderClientTypes {
 
         public static var allCases: [ComponentStatus] {
             return [
-                .deprecated,
-                .sdkUnknown("")
+                .deprecated
             ]
         }
 
@@ -877,8 +874,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [ComponentType] {
             return [
                 .build,
-                .test,
-                .sdkUnknown("")
+                .test
             ]
         }
 
@@ -1225,8 +1221,7 @@ extension ImagebuilderClientTypes {
 
         public static var allCases: [ContainerRepositoryService] {
             return [
-                .ecr,
-                .sdkUnknown("")
+                .ecr
             ]
         }
 
@@ -1252,8 +1247,7 @@ extension ImagebuilderClientTypes {
 
         public static var allCases: [ContainerType] {
             return [
-                .docker,
-                .sdkUnknown("")
+                .docker
             ]
         }
 
@@ -3390,8 +3384,7 @@ extension ImagebuilderClientTypes {
             return [
                 .raw,
                 .vhd,
-                .vmdk,
-                .sdkUnknown("")
+                .vmdk
             ]
         }
 
@@ -3690,8 +3683,7 @@ extension ImagebuilderClientTypes {
                 .io2,
                 .sc1,
                 .st1,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -6155,8 +6147,7 @@ extension ImagebuilderClientTypes {
                 .failed,
                 .pending,
                 .scanning,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -6231,8 +6222,7 @@ extension ImagebuilderClientTypes {
                 .amazonManaged,
                 .awsMarketplace,
                 .custom,
-                .imported,
-                .sdkUnknown("")
+                .imported
             ]
         }
 
@@ -6314,8 +6304,7 @@ extension ImagebuilderClientTypes {
                 .failed,
                 .integrating,
                 .pending,
-                .testing,
-                .sdkUnknown("")
+                .testing
             ]
         }
 
@@ -6493,8 +6482,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [ImageType] {
             return [
                 .ami,
-                .docker,
-                .sdkUnknown("")
+                .docker
             ]
         }
 
@@ -7666,8 +7654,7 @@ extension ImagebuilderClientTypes {
                 .available,
                 .delete,
                 .deprecate,
-                .disable,
-                .sdkUnknown("")
+                .disable
             ]
         }
 
@@ -7733,8 +7720,7 @@ extension ImagebuilderClientTypes {
                 .failed,
                 .inProgress,
                 .skipped,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -7861,8 +7847,7 @@ extension ImagebuilderClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -8104,8 +8089,7 @@ extension ImagebuilderClientTypes {
             return [
                 .delete,
                 .deprecate,
-                .disable,
-                .sdkUnknown("")
+                .disable
             ]
         }
 
@@ -8317,8 +8301,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [LifecyclePolicyDetailFilterType] {
             return [
                 .age,
-                .count,
-                .sdkUnknown("")
+                .count
             ]
         }
 
@@ -8423,8 +8406,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [LifecyclePolicyResourceType] {
             return [
                 .amiImage,
-                .containerImage,
-                .sdkUnknown("")
+                .containerImage
             ]
         }
 
@@ -8453,8 +8435,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [LifecyclePolicyStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8558,8 +8539,7 @@ extension ImagebuilderClientTypes {
                 .days,
                 .months,
                 .weeks,
-                .years,
-                .sdkUnknown("")
+                .years
             ]
         }
 
@@ -10755,8 +10735,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [OnWorkflowFailure] {
             return [
                 .abort,
-                .continue,
-                .sdkUnknown("")
+                .continue
             ]
         }
 
@@ -10820,8 +10799,7 @@ extension ImagebuilderClientTypes {
                 .amazon,
                 .self,
                 .shared,
-                .thirdparty,
-                .sdkUnknown("")
+                .thirdparty
             ]
         }
 
@@ -10924,8 +10902,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [PipelineExecutionStartCondition] {
             return [
                 .expressionMatchAndDependencyUpdatesAvailable,
-                .expressionMatchOnly,
-                .sdkUnknown("")
+                .expressionMatchOnly
             ]
         }
 
@@ -10954,8 +10931,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [PipelineStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10984,8 +10960,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [Platform] {
             return [
                 .linux,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -11641,8 +11616,7 @@ extension ImagebuilderClientTypes {
                 .available,
                 .deleted,
                 .deprecated,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -13323,8 +13297,7 @@ extension ImagebuilderClientTypes {
                 .rollbackCompleted,
                 .rollbackInProgress,
                 .running,
-                .skipped,
-                .sdkUnknown("")
+                .skipped
             ]
         }
 
@@ -13470,8 +13443,7 @@ extension ImagebuilderClientTypes {
 
         public static var allCases: [WorkflowStatus] {
             return [
-                .deprecated,
-                .sdkUnknown("")
+                .deprecated
             ]
         }
 
@@ -13499,8 +13471,7 @@ extension ImagebuilderClientTypes {
         public static var allCases: [WorkflowStepActionType] {
             return [
                 .resume,
-                .stop,
-                .sdkUnknown("")
+                .stop
             ]
         }
 
@@ -13589,8 +13560,7 @@ extension ImagebuilderClientTypes {
                 .completed,
                 .failed,
                 .running,
-                .skipped,
-                .sdkUnknown("")
+                .skipped
             ]
         }
 
@@ -13629,8 +13599,7 @@ extension ImagebuilderClientTypes {
                 .failed,
                 .pending,
                 .running,
-                .skipped,
-                .sdkUnknown("")
+                .skipped
             ]
         }
 
@@ -13812,8 +13781,7 @@ extension ImagebuilderClientTypes {
             return [
                 .build,
                 .distribution,
-                .test,
-                .sdkUnknown("")
+                .test
             ]
         }
 

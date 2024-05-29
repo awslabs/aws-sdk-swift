@@ -337,8 +337,7 @@ extension SESv2ClientTypes {
         public static var allCases: [BehaviorOnMxFailure] {
             return [
                 .rejectMessage,
-                .useDefaultValue,
-                .sdkUnknown("")
+                .useDefaultValue
             ]
         }
 
@@ -470,8 +469,7 @@ extension SESv2ClientTypes {
             return [
                 .permanent,
                 .transient,
-                .undetermined,
-                .sdkUnknown("")
+                .undetermined
             ]
         }
 
@@ -660,8 +658,7 @@ extension SESv2ClientTypes {
                 .messageRejected,
                 .success,
                 .templateNotFound,
-                .transientFailure,
-                .sdkUnknown("")
+                .transientFailure
             ]
         }
 
@@ -992,8 +989,7 @@ extension SESv2ClientTypes {
         public static var allCases: [ContactLanguage] {
             return [
                 .en,
-                .ja,
-                .sdkUnknown("")
+                .ja
             ]
         }
 
@@ -1096,8 +1092,7 @@ extension SESv2ClientTypes {
         public static var allCases: [ContactListImportAction] {
             return [
                 .delete,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -2286,8 +2281,7 @@ extension SESv2ClientTypes {
         public static var allCases: [DataFormat] {
             return [
                 .csv,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -2958,8 +2952,7 @@ extension SESv2ClientTypes {
             return [
                 .active,
                 .disabled,
-                .pendingExpiration,
-                .sdkUnknown("")
+                .pendingExpiration
             ]
         }
 
@@ -3041,8 +3034,7 @@ extension SESv2ClientTypes {
         public static var allCases: [DeliverabilityTestStatus] {
             return [
                 .completed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -3092,8 +3084,7 @@ extension SESv2ClientTypes {
                 .permanentBounce,
                 .send,
                 .transientBounce,
-                .undeterminedBounce,
-                .sdkUnknown("")
+                .undeterminedBounce
             ]
         }
 
@@ -3200,8 +3191,7 @@ extension SESv2ClientTypes {
             return [
                 .emailHeader,
                 .linkTag,
-                .messageTag,
-                .sdkUnknown("")
+                .messageTag
             ]
         }
 
@@ -3340,8 +3330,7 @@ extension SESv2ClientTypes {
         public static var allCases: [DkimSigningAttributesOrigin] {
             return [
                 .awsSes,
-                .external,
-                .sdkUnknown("")
+                .external
             ]
         }
 
@@ -3370,8 +3359,7 @@ extension SESv2ClientTypes {
         public static var allCases: [DkimSigningKeyLength] {
             return [
                 .rsa1024Bit,
-                .rsa2048Bit,
-                .sdkUnknown("")
+                .rsa2048Bit
             ]
         }
 
@@ -3417,8 +3405,7 @@ extension SESv2ClientTypes {
                 .notStarted,
                 .pending,
                 .success,
-                .temporaryFailure,
-                .sdkUnknown("")
+                .temporaryFailure
             ]
         }
 
@@ -3798,8 +3785,7 @@ extension SESv2ClientTypes {
         public static var allCases: [EngagementEventType] {
             return [
                 .click,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 
@@ -4003,8 +3989,7 @@ extension SESv2ClientTypes {
                 .reject,
                 .renderingFailure,
                 .send,
-                .subscription,
-                .sdkUnknown("")
+                .subscription
             ]
         }
 
@@ -4232,8 +4217,7 @@ extension SESv2ClientTypes {
         public static var allCases: [ExportSourceType] {
             return [
                 .messageInsights,
-                .metricsData,
-                .sdkUnknown("")
+                .metricsData
             ]
         }
 
@@ -4324,8 +4308,7 @@ extension SESv2ClientTypes {
         public static var allCases: [FeatureStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -6277,8 +6260,7 @@ extension SESv2ClientTypes {
             return [
                 .domain,
                 .emailAddress,
-                .managedDomain,
-                .sdkUnknown("")
+                .managedDomain
             ]
         }
 
@@ -6385,8 +6367,7 @@ extension SESv2ClientTypes {
         public static var allCases: [ImportDestinationType] {
             return [
                 .contactList,
-                .suppressionList,
-                .sdkUnknown("")
+                .suppressionList
             ]
         }
 
@@ -6679,8 +6660,7 @@ extension SESv2ClientTypes {
                 .completed,
                 .created,
                 .failed,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -7833,8 +7813,7 @@ extension SESv2ClientTypes {
                 .impact,
                 .resourceArn,
                 .status,
-                .type,
-                .sdkUnknown("")
+                .type
             ]
         }
 
@@ -8233,8 +8212,7 @@ extension SESv2ClientTypes {
                 .failed,
                 .pending,
                 .success,
-                .temporaryFailure,
-                .sdkUnknown("")
+                .temporaryFailure
             ]
         }
 
@@ -8265,8 +8243,7 @@ extension SESv2ClientTypes {
         public static var allCases: [MailType] {
             return [
                 .marketing,
-                .transactional,
-                .sdkUnknown("")
+                .transactional
             ]
         }
 
@@ -8609,8 +8586,7 @@ extension SESv2ClientTypes {
                 .open,
                 .permanentBounce,
                 .send,
-                .transientBounce,
-                .sdkUnknown("")
+                .transientBounce
             ]
         }
 
@@ -8652,8 +8628,7 @@ extension SESv2ClientTypes {
         public static var allCases: [MetricAggregation] {
             return [
                 .rate,
-                .volume,
-                .sdkUnknown("")
+                .volume
             ]
         }
 
@@ -8767,8 +8742,7 @@ extension SESv2ClientTypes {
             return [
                 .configurationSet,
                 .emailIdentity,
-                .isp,
-                .sdkUnknown("")
+                .isp
             ]
         }
 
@@ -8796,8 +8770,7 @@ extension SESv2ClientTypes {
 
         public static var allCases: [MetricNamespace] {
             return [
-                .vdm,
-                .sdkUnknown("")
+                .vdm
             ]
         }
 
@@ -10452,8 +10425,7 @@ extension SESv2ClientTypes {
         public static var allCases: [QueryErrorCode] {
             return [
                 .accessDenied,
-                .internalFailure,
-                .sdkUnknown("")
+                .internalFailure
             ]
         }
 
@@ -10577,8 +10549,7 @@ extension SESv2ClientTypes {
         public static var allCases: [RecommendationImpact] {
             return [
                 .high,
-                .low,
-                .sdkUnknown("")
+                .low
             ]
         }
 
@@ -10607,8 +10578,7 @@ extension SESv2ClientTypes {
         public static var allCases: [RecommendationStatus] {
             return [
                 .fixed,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 
@@ -10641,8 +10611,7 @@ extension SESv2ClientTypes {
                 .bimi,
                 .dkim,
                 .dmarc,
-                .spf,
-                .sdkUnknown("")
+                .spf
             ]
         }
 
@@ -10801,8 +10770,7 @@ extension SESv2ClientTypes {
                 .denied,
                 .failed,
                 .granted,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -10871,8 +10839,7 @@ extension SESv2ClientTypes {
         public static var allCases: [ScalingMode] {
             return [
                 .managed,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -11359,8 +11326,7 @@ extension SESv2ClientTypes {
         public static var allCases: [SubscriptionStatus] {
             return [
                 .optIn,
-                .optOut,
-                .sdkUnknown("")
+                .optOut
             ]
         }
 
@@ -11574,8 +11540,7 @@ extension SESv2ClientTypes {
         public static var allCases: [SuppressionListImportAction] {
             return [
                 .delete,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -11609,8 +11574,7 @@ extension SESv2ClientTypes {
         public static var allCases: [SuppressionListReason] {
             return [
                 .bounce,
-                .complaint,
-                .sdkUnknown("")
+                .complaint
             ]
         }
 
@@ -11903,8 +11867,7 @@ extension SESv2ClientTypes {
         public static var allCases: [TlsPolicy] {
             return [
                 .optional,
-                .require,
-                .sdkUnknown("")
+                .require
             ]
         }
 
@@ -12744,8 +12707,7 @@ extension SESv2ClientTypes {
                 .hostNotFound,
                 .invalidValue,
                 .serviceError,
-                .typeNotFound,
-                .sdkUnknown("")
+                .typeNotFound
             ]
         }
 
@@ -12834,8 +12796,7 @@ extension SESv2ClientTypes {
                 .notStarted,
                 .pending,
                 .success,
-                .temporaryFailure,
-                .sdkUnknown("")
+                .temporaryFailure
             ]
         }
 
@@ -12909,8 +12870,7 @@ extension SESv2ClientTypes {
         public static var allCases: [WarmupStatus] {
             return [
                 .done,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 

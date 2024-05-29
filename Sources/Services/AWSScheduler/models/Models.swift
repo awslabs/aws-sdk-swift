@@ -15,8 +15,7 @@ extension SchedulerClientTypes {
         public static var allCases: [ActionAfterCompletion] {
             return [
                 .delete,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -45,8 +44,7 @@ extension SchedulerClientTypes {
         public static var allCases: [AssignPublicIp] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -794,8 +792,7 @@ extension SchedulerClientTypes {
         public static var allCases: [FlexibleTimeWindowMode] {
             return [
                 .flexible,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -1139,8 +1136,7 @@ extension SchedulerClientTypes {
             return [
                 .ec2,
                 .external,
-                .fargate,
-                .sdkUnknown("")
+                .fargate
             ]
         }
 
@@ -1505,8 +1501,7 @@ extension SchedulerClientTypes {
         public static var allCases: [PlacementConstraintType] {
             return [
                 .distinctInstance,
-                .memberOf,
-                .sdkUnknown("")
+                .memberOf
             ]
         }
 
@@ -1574,8 +1569,7 @@ extension SchedulerClientTypes {
             return [
                 .binpack,
                 .random,
-                .spread,
-                .sdkUnknown("")
+                .spread
             ]
         }
 
@@ -1603,8 +1597,7 @@ extension SchedulerClientTypes {
 
         public static var allCases: [PropagateTags] {
             return [
-                .taskDefinition,
-                .sdkUnknown("")
+                .taskDefinition
             ]
         }
 
@@ -1777,8 +1770,7 @@ extension SchedulerClientTypes {
         public static var allCases: [ScheduleGroupState] {
             return [
                 .active,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -1853,8 +1845,7 @@ extension SchedulerClientTypes {
         public static var allCases: [ScheduleState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 

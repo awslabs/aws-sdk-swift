@@ -106,8 +106,7 @@ extension ControlTowerClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -141,8 +140,7 @@ extension ControlTowerClientTypes {
                 .disableBaseline,
                 .enableBaseline,
                 .resetEnabledBaseline,
-                .updateEnabledBaseline,
-                .sdkUnknown("")
+                .updateEnabledBaseline
             ]
         }
 
@@ -361,8 +359,7 @@ extension ControlTowerClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -460,8 +457,7 @@ extension ControlTowerClientTypes {
             return [
                 .disableControl,
                 .enableControl,
-                .updateEnabledControl,
-                .sdkUnknown("")
+                .updateEnabledControl
             ]
         }
 
@@ -809,8 +805,7 @@ extension ControlTowerClientTypes {
                 .drifted,
                 .inSync,
                 .notChecking,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -1470,8 +1465,7 @@ extension ControlTowerClientTypes {
             return [
                 .failed,
                 .succeeded,
-                .underChange,
-                .sdkUnknown("")
+                .underChange
             ]
         }
 
@@ -2136,8 +2130,7 @@ extension ControlTowerClientTypes {
         public static var allCases: [LandingZoneDriftStatus] {
             return [
                 .drifted,
-                .inSync,
-                .sdkUnknown("")
+                .inSync
             ]
         }
 
@@ -2258,8 +2251,7 @@ extension ControlTowerClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2293,8 +2285,7 @@ extension ControlTowerClientTypes {
                 .create,
                 .delete,
                 .reset,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -2327,8 +2318,7 @@ extension ControlTowerClientTypes {
             return [
                 .active,
                 .failed,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 

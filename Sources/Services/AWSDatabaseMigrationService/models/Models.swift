@@ -237,8 +237,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [AssessmentReportType] {
             return [
                 .csv,
-                .pdf,
-                .sdkUnknown("")
+                .pdf
             ]
         }
 
@@ -269,8 +268,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .default,
                 .mongodbCr,
-                .scramSha1,
-                .sdkUnknown("")
+                .scramSha1
             ]
         }
 
@@ -300,8 +298,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [AuthTypeValue] {
             return [
                 .no,
-                .password,
-                .sdkUnknown("")
+                .password
             ]
         }
 
@@ -541,8 +538,7 @@ extension DatabaseMigrationClientTypes {
                 .none,
                 .private,
                 .publicRead,
-                .publicReadWrite,
-                .sdkUnknown("")
+                .publicReadWrite
             ]
         }
 
@@ -650,8 +646,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .byte,
                 .char,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -876,8 +871,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [CollectorStatus] {
             return [
                 .active,
-                .unregistered,
-                .sdkUnknown("")
+                .unregistered
             ]
         }
 
@@ -906,8 +900,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [CompressionTypeValue] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -2383,8 +2376,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [DataFormatValue] {
             return [
                 .csv,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -2674,8 +2666,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [DatabaseMode] {
             return [
                 .babelfish,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -2805,8 +2796,7 @@ extension DatabaseMigrationClientTypes {
                 .dash,
                 .none,
                 .slash,
-                .underscore,
-                .sdkUnknown("")
+                .underscore
             ]
         }
 
@@ -2843,8 +2833,7 @@ extension DatabaseMigrationClientTypes {
                 .mmyyyydd,
                 .yyyymm,
                 .yyyymmdd,
-                .yyyymmddhh,
-                .sdkUnknown("")
+                .yyyymmddhh
             ]
         }
 
@@ -7455,8 +7444,7 @@ extension DatabaseMigrationClientTypes {
                 .none,
                 .require,
                 .verifyCa,
-                .verifyFull,
-                .sdkUnknown("")
+                .verifyFull
             ]
         }
 
@@ -7782,8 +7770,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .plain,
                 .plainDictionary,
-                .rleDictionary,
-                .sdkUnknown("")
+                .rleDictionary
             ]
         }
 
@@ -7813,8 +7800,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [EncryptionModeValue] {
             return [
                 .sseKms,
-                .sseS3,
-                .sdkUnknown("")
+                .sseS3
             ]
         }
 
@@ -8120,8 +8106,7 @@ extension DatabaseMigrationClientTypes {
                 .boolean,
                 .enum,
                 .integer,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -9511,8 +9496,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [KafkaSaslMechanism] {
             return [
                 .plain,
-                .scramSha512,
-                .sdkUnknown("")
+                .scramSha512
             ]
         }
 
@@ -9545,8 +9529,7 @@ extension DatabaseMigrationClientTypes {
                 .plaintext,
                 .saslSsl,
                 .sslAuthentication,
-                .sslEncryption,
-                .sdkUnknown("")
+                .sslEncryption
             ]
         }
 
@@ -9727,8 +9710,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [KafkaSslEndpointIdentificationAlgorithm] {
             return [
                 .https,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -9967,8 +9949,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .clob,
                 .nclob,
-                .wstring,
-                .sdkUnknown("")
+                .wstring
             ]
         }
 
@@ -10047,8 +10028,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [MessageFormatValue] {
             return [
                 .json,
-                .jsonUnformatted,
-                .sdkUnknown("")
+                .jsonUnformatted
             ]
         }
 
@@ -10337,8 +10317,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .cdc,
                 .fullLoad,
-                .fullLoadAndCdc,
-                .sdkUnknown("")
+                .fullLoadAndCdc
             ]
         }
 
@@ -12073,8 +12052,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [NestingLevelValue] {
             return [
                 .none,
-                .one,
-                .sdkUnknown("")
+                .one
             ]
         }
 
@@ -12542,8 +12520,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [OriginTypeValue] {
             return [
                 .source,
-                .target,
-                .sdkUnknown("")
+                .target
             ]
         }
 
@@ -12572,8 +12549,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [ParquetVersionValue] {
             return [
                 .parquet10,
-                .parquet20,
-                .sdkUnknown("")
+                .parquet20
             ]
         }
 
@@ -12655,8 +12631,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .noPreference,
                 .pglogical,
-                .testDecoding,
-                .sdkUnknown("")
+                .testDecoding
             ]
         }
 
@@ -13319,8 +13294,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .authRole,
                 .authToken,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -13808,8 +13782,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .failed,
                 .refreshing,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -13839,8 +13812,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [ReleaseStatusValues] {
             return [
                 .beta,
-                .prod,
-                .sdkUnknown("")
+                .prod
             ]
         }
 
@@ -13869,8 +13841,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [ReloadOptionValue] {
             return [
                 .dataReload,
-                .validateOnly,
-                .sdkUnknown("")
+                .validateOnly
             ]
         }
 
@@ -14339,8 +14310,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [ReplicationEndpointTypeValue] {
             return [
                 .source,
-                .target,
-                .sdkUnknown("")
+                .target
             ]
         }
 
@@ -16001,8 +15971,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .exclusiveAutomaticTruncation,
                 .relyOnSqlServerReplicationAgent,
-                .sharedAutomaticTruncation,
-                .sdkUnknown("")
+                .sharedAutomaticTruncation
             ]
         }
 
@@ -16224,8 +16193,7 @@ extension DatabaseMigrationClientTypes {
 
         public static var allCases: [SourceType] {
             return [
-                .replicationInstance,
-                .sdkUnknown("")
+                .replicationInstance
             ]
         }
 
@@ -16253,8 +16221,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [SslSecurityProtocolValue] {
             return [
                 .plaintext,
-                .sslEncryption,
-                .sdkUnknown("")
+                .sslEncryption
             ]
         }
 
@@ -17250,8 +17217,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .reloadTarget,
                 .resumeProcessing,
-                .startReplication,
-                .sdkUnknown("")
+                .startReplication
             ]
         }
 
@@ -17887,8 +17853,7 @@ extension DatabaseMigrationClientTypes {
         public static var allCases: [TargetDbType] {
             return [
                 .multipleDatabases,
-                .specificDatabase,
-                .sdkUnknown("")
+                .specificDatabase
             ]
         }
 
@@ -18057,8 +18022,7 @@ extension DatabaseMigrationClientTypes {
                 .backuponly,
                 .preferbackup,
                 .prefertlog,
-                .tlogonly,
-                .sdkUnknown("")
+                .tlogonly
             ]
         }
 
@@ -18197,8 +18161,7 @@ extension DatabaseMigrationClientTypes {
             return [
                 .outdated,
                 .unsupported,
-                .upToDate,
-                .sdkUnknown("")
+                .upToDate
             ]
         }
 

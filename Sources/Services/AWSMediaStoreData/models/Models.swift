@@ -412,8 +412,7 @@ extension MediaStoreDataClientTypes {
         public static var allCases: [ItemType] {
             return [
                 .folder,
-                .object,
-                .sdkUnknown("")
+                .object
             ]
         }
 
@@ -728,8 +727,7 @@ extension MediaStoreDataClientTypes {
 
         public static var allCases: [StorageClass] {
             return [
-                .temporal,
-                .sdkUnknown("")
+                .temporal
             ]
         }
 
@@ -757,8 +755,7 @@ extension MediaStoreDataClientTypes {
         public static var allCases: [UploadAvailability] {
             return [
                 .standard,
-                .streaming,
-                .sdkUnknown("")
+                .streaming
             ]
         }
 

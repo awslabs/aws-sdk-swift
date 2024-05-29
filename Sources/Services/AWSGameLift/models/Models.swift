@@ -89,8 +89,7 @@ extension GameLiftClientTypes {
         public static var allCases: [AcceptanceType] {
             return [
                 .accept,
-                .reject,
-                .sdkUnknown("")
+                .reject
             ]
         }
 
@@ -302,8 +301,7 @@ extension GameLiftClientTypes {
         public static var allCases: [BackfillMode] {
             return [
                 .automatic,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -334,8 +332,7 @@ extension GameLiftClientTypes {
             return [
                 .onDemandOnly,
                 .spotOnly,
-                .spotPreferred,
-                .sdkUnknown("")
+                .spotPreferred
             ]
         }
 
@@ -439,8 +436,7 @@ extension GameLiftClientTypes {
             return [
                 .failed,
                 .initialized,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -506,8 +502,7 @@ extension GameLiftClientTypes {
         public static var allCases: [CertificateType] {
             return [
                 .disabled,
-                .generated,
-                .sdkUnknown("")
+                .generated
             ]
         }
 
@@ -650,8 +645,7 @@ extension GameLiftClientTypes {
                 .greaterthanorequaltothreshold,
                 .greaterthanthreshold,
                 .lessthanorequaltothreshold,
-                .lessthanthreshold,
-                .sdkUnknown("")
+                .lessthanthreshold
             ]
         }
 
@@ -791,8 +785,7 @@ extension GameLiftClientTypes {
             return [
                 .active,
                 .pending,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -824,8 +817,7 @@ extension GameLiftClientTypes {
             return [
                 .anywhere,
                 .container,
-                .ec2,
-                .sdkUnknown("")
+                .ec2
             ]
         }
 
@@ -1197,8 +1189,7 @@ extension GameLiftClientTypes {
                 .complete,
                 .healthy,
                 .start,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -1395,8 +1386,7 @@ extension GameLiftClientTypes {
             return [
                 .copying,
                 .failed,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -1629,8 +1619,7 @@ extension GameLiftClientTypes {
 
         public static var allCases: [ContainerOperatingSystem] {
             return [
-                .amazonLinux2023,
-                .sdkUnknown("")
+                .amazonLinux2023
             ]
         }
 
@@ -1782,8 +1771,7 @@ extension GameLiftClientTypes {
         public static var allCases: [ContainerSchedulingStrategy] {
             return [
                 .daemon,
-                .replica,
-                .sdkUnknown("")
+                .replica
             ]
         }
 
@@ -7428,8 +7416,7 @@ extension GameLiftClientTypes {
                 .t2Large,
                 .t2Medium,
                 .t2Micro,
-                .t2Small,
-                .sdkUnknown("")
+                .t2Small
             ]
         }
 
@@ -7837,8 +7824,7 @@ extension GameLiftClientTypes {
                 .serverProcessProcessExitTimeout,
                 .serverProcessProcessReadyTimeout,
                 .serverProcessSdkInitializationTimeout,
-                .serverProcessTerminatedUnhealthy,
-                .sdkUnknown("")
+                .serverProcessTerminatedUnhealthy
             ]
         }
 
@@ -7930,8 +7916,7 @@ extension GameLiftClientTypes {
         public static var allCases: [FilterInstanceStatus] {
             return [
                 .active,
-                .draining,
-                .sdkUnknown("")
+                .draining
             ]
         }
 
@@ -7958,8 +7943,7 @@ extension GameLiftClientTypes {
 
         public static var allCases: [FleetAction] {
             return [
-                .autoscaling,
-                .sdkUnknown("")
+                .autoscaling
             ]
         }
 
@@ -8272,8 +8256,7 @@ extension GameLiftClientTypes {
                 .new,
                 .notFound,
                 .terminated,
-                .validating,
-                .sdkUnknown("")
+                .validating
             ]
         }
 
@@ -8310,8 +8293,7 @@ extension GameLiftClientTypes {
         public static var allCases: [FleetType] {
             return [
                 .ondemand,
-                .spot,
-                .sdkUnknown("")
+                .spot
             ]
         }
 
@@ -8396,8 +8378,7 @@ extension GameLiftClientTypes {
         public static var allCases: [FlexMatchMode] {
             return [
                 .standalone,
-                .withQueue,
-                .sdkUnknown("")
+                .withQueue
             ]
         }
 
@@ -8545,8 +8526,7 @@ extension GameLiftClientTypes {
 
         public static var allCases: [GameServerClaimStatus] {
             return [
-                .claimed,
-                .sdkUnknown("")
+                .claimed
             ]
         }
 
@@ -8673,8 +8653,7 @@ extension GameLiftClientTypes {
 
         public static var allCases: [GameServerGroupAction] {
             return [
-                .replaceInstanceTypes,
-                .sdkUnknown("")
+                .replaceInstanceTypes
             ]
         }
 
@@ -8734,8 +8713,7 @@ extension GameLiftClientTypes {
             return [
                 .forceDelete,
                 .retain,
-                .safeDelete,
-                .sdkUnknown("")
+                .safeDelete
             ]
         }
 
@@ -8937,8 +8915,7 @@ extension GameLiftClientTypes {
                 .r6g8xlarge,
                 .r6gLarge,
                 .r6gMedium,
-                .r6gXlarge,
-                .sdkUnknown("")
+                .r6gXlarge
             ]
         }
 
@@ -9063,8 +9040,7 @@ extension GameLiftClientTypes {
                 .deleteScheduled,
                 .deleting,
                 .error,
-                .new,
-                .sdkUnknown("")
+                .new
             ]
         }
 
@@ -9096,8 +9072,7 @@ extension GameLiftClientTypes {
 
         public static var allCases: [GameServerHealthCheck] {
             return [
-                .healthy,
-                .sdkUnknown("")
+                .healthy
             ]
         }
 
@@ -9168,8 +9143,7 @@ extension GameLiftClientTypes {
             return [
                 .active,
                 .draining,
-                .spotTerminating,
-                .sdkUnknown("")
+                .spotTerminating
             ]
         }
 
@@ -9199,8 +9173,7 @@ extension GameLiftClientTypes {
         public static var allCases: [GameServerProtectionPolicy] {
             return [
                 .fullProtection,
-                .noProtection,
-                .sdkUnknown("")
+                .noProtection
             ]
         }
 
@@ -9229,8 +9202,7 @@ extension GameLiftClientTypes {
         public static var allCases: [GameServerUtilizationStatus] {
             return [
                 .available,
-                .utilized,
-                .sdkUnknown("")
+                .utilized
             ]
         }
 
@@ -9656,8 +9628,7 @@ extension GameLiftClientTypes {
                 .failed,
                 .fulfilled,
                 .pending,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -9792,8 +9763,7 @@ extension GameLiftClientTypes {
                 .active,
                 .error,
                 .terminated,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -9823,8 +9793,7 @@ extension GameLiftClientTypes {
 
         public static var allCases: [GameSessionStatusReason] {
             return [
-                .interrupted,
-                .sdkUnknown("")
+                .interrupted
             ]
         }
 
@@ -10451,8 +10420,7 @@ extension GameLiftClientTypes {
 
         public static var allCases: [InstanceRoleCredentialsProvider] {
             return [
-                .sharedCredentialFile,
-                .sdkUnknown("")
+                .sharedCredentialFile
             ]
         }
 
@@ -10482,8 +10450,7 @@ extension GameLiftClientTypes {
             return [
                 .active,
                 .pending,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -10719,8 +10686,7 @@ extension GameLiftClientTypes {
         public static var allCases: [IpProtocol] {
             return [
                 .tcp,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -11721,8 +11687,7 @@ extension GameLiftClientTypes {
         public static var allCases: [LocationFilter] {
             return [
                 .aws,
-                .custom,
-                .sdkUnknown("")
+                .custom
             ]
         }
 
@@ -11825,8 +11790,7 @@ extension GameLiftClientTypes {
 
         public static var allCases: [LocationUpdateStatus] {
             return [
-                .pendingUpdate,
-                .sdkUnknown("")
+                .pendingUpdate
             ]
         }
 
@@ -12012,8 +11976,7 @@ extension GameLiftClientTypes {
                 .queued,
                 .requiresAcceptance,
                 .searching,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -12213,8 +12176,7 @@ extension GameLiftClientTypes {
                 .percentavailablegamesessions,
                 .percentidleinstances,
                 .queuedepth,
-                .waittime,
-                .sdkUnknown("")
+                .waittime
             ]
         }
 
@@ -12333,8 +12295,7 @@ extension GameLiftClientTypes {
                 .amazonLinux2,
                 .amazonLinux2023,
                 .windows2012,
-                .windows2016,
-                .sdkUnknown("")
+                .windows2016
             ]
         }
 
@@ -12679,8 +12640,7 @@ extension GameLiftClientTypes {
         public static var allCases: [PlayerSessionCreationPolicy] {
             return [
                 .acceptAll,
-                .denyAll,
-                .sdkUnknown("")
+                .denyAll
             ]
         }
 
@@ -12713,8 +12673,7 @@ extension GameLiftClientTypes {
                 .active,
                 .completed,
                 .reserved,
-                .timedout,
-                .sdkUnknown("")
+                .timedout
             ]
         }
 
@@ -12745,8 +12704,7 @@ extension GameLiftClientTypes {
         public static var allCases: [PolicyType] {
             return [
                 .rulebased,
-                .targetbased,
-                .sdkUnknown("")
+                .targetbased
             ]
         }
 
@@ -12831,8 +12789,7 @@ extension GameLiftClientTypes {
                 .cost,
                 .destination,
                 .latency,
-                .location,
-                .sdkUnknown("")
+                .location
             ]
         }
 
@@ -12863,8 +12820,7 @@ extension GameLiftClientTypes {
         public static var allCases: [ProtectionPolicy] {
             return [
                 .fullprotection,
-                .noprotection,
-                .sdkUnknown("")
+                .noprotection
             ]
         }
 
@@ -13585,8 +13541,7 @@ extension GameLiftClientTypes {
         public static var allCases: [RoutingStrategyType] {
             return [
                 .simple,
-                .terminal,
-                .sdkUnknown("")
+                .terminal
             ]
         }
 
@@ -13709,8 +13664,7 @@ extension GameLiftClientTypes {
             return [
                 .changeincapacity,
                 .exactcapacity,
-                .percentchangeincapacity,
-                .sdkUnknown("")
+                .percentchangeincapacity
             ]
         }
 
@@ -13883,8 +13837,7 @@ extension GameLiftClientTypes {
                 .deleting,
                 .error,
                 .updateRequested,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -14160,8 +14113,7 @@ extension GameLiftClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 

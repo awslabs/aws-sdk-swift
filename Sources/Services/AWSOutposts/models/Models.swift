@@ -148,8 +148,7 @@ extension OutpostsClientTypes {
         public static var allCases: [AddressType] {
             return [
                 .operatingAddress,
-                .shippingAddress,
-                .sdkUnknown("")
+                .shippingAddress
             ]
         }
 
@@ -252,8 +251,7 @@ extension OutpostsClientTypes {
             return [
                 .active,
                 .isolated,
-                .retiring,
-                .sdkUnknown("")
+                .retiring
             ]
         }
 
@@ -281,8 +279,7 @@ extension OutpostsClientTypes {
 
         public static var allCases: [AssetType] {
             return [
-                .compute,
-                .sdkUnknown("")
+                .compute
             ]
         }
 
@@ -454,8 +451,7 @@ extension OutpostsClientTypes {
 
         public static var allCases: [CapacityTaskFailureType] {
             return [
-                .unsupportedCapacityConfiguration,
-                .sdkUnknown("")
+                .unsupportedCapacityConfiguration
             ]
         }
 
@@ -489,8 +485,7 @@ extension OutpostsClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .requested,
-                .sdkUnknown("")
+                .requested
             ]
         }
 
@@ -634,8 +629,7 @@ extension OutpostsClientTypes {
         public static var allCases: [CatalogItemClass] {
             return [
                 .rack,
-                .server,
-                .sdkUnknown("")
+                .server
             ]
         }
 
@@ -664,8 +658,7 @@ extension OutpostsClientTypes {
         public static var allCases: [CatalogItemStatus] {
             return [
                 .available,
-                .discontinued,
-                .sdkUnknown("")
+                .discontinued
             ]
         }
 
@@ -696,8 +689,7 @@ extension OutpostsClientTypes {
             return [
                 .active,
                 .isolated,
-                .retiring,
-                .sdkUnknown("")
+                .retiring
             ]
         }
 
@@ -1299,8 +1291,7 @@ extension OutpostsClientTypes {
         public static var allCases: [FiberOpticCableType] {
             return [
                 .multiMode,
-                .singleMode,
-                .sdkUnknown("")
+                .singleMode
             ]
         }
 
@@ -2312,8 +2303,7 @@ extension OutpostsClientTypes {
                 .installing,
                 .preparing,
                 .replaced,
-                .shipped,
-                .sdkUnknown("")
+                .shipped
             ]
         }
 
@@ -3069,8 +3059,7 @@ extension OutpostsClientTypes {
                 .max1600Lbs,
                 .max1800Lbs,
                 .max2000Lbs,
-                .noLimit,
-                .sdkUnknown("")
+                .noLimit
             ]
         }
 
@@ -3161,8 +3150,7 @@ extension OutpostsClientTypes {
                 .optic40gbaseEsr,
                 .optic40gbaseIr4Lr4l,
                 .optic40gbaseLr4,
-                .optic40gbaseSr,
-                .sdkUnknown("")
+                .optic40gbaseSr
             ]
         }
 
@@ -3297,8 +3285,7 @@ extension OutpostsClientTypes {
                 .pending,
                 .preparing,
                 .processing,
-                .received,
-                .sdkUnknown("")
+                .received
             ]
         }
 
@@ -3404,8 +3391,7 @@ extension OutpostsClientTypes {
         public static var allCases: [OrderType] {
             return [
                 .outpost,
-                .replacement,
-                .sdkUnknown("")
+                .replacement
             ]
         }
 
@@ -3519,8 +3505,7 @@ extension OutpostsClientTypes {
             return [
                 .allUpfront,
                 .noUpfront,
-                .partialUpfront,
-                .sdkUnknown("")
+                .partialUpfront
             ]
         }
 
@@ -3550,8 +3535,7 @@ extension OutpostsClientTypes {
         public static var allCases: [PaymentTerm] {
             return [
                 .oneYear,
-                .threeYears,
-                .sdkUnknown("")
+                .threeYears
             ]
         }
 
@@ -3584,8 +3568,7 @@ extension OutpostsClientTypes {
                 .ah530p7w,
                 .ah532p6w,
                 .iec309,
-                .l630p,
-                .sdkUnknown("")
+                .l630p
             ]
         }
 
@@ -3620,8 +3603,7 @@ extension OutpostsClientTypes {
                 .power10Kva,
                 .power15Kva,
                 .power30Kva,
-                .power5Kva,
-                .sdkUnknown("")
+                .power5Kva
             ]
         }
 
@@ -3652,8 +3634,7 @@ extension OutpostsClientTypes {
         public static var allCases: [PowerFeedDrop] {
             return [
                 .aboveRack,
-                .belowRack,
-                .sdkUnknown("")
+                .belowRack
             ]
         }
 
@@ -3682,8 +3663,7 @@ extension OutpostsClientTypes {
         public static var allCases: [PowerPhase] {
             return [
                 .singlePhase,
-                .threePhase,
-                .sdkUnknown("")
+                .threePhase
             ]
         }
 
@@ -3791,8 +3771,7 @@ extension OutpostsClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .order,
-                .outpost,
-                .sdkUnknown("")
+                .outpost
             ]
         }
 
@@ -3864,8 +3843,7 @@ extension OutpostsClientTypes {
                 .dhl,
                 .expeditors,
                 .fedex,
-                .ups,
-                .sdkUnknown("")
+                .ups
             ]
         }
 
@@ -4229,8 +4207,7 @@ extension OutpostsClientTypes {
         public static var allCases: [SupportedHardwareType] {
             return [
                 .rack,
-                .server,
-                .sdkUnknown("")
+                .server
             ]
         }
 
@@ -4259,8 +4236,7 @@ extension OutpostsClientTypes {
         public static var allCases: [SupportedStorageEnum] {
             return [
                 .ebs,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -4872,8 +4848,7 @@ extension OutpostsClientTypes {
                 .uplinkCount5,
                 .uplinkCount6,
                 .uplinkCount7,
-                .uplinkCount8,
-                .sdkUnknown("")
+                .uplinkCount8
             ]
         }
 
@@ -4914,8 +4889,7 @@ extension OutpostsClientTypes {
                 .uplink100g,
                 .uplink10g,
                 .uplink1g,
-                .uplink40g,
-                .sdkUnknown("")
+                .uplink40g
             ]
         }
 

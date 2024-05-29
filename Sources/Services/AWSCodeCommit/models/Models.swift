@@ -615,8 +615,7 @@ extension CodeCommitClientTypes {
         public static var allCases: [ApprovalState] {
             return [
                 .approve,
-                .revoke,
-                .sdkUnknown("")
+                .revoke
             ]
         }
 
@@ -1443,8 +1442,7 @@ extension CodeCommitClientTypes {
                 .encryptionKeyDisabledException,
                 .encryptionKeyNotFoundException,
                 .encryptionKeyUnavailableException,
-                .repositoryDoesNotExistException,
-                .sdkUnknown("")
+                .repositoryDoesNotExistException
             ]
         }
 
@@ -1981,8 +1979,7 @@ extension CodeCommitClientTypes {
             return [
                 .added,
                 .deleted,
-                .modified,
-                .sdkUnknown("")
+                .modified
             ]
         }
 
@@ -2859,8 +2856,7 @@ extension CodeCommitClientTypes {
         public static var allCases: [ConflictDetailLevelTypeEnum] {
             return [
                 .fileLevel,
-                .lineLevel,
-                .sdkUnknown("")
+                .lineLevel
             ]
         }
 
@@ -2998,8 +2994,7 @@ extension CodeCommitClientTypes {
                 .acceptDestination,
                 .acceptSource,
                 .automerge,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -5579,8 +5574,7 @@ extension CodeCommitClientTypes {
             return [
                 .executable,
                 .normal,
-                .symlink,
-                .sdkUnknown("")
+                .symlink
             ]
         }
 
@@ -12061,8 +12055,7 @@ extension CodeCommitClientTypes {
             return [
                 .fastForwardMerge,
                 .squashMerge,
-                .threeWayMerge,
-                .sdkUnknown("")
+                .threeWayMerge
             ]
         }
 
@@ -12717,8 +12710,7 @@ extension CodeCommitClientTypes {
                 .directory,
                 .file,
                 .gitLink,
-                .symbolicLink,
-                .sdkUnknown("")
+                .symbolicLink
             ]
         }
 
@@ -12785,8 +12777,7 @@ extension CodeCommitClientTypes {
         public static var allCases: [OrderEnum] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -12964,8 +12955,7 @@ extension CodeCommitClientTypes {
         public static var allCases: [OverrideStatus] {
             return [
                 .override,
-                .revoke,
-                .sdkUnknown("")
+                .revoke
             ]
         }
 
@@ -13971,8 +13961,7 @@ extension CodeCommitClientTypes {
                 .pullRequestCreated,
                 .pullRequestMergeStateChanged,
                 .pullRequestSourceReferenceUpdated,
-                .pullRequestStatusChanged,
-                .sdkUnknown("")
+                .pullRequestStatusChanged
             ]
         }
 
@@ -14149,8 +14138,7 @@ extension CodeCommitClientTypes {
         public static var allCases: [PullRequestStatusEnum] {
             return [
                 .closed,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 
@@ -14924,8 +14912,7 @@ extension CodeCommitClientTypes {
         public static var allCases: [RelativeFileVersionEnum] {
             return [
                 .after,
-                .before,
-                .sdkUnknown("")
+                .before
             ]
         }
 
@@ -15037,8 +15024,7 @@ extension CodeCommitClientTypes {
                 .keepBase,
                 .keepDestination,
                 .keepSource,
-                .useNewContent,
-                .sdkUnknown("")
+                .useNewContent
             ]
         }
 
@@ -15580,8 +15566,7 @@ extension CodeCommitClientTypes {
                 .all,
                 .createReference,
                 .deleteReference,
-                .updateReference,
-                .sdkUnknown("")
+                .updateReference
             ]
         }
 
@@ -16016,8 +16001,7 @@ extension CodeCommitClientTypes {
         public static var allCases: [SortByEnum] {
             return [
                 .modifiedDate,
-                .repositoryName,
-                .sdkUnknown("")
+                .repositoryName
             ]
         }
 

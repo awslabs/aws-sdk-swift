@@ -312,8 +312,7 @@ extension ApplicationInsightsClientTypes {
                 .codeDeploy,
                 .ec2,
                 .health,
-                .rds,
-                .sdkUnknown("")
+                .rds
             ]
         }
 
@@ -409,8 +408,7 @@ extension ApplicationInsightsClientTypes {
                 .cloudformation,
                 .cloudwatchAlarm,
                 .cloudwatchLog,
-                .ssmAssociation,
-                .sdkUnknown("")
+                .ssmAssociation
             ]
         }
 
@@ -443,8 +441,7 @@ extension ApplicationInsightsClientTypes {
             return [
                 .error,
                 .info,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -1684,8 +1681,7 @@ extension ApplicationInsightsClientTypes {
         public static var allCases: [DiscoveryType] {
             return [
                 .accountBased,
-                .resourceGroupBased,
-                .sdkUnknown("")
+                .resourceGroupBased
             ]
         }
 
@@ -1712,8 +1708,7 @@ extension ApplicationInsightsClientTypes {
 
         public static var allCases: [FeedbackKey] {
             return [
-                .insightsFeedback,
-                .sdkUnknown("")
+                .insightsFeedback
             ]
         }
 
@@ -1743,8 +1738,7 @@ extension ApplicationInsightsClientTypes {
             return [
                 .notSpecified,
                 .notUseful,
-                .useful,
-                .sdkUnknown("")
+                .useful
             ]
         }
 
@@ -1772,8 +1766,7 @@ extension ApplicationInsightsClientTypes {
 
         public static var allCases: [GroupingType] {
             return [
-                .accountBased,
-                .sdkUnknown("")
+                .accountBased
             ]
         }
 
@@ -2590,8 +2583,7 @@ extension ApplicationInsightsClientTypes {
             return [
                 .error,
                 .info,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -2908,8 +2900,7 @@ extension ApplicationInsightsClientTypes {
         public static var allCases: [OsType] {
             return [
                 .linux,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -3036,8 +3027,7 @@ extension ApplicationInsightsClientTypes {
             return [
                 .all,
                 .infraOnly,
-                .workloadOnly,
-                .sdkUnknown("")
+                .workloadOnly
             ]
         }
 
@@ -3163,8 +3153,7 @@ extension ApplicationInsightsClientTypes {
             return [
                 .automatic,
                 .manual,
-                .unresolved,
-                .sdkUnknown("")
+                .unresolved
             ]
         }
 
@@ -3272,8 +3261,7 @@ extension ApplicationInsightsClientTypes {
                 .high,
                 .informative,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -3310,8 +3298,7 @@ extension ApplicationInsightsClientTypes {
                 .pending,
                 .recovering,
                 .recurring,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -3525,8 +3512,7 @@ extension ApplicationInsightsClientTypes {
                 .sharepoint,
                 .sqlServer,
                 .sqlServerAlwaysonAvailabilityGroup,
-                .sqlServerFailoverClusterInstance,
-                .sdkUnknown("")
+                .sqlServerFailoverClusterInstance
             ]
         }
 
@@ -4091,8 +4077,7 @@ extension ApplicationInsightsClientTypes {
 
         public static var allCases: [UpdateStatus] {
             return [
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -4247,8 +4232,7 @@ extension ApplicationInsightsClientTypes {
         public static var allCases: [Visibility] {
             return [
                 .ignored,
-                .visible,
-                .sdkUnknown("")
+                .visible
             ]
         }
 

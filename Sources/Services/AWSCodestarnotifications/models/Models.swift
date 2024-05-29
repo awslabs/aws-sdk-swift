@@ -498,8 +498,7 @@ extension CodestarnotificationsClientTypes {
         public static var allCases: [DetailType] {
             return [
                 .basic,
-                .full,
-                .sdkUnknown("")
+                .full
             ]
         }
 
@@ -674,8 +673,7 @@ extension CodestarnotificationsClientTypes {
         public static var allCases: [ListEventTypesFilterName] {
             return [
                 .resourceType,
-                .serviceName,
-                .sdkUnknown("")
+                .serviceName
             ]
         }
 
@@ -820,8 +818,7 @@ extension CodestarnotificationsClientTypes {
                 .createdBy,
                 .eventTypeId,
                 .resource,
-                .targetAddress,
-                .sdkUnknown("")
+                .targetAddress
             ]
         }
 
@@ -1033,8 +1030,7 @@ extension CodestarnotificationsClientTypes {
             return [
                 .targetAddress,
                 .targetStatus,
-                .targetType,
-                .sdkUnknown("")
+                .targetType
             ]
         }
 
@@ -1145,8 +1141,7 @@ extension CodestarnotificationsClientTypes {
         public static var allCases: [NotificationRuleStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1478,8 +1473,7 @@ extension CodestarnotificationsClientTypes {
                 .deactivated,
                 .inactive,
                 .pending,
-                .unreachable,
-                .sdkUnknown("")
+                .unreachable
             ]
         }
 

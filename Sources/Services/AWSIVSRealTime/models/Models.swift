@@ -163,8 +163,7 @@ extension IVSRealTimeClientTypes {
                 .failed,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -937,8 +936,7 @@ extension IVSRealTimeClientTypes {
                 .reconnecting,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1209,8 +1207,7 @@ extension IVSRealTimeClientTypes {
             return [
                 .insufficientCapabilities,
                 .publisherNotFound,
-                .quotaExceeded,
-                .sdkUnknown("")
+                .quotaExceeded
             ]
         }
 
@@ -1254,8 +1251,7 @@ extension IVSRealTimeClientTypes {
                 .publishStopped,
                 .subscribeError,
                 .subscribeStarted,
-                .subscribeStopped,
-                .sdkUnknown("")
+                .subscribeStopped
             ]
         }
 
@@ -2613,8 +2609,7 @@ extension IVSRealTimeClientTypes {
         public static var allCases: [ParticipantState] {
             return [
                 .connected,
-                .disconnected,
-                .sdkUnknown("")
+                .disconnected
             ]
         }
 
@@ -2750,8 +2745,7 @@ extension IVSRealTimeClientTypes {
         public static var allCases: [ParticipantTokenCapability] {
             return [
                 .publish,
-                .subscribe,
-                .sdkUnknown("")
+                .subscribe
             ]
         }
 
@@ -2857,8 +2851,7 @@ extension IVSRealTimeClientTypes {
         public static var allCases: [PipBehavior] {
             return [
                 .dynamic,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -2976,8 +2969,7 @@ extension IVSRealTimeClientTypes {
                 .bottomLeft,
                 .bottomRight,
                 .topLeft,
-                .topRight,
-                .sdkUnknown("")
+                .topRight
             ]
         }
 
@@ -3037,8 +3029,7 @@ extension IVSRealTimeClientTypes {
 
         public static var allCases: [RecordingConfigurationFormat] {
             return [
-                .hls,
-                .sdkUnknown("")
+                .hls
             ]
         }
 
@@ -3941,8 +3932,7 @@ extension IVSRealTimeClientTypes {
                 .auto,
                 .portrait,
                 .square,
-                .video,
-                .sdkUnknown("")
+                .video
             ]
         }
 
@@ -3975,8 +3965,7 @@ extension IVSRealTimeClientTypes {
             return [
                 .contain,
                 .cover,
-                .fill,
-                .sdkUnknown("")
+                .fill
             ]
         }
 

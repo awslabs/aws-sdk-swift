@@ -321,8 +321,7 @@ extension WAFClientTypes {
         public static var allCases: [ChangeAction] {
             return [
                 .delete,
-                .insert,
-                .sdkUnknown("")
+                .insert
             ]
         }
 
@@ -353,8 +352,7 @@ extension WAFClientTypes {
             return [
                 .insync,
                 .pending,
-                .provisioned,
-                .sdkUnknown("")
+                .provisioned
             ]
         }
 
@@ -392,8 +390,7 @@ extension WAFClientTypes {
                 .gt,
                 .le,
                 .lt,
-                .ne,
-                .sdkUnknown("")
+                .ne
             ]
         }
 
@@ -2738,8 +2735,7 @@ extension WAFClientTypes {
 
         public static var allCases: [GeoMatchConstraintType] {
             return [
-                .country,
-                .sdkUnknown("")
+                .country
             ]
         }
 
@@ -3261,8 +3257,7 @@ extension WAFClientTypes {
                 .yt,
                 .za,
                 .zm,
-                .zw,
-                .sdkUnknown("")
+                .zw
             ]
         }
 
@@ -5110,8 +5105,7 @@ extension WAFClientTypes {
         public static var allCases: [IPSetDescriptorType] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -6495,8 +6489,7 @@ extension WAFClientTypes {
                 .method,
                 .queryString,
                 .singleQueryArg,
-                .uri,
-                .sdkUnknown("")
+                .uri
             ]
         }
 
@@ -6540,8 +6533,7 @@ extension WAFClientTypes {
                 .s3BucketNotAccessible,
                 .s3BucketNotFound,
                 .s3BucketNoPermission,
-                .s3InternalError,
-                .sdkUnknown("")
+                .s3InternalError
             ]
         }
 
@@ -6607,8 +6599,7 @@ extension WAFClientTypes {
                 .tags,
                 .tagKeys,
                 .wafAction,
-                .wafOverrideAction,
-                .sdkUnknown("")
+                .wafOverrideAction
             ]
         }
 
@@ -6657,8 +6648,7 @@ extension WAFClientTypes {
                 .illegalArgument,
                 .illegalCombination,
                 .invalidOption,
-                .invalidTagKey,
-                .sdkUnknown("")
+                .invalidTagKey
             ]
         }
 
@@ -6695,8 +6685,7 @@ extension WAFClientTypes {
                 .containsWord,
                 .endsWith,
                 .exactly,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 
@@ -6784,8 +6773,7 @@ extension WAFClientTypes {
                 .regexMatch,
                 .sizeConstraint,
                 .sqlInjectionMatch,
-                .xssMatch,
-                .sdkUnknown("")
+                .xssMatch
             ]
         }
 
@@ -7011,8 +6999,7 @@ extension WAFClientTypes {
 
         public static var allCases: [RateKey] {
             return [
-                .ip,
-                .sdkUnknown("")
+                .ip
             ]
         }
 
@@ -8177,8 +8164,7 @@ extension WAFClientTypes {
                 .htmlEntityDecode,
                 .lowercase,
                 .none,
-                .urlDecode,
-                .sdkUnknown("")
+                .urlDecode
             ]
         }
 
@@ -10228,8 +10214,7 @@ extension WAFClientTypes {
             return [
                 .allow,
                 .block,
-                .count,
-                .sdkUnknown("")
+                .count
             ]
         }
 
@@ -10291,8 +10276,7 @@ extension WAFClientTypes {
         public static var allCases: [WafOverrideActionType] {
             return [
                 .count,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -10323,8 +10307,7 @@ extension WAFClientTypes {
             return [
                 .group,
                 .rateBased,
-                .regular,
-                .sdkUnknown("")
+                .regular
             ]
         }
 

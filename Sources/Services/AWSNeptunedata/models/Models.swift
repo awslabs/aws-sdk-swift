@@ -66,8 +66,7 @@ extension NeptunedataClientTypes {
         public static var allCases: [Action] {
             return [
                 .initializeReset,
-                .performReset,
-                .sdkUnknown("")
+                .performReset
             ]
         }
 
@@ -1419,8 +1418,7 @@ extension NeptunedataClientTypes {
 
         public static var allCases: [Encoding] {
             return [
-                .gzip,
-                .sdkUnknown("")
+                .gzip
             ]
         }
 
@@ -2184,8 +2182,7 @@ extension NeptunedataClientTypes {
                 .ntriples,
                 .opencypher,
                 .rdfxml,
-                .turtle,
-                .sdkUnknown("")
+                .turtle
             ]
         }
 
@@ -3660,8 +3657,7 @@ extension NeptunedataClientTypes {
         public static var allCases: [GraphSummaryType] {
             return [
                 .basic,
-                .detailed,
-                .sdkUnknown("")
+                .detailed
             ]
         }
 
@@ -4021,8 +4017,7 @@ extension NeptunedataClientTypes {
                 .afterSequenceNumber,
                 .atSequenceNumber,
                 .latest,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -5267,8 +5262,7 @@ extension NeptunedataClientTypes {
             return [
                 .auto,
                 .new,
-                .resume,
-                .sdkUnknown("")
+                .resume
             ]
         }
 
@@ -5338,8 +5332,7 @@ extension NeptunedataClientTypes {
             return [
                 .details,
                 .dynamic,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -5373,8 +5366,7 @@ extension NeptunedataClientTypes {
                 .high,
                 .low,
                 .medium,
-                .oversubscribe,
-                .sdkUnknown("")
+                .oversubscribe
             ]
         }
 
@@ -6179,8 +6171,7 @@ extension NeptunedataClientTypes {
                 .usGovEast1,
                 .usGovWest1,
                 .usWest1,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -7143,8 +7134,7 @@ extension NeptunedataClientTypes {
             return [
                 .disableAutocompute,
                 .enableAutocompute,
-                .refresh,
-                .sdkUnknown("")
+                .refresh
             ]
         }
 

@@ -55,8 +55,7 @@ extension RbinClientTypes {
 
         public static var allCases: [ConflictExceptionReason] {
             return [
-                .invalidRuleState,
-                .sdkUnknown("")
+                .invalidRuleState
             ]
         }
 
@@ -750,8 +749,7 @@ extension RbinClientTypes {
             return [
                 .locked,
                 .pendingUnlock,
-                .unlocked,
-                .sdkUnknown("")
+                .unlocked
             ]
         }
 
@@ -823,8 +821,7 @@ extension RbinClientTypes {
 
         public static var allCases: [ResourceNotFoundExceptionReason] {
             return [
-                .ruleNotFound,
-                .sdkUnknown("")
+                .ruleNotFound
             ]
         }
 
@@ -890,8 +887,7 @@ extension RbinClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .ebsSnapshot,
-                .ec2Image,
-                .sdkUnknown("")
+                .ec2Image
             ]
         }
 
@@ -957,8 +953,7 @@ extension RbinClientTypes {
 
         public static var allCases: [RetentionPeriodUnit] {
             return [
-                .days,
-                .sdkUnknown("")
+                .days
             ]
         }
 
@@ -986,8 +981,7 @@ extension RbinClientTypes {
         public static var allCases: [RuleStatus] {
             return [
                 .available,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1110,8 +1104,7 @@ extension RbinClientTypes {
 
         public static var allCases: [ServiceQuotaExceededExceptionReason] {
             return [
-                .serviceQuotaExceeded,
-                .sdkUnknown("")
+                .serviceQuotaExceeded
             ]
         }
 
@@ -1280,8 +1273,7 @@ extension RbinClientTypes {
 
         public static var allCases: [UnlockDelayUnit] {
             return [
-                .days,
-                .sdkUnknown("")
+                .days
             ]
         }
 
@@ -1680,8 +1672,7 @@ extension RbinClientTypes {
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .invalidPageToken,
-                .invalidParameterValue,
-                .sdkUnknown("")
+                .invalidParameterValue
             ]
         }
 

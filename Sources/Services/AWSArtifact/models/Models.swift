@@ -17,8 +17,7 @@ extension ArtifactClientTypes {
         public static var allCases: [AcceptanceType] {
             return [
                 .explicit,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -627,8 +626,7 @@ extension ArtifactClientTypes {
         public static var allCases: [NotificationSubscriptionStatus] {
             return [
                 .notSubscribed,
-                .subscribed,
-                .sdkUnknown("")
+                .subscribed
             ]
         }
 
@@ -659,8 +657,7 @@ extension ArtifactClientTypes {
         public static var allCases: [PublishedState] {
             return [
                 .published,
-                .unpublished,
-                .sdkUnknown("")
+                .unpublished
             ]
         }
 
@@ -1144,8 +1141,7 @@ extension ArtifactClientTypes {
                 .complete,
                 .failed,
                 .fault,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -1264,8 +1260,7 @@ extension ArtifactClientTypes {
                 .fieldValidationFailed,
                 .invalidToken,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

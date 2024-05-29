@@ -199,8 +199,7 @@ extension IoTEventsDataClientTypes {
                 .disabled,
                 .latched,
                 .normal,
-                .snoozeDisabled,
-                .sdkUnknown("")
+                .snoozeDisabled
             ]
         }
 
@@ -1010,8 +1009,7 @@ extension IoTEventsDataClientTypes {
                 .greaterOrEqual,
                 .less,
                 .lessOrEqual,
-                .notEqual,
-                .sdkUnknown("")
+                .notEqual
             ]
         }
 
@@ -1114,8 +1112,7 @@ extension IoTEventsDataClientTypes {
                 .disable,
                 .enable,
                 .reset,
-                .snooze,
-                .sdkUnknown("")
+                .snooze
             ]
         }
 
@@ -1689,8 +1686,7 @@ extension IoTEventsDataClientTypes {
                 .invalidrequestexception,
                 .resourcenotfoundexception,
                 .serviceunavailableexception,
-                .throttlingexception,
-                .sdkUnknown("")
+                .throttlingexception
             ]
         }
 
@@ -1720,8 +1716,7 @@ extension IoTEventsDataClientTypes {
 
         public static var allCases: [EventType] {
             return [
-                .stateChange,
-                .sdkUnknown("")
+                .stateChange
             ]
         }
 
@@ -2529,8 +2524,7 @@ extension IoTEventsDataClientTypes {
 
         public static var allCases: [TriggerType] {
             return [
-                .snoozeTimeout,
-                .sdkUnknown("")
+                .snoozeTimeout
             ]
         }
 

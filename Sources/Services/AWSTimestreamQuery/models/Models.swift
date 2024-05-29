@@ -664,8 +664,7 @@ extension TimestreamQueryClientTypes {
 
         public static var allCases: [DimensionValueType] {
             return [
-                .varchar,
-                .sdkUnknown("")
+                .varchar
             ]
         }
 
@@ -1155,8 +1154,7 @@ extension TimestreamQueryClientTypes {
                 .boolean,
                 .double,
                 .multi,
-                .varchar,
-                .sdkUnknown("")
+                .varchar
             ]
         }
 
@@ -1682,8 +1680,7 @@ extension TimestreamQueryClientTypes {
         public static var allCases: [QueryPricingModel] {
             return [
                 .bytesScanned,
-                .computeUnits,
-                .sdkUnknown("")
+                .computeUnits
             ]
         }
 
@@ -1861,8 +1858,7 @@ extension TimestreamQueryClientTypes {
         public static var allCases: [S3EncryptionOption] {
             return [
                 .sseKms,
-                .sseS3,
-                .sdkUnknown("")
+                .sseS3
             ]
         }
 
@@ -1928,8 +1924,7 @@ extension TimestreamQueryClientTypes {
                 .boolean,
                 .double,
                 .timestamp,
-                .varchar,
-                .sdkUnknown("")
+                .varchar
             ]
         }
 
@@ -1979,8 +1974,7 @@ extension TimestreamQueryClientTypes {
                 .time,
                 .timestamp,
                 .unknown,
-                .varchar,
-                .sdkUnknown("")
+                .varchar
             ]
         }
 
@@ -2230,8 +2224,7 @@ extension TimestreamQueryClientTypes {
                 .autoTriggerFailure,
                 .autoTriggerSuccess,
                 .manualTriggerFailure,
-                .manualTriggerSuccess,
-                .sdkUnknown("")
+                .manualTriggerSuccess
             ]
         }
 
@@ -2313,8 +2306,7 @@ extension TimestreamQueryClientTypes {
         public static var allCases: [ScheduledQueryState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 

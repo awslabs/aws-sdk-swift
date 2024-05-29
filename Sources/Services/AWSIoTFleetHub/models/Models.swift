@@ -21,8 +21,7 @@ extension IoTFleetHubClientTypes {
                 .createFailed,
                 .creating,
                 .deleteFailed,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
