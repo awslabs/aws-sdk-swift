@@ -23,7 +23,6 @@ import software.amazon.smithy.swift.codegen.XCTestTypes
 import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
-import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
