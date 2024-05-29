@@ -7,7 +7,7 @@ import ClientRuntime
 
 /// AWS specific Service Error structure used when exact error could not be deduced from the `HttpResponse`
 /// Developers should catch unknown errors by the interface `AWSServiceError`, then use the `errorCode` to determine & handle each type of error.
-@_spi(Internal) public struct UnknownAWSHTTPServiceError: AWSServiceError, HTTPError, Error {
+@_spi(UnknownAWSHTTPServiceError) public struct UnknownAWSHTTPServiceError: AWSServiceError, HTTPError, Error {
 
     public var errorCode: String? { typeName }
 

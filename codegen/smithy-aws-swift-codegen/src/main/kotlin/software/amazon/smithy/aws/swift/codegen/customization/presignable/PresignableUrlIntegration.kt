@@ -18,7 +18,7 @@ import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.MiddlewareGenerator
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftDependency
-import software.amazon.smithy.swift.codegen.SwiftKind
+import software.amazon.smithy.swift.codegen.SwiftDeclaration
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
@@ -104,7 +104,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
 
         writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
         writer.addImport(ClientRuntimeTypes.Http.SdkHttpRequest)
-        writer.addIndividualTypeImport(SwiftKind.TYPEALIAS, "Foundation", "TimeInterval")
+        writer.addIndividualTypeImport(SwiftDeclaration.TYPEALIAS, "Foundation", "TimeInterval")
 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
