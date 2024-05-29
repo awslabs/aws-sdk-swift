@@ -48,7 +48,7 @@ class Sigv4SigningTests: XCTestCase {
         signingProperties.set(key: SigningPropertyKeys.unsignedBody, value: false)
         signingProperties.set(key: SigningPropertyKeys.signingName, value: "test")
         signingProperties.set(key: SigningPropertyKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: SigningPropertyKeys.awsSigningAlgorithm, value: .sigv4)
+        signingProperties.set(key: SigningPropertyKeys.signingAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         let signedRequest = try await AWSSigV4Signer().signRequest(
@@ -80,7 +80,7 @@ class Sigv4SigningTests: XCTestCase {
         signingProperties.set(key: SigningPropertyKeys.unsignedBody, value: false)
         signingProperties.set(key: SigningPropertyKeys.signingName, value: "test")
         signingProperties.set(key: SigningPropertyKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: SigningPropertyKeys.awsSigningAlgorithm, value: .sigv4)
+        signingProperties.set(key: SigningPropertyKeys.signingAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -117,7 +117,7 @@ class Sigv4SigningTests: XCTestCase {
         signingProperties.set(key: SigningPropertyKeys.unsignedBody, value: false)
         signingProperties.set(key: SigningPropertyKeys.signingName, value: "test")
         signingProperties.set(key: SigningPropertyKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: SigningPropertyKeys.awsSigningAlgorithm, value: .sigv4)
+        signingProperties.set(key: SigningPropertyKeys.signingAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -153,7 +153,7 @@ class Sigv4SigningTests: XCTestCase {
         signingProperties.set(key: SigningPropertyKeys.bidirectionalStreaming, value: false)
         signingProperties.set(key: SigningPropertyKeys.signingName, value: "test")
         signingProperties.set(key: SigningPropertyKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: SigningPropertyKeys.awsSigningAlgorithm, value: .sigv4)
+        signingProperties.set(key: SigningPropertyKeys.signingAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -189,7 +189,7 @@ class Sigv4SigningTests: XCTestCase {
         signingProperties.set(key: SigningPropertyKeys.bidirectionalStreaming, value: false)
         signingProperties.set(key: SigningPropertyKeys.unsignedBody, value: false)
         signingProperties.set(key: SigningPropertyKeys.signingRegion, value: "us-east-1")
-        signingProperties.set(key: SigningPropertyKeys.awsSigningAlgorithm, value: .sigv4)
+        signingProperties.set(key: SigningPropertyKeys.signingAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {
@@ -225,7 +225,7 @@ class Sigv4SigningTests: XCTestCase {
         signingProperties.set(key: SigningPropertyKeys.bidirectionalStreaming, value: false)
         signingProperties.set(key: SigningPropertyKeys.unsignedBody, value: false)
         signingProperties.set(key: SigningPropertyKeys.signingName, value: "test")
-        signingProperties.set(key: SigningPropertyKeys.awsSigningAlgorithm, value: .sigv4)
+        signingProperties.set(key: SigningPropertyKeys.signingAlgorithm, value: .sigv4)
         signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
 
         do {

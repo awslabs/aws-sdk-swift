@@ -11,14 +11,11 @@ import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
 import SmithyEventStreamsAPI
 import ClientRuntime
+import AWSSDKHTTPAuth
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 
 extension Context {
-
-    public func getSigningAlgorithm() -> AWSSigningAlgorithm? {
-        return attributes.get(key: SigningPropertyKeys.awsSigningAlgorithm)
-    }
 
     /// Returns the signing config for the event stream message
     /// - Returns: `AWSSigningConfig` for the event stream message
@@ -53,13 +50,3 @@ extension Context {
                                 signingAlgorithm: .sigv4)
     }
 }
-
-extension ContextBuilder {
-    @discardableResult
-    public func withSigningAlgorithm(value: AWSSigningAlgorithm) -> Self {
-        self.attributes.set(key: awsSigningAlgorithmKey, value: value)
-        return self
-    }
-}
-
-private let awsSigningAlgorithmKey = AttributeKey<AWSSigningAlgorithm>(name: "AWSSigningAlgorithmKey")

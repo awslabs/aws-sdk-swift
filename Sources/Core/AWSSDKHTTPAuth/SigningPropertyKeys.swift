@@ -12,7 +12,7 @@ import struct Foundation.TimeInterval
 
 public extension SigningPropertyKeys {
     // Keys used to store/retrieve AWSSigningConfig fields in/from signingProperties passed to AWSSigV4Signer
-    static let awsSigningAlgorithm = AttributeKey<AWSSigningAlgorithm>(name: "awsSigningAlgorithm")
+    static let signingAlgorithm = AttributeKey<SigningAlgorithm>(name: "signingAlgorithm")
     static let unsignedBody = AttributeKey<Bool>(name: "UnsignedBody")
     static let signedBodyHeader = AttributeKey<AWSSignedBodyHeader>(name: "SignedBodyHeader")
     static let useDoubleURIEncode = AttributeKey<Bool>(name: "UseDoubleURIEncode")

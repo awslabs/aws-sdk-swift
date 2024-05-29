@@ -19,7 +19,7 @@ public struct SigV4AAuthScheme: AuthScheme {
         var updatedSigningProperties = signingProperties
 
         // Set signing algorithm flag
-        updatedSigningProperties.set(key: SigningPropertyKeys.awsSigningAlgorithm, value: .sigv4a)
+        updatedSigningProperties.set(key: SigningPropertyKeys.signingAlgorithm, value: .sigv4a)
 
         // Set bidirectional streaming flag
         updatedSigningProperties.set(

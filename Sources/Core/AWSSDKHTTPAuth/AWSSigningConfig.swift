@@ -7,6 +7,7 @@
 
 import AWSSDKIdentity
 import SmithyIdentityAPI
+import SmithyHTTPAuthAPI
 import AwsCommonRuntimeKit
 import Foundation
 
@@ -22,7 +23,7 @@ public struct AWSSigningConfig {
     public let region: String
     public let shouldSignHeader: ((String) -> Bool)?
     public let signatureType: AWSSignatureType
-    public let signingAlgorithm: AWSSigningAlgorithm
+    public let signingAlgorithm: SigningAlgorithm
 
     public init(
         credentials: AWSCredentialIdentity? = nil,
@@ -36,7 +37,7 @@ public struct AWSSigningConfig {
         region: String,
         shouldSignHeader: ((String) -> Bool)? = nil,
         signatureType: AWSSignatureType,
-        signingAlgorithm: AWSSigningAlgorithm
+        signingAlgorithm: SigningAlgorithm
     ) {
         self.credentials = credentials
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver

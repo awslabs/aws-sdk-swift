@@ -95,7 +95,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
                 "Signing properties passed to the AWSSigV4Signer must contain signing region."
             )
         }
-        guard let signingAlgorithm = signingProperties.get(key: SigningPropertyKeys.awsSigningAlgorithm) else {
+        guard let signingAlgorithm = signingProperties.get(key: SigningPropertyKeys.signingAlgorithm) else {
             throw ClientError.authError(
                 "Signing properties passed to the AWSSigV4Signer must contain signing algorithm."
             )
@@ -144,7 +144,7 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         signingRegion: Swift.String,
         date: ClientRuntime.Date,
         expiration: TimeInterval,
-        signingAlgorithm: AWSSigningAlgorithm
+        signingAlgorithm: SigningAlgorithm
     ) async -> URL? {
         do {
             let credentials = try await awsCredentialIdentityResolver.getIdentity(
