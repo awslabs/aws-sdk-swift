@@ -19,20 +19,19 @@ class RulesBasedAuthSchemeResolverGeneratorTests {
         val contents =
             TestUtils.getFileContents(context.manifest, "Example/AuthSchemeResolver.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-"""
-public struct S3AuthSchemeResolverParameters: ClientRuntime.AuthSchemeResolverParameters {
+        val expectedContents = """
+public struct S3AuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let operation: String
 }
 
-public protocol S3AuthSchemeResolver: ClientRuntime.AuthSchemeResolver {
+public protocol S3AuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // Intentionally empty.
     // This is the parent protocol that all auth scheme resolver implementations of
     // the service S3 must conform to.
 }
 
 private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
-    public func resolveAuthScheme(params: ClientRuntime.AuthSchemeResolverParameters) throws -> [AuthOption] {
+    public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [AuthOption] {
         var validAuthOptions = [AuthOption]()
         guard let serviceParams = params as? S3AuthSchemeResolverParameters else {
             throw ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
@@ -56,19 +55,19 @@ private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
                 validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
             case "onlySigv4Auth":
                 var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: "weather")
+                sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingName, value: "weather")
                 guard let region = serviceParams.region else {
                     throw ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
-                sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: region)
+                sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigV4Option)
             case "onlySigv4AuthOptional":
                 var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: "weather")
+                sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingName, value: "weather")
                 guard let region = serviceParams.region else {
                     throw ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
-                sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: region)
+                sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigV4Option)
                 validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
             case "onlyCustomAuth":
@@ -78,23 +77,23 @@ private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
                 validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
             default:
                 var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
-                sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: "weather")
+                sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingName, value: "weather")
                 guard let region = serviceParams.region else {
                     throw ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
-                sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: region)
+                sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigV4Option)
         }
         return validAuthOptions
     }
 
-    public func constructParameters(context: HttpContext) throws -> ClientRuntime.AuthSchemeResolverParameters {
+    public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
         return try DefaultS3AuthSchemeResolver().constructParameters(context: context)
     }
 }
 
 public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
-    public func resolveAuthScheme(params: ClientRuntime.AuthSchemeResolverParameters) throws -> [AuthOption] {
+    public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [AuthOption] {
         var validAuthOptions = [AuthOption]()
         guard let serviceParams = params as? S3AuthSchemeResolverParameters else {
             throw ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
@@ -109,13 +108,13 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
             switch scheme {
                 case .sigV4(let param):
                     var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
-                    sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)
-                    sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegion)
+                    sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingName, value: param.signingName)
+                    sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingRegion, value: param.signingRegion)
                     validAuthOptions.append(sigV4Option)
                 case .sigV4A(let param):
                     var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4a")
-                    sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)
-                    sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegionSet?[0])
+                    sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingName, value: param.signingName)
+                    sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingRegion, value: param.signingRegionSet?[0])
                     validAuthOptions.append(sigV4Option)
                 default:
                     throw ClientError.authError("Unknown auth scheme name: \(scheme.name)")
@@ -124,7 +123,7 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
         return validAuthOptions
     }
 
-    public func constructParameters(context: HttpContext) throws -> ClientRuntime.AuthSchemeResolverParameters {
+    public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
         guard let opName = context.getOperation() else {
             throw ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
