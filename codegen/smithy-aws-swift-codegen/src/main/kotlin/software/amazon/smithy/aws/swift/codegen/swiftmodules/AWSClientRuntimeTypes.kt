@@ -58,13 +58,6 @@ object AWSClientRuntimeTypes {
             dependency(AWSSwiftDependency.AWS_COMMON_RUNTIME)
         }
     }
-
-    object AWSEventStream {
-
-        val AWSMessageDecoder = runtimeSymbol("AWSEventStream.AWSMessageDecoder")
-        val AWSMessageSigner = runtimeSymbol("AWSEventStream.AWSMessageSigner")
-        val AWSMessageEncoder = runtimeSymbol("AWSEventStream.AWSMessageEncoder")
-    }
 }
 
 private fun runtimeSymbol(name: String): Symbol = buildSymbol {

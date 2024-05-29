@@ -10,6 +10,7 @@ import SmithyIdentityAPI
 import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
 import SmithyEventStreamsAPI
+import SmithyEventStreams
 import SmithyEventStreamsAuthAPI
 import AWSSDKHTTPAuth
 import AWSSDKEventStreamsAuth
@@ -307,7 +308,7 @@ class Sigv4SigningTests: XCTestCase {
     func testSignEvent() async {
         let credentials = AWSCredentialIdentity(accessKey: "fake access key", secret: "fake secret key")
         
-        let encoder = AWSClientRuntime.AWSMessageEncoder()
+        let encoder = SmithyEventStreams.DefaultMessageEncoder()
 
         let message = Message(
             headers: [

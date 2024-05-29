@@ -29,8 +29,8 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
     let requestSignature = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     let serviceName = "test"
     let credentials = AWSCredentialIdentity(accessKey: "fake access key", secret: "fake secret key")
-    let messageEncoder = AWSMessageEncoder()
-    
+    let messageEncoder = DefaultMessageEncoder()
+
     override class func setUp() {
         AwsCommonRuntimeKit.CommonRuntimeKit.initialize()
     }
@@ -154,11 +154,11 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
 
         let data = try await sut.readToEndAsync()
 
-        let messageDecoder = AWSMessageDecoder()
+        let messageDecoder = DefaultMessageDecoder()
         try messageDecoder.feed(data: data ?? Data())
         let initialRequestMessage = try messageDecoder.message()
 
-        let payloadDecoder = AWSMessageDecoder()
+        let payloadDecoder = DefaultMessageDecoder()
         try payloadDecoder.feed(data: initialRequestMessage?.payload ?? Data())
         let initialRequestPayload = try payloadDecoder.message()
 

@@ -70,7 +70,5 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
     }
 
-    override val messageDecoderSymbol: Symbol = AWSClientRuntimeTypes.AWSEventStream.AWSMessageDecoder
-
     override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
 }

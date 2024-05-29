@@ -2,6 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.customization
 
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.Middleware
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
@@ -23,14 +24,15 @@ class PutObjectPresignedURLMiddleware(
     }
 
     override fun renderExtensions() {
+        writer.addImport(SwiftDependency.SMITHY.target)
+        writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
         writer.write(
             """
-            extension $typeName: ClientRuntime.RequestMessageSerializer {
+            extension $typeName: Smithy.RequestMessageSerializer {
                 public typealias InputType = ${inputSymbol.name}
-                public typealias RequestType = ClientRuntime.SdkHttpRequest
-                public typealias AttributesType = ClientRuntime.HttpContext
+                public typealias RequestType = SmithyHTTPAPI.SdkHttpRequest
                 
-                public func apply(input: InputType, builder: ClientRuntime.SdkHttpRequestBuilder, attributes: ClientRuntime.HttpContext) throws {
+                public func apply(input: InputType, builder: SmithyHTTPAPI.SdkHttpRequestBuilder, attributes: Smithy.Context) throws {
                     let metadata = input.metadata ?? [:]
                     for (metadataKey, metadataValue) in metadata {
                         let queryItem = ${'$'}N(

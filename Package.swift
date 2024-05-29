@@ -313,7 +313,7 @@ addDependencies(
 )
 
 // Uncomment this line to exclude runtime unit tests
-excludeRuntimeUnitTests()
+// excludeRuntimeUnitTests()
 
 let serviceTargets: [String] = [
     "AWSACM",
@@ -699,7 +699,7 @@ let serviceTargets: [String] = [
 ]
 
 // Uncomment this line to enable all services
-// addAllServices()
+addAllServices()
 
 let servicesWithIntegrationTests: [String] = [
     "AWSCloudFrontKeyValueStore",
@@ -719,7 +719,7 @@ let servicesWithIntegrationTests: [String] = [
 // addIntegrationTests()
 
 // Uncomment this line to enable protocol tests
-addProtocolTests()
+// addProtocolTests()
 
 addResolvedTargets()
 

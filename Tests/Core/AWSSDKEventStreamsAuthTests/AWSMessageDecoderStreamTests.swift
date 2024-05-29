@@ -17,7 +17,7 @@ final class AWSMessageDecoderStreamTests: XCTestCase {
             data: validMessageDataWithAllHeaders + validMessageDataEmptyPayload + validMessageDataNoHeaders,
             isClosed: true
         )
-        let messageDecoder = AWSMessageDecoder()
+        let messageDecoder = DefaultMessageDecoder()
         let sut = DefaultMessageDecoderStream<TestEvent>(
             stream: bufferedStream,
             messageDecoder: messageDecoder,
