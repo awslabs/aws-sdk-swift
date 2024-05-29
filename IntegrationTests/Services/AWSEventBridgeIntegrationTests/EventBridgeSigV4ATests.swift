@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import AWSSDKHTTPAuth
 import XCTest
 import AWSEventBridge
 import ClientRuntime
