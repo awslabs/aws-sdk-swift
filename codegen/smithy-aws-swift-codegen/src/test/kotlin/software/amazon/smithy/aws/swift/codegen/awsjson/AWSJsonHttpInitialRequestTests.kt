@@ -96,15 +96,15 @@ extension EventStreamOpInput {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension EventStreamOpInput {
-    func makeInitialRequestMessage() throws -> EventStream.Message {
+    func makeInitialRequestMessage() throws -> SmithyEventStreamsAPI.Message {
         let writer = SmithyJSON.Writer(nodeInfo: "")
         try writer.write(self, with: EventStreamOpInput.write(value:to:))
         let initialRequestPayload = try writer.data()
-        let initialRequestMessage = EventStream.Message(
+        let initialRequestMessage = SmithyEventStreamsAPI.Message(
             headers: [
-                EventStream.Header(name: ":message-type", value: .string("event")),
-                EventStream.Header(name: ":event-type", value: .string("initial-request")),
-                EventStream.Header(name: ":content-type", value: .string("application/x-amz-json-1.0"))
+                SmithyEventStreamsAPI.Header(name: ":message-type", value: .string("event")),
+                SmithyEventStreamsAPI.Header(name: ":event-type", value: .string("initial-request")),
+                SmithyEventStreamsAPI.Header(name: ":content-type", value: .string("application/x-amz-json-1.0"))
             ],
             payload: initialRequestPayload
         )
