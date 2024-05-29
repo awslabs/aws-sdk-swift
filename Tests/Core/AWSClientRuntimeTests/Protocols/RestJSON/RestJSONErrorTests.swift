@@ -9,7 +9,7 @@ import ClientRuntime
 import SmithyTestUtil
 import XCTest
 @testable import AWSClientRuntime
-@_spi(Internal) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 class RestJSONErrorTests: HttpResponseTestBase {
     let host = "myapi.host.com"
