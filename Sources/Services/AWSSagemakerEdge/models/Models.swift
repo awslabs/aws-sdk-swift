@@ -44,8 +44,7 @@ extension SagemakerEdgeClientTypes {
 
         public static var allCases: [ChecksumType] {
             return [
-                .sha1,
-                .sdkUnknown("")
+                .sha1
             ]
         }
 
@@ -222,8 +221,7 @@ extension SagemakerEdgeClientTypes {
         public static var allCases: [DeploymentStatus] {
             return [
                 .fail,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -250,8 +248,7 @@ extension SagemakerEdgeClientTypes {
 
         public static var allCases: [DeploymentType] {
             return [
-                .model,
-                .sdkUnknown("")
+                .model
             ]
         }
 
@@ -359,8 +356,7 @@ extension SagemakerEdgeClientTypes {
         public static var allCases: [FailureHandlingPolicy] {
             return [
                 .donothing,
-                .rollbackonfailure,
-                .sdkUnknown("")
+                .rollbackonfailure
             ]
         }
 
@@ -619,8 +615,7 @@ extension SagemakerEdgeClientTypes {
         public static var allCases: [ModelState] {
             return [
                 .deploy,
-                .undeploy,
-                .sdkUnknown("")
+                .undeploy
             ]
         }
 

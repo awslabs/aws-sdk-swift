@@ -279,8 +279,7 @@ extension RekognitionClientTypes {
                 .mouthOpen,
                 .mustache,
                 .smile,
-                .sunglasses,
-                .sdkUnknown("")
+                .sunglasses
             ]
         }
 
@@ -467,8 +466,7 @@ extension RekognitionClientTypes {
                 .face,
                 .head,
                 .leftHand,
-                .rightHand,
-                .sdkUnknown("")
+                .rightHand
             ]
         }
 
@@ -686,8 +684,7 @@ extension RekognitionClientTypes {
         public static var allCases: [CelebrityRecognitionSortBy] {
             return [
                 .id,
-                .timestamp,
-                .sdkUnknown("")
+                .timestamp
             ]
         }
 
@@ -1056,8 +1053,7 @@ extension RekognitionClientTypes {
         public static var allCases: [ContentClassifier] {
             return [
                 .freeOfAdultContent,
-                .freeOfPersonallyIdentifiableInformation,
-                .sdkUnknown("")
+                .freeOfPersonallyIdentifiableInformation
             ]
         }
 
@@ -1086,8 +1082,7 @@ extension RekognitionClientTypes {
         public static var allCases: [ContentModerationAggregateBy] {
             return [
                 .segments,
-                .timestamps,
-                .sdkUnknown("")
+                .timestamps
             ]
         }
 
@@ -1167,8 +1162,7 @@ extension RekognitionClientTypes {
         public static var allCases: [ContentModerationSortBy] {
             return [
                 .name,
-                .timestamp,
-                .sdkUnknown("")
+                .timestamp
             ]
         }
 
@@ -2099,8 +2093,7 @@ extension RekognitionClientTypes {
         public static var allCases: [CustomizationFeature] {
             return [
                 .contentModeration,
-                .customLabels,
-                .sdkUnknown("")
+                .customLabels
             ]
         }
 
@@ -2460,8 +2453,7 @@ extension RekognitionClientTypes {
                 .deleteInProgress,
                 .updateComplete,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -2497,8 +2489,7 @@ extension RekognitionClientTypes {
             return [
                 .clientError,
                 .serviceError,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2528,8 +2519,7 @@ extension RekognitionClientTypes {
         public static var allCases: [DatasetType] {
             return [
                 .test,
-                .train,
-                .sdkUnknown("")
+                .train
             ]
         }
 
@@ -3774,8 +3764,7 @@ extension RekognitionClientTypes {
         public static var allCases: [DetectLabelsFeatureName] {
             return [
                 .generalLabels,
-                .imageProperties,
-                .sdkUnknown("")
+                .imageProperties
             ]
         }
 
@@ -4761,8 +4750,7 @@ extension RekognitionClientTypes {
                 .happy,
                 .sad,
                 .surprised,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -5024,8 +5012,7 @@ extension RekognitionClientTypes {
         public static var allCases: [FaceAttributes] {
             return [
                 .all,
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -5330,8 +5317,7 @@ extension RekognitionClientTypes {
         public static var allCases: [FaceSearchSortBy] {
             return [
                 .index,
-                .timestamp,
-                .sdkUnknown("")
+                .timestamp
             ]
         }
 
@@ -5391,8 +5377,7 @@ extension RekognitionClientTypes {
         public static var allCases: [GenderType] {
             return [
                 .female,
-                .male,
-                .sdkUnknown("")
+                .male
             ]
         }
 
@@ -7808,8 +7793,7 @@ extension RekognitionClientTypes {
                 .female,
                 .male,
                 .nonbinary,
-                .unlisted,
-                .sdkUnknown("")
+                .unlisted
             ]
         }
 
@@ -7989,8 +7973,7 @@ extension RekognitionClientTypes {
         public static var allCases: [LabelDetectionAggregateBy] {
             return [
                 .segments,
-                .timestamps,
-                .sdkUnknown("")
+                .timestamps
             ]
         }
 
@@ -8017,8 +8000,7 @@ extension RekognitionClientTypes {
 
         public static var allCases: [LabelDetectionFeatureName] {
             return [
-                .generalLabels,
-                .sdkUnknown("")
+                .generalLabels
             ]
         }
 
@@ -8070,8 +8052,7 @@ extension RekognitionClientTypes {
         public static var allCases: [LabelDetectionSortBy] {
             return [
                 .name,
-                .timestamp,
-                .sdkUnknown("")
+                .timestamp
             ]
         }
 
@@ -8192,8 +8173,7 @@ extension RekognitionClientTypes {
                 .righteyeup,
                 .rightpupil,
                 .upperjawlineleft,
-                .upperjawlineright,
-                .sdkUnknown("")
+                .upperjawlineright
             ]
         }
 
@@ -9124,8 +9104,7 @@ extension RekognitionClientTypes {
                 .expired,
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -9404,8 +9383,7 @@ extension RekognitionClientTypes {
                 .invalidS3Object,
                 .resourceNotFound,
                 .resourceNotReady,
-                .throttled,
-                .sdkUnknown("")
+                .throttled
             ]
         }
 
@@ -9478,8 +9456,7 @@ extension RekognitionClientTypes {
                 .failed,
                 .inProgress,
                 .queued,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -9801,8 +9778,7 @@ extension RekognitionClientTypes {
                 .rotate0,
                 .rotate180,
                 .rotate270,
-                .rotate90,
-                .sdkUnknown("")
+                .rotate90
             ]
         }
 
@@ -9999,8 +9975,7 @@ extension RekognitionClientTypes {
         public static var allCases: [PersonTrackingSortBy] {
             return [
                 .index,
-                .timestamp,
-                .sdkUnknown("")
+                .timestamp
             ]
         }
 
@@ -10102,8 +10077,7 @@ extension RekognitionClientTypes {
         public static var allCases: [ProjectAutoUpdate] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10236,8 +10210,7 @@ extension RekognitionClientTypes {
             return [
                 .created,
                 .creating,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -10407,8 +10380,7 @@ extension RekognitionClientTypes {
                 .stopping,
                 .trainingCompleted,
                 .trainingFailed,
-                .trainingInProgress,
-                .sdkUnknown("")
+                .trainingInProgress
             ]
         }
 
@@ -10595,8 +10567,7 @@ extension RekognitionClientTypes {
             return [
                 .faceCover,
                 .handCover,
-                .headCover,
-                .sdkUnknown("")
+                .headCover
             ]
         }
 
@@ -10771,8 +10742,7 @@ extension RekognitionClientTypes {
                 .high,
                 .low,
                 .medium,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -10814,8 +10784,7 @@ extension RekognitionClientTypes {
                 .lowConfidence,
                 .lowFaceQuality,
                 .lowSharpness,
-                .smallBoundingBox,
-                .sdkUnknown("")
+                .smallBoundingBox
             ]
         }
 
@@ -11826,8 +11795,7 @@ extension RekognitionClientTypes {
         public static var allCases: [SegmentType] {
             return [
                 .shot,
-                .technicalCue,
-                .sdkUnknown("")
+                .technicalCue
             ]
         }
 
@@ -13530,8 +13498,7 @@ extension RekognitionClientTypes {
         public static var allCases: [StreamProcessorParameterToDelete] {
             return [
                 .connectedhomeminconfidence,
-                .regionsofinterest,
-                .sdkUnknown("")
+                .regionsofinterest
             ]
         }
 
@@ -13629,8 +13596,7 @@ extension RekognitionClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -13827,8 +13793,7 @@ extension RekognitionClientTypes {
                 .endCredits,
                 .openingCredits,
                 .slate,
-                .studioLogo,
-                .sdkUnknown("")
+                .studioLogo
             ]
         }
 
@@ -14017,8 +13982,7 @@ extension RekognitionClientTypes {
         public static var allCases: [TextTypes] {
             return [
                 .line,
-                .word,
-                .sdkUnknown("")
+                .word
             ]
         }
 
@@ -14255,8 +14219,7 @@ extension RekognitionClientTypes {
                 .lowConfidence,
                 .lowFaceQuality,
                 .lowSharpness,
-                .smallBoundingBox,
-                .sdkUnknown("")
+                .smallBoundingBox
             ]
         }
 
@@ -14334,8 +14297,7 @@ extension RekognitionClientTypes {
             return [
                 .associatedToADifferentUser,
                 .faceNotFound,
-                .lowMatchConfidence,
-                .sdkUnknown("")
+                .lowMatchConfidence
             ]
         }
 
@@ -14401,8 +14363,7 @@ extension RekognitionClientTypes {
         public static var allCases: [UnsuccessfulFaceDeletionReason] {
             return [
                 .associatedToAnExistingUser,
-                .faceNotFound,
-                .sdkUnknown("")
+                .faceNotFound
             ]
         }
 
@@ -14467,8 +14428,7 @@ extension RekognitionClientTypes {
         public static var allCases: [UnsuccessfulFaceDisassociationReason] {
             return [
                 .associatedToADifferentUser,
-                .faceNotFound,
-                .sdkUnknown("")
+                .faceNotFound
             ]
         }
 
@@ -14775,8 +14735,7 @@ extension RekognitionClientTypes {
                 .active,
                 .created,
                 .creating,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -14864,8 +14823,7 @@ extension RekognitionClientTypes {
         public static var allCases: [VideoColorRange] {
             return [
                 .full,
-                .limited,
-                .sdkUnknown("")
+                .limited
             ]
         }
 
@@ -14896,8 +14854,7 @@ extension RekognitionClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 

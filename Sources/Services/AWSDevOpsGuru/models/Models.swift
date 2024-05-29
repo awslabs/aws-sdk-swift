@@ -330,8 +330,7 @@ extension DevOpsGuruClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -428,8 +427,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [AnomalyStatus] {
             return [
                 .closed,
-                .ongoing,
-                .sdkUnknown("")
+                .ongoing
             ]
         }
 
@@ -490,8 +488,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [AnomalyType] {
             return [
                 .causal,
-                .contextual,
-                .sdkUnknown("")
+                .contextual
             ]
         }
 
@@ -646,8 +643,7 @@ extension DevOpsGuruClientTypes {
             return [
                 .complete,
                 .internalError,
-                .partialData,
-                .sdkUnknown("")
+                .partialData
             ]
         }
 
@@ -807,8 +803,7 @@ extension DevOpsGuruClientTypes {
                 .p90,
                 .p99,
                 .sampleCount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -937,8 +932,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [CostEstimationServiceResourceState] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -967,8 +961,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [CostEstimationStatus] {
             return [
                 .completed,
-                .ongoing,
-                .sdkUnknown("")
+                .ongoing
             ]
         }
 
@@ -2093,8 +2086,7 @@ extension DevOpsGuruClientTypes {
                 .deployment,
                 .infrastructure,
                 .schemaChange,
-                .securityChange,
-                .sdkUnknown("")
+                .securityChange
             ]
         }
 
@@ -2126,8 +2118,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [EventDataSource] {
             return [
                 .awsCloudTrail,
-                .awsCodeDeploy,
-                .sdkUnknown("")
+                .awsCodeDeploy
             ]
         }
 
@@ -2192,8 +2183,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [EventSourceOptInStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2511,8 +2501,7 @@ extension DevOpsGuruClientTypes {
                 .dataIncorrect,
                 .dataNoisyAnomaly,
                 .recommendationUseful,
-                .validCollection,
-                .sdkUnknown("")
+                .validCollection
             ]
         }
 
@@ -2582,8 +2571,7 @@ extension DevOpsGuruClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -2613,8 +2601,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [InsightStatus] {
             return [
                 .closed,
-                .ongoing,
-                .sdkUnknown("")
+                .ongoing
             ]
         }
 
@@ -2675,8 +2662,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [InsightType] {
             return [
                 .proactive,
-                .reactive,
-                .sdkUnknown("")
+                .reactive
             ]
         }
 
@@ -3789,8 +3775,7 @@ extension DevOpsGuruClientTypes {
                 .koKr,
                 .ptBr,
                 .zhCn,
-                .zhTw,
-                .sdkUnknown("")
+                .zhTw
             ]
         }
 
@@ -3922,8 +3907,7 @@ extension DevOpsGuruClientTypes {
                 .keywordToken,
                 .newFieldName,
                 .numericalNan,
-                .numericalPoint,
-                .sdkUnknown("")
+                .numericalPoint
             ]
         }
 
@@ -4166,8 +4150,7 @@ extension DevOpsGuruClientTypes {
                 .newAssociation,
                 .newInsight,
                 .newRecommendation,
-                .severityUpgraded,
-                .sdkUnknown("")
+                .severityUpgraded
             ]
         }
 
@@ -4250,8 +4233,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [OptInStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4284,8 +4266,7 @@ extension DevOpsGuruClientTypes {
                 .awsAccount,
                 .awsCloudFormation,
                 .awsService,
-                .awsTags,
-                .sdkUnknown("")
+                .awsTags
             ]
         }
 
@@ -5882,8 +5863,7 @@ extension DevOpsGuruClientTypes {
             return [
                 .awsCloudFormation,
                 .awsService,
-                .awsTags,
-                .sdkUnknown("")
+                .awsTags
             ]
         }
 
@@ -5963,8 +5943,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [ResourcePermission] {
             return [
                 .fullPermission,
-                .missingPermission,
-                .sdkUnknown("")
+                .missingPermission
             ]
         }
 
@@ -6043,8 +6022,7 @@ extension DevOpsGuruClientTypes {
                 .snsTopic,
                 .sqsQueue,
                 .stepFunctionsActivity,
-                .stepFunctionsStateMachine,
-                .sdkUnknown("")
+                .stepFunctionsStateMachine
             ]
         }
 
@@ -6382,8 +6360,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [ServerSideEncryptionType] {
             return [
                 .awsOwnedKmsKey,
-                .customerManagedKey,
-                .sdkUnknown("")
+                .customerManagedKey
             ]
         }
 
@@ -6592,8 +6569,7 @@ extension DevOpsGuruClientTypes {
                 .sns,
                 .sqs,
                 .stepFunctions,
-                .swf,
-                .sdkUnknown("")
+                .swf
             ]
         }
 
@@ -7178,8 +7154,7 @@ extension DevOpsGuruClientTypes {
         public static var allCases: [UpdateResourceCollectionAction] {
             return [
                 .add,
-                .remove,
-                .sdkUnknown("")
+                .remove
             ]
         }
 
@@ -7521,8 +7496,7 @@ extension DevOpsGuruClientTypes {
                 .invalidParameterCombination,
                 .other,
                 .parameterInconsistentWithServiceState,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

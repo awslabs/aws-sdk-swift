@@ -84,8 +84,7 @@ extension DataBrewClientTypes {
         public static var allCases: [AnalyticsMode] {
             return [
                 .disable,
-                .enable,
-                .sdkUnknown("")
+                .enable
             ]
         }
 
@@ -285,8 +284,7 @@ extension DataBrewClientTypes {
                 .lzo,
                 .snappy,
                 .zlib,
-                .zstd,
-                .sdkUnknown("")
+                .zstd
             ]
         }
 
@@ -1425,8 +1423,7 @@ extension DataBrewClientTypes {
 
         public static var allCases: [DatabaseOutputMode] {
             return [
-                .newTable,
-                .sdkUnknown("")
+                .newTable
             ]
         }
 
@@ -3028,8 +3025,7 @@ extension DataBrewClientTypes {
         public static var allCases: [EncryptionMode] {
             return [
                 .ssekms,
-                .sses3,
-                .sdkUnknown("")
+                .sses3
             ]
         }
 
@@ -3361,8 +3357,7 @@ extension DataBrewClientTypes {
                 .excel,
                 .json,
                 .orc,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -3702,8 +3697,7 @@ extension DataBrewClientTypes {
                 .stopped,
                 .stopping,
                 .succeeded,
-                .timeout,
-                .sdkUnknown("")
+                .timeout
             ]
         }
 
@@ -3778,8 +3772,7 @@ extension DataBrewClientTypes {
         public static var allCases: [JobType] {
             return [
                 .profile,
-                .recipe,
-                .sdkUnknown("")
+                .recipe
             ]
         }
 
@@ -4627,8 +4620,7 @@ extension DataBrewClientTypes {
         public static var allCases: [LogSubscription] {
             return [
                 .disable,
-                .enable,
-                .sdkUnknown("")
+                .enable
             ]
         }
 
@@ -4688,8 +4680,7 @@ extension DataBrewClientTypes {
         public static var allCases: [Order] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -4716,8 +4707,7 @@ extension DataBrewClientTypes {
 
         public static var allCases: [OrderedBy] {
             return [
-                .lastModifiedDate,
-                .sdkUnknown("")
+                .lastModifiedDate
             ]
         }
 
@@ -4825,8 +4815,7 @@ extension DataBrewClientTypes {
                 .orc,
                 .parquet,
                 .tableauhyper,
-                .xml,
-                .sdkUnknown("")
+                .xml
             ]
         }
 
@@ -4894,8 +4883,7 @@ extension DataBrewClientTypes {
             return [
                 .datetime,
                 .number,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -5721,8 +5709,7 @@ extension DataBrewClientTypes {
         public static var allCases: [SampleMode] {
             return [
                 .customRows,
-                .fullDataset,
-                .sdkUnknown("")
+                .fullDataset
             ]
         }
 
@@ -5753,8 +5740,7 @@ extension DataBrewClientTypes {
             return [
                 .firstN,
                 .lastN,
-                .random,
-                .sdkUnknown("")
+                .random
             ]
         }
 
@@ -6020,8 +6006,7 @@ extension DataBrewClientTypes {
                 .rotating,
                 .terminated,
                 .terminating,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6060,8 +6045,7 @@ extension DataBrewClientTypes {
             return [
                 .database,
                 .datacatalog,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -6502,8 +6486,7 @@ extension DataBrewClientTypes {
                 .greaterThan,
                 .greaterThanOrEqual,
                 .lessThan,
-                .lessThanOrEqual,
-                .sdkUnknown("")
+                .lessThanOrEqual
             ]
         }
 
@@ -6534,8 +6517,7 @@ extension DataBrewClientTypes {
         public static var allCases: [ThresholdUnit] {
             return [
                 .count,
-                .percentage,
-                .sdkUnknown("")
+                .percentage
             ]
         }
 
@@ -7388,8 +7370,7 @@ extension DataBrewClientTypes {
 
         public static var allCases: [ValidationMode] {
             return [
-                .checkAll,
-                .sdkUnknown("")
+                .checkAll
             ]
         }
 

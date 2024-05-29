@@ -205,8 +205,7 @@ extension KendraClientTypes {
 
         public static var allCases: [AdditionalResultAttributeValueType] {
             return [
-                .textWithHighlightsValue,
-                .sdkUnknown("")
+                .textWithHighlightsValue
             ]
         }
 
@@ -347,8 +346,7 @@ extension KendraClientTypes {
             return [
                 .blog,
                 .documentlibrary,
-                .wiki,
-                .sdkUnknown("")
+                .wiki
             ]
         }
 
@@ -695,8 +693,7 @@ extension KendraClientTypes {
         public static var allCases: [AttributeSuggestionsMode] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -1720,8 +1717,7 @@ extension KendraClientTypes {
                 .lessthanorequals,
                 .notcontains,
                 .notequals,
-                .notexists,
-                .sdkUnknown("")
+                .notexists
             ]
         }
 
@@ -1887,8 +1883,7 @@ extension KendraClientTypes {
                 .spaceKey,
                 .spaceName,
                 .url,
-                .version,
-                .sdkUnknown("")
+                .version
             ]
         }
 
@@ -1969,8 +1964,7 @@ extension KendraClientTypes {
         public static var allCases: [ConfluenceAuthenticationType] {
             return [
                 .httpBasic,
-                .pat,
-                .sdkUnknown("")
+                .pat
             ]
         }
 
@@ -2044,8 +2038,7 @@ extension KendraClientTypes {
                 .spaceKey,
                 .spaceName,
                 .url,
-                .version,
-                .sdkUnknown("")
+                .version
             ]
         }
 
@@ -2275,8 +2268,7 @@ extension KendraClientTypes {
                 .spaceKey,
                 .spaceName,
                 .url,
-                .version,
-                .sdkUnknown("")
+                .version
             ]
         }
 
@@ -2417,8 +2409,7 @@ extension KendraClientTypes {
                 .displayUrl,
                 .itemType,
                 .spaceKey,
-                .url,
-                .sdkUnknown("")
+                .url
             ]
         }
 
@@ -2492,8 +2483,7 @@ extension KendraClientTypes {
         public static var allCases: [ConfluenceVersion] {
             return [
                 .cloud,
-                .server,
-                .sdkUnknown("")
+                .server
             ]
         }
 
@@ -2645,8 +2635,7 @@ extension KendraClientTypes {
                 .ppt,
                 .rtf,
                 .xml,
-                .xslt,
-                .sdkUnknown("")
+                .xslt
             ]
         }
 
@@ -3826,8 +3815,7 @@ extension KendraClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4062,8 +4050,7 @@ extension KendraClientTypes {
                 .stopping,
                 .succeeded,
                 .syncing,
-                .syncingIndexing,
-                .sdkUnknown("")
+                .syncingIndexing
             ]
         }
 
@@ -4176,8 +4163,7 @@ extension KendraClientTypes {
                 .slack,
                 .template,
                 .webcrawler,
-                .workdocs,
-                .sdkUnknown("")
+                .workdocs
             ]
         }
 
@@ -4330,8 +4316,7 @@ extension KendraClientTypes {
                 .rdsAuroraMysql,
                 .rdsAuroraPostgresql,
                 .rdsMysql,
-                .rdsPostgresql,
-                .sdkUnknown("")
+                .rdsPostgresql
             ]
         }
 
@@ -6580,8 +6565,7 @@ extension KendraClientTypes {
                 .dateValue,
                 .longValue,
                 .stringListValue,
-                .stringValue,
-                .sdkUnknown("")
+                .stringValue
             ]
         }
 
@@ -6747,8 +6731,7 @@ extension KendraClientTypes {
                 .notFound,
                 .processing,
                 .updated,
-                .updateFailed,
-                .sdkUnknown("")
+                .updateFailed
             ]
         }
 
@@ -6810,8 +6793,7 @@ extension KendraClientTypes {
 
         public static var allCases: [EndpointType] {
             return [
-                .home,
-                .sdkUnknown("")
+                .home
             ]
         }
 
@@ -6952,8 +6934,7 @@ extension KendraClientTypes {
         public static var allCases: [EntityType] {
             return [
                 .group,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -6982,8 +6963,7 @@ extension KendraClientTypes {
         public static var allCases: [ErrorCode] {
             return [
                 .internalError,
-                .invalidRequest,
-                .sdkUnknown("")
+                .invalidRequest
             ]
         }
 
@@ -7200,8 +7180,7 @@ extension KendraClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -7381,8 +7360,7 @@ extension KendraClientTypes {
             return [
                 .csv,
                 .csvWithHeader,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -7445,8 +7423,7 @@ extension KendraClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -7797,8 +7774,7 @@ extension KendraClientTypes {
         public static var allCases: [FeaturedResultsSetStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -7945,8 +7921,7 @@ extension KendraClientTypes {
 
         public static var allCases: [FsxFileSystemType] {
             return [
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -8671,8 +8646,7 @@ extension KendraClientTypes {
         public static var allCases: [HighlightType] {
             return [
                 .standard,
-                .thesaurusSynonym,
-                .sdkUnknown("")
+                .thesaurusSynonym
             ]
         }
 
@@ -8800,8 +8774,7 @@ extension KendraClientTypes {
         public static var allCases: [IndexEdition] {
             return [
                 .developerEdition,
-                .enterpriseEdition,
-                .sdkUnknown("")
+                .enterpriseEdition
             ]
         }
 
@@ -8871,8 +8844,7 @@ extension KendraClientTypes {
                 .deleting,
                 .failed,
                 .systemUpdating,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -8993,8 +8965,7 @@ extension KendraClientTypes {
                 .thisMonth,
                 .thisWeek,
                 .twoMonthsAgo,
-                .twoWeeksAgo,
-                .sdkUnknown("")
+                .twoWeeksAgo
             ]
         }
 
@@ -9066,8 +9037,7 @@ extension KendraClientTypes {
             return [
                 .attachments,
                 .comments,
-                .worklogs,
-                .sdkUnknown("")
+                .worklogs
             ]
         }
 
@@ -9327,8 +9297,7 @@ extension KendraClientTypes {
         public static var allCases: [KeyLocation] {
             return [
                 .secretManager,
-                .url,
-                .sdkUnknown("")
+                .url
             ]
         }
 
@@ -10540,8 +10509,7 @@ extension KendraClientTypes {
                 .queriesByCount,
                 .queriesByZeroClickRate,
                 .queriesByZeroResultRate,
-                .trendQueryDocMetrics,
-                .sdkUnknown("")
+                .trendQueryDocMetrics
             ]
         }
 
@@ -10576,8 +10544,7 @@ extension KendraClientTypes {
             return [
                 .collapse,
                 .expand,
-                .ignore,
-                .sdkUnknown("")
+                .ignore
             ]
         }
 
@@ -10607,8 +10574,7 @@ extension KendraClientTypes {
         public static var allCases: [Mode] {
             return [
                 .enabled,
-                .learnOnly,
-                .sdkUnknown("")
+                .learnOnly
             ]
         }
 
@@ -10790,8 +10756,7 @@ extension KendraClientTypes {
         public static var allCases: [Order] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -10820,8 +10785,7 @@ extension KendraClientTypes {
         public static var allCases: [Persona] {
             return [
                 .owner,
-                .viewer,
-                .sdkUnknown("")
+                .viewer
             ]
         }
 
@@ -10949,8 +10913,7 @@ extension KendraClientTypes {
                 .deleting,
                 .failed,
                 .processing,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -10982,8 +10945,7 @@ extension KendraClientTypes {
         public static var allCases: [PrincipalType] {
             return [
                 .group,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -11144,8 +11106,7 @@ extension KendraClientTypes {
         public static var allCases: [QueryIdentifiersEnclosingOption] {
             return [
                 .doubleQuotes,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -11346,8 +11307,7 @@ extension KendraClientTypes {
         public static var allCases: [QueryResultFormat] {
             return [
                 .table,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -11464,8 +11424,7 @@ extension KendraClientTypes {
             return [
                 .answer,
                 .document,
-                .questionAnswer,
-                .sdkUnknown("")
+                .questionAnswer
             ]
         }
 
@@ -11503,8 +11462,7 @@ extension KendraClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -11588,8 +11546,7 @@ extension KendraClientTypes {
         public static var allCases: [QuerySuggestionsStatus] {
             return [
                 .active,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -11719,8 +11676,7 @@ extension KendraClientTypes {
         public static var allCases: [ReadAccessType] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -11835,8 +11791,7 @@ extension KendraClientTypes {
         public static var allCases: [RelevanceType] {
             return [
                 .notRelevant,
-                .relevant,
-                .sdkUnknown("")
+                .relevant
             ]
         }
 
@@ -12410,8 +12365,7 @@ extension KendraClientTypes {
         public static var allCases: [SalesforceChatterFeedIncludeFilterType] {
             return [
                 .activeUser,
-                .standardUser,
-                .sdkUnknown("")
+                .standardUser
             ]
         }
 
@@ -12630,8 +12584,7 @@ extension KendraClientTypes {
             return [
                 .archived,
                 .draft,
-                .published,
-                .sdkUnknown("")
+                .published
             ]
         }
 
@@ -12823,8 +12776,7 @@ extension KendraClientTypes {
                 .profile,
                 .solution,
                 .task,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -12901,8 +12853,7 @@ extension KendraClientTypes {
                 .low,
                 .medium,
                 .notAvailable,
-                .veryHigh,
-                .sdkUnknown("")
+                .veryHigh
             ]
         }
 
@@ -13066,8 +13017,7 @@ extension KendraClientTypes {
         public static var allCases: [ServiceNowAuthenticationType] {
             return [
                 .httpBasic,
-                .oauth2,
-                .sdkUnknown("")
+                .oauth2
             ]
         }
 
@@ -13096,8 +13046,7 @@ extension KendraClientTypes {
         public static var allCases: [ServiceNowBuildVersionType] {
             return [
                 .london,
-                .others,
-                .sdkUnknown("")
+                .others
             ]
         }
 
@@ -13469,8 +13418,7 @@ extension KendraClientTypes {
         public static var allCases: [SharePointOnlineAuthenticationType] {
             return [
                 .httpBasic,
-                .oauth2,
-                .sdkUnknown("")
+                .oauth2
             ]
         }
 
@@ -13503,8 +13451,7 @@ extension KendraClientTypes {
                 .sharepoint2013,
                 .sharepoint2016,
                 .sharepoint2019,
-                .sharepointOnline,
-                .sdkUnknown("")
+                .sharepointOnline
             ]
         }
 
@@ -13686,8 +13633,7 @@ extension KendraClientTypes {
                 .directMessage,
                 .groupMessage,
                 .privateChannel,
-                .publicChannel,
-                .sdkUnknown("")
+                .publicChannel
             ]
         }
 
@@ -13718,8 +13664,7 @@ extension KendraClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -14316,8 +14261,7 @@ extension KendraClientTypes {
         public static var allCases: [SuggestionType] {
             return [
                 .documentAttributes,
-                .query,
-                .sdkUnknown("")
+                .query
             ]
         }
 
@@ -14676,8 +14620,7 @@ extension KendraClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -14830,8 +14773,7 @@ extension KendraClientTypes {
         public static var allCases: [ModelType] {
             return [
                 .onPremise,
-                .saas,
-                .sdkUnknown("")
+                .saas
             ]
         }
 
@@ -15744,8 +15686,7 @@ extension KendraClientTypes {
         public static var allCases: [UserContextPolicy] {
             return [
                 .attributeFilter,
-                .userToken,
-                .sdkUnknown("")
+                .userToken
             ]
         }
 
@@ -15806,8 +15747,7 @@ extension KendraClientTypes {
         public static var allCases: [UserGroupResolutionMode] {
             return [
                 .awsSso,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -15970,8 +15910,7 @@ extension KendraClientTypes {
 
         public static var allCases: [WarningCode] {
             return [
-                .queryLanguageInvalidSyntax,
-                .sdkUnknown("")
+                .queryLanguageInvalidSyntax
             ]
         }
 
@@ -16081,8 +16020,7 @@ extension KendraClientTypes {
             return [
                 .everything,
                 .hostOnly,
-                .subdomains,
-                .sdkUnknown("")
+                .subdomains
             ]
         }
 

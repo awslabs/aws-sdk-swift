@@ -204,8 +204,7 @@ extension OrganizationsClientTypes {
 
         public static var allCases: [AccessDeniedForDependencyExceptionReason] {
             return [
-                .accessDeniedDuringCreateServiceLinkedRole,
-                .sdkUnknown("")
+                .accessDeniedDuringCreateServiceLinkedRole
             ]
         }
 
@@ -368,8 +367,7 @@ extension OrganizationsClientTypes {
         public static var allCases: [AccountJoinedMethod] {
             return [
                 .created,
-                .invited,
-                .sdkUnknown("")
+                .invited
             ]
         }
 
@@ -511,8 +509,7 @@ extension OrganizationsClientTypes {
             return [
                 .active,
                 .pendingClosure,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -546,8 +543,7 @@ extension OrganizationsClientTypes {
                 .addOrganizationsServiceLinkedRole,
                 .approveAllFeatures,
                 .enableAllFeatures,
-                .inviteAccountToOrganization,
-                .sdkUnknown("")
+                .inviteAccountToOrganization
             ]
         }
 
@@ -838,8 +834,7 @@ extension OrganizationsClientTypes {
         public static var allCases: [ChildType] {
             return [
                 .account,
-                .organizationalUnit,
-                .sdkUnknown("")
+                .organizationalUnit
             ]
         }
 
@@ -1179,8 +1174,7 @@ extension OrganizationsClientTypes {
                 .policyNumberLimitExceeded,
                 .serviceAccessNotEnabled,
                 .tagPolicyViolation,
-                .waitPeriodActive,
-                .sdkUnknown("")
+                .waitPeriodActive
             ]
         }
 
@@ -1267,8 +1261,7 @@ extension OrganizationsClientTypes {
                 .missingPaymentInstrument,
                 .pendingBusinessValidationv,
                 .unknownBusinessValidation,
-                .updateExistingResourcePolicyWithTagsNotSupported,
-                .sdkUnknown("")
+                .updateExistingResourcePolicyWithTagsNotSupported
             ]
         }
 
@@ -1438,8 +1431,7 @@ extension OrganizationsClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3563,8 +3555,7 @@ extension OrganizationsClientTypes {
             return [
                 .aiservicesOptOutPolicy,
                 .backupPolicy,
-                .tagPolicy,
-                .sdkUnknown("")
+                .tagPolicy
             ]
         }
 
@@ -4069,8 +4060,7 @@ extension OrganizationsClientTypes {
                 .organizationFromDifferentSellerOfRecord,
                 .organizationIsAlreadyPendingAllFeaturesMigration,
                 .organizationMembershipChangeRateLimitExceeded,
-                .paymentInstrumentRequired,
-                .sdkUnknown("")
+                .paymentInstrumentRequired
             ]
         }
 
@@ -4219,8 +4209,7 @@ extension OrganizationsClientTypes {
             return [
                 .account,
                 .email,
-                .organization,
-                .sdkUnknown("")
+                .organization
             ]
         }
 
@@ -4315,8 +4304,7 @@ extension OrganizationsClientTypes {
                 .notes,
                 .organization,
                 .organizationFeatureSet,
-                .parentHandshake,
-                .sdkUnknown("")
+                .parentHandshake
             ]
         }
 
@@ -4359,8 +4347,7 @@ extension OrganizationsClientTypes {
                 .declined,
                 .expired,
                 .open,
-                .requested,
-                .sdkUnknown("")
+                .requested
             ]
         }
 
@@ -4393,8 +4380,7 @@ extension OrganizationsClientTypes {
         public static var allCases: [IAMUserAccessToBilling] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -4601,8 +4587,7 @@ extension OrganizationsClientTypes {
                 .unrecognizedServicePrincipal,
                 .unsupportedActionInResourcePolicy,
                 .unsupportedPolicyTypeInResourcePolicy,
-                .unsupportedResourceInResourcePolicy,
-                .sdkUnknown("")
+                .unsupportedResourceInResourcePolicy
             ]
         }
 
@@ -6427,8 +6412,7 @@ extension OrganizationsClientTypes {
         public static var allCases: [OrganizationFeatureSet] {
             return [
                 .all,
-                .consolidatedBilling,
-                .sdkUnknown("")
+                .consolidatedBilling
             ]
         }
 
@@ -6678,8 +6662,7 @@ extension OrganizationsClientTypes {
         public static var allCases: [ParentType] {
             return [
                 .organizationalUnit,
-                .root,
-                .sdkUnknown("")
+                .root
             ]
         }
 
@@ -6989,8 +6972,7 @@ extension OrganizationsClientTypes {
                 .aiservicesOptOutPolicy,
                 .backupPolicy,
                 .serviceControlPolicy,
-                .tagPolicy,
-                .sdkUnknown("")
+                .tagPolicy
             ]
         }
 
@@ -7134,8 +7116,7 @@ extension OrganizationsClientTypes {
             return [
                 .enabled,
                 .pendingDisable,
-                .pendingEnable,
-                .sdkUnknown("")
+                .pendingEnable
             ]
         }
 
@@ -7817,8 +7798,7 @@ extension OrganizationsClientTypes {
             return [
                 .account,
                 .organizationalUnit,
-                .root,
-                .sdkUnknown("")
+                .root
             ]
         }
 

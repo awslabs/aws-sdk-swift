@@ -232,8 +232,7 @@ extension GlobalAcceleratorClientTypes {
         public static var allCases: [AcceleratorStatus] {
             return [
                 .deployed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -917,8 +916,7 @@ extension GlobalAcceleratorClientTypes {
                 .pendingDeprovisioning,
                 .pendingProvisioning,
                 .pendingWithdrawing,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -987,8 +985,7 @@ extension GlobalAcceleratorClientTypes {
         public static var allCases: [ClientAffinity] {
             return [
                 .none,
-                .sourceIp,
-                .sdkUnknown("")
+                .sourceIp
             ]
         }
 
@@ -1862,8 +1859,7 @@ extension GlobalAcceleratorClientTypes {
         public static var allCases: [CustomRoutingAcceleratorStatus] {
             return [
                 .deployed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -1965,8 +1961,7 @@ extension GlobalAcceleratorClientTypes {
         public static var allCases: [CustomRoutingDestinationTrafficState] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -2122,8 +2117,7 @@ extension GlobalAcceleratorClientTypes {
         public static var allCases: [CustomRoutingProtocol] {
             return [
                 .tcp,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -3711,8 +3705,7 @@ extension GlobalAcceleratorClientTypes {
             return [
                 .http,
                 .https,
-                .tcp,
-                .sdkUnknown("")
+                .tcp
             ]
         }
 
@@ -3744,8 +3737,7 @@ extension GlobalAcceleratorClientTypes {
             return [
                 .healthy,
                 .initial,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -3960,8 +3952,7 @@ extension GlobalAcceleratorClientTypes {
         public static var allCases: [IpAddressFamily] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -3990,8 +3981,7 @@ extension GlobalAcceleratorClientTypes {
         public static var allCases: [IpAddressType] {
             return [
                 .dualStack,
-                .ipv4,
-                .sdkUnknown("")
+                .ipv4
             ]
         }
 
@@ -5340,8 +5330,7 @@ extension GlobalAcceleratorClientTypes {
         public static var allCases: [ModelProtocol] {
             return [
                 .tcp,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 

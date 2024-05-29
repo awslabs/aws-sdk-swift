@@ -113,8 +113,7 @@ extension CodeCatalystClientTypes {
                 .greaterThan,
                 .greaterThanOrEquals,
                 .lessThan,
-                .lessThanOrEquals,
-                .sdkUnknown("")
+                .lessThanOrEquals
             ]
         }
 
@@ -1259,8 +1258,7 @@ extension CodeCatalystClientTypes {
         public static var allCases: [DevEnvironmentSessionType] {
             return [
                 .ssh,
-                .ssm,
-                .sdkUnknown("")
+                .ssm
             ]
         }
 
@@ -1301,8 +1299,7 @@ extension CodeCatalystClientTypes {
                 .running,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1668,8 +1665,7 @@ extension CodeCatalystClientTypes {
         public static var allCases: [FilterKey] {
             return [
                 .hasAccessTo,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -2703,8 +2699,7 @@ extension CodeCatalystClientTypes {
                 .devStandard1Large,
                 .devStandard1Medium,
                 .devStandard1Small,
-                .devStandard1Xlarge,
-                .sdkUnknown("")
+                .devStandard1Xlarge
             ]
         }
 
@@ -3774,8 +3769,7 @@ extension CodeCatalystClientTypes {
         public static var allCases: [OperationType] {
             return [
                 .mutation,
-                .readonly,
-                .sdkUnknown("")
+                .readonly
             ]
         }
 
@@ -5074,8 +5068,7 @@ extension CodeCatalystClientTypes {
             return [
                 .awsAccount,
                 .unknown,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -5249,8 +5242,7 @@ extension CodeCatalystClientTypes {
             return [
                 .parallel,
                 .queued,
-                .superseded,
-                .sdkUnknown("")
+                .superseded
             ]
         }
 
@@ -5315,8 +5307,7 @@ extension CodeCatalystClientTypes {
                 .stopping,
                 .succeeded,
                 .superseded,
-                .validating,
-                .sdkUnknown("")
+                .validating
             ]
         }
 
@@ -5455,8 +5446,7 @@ extension CodeCatalystClientTypes {
         public static var allCases: [WorkflowStatus] {
             return [
                 .active,
-                .invalid,
-                .sdkUnknown("")
+                .invalid
             ]
         }
 

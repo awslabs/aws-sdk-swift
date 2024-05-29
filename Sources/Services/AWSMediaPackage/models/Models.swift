@@ -19,8 +19,7 @@ extension MediaPackageClientTypes {
                 .daterange,
                 .none,
                 .passthrough,
-                .scte35Enhanced,
-                .sdkUnknown("")
+                .scte35Enhanced
             ]
         }
 
@@ -56,8 +55,7 @@ extension MediaPackageClientTypes {
                 .both,
                 .none,
                 .restricted,
-                .unrestricted,
-                .sdkUnknown("")
+                .unrestricted
             ]
         }
 
@@ -239,8 +237,7 @@ extension MediaPackageClientTypes {
         public static var allCases: [CmafEncryptionMethod] {
             return [
                 .aesCtr,
-                .sampleAes,
-                .sdkUnknown("")
+                .sampleAes
             ]
         }
 
@@ -1639,8 +1636,7 @@ extension MediaPackageClientTypes {
         public static var allCases: [EncryptionMethod] {
             return [
                 .aes128,
-                .sampleAes,
-                .sdkUnknown("")
+                .sampleAes
             ]
         }
 
@@ -2547,8 +2543,7 @@ extension MediaPackageClientTypes {
             return [
                 .compact,
                 .drmTopLevelCompact,
-                .full,
-                .sdkUnknown("")
+                .full
             ]
         }
 
@@ -2804,8 +2799,7 @@ extension MediaPackageClientTypes {
         public static var allCases: [Origination] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -2836,8 +2830,7 @@ extension MediaPackageClientTypes {
             return [
                 .event,
                 .none,
-                .vod,
-                .sdkUnknown("")
+                .vod
             ]
         }
 
@@ -2873,8 +2866,7 @@ extension MediaPackageClientTypes {
                 .presetAudio2,
                 .presetAudio3,
                 .shared,
-                .unencrypted,
-                .sdkUnknown("")
+                .unencrypted
             ]
         }
 
@@ -2922,8 +2914,7 @@ extension MediaPackageClientTypes {
                 .presetVideo7,
                 .presetVideo8,
                 .shared,
-                .unencrypted,
-                .sdkUnknown("")
+                .unencrypted
             ]
         }
 
@@ -2964,8 +2955,7 @@ extension MediaPackageClientTypes {
                 .dvbDash2014,
                 .hbbtv15,
                 .hybridcast,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3256,8 +3246,7 @@ extension MediaPackageClientTypes {
             return [
                 .numberWithDuration,
                 .numberWithTimeline,
-                .timeWithTimeline,
-                .sdkUnknown("")
+                .timeWithTimeline
             ]
         }
 
@@ -3391,8 +3380,7 @@ extension MediaPackageClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3424,8 +3412,7 @@ extension MediaPackageClientTypes {
             return [
                 .original,
                 .videoBitrateAscending,
-                .videoBitrateDescending,
-                .sdkUnknown("")
+                .videoBitrateDescending
             ]
         }
 
@@ -4026,8 +4013,7 @@ extension MediaPackageClientTypes {
                 .httpHead,
                 .httpIso,
                 .httpXsdate,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -4070,8 +4056,7 @@ extension MediaPackageClientTypes {
                 .providerAdvertisement,
                 .providerOverlayPlacementOpportunity,
                 .providerPlacementOpportunity,
-                .spliceInsert,
-                .sdkUnknown("")
+                .spliceInsert
             ]
         }
 
@@ -4104,8 +4089,7 @@ extension MediaPackageClientTypes {
 
         public static var allCases: [__PeriodTriggersElement] {
             return [
-                .ads,
-                .sdkUnknown("")
+                .ads
             ]
         }
 

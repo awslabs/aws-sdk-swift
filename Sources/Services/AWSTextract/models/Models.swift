@@ -267,8 +267,7 @@ extension TextractClientTypes {
                 .atRisk,
                 .creationError,
                 .creationInProgress,
-                .deprecated,
-                .sdkUnknown("")
+                .deprecated
             ]
         }
 
@@ -636,8 +635,7 @@ extension TextractClientTypes {
         public static var allCases: [AutoUpdate] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -929,8 +927,7 @@ extension TextractClientTypes {
                 .tableFooter,
                 .tableTitle,
                 .title,
-                .word,
-                .sdkUnknown("")
+                .word
             ]
         }
 
@@ -1063,8 +1060,7 @@ extension TextractClientTypes {
         public static var allCases: [ContentClassifier] {
             return [
                 .freeOfAdultContent,
-                .freeOfPersonallyIdentifiableInformation,
-                .sdkUnknown("")
+                .freeOfPersonallyIdentifiableInformation
             ]
         }
 
@@ -1717,8 +1713,7 @@ extension TextractClientTypes {
                 .tableSectionTitle,
                 .tableSummary,
                 .tableTitle,
-                .value,
-                .sdkUnknown("")
+                .value
             ]
         }
 
@@ -2077,8 +2072,7 @@ extension TextractClientTypes {
                 .layout,
                 .queries,
                 .signatures,
-                .tables,
-                .sdkUnknown("")
+                .tables
             ]
         }
 
@@ -3390,8 +3384,7 @@ extension TextractClientTypes {
                 .failed,
                 .inProgress,
                 .partialSuccess,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4327,8 +4320,7 @@ extension TextractClientTypes {
                 .tableFooter,
                 .tableTitle,
                 .title,
-                .value,
-                .sdkUnknown("")
+                .value
             ]
         }
 
@@ -4448,8 +4440,7 @@ extension TextractClientTypes {
         public static var allCases: [SelectionStatus] {
             return [
                 .notSelected,
-                .selected,
-                .sdkUnknown("")
+                .selected
             ]
         }
 
@@ -5072,8 +5063,7 @@ extension TextractClientTypes {
         public static var allCases: [TextType] {
             return [
                 .handwriting,
-                .printed,
-                .sdkUnknown("")
+                .printed
             ]
         }
 
@@ -5430,8 +5420,7 @@ extension TextractClientTypes {
 
         public static var allCases: [ValueType] {
             return [
-                .date,
-                .sdkUnknown("")
+                .date
             ]
         }
 

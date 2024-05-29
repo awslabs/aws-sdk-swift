@@ -156,8 +156,7 @@ extension EMRcontainersClientTypes {
 
         public static var allCases: [CertificateProviderType] {
             return [
-                .pem,
-                .sdkUnknown("")
+                .pem
             ]
         }
 
@@ -425,8 +424,7 @@ extension EMRcontainersClientTypes {
 
         public static var allCases: [ContainerProviderType] {
             return [
-                .eks,
-                .sdkUnknown("")
+                .eks
             ]
         }
 
@@ -1658,8 +1656,7 @@ extension EMRcontainersClientTypes {
                 .creating,
                 .terminated,
                 .terminatedWithErrors,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -1695,8 +1692,7 @@ extension EMRcontainersClientTypes {
                 .clusterUnavailable,
                 .internalError,
                 .userError,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -2069,8 +2065,7 @@ extension EMRcontainersClientTypes {
                 .failed,
                 .pending,
                 .running,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -3121,8 +3116,7 @@ extension EMRcontainersClientTypes {
         public static var allCases: [PersistentAppUI] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3811,8 +3805,7 @@ extension EMRcontainersClientTypes {
         public static var allCases: [TemplateParameterDataType] {
             return [
                 .number,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -4015,8 +4008,7 @@ extension EMRcontainersClientTypes {
                 .arrested,
                 .running,
                 .terminated,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 

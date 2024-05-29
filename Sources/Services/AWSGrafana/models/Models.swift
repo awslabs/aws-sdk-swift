@@ -55,8 +55,7 @@ extension GrafanaClientTypes {
         public static var allCases: [AccountAccessType] {
             return [
                 .currentAccount,
-                .organization,
-                .sdkUnknown("")
+                .organization
             ]
         }
 
@@ -274,8 +273,7 @@ extension GrafanaClientTypes {
         public static var allCases: [AuthenticationProviderTypes] {
             return [
                 .awsSso,
-                .saml,
-                .sdkUnknown("")
+                .saml
             ]
         }
 
@@ -917,8 +915,7 @@ extension GrafanaClientTypes {
                 .sitewise,
                 .timestream,
                 .twinmaker,
-                .xray,
-                .sdkUnknown("")
+                .xray
             ]
         }
 
@@ -1646,8 +1643,7 @@ extension GrafanaClientTypes {
         public static var allCases: [LicenseType] {
             return [
                 .enterprise,
-                .enterpriseFreeTrial,
-                .sdkUnknown("")
+                .enterpriseFreeTrial
             ]
         }
 
@@ -2295,8 +2291,7 @@ extension GrafanaClientTypes {
 
         public static var allCases: [NotificationDestinationType] {
             return [
-                .sns,
-                .sdkUnknown("")
+                .sns
             ]
         }
 
@@ -2359,8 +2354,7 @@ extension GrafanaClientTypes {
         public static var allCases: [PermissionType] {
             return [
                 .customerManaged,
-                .serviceManaged,
-                .sdkUnknown("")
+                .serviceManaged
             ]
         }
 
@@ -2445,8 +2439,7 @@ extension GrafanaClientTypes {
             return [
                 .admin,
                 .editor,
-                .viewer,
-                .sdkUnknown("")
+                .viewer
             ]
         }
 
@@ -2608,8 +2601,7 @@ extension GrafanaClientTypes {
         public static var allCases: [SamlConfigurationStatus] {
             return [
                 .configured,
-                .notConfigured,
-                .sdkUnknown("")
+                .notConfigured
             ]
         }
 
@@ -3039,8 +3031,7 @@ extension GrafanaClientTypes {
         public static var allCases: [UpdateAction] {
             return [
                 .add,
-                .revoke,
-                .sdkUnknown("")
+                .revoke
             ]
         }
 
@@ -3580,8 +3571,7 @@ extension GrafanaClientTypes {
         public static var allCases: [UserType] {
             return [
                 .ssoGroup,
-                .ssoUser,
-                .sdkUnknown("")
+                .ssoUser
             ]
         }
 
@@ -3697,8 +3687,7 @@ extension GrafanaClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -3962,8 +3951,7 @@ extension GrafanaClientTypes {
                 .upgradeFailed,
                 .upgrading,
                 .versionUpdateFailed,
-                .versionUpdating,
-                .sdkUnknown("")
+                .versionUpdating
             ]
         }
 

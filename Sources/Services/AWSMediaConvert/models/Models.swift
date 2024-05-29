@@ -16,8 +16,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AacAudioDescriptionBroadcasterMix] {
             return [
                 .broadcasterMixedAd,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 
@@ -49,8 +48,7 @@ extension MediaConvertClientTypes {
             return [
                 .hev1,
                 .hev2,
-                .lc,
-                .sdkUnknown("")
+                .lc
             ]
         }
 
@@ -87,8 +85,7 @@ extension MediaConvertClientTypes {
                 .codingMode10,
                 .codingMode11,
                 .codingMode20,
-                .codingMode51,
-                .sdkUnknown("")
+                .codingMode51
             ]
         }
 
@@ -121,8 +118,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AacRateControlMode] {
             return [
                 .cbr,
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -152,8 +148,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AacRawFormat] {
             return [
                 .latmLoas,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -262,8 +257,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AacSpecification] {
             return [
                 .mpeg2,
-                .mpeg4,
-                .sdkUnknown("")
+                .mpeg4
             ]
         }
 
@@ -297,8 +291,7 @@ extension MediaConvertClientTypes {
                 .high,
                 .low,
                 .mediumHigh,
-                .mediumLow,
-                .sdkUnknown("")
+                .mediumLow
             ]
         }
 
@@ -342,8 +335,7 @@ extension MediaConvertClientTypes {
                 .hearingImpaired,
                 .musicAndEffects,
                 .visuallyImpaired,
-                .voiceOver,
-                .sdkUnknown("")
+                .voiceOver
             ]
         }
 
@@ -383,8 +375,7 @@ extension MediaConvertClientTypes {
                 .codingMode10,
                 .codingMode11,
                 .codingMode20,
-                .codingMode32Lfe,
-                .sdkUnknown("")
+                .codingMode32Lfe
             ]
         }
 
@@ -424,8 +415,7 @@ extension MediaConvertClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -459,8 +449,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Ac3DynamicRangeCompressionProfile] {
             return [
                 .filmStandard,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -498,8 +487,7 @@ extension MediaConvertClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -533,8 +521,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Ac3LfeFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -564,8 +551,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Ac3MetadataControl] {
             return [
                 .followInput,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -682,8 +668,7 @@ extension MediaConvertClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .preferred,
-                .sdkUnknown("")
+                .preferred
             ]
         }
 
@@ -750,8 +735,7 @@ extension MediaConvertClientTypes {
                 .accelerated,
                 .inProgress,
                 .notAccelerated,
-                .notApplicable,
-                .sdkUnknown("")
+                .notApplicable
             ]
         }
 
@@ -783,8 +767,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AdvancedInputFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -814,8 +797,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AdvancedInputFilterAddTexture] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -884,8 +866,7 @@ extension MediaConvertClientTypes {
             return [
                 .high,
                 .low,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -918,8 +899,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .fixed,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1036,8 +1016,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AlphaBehavior] {
             return [
                 .discard,
-                .remapToLuma,
-                .sdkUnknown("")
+                .remapToLuma
             ]
         }
 
@@ -1067,8 +1046,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AncillaryConvert608To708] {
             return [
                 .disabled,
-                .upconvert,
-                .sdkUnknown("")
+                .upconvert
             ]
         }
 
@@ -1141,8 +1119,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AncillaryTerminateCaptions] {
             return [
                 .disabled,
-                .endOfInput,
-                .sdkUnknown("")
+                .endOfInput
             ]
         }
 
@@ -1172,8 +1149,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AntiAlias] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1314,8 +1290,7 @@ extension MediaConvertClientTypes {
                 .tcs,
                 .vhc,
                 .vhl,
-                .vhr,
-                .sdkUnknown("")
+                .vhr
             ]
         }
 
@@ -1428,8 +1403,7 @@ extension MediaConvertClientTypes {
                 .opus,
                 .passthrough,
                 .vorbis,
-                .wav,
-                .sdkUnknown("")
+                .wav
             ]
         }
 
@@ -1566,8 +1540,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AudioDefaultSelection] {
             return [
                 .default,
-                .notDefault,
-                .sdkUnknown("")
+                .notDefault
             ]
         }
 
@@ -1692,8 +1665,7 @@ extension MediaConvertClientTypes {
                 .auto,
                 .disabled,
                 .frame,
-                .track,
-                .sdkUnknown("")
+                .track
             ]
         }
 
@@ -1725,8 +1697,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AudioLanguageCodeControl] {
             return [
                 .followInput,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -1760,8 +1731,7 @@ extension MediaConvertClientTypes {
                 .ituBs17701,
                 .ituBs17702,
                 .ituBs17703,
-                .ituBs17704,
-                .sdkUnknown("")
+                .ituBs17704
             ]
         }
 
@@ -1793,8 +1763,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AudioNormalizationAlgorithmControl] {
             return [
                 .correctAudio,
-                .measureOnly,
-                .sdkUnknown("")
+                .measureOnly
             ]
         }
 
@@ -1824,8 +1793,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AudioNormalizationLoudnessLogging] {
             return [
                 .dontLog,
-                .log,
-                .sdkUnknown("")
+                .log
             ]
         }
 
@@ -1855,8 +1823,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AudioNormalizationPeakCalculation] {
             return [
                 .none,
-                .truePeak,
-                .sdkUnknown("")
+                .truePeak
             ]
         }
 
@@ -2085,8 +2052,7 @@ extension MediaConvertClientTypes {
                 .hlsRenditionGroup,
                 .languageCode,
                 .pid,
-                .track,
-                .sdkUnknown("")
+                .track
             ]
         }
 
@@ -2118,8 +2084,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AudioTypeControl] {
             return [
                 .followInput,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -2292,8 +2257,7 @@ extension MediaConvertClientTypes {
                 .low,
                 .max,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -2327,8 +2291,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Av1BitDepth] {
             return [
                 .bit10,
-                .bit8,
-                .sdkUnknown("")
+                .bit8
             ]
         }
 
@@ -2358,8 +2321,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Av1FilmGrainSynthesis] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2389,8 +2351,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Av1FramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -2422,8 +2383,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -2489,8 +2449,7 @@ extension MediaConvertClientTypes {
 
         public static var allCases: [Av1RateControlMode] {
             return [
-                .qvbr,
-                .sdkUnknown("")
+                .qvbr
             ]
         }
 
@@ -2628,8 +2587,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Av1SpatialAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2694,8 +2652,7 @@ extension MediaConvertClientTypes {
                 .class100,
                 .class200,
                 .class4k2k,
-                .class50,
-                .sdkUnknown("")
+                .class50
             ]
         }
 
@@ -2727,8 +2684,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AvcIntraFramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -2760,8 +2716,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -2798,8 +2753,7 @@ extension MediaConvertClientTypes {
                 .followBottomField,
                 .followTopField,
                 .progressive,
-                .topField,
-                .sdkUnknown("")
+                .topField
             ]
         }
 
@@ -2832,8 +2786,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AvcIntraScanTypeConversionMode] {
             return [
                 .interlaced,
-                .interlacedOptimize,
-                .sdkUnknown("")
+                .interlacedOptimize
             ]
         }
 
@@ -2948,8 +2901,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AvcIntraSlowPal] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2979,8 +2931,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AvcIntraTelecine] {
             return [
                 .hard,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3010,8 +2961,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [AvcIntraUhdQualityTuningLevel] {
             return [
                 .multiPass,
-                .singlePass,
-                .sdkUnknown("")
+                .singlePass
             ]
         }
 
@@ -3150,8 +3100,7 @@ extension MediaConvertClientTypes {
                 .high,
                 .low,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -3189,8 +3138,7 @@ extension MediaConvertClientTypes {
                 .high,
                 .low,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -3227,8 +3175,7 @@ extension MediaConvertClientTypes {
                 .job,
                 .jobTemplate,
                 .preset,
-                .queue,
-                .sdkUnknown("")
+                .queue
             ]
         }
 
@@ -3260,8 +3207,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [BurnInSubtitleStylePassthrough] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3468,8 +3414,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .centered,
-                .left,
-                .sdkUnknown("")
+                .left
             ]
         }
 
@@ -3500,8 +3445,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [BurninSubtitleApplyFontColor] {
             return [
                 .allText,
-                .whiteTextOnly,
-                .sdkUnknown("")
+                .whiteTextOnly
             ]
         }
 
@@ -3535,8 +3479,7 @@ extension MediaConvertClientTypes {
                 .auto,
                 .black,
                 .none,
-                .white,
-                .sdkUnknown("")
+                .white
             ]
         }
 
@@ -3574,8 +3517,7 @@ extension MediaConvertClientTypes {
                 .monospacedSansserif,
                 .monospacedSerif,
                 .proportionalSansserif,
-                .proportionalSerif,
-                .sdkUnknown("")
+                .proportionalSerif
             ]
         }
 
@@ -3620,8 +3562,7 @@ extension MediaConvertClientTypes {
                 .hex,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -3667,8 +3608,7 @@ extension MediaConvertClientTypes {
                 .green,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -3707,8 +3647,7 @@ extension MediaConvertClientTypes {
                 .auto,
                 .black,
                 .none,
-                .white,
-                .sdkUnknown("")
+                .white
             ]
         }
 
@@ -3742,8 +3681,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .fixedGrid,
-                .proportional,
-                .sdkUnknown("")
+                .proportional
             ]
         }
 
@@ -4037,8 +3975,7 @@ extension MediaConvertClientTypes {
                 .srt,
                 .teletext,
                 .ttml,
-                .webvtt,
-                .sdkUnknown("")
+                .webvtt
             ]
         }
 
@@ -4121,8 +4058,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CaptionSourceConvertPaintOnToPopOn] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4286,8 +4222,7 @@ extension MediaConvertClientTypes {
                 .stl,
                 .teletext,
                 .ttml,
-                .webvtt,
-                .sdkUnknown("")
+                .webvtt
             ]
         }
 
@@ -4446,8 +4381,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafClientCache] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4477,8 +4411,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafCodecSpecification] {
             return [
                 .rfc4281,
-                .rfc6381,
-                .sdkUnknown("")
+                .rfc6381
             ]
         }
 
@@ -4569,8 +4502,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafEncryptionType] {
             return [
                 .aesCtr,
-                .sampleAes,
-                .sdkUnknown("")
+                .sampleAes
             ]
         }
 
@@ -4791,8 +4723,7 @@ extension MediaConvertClientTypes {
                 .advanced,
                 .none,
                 .thumbnail,
-                .thumbnailAndFullframe,
-                .sdkUnknown("")
+                .thumbnailAndFullframe
             ]
         }
 
@@ -4885,8 +4816,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafInitializationVectorInManifest] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -4916,8 +4846,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafIntervalCadence] {
             return [
                 .followCustom,
-                .followIframe,
-                .sdkUnknown("")
+                .followIframe
             ]
         }
 
@@ -4947,8 +4876,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafKeyProviderType] {
             return [
                 .speke,
-                .staticKey,
-                .sdkUnknown("")
+                .staticKey
             ]
         }
 
@@ -4978,8 +4906,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafManifestCompression] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -5009,8 +4936,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafManifestDurationFormat] {
             return [
                 .floatingPoint,
-                .integer,
-                .sdkUnknown("")
+                .integer
             ]
         }
 
@@ -5040,8 +4966,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafMpdManifestBandwidthType] {
             return [
                 .average,
-                .max,
-                .sdkUnknown("")
+                .max
             ]
         }
 
@@ -5071,8 +4996,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafMpdProfile] {
             return [
                 .mainProfile,
-                .onDemandProfile,
-                .sdkUnknown("")
+                .onDemandProfile
             ]
         }
 
@@ -5102,8 +5026,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafPtsOffsetHandlingForBFrames] {
             return [
                 .matchInitialPts,
-                .zeroBased,
-                .sdkUnknown("")
+                .zeroBased
             ]
         }
 
@@ -5133,8 +5056,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafSegmentControl] {
             return [
                 .segmentedFiles,
-                .singleFile,
-                .sdkUnknown("")
+                .singleFile
             ]
         }
 
@@ -5164,8 +5086,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafSegmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple,
-                .sdkUnknown("")
+                .gopMultiple
             ]
         }
 
@@ -5195,8 +5116,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafStreamInfResolution] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -5226,8 +5146,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafTargetDurationCompatibilityMode] {
             return [
                 .legacy,
-                .specCompliant,
-                .sdkUnknown("")
+                .specCompliant
             ]
         }
 
@@ -5257,8 +5176,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafVideoCompositionOffsets] {
             return [
                 .signed,
-                .unsigned,
-                .sdkUnknown("")
+                .unsigned
             ]
         }
 
@@ -5288,8 +5206,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafWriteDASHManifest] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5319,8 +5236,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafWriteHLSManifest] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5350,8 +5266,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmafWriteSegmentTimelineInRepresentation] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5381,8 +5296,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmfcAudioDuration] {
             return [
                 .defaultCodecDuration,
-                .matchVideoDuration,
-                .sdkUnknown("")
+                .matchVideoDuration
             ]
         }
 
@@ -5416,8 +5330,7 @@ extension MediaConvertClientTypes {
                 .alternateAudioAutoSelect,
                 .alternateAudioAutoSelectDefault,
                 .alternateAudioNotAutoSelect,
-                .audioOnlyVariantStream,
-                .sdkUnknown("")
+                .audioOnlyVariantStream
             ]
         }
 
@@ -5449,8 +5362,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmfcDescriptiveVideoServiceFlag] {
             return [
                 .dontFlag,
-                .flag,
-                .sdkUnknown("")
+                .flag
             ]
         }
 
@@ -5480,8 +5392,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmfcIFrameOnlyManifest] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -5511,8 +5422,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmfcKlvMetadata] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -5542,8 +5452,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmfcManifestMetadataSignaling] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5573,8 +5482,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmfcScte35Esam] {
             return [
                 .insert,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -5604,8 +5512,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmfcScte35Source] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -5744,8 +5651,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmfcTimedMetadata] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -5775,8 +5681,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CmfcTimedMetadataBoxVersion] {
             return [
                 .version0,
-                .version1,
-                .sdkUnknown("")
+                .version1
             ]
         }
 
@@ -5962,8 +5867,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ColorMetadata] {
             return [
                 .ignore,
-                .insert,
-                .sdkUnknown("")
+                .insert
             ]
         }
 
@@ -6015,8 +5919,7 @@ extension MediaConvertClientTypes {
                 .p3d65Sdr,
                 .p3dci,
                 .rec601,
-                .rec709,
-                .sdkUnknown("")
+                .rec709
             ]
         }
 
@@ -6074,8 +5977,7 @@ extension MediaConvertClientTypes {
                 .forceP3d65Hdr,
                 .forceP3d65Sdr,
                 .forceP3dci,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -6111,8 +6013,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ColorSpaceUsage] {
             return [
                 .fallback,
-                .force,
-                .sdkUnknown("")
+                .force
             ]
         }
 
@@ -6140,8 +6041,7 @@ extension MediaConvertClientTypes {
 
         public static var allCases: [Commitment] {
             return [
-                .oneYear,
-                .sdkUnknown("")
+                .oneYear
             ]
         }
 
@@ -6306,8 +6206,7 @@ extension MediaConvertClientTypes {
                 .mxf,
                 .raw,
                 .webm,
-                .y4m,
-                .sdkUnknown("")
+                .y4m
             ]
         }
 
@@ -6347,8 +6246,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [CopyProtectionAction] {
             return [
                 .passthrough,
-                .strip,
-                .sdkUnknown("")
+                .strip
             ]
         }
 
@@ -6889,8 +6787,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoGroupAudioChannelConfigSchemeIdUri] {
             return [
                 .dolbyChannelConfiguration,
-                .mpegChannelConfiguration,
-                .sdkUnknown("")
+                .mpegChannelConfiguration
             ]
         }
 
@@ -7071,8 +6968,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoHbbtvCompliance] {
             return [
                 .hbbtv15,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -7106,8 +7002,7 @@ extension MediaConvertClientTypes {
                 .advanced,
                 .none,
                 .thumbnail,
-                .thumbnailAndFullframe,
-                .sdkUnknown("")
+                .thumbnailAndFullframe
             ]
         }
 
@@ -7200,8 +7095,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoIntervalCadence] {
             return [
                 .followCustom,
-                .followIframe,
-                .sdkUnknown("")
+                .followIframe
             ]
         }
 
@@ -7231,8 +7125,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoMpdManifestBandwidthType] {
             return [
                 .average,
-                .max,
-                .sdkUnknown("")
+                .max
             ]
         }
 
@@ -7262,8 +7155,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoMpdProfile] {
             return [
                 .mainProfile,
-                .onDemandProfile,
-                .sdkUnknown("")
+                .onDemandProfile
             ]
         }
 
@@ -7293,8 +7185,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoPlaybackDeviceCompatibility] {
             return [
                 .cencV1,
-                .unencryptedSei,
-                .sdkUnknown("")
+                .unencryptedSei
             ]
         }
 
@@ -7324,8 +7215,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoPtsOffsetHandlingForBFrames] {
             return [
                 .matchInitialPts,
-                .zeroBased,
-                .sdkUnknown("")
+                .zeroBased
             ]
         }
 
@@ -7355,8 +7245,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoSegmentControl] {
             return [
                 .segmentedFiles,
-                .singleFile,
-                .sdkUnknown("")
+                .singleFile
             ]
         }
 
@@ -7386,8 +7275,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoSegmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple,
-                .sdkUnknown("")
+                .gopMultiple
             ]
         }
 
@@ -7417,8 +7305,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoVideoCompositionOffsets] {
             return [
                 .signed,
-                .unsigned,
-                .sdkUnknown("")
+                .unsigned
             ]
         }
 
@@ -7448,8 +7335,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DashIsoWriteSegmentTimelineInRepresentation] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7481,8 +7367,7 @@ extension MediaConvertClientTypes {
             return [
                 .basic,
                 .compact,
-                .distinct,
-                .sdkUnknown("")
+                .distinct
             ]
         }
 
@@ -7515,8 +7400,7 @@ extension MediaConvertClientTypes {
             return [
                 .aesCbc,
                 .aesCtr,
-                .aesGcm,
-                .sdkUnknown("")
+                .aesGcm
             ]
         }
 
@@ -7553,8 +7437,7 @@ extension MediaConvertClientTypes {
                 .blendTicker,
                 .interpolate,
                 .interpolateTicker,
-                .linearInterpolation,
-                .sdkUnknown("")
+                .linearInterpolation
             ]
         }
 
@@ -7636,8 +7519,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DeinterlacerControl] {
             return [
                 .forceAllFrames,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 
@@ -7675,8 +7557,7 @@ extension MediaConvertClientTypes {
             return [
                 .adaptive,
                 .deinterlace,
-                .inverseTelecine,
-                .sdkUnknown("")
+                .inverseTelecine
             ]
         }
 
@@ -7952,8 +7833,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DescribeEndpointsMode] {
             return [
                 .default,
-                .getOnly,
-                .sdkUnknown("")
+                .getOnly
             ]
         }
 
@@ -8205,8 +8085,7 @@ extension MediaConvertClientTypes {
             return [
                 .passthrough,
                 .recalculate,
-                .specify,
-                .sdkUnknown("")
+                .specify
             ]
         }
 
@@ -8237,8 +8116,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DolbyVisionMapping] {
             return [
                 .hdr101000,
-                .hdr10Nomap,
-                .sdkUnknown("")
+                .hdr10Nomap
             ]
         }
 
@@ -8268,8 +8146,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DolbyVisionProfile] {
             return [
                 .profile5,
-                .profile81,
-                .sdkUnknown("")
+                .profile81
             ]
         }
 
@@ -8299,8 +8176,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DropFrameTimecode] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8670,8 +8546,7 @@ extension MediaConvertClientTypes {
                 .monospacedSansserif,
                 .monospacedSerif,
                 .proportionalSansserif,
-                .proportionalSerif,
-                .sdkUnknown("")
+                .proportionalSerif
             ]
         }
 
@@ -8706,8 +8581,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .centered,
-                .left,
-                .sdkUnknown("")
+                .left
             ]
         }
 
@@ -8738,8 +8612,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DvbSubtitleApplyFontColor] {
             return [
                 .allText,
-                .whiteTextOnly,
-                .sdkUnknown("")
+                .whiteTextOnly
             ]
         }
 
@@ -8773,8 +8646,7 @@ extension MediaConvertClientTypes {
                 .auto,
                 .black,
                 .none,
-                .white,
-                .sdkUnknown("")
+                .white
             ]
         }
 
@@ -8818,8 +8690,7 @@ extension MediaConvertClientTypes {
                 .hex,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -8865,8 +8736,7 @@ extension MediaConvertClientTypes {
                 .green,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -8905,8 +8775,7 @@ extension MediaConvertClientTypes {
                 .auto,
                 .black,
                 .none,
-                .white,
-                .sdkUnknown("")
+                .white
             ]
         }
 
@@ -8938,8 +8807,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DvbSubtitleStylePassthrough] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8971,8 +8839,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .fixedGrid,
-                .proportional,
-                .sdkUnknown("")
+                .proportional
             ]
         }
 
@@ -9003,8 +8870,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [DvbSubtitlingType] {
             return [
                 .hearingImpaired,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -9067,8 +8933,7 @@ extension MediaConvertClientTypes {
             return [
                 .none,
                 .noDisplayWindow,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -9097,8 +8962,7 @@ extension MediaConvertClientTypes {
 
         public static var allCases: [Eac3AtmosBitstreamMode] {
             return [
-                .completeMain,
-                .sdkUnknown("")
+                .completeMain
             ]
         }
 
@@ -9131,8 +8995,7 @@ extension MediaConvertClientTypes {
                 .codingMode514,
                 .codingMode714,
                 .codingMode916,
-                .codingModeAuto,
-                .sdkUnknown("")
+                .codingModeAuto
             ]
         }
 
@@ -9164,8 +9027,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3AtmosDialogueIntelligence] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -9195,8 +9057,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3AtmosDownmixControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -9234,8 +9095,7 @@ extension MediaConvertClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -9277,8 +9137,7 @@ extension MediaConvertClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -9312,8 +9171,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3AtmosDynamicRangeControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -9349,8 +9207,7 @@ extension MediaConvertClientTypes {
                 .ituBs17702,
                 .ituBs17703,
                 .ituBs17704,
-                .leqA,
-                .sdkUnknown("")
+                .leqA
             ]
         }
 
@@ -9514,8 +9371,7 @@ extension MediaConvertClientTypes {
                 .dpl2,
                 .notIndicated,
                 .stereo,
-                .surround,
-                .sdkUnknown("")
+                .surround
             ]
         }
 
@@ -9549,8 +9405,7 @@ extension MediaConvertClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .notIndicated,
-                .sdkUnknown("")
+                .notIndicated
             ]
         }
 
@@ -9581,8 +9436,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3AttenuationControl] {
             return [
                 .attenuate3Db,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -9618,8 +9472,7 @@ extension MediaConvertClientTypes {
                 .completeMain,
                 .emergency,
                 .hearingImpaired,
-                .visuallyImpaired,
-                .sdkUnknown("")
+                .visuallyImpaired
             ]
         }
 
@@ -9654,8 +9507,7 @@ extension MediaConvertClientTypes {
             return [
                 .codingMode10,
                 .codingMode20,
-                .codingMode32,
-                .sdkUnknown("")
+                .codingMode32
             ]
         }
 
@@ -9686,8 +9538,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3DcFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -9725,8 +9576,7 @@ extension MediaConvertClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -9768,8 +9618,7 @@ extension MediaConvertClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -9803,8 +9652,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3LfeControl] {
             return [
                 .lfe,
-                .noLfe,
-                .sdkUnknown("")
+                .noLfe
             ]
         }
 
@@ -9834,8 +9682,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3LfeFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -9865,8 +9712,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3MetadataControl] {
             return [
                 .followInput,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -9896,8 +9742,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3PassthroughControl] {
             return [
                 .noPassthrough,
-                .whenPossible,
-                .sdkUnknown("")
+                .whenPossible
             ]
         }
 
@@ -9927,8 +9772,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Eac3PhaseControl] {
             return [
                 .noShift,
-                .shift90Degrees,
-                .sdkUnknown("")
+                .shift90Degrees
             ]
         }
 
@@ -10113,8 +9957,7 @@ extension MediaConvertClientTypes {
                 .dpl2,
                 .loRo,
                 .ltRt,
-                .notIndicated,
-                .sdkUnknown("")
+                .notIndicated
             ]
         }
 
@@ -10148,8 +9991,7 @@ extension MediaConvertClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .notIndicated,
-                .sdkUnknown("")
+                .notIndicated
             ]
         }
 
@@ -10182,8 +10024,7 @@ extension MediaConvertClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .notIndicated,
-                .sdkUnknown("")
+                .notIndicated
             ]
         }
 
@@ -10214,8 +10055,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [EmbeddedConvert608To708] {
             return [
                 .disabled,
-                .upconvert,
-                .sdkUnknown("")
+                .upconvert
             ]
         }
 
@@ -10331,8 +10171,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [EmbeddedTerminateCaptions] {
             return [
                 .disabled,
-                .endOfInput,
-                .sdkUnknown("")
+                .endOfInput
             ]
         }
 
@@ -10362,8 +10201,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [EmbeddedTimecodeOverride] {
             return [
                 .none,
-                .useMdpm,
-                .sdkUnknown("")
+                .useMdpm
             ]
         }
 
@@ -10561,8 +10399,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [F4vMoovPlacement] {
             return [
                 .normal,
-                .progressiveDownload,
-                .sdkUnknown("")
+                .progressiveDownload
             ]
         }
 
@@ -10660,8 +10497,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [FileSourceConvert608To708] {
             return [
                 .disabled,
-                .upconvert,
-                .sdkUnknown("")
+                .upconvert
             ]
         }
 
@@ -10752,8 +10588,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [FileSourceTimeDeltaUnits] {
             return [
                 .milliseconds,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -10828,8 +10663,7 @@ extension MediaConvertClientTypes {
             return [
                 .automatic,
                 .hans,
-                .hant,
-                .sdkUnknown("")
+                .hant
             ]
         }
 
@@ -11312,8 +11146,7 @@ extension MediaConvertClientTypes {
                 .low,
                 .max,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -11378,8 +11211,7 @@ extension MediaConvertClientTypes {
                 .level42,
                 .level5,
                 .level51,
-                .level52,
-                .sdkUnknown("")
+                .level52
             ]
         }
 
@@ -11432,8 +11264,7 @@ extension MediaConvertClientTypes {
                 .high10bit,
                 .high422,
                 .high42210bit,
-                .main,
-                .sdkUnknown("")
+                .main
             ]
         }
 
@@ -11467,8 +11298,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264DynamicSubGop] {
             return [
                 .adaptive,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -11498,8 +11328,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264EndOfStreamMarkers] {
             return [
                 .include,
-                .suppress,
-                .sdkUnknown("")
+                .suppress
             ]
         }
 
@@ -11529,8 +11358,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264EntropyEncoding] {
             return [
                 .cabac,
-                .cavlc,
-                .sdkUnknown("")
+                .cavlc
             ]
         }
 
@@ -11562,8 +11390,7 @@ extension MediaConvertClientTypes {
             return [
                 .forceField,
                 .mbaff,
-                .paff,
-                .sdkUnknown("")
+                .paff
             ]
         }
 
@@ -11594,8 +11421,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264FlickerAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11625,8 +11451,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264FramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -11658,8 +11483,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -11690,8 +11514,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264GopBReference] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11723,8 +11546,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .frames,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -11761,8 +11583,7 @@ extension MediaConvertClientTypes {
                 .followBottomField,
                 .followTopField,
                 .progressive,
-                .topField,
-                .sdkUnknown("")
+                .topField
             ]
         }
 
@@ -11795,8 +11616,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264ParControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -11828,8 +11648,7 @@ extension MediaConvertClientTypes {
             return [
                 .multiPassHq,
                 .singlePass,
-                .singlePassHq,
-                .sdkUnknown("")
+                .singlePassHq
             ]
         }
 
@@ -11905,8 +11724,7 @@ extension MediaConvertClientTypes {
             return [
                 .cbr,
                 .qvbr,
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -11937,8 +11755,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264RepeatPps] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11968,8 +11785,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264ScanTypeConversionMode] {
             return [
                 .interlaced,
-                .interlacedOptimize,
-                .sdkUnknown("")
+                .interlacedOptimize
             ]
         }
 
@@ -12001,8 +11817,7 @@ extension MediaConvertClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .transitionDetection,
-                .sdkUnknown("")
+                .transitionDetection
             ]
         }
 
@@ -12316,8 +12131,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264SlowPal] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12347,8 +12161,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264SpatialAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12378,8 +12191,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264Syntax] {
             return [
                 .default,
-                .rp2027,
-                .sdkUnknown("")
+                .rp2027
             ]
         }
 
@@ -12411,8 +12223,7 @@ extension MediaConvertClientTypes {
             return [
                 .hard,
                 .none,
-                .soft,
-                .sdkUnknown("")
+                .soft
             ]
         }
 
@@ -12443,8 +12254,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264TemporalAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12474,8 +12284,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H264UnregisteredSeiTimecode] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12515,8 +12324,7 @@ extension MediaConvertClientTypes {
                 .low,
                 .max,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -12551,8 +12359,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265AlternateTransferFunctionSei] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12606,8 +12413,7 @@ extension MediaConvertClientTypes {
                 .level52,
                 .level6,
                 .level61,
-                .level62,
-                .sdkUnknown("")
+                .level62
             ]
         }
 
@@ -12661,8 +12467,7 @@ extension MediaConvertClientTypes {
                 .main4228bitHigh,
                 .main4228bitMain,
                 .mainHigh,
-                .mainMain,
-                .sdkUnknown("")
+                .mainMain
             ]
         }
 
@@ -12698,8 +12503,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265DynamicSubGop] {
             return [
                 .adaptive,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -12729,8 +12533,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265EndOfStreamMarkers] {
             return [
                 .include,
-                .suppress,
-                .sdkUnknown("")
+                .suppress
             ]
         }
 
@@ -12760,8 +12563,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265FlickerAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12791,8 +12593,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265FramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -12824,8 +12625,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -12856,8 +12656,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265GopBReference] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12889,8 +12688,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .frames,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -12927,8 +12725,7 @@ extension MediaConvertClientTypes {
                 .followBottomField,
                 .followTopField,
                 .progressive,
-                .topField,
-                .sdkUnknown("")
+                .topField
             ]
         }
 
@@ -12961,8 +12758,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265ParControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -12994,8 +12790,7 @@ extension MediaConvertClientTypes {
             return [
                 .multiPassHq,
                 .singlePass,
-                .singlePassHq,
-                .sdkUnknown("")
+                .singlePassHq
             ]
         }
 
@@ -13071,8 +12866,7 @@ extension MediaConvertClientTypes {
             return [
                 .cbr,
                 .qvbr,
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -13105,8 +12899,7 @@ extension MediaConvertClientTypes {
             return [
                 .adaptive,
                 .default,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -13137,8 +12930,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265ScanTypeConversionMode] {
             return [
                 .interlaced,
-                .interlacedOptimize,
-                .sdkUnknown("")
+                .interlacedOptimize
             ]
         }
 
@@ -13170,8 +12962,7 @@ extension MediaConvertClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .transitionDetection,
-                .sdkUnknown("")
+                .transitionDetection
             ]
         }
 
@@ -13485,8 +13276,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265SlowPal] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13516,8 +13306,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265SpatialAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13549,8 +13338,7 @@ extension MediaConvertClientTypes {
             return [
                 .hard,
                 .none,
-                .soft,
-                .sdkUnknown("")
+                .soft
             ]
         }
 
@@ -13581,8 +13369,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265TemporalAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13612,8 +13399,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265TemporalIds] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13643,8 +13429,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265Tiles] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13674,8 +13459,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265UnregisteredSeiTimecode] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13705,8 +13489,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [H265WriteMp4PackagingType] {
             return [
                 .hev1,
-                .hvc1,
-                .sdkUnknown("")
+                .hvc1
             ]
         }
 
@@ -13736,8 +13519,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HDRToSDRToneMapper] {
             return [
                 .preserveDetails,
-                .vibrant,
-                .sdkUnknown("")
+                .vibrant
             ]
         }
 
@@ -13901,8 +13683,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsAdMarkers] {
             return [
                 .elemental,
-                .elementalScte35,
-                .sdkUnknown("")
+                .elementalScte35
             ]
         }
 
@@ -13969,8 +13750,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsAudioOnlyContainer] {
             return [
                 .automatic,
-                .m2ts,
-                .sdkUnknown("")
+                .m2ts
             ]
         }
 
@@ -14000,8 +13780,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsAudioOnlyHeader] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -14035,8 +13814,7 @@ extension MediaConvertClientTypes {
                 .alternateAudioAutoSelect,
                 .alternateAudioAutoSelectDefault,
                 .alternateAudioNotAutoSelect,
-                .audioOnlyVariantStream,
-                .sdkUnknown("")
+                .audioOnlyVariantStream
             ]
         }
 
@@ -14119,8 +13897,7 @@ extension MediaConvertClientTypes {
             return [
                 .insert,
                 .none,
-                .omit,
-                .sdkUnknown("")
+                .omit
             ]
         }
 
@@ -14151,8 +13928,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsCaptionSegmentLengthControl] {
             return [
                 .largeSegments,
-                .matchVideo,
-                .sdkUnknown("")
+                .matchVideo
             ]
         }
 
@@ -14182,8 +13958,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsClientCache] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -14213,8 +13988,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsCodecSpecification] {
             return [
                 .rfc4281,
-                .rfc6381,
-                .sdkUnknown("")
+                .rfc6381
             ]
         }
 
@@ -14244,8 +14018,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsDescriptiveVideoServiceFlag] {
             return [
                 .dontFlag,
-                .flag,
-                .sdkUnknown("")
+                .flag
             ]
         }
 
@@ -14275,8 +14048,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsDirectoryStructure] {
             return [
                 .singleDirectory,
-                .subdirectoryPerStream,
-                .sdkUnknown("")
+                .subdirectoryPerStream
             ]
         }
 
@@ -14373,8 +14145,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsEncryptionType] {
             return [
                 .aes128,
-                .sampleAes,
-                .sdkUnknown("")
+                .sampleAes
             ]
         }
 
@@ -14621,8 +14392,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsIFrameOnlyManifest] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -14656,8 +14426,7 @@ extension MediaConvertClientTypes {
                 .advanced,
                 .none,
                 .thumbnail,
-                .thumbnailAndFullframe,
-                .sdkUnknown("")
+                .thumbnailAndFullframe
             ]
         }
 
@@ -14750,8 +14519,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsInitializationVectorInManifest] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -14781,8 +14549,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsIntervalCadence] {
             return [
                 .followCustom,
-                .followIframe,
-                .sdkUnknown("")
+                .followIframe
             ]
         }
 
@@ -14812,8 +14579,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsKeyProviderType] {
             return [
                 .speke,
-                .staticKey,
-                .sdkUnknown("")
+                .staticKey
             ]
         }
 
@@ -14843,8 +14609,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsManifestCompression] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -14874,8 +14639,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsManifestDurationFormat] {
             return [
                 .floatingPoint,
-                .integer,
-                .sdkUnknown("")
+                .integer
             ]
         }
 
@@ -14905,8 +14669,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsOfflineEncrypted] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -14936,8 +14699,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsOutputSelection] {
             return [
                 .manifestsAndSegments,
-                .segmentsOnly,
-                .sdkUnknown("")
+                .segmentsOnly
             ]
         }
 
@@ -14967,8 +14729,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsProgramDateTime] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -14998,8 +14759,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsProgressiveWriteHlsManifest] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15072,8 +14832,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsSegmentControl] {
             return [
                 .segmentedFiles,
-                .singleFile,
-                .sdkUnknown("")
+                .singleFile
             ]
         }
 
@@ -15103,8 +14862,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsSegmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple,
-                .sdkUnknown("")
+                .gopMultiple
             ]
         }
 
@@ -15201,8 +14959,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsStreamInfResolution] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -15232,8 +14989,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [HlsTargetDurationCompatibilityMode] {
             return [
                 .legacy,
-                .specCompliant,
-                .sdkUnknown("")
+                .specCompliant
             ]
         }
 
@@ -15265,8 +15021,7 @@ extension MediaConvertClientTypes {
             return [
                 .none,
                 .priv,
-                .tdrl,
-                .sdkUnknown("")
+                .tdrl
             ]
         }
 
@@ -15414,8 +15169,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ImscAccessibilitySubs] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15482,8 +15236,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ImscStylePassthrough] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15729,8 +15482,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [InputDeblockFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15809,8 +15561,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [InputDenoiseFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15842,8 +15593,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .disable,
-                .force,
-                .sdkUnknown("")
+                .force
             ]
         }
 
@@ -15874,8 +15624,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [InputPolicy] {
             return [
                 .allowed,
-                .disallowed,
-                .sdkUnknown("")
+                .disallowed
             ]
         }
 
@@ -15909,8 +15658,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [InputPsiControl] {
             return [
                 .ignorePsi,
-                .usePsi,
-                .sdkUnknown("")
+                .usePsi
             ]
         }
 
@@ -15946,8 +15694,7 @@ extension MediaConvertClientTypes {
                 .degrees180,
                 .degrees270,
                 .degrees90,
-                .degree0,
-                .sdkUnknown("")
+                .degree0
             ]
         }
 
@@ -15982,8 +15729,7 @@ extension MediaConvertClientTypes {
             return [
                 .follow,
                 .fullRange,
-                .limitedRange,
-                .sdkUnknown("")
+                .limitedRange
             ]
         }
 
@@ -16014,8 +15760,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [InputScanType] {
             return [
                 .auto,
-                .psf,
-                .sdkUnknown("")
+                .psf
             ]
         }
 
@@ -16202,8 +15947,7 @@ extension MediaConvertClientTypes {
             return [
                 .embedded,
                 .specifiedstart,
-                .zerobased,
-                .sdkUnknown("")
+                .zerobased
             ]
         }
 
@@ -16584,8 +16328,7 @@ extension MediaConvertClientTypes {
             return [
                 .probing,
                 .transcoding,
-                .uploading,
-                .sdkUnknown("")
+                .uploading
             ]
         }
 
@@ -16731,8 +16474,7 @@ extension MediaConvertClientTypes {
                 .complete,
                 .error,
                 .progressing,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -16855,8 +16597,7 @@ extension MediaConvertClientTypes {
             return [
                 .creationDate,
                 .name,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -17479,8 +17220,7 @@ extension MediaConvertClientTypes {
                 .yor,
                 .zha,
                 .zho,
-                .zul,
-                .sdkUnknown("")
+                .zul
             ]
         }
 
@@ -18202,8 +17942,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsAudioBufferModel] {
             return [
                 .atsc,
-                .dvb,
-                .sdkUnknown("")
+                .dvb
             ]
         }
 
@@ -18233,8 +17972,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsAudioDuration] {
             return [
                 .defaultCodecDuration,
-                .matchVideoDuration,
-                .sdkUnknown("")
+                .matchVideoDuration
             ]
         }
 
@@ -18264,8 +18002,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsBufferModel] {
             return [
                 .multiplex,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -18295,8 +18032,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsDataPtsControl] {
             return [
                 .alignToVideo,
-                .auto,
-                .sdkUnknown("")
+                .auto
             ]
         }
 
@@ -18326,8 +18062,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsEbpAudioInterval] {
             return [
                 .videoAndFixedIntervals,
-                .videoInterval,
-                .sdkUnknown("")
+                .videoInterval
             ]
         }
 
@@ -18357,8 +18092,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsEbpPlacement] {
             return [
                 .videoAndAudioPids,
-                .videoPid,
-                .sdkUnknown("")
+                .videoPid
             ]
         }
 
@@ -18388,8 +18122,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsEsRateInPes] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -18419,8 +18152,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsForceTsVideoEbpOrder] {
             return [
                 .default,
-                .force,
-                .sdkUnknown("")
+                .force
             ]
         }
 
@@ -18450,8 +18182,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsKlvMetadata] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -18481,8 +18212,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsNielsenId3] {
             return [
                 .insert,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -18512,8 +18242,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsPcrControl] {
             return [
                 .configuredPcrPeriod,
-                .pcrEveryPesPacket,
-                .sdkUnknown("")
+                .pcrEveryPesPacket
             ]
         }
 
@@ -18543,8 +18272,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsPreventBufferUnderflow] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -18574,8 +18302,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsRateMode] {
             return [
                 .cbr,
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -18636,8 +18363,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsScte35Source] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -18675,8 +18401,7 @@ extension MediaConvertClientTypes {
                 .none,
                 .psiSegstart,
                 .raiAdapt,
-                .raiSegstart,
-                .sdkUnknown("")
+                .raiSegstart
             ]
         }
 
@@ -18710,8 +18435,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M2tsSegmentationStyle] {
             return [
                 .maintainCadence,
-                .resetCadence,
-                .sdkUnknown("")
+                .resetCadence
             ]
         }
 
@@ -19018,8 +18742,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M3u8AudioDuration] {
             return [
                 .defaultCodecDuration,
-                .matchVideoDuration,
-                .sdkUnknown("")
+                .matchVideoDuration
             ]
         }
 
@@ -19049,8 +18772,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M3u8DataPtsControl] {
             return [
                 .alignToVideo,
-                .auto,
-                .sdkUnknown("")
+                .auto
             ]
         }
 
@@ -19080,8 +18802,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M3u8NielsenId3] {
             return [
                 .insert,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -19111,8 +18832,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M3u8PcrControl] {
             return [
                 .configuredPcrPeriod,
-                .pcrEveryPesPacket,
-                .sdkUnknown("")
+                .pcrEveryPesPacket
             ]
         }
 
@@ -19142,8 +18862,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [M3u8Scte35Source] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -19498,8 +19217,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MotionImageInsertionMode] {
             return [
                 .mov,
-                .png,
-                .sdkUnknown("")
+                .png
             ]
         }
 
@@ -19566,8 +19284,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MotionImagePlayback] {
             return [
                 .once,
-                .repeat,
-                .sdkUnknown("")
+                .repeat
             ]
         }
 
@@ -19597,8 +19314,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MovClapAtom] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -19628,8 +19344,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MovCslgAtom] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -19659,8 +19374,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MovMpeg2FourCCControl] {
             return [
                 .mpeg,
-                .xdcam,
-                .sdkUnknown("")
+                .xdcam
             ]
         }
 
@@ -19690,8 +19404,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MovPaddingControl] {
             return [
                 .none,
-                .omneon,
-                .sdkUnknown("")
+                .omneon
             ]
         }
 
@@ -19721,8 +19434,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MovReference] {
             return [
                 .external,
-                .selfContained,
-                .sdkUnknown("")
+                .selfContained
             ]
         }
 
@@ -19850,8 +19562,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mp3RateControlMode] {
             return [
                 .cbr,
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -19936,8 +19647,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mp4CslgAtom] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -19967,8 +19677,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mp4FreeSpaceBox] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -19998,8 +19707,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mp4MoovPlacement] {
             return [
                 .normal,
-                .progressiveDownload,
-                .sdkUnknown("")
+                .progressiveDownload
             ]
         }
 
@@ -20090,8 +19798,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MpdAccessibilityCaptionHints] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -20121,8 +19828,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MpdAudioDuration] {
             return [
                 .defaultCodecDuration,
-                .matchVideoDuration,
-                .sdkUnknown("")
+                .matchVideoDuration
             ]
         }
 
@@ -20152,8 +19858,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MpdCaptionContainerType] {
             return [
                 .fragmentedMp4,
-                .raw,
-                .sdkUnknown("")
+                .raw
             ]
         }
 
@@ -20183,8 +19888,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MpdKlvMetadata] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -20214,8 +19918,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MpdManifestMetadataSignaling] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -20245,8 +19948,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MpdScte35Esam] {
             return [
                 .insert,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -20276,8 +19978,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MpdScte35Source] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -20398,8 +20099,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MpdTimedMetadata] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -20429,8 +20129,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MpdTimedMetadataBoxVersion] {
             return [
                 .version0,
-                .version1,
-                .sdkUnknown("")
+                .version1
             ]
         }
 
@@ -20464,8 +20163,7 @@ extension MediaConvertClientTypes {
                 .high,
                 .low,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -20503,8 +20201,7 @@ extension MediaConvertClientTypes {
                 .high,
                 .high1440,
                 .low,
-                .main,
-                .sdkUnknown("")
+                .main
             ]
         }
 
@@ -20537,8 +20234,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2CodecProfile] {
             return [
                 .main,
-                .profile422,
-                .sdkUnknown("")
+                .profile422
             ]
         }
 
@@ -20568,8 +20264,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2DynamicSubGop] {
             return [
                 .adaptive,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -20599,8 +20294,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2FramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -20632,8 +20326,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -20664,8 +20357,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2GopSizeUnits] {
             return [
                 .frames,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -20701,8 +20393,7 @@ extension MediaConvertClientTypes {
                 .followBottomField,
                 .followTopField,
                 .progressive,
-                .topField,
-                .sdkUnknown("")
+                .topField
             ]
         }
 
@@ -20741,8 +20432,7 @@ extension MediaConvertClientTypes {
                 .intraDcPrecision10,
                 .intraDcPrecision11,
                 .intraDcPrecision8,
-                .intraDcPrecision9,
-                .sdkUnknown("")
+                .intraDcPrecision9
             ]
         }
 
@@ -20775,8 +20465,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2ParControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -20806,8 +20495,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2QualityTuningLevel] {
             return [
                 .multiPass,
-                .singlePass,
-                .sdkUnknown("")
+                .singlePass
             ]
         }
 
@@ -20837,8 +20525,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2RateControlMode] {
             return [
                 .cbr,
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -20868,8 +20555,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2ScanTypeConversionMode] {
             return [
                 .interlaced,
-                .interlacedOptimize,
-                .sdkUnknown("")
+                .interlacedOptimize
             ]
         }
 
@@ -20899,8 +20585,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2SceneChangeDetect] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -21153,8 +20838,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2SlowPal] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -21184,8 +20868,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2SpatialAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -21215,8 +20898,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2Syntax] {
             return [
                 .default,
-                .d10,
-                .sdkUnknown("")
+                .d10
             ]
         }
 
@@ -21248,8 +20930,7 @@ extension MediaConvertClientTypes {
             return [
                 .hard,
                 .none,
-                .soft,
-                .sdkUnknown("")
+                .soft
             ]
         }
 
@@ -21280,8 +20961,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Mpeg2TemporalAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -21348,8 +21028,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MsSmoothAudioDeduplication] {
             return [
                 .combineDuplicateStreams,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -21410,8 +21089,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MsSmoothFragmentLengthControl] {
             return [
                 .exact,
-                .gopMultiple,
-                .sdkUnknown("")
+                .gopMultiple
             ]
         }
 
@@ -21514,8 +21192,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MsSmoothManifestEncoding] {
             return [
                 .utf16,
-                .utf8,
-                .sdkUnknown("")
+                .utf8
             ]
         }
 
@@ -21545,8 +21222,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MxfAfdSignaling] {
             return [
                 .copyFromVideo,
-                .noCopy,
-                .sdkUnknown("")
+                .noCopy
             ]
         }
 
@@ -21582,8 +21258,7 @@ extension MediaConvertClientTypes {
                 .op1a,
                 .xavc,
                 .xdcam,
-                .xdcamRdd9,
-                .sdkUnknown("")
+                .xdcamRdd9
             ]
         }
 
@@ -21659,8 +21334,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [MxfXavcDurationMode] {
             return [
                 .allowAnyDuration,
-                .dropFramesForCompliance,
-                .sdkUnknown("")
+                .dropFramesForCompliance
             ]
         }
 
@@ -21778,8 +21452,7 @@ extension MediaConvertClientTypes {
             return [
                 .cbet,
                 .naes2AndNw,
-                .naes2AndNwAndCbet,
-                .sdkUnknown("")
+                .naes2AndNwAndCbet
             ]
         }
 
@@ -21938,8 +21611,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [NielsenSourceWatermarkStatusType] {
             return [
                 .clean,
-                .watermarked,
-                .sdkUnknown("")
+                .watermarked
             ]
         }
 
@@ -21969,8 +21641,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [NielsenUniqueTicPerAudioTrackType] {
             return [
                 .reserveUniqueTicsPerTrack,
-                .sameTicsPerTrack,
-                .sdkUnknown("")
+                .sameTicsPerTrack
             ]
         }
 
@@ -22002,8 +21673,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -22036,8 +21706,7 @@ extension MediaConvertClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -22129,8 +21798,7 @@ extension MediaConvertClientTypes {
                 .mean,
                 .sharpen,
                 .spatial,
-                .temporal,
-                .sdkUnknown("")
+                .temporal
             ]
         }
 
@@ -22375,8 +22043,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Order] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -22695,8 +22362,7 @@ extension MediaConvertClientTypes {
                 .dashIsoGroupSettings,
                 .fileGroupSettings,
                 .hlsGroupSettings,
-                .msSmoothGroupSettings,
-                .sdkUnknown("")
+                .msSmoothGroupSettings
             ]
         }
 
@@ -22733,8 +22399,7 @@ extension MediaConvertClientTypes {
                 .sdtFollow,
                 .sdtFollowIfPresent,
                 .sdtManual,
-                .sdtNone,
-                .sdkUnknown("")
+                .sdtNone
             ]
         }
 
@@ -22797,8 +22462,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [PadVideo] {
             return [
                 .black,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -22967,8 +22631,7 @@ extension MediaConvertClientTypes {
             return [
                 .creationDate,
                 .name,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -23048,8 +22711,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [PricingPlan] {
             return [
                 .onDemand,
-                .reserved,
-                .sdkUnknown("")
+                .reserved
             ]
         }
 
@@ -23079,8 +22741,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ProresChromaSampling] {
             return [
                 .preserve444Sampling,
-                .subsampleTo422,
-                .sdkUnknown("")
+                .subsampleTo422
             ]
         }
 
@@ -23118,8 +22779,7 @@ extension MediaConvertClientTypes {
                 .appleProres422Lt,
                 .appleProres422Proxy,
                 .appleProres4444,
-                .appleProres4444Xq,
-                .sdkUnknown("")
+                .appleProres4444Xq
             ]
         }
 
@@ -23153,8 +22813,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ProresFramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -23186,8 +22845,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -23224,8 +22882,7 @@ extension MediaConvertClientTypes {
                 .followBottomField,
                 .followTopField,
                 .progressive,
-                .topField,
-                .sdkUnknown("")
+                .topField
             ]
         }
 
@@ -23258,8 +22915,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ProresParControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -23289,8 +22945,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ProresScanTypeConversionMode] {
             return [
                 .interlaced,
-                .interlacedOptimize,
-                .sdkUnknown("")
+                .interlacedOptimize
             ]
         }
 
@@ -23423,8 +23078,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ProresSlowPal] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -23454,8 +23108,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ProresTelecine] {
             return [
                 .hard,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -23633,8 +23286,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [QueueListBy] {
             return [
                 .creationDate,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -23664,8 +23316,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [QueueStatus] {
             return [
                 .active,
-                .paused,
-                .sdkUnknown("")
+                .paused
             ]
         }
 
@@ -23835,8 +23486,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [RenewalType] {
             return [
                 .autoRenew,
-                .expire,
-                .sdkUnknown("")
+                .expire
             ]
         }
 
@@ -23866,8 +23516,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [RequiredFlag] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -23985,8 +23634,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ReservationPlanStatus] {
             return [
                 .active,
-                .expired,
-                .sdkUnknown("")
+                .expired
             ]
         }
 
@@ -24049,8 +23697,7 @@ extension MediaConvertClientTypes {
             return [
                 .none,
                 .passthrough,
-                .respond,
-                .sdkUnknown("")
+                .respond
             ]
         }
 
@@ -24085,8 +23732,7 @@ extension MediaConvertClientTypes {
                 .allowedRenditions,
                 .forceIncludeRenditions,
                 .minBottomRenditionSize,
-                .minTopRenditionSize,
-                .sdkUnknown("")
+                .minTopRenditionSize
             ]
         }
 
@@ -24239,8 +23885,7 @@ extension MediaConvertClientTypes {
                 .authenticatedRead,
                 .bucketOwnerFullControl,
                 .bucketOwnerRead,
-                .publicRead,
-                .sdkUnknown("")
+                .publicRead
             ]
         }
 
@@ -24272,8 +23917,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [S3ServerSideEncryptionType] {
             return [
                 .serverSideEncryptionKms,
-                .serverSideEncryptionS3,
-                .sdkUnknown("")
+                .serverSideEncryptionS3
             ]
         }
 
@@ -24313,8 +23957,7 @@ extension MediaConvertClientTypes {
                 .onezoneIa,
                 .reducedRedundancy,
                 .standard,
-                .standardIa,
-                .sdkUnknown("")
+                .standardIa
             ]
         }
 
@@ -24351,8 +23994,7 @@ extension MediaConvertClientTypes {
             return [
                 .limitedRangeClip,
                 .limitedRangeSqueeze,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -24389,8 +24031,7 @@ extension MediaConvertClientTypes {
                 .fill,
                 .fit,
                 .fitNoUpscale,
-                .stretchToOutput,
-                .sdkUnknown("")
+                .stretchToOutput
             ]
         }
 
@@ -24429,8 +24070,7 @@ extension MediaConvertClientTypes {
                 .framerate24,
                 .framerate25,
                 .framerate2997Dropframe,
-                .framerate2997NonDropframe,
-                .sdkUnknown("")
+                .framerate2997NonDropframe
             ]
         }
 
@@ -24494,8 +24134,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [SimulateReservedQueue] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -24660,8 +24299,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [SrtStylePassthrough] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -24766,8 +24404,7 @@ extension MediaConvertClientTypes {
                 .seconds480,
                 .seconds540,
                 .seconds60,
-                .seconds600,
-                .sdkUnknown("")
+                .seconds600
             ]
         }
 
@@ -24918,8 +24555,7 @@ extension MediaConvertClientTypes {
                 .pageTypeHearingImpairedSubtitle,
                 .pageTypeInitial,
                 .pageTypeProgramSchedule,
-                .pageTypeSubtitle,
-                .sdkUnknown("")
+                .pageTypeSubtitle
             ]
         }
 
@@ -25040,8 +24676,7 @@ extension MediaConvertClientTypes {
                 .middleRight,
                 .topCenter,
                 .topLeft,
-                .topRight,
-                .sdkUnknown("")
+                .topRight
             ]
         }
 
@@ -25129,8 +24764,7 @@ extension MediaConvertClientTypes {
             return [
                 .embedded,
                 .specifiedstart,
-                .zerobased,
-                .sdkUnknown("")
+                .zerobased
             ]
         }
 
@@ -25161,8 +24795,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [TimedMetadata] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -25327,8 +24960,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [TsPtsOffset] {
             return [
                 .auto,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -25389,8 +25021,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [TtmlStylePassthrough] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -25419,8 +25050,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [ModelType] {
             return [
                 .custom,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -25452,8 +25082,7 @@ extension MediaConvertClientTypes {
             return [
                 .i420,
                 .i422,
-                .i444,
-                .sdkUnknown("")
+                .i444
             ]
         }
 
@@ -25484,8 +25113,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [UncompressedFramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -25517,8 +25145,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -25549,8 +25176,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [UncompressedInterlaceMode] {
             return [
                 .interlaced,
-                .progressive,
-                .sdkUnknown("")
+                .progressive
             ]
         }
 
@@ -25580,8 +25206,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [UncompressedScanTypeConversionMode] {
             return [
                 .interlaced,
-                .interlacedOptimize,
-                .sdkUnknown("")
+                .interlacedOptimize
             ]
         }
 
@@ -25690,8 +25315,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [UncompressedSlowPal] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -25721,8 +25345,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [UncompressedTelecine] {
             return [
                 .hard,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -26109,8 +25732,7 @@ extension MediaConvertClientTypes {
             return [
                 .class1458bit,
                 .class22010bit,
-                .class2208bit,
-                .sdkUnknown("")
+                .class2208bit
             ]
         }
 
@@ -26141,8 +25763,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vc3FramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -26174,8 +25795,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -26206,8 +25826,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vc3InterlaceMode] {
             return [
                 .interlaced,
-                .progressive,
-                .sdkUnknown("")
+                .progressive
             ]
         }
 
@@ -26237,8 +25856,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vc3ScanTypeConversionMode] {
             return [
                 .interlaced,
-                .interlacedOptimize,
-                .sdkUnknown("")
+                .interlacedOptimize
             ]
         }
 
@@ -26347,8 +25965,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vc3SlowPal] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -26378,8 +25995,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vc3Telecine] {
             return [
                 .hard,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -26409,8 +26025,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [VchipAction] {
             return [
                 .passthrough,
-                .strip,
-                .sdkUnknown("")
+                .strip
             ]
         }
 
@@ -26462,8 +26077,7 @@ extension MediaConvertClientTypes {
                 .vc3,
                 .vp8,
                 .vp9,
-                .xavc,
-                .sdkUnknown("")
+                .xavc
             ]
         }
 
@@ -27056,8 +26670,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [VideoTimecodeInsertion] {
             return [
                 .disabled,
-                .picTimingSei,
-                .sdkUnknown("")
+                .picTimingSei
             ]
         }
 
@@ -27130,8 +26743,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vp8FramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -27163,8 +26775,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -27195,8 +26806,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vp8ParControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -27226,8 +26836,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vp8QualityTuningLevel] {
             return [
                 .multiPass,
-                .multiPassHq,
-                .sdkUnknown("")
+                .multiPassHq
             ]
         }
 
@@ -27255,8 +26864,7 @@ extension MediaConvertClientTypes {
 
         public static var allCases: [Vp8RateControlMode] {
             return [
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -27388,8 +26996,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vp9FramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -27421,8 +27028,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -27453,8 +27059,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vp9ParControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -27484,8 +27089,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Vp9QualityTuningLevel] {
             return [
                 .multiPass,
-                .multiPassHq,
-                .sdkUnknown("")
+                .multiPassHq
             ]
         }
 
@@ -27513,8 +27117,7 @@ extension MediaConvertClientTypes {
 
         public static var allCases: [Vp9RateControlMode] {
             return [
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -27685,8 +27288,7 @@ extension MediaConvertClientTypes {
                 .lighter,
                 .lightest,
                 .stronger,
-                .strongest,
-                .sdkUnknown("")
+                .strongest
             ]
         }
 
@@ -27719,8 +27321,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [WavFormat] {
             return [
                 .rf64,
-                .riff,
-                .sdkUnknown("")
+                .riff
             ]
         }
 
@@ -27799,8 +27400,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [WebvttAccessibilitySubs] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -27912,8 +27512,7 @@ extension MediaConvertClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .strict,
-                .sdkUnknown("")
+                .strict
             ]
         }
 
@@ -27946,8 +27545,7 @@ extension MediaConvertClientTypes {
             return [
                 .class100,
                 .class300,
-                .class480,
-                .sdkUnknown("")
+                .class480
             ]
         }
 
@@ -28011,8 +27609,7 @@ extension MediaConvertClientTypes {
             return [
                 .class100,
                 .class300,
-                .class480,
-                .sdkUnknown("")
+                .class480
             ]
         }
 
@@ -28076,8 +27673,7 @@ extension MediaConvertClientTypes {
             return [
                 .bitrateClass100,
                 .bitrateClass140,
-                .bitrateClass200,
-                .sdkUnknown("")
+                .bitrateClass200
             ]
         }
 
@@ -28108,8 +27704,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [Xavc4kProfileCodecProfile] {
             return [
                 .high,
-                .high422,
-                .sdkUnknown("")
+                .high422
             ]
         }
 
@@ -28141,8 +27736,7 @@ extension MediaConvertClientTypes {
             return [
                 .multiPassHq,
                 .singlePass,
-                .singlePassHq,
-                .sdkUnknown("")
+                .singlePassHq
             ]
         }
 
@@ -28256,8 +27850,7 @@ extension MediaConvertClientTypes {
                 .low,
                 .max,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -28294,8 +27887,7 @@ extension MediaConvertClientTypes {
             return [
                 .auto,
                 .cabac,
-                .cavlc,
-                .sdkUnknown("")
+                .cavlc
             ]
         }
 
@@ -28326,8 +27918,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [XavcFlickerAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -28357,8 +27948,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [XavcFramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -28390,8 +27980,7 @@ extension MediaConvertClientTypes {
             return [
                 .duplicateDrop,
                 .frameformer,
-                .interpolate,
-                .sdkUnknown("")
+                .interpolate
             ]
         }
 
@@ -28422,8 +28011,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [XavcGopBReference] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -28455,8 +28043,7 @@ extension MediaConvertClientTypes {
             return [
                 .class100,
                 .class200,
-                .class50,
-                .sdkUnknown("")
+                .class50
             ]
         }
 
@@ -28520,8 +28107,7 @@ extension MediaConvertClientTypes {
             return [
                 .bitrateClass25,
                 .bitrateClass35,
-                .bitrateClass50,
-                .sdkUnknown("")
+                .bitrateClass50
             ]
         }
 
@@ -28554,8 +28140,7 @@ extension MediaConvertClientTypes {
             return [
                 .multiPassHq,
                 .singlePass,
-                .singlePassHq,
-                .sdkUnknown("")
+                .singlePassHq
             ]
         }
 
@@ -28665,8 +28250,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [XavcHdProfileTelecine] {
             return [
                 .hard,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -28702,8 +28286,7 @@ extension MediaConvertClientTypes {
                 .followBottomField,
                 .followTopField,
                 .progressive,
-                .topField,
-                .sdkUnknown("")
+                .topField
             ]
         }
 
@@ -28742,8 +28325,7 @@ extension MediaConvertClientTypes {
                 .xavc4kIntraCbg,
                 .xavc4kIntraVbr,
                 .xavcHd,
-                .xavcHdIntraCbg,
-                .sdkUnknown("")
+                .xavcHdIntraCbg
             ]
         }
 
@@ -28897,8 +28479,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [XavcSlowPal] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -28928,8 +28509,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [XavcSpatialAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -28959,8 +28539,7 @@ extension MediaConvertClientTypes {
         public static var allCases: [XavcTemporalAdaptiveQuantization] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 

@@ -769,8 +769,7 @@ extension CloudFrontClientTypes {
                 .all,
                 .allexcept,
                 .none,
-                .whitelist,
-                .sdkUnknown("")
+                .whitelist
             ]
         }
 
@@ -847,8 +846,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [CachePolicyHeaderBehavior] {
             return [
                 .none,
-                .whitelist,
-                .sdkUnknown("")
+                .whitelist
             ]
         }
 
@@ -1003,8 +1001,7 @@ extension CloudFrontClientTypes {
                 .all,
                 .allexcept,
                 .none,
-                .whitelist,
-                .sdkUnknown("")
+                .whitelist
             ]
         }
 
@@ -1114,8 +1111,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [CachePolicyType] {
             return [
                 .custom,
-                .managed,
-                .sdkUnknown("")
+                .managed
             ]
         }
 
@@ -1266,8 +1262,7 @@ extension CloudFrontClientTypes {
             return [
                 .acm,
                 .cloudfront,
-                .iam,
-                .sdkUnknown("")
+                .iam
             ]
         }
 
@@ -1970,8 +1965,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [ContinuousDeploymentPolicyType] {
             return [
                 .singleheader,
-                .singleweight,
-                .sdkUnknown("")
+                .singleweight
             ]
         }
 
@@ -6640,8 +6634,7 @@ extension CloudFrontClientTypes {
                 .originRequest,
                 .originResponse,
                 .viewerRequest,
-                .viewerResponse,
-                .sdkUnknown("")
+                .viewerResponse
             ]
         }
 
@@ -7257,8 +7250,7 @@ extension CloudFrontClientTypes {
 
         public static var allCases: [Format] {
             return [
-                .urlencoded,
-                .sdkUnknown("")
+                .urlencoded
             ]
         }
 
@@ -7337,8 +7329,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [FrameOptionsList] {
             return [
                 .deny,
-                .sameorigin,
-                .sdkUnknown("")
+                .sameorigin
             ]
         }
 
@@ -7649,8 +7640,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [FunctionRuntime] {
             return [
                 .cloudfrontJs10,
-                .cloudfrontJs20,
-                .sdkUnknown("")
+                .cloudfrontJs20
             ]
         }
 
@@ -7716,8 +7706,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [FunctionStage] {
             return [
                 .development,
-                .live,
-                .sdkUnknown("")
+                .live
             ]
         }
 
@@ -7843,8 +7832,7 @@ extension CloudFrontClientTypes {
             return [
                 .blacklist,
                 .none,
-                .whitelist,
-                .sdkUnknown("")
+                .whitelist
             ]
         }
 
@@ -9892,8 +9880,7 @@ extension CloudFrontClientTypes {
                 .http11,
                 .http2,
                 .http2and3,
-                .http3,
-                .sdkUnknown("")
+                .http3
             ]
         }
 
@@ -9926,8 +9913,7 @@ extension CloudFrontClientTypes {
             return [
                 .approved,
                 .pending,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -10134,8 +10120,7 @@ extension CloudFrontClientTypes {
 
         public static var allCases: [ImportSourceType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -11342,8 +11327,7 @@ extension CloudFrontClientTypes {
             return [
                 .all,
                 .none,
-                .whitelist,
-                .sdkUnknown("")
+                .whitelist
             ]
         }
 
@@ -13997,8 +13981,7 @@ extension CloudFrontClientTypes {
                 .options,
                 .patch,
                 .post,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -14042,8 +14025,7 @@ extension CloudFrontClientTypes {
                 .tlsv12016,
                 .tlsv122018,
                 .tlsv122019,
-                .tlsv122021,
-                .sdkUnknown("")
+                .tlsv122021
             ]
         }
 
@@ -15148,8 +15130,7 @@ extension CloudFrontClientTypes {
                 .lambda,
                 .mediapackagev2,
                 .mediastore,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -15182,8 +15163,7 @@ extension CloudFrontClientTypes {
             return [
                 .always,
                 .never,
-                .noOverride,
-                .sdkUnknown("")
+                .noOverride
             ]
         }
 
@@ -15211,8 +15191,7 @@ extension CloudFrontClientTypes {
 
         public static var allCases: [OriginAccessControlSigningProtocols] {
             return [
-                .sigv4,
-                .sdkUnknown("")
+                .sigv4
             ]
         }
 
@@ -15536,8 +15515,7 @@ extension CloudFrontClientTypes {
             return [
                 .httpOnly,
                 .httpsOnly,
-                .matchViewer,
-                .sdkUnknown("")
+                .matchViewer
             ]
         }
 
@@ -15724,8 +15702,7 @@ extension CloudFrontClientTypes {
                 .all,
                 .allexcept,
                 .none,
-                .whitelist,
-                .sdkUnknown("")
+                .whitelist
             ]
         }
 
@@ -15808,8 +15785,7 @@ extension CloudFrontClientTypes {
                 .allviewer,
                 .allviewerandwhitelistcloudfront,
                 .none,
-                .whitelist,
-                .sdkUnknown("")
+                .whitelist
             ]
         }
 
@@ -15973,8 +15949,7 @@ extension CloudFrontClientTypes {
                 .all,
                 .allexcept,
                 .none,
-                .whitelist,
-                .sdkUnknown("")
+                .whitelist
             ]
         }
 
@@ -16084,8 +16059,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [OriginRequestPolicyType] {
             return [
                 .custom,
-                .managed,
-                .sdkUnknown("")
+                .managed
             ]
         }
 
@@ -16384,8 +16358,7 @@ extension CloudFrontClientTypes {
             return [
                 .priceclass100,
                 .priceclass200,
-                .priceclassAll,
-                .sdkUnknown("")
+                .priceclassAll
             ]
         }
 
@@ -17225,8 +17198,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [RealtimeMetricsSubscriptionStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -17267,8 +17239,7 @@ extension CloudFrontClientTypes {
                 .sameOrigin,
                 .strictOrigin,
                 .strictOriginWhenCrossOrigin,
-                .unsafeUrl,
-                .sdkUnknown("")
+                .unsafeUrl
             ]
         }
 
@@ -17488,8 +17459,7 @@ extension CloudFrontClientTypes {
                 .options,
                 .patch,
                 .post,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -18363,8 +18333,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [ResponseHeadersPolicyType] {
             return [
                 .custom,
-                .managed,
-                .sdkUnknown("")
+                .managed
             ]
         }
 
@@ -18549,8 +18518,7 @@ extension CloudFrontClientTypes {
             return [
                 .sniOnly,
                 .staticIp,
-                .vip,
-                .sdkUnknown("")
+                .vip
             ]
         }
 
@@ -18654,8 +18622,7 @@ extension CloudFrontClientTypes {
                 .sslv3,
                 .tlsv1,
                 .tlsv11,
-                .tlsv12,
-                .sdkUnknown("")
+                .tlsv12
             ]
         }
 
@@ -23749,8 +23716,7 @@ extension CloudFrontClientTypes {
             return [
                 .allowAll,
                 .httpsOnly,
-                .redirectToHttps,
-                .sdkUnknown("")
+                .redirectToHttps
             ]
         }
 

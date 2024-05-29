@@ -89,8 +89,7 @@ extension AppflowClientTypes {
         public static var allCases: [AggregationType] {
             return [
                 .none,
-                .singleFile,
-                .sdkUnknown("")
+                .singleFile
             ]
         }
 
@@ -117,8 +116,7 @@ extension AppflowClientTypes {
 
         public static var allCases: [AmplitudeConnectorOperator] {
             return [
-                .between,
-                .sdkUnknown("")
+                .between
             ]
         }
 
@@ -396,8 +394,7 @@ extension AppflowClientTypes {
                 .apikey,
                 .basic,
                 .custom,
-                .oauth2,
-                .sdkUnknown("")
+                .oauth2
             ]
         }
 
@@ -537,8 +534,7 @@ extension AppflowClientTypes {
 
         public static var allCases: [CatalogType] {
             return [
-                .glue,
-                .sdkUnknown("")
+                .glue
             ]
         }
 
@@ -603,8 +599,7 @@ extension AppflowClientTypes {
         public static var allCases: [ConnectionMode] {
             return [
                 .private,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -1697,8 +1692,7 @@ extension AppflowClientTypes {
 
         public static var allCases: [ConnectorProvisioningType] {
             return [
-                .lambda,
-                .sdkUnknown("")
+                .lambda
             ]
         }
 
@@ -1863,8 +1857,7 @@ extension AppflowClientTypes {
                 .trendmicro,
                 .upsolver,
                 .veeva,
-                .zendesk,
-                .sdkUnknown("")
+                .zendesk
             ]
         }
 
@@ -2443,8 +2436,7 @@ extension AppflowClientTypes {
         public static var allCases: [DataPullMode] {
             return [
                 .complete,
-                .incremental,
-                .sdkUnknown("")
+                .incremental
             ]
         }
 
@@ -2512,8 +2504,7 @@ extension AppflowClientTypes {
             return [
                 .async,
                 .automatic,
-                .sync,
-                .sdkUnknown("")
+                .sync
             ]
         }
 
@@ -2569,8 +2560,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -3664,8 +3654,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -4096,8 +4085,7 @@ extension AppflowClientTypes {
                 .cancelstarted,
                 .error,
                 .inprogress,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -4189,8 +4177,7 @@ extension AppflowClientTypes {
             return [
                 .csv,
                 .json,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -4324,8 +4311,7 @@ extension AppflowClientTypes {
                 .deprecated,
                 .draft,
                 .errored,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -4404,8 +4390,7 @@ extension AppflowClientTypes {
         public static var allCases: [GoogleAnalyticsConnectorOperator] {
             return [
                 .between,
-                .projection,
-                .sdkUnknown("")
+                .projection
             ]
         }
 
@@ -4747,8 +4732,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -5353,8 +5337,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -5739,8 +5722,7 @@ extension AppflowClientTypes {
         public static var allCases: [OAuth2CustomPropType] {
             return [
                 .authUrl,
-                .tokenUrl,
-                .sdkUnknown("")
+                .tokenUrl
             ]
         }
 
@@ -5817,8 +5799,7 @@ extension AppflowClientTypes {
             return [
                 .authorizationCode,
                 .clientCredentials,
-                .jwtBearer,
-                .sdkUnknown("")
+                .jwtBearer
             ]
         }
 
@@ -6028,8 +6009,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -6107,8 +6087,7 @@ extension AppflowClientTypes {
                 .upperBound,
                 .validationAction,
                 .value,
-                .values,
-                .sdkUnknown("")
+                .values
             ]
         }
 
@@ -6190,8 +6169,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -6263,8 +6241,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -6441,8 +6418,7 @@ extension AppflowClientTypes {
         public static var allCases: [PathPrefix] {
             return [
                 .executionId,
-                .schemaVersion,
-                .sdkUnknown("")
+                .schemaVersion
             ]
         }
 
@@ -6526,8 +6502,7 @@ extension AppflowClientTypes {
                 .hour,
                 .minute,
                 .month,
-                .year,
-                .sdkUnknown("")
+                .year
             ]
         }
 
@@ -6561,8 +6536,7 @@ extension AppflowClientTypes {
             return [
                 .filename,
                 .path,
-                .pathAndFilename,
-                .sdkUnknown("")
+                .pathAndFilename
             ]
         }
 
@@ -6598,8 +6572,7 @@ extension AppflowClientTypes {
                 .connectorAuthentication,
                 .connectorServer,
                 .internalServer,
-                .validation,
-                .sdkUnknown("")
+                .validation
             ]
         }
 
@@ -6669,8 +6642,7 @@ extension AppflowClientTypes {
             return [
                 .created,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -7192,8 +7164,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -7284,8 +7255,7 @@ extension AppflowClientTypes {
         public static var allCases: [S3InputFileType] {
             return [
                 .csv,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -7497,8 +7467,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -7870,8 +7839,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -8036,8 +8004,7 @@ extension AppflowClientTypes {
             return [
                 .automatic,
                 .bulkv2,
-                .restSync,
-                .sdkUnknown("")
+                .restSync
             ]
         }
 
@@ -8217,8 +8184,7 @@ extension AppflowClientTypes {
                 .hourly,
                 .monthly,
                 .once,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -8363,8 +8329,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -8593,8 +8558,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -8770,8 +8734,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -9551,8 +9514,7 @@ extension AppflowClientTypes {
         public static var allCases: [SupportedDataTransferType] {
             return [
                 .file,
-                .record,
-                .sdkUnknown("")
+                .record
             ]
         }
 
@@ -9745,8 +9707,7 @@ extension AppflowClientTypes {
                 .partition,
                 .passthrough,
                 .truncate,
-                .validate,
-                .sdkUnknown("")
+                .validate
             ]
         }
 
@@ -9844,8 +9805,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -10058,8 +10018,7 @@ extension AppflowClientTypes {
             return [
                 .event,
                 .ondemand,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -10728,8 +10687,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -10923,8 +10881,7 @@ extension AppflowClientTypes {
                 .delete,
                 .insert,
                 .update,
-                .upsert,
-                .sdkUnknown("")
+                .upsert
             ]
         }
 
@@ -10979,8 +10936,7 @@ extension AppflowClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 

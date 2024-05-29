@@ -257,8 +257,7 @@ extension SignerClientTypes {
 
         public static var allCases: [Category] {
             return [
-                .awsiot,
-                .sdkUnknown("")
+                .awsiot
             ]
         }
 
@@ -505,8 +504,7 @@ extension SignerClientTypes {
         public static var allCases: [EncryptionAlgorithm] {
             return [
                 .ecdsa,
-                .rsa,
-                .sdkUnknown("")
+                .rsa
             ]
         }
 
@@ -948,8 +946,7 @@ extension SignerClientTypes {
         public static var allCases: [HashAlgorithm] {
             return [
                 .sha1,
-                .sha256,
-                .sdkUnknown("")
+                .sha256
             ]
         }
 
@@ -1013,8 +1010,7 @@ extension SignerClientTypes {
             return [
                 .json,
                 .jsondetached,
-                .jsonembedded,
-                .sdkUnknown("")
+                .jsonembedded
             ]
         }
 
@@ -2876,8 +2872,7 @@ extension SignerClientTypes {
             return [
                 .active,
                 .canceled,
-                .revoked,
-                .sdkUnknown("")
+                .revoked
             ]
         }
 
@@ -2909,8 +2904,7 @@ extension SignerClientTypes {
             return [
                 .failed,
                 .inprogress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3334,8 +3328,7 @@ extension SignerClientTypes {
             return [
                 .days,
                 .months,
-                .years,
-                .sdkUnknown("")
+                .years
             ]
         }
 

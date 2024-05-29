@@ -111,8 +111,7 @@ extension FinspaceClientTypes {
 
         public static var allCases: [AutoScalingMetric] {
             return [
-                .cpuUtilizationPercentage,
-                .sdkUnknown("")
+                .cpuUtilizationPercentage
             ]
         }
 
@@ -240,8 +239,7 @@ extension FinspaceClientTypes {
         public static var allCases: [ChangeType] {
             return [
                 .delete,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -274,8 +272,7 @@ extension FinspaceClientTypes {
                 .completed,
                 .failed,
                 .pending,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -2644,8 +2641,7 @@ extension FinspaceClientTypes {
                 .none,
                 .successfullyUpdated,
                 .updateRequested,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2780,8 +2776,7 @@ extension FinspaceClientTypes {
                 .retryDeletion,
                 .suspended,
                 .updateNetworkRequested,
-                .updatingNetwork,
-                .sdkUnknown("")
+                .updatingNetwork
             ]
         }
 
@@ -2833,8 +2828,7 @@ extension FinspaceClientTypes {
                 .serviceQuotaExceeded,
                 .throttling,
                 .userRecoverable,
-                .validation,
-                .sdkUnknown("")
+                .validation
             ]
         }
 
@@ -2900,8 +2894,7 @@ extension FinspaceClientTypes {
         public static var allCases: [FederationMode] {
             return [
                 .federated,
-                .local,
-                .sdkUnknown("")
+                .local
             ]
         }
 
@@ -4303,8 +4296,7 @@ extension FinspaceClientTypes {
 
         public static var allCases: [IPAddressType] {
             return [
-                .ipV4,
-                .sdkUnknown("")
+                .ipV4
             ]
         }
 
@@ -4497,8 +4489,7 @@ extension FinspaceClientTypes {
         public static var allCases: [KxAzMode] {
             return [
                 .multi,
-                .single,
-                .sdkUnknown("")
+                .single
             ]
         }
 
@@ -4778,8 +4769,7 @@ extension FinspaceClientTypes {
             return [
                 .force,
                 .noRestart,
-                .rolling,
-                .sdkUnknown("")
+                .rolling
             ]
         }
 
@@ -4821,8 +4811,7 @@ extension FinspaceClientTypes {
                 .deleting,
                 .pending,
                 .running,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4863,8 +4852,7 @@ extension FinspaceClientTypes {
                 .gp,
                 .hdb,
                 .rdb,
-                .tickerplant,
-                .sdkUnknown("")
+                .tickerplant
             ]
         }
 
@@ -5314,8 +5302,7 @@ extension FinspaceClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -5376,8 +5363,7 @@ extension FinspaceClientTypes {
         public static var allCases: [KxDeploymentStrategy] {
             return [
                 .noRestart,
-                .rolling,
-                .sdkUnknown("")
+                .rolling
             ]
         }
 
@@ -5569,8 +5555,7 @@ extension FinspaceClientTypes {
             return [
                 .hdd12,
                 .ssd1000,
-                .ssd250,
-                .sdkUnknown("")
+                .ssd250
             ]
         }
 
@@ -5645,8 +5630,7 @@ extension FinspaceClientTypes {
         public static var allCases: [KxNodeStatus] {
             return [
                 .provisioning,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -5718,8 +5702,7 @@ extension FinspaceClientTypes {
 
         public static var allCases: [KxSavedownStorageType] {
             return [
-                .sds01,
-                .sdkUnknown("")
+                .sds01
             ]
         }
 
@@ -5886,8 +5869,7 @@ extension FinspaceClientTypes {
                 .creating,
                 .deleted,
                 .deleteFailed,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -6064,8 +6046,7 @@ extension FinspaceClientTypes {
                 .deleting,
                 .updated,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6099,8 +6080,7 @@ extension FinspaceClientTypes {
 
         public static var allCases: [KxVolumeType] {
             return [
-                .nas1,
-                .sdkUnknown("")
+                .nas1
             ]
         }
 
@@ -7383,8 +7363,7 @@ extension FinspaceClientTypes {
         public static var allCases: [RuleAction] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -7562,8 +7541,7 @@ extension FinspaceClientTypes {
                 .none,
                 .successfullyUpdated,
                 .updateRequested,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -9022,8 +9000,7 @@ extension FinspaceClientTypes {
 
         public static var allCases: [VolumeType] {
             return [
-                .nas1,
-                .sdkUnknown("")
+                .nas1
             ]
         }
 

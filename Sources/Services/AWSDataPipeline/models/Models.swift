@@ -996,8 +996,7 @@ extension DataPipelineClientTypes {
                 .equal,
                 .greaterthanorequal,
                 .lessthanorequal,
-                .referenceequal,
-                .sdkUnknown("")
+                .referenceequal
             ]
         }
 
@@ -2175,8 +2174,7 @@ extension DataPipelineClientTypes {
             return [
                 .failed,
                 .false,
-                .finished,
-                .sdkUnknown("")
+                .finished
             ]
         }
 

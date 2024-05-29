@@ -3739,8 +3739,7 @@ extension RedshiftServerlessClientTypes {
             return [
                 .connectionLog,
                 .userActivityLog,
-                .userLog,
-                .sdkUnknown("")
+                .userLog
             ]
         }
 
@@ -3863,8 +3862,7 @@ extension RedshiftServerlessClientTypes {
             return [
                 .available,
                 .deleting,
-                .modifying,
-                .sdkUnknown("")
+                .modifying
             ]
         }
 
@@ -4952,8 +4950,7 @@ extension RedshiftServerlessClientTypes {
                 .copying,
                 .creating,
                 .deleted,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -4986,8 +4983,7 @@ extension RedshiftServerlessClientTypes {
         public static var allCases: [State] {
             return [
                 .active,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -6194,8 +6190,7 @@ extension RedshiftServerlessClientTypes {
             return [
                 .deactivate,
                 .emitMetric,
-                .log,
-                .sdkUnknown("")
+                .log
             ]
         }
 
@@ -6227,8 +6222,7 @@ extension RedshiftServerlessClientTypes {
             return [
                 .daily,
                 .monthly,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -6258,8 +6252,7 @@ extension RedshiftServerlessClientTypes {
         public static var allCases: [UsageLimitUsageType] {
             return [
                 .crossRegionDatasharing,
-                .serverlessCompute,
-                .sdkUnknown("")
+                .serverlessCompute
             ]
         }
 
@@ -6523,8 +6516,7 @@ extension RedshiftServerlessClientTypes {
                 .available,
                 .creating,
                 .deleting,
-                .modifying,
-                .sdkUnknown("")
+                .modifying
             ]
         }
 

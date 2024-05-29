@@ -44,8 +44,7 @@ extension TranslateClientTypes {
 
         public static var allCases: [Brevity] {
             return [
-                .on,
-                .sdkUnknown("")
+                .on
             ]
         }
 
@@ -493,8 +492,7 @@ extension TranslateClientTypes {
         public static var allCases: [Directionality] {
             return [
                 .multi,
-                .uni,
-                .sdkUnknown("")
+                .uni
             ]
         }
 
@@ -539,8 +537,7 @@ extension TranslateClientTypes {
                 .ko,
                 .pt,
                 .zh,
-                .zhTw,
-                .sdkUnknown("")
+                .zhTw
             ]
         }
 
@@ -656,8 +653,7 @@ extension TranslateClientTypes {
 
         public static var allCases: [EncryptionKeyType] {
             return [
-                .kms,
-                .sdkUnknown("")
+                .kms
             ]
         }
 
@@ -685,8 +681,7 @@ extension TranslateClientTypes {
         public static var allCases: [Formality] {
             return [
                 .formal,
-                .informal,
-                .sdkUnknown("")
+                .informal
             ]
         }
 
@@ -1234,8 +1229,7 @@ extension TranslateClientTypes {
                 .inProgress,
                 .stopped,
                 .stopRequested,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -1730,8 +1724,7 @@ extension TranslateClientTypes {
 
         public static var allCases: [MergeStrategy] {
             return [
-                .overwrite,
-                .sdkUnknown("")
+                .overwrite
             ]
         }
 
@@ -1869,8 +1862,7 @@ extension TranslateClientTypes {
             return [
                 .csv,
                 .tmx,
-                .tsv,
-                .sdkUnknown("")
+                .tsv
             ]
         }
 
@@ -2012,8 +2004,7 @@ extension TranslateClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2043,8 +2034,7 @@ extension TranslateClientTypes {
 
         public static var allCases: [Profanity] {
             return [
-                .mask,
-                .sdkUnknown("")
+                .mask
             ]
         }
 
@@ -2542,8 +2532,7 @@ extension TranslateClientTypes {
             return [
                 .csv,
                 .tmx,
-                .tsv,
-                .sdkUnknown("")
+                .tsv
             ]
         }
 

@@ -102,8 +102,7 @@ extension MarketplaceEntitlementClientTypes {
         public static var allCases: [GetEntitlementFilterName] {
             return [
                 .customerIdentifier,
-                .dimension,
-                .sdkUnknown("")
+                .dimension
             ]
         }
 

@@ -348,8 +348,7 @@ extension AmplifyUIBuilderClientTypes {
                 .int,
                 .model,
                 .nonModel,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -722,8 +721,7 @@ extension AmplifyUIBuilderClientTypes {
 
         public static var allCases: [CodegenJobGenericDataSourceType] {
             return [
-                .dataStore,
-                .sdkUnknown("")
+                .dataStore
             ]
         }
 
@@ -787,8 +785,7 @@ extension AmplifyUIBuilderClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3035,8 +3032,7 @@ extension AmplifyUIBuilderClientTypes {
 
         public static var allCases: [FixedPosition] {
             return [
-                .first,
-                .sdkUnknown("")
+                .first
             ]
         }
 
@@ -3160,8 +3156,7 @@ extension AmplifyUIBuilderClientTypes {
         public static var allCases: [FormActionType] {
             return [
                 .create,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -3274,8 +3269,7 @@ extension AmplifyUIBuilderClientTypes {
             return [
                 .bottom,
                 .top,
-                .topAndBottom,
-                .sdkUnknown("")
+                .topAndBottom
             ]
         }
 
@@ -3356,8 +3350,7 @@ extension AmplifyUIBuilderClientTypes {
         public static var allCases: [FormDataSourceType] {
             return [
                 .custom,
-                .datastore,
-                .sdkUnknown("")
+                .datastore
             ]
         }
 
@@ -3716,8 +3709,7 @@ extension AmplifyUIBuilderClientTypes {
             return [
                 .belongsTo,
                 .hasMany,
-                .hasOne,
-                .sdkUnknown("")
+                .hasOne
             ]
         }
 
@@ -4269,8 +4261,7 @@ extension AmplifyUIBuilderClientTypes {
         public static var allCases: [JSModule] {
             return [
                 .es2020,
-                .esnext,
-                .sdkUnknown("")
+                .esnext
             ]
         }
 
@@ -4301,8 +4292,7 @@ extension AmplifyUIBuilderClientTypes {
             return [
                 .js,
                 .jsx,
-                .tsx,
-                .sdkUnknown("")
+                .tsx
             ]
         }
 
@@ -4332,8 +4322,7 @@ extension AmplifyUIBuilderClientTypes {
         public static var allCases: [JSTarget] {
             return [
                 .es2015,
-                .es2020,
-                .sdkUnknown("")
+                .es2020
             ]
         }
 
@@ -4364,8 +4353,7 @@ extension AmplifyUIBuilderClientTypes {
             return [
                 .none,
                 .optional,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -5456,8 +5444,7 @@ extension AmplifyUIBuilderClientTypes {
         public static var allCases: [SortDirection] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -5672,8 +5659,7 @@ extension AmplifyUIBuilderClientTypes {
             return [
                 .private,
                 .protected,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -5996,8 +5982,7 @@ extension AmplifyUIBuilderClientTypes {
 
         public static var allCases: [TokenProviders] {
             return [
-                .figma,
-                .sdkUnknown("")
+                .figma
             ]
         }
 

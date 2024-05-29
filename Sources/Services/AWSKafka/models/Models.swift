@@ -261,8 +261,7 @@ extension KafkaClientTypes {
 
         public static var allCases: [BrokerAZDistribution] {
             return [
-                .default,
-                .sdkUnknown("")
+                .default
             ]
         }
 
@@ -606,8 +605,7 @@ extension KafkaClientTypes {
             return [
                 .plaintext,
                 .tls,
-                .tlsPlaintext,
-                .sdkUnknown("")
+                .tlsPlaintext
             ]
         }
 
@@ -1259,8 +1257,7 @@ extension KafkaClientTypes {
                 .healing,
                 .maintenance,
                 .rebootingBroker,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1296,8 +1293,7 @@ extension KafkaClientTypes {
         public static var allCases: [ClusterType] {
             return [
                 .provisioned,
-                .serverless,
-                .sdkUnknown("")
+                .serverless
             ]
         }
 
@@ -1500,8 +1496,7 @@ extension KafkaClientTypes {
             return [
                 .active,
                 .deleteFailed,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -2303,8 +2298,7 @@ extension KafkaClientTypes {
             return [
                 .actionRecommended,
                 .criticalActionRequired,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3530,8 +3524,7 @@ extension KafkaClientTypes {
                 .default,
                 .perBroker,
                 .perTopicPerBroker,
-                .perTopicPerPartition,
-                .sdkUnknown("")
+                .perTopicPerPartition
             ]
         }
 
@@ -4224,8 +4217,7 @@ extension KafkaClientTypes {
         public static var allCases: [KafkaVersionStatus] {
             return [
                 .active,
-                .deprecated,
-                .sdkUnknown("")
+                .deprecated
             ]
         }
 
@@ -5654,8 +5646,7 @@ extension KafkaClientTypes {
 
         public static var allCases: [NodeType] {
             return [
-                .broker,
-                .sdkUnknown("")
+                .broker
             ]
         }
 
@@ -6467,8 +6458,7 @@ extension KafkaClientTypes {
         public static var allCases: [ReplicationStartingPositionType] {
             return [
                 .earliest,
-                .latest,
-                .sdkUnknown("")
+                .latest
             ]
         }
 
@@ -6535,8 +6525,7 @@ extension KafkaClientTypes {
                 .deleting,
                 .failed,
                 .running,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6969,8 +6958,7 @@ extension KafkaClientTypes {
         public static var allCases: [StorageMode] {
             return [
                 .local,
-                .tiered,
-                .sdkUnknown("")
+                .tiered
             ]
         }
 
@@ -7070,8 +7058,7 @@ extension KafkaClientTypes {
                 .lz4,
                 .none,
                 .snappy,
-                .zstd,
-                .sdkUnknown("")
+                .zstd
             ]
         }
 
@@ -8552,8 +8539,7 @@ extension KafkaClientTypes {
         public static var allCases: [UserIdentityType] {
             return [
                 .awsaccount,
-                .awsservice,
-                .sdkUnknown("")
+                .awsservice
             ]
         }
 
@@ -8768,8 +8754,7 @@ extension KafkaClientTypes {
                 .failed,
                 .inactive,
                 .rejected,
-                .rejecting,
-                .sdkUnknown("")
+                .rejecting
             ]
         }
 

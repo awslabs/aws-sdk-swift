@@ -15,8 +15,7 @@ extension ComprehendClientTypes {
         public static var allCases: [AugmentedManifestsDocumentTypeFormat] {
             return [
                 .plainTextDocument,
-                .semiStructuredDocument,
-                .sdkUnknown("")
+                .semiStructuredDocument
             ]
         }
 
@@ -1029,8 +1028,7 @@ extension ComprehendClientTypes {
         public static var allCases: [BlockType] {
             return [
                 .line,
-                .word,
-                .sdkUnknown("")
+                .word
             ]
         }
 
@@ -2190,8 +2188,7 @@ extension ComprehendClientTypes {
         public static var allCases: [DatasetDataFormat] {
             return [
                 .augmentedManifest,
-                .comprehendCsv,
-                .sdkUnknown("")
+                .comprehendCsv
             ]
         }
 
@@ -2516,8 +2513,7 @@ extension ComprehendClientTypes {
             return [
                 .completed,
                 .creating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -2547,8 +2543,7 @@ extension ComprehendClientTypes {
         public static var allCases: [DatasetType] {
             return [
                 .test,
-                .train,
-                .sdkUnknown("")
+                .train
             ]
         }
 
@@ -4908,8 +4903,7 @@ extension ComprehendClientTypes {
         public static var allCases: [DocumentClassifierDataFormat] {
             return [
                 .augmentedManifest,
-                .comprehendCsv,
-                .sdkUnknown("")
+                .comprehendCsv
             ]
         }
 
@@ -4938,8 +4932,7 @@ extension ComprehendClientTypes {
         public static var allCases: [DocumentClassifierDocumentTypeFormat] {
             return [
                 .plainTextDocument,
-                .semiStructuredDocument,
-                .sdkUnknown("")
+                .semiStructuredDocument
             ]
         }
 
@@ -5134,8 +5127,7 @@ extension ComprehendClientTypes {
         public static var allCases: [DocumentClassifierMode] {
             return [
                 .multiClass,
-                .multiLabel,
-                .sdkUnknown("")
+                .multiLabel
             ]
         }
 
@@ -5457,8 +5449,7 @@ extension ComprehendClientTypes {
         public static var allCases: [DocumentReadAction] {
             return [
                 .textractAnalyzeDocument,
-                .textractDetectDocumentText,
-                .sdkUnknown("")
+                .textractDetectDocumentText
             ]
         }
 
@@ -5488,8 +5479,7 @@ extension ComprehendClientTypes {
         public static var allCases: [DocumentReadFeatureTypes] {
             return [
                 .forms,
-                .tables,
-                .sdkUnknown("")
+                .tables
             ]
         }
 
@@ -5518,8 +5508,7 @@ extension ComprehendClientTypes {
         public static var allCases: [DocumentReadMode] {
             return [
                 .forceDocumentReadAction,
-                .serviceDefault,
-                .sdkUnknown("")
+                .serviceDefault
             ]
         }
 
@@ -5623,8 +5612,7 @@ extension ComprehendClientTypes {
                 .plainText,
                 .scannedPdf,
                 .textractAnalyzeDocumentJson,
-                .textractDetectDocumentTextJson,
-                .sdkUnknown("")
+                .textractDetectDocumentTextJson
             ]
         }
 
@@ -5970,8 +5958,7 @@ extension ComprehendClientTypes {
                 .deleting,
                 .failed,
                 .inService,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6294,8 +6281,7 @@ extension ComprehendClientTypes {
         public static var allCases: [EntityRecognizerDataFormat] {
             return [
                 .augmentedManifest,
-                .comprehendCsv,
-                .sdkUnknown("")
+                .comprehendCsv
             ]
         }
 
@@ -6837,8 +6823,7 @@ extension ComprehendClientTypes {
                 .other,
                 .person,
                 .quantity,
-                .title,
-                .sdkUnknown("")
+                .title
             ]
         }
 
@@ -7286,8 +7271,7 @@ extension ComprehendClientTypes {
                 .failed,
                 .stopped,
                 .stopRequested,
-                .training,
-                .sdkUnknown("")
+                .training
             ]
         }
 
@@ -7448,8 +7432,7 @@ extension ComprehendClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -7729,8 +7712,7 @@ extension ComprehendClientTypes {
         public static var allCases: [InputFormat] {
             return [
                 .oneDocPerFile,
-                .oneDocPerLine,
-                .sdkUnknown("")
+                .oneDocPerLine
             ]
         }
 
@@ -7877,8 +7859,7 @@ extension ComprehendClientTypes {
                 .documentSizeExceeded,
                 .pageLimitExceeded,
                 .textractAccessDenied,
-                .unsupportedDocType,
-                .sdkUnknown("")
+                .unsupportedDocType
             ]
         }
 
@@ -7953,8 +7934,7 @@ extension ComprehendClientTypes {
 
         public static var allCases: [InvalidRequestReason] {
             return [
-                .invalidDocument,
-                .sdkUnknown("")
+                .invalidDocument
             ]
         }
 
@@ -8027,8 +8007,7 @@ extension ComprehendClientTypes {
                 .inProgress,
                 .stopped,
                 .stopRequested,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -8288,8 +8267,7 @@ extension ComprehendClientTypes {
                 .ko,
                 .pt,
                 .zh,
-                .zhTw,
-                .sdkUnknown("")
+                .zhTw
             ]
         }
 
@@ -9855,8 +9833,7 @@ extension ComprehendClientTypes {
                 .submitted,
                 .trained,
                 .trainedWithWarning,
-                .training,
-                .sdkUnknown("")
+                .training
             ]
         }
 
@@ -9891,8 +9868,7 @@ extension ComprehendClientTypes {
         public static var allCases: [ModelType] {
             return [
                 .documentClassifier,
-                .entityRecognizer,
-                .sdkUnknown("")
+                .entityRecognizer
             ]
         }
 
@@ -9973,8 +9949,7 @@ extension ComprehendClientTypes {
                 .pageCharactersExceeded,
                 .pageSizeExceeded,
                 .textractBadPage,
-                .textractProvisionedThroughputExceeded,
-                .sdkUnknown("")
+                .textractProvisionedThroughputExceeded
             ]
         }
 
@@ -10006,8 +9981,7 @@ extension ComprehendClientTypes {
         public static var allCases: [PageBasedWarningCode] {
             return [
                 .inferencingNativeDocumentWithPlaintextTrainedModel,
-                .inferencingPlaintextWithNativeTrainedModel,
-                .sdkUnknown("")
+                .inferencingPlaintextWithNativeTrainedModel
             ]
         }
 
@@ -10099,8 +10073,7 @@ extension ComprehendClientTypes {
                 .punct,
                 .sconj,
                 .sym,
-                .verb,
-                .sdkUnknown("")
+                .verb
             ]
         }
 
@@ -10270,8 +10243,7 @@ extension ComprehendClientTypes {
         public static var allCases: [PiiEntitiesDetectionMaskMode] {
             return [
                 .mask,
-                .replaceWithPiiEntityType,
-                .sdkUnknown("")
+                .replaceWithPiiEntityType
             ]
         }
 
@@ -10300,8 +10272,7 @@ extension ComprehendClientTypes {
         public static var allCases: [PiiEntitiesDetectionMode] {
             return [
                 .onlyOffsets,
-                .onlyRedaction,
-                .sdkUnknown("")
+                .onlyRedaction
             ]
         }
 
@@ -10441,8 +10412,7 @@ extension ComprehendClientTypes {
                 .url,
                 .username,
                 .usIndividualTaxIdentificationNumber,
-                .vehicleIdentificationNumber,
-                .sdkUnknown("")
+                .vehicleIdentificationNumber
             ]
         }
 
@@ -10689,8 +10659,7 @@ extension ComprehendClientTypes {
 
         public static var allCases: [RelationshipType] {
             return [
-                .child,
-                .sdkUnknown("")
+                .child
             ]
         }
 
@@ -11071,8 +11040,7 @@ extension ComprehendClientTypes {
                 .mixed,
                 .negative,
                 .neutral,
-                .positive,
-                .sdkUnknown("")
+                .positive
             ]
         }
 
@@ -11103,8 +11071,7 @@ extension ComprehendClientTypes {
         public static var allCases: [Split] {
             return [
                 .test,
-                .train,
-                .sdkUnknown("")
+                .train
             ]
         }
 
@@ -13072,8 +13039,7 @@ extension ComprehendClientTypes {
                 .es,
                 .fr,
                 .it,
-                .pt,
-                .sdkUnknown("")
+                .pt
             ]
         }
 
@@ -13444,8 +13410,7 @@ extension ComprehendClientTypes {
                 .person,
                 .personalTitle,
                 .quantity,
-                .software,
-                .sdkUnknown("")
+                .software
             ]
         }
 
@@ -13937,8 +13902,7 @@ extension ComprehendClientTypes {
                 .insult,
                 .profanity,
                 .sexual,
-                .violenceOrThreat,
-                .sdkUnknown("")
+                .violenceOrThreat
             ]
         }
 

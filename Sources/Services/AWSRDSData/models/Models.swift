@@ -645,8 +645,7 @@ extension RDSDataClientTypes {
         public static var allCases: [DecimalReturnType] {
             return [
                 .doubleOrLong,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -1034,8 +1033,7 @@ extension RDSDataClientTypes {
         public static var allCases: [LongReturnType] {
             return [
                 .long,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -1104,8 +1102,7 @@ extension RDSDataClientTypes {
         public static var allCases: [RecordsFormatType] {
             return [
                 .json,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1457,8 +1454,7 @@ extension RDSDataClientTypes {
                 .json,
                 .time,
                 .timestamp,
-                .uuid,
-                .sdkUnknown("")
+                .uuid
             ]
         }
 

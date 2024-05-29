@@ -27,8 +27,7 @@ extension InspectorClientTypes {
                 .accessDeniedToIamRole,
                 .accessDeniedToResourceGroup,
                 .accessDeniedToRulesPackage,
-                .accessDeniedToSnsTopic,
-                .sdkUnknown("")
+                .accessDeniedToSnsTopic
             ]
         }
 
@@ -257,8 +256,7 @@ extension InspectorClientTypes {
             return [
                 .healthy,
                 .unhealthy,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -296,8 +294,7 @@ extension InspectorClientTypes {
                 .shutdown,
                 .throttled,
                 .unhealthy,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -788,8 +785,7 @@ extension InspectorClientTypes {
                 .accessDenied,
                 .internalError,
                 .success,
-                .topicDoesNotExist,
-                .sdkUnknown("")
+                .topicDoesNotExist
             ]
         }
 
@@ -842,8 +838,7 @@ extension InspectorClientTypes {
                 .startDataCollectionInProgress,
                 .startDataCollectionPending,
                 .startEvaluatingRulesPending,
-                .stopDataCollectionPending,
-                .sdkUnknown("")
+                .stopDataCollectionPending
             ]
         }
 
@@ -1158,8 +1153,7 @@ extension InspectorClientTypes {
 
         public static var allCases: [AssetType] {
             return [
-                .ec2Instance,
-                .sdkUnknown("")
+                .ec2Instance
             ]
         }
 
@@ -2530,8 +2524,7 @@ extension InspectorClientTypes {
                 .internalError,
                 .invalidArn,
                 .itemDoesNotExist,
-                .limitExceeded,
-                .sdkUnknown("")
+                .limitExceeded
             ]
         }
 
@@ -3008,8 +3001,7 @@ extension InspectorClientTypes {
                 .assessmentRunStarted,
                 .assessmentRunStateChanged,
                 .findingReported,
-                .other,
-                .sdkUnknown("")
+                .other
             ]
         }
 
@@ -3123,8 +3115,7 @@ extension InspectorClientTypes {
         public static var allCases: [InvalidCrossAccountRoleErrorCode] {
             return [
                 .roleDoesNotExistOrInvalidTrustRelationship,
-                .roleDoesNotHaveCorrectPolicy,
-                .sdkUnknown("")
+                .roleDoesNotHaveCorrectPolicy
             ]
         }
 
@@ -3308,8 +3299,7 @@ extension InspectorClientTypes {
                 .invalidTagValue,
                 .invalidUserAttribute,
                 .invalidUserAttributeKey,
-                .invalidUserAttributeValue,
-                .sdkUnknown("")
+                .invalidUserAttributeValue
             ]
         }
 
@@ -3447,8 +3437,7 @@ extension InspectorClientTypes {
                 .assessmentTargetLimitExceeded,
                 .assessmentTemplateLimitExceeded,
                 .eventSubscriptionLimitExceeded,
-                .resourceGroupLimitExceeded,
-                .sdkUnknown("")
+                .resourceGroupLimitExceeded
             ]
         }
 
@@ -4286,8 +4275,7 @@ extension InspectorClientTypes {
 
         public static var allCases: [Locale] {
             return [
-                .enUs,
-                .sdkUnknown("")
+                .enUs
             ]
         }
 
@@ -4398,8 +4386,7 @@ extension InspectorClientTypes {
                 .iamRoleDoesNotExist,
                 .resourceGroupDoesNotExist,
                 .rulesPackageDoesNotExist,
-                .snsTopicDoesNotExist,
-                .sdkUnknown("")
+                .snsTopicDoesNotExist
             ]
         }
 
@@ -4609,8 +4596,7 @@ extension InspectorClientTypes {
         public static var allCases: [PreviewStatus] {
             return [
                 .completed,
-                .workInProgress,
-                .sdkUnknown("")
+                .workInProgress
             ]
         }
 
@@ -4805,8 +4791,7 @@ extension InspectorClientTypes {
         public static var allCases: [ReportFileFormat] {
             return [
                 .html,
-                .pdf,
-                .sdkUnknown("")
+                .pdf
             ]
         }
 
@@ -4837,8 +4822,7 @@ extension InspectorClientTypes {
             return [
                 .completed,
                 .failed,
-                .workInProgress,
-                .sdkUnknown("")
+                .workInProgress
             ]
         }
 
@@ -4868,8 +4852,7 @@ extension InspectorClientTypes {
         public static var allCases: [ReportType] {
             return [
                 .finding,
-                .full,
-                .sdkUnknown("")
+                .full
             ]
         }
 
@@ -5056,8 +5039,7 @@ extension InspectorClientTypes {
         public static var allCases: [ScopeType] {
             return [
                 .instanceId,
-                .rulesPackageArn,
-                .sdkUnknown("")
+                .rulesPackageArn
             ]
         }
 
@@ -5231,8 +5213,7 @@ extension InspectorClientTypes {
                 .informational,
                 .low,
                 .medium,
-                .undefined,
-                .sdkUnknown("")
+                .undefined
             ]
         }
 
@@ -5343,8 +5324,7 @@ extension InspectorClientTypes {
         public static var allCases: [StopAction] {
             return [
                 .skipEvaluation,
-                .startEvaluation,
-                .sdkUnknown("")
+                .startEvaluation
             ]
         }
 

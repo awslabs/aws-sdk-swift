@@ -1996,8 +1996,7 @@ extension ECRClientTypes {
         public static var allCases: [EncryptionType] {
             return [
                 .aes256,
-                .kms,
-                .sdkUnknown("")
+                .kms
             ]
         }
 
@@ -2130,8 +2129,7 @@ extension ECRClientTypes {
                 .informational,
                 .low,
                 .medium,
-                .undefined,
-                .sdkUnknown("")
+                .undefined
             ]
         }
 
@@ -2792,8 +2790,7 @@ extension ECRClientTypes {
 
         public static var allCases: [ImageActionType] {
             return [
-                .expire,
-                .sdkUnknown("")
+                .expire
             ]
         }
 
@@ -3024,8 +3021,7 @@ extension ECRClientTypes {
                 .missingdigestandtag,
                 .upstreamaccessdenied,
                 .upstreamtoomanyrequests,
-                .upstreamunavailable,
-                .sdkUnknown("")
+                .upstreamunavailable
             ]
         }
 
@@ -3404,8 +3400,7 @@ extension ECRClientTypes {
         public static var allCases: [ImageTagMutability] {
             return [
                 .immutable,
-                .mutable,
-                .sdkUnknown("")
+                .mutable
             ]
         }
 
@@ -3805,8 +3800,7 @@ extension ECRClientTypes {
         public static var allCases: [LayerAvailability] {
             return [
                 .available,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -3871,8 +3865,7 @@ extension ECRClientTypes {
         public static var allCases: [LayerFailureCode] {
             return [
                 .invalidlayerdigest,
-                .missinglayerdigest,
-                .sdkUnknown("")
+                .missinglayerdigest
             ]
         }
 
@@ -4200,8 +4193,7 @@ extension ECRClientTypes {
                 .complete,
                 .expired,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -5603,8 +5595,7 @@ extension ECRClientTypes {
             return [
                 .complete,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -5770,8 +5761,7 @@ extension ECRClientTypes {
 
         public static var allCases: [RepositoryFilterType] {
             return [
-                .prefixMatch,
-                .sdkUnknown("")
+                .prefixMatch
             ]
         }
 
@@ -6064,8 +6054,7 @@ extension ECRClientTypes {
             return [
                 .continuousScan,
                 .manual,
-                .scanOnPush,
-                .sdkUnknown("")
+                .scanOnPush
             ]
         }
 
@@ -6144,8 +6133,7 @@ extension ECRClientTypes {
                 .inProgress,
                 .pending,
                 .scanEligibilityExpired,
-                .unsupportedImage,
-                .sdkUnknown("")
+                .unsupportedImage
             ]
         }
 
@@ -6180,8 +6168,7 @@ extension ECRClientTypes {
         public static var allCases: [ScanType] {
             return [
                 .basic,
-                .enhanced,
-                .sdkUnknown("")
+                .enhanced
             ]
         }
 
@@ -6208,8 +6195,7 @@ extension ECRClientTypes {
 
         public static var allCases: [ScanningConfigurationFailureCode] {
             return [
-                .repositoryNotFound,
-                .sdkUnknown("")
+                .repositoryNotFound
             ]
         }
 
@@ -6274,8 +6260,7 @@ extension ECRClientTypes {
 
         public static var allCases: [ScanningRepositoryFilterType] {
             return [
-                .wildcard,
-                .sdkUnknown("")
+                .wildcard
             ]
         }
 
@@ -6797,8 +6782,7 @@ extension ECRClientTypes {
             return [
                 .any,
                 .tagged,
-                .untagged,
-                .sdkUnknown("")
+                .untagged
             ]
         }
 
@@ -7413,8 +7397,7 @@ extension ECRClientTypes {
                 .githubcontainerregistry,
                 .gitlabcontainerregistry,
                 .k8s,
-                .quay,
-                .sdkUnknown("")
+                .quay
             ]
         }
 

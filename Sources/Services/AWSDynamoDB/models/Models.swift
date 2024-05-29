@@ -15,8 +15,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [ApproximateCreationDateTimePrecision] {
             return [
                 .microsecond,
-                .millisecond,
-                .sdkUnknown("")
+                .millisecond
             ]
         }
 
@@ -85,8 +84,7 @@ extension DynamoDBClientTypes {
             return [
                 .add,
                 .delete,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -712,8 +710,7 @@ extension DynamoDBClientTypes {
             return [
                 .available,
                 .creating,
-                .deleted,
-                .sdkUnknown("")
+                .deleted
             ]
         }
 
@@ -822,8 +819,7 @@ extension DynamoDBClientTypes {
             return [
                 .awsBackup,
                 .system,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -857,8 +853,7 @@ extension DynamoDBClientTypes {
                 .all,
                 .awsBackup,
                 .system,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -1166,8 +1161,7 @@ extension DynamoDBClientTypes {
                 .resourcenotfound,
                 .throttlingerror,
                 .transactionconflict,
-                .validationerror,
-                .sdkUnknown("")
+                .validationerror
             ]
         }
 
@@ -1416,8 +1410,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [BillingMode] {
             return [
                 .payPerRequest,
-                .provisioned,
-                .sdkUnknown("")
+                .provisioned
             ]
         }
 
@@ -1575,8 +1568,7 @@ extension DynamoDBClientTypes {
                 .ne,
                 .notContains,
                 .notNull,
-                .null,
-                .sdkUnknown("")
+                .null
             ]
         }
 
@@ -1774,8 +1766,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [ConditionalOperator] {
             return [
                 .and,
-                .or,
-                .sdkUnknown("")
+                .or
             ]
         }
 
@@ -1892,8 +1883,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [ContinuousBackupsStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1959,8 +1949,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [ContributorInsightsAction] {
             return [
                 .disable,
-                .enable,
-                .sdkUnknown("")
+                .enable
             ]
         }
 
@@ -1995,8 +1984,7 @@ extension DynamoDBClientTypes {
                 .disabling,
                 .enabled,
                 .enabling,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -4087,8 +4075,7 @@ extension DynamoDBClientTypes {
                 .disabling,
                 .enableFailed,
                 .enabling,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4877,8 +4864,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [ExportFormat] {
             return [
                 .dynamodbJson,
-                .ion,
-                .sdkUnknown("")
+                .ion
             ]
         }
 
@@ -4946,8 +4932,7 @@ extension DynamoDBClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -5139,8 +5124,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [ExportType] {
             return [
                 .fullExport,
-                .incrementalExport,
-                .sdkUnknown("")
+                .incrementalExport
             ]
         }
 
@@ -5169,8 +5153,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [ExportViewType] {
             return [
                 .newAndOldImages,
-                .newImage,
-                .sdkUnknown("")
+                .newImage
             ]
         }
 
@@ -5964,8 +5947,7 @@ extension DynamoDBClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6113,8 +6095,7 @@ extension DynamoDBClientTypes {
                 .cancelling,
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -6503,8 +6484,7 @@ extension DynamoDBClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6537,8 +6517,7 @@ extension DynamoDBClientTypes {
             return [
                 .gzip,
                 .none,
-                .zstd,
-                .sdkUnknown("")
+                .zstd
             ]
         }
 
@@ -6570,8 +6549,7 @@ extension DynamoDBClientTypes {
             return [
                 .csv,
                 .dynamodbJson,
-                .ion,
-                .sdkUnknown("")
+                .ion
             ]
         }
 
@@ -6921,8 +6899,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [KeyType] {
             return [
                 .hash,
-                .range,
-                .sdkUnknown("")
+                .range
             ]
         }
 
@@ -8004,8 +7981,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [PointInTimeRecoveryStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8156,8 +8132,7 @@ extension DynamoDBClientTypes {
             return [
                 .all,
                 .include,
-                .keysOnly,
-                .sdkUnknown("")
+                .keysOnly
             ]
         }
 
@@ -9609,8 +9584,7 @@ extension DynamoDBClientTypes {
                 .deleting,
                 .inaccessibleEncryptionCredentials,
                 .regionDisabled,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -10118,8 +10092,7 @@ extension DynamoDBClientTypes {
             return [
                 .indexes,
                 .none,
-                .total,
-                .sdkUnknown("")
+                .total
             ]
         }
 
@@ -10149,8 +10122,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [ReturnItemCollectionMetrics] {
             return [
                 .none,
-                .size,
-                .sdkUnknown("")
+                .size
             ]
         }
 
@@ -10185,8 +10157,7 @@ extension DynamoDBClientTypes {
                 .allOld,
                 .none,
                 .updatedNew,
-                .updatedOld,
-                .sdkUnknown("")
+                .updatedOld
             ]
         }
 
@@ -10218,8 +10189,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [ReturnValuesOnConditionCheckFailure] {
             return [
                 .allOld,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -10292,8 +10262,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [S3SseAlgorithm] {
             return [
                 .aes256,
-                .kms,
-                .sdkUnknown("")
+                .kms
             ]
         }
 
@@ -10420,8 +10389,7 @@ extension DynamoDBClientTypes {
                 .disabling,
                 .enabled,
                 .enabling,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -10453,8 +10421,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [SSEType] {
             return [
                 .aes256,
-                .kms,
-                .sdkUnknown("")
+                .kms
             ]
         }
 
@@ -10485,8 +10452,7 @@ extension DynamoDBClientTypes {
             return [
                 .b,
                 .n,
-                .s,
-                .sdkUnknown("")
+                .s
             ]
         }
 
@@ -10735,8 +10701,7 @@ extension DynamoDBClientTypes {
                 .allAttributes,
                 .allProjectedAttributes,
                 .count,
-                .specificAttributes,
-                .sdkUnknown("")
+                .specificAttributes
             ]
         }
 
@@ -10943,8 +10908,7 @@ extension DynamoDBClientTypes {
                 .keysOnly,
                 .newAndOldImages,
                 .newImage,
-                .oldImage,
-                .sdkUnknown("")
+                .oldImage
             ]
         }
 
@@ -11056,8 +11020,7 @@ extension DynamoDBClientTypes {
         public static var allCases: [TableClass] {
             return [
                 .standard,
-                .standardInfrequentAccess,
-                .sdkUnknown("")
+                .standardInfrequentAccess
             ]
         }
 
@@ -11531,8 +11494,7 @@ extension DynamoDBClientTypes {
                 .creating,
                 .deleting,
                 .inaccessibleEncryptionCredentials,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -11743,8 +11705,7 @@ extension DynamoDBClientTypes {
                 .disabled,
                 .disabling,
                 .enabled,
-                .enabling,
-                .sdkUnknown("")
+                .enabling
             ]
         }
 

@@ -39,8 +39,7 @@ extension EKSClientTypes {
                 .windowsCore2019X8664,
                 .windowsCore2022X8664,
                 .windowsFull2019X8664,
-                .windowsFull2022X8664,
-                .sdkUnknown("")
+                .windowsFull2022X8664
             ]
         }
 
@@ -284,8 +283,7 @@ extension EKSClientTypes {
         public static var allCases: [AccessScopeType] {
             return [
                 .cluster,
-                .namespace,
-                .sdkUnknown("")
+                .namespace
             ]
         }
 
@@ -530,8 +528,7 @@ extension EKSClientTypes {
                 .insufficientNumberOfReplicas,
                 .internalFailure,
                 .k8sResourceNotFound,
-                .unsupportedAddonModification,
-                .sdkUnknown("")
+                .unsupportedAddonModification
             ]
         }
 
@@ -578,8 +575,7 @@ extension EKSClientTypes {
                 .deleteFailed,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -977,8 +973,7 @@ extension EKSClientTypes {
             return [
                 .api,
                 .apiAndConfigMap,
-                .configMap,
-                .sdkUnknown("")
+                .configMap
             ]
         }
 
@@ -1072,8 +1067,7 @@ extension EKSClientTypes {
         public static var allCases: [CapacityTypes] {
             return [
                 .onDemand,
-                .spot,
-                .sdkUnknown("")
+                .spot
             ]
         }
 
@@ -1100,8 +1094,7 @@ extension EKSClientTypes {
 
         public static var allCases: [Category] {
             return [
-                .upgradeReadiness,
-                .sdkUnknown("")
+                .upgradeReadiness
             ]
         }
 
@@ -1471,8 +1464,7 @@ extension EKSClientTypes {
                 .resourceNotFound,
                 .stsRegionalEndpointDisabled,
                 .unsupportedVersion,
-                .vpcNotFound,
-                .sdkUnknown("")
+                .vpcNotFound
             ]
         }
 
@@ -1526,8 +1518,7 @@ extension EKSClientTypes {
                 .deleting,
                 .failed,
                 .pending,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1598,8 +1589,7 @@ extension EKSClientTypes {
             return [
                 .active,
                 .creating,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -1643,8 +1633,7 @@ extension EKSClientTypes {
                 .openshift,
                 .other,
                 .rancher,
-                .tanzu,
-                .sdkUnknown("")
+                .tanzu
             ]
         }
 
@@ -4465,8 +4454,7 @@ extension EKSClientTypes {
 
         public static var allCases: [EksAnywhereSubscriptionLicenseType] {
             return [
-                .cluster,
-                .sdkUnknown("")
+                .cluster
             ]
         }
 
@@ -4502,8 +4490,7 @@ extension EKSClientTypes {
                 .deleting,
                 .expired,
                 .expiring,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4571,8 +4558,7 @@ extension EKSClientTypes {
 
         public static var allCases: [EksAnywhereSubscriptionTermUnit] {
             return [
-                .months,
-                .sdkUnknown("")
+                .months
             ]
         }
 
@@ -4667,8 +4653,7 @@ extension EKSClientTypes {
                 .subnetNotFound,
                 .unknown,
                 .unsupportedAddonModification,
-                .vpcIdNotFound,
-                .sdkUnknown("")
+                .vpcIdNotFound
             ]
         }
 
@@ -4871,8 +4856,7 @@ extension EKSClientTypes {
                 .createFailed,
                 .creating,
                 .deleteFailed,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -5173,8 +5157,7 @@ extension EKSClientTypes {
                 .error,
                 .passing,
                 .unknown,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -5421,8 +5404,7 @@ extension EKSClientTypes {
         public static var allCases: [IpFamily] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -6914,8 +6896,7 @@ extension EKSClientTypes {
                 .audit,
                 .authenticator,
                 .controllerManager,
-                .scheduler,
-                .sdkUnknown("")
+                .scheduler
             ]
         }
 
@@ -7237,8 +7218,7 @@ extension EKSClientTypes {
                 .nodeTerminationFailure,
                 .podEvictionFailure,
                 .sourceEc2LaunchTemplateNotFound,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -7384,8 +7364,7 @@ extension EKSClientTypes {
                 .degraded,
                 .deleteFailed,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -8030,8 +8009,7 @@ extension EKSClientTypes {
             return [
                 .none,
                 .overwrite,
-                .preserve,
-                .sdkUnknown("")
+                .preserve
             ]
         }
 
@@ -8472,8 +8450,7 @@ extension EKSClientTypes {
             return [
                 .noExecute,
                 .noSchedule,
-                .preferNoSchedule,
-                .sdkUnknown("")
+                .preferNoSchedule
             ]
         }
 
@@ -9490,8 +9467,7 @@ extension EKSClientTypes {
                 .subnets,
                 .taintsToAdd,
                 .taintsToRemove,
-                .version,
-                .sdkUnknown("")
+                .version
             ]
         }
 
@@ -9638,8 +9614,7 @@ extension EKSClientTypes {
                 .cancelled,
                 .failed,
                 .inProgress,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -9715,8 +9690,7 @@ extension EKSClientTypes {
                 .endpointAccessUpdate,
                 .loggingUpdate,
                 .versionUpdate,
-                .vpcConfigUpdate,
-                .sdkUnknown("")
+                .vpcConfigUpdate
             ]
         }
 

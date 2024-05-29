@@ -64,8 +64,7 @@ extension LightsailClientTypes {
         public static var allCases: [AccessDirection] {
             return [
                 .inbound,
-                .outbound,
-                .sdkUnknown("")
+                .outbound
             ]
         }
 
@@ -222,8 +221,7 @@ extension LightsailClientTypes {
         public static var allCases: [AccessType] {
             return [
                 .private,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -316,8 +314,7 @@ extension LightsailClientTypes {
                 .defaulted,
                 .failed,
                 .insync,
-                .neversynced,
-                .sdkUnknown("")
+                .neversynced
             ]
         }
 
@@ -483,8 +480,7 @@ extension LightsailClientTypes {
         public static var allCases: [AddOnType] {
             return [
                 .autosnapshot,
-                .stopinstanceonidle,
-                .sdkUnknown("")
+                .stopinstanceonidle
             ]
         }
 
@@ -660,8 +656,7 @@ extension LightsailClientTypes {
             return [
                 .alarm,
                 .insufficientData,
-                .ok,
-                .sdkUnknown("")
+                .ok
             ]
         }
 
@@ -761,8 +756,7 @@ extension LightsailClientTypes {
 
         public static var allCases: [AppCategory] {
             return [
-                .lfr,
-                .sdkUnknown("")
+                .lfr
             ]
         }
 
@@ -1225,8 +1219,7 @@ extension LightsailClientTypes {
                 .failed,
                 .mounted,
                 .notmounted,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1340,8 +1333,7 @@ extension LightsailClientTypes {
                 .failed,
                 .inProgress,
                 .notFound,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -1407,8 +1399,7 @@ extension LightsailClientTypes {
                 .defaultedForSlrMissing,
                 .defaultedForSlrMissingOnHold,
                 .syncOnHold,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -1439,8 +1430,7 @@ extension LightsailClientTypes {
         public static var allCases: [BehaviorEnum] {
             return [
                 .cachesetting,
-                .dontcachesetting,
-                .sdkUnknown("")
+                .dontcachesetting
             ]
         }
 
@@ -1555,8 +1545,7 @@ extension LightsailClientTypes {
         public static var allCases: [BlueprintType] {
             return [
                 .app,
-                .os,
-                .sdkUnknown("")
+                .os
             ]
         }
 
@@ -1787,8 +1776,7 @@ extension LightsailClientTypes {
         public static var allCases: [BucketMetricName] {
             return [
                 .bucketsizebytes,
-                .numberofobjects,
-                .sdkUnknown("")
+                .numberofobjects
             ]
         }
 
@@ -2246,8 +2234,7 @@ extension LightsailClientTypes {
             return [
                 .failed,
                 .pendingvalidation,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2275,8 +2262,7 @@ extension LightsailClientTypes {
 
         public static var allCases: [CertificateProvider] {
             return [
-                .letsencrypt,
-                .sdkUnknown("")
+                .letsencrypt
             ]
         }
 
@@ -2314,8 +2300,7 @@ extension LightsailClientTypes {
                 .issued,
                 .pendingvalidation,
                 .revoked,
-                .validationtimedout,
-                .sdkUnknown("")
+                .validationtimedout
             ]
         }
 
@@ -2568,8 +2553,7 @@ extension LightsailClientTypes {
 
         public static var allCases: [CloudFormationStackRecordSourceType] {
             return [
-                .exportsnapshotrecord,
-                .sdkUnknown("")
+                .exportsnapshotrecord
             ]
         }
 
@@ -2601,8 +2585,7 @@ extension LightsailClientTypes {
                 .greaterthanorequaltothreshold,
                 .greaterthanthreshold,
                 .lessthanorequaltothreshold,
-                .lessthanthreshold,
-                .sdkUnknown("")
+                .lessthanthreshold
             ]
         }
 
@@ -2707,8 +2690,7 @@ extension LightsailClientTypes {
             return [
                 .invalid,
                 .pendingverification,
-                .valid,
-                .sdkUnknown("")
+                .valid
             ]
         }
 
@@ -2736,8 +2718,7 @@ extension LightsailClientTypes {
 
         public static var allCases: [ContactMethodVerificationProtocol] {
             return [
-                .email,
-                .sdkUnknown("")
+                .email
             ]
         }
 
@@ -2765,8 +2746,7 @@ extension LightsailClientTypes {
         public static var allCases: [ContactProtocol] {
             return [
                 .email,
-                .sms,
-                .sdkUnknown("")
+                .sms
             ]
         }
 
@@ -3097,8 +3077,7 @@ extension LightsailClientTypes {
                 .activating,
                 .active,
                 .failed,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -3312,8 +3291,7 @@ extension LightsailClientTypes {
         public static var allCases: [ContainerServiceMetricName] {
             return [
                 .cpuutilization,
-                .memoryutilization,
-                .sdkUnknown("")
+                .memoryutilization
             ]
         }
 
@@ -3401,8 +3379,7 @@ extension LightsailClientTypes {
                 .micro,
                 .nano,
                 .small,
-                .xlarge,
-                .sdkUnknown("")
+                .xlarge
             ]
         }
 
@@ -3439,8 +3416,7 @@ extension LightsailClientTypes {
                 .http,
                 .https,
                 .tcp,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -3522,8 +3498,7 @@ extension LightsailClientTypes {
                 .pending,
                 .ready,
                 .running,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3627,8 +3602,7 @@ extension LightsailClientTypes {
                 .evaluatingHealthCheck,
                 .provisioningCertificate,
                 .provisioningService,
-                .unknownError,
-                .sdkUnknown("")
+                .unknownError
             ]
         }
 
@@ -6244,8 +6218,7 @@ extension LightsailClientTypes {
 
         public static var allCases: [Currency] {
             return [
-                .usd,
-                .sdkUnknown("")
+                .usd
             ]
         }
 
@@ -8535,8 +8508,7 @@ extension LightsailClientTypes {
                 .completed,
                 .error,
                 .pending,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -8573,8 +8545,7 @@ extension LightsailClientTypes {
                 .error,
                 .inuse,
                 .pending,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -8660,8 +8631,7 @@ extension LightsailClientTypes {
                 .http4xxerrorrate,
                 .http5xxerrorrate,
                 .requests,
-                .totalerrorrate,
-                .sdkUnknown("")
+                .totalerrorrate
             ]
         }
 
@@ -8733,8 +8703,7 @@ extension LightsailClientTypes {
             return [
                 .failed,
                 .started,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -9376,8 +9345,7 @@ extension LightsailClientTypes {
         public static var allCases: [ExportSnapshotRecordSourceType] {
             return [
                 .disksnapshot,
-                .instancesnapshot,
-                .sdkUnknown("")
+                .instancesnapshot
             ]
         }
 
@@ -9408,8 +9376,7 @@ extension LightsailClientTypes {
             return [
                 .all,
                 .allowlist,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -14866,8 +14833,7 @@ extension LightsailClientTypes {
                 .cloudfrontviewercountry,
                 .host,
                 .origin,
-                .referer,
-                .sdkUnknown("")
+                .referer
             ]
         }
 
@@ -15016,8 +14982,7 @@ extension LightsailClientTypes {
         public static var allCases: [HttpEndpoint] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15046,8 +15011,7 @@ extension LightsailClientTypes {
         public static var allCases: [HttpProtocolIpv6] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15076,8 +15040,7 @@ extension LightsailClientTypes {
         public static var allCases: [HttpTokens] {
             return [
                 .optional,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -15430,8 +15393,7 @@ extension LightsailClientTypes {
         public static var allCases: [InstanceAccessProtocol] {
             return [
                 .rdp,
-                .ssh,
-                .sdkUnknown("")
+                .ssh
             ]
         }
 
@@ -15573,8 +15535,7 @@ extension LightsailClientTypes {
                 .instancetimeout,
                 .lbinitialhealthchecking,
                 .lbinternalerror,
-                .lbregistrationinprogress,
-                .sdkUnknown("")
+                .lbregistrationinprogress
             ]
         }
 
@@ -15620,8 +15581,7 @@ extension LightsailClientTypes {
                 .initial,
                 .unavailable,
                 .unhealthy,
-                .unused,
-                .sdkUnknown("")
+                .unused
             ]
         }
 
@@ -15771,8 +15731,7 @@ extension LightsailClientTypes {
         public static var allCases: [InstanceMetadataState] {
             return [
                 .applied,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -15815,8 +15774,7 @@ extension LightsailClientTypes {
                 .networkout,
                 .statuscheckfailed,
                 .statuscheckfailedInstance,
-                .statuscheckfailedSystem,
-                .sdkUnknown("")
+                .statuscheckfailedSystem
             ]
         }
 
@@ -15883,8 +15841,7 @@ extension LightsailClientTypes {
         public static var allCases: [InstancePlatform] {
             return [
                 .linuxunix,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -16219,8 +16176,7 @@ extension LightsailClientTypes {
             return [
                 .available,
                 .error,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -16330,8 +16286,7 @@ extension LightsailClientTypes {
         public static var allCases: [IpAddressType] {
             return [
                 .dualstack,
-                .ipv4,
-                .sdkUnknown("")
+                .ipv4
             ]
         }
 
@@ -16735,8 +16690,7 @@ extension LightsailClientTypes {
                 .httpsredirectionenabled,
                 .sessionstickinessenabled,
                 .sessionstickinessLbCookiedurationseconds,
-                .tlspolicyname,
-                .sdkUnknown("")
+                .tlspolicyname
             ]
         }
 
@@ -16788,8 +16742,7 @@ extension LightsailClientTypes {
                 .instanceresponsetime,
                 .rejectedconnectioncount,
                 .requestcount,
-                .unhealthyhostcount,
-                .sdkUnknown("")
+                .unhealthyhostcount
             ]
         }
 
@@ -16828,8 +16781,7 @@ extension LightsailClientTypes {
         public static var allCases: [LoadBalancerProtocol] {
             return [
                 .http,
-                .httpHttps,
-                .sdkUnknown("")
+                .httpHttps
             ]
         }
 
@@ -16864,8 +16816,7 @@ extension LightsailClientTypes {
                 .activeimpaired,
                 .failed,
                 .provisioning,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -17112,8 +17063,7 @@ extension LightsailClientTypes {
             return [
                 .failed,
                 .started,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -17145,8 +17095,7 @@ extension LightsailClientTypes {
             return [
                 .failed,
                 .pendingvalidation,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -17264,8 +17213,7 @@ extension LightsailClientTypes {
                 .domainnotallowed,
                 .invalidpublicdomain,
                 .noavailablecontacts,
-                .other,
-                .sdkUnknown("")
+                .other
             ]
         }
 
@@ -17301,8 +17249,7 @@ extension LightsailClientTypes {
                 .failed,
                 .pendingautorenewal,
                 .pendingvalidation,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -17396,8 +17343,7 @@ extension LightsailClientTypes {
                 .privilegewithdrawn,
                 .removefromcrl,
                 .superceded,
-                .unspecified,
-                .sdkUnknown("")
+                .unspecified
             ]
         }
 
@@ -17446,8 +17392,7 @@ extension LightsailClientTypes {
                 .pendingvalidation,
                 .revoked,
                 .unknown,
-                .validationtimedout,
-                .sdkUnknown("")
+                .validationtimedout
             ]
         }
 
@@ -17692,8 +17637,7 @@ extension LightsailClientTypes {
                 .statuscheckfailed,
                 .statuscheckfailedInstance,
                 .statuscheckfailedSystem,
-                .unhealthyhostcount,
-                .sdkUnknown("")
+                .unhealthyhostcount
             ]
         }
 
@@ -17751,8 +17695,7 @@ extension LightsailClientTypes {
                 .maximum,
                 .minimum,
                 .samplecount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -17834,8 +17777,7 @@ extension LightsailClientTypes {
                 .terabits,
                 .terabitssecond,
                 .terabytes,
-                .terabytessecond,
-                .sdkUnknown("")
+                .terabytessecond
             ]
         }
 
@@ -17994,8 +17936,7 @@ extension LightsailClientTypes {
                 .failed,
                 .pending,
                 .started,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -18030,8 +17971,7 @@ extension LightsailClientTypes {
                 .all,
                 .icmp,
                 .tcp,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -18325,8 +18265,7 @@ extension LightsailClientTypes {
                 .failed,
                 .notstarted,
                 .started,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -18520,8 +18459,7 @@ extension LightsailClientTypes {
                 .updateinstancemetadataoptions,
                 .updateloadbalancerattribute,
                 .updaterelationaldatabase,
-                .updaterelationaldatabaseparameters,
-                .sdkUnknown("")
+                .updaterelationaldatabaseparameters
             ]
         }
 
@@ -18677,8 +18615,7 @@ extension LightsailClientTypes {
         public static var allCases: [OriginProtocolPolicyEnum] {
             return [
                 .httponly,
-                .httpsonly,
-                .sdkUnknown("")
+                .httpsonly
             ]
         }
 
@@ -18874,8 +18811,7 @@ extension LightsailClientTypes {
         public static var allCases: [PortAccessType] {
             return [
                 .private,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -18984,8 +18920,7 @@ extension LightsailClientTypes {
                 .closed,
                 .default,
                 .instance,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -19016,8 +18951,7 @@ extension LightsailClientTypes {
         public static var allCases: [PortState] {
             return [
                 .closed,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 
@@ -19052,8 +18986,7 @@ extension LightsailClientTypes {
                 .gb,
                 .gbmo,
                 .hrs,
-                .queries,
-                .sdkUnknown("")
+                .queries
             ]
         }
 
@@ -19455,8 +19388,7 @@ extension LightsailClientTypes {
                 .failed,
                 .pending,
                 .started,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -19633,8 +19565,7 @@ extension LightsailClientTypes {
             return [
                 .failed,
                 .started,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -19741,8 +19672,7 @@ extension LightsailClientTypes {
                 .usEast1,
                 .usEast2,
                 .usWest1,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -20207,8 +20137,7 @@ extension LightsailClientTypes {
 
         public static var allCases: [RelationalDatabaseEngine] {
             return [
-                .mysql,
-                .sdkUnknown("")
+                .mysql
             ]
         }
 
@@ -20321,8 +20250,7 @@ extension LightsailClientTypes {
                 .diskqueuedepth,
                 .freestoragespace,
                 .networkreceivethroughput,
-                .networktransmitthroughput,
-                .sdkUnknown("")
+                .networktransmitthroughput
             ]
         }
 
@@ -20430,8 +20358,7 @@ extension LightsailClientTypes {
             return [
                 .current,
                 .pending,
-                .previous,
-                .sdkUnknown("")
+                .previous
             ]
         }
 
@@ -20633,8 +20560,7 @@ extension LightsailClientTypes {
                 .failed,
                 .pendingautorenewal,
                 .pendingvalidation,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -20794,8 +20720,7 @@ extension LightsailClientTypes {
         public static var allCases: [ResourceBucketAccess] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -21004,8 +20929,7 @@ extension LightsailClientTypes {
                 .peeredvpc,
                 .relationaldatabase,
                 .relationaldatabasesnapshot,
-                .staticip,
-                .sdkUnknown("")
+                .staticip
             ]
         }
 
@@ -21662,8 +21586,7 @@ extension LightsailClientTypes {
             return [
                 .failed,
                 .inprogress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -21989,8 +21912,7 @@ extension LightsailClientTypes {
                 .started,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -22027,8 +21949,7 @@ extension LightsailClientTypes {
         public static var allCases: [StatusType] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -22548,8 +22469,7 @@ extension LightsailClientTypes {
                 .breaching,
                 .ignore,
                 .missing,
-                .notbreaching,
-                .sdkUnknown("")
+                .notbreaching
             ]
         }
 
@@ -23722,8 +23642,7 @@ extension LightsailClientTypes {
                 .tlsv112016,
                 .tlsv122018,
                 .tlsv122019,
-                .tlsv122021,
-                .sdkUnknown("")
+                .tlsv122021
             ]
         }
 

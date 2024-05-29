@@ -91,8 +91,7 @@ extension ServiceQuotasClientTypes {
             return [
                 .account,
                 .all,
-                .resource,
-                .sdkUnknown("")
+                .resource
             ]
         }
 
@@ -343,8 +342,7 @@ extension ServiceQuotasClientTypes {
                 .dependencyAccessDeniedError,
                 .dependencyServiceError,
                 .dependencyThrottlingError,
-                .serviceQuotaNotAvailableError,
-                .sdkUnknown("")
+                .serviceQuotaNotAvailableError
             ]
         }
 
@@ -1685,8 +1683,7 @@ extension ServiceQuotasClientTypes {
                 .millisecond,
                 .minute,
                 .second,
-                .week,
-                .sdkUnknown("")
+                .week
             ]
         }
 
@@ -1849,8 +1846,7 @@ extension ServiceQuotasClientTypes {
         public static var allCases: [QuotaContextScope] {
             return [
                 .account,
-                .resource,
-                .sdkUnknown("")
+                .resource
             ]
         }
 
@@ -2048,8 +2044,7 @@ extension ServiceQuotasClientTypes {
                 .denied,
                 .invalidRequest,
                 .notApproved,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -2441,8 +2436,7 @@ extension ServiceQuotasClientTypes {
         public static var allCases: [ServiceQuotaTemplateAssociationStatus] {
             return [
                 .associated,
-                .disassociated,
-                .sdkUnknown("")
+                .disassociated
             ]
         }
 

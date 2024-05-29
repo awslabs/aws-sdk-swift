@@ -21,8 +21,7 @@ extension KMSClientTypes {
                 .rsaesOaepSha256,
                 .rsaesPkcs1V15,
                 .rsaAesKeyWrapSha1,
-                .rsaAesKeyWrapSha256,
-                .sdkUnknown("")
+                .rsaAesKeyWrapSha256
             ]
         }
 
@@ -535,8 +534,7 @@ extension KMSClientTypes {
                 .xksProxyNotReachable,
                 .xksProxyTimedOut,
                 .xksVpcEndpointServiceInvalidConfiguration,
-                .xksVpcEndpointServiceNotFound,
-                .sdkUnknown("")
+                .xksVpcEndpointServiceNotFound
             ]
         }
 
@@ -587,8 +585,7 @@ extension KMSClientTypes {
                 .connecting,
                 .disconnected,
                 .disconnecting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -1314,8 +1311,7 @@ extension KMSClientTypes {
         public static var allCases: [CustomKeyStoreType] {
             return [
                 .awsCloudhsm,
-                .externalKeyStore,
-                .sdkUnknown("")
+                .externalKeyStore
             ]
         }
 
@@ -1494,8 +1490,7 @@ extension KMSClientTypes {
                 .rsa3072,
                 .rsa4096,
                 .sm2,
-                .symmetricDefault,
-                .sdkUnknown("")
+                .symmetricDefault
             ]
         }
 
@@ -1547,8 +1542,7 @@ extension KMSClientTypes {
                 .rsa2048,
                 .rsa3072,
                 .rsa4096,
-                .sm2,
-                .sdkUnknown("")
+                .sm2
             ]
         }
 
@@ -1583,8 +1577,7 @@ extension KMSClientTypes {
         public static var allCases: [DataKeySpec] {
             return [
                 .aes128,
-                .aes256,
-                .sdkUnknown("")
+                .aes256
             ]
         }
 
@@ -2674,8 +2667,7 @@ extension KMSClientTypes {
                 .rsaesOaepSha1,
                 .rsaesOaepSha256,
                 .sm2pke,
-                .symmetricDefault,
-                .sdkUnknown("")
+                .symmetricDefault
             ]
         }
 
@@ -2706,8 +2698,7 @@ extension KMSClientTypes {
         public static var allCases: [ExpirationModelType] {
             return [
                 .keyMaterialDoesNotExpire,
-                .keyMaterialExpires,
-                .sdkUnknown("")
+                .keyMaterialExpires
             ]
         }
 
@@ -4044,8 +4035,7 @@ extension KMSClientTypes {
                 .retiregrant,
                 .sign,
                 .verify,
-                .verifymac,
-                .sdkUnknown("")
+                .verifymac
             ]
         }
 
@@ -4746,8 +4736,7 @@ extension KMSClientTypes {
 
         public static var allCases: [KeyEncryptionMechanism] {
             return [
-                .rsaesOaepSha256,
-                .sdkUnknown("")
+                .rsaesOaepSha256
             ]
         }
 
@@ -4806,8 +4795,7 @@ extension KMSClientTypes {
         public static var allCases: [KeyManagerType] {
             return [
                 .aws,
-                .customer,
-                .sdkUnknown("")
+                .customer
             ]
         }
 
@@ -5007,8 +4995,7 @@ extension KMSClientTypes {
                 .rsa3072,
                 .rsa4096,
                 .sm2,
-                .symmetricDefault,
-                .sdkUnknown("")
+                .symmetricDefault
             ]
         }
 
@@ -5060,8 +5047,7 @@ extension KMSClientTypes {
                 .pendingimport,
                 .pendingreplicadeletion,
                 .unavailable,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -5135,8 +5121,7 @@ extension KMSClientTypes {
             return [
                 .encryptDecrypt,
                 .generateVerifyMac,
-                .signVerify,
-                .sdkUnknown("")
+                .signVerify
             ]
         }
 
@@ -5875,8 +5860,7 @@ extension KMSClientTypes {
                 .hmacSha224,
                 .hmacSha256,
                 .hmacSha384,
-                .hmacSha512,
-                .sdkUnknown("")
+                .hmacSha512
             ]
         }
 
@@ -5944,8 +5928,7 @@ extension KMSClientTypes {
         public static var allCases: [MessageType] {
             return [
                 .digest,
-                .raw,
-                .sdkUnknown("")
+                .raw
             ]
         }
 
@@ -6041,8 +6024,7 @@ extension KMSClientTypes {
         public static var allCases: [MultiRegionKeyType] {
             return [
                 .primary,
-                .replica,
-                .sdkUnknown("")
+                .replica
             ]
         }
 
@@ -6112,8 +6094,7 @@ extension KMSClientTypes {
                 .awsCloudhsm,
                 .awsKms,
                 .external,
-                .externalKeyStore,
-                .sdkUnknown("")
+                .externalKeyStore
             ]
         }
 
@@ -6802,8 +6783,7 @@ extension KMSClientTypes {
         public static var allCases: [RotationType] {
             return [
                 .automatic,
-                .onDemand,
-                .sdkUnknown("")
+                .onDemand
             ]
         }
 
@@ -7123,8 +7103,7 @@ extension KMSClientTypes {
                 .rsassaPssSha256,
                 .rsassaPssSha384,
                 .rsassaPssSha512,
-                .sm2dsa,
-                .sdkUnknown("")
+                .sm2dsa
             ]
         }
 
@@ -8007,8 +7986,7 @@ extension KMSClientTypes {
             return [
                 .rsa2048,
                 .rsa3072,
-                .rsa4096,
-                .sdkUnknown("")
+                .rsa4096
             ]
         }
 
@@ -8262,8 +8240,7 @@ extension KMSClientTypes {
         public static var allCases: [XksProxyConnectivityType] {
             return [
                 .publicEndpoint,
-                .vpcEndpointService,
-                .sdkUnknown("")
+                .vpcEndpointService
             ]
         }
 

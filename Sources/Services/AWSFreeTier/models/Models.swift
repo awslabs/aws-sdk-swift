@@ -25,8 +25,7 @@ extension FreeTierClientTypes {
                 .region,
                 .service,
                 .usagePercentage,
-                .usageType,
-                .sdkUnknown("")
+                .usageType
             ]
         }
 
@@ -343,8 +342,7 @@ extension FreeTierClientTypes {
                 .endsWith,
                 .equals,
                 .greaterThanOrEqual,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 

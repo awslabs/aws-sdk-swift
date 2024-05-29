@@ -119,8 +119,7 @@ extension AthenaClientTypes {
 
         public static var allCases: [AuthenticationType] {
             return [
-                .directoryIdentity,
-                .sdkUnknown("")
+                .directoryIdentity
             ]
         }
 
@@ -408,8 +407,7 @@ extension AthenaClientTypes {
                 .creating,
                 .failed,
                 .queued,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -693,8 +691,7 @@ extension AthenaClientTypes {
             return [
                 .failed,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -855,8 +852,7 @@ extension AthenaClientTypes {
                 .cancelling,
                 .failed,
                 .pending,
-                .updatePending,
-                .sdkUnknown("")
+                .updatePending
             ]
         }
 
@@ -1001,8 +997,7 @@ extension AthenaClientTypes {
             return [
                 .notNull,
                 .nullable,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -1708,8 +1703,7 @@ extension AthenaClientTypes {
             return [
                 .glue,
                 .hive,
-                .lambda,
-                .sdkUnknown("")
+                .lambda
             ]
         }
 
@@ -2185,8 +2179,7 @@ extension AthenaClientTypes {
             return [
                 .cseKms,
                 .sseKms,
-                .sseS3,
-                .sdkUnknown("")
+                .sseS3
             ]
         }
 
@@ -2317,8 +2310,7 @@ extension AthenaClientTypes {
                 .failed,
                 .registered,
                 .terminated,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -2353,8 +2345,7 @@ extension AthenaClientTypes {
             return [
                 .coordinator,
                 .gateway,
-                .worker,
-                .sdkUnknown("")
+                .worker
             ]
         }
 
@@ -5548,8 +5539,7 @@ extension AthenaClientTypes {
 
         public static var allCases: [NotebookType] {
             return [
-                .ipynb,
-                .sdkUnknown("")
+                .ipynb
             ]
         }
 
@@ -5844,8 +5834,7 @@ extension AthenaClientTypes {
                 .failed,
                 .queued,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -6596,8 +6585,7 @@ extension AthenaClientTypes {
 
         public static var allCases: [S3AclOption] {
             return [
-                .bucketOwnerFullControl,
-                .sdkUnknown("")
+                .bucketOwnerFullControl
             ]
         }
 
@@ -6715,8 +6703,7 @@ extension AthenaClientTypes {
                 .failed,
                 .idle,
                 .terminated,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -7169,8 +7156,7 @@ extension AthenaClientTypes {
             return [
                 .ddl,
                 .dml,
-                .utility,
-                .sdkUnknown("")
+                .utility
             ]
         }
 
@@ -7546,8 +7532,7 @@ extension AthenaClientTypes {
 
         public static var allCases: [ThrottleReason] {
             return [
-                .concurrentQueryLimitExceeded,
-                .sdkUnknown("")
+                .concurrentQueryLimitExceeded
             ]
         }
 
@@ -8526,8 +8511,7 @@ extension AthenaClientTypes {
         public static var allCases: [WorkGroupState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 

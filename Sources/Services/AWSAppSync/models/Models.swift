@@ -264,8 +264,7 @@ extension AppSyncClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .modifying,
-                .sdkUnknown("")
+                .modifying
             ]
         }
 
@@ -323,8 +322,7 @@ extension AppSyncClientTypes {
                 .small,
                 .t2Medium,
                 .t2Small,
-                .xlarge,
-                .sdkUnknown("")
+                .xlarge
             ]
         }
 
@@ -366,8 +364,7 @@ extension AppSyncClientTypes {
         public static var allCases: [ApiCachingBehavior] {
             return [
                 .fullRequestCaching,
-                .perResolverCaching,
-                .sdkUnknown("")
+                .perResolverCaching
             ]
         }
 
@@ -871,8 +868,7 @@ extension AppSyncClientTypes {
             return [
                 .failed,
                 .processing,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -908,8 +904,7 @@ extension AppSyncClientTypes {
                 .apiKey,
                 .awsIam,
                 .awsLambda,
-                .openidConnect,
-                .sdkUnknown("")
+                .openidConnect
             ]
         }
 
@@ -979,8 +974,7 @@ extension AppSyncClientTypes {
 
         public static var allCases: [AuthorizationType] {
             return [
-                .awsIam,
-                .sdkUnknown("")
+                .awsIam
             ]
         }
 
@@ -1117,8 +1111,7 @@ extension AppSyncClientTypes {
 
         public static var allCases: [BadRequestReason] {
             return [
-                .codeError,
-                .sdkUnknown("")
+                .codeError
             ]
         }
 
@@ -1146,8 +1139,7 @@ extension AppSyncClientTypes {
         public static var allCases: [CacheHealthMetricsConfig] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1368,8 +1360,7 @@ extension AppSyncClientTypes {
         public static var allCases: [ConflictDetectionType] {
             return [
                 .none,
-                .version,
-                .sdkUnknown("")
+                .version
             ]
         }
 
@@ -1402,8 +1393,7 @@ extension AppSyncClientTypes {
                 .automerge,
                 .lambda,
                 .none,
-                .optimisticConcurrency,
-                .sdkUnknown("")
+                .optimisticConcurrency
             ]
         }
 
@@ -2682,8 +2672,7 @@ extension AppSyncClientTypes {
             return [
                 .failed,
                 .processing,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2713,8 +2702,7 @@ extension AppSyncClientTypes {
         public static var allCases: [DataSourceLevelMetricsBehavior] {
             return [
                 .fullRequestDataSourceMetrics,
-                .perDataSourceMetrics,
-                .sdkUnknown("")
+                .perDataSourceMetrics
             ]
         }
 
@@ -2743,8 +2731,7 @@ extension AppSyncClientTypes {
         public static var allCases: [DataSourceLevelMetricsConfig] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2785,8 +2772,7 @@ extension AppSyncClientTypes {
                 .awsLambda,
                 .http,
                 .none,
-                .relationalDatabase,
-                .sdkUnknown("")
+                .relationalDatabase
             ]
         }
 
@@ -2821,8 +2807,7 @@ extension AppSyncClientTypes {
         public static var allCases: [DefaultAction] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -4111,8 +4096,7 @@ extension AppSyncClientTypes {
             return [
                 .all,
                 .error,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -5264,8 +5248,7 @@ extension AppSyncClientTypes {
         public static var allCases: [GraphQLApiIntrospectionConfig] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5294,8 +5277,7 @@ extension AppSyncClientTypes {
         public static var allCases: [GraphQLApiType] {
             return [
                 .graphql,
-                .merged,
-                .sdkUnknown("")
+                .merged
             ]
         }
 
@@ -5324,8 +5306,7 @@ extension AppSyncClientTypes {
         public static var allCases: [GraphQLApiVisibility] {
             return [
                 .global,
-                .private,
-                .sdkUnknown("")
+                .private
             ]
         }
 
@@ -6851,8 +6832,7 @@ extension AppSyncClientTypes {
         public static var allCases: [MergeType] {
             return [
                 .autoMerge,
-                .manualMerge,
-                .sdkUnknown("")
+                .manualMerge
             ]
         }
 
@@ -7021,8 +7001,7 @@ extension AppSyncClientTypes {
         public static var allCases: [OperationLevelMetricsConfig] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7051,8 +7030,7 @@ extension AppSyncClientTypes {
         public static var allCases: [OutputType] {
             return [
                 .json,
-                .sdl,
-                .sdkUnknown("")
+                .sdl
             ]
         }
 
@@ -7081,8 +7059,7 @@ extension AppSyncClientTypes {
         public static var allCases: [Ownership] {
             return [
                 .currentAccount,
-                .otherAccounts,
-                .sdkUnknown("")
+                .otherAccounts
             ]
         }
 
@@ -7363,8 +7340,7 @@ extension AppSyncClientTypes {
 
         public static var allCases: [RelationalDatabaseSourceType] {
             return [
-                .rdsHttpEndpoint,
-                .sdkUnknown("")
+                .rdsHttpEndpoint
             ]
         }
 
@@ -7487,8 +7463,7 @@ extension AppSyncClientTypes {
         public static var allCases: [ResolverKind] {
             return [
                 .pipeline,
-                .unit,
-                .sdkUnknown("")
+                .unit
             ]
         }
 
@@ -7517,8 +7492,7 @@ extension AppSyncClientTypes {
         public static var allCases: [ResolverLevelMetricsBehavior] {
             return [
                 .fullRequestResolverMetrics,
-                .perResolverMetrics,
-                .sdkUnknown("")
+                .perResolverMetrics
             ]
         }
 
@@ -7547,8 +7521,7 @@ extension AppSyncClientTypes {
         public static var allCases: [ResolverLevelMetricsConfig] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7575,8 +7548,7 @@ extension AppSyncClientTypes {
 
         public static var allCases: [RuntimeName] {
             return [
-                .appsyncJs,
-                .sdkUnknown("")
+                .appsyncJs
             ]
         }
 
@@ -7612,8 +7584,7 @@ extension AppSyncClientTypes {
                 .failed,
                 .notapplicable,
                 .processing,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -7765,8 +7736,7 @@ extension AppSyncClientTypes {
                 .mergeFailed,
                 .mergeInProgress,
                 .mergeScheduled,
-                .mergeSuccess,
-                .sdkUnknown("")
+                .mergeSuccess
             ]
         }
 
@@ -8238,8 +8208,7 @@ extension AppSyncClientTypes {
         public static var allCases: [TypeDefinitionFormat] {
             return [
                 .json,
-                .sdl,
-                .sdkUnknown("")
+                .sdl
             ]
         }
 

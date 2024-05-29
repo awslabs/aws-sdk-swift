@@ -20,8 +20,7 @@ extension CloudFormationClientTypes {
                 .difference,
                 .intersection,
                 .none,
-                .union,
-                .sdkUnknown("")
+                .union
             ]
         }
 
@@ -97,8 +96,7 @@ extension CloudFormationClientTypes {
             return [
                 .failed,
                 .skipped,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -373,8 +371,7 @@ extension CloudFormationClientTypes {
             return [
                 .add,
                 .modify,
-                .remove,
-                .sdkUnknown("")
+                .remove
             ]
         }
 
@@ -594,8 +591,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [CallAs] {
             return [
                 .delegatedAdmin,
-                .self,
-                .sdkUnknown("")
+                .self
             ]
         }
 
@@ -688,8 +684,7 @@ extension CloudFormationClientTypes {
             return [
                 .capabilityAutoExpand,
                 .capabilityIam,
-                .capabilityNamedIam,
-                .sdkUnknown("")
+                .capabilityNamedIam
             ]
         }
 
@@ -723,8 +718,7 @@ extension CloudFormationClientTypes {
                 .activated,
                 .awsTypes,
                 .registered,
-                .thirdParty,
-                .sdkUnknown("")
+                .thirdParty
             ]
         }
 
@@ -799,8 +793,7 @@ extension CloudFormationClientTypes {
                 .dynamic,
                 .import,
                 .modify,
-                .remove,
-                .sdkUnknown("")
+                .remove
             ]
         }
 
@@ -970,8 +963,7 @@ extension CloudFormationClientTypes {
             return [
                 .planned,
                 .planning,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -1050,8 +1042,7 @@ extension CloudFormationClientTypes {
                 .deleteFailed,
                 .deleteInProgress,
                 .deletePending,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -1174,8 +1165,7 @@ extension CloudFormationClientTypes {
             return [
                 .create,
                 .import,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -1211,8 +1201,7 @@ extension CloudFormationClientTypes {
                 .directmodification,
                 .parameterreference,
                 .resourceattribute,
-                .resourcereference,
-                .sdkUnknown("")
+                .resourcereference
             ]
         }
 
@@ -1242,8 +1231,7 @@ extension CloudFormationClientTypes {
 
         public static var allCases: [ChangeType] {
             return [
-                .resource,
-                .sdkUnknown("")
+                .resource
             ]
         }
 
@@ -1273,8 +1261,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [ConcurrencyMode] {
             return [
                 .softFailureTolerance,
-                .strictFailureTolerance,
-                .sdkUnknown("")
+                .strictFailureTolerance
             ]
         }
 
@@ -2784,8 +2771,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [DeprecatedStatus] {
             return [
                 .deprecated,
-                .live,
-                .sdkUnknown("")
+                .live
             ]
         }
 
@@ -4798,8 +4784,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [DetailedStatus] {
             return [
                 .configurationComplete,
-                .validationFailed,
-                .sdkUnknown("")
+                .validationFailed
             ]
         }
 
@@ -5066,8 +5051,7 @@ extension CloudFormationClientTypes {
             return [
                 .add,
                 .notEqual,
-                .remove,
-                .sdkUnknown("")
+                .remove
             ]
         }
 
@@ -5175,8 +5159,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [EvaluationType] {
             return [
                 .dynamic,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -5301,8 +5284,7 @@ extension CloudFormationClientTypes {
                 .executeFailed,
                 .executeInProgress,
                 .obsolete,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -5371,8 +5353,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [GeneratedTemplateDeletionPolicy] {
             return [
                 .delete,
-                .retain,
-                .sdkUnknown("")
+                .retain
             ]
         }
 
@@ -5442,8 +5423,7 @@ extension CloudFormationClientTypes {
                 .complete,
                 .failed,
                 .inProgress,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -5486,8 +5466,7 @@ extension CloudFormationClientTypes {
                 .deletePending,
                 .failed,
                 .updateInProgress,
-                .updatePending,
-                .sdkUnknown("")
+                .updatePending
             ]
         }
 
@@ -5522,8 +5501,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [GeneratedTemplateUpdateReplacePolicy] {
             return [
                 .delete,
-                .retain,
-                .sdkUnknown("")
+                .retain
             ]
         }
 
@@ -5987,8 +5965,7 @@ extension CloudFormationClientTypes {
                 .servicetimeout,
                 .throttling,
                 .unknown,
-                .unsupportedtarget,
-                .sdkUnknown("")
+                .unsupportedtarget
             ]
         }
 
@@ -6034,8 +6011,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [HookFailureMode] {
             return [
                 .fail,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -6062,8 +6038,7 @@ extension CloudFormationClientTypes {
 
         public static var allCases: [HookInvocationPoint] {
             return [
-                .preProvision,
-                .sdkUnknown("")
+                .preProvision
             ]
         }
 
@@ -6095,8 +6070,7 @@ extension CloudFormationClientTypes {
                 .hookCompleteFailed,
                 .hookCompleteSucceeded,
                 .hookFailed,
-                .hookInProgress,
-                .sdkUnknown("")
+                .hookInProgress
             ]
         }
 
@@ -6125,8 +6099,7 @@ extension CloudFormationClientTypes {
 
         public static var allCases: [HookTargetType] {
             return [
-                .resource,
-                .sdkUnknown("")
+                .resource
             ]
         }
 
@@ -6156,8 +6129,7 @@ extension CloudFormationClientTypes {
             return [
                 .awsMarketplace,
                 .bitbucket,
-                .github,
-                .sdkUnknown("")
+                .github
             ]
         }
 
@@ -8302,8 +8274,7 @@ extension CloudFormationClientTypes {
             return [
                 .delete,
                 .doNothing,
-                .rollback,
-                .sdkUnknown("")
+                .rollback
             ]
         }
 
@@ -8335,8 +8306,7 @@ extension CloudFormationClientTypes {
             return [
                 .delete,
                 .doNothing,
-                .rollback,
-                .sdkUnknown("")
+                .rollback
             ]
         }
 
@@ -8504,8 +8474,7 @@ extension CloudFormationClientTypes {
 
         public static var allCases: [OperationResultFilterName] {
             return [
-                .operationResultStatus,
-                .sdkUnknown("")
+                .operationResultStatus
             ]
         }
 
@@ -8537,8 +8506,7 @@ extension CloudFormationClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -8608,8 +8576,7 @@ extension CloudFormationClientTypes {
             return [
                 .disabled,
                 .disabledPermanently,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -8806,8 +8773,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [PermissionModels] {
             return [
                 .selfManaged,
-                .serviceManaged,
-                .sdkUnknown("")
+                .serviceManaged
             ]
         }
 
@@ -8877,8 +8843,7 @@ extension CloudFormationClientTypes {
                 .replaceandretain,
                 .replaceandsnapshot,
                 .retain,
-                .snapshot,
-                .sdkUnknown("")
+                .snapshot
             ]
         }
 
@@ -8964,8 +8929,7 @@ extension CloudFormationClientTypes {
             return [
                 .fullyMutable,
                 .immutable,
-                .nonProvisionable,
-                .sdkUnknown("")
+                .nonProvisionable
             ]
         }
 
@@ -9078,8 +9042,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [PublisherStatus] {
             return [
                 .unverified,
-                .verified,
-                .sdkUnknown("")
+                .verified
             ]
         }
 
@@ -9196,8 +9159,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [RegionConcurrencyType] {
             return [
                 .parallel,
-                .sequential,
-                .sdkUnknown("")
+                .sequential
             ]
         }
 
@@ -9415,8 +9377,7 @@ extension CloudFormationClientTypes {
             return [
                 .complete,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -9448,8 +9409,7 @@ extension CloudFormationClientTypes {
             return [
                 .hook,
                 .module,
-                .resource,
-                .sdkUnknown("")
+                .resource
             ]
         }
 
@@ -9481,8 +9441,7 @@ extension CloudFormationClientTypes {
             return [
                 .conditional,
                 .false,
-                .true,
-                .sdkUnknown("")
+                .true
             ]
         }
 
@@ -9555,8 +9514,7 @@ extension CloudFormationClientTypes {
             return [
                 .always,
                 .conditionally,
-                .never,
-                .sdkUnknown("")
+                .never
             ]
         }
 
@@ -9596,8 +9554,7 @@ extension CloudFormationClientTypes {
                 .properties,
                 .tags,
                 .updatepolicy,
-                .updatereplacepolicy,
-                .sdkUnknown("")
+                .updatereplacepolicy
             ]
         }
 
@@ -10019,8 +9976,7 @@ extension CloudFormationClientTypes {
                 .complete,
                 .expired,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -10102,8 +10058,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [ResourceSignalStatus] {
             return [
                 .failure,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -10172,8 +10127,7 @@ extension CloudFormationClientTypes {
                 .updateInProgress,
                 .updateRollbackComplete,
                 .updateRollbackFailed,
-                .updateRollbackInProgress,
-                .sdkUnknown("")
+                .updateRollbackInProgress
             ]
         }
 
@@ -11006,8 +10960,7 @@ extension CloudFormationClientTypes {
             return [
                 .detectionComplete,
                 .detectionFailed,
-                .detectionInProgress,
-                .sdkUnknown("")
+                .detectionInProgress
             ]
         }
 
@@ -11121,8 +11074,7 @@ extension CloudFormationClientTypes {
                 .drifted,
                 .inSync,
                 .notChecked,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -11428,8 +11380,7 @@ extension CloudFormationClientTypes {
                 .pending,
                 .running,
                 .skippedSuspendedAccount,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -11495,8 +11446,7 @@ extension CloudFormationClientTypes {
             return [
                 .detailedStatus,
                 .driftStatus,
-                .lastOperationId,
-                .sdkUnknown("")
+                .lastOperationId
             ]
         }
 
@@ -11639,8 +11589,7 @@ extension CloudFormationClientTypes {
             return [
                 .current,
                 .inoperable,
-                .outdated,
-                .sdkUnknown("")
+                .outdated
             ]
         }
 
@@ -12142,8 +12091,7 @@ extension CloudFormationClientTypes {
                 .deleted,
                 .inSync,
                 .modified,
-                .notChecked,
-                .sdkUnknown("")
+                .notChecked
             ]
         }
 
@@ -12471,8 +12419,7 @@ extension CloudFormationClientTypes {
                 .failed,
                 .inProgress,
                 .partialSuccess,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -12506,8 +12453,7 @@ extension CloudFormationClientTypes {
             return [
                 .drifted,
                 .inSync,
-                .notChecked,
-                .sdkUnknown("")
+                .notChecked
             ]
         }
 
@@ -12718,8 +12664,7 @@ extension CloudFormationClientTypes {
                 .create,
                 .delete,
                 .detectDrift,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -12827,8 +12772,7 @@ extension CloudFormationClientTypes {
                 .failed,
                 .pending,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -12929,8 +12873,7 @@ extension CloudFormationClientTypes {
                 .running,
                 .stopped,
                 .stopping,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -13062,8 +13005,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [StackSetStatus] {
             return [
                 .active,
-                .deleted,
-                .sdkUnknown("")
+                .deleted
             ]
         }
 
@@ -13212,8 +13154,7 @@ extension CloudFormationClientTypes {
                 .updateRollbackComplete,
                 .updateRollbackCompleteCleanupInProgress,
                 .updateRollbackFailed,
-                .updateRollbackInProgress,
-                .sdkUnknown("")
+                .updateRollbackInProgress
             ]
         }
 
@@ -13610,8 +13551,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [TemplateFormat] {
             return [
                 .json,
-                .yaml,
-                .sdkUnknown("")
+                .yaml
             ]
         }
 
@@ -13722,8 +13662,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [TemplateStage] {
             return [
                 .original,
-                .processed,
-                .sdkUnknown("")
+                .processed
             ]
         }
 
@@ -13945,8 +13884,7 @@ extension CloudFormationClientTypes {
             return [
                 .hook,
                 .module,
-                .resource,
-                .sdkUnknown("")
+                .resource
             ]
         }
 
@@ -14346,8 +14284,7 @@ extension CloudFormationClientTypes {
                 .failed,
                 .inProgress,
                 .notTested,
-                .passed,
-                .sdkUnknown("")
+                .passed
             ]
         }
 
@@ -15223,8 +15160,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [VersionBump] {
             return [
                 .major,
-                .minor,
-                .sdkUnknown("")
+                .minor
             ]
         }
 
@@ -15253,8 +15189,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [Visibility] {
             return [
                 .private,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -15361,8 +15296,7 @@ extension CloudFormationClientTypes {
             return [
                 .mutuallyExclusiveProperties,
                 .mutuallyExclusiveTypes,
-                .unsupportedProperties,
-                .sdkUnknown("")
+                .unsupportedProperties
             ]
         }
 

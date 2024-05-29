@@ -215,8 +215,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
         public static var allCases: [ErrorCode] {
             return [
                 .internalServiceException,
-                .invalidParameterException,
-                .sdkUnknown("")
+                .invalidParameterException
             ]
         }
 
@@ -678,8 +677,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
             return [
                 .region,
                 .resourceType,
-                .targetId,
-                .sdkUnknown("")
+                .targetId
             ]
         }
 
@@ -1115,8 +1113,7 @@ extension ResourceGroupsTaggingAPIClientTypes {
             return [
                 .account,
                 .ou,
-                .root,
-                .sdkUnknown("")
+                .root
             ]
         }
 

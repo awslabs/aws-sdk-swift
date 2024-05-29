@@ -850,8 +850,7 @@ extension CloudTrailClientTypes {
         public static var allCases: [BillingMode] {
             return [
                 .extendableRetentionPricing,
-                .fixedRetentionPricing,
-                .sdkUnknown("")
+                .fixedRetentionPricing
             ]
         }
 
@@ -2385,8 +2384,7 @@ extension CloudTrailClientTypes {
                 .pending,
                 .resourceNotFound,
                 .success,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -2723,8 +2721,7 @@ extension CloudTrailClientTypes {
         public static var allCases: [DestinationType] {
             return [
                 .awsService,
-                .eventDataStore,
-                .sdkUnknown("")
+                .eventDataStore
             ]
         }
 
@@ -2997,8 +2994,7 @@ extension CloudTrailClientTypes {
 
         public static var allCases: [EventCategory] {
             return [
-                .insight,
-                .sdkUnknown("")
+                .insight
             ]
         }
 
@@ -3341,8 +3337,7 @@ extension CloudTrailClientTypes {
                 .pendingDeletion,
                 .startingIngestion,
                 .stoppedIngestion,
-                .stoppingIngestion,
-                .sdkUnknown("")
+                .stoppingIngestion
             ]
         }
 
@@ -3466,8 +3461,7 @@ extension CloudTrailClientTypes {
                 .disabled,
                 .disabling,
                 .enabled,
-                .enabling,
-                .sdkUnknown("")
+                .enabling
             ]
         }
 
@@ -4496,8 +4490,7 @@ extension CloudTrailClientTypes {
             return [
                 .failed,
                 .retry,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4649,8 +4642,7 @@ extension CloudTrailClientTypes {
                 .failed,
                 .initializing,
                 .inProgress,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -4919,8 +4911,7 @@ extension CloudTrailClientTypes {
         public static var allCases: [InsightType] {
             return [
                 .apicallrateinsight,
-                .apierrorrateinsight,
-                .sdkUnknown("")
+                .apierrorrateinsight
             ]
         }
 
@@ -4949,8 +4940,7 @@ extension CloudTrailClientTypes {
         public static var allCases: [InsightsMetricDataType] {
             return [
                 .fillWithZeros,
-                .nonZeroData,
-                .sdkUnknown("")
+                .nonZeroData
             ]
         }
 
@@ -7120,8 +7110,7 @@ extension CloudTrailClientTypes {
                 .readOnly,
                 .resourceName,
                 .resourceType,
-                .username,
-                .sdkUnknown("")
+                .username
             ]
         }
 
@@ -8077,8 +8066,7 @@ extension CloudTrailClientTypes {
                 .finished,
                 .queued,
                 .running,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -8113,8 +8101,7 @@ extension CloudTrailClientTypes {
             return [
                 .all,
                 .readonly,
-                .writeonly,
-                .sdkUnknown("")
+                .writeonly
             ]
         }
 

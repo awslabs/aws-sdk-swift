@@ -233,8 +233,7 @@ extension NeptuneClientTypes {
         public static var allCases: [ApplyMethod] {
             return [
                 .immediate,
-                .pendingReboot,
-                .sdkUnknown("")
+                .pendingReboot
             ]
         }
 
@@ -11604,8 +11603,7 @@ extension NeptuneClientTypes {
                 .dbInstance,
                 .dbParameterGroup,
                 .dbSecurityGroup,
-                .dbSnapshot,
-                .sdkUnknown("")
+                .dbSnapshot
             ]
         }
 

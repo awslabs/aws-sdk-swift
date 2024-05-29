@@ -101,8 +101,7 @@ extension TranscribeClientTypes {
         public static var allCases: [BaseModelName] {
             return [
                 .narrowBand,
-                .wideBand,
-                .sdkUnknown("")
+                .wideBand
             ]
         }
 
@@ -141,8 +140,7 @@ extension TranscribeClientTypes {
                 .enUs,
                 .esUs,
                 .hiIn,
-                .jaJp,
-                .sdkUnknown("")
+                .jaJp
             ]
         }
 
@@ -174,8 +172,7 @@ extension TranscribeClientTypes {
 
         public static var allCases: [CallAnalyticsFeature] {
             return [
-                .generativeSummarization,
-                .sdkUnknown("")
+                .generativeSummarization
             ]
         }
 
@@ -419,8 +416,7 @@ extension TranscribeClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .queued,
-                .sdkUnknown("")
+                .queued
             ]
         }
 
@@ -548,8 +544,7 @@ extension TranscribeClientTypes {
         public static var allCases: [CallAnalyticsSkippedReasonCode] {
             return [
                 .failedSafetyGuidelines,
-                .insufficientConversationContent,
-                .sdkUnknown("")
+                .insufficientConversationContent
             ]
         }
 
@@ -2495,8 +2490,7 @@ extension TranscribeClientTypes {
         public static var allCases: [InputType] {
             return [
                 .postCall,
-                .realTime,
-                .sdkUnknown("")
+                .realTime
             ]
         }
 
@@ -2867,8 +2861,7 @@ extension TranscribeClientTypes {
                 .woSn,
                 .zhCn,
                 .zhTw,
-                .zuZa,
-                .sdkUnknown("")
+                .zuZa
             ]
         }
 
@@ -4165,8 +4158,7 @@ extension TranscribeClientTypes {
                 .mp4,
                 .ogg,
                 .wav,
-                .webm,
-                .sdkUnknown("")
+                .webm
             ]
         }
 
@@ -4199,8 +4191,7 @@ extension TranscribeClientTypes {
 
         public static var allCases: [MedicalContentIdentificationType] {
             return [
-                .phi,
-                .sdkUnknown("")
+                .phi
             ]
         }
 
@@ -4357,8 +4348,7 @@ extension TranscribeClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .queued,
-                .sdkUnknown("")
+                .queued
             ]
         }
 
@@ -4443,8 +4433,7 @@ extension TranscribeClientTypes {
 
         public static var allCases: [MedicalScribeLanguageCode] {
             return [
-                .enUs,
-                .sdkUnknown("")
+                .enUs
             ]
         }
 
@@ -4505,8 +4494,7 @@ extension TranscribeClientTypes {
         public static var allCases: [MedicalScribeParticipantRole] {
             return [
                 .clinician,
-                .patient,
-                .sdkUnknown("")
+                .patient
             ]
         }
 
@@ -4905,8 +4893,7 @@ extension TranscribeClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -5029,8 +5016,7 @@ extension TranscribeClientTypes {
         public static var allCases: [OutputLocationType] {
             return [
                 .customerBucket,
-                .serviceBucket,
-                .sdkUnknown("")
+                .serviceBucket
             ]
         }
 
@@ -5059,8 +5045,7 @@ extension TranscribeClientTypes {
         public static var allCases: [ParticipantRole] {
             return [
                 .agent,
-                .customer,
-                .sdkUnknown("")
+                .customer
             ]
         }
 
@@ -5109,8 +5094,7 @@ extension TranscribeClientTypes {
                 .name,
                 .phone,
                 .pin,
-                .ssn,
-                .sdkUnknown("")
+                .ssn
             ]
         }
 
@@ -5149,8 +5133,7 @@ extension TranscribeClientTypes {
         public static var allCases: [RedactionOutput] {
             return [
                 .redacted,
-                .redactedAndUnredacted,
-                .sdkUnknown("")
+                .redactedAndUnredacted
             ]
         }
 
@@ -5177,8 +5160,7 @@ extension TranscribeClientTypes {
 
         public static var allCases: [RedactionType] {
             return [
-                .pii,
-                .sdkUnknown("")
+                .pii
             ]
         }
 
@@ -5378,8 +5360,7 @@ extension TranscribeClientTypes {
                 .mixed,
                 .negative,
                 .neutral,
-                .positive,
-                .sdkUnknown("")
+                .positive
             ]
         }
 
@@ -5481,8 +5462,7 @@ extension TranscribeClientTypes {
 
         public static var allCases: [Specialty] {
             return [
-                .primarycare,
-                .sdkUnknown("")
+                .primarycare
             ]
         }
 
@@ -6126,8 +6106,7 @@ extension TranscribeClientTypes {
         public static var allCases: [SubtitleFormat] {
             return [
                 .srt,
-                .vtt,
-                .sdkUnknown("")
+                .vtt
             ]
         }
 
@@ -6353,8 +6332,7 @@ extension TranscribeClientTypes {
 
         public static var allCases: [ToxicityCategory] {
             return [
-                .all,
-                .sdkUnknown("")
+                .all
             ]
         }
 
@@ -6517,8 +6495,7 @@ extension TranscribeClientTypes {
 
         public static var allCases: [TranscriptFilterType] {
             return [
-                .exact,
-                .sdkUnknown("")
+                .exact
             ]
         }
 
@@ -6703,8 +6680,7 @@ extension TranscribeClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .queued,
-                .sdkUnknown("")
+                .queued
             ]
         }
 
@@ -6831,8 +6807,7 @@ extension TranscribeClientTypes {
         public static var allCases: [ModelType] {
             return [
                 .conversation,
-                .dictation,
-                .sdkUnknown("")
+                .dictation
             ]
         }
 
@@ -7336,8 +7311,7 @@ extension TranscribeClientTypes {
             return [
                 .mask,
                 .remove,
-                .tag,
-                .sdkUnknown("")
+                .tag
             ]
         }
 
@@ -7410,8 +7384,7 @@ extension TranscribeClientTypes {
             return [
                 .failed,
                 .pending,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 

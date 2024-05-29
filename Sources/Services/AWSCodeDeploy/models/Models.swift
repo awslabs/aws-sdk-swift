@@ -440,8 +440,7 @@ extension CodeDeployClientTypes {
             return [
                 .firstusedtime,
                 .lastusedtime,
-                .registertime,
-                .sdkUnknown("")
+                .registertime
             ]
         }
 
@@ -548,8 +547,7 @@ extension CodeDeployClientTypes {
             return [
                 .deploymentFailure,
                 .deploymentStopOnAlarm,
-                .deploymentStopOnRequest,
-                .sdkUnknown("")
+                .deploymentStopOnRequest
             ]
         }
 
@@ -1347,8 +1345,7 @@ extension CodeDeployClientTypes {
                 .tar,
                 .targzip,
                 .yaml,
-                .zip,
-                .sdkUnknown("")
+                .zip
             ]
         }
 
@@ -1440,8 +1437,7 @@ extension CodeDeployClientTypes {
             return [
                 .ecs,
                 .lambda,
-                .server,
-                .sdkUnknown("")
+                .server
             ]
         }
 
@@ -2674,8 +2670,7 @@ extension CodeDeployClientTypes {
                 .codedeploy,
                 .codedeployautoupdate,
                 .codedeployrollback,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -3374,8 +3369,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [DeploymentOption] {
             return [
                 .withoutTrafficControl,
-                .withTrafficControl,
-                .sdkUnknown("")
+                .withTrafficControl
             ]
         }
 
@@ -3455,8 +3449,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [DeploymentReadyAction] {
             return [
                 .continueDeployment,
-                .stopDeployment,
-                .sdkUnknown("")
+                .stopDeployment
             ]
         }
 
@@ -3538,8 +3531,7 @@ extension CodeDeployClientTypes {
                 .queued,
                 .ready,
                 .stopped,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3775,8 +3767,7 @@ extension CodeDeployClientTypes {
                 .cloudformationTarget,
                 .ecsTarget,
                 .instanceTarget,
-                .lambdaTarget,
-                .sdkUnknown("")
+                .lambdaTarget
             ]
         }
 
@@ -3807,8 +3798,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [DeploymentType] {
             return [
                 .blueGreen,
-                .inPlace,
-                .sdkUnknown("")
+                .inPlace
             ]
         }
 
@@ -3837,8 +3827,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [DeploymentWaitType] {
             return [
                 .readyWait,
-                .terminationWait,
-                .sdkUnknown("")
+                .terminationWait
             ]
         }
 
@@ -4065,8 +4054,7 @@ extension CodeDeployClientTypes {
             return [
                 .keyAndValue,
                 .keyOnly,
-                .valueOnly,
-                .sdkUnknown("")
+                .valueOnly
             ]
         }
 
@@ -4420,8 +4408,7 @@ extension CodeDeployClientTypes {
                 .resourceLimitExceeded,
                 .revisionMissing,
                 .throttled,
-                .timeout,
-                .sdkUnknown("")
+                .timeout
             ]
         }
 
@@ -4541,8 +4528,7 @@ extension CodeDeployClientTypes {
             return [
                 .disallow,
                 .overwrite,
-                .retain,
-                .sdkUnknown("")
+                .retain
             ]
         }
 
@@ -5341,8 +5327,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [GreenFleetProvisioningAction] {
             return [
                 .copyAutoScalingGroup,
-                .discoverExisting,
-                .sdkUnknown("")
+                .discoverExisting
             ]
         }
 
@@ -5558,8 +5543,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [InstanceAction] {
             return [
                 .keepAlive,
-                .terminate,
-                .sdkUnknown("")
+                .terminate
             ]
         }
 
@@ -5885,8 +5869,7 @@ extension CodeDeployClientTypes {
                 .ready,
                 .skipped,
                 .succeeded,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -6045,8 +6028,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [InstanceType] {
             return [
                 .blue,
-                .green,
-                .sdkUnknown("")
+                .green
             ]
         }
 
@@ -8334,8 +8316,7 @@ extension CodeDeployClientTypes {
                 .scriptNotExecutable,
                 .scriptTimedOut,
                 .success,
-                .unknownError,
-                .sdkUnknown("")
+                .unknownError
             ]
         }
 
@@ -8472,8 +8453,7 @@ extension CodeDeployClientTypes {
                 .pending,
                 .skipped,
                 .succeeded,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -9393,8 +9373,7 @@ extension CodeDeployClientTypes {
             return [
                 .exclude,
                 .ignore,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -9626,8 +9605,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [MinimumHealthyHostsPerZoneType] {
             return [
                 .fleetPercent,
-                .hostCount,
-                .sdkUnknown("")
+                .hostCount
             ]
         }
 
@@ -9656,8 +9634,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [MinimumHealthyHostsType] {
             return [
                 .fleetPercent,
-                .hostCount,
-                .sdkUnknown("")
+                .hostCount
             ]
         }
 
@@ -9793,8 +9770,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [OutdatedInstancesStrategy] {
             return [
                 .ignore,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -10087,8 +10063,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [RegistrationStatus] {
             return [
                 .deregistered,
-                .registered,
-                .sdkUnknown("")
+                .registered
             ]
         }
 
@@ -10428,8 +10403,7 @@ extension CodeDeployClientTypes {
                 .appspeccontent,
                 .github,
                 .s3,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -10695,8 +10669,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -10812,8 +10785,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [StopStatus] {
             return [
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -10930,8 +10902,7 @@ extension CodeDeployClientTypes {
             return [
                 .keyAndValue,
                 .keyOnly,
-                .valueOnly,
-                .sdkUnknown("")
+                .valueOnly
             ]
         }
 
@@ -11142,8 +11113,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [TargetFilterName] {
             return [
                 .serverInstanceLabel,
-                .targetStatus,
-                .sdkUnknown("")
+                .targetStatus
             ]
         }
 
@@ -11289,8 +11259,7 @@ extension CodeDeployClientTypes {
         public static var allCases: [TargetLabel] {
             return [
                 .blue,
-                .green,
-                .sdkUnknown("")
+                .green
             ]
         }
 
@@ -11329,8 +11298,7 @@ extension CodeDeployClientTypes {
                 .ready,
                 .skipped,
                 .succeeded,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -11581,8 +11549,7 @@ extension CodeDeployClientTypes {
             return [
                 .allatonce,
                 .timebasedcanary,
-                .timebasedlinear,
-                .sdkUnknown("")
+                .timebasedlinear
             ]
         }
 
@@ -11671,8 +11638,7 @@ extension CodeDeployClientTypes {
                 .instanceFailure,
                 .instanceReady,
                 .instanceStart,
-                .instanceSuccess,
-                .sdkUnknown("")
+                .instanceSuccess
             ]
         }
 

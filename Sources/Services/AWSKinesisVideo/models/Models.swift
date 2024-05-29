@@ -27,8 +27,7 @@ extension KinesisVideoClientTypes {
                 .getMedia,
                 .getMediaForFragmentList,
                 .listFragments,
-                .putMedia,
-                .sdkUnknown("")
+                .putMedia
             ]
         }
 
@@ -261,8 +260,7 @@ extension KinesisVideoClientTypes {
             return [
                 .https,
                 .webrtc,
-                .wss,
-                .sdkUnknown("")
+                .wss
             ]
         }
 
@@ -292,8 +290,7 @@ extension KinesisVideoClientTypes {
         public static var allCases: [ChannelRole] {
             return [
                 .master,
-                .viewer,
-                .sdkUnknown("")
+                .viewer
             ]
         }
 
@@ -322,8 +319,7 @@ extension KinesisVideoClientTypes {
         public static var allCases: [ChannelType] {
             return [
                 .fullMesh,
-                .singleMaster,
-                .sdkUnknown("")
+                .singleMaster
             ]
         }
 
@@ -387,8 +383,7 @@ extension KinesisVideoClientTypes {
 
         public static var allCases: [ComparisonOperator] {
             return [
-                .beginsWith,
-                .sdkUnknown("")
+                .beginsWith
             ]
         }
 
@@ -416,8 +411,7 @@ extension KinesisVideoClientTypes {
         public static var allCases: [ConfigurationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1543,8 +1537,7 @@ extension KinesisVideoClientTypes {
         public static var allCases: [Format] {
             return [
                 .jpeg,
-                .png,
-                .sdkUnknown("")
+                .png
             ]
         }
 
@@ -1571,8 +1564,7 @@ extension KinesisVideoClientTypes {
 
         public static var allCases: [FormatConfigKey] {
             return [
-                .jpegquality,
-                .sdkUnknown("")
+                .jpegquality
             ]
         }
 
@@ -1871,8 +1863,7 @@ extension KinesisVideoClientTypes {
         public static var allCases: [ImageSelectorType] {
             return [
                 .producerTimestamp,
-                .serverTimestamp,
-                .sdkUnknown("")
+                .serverTimestamp
             ]
         }
 
@@ -2715,8 +2706,7 @@ extension KinesisVideoClientTypes {
         public static var allCases: [MediaStorageConfigurationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2745,8 +2735,7 @@ extension KinesisVideoClientTypes {
         public static var allCases: [MediaUriType] {
             return [
                 .fileUri,
-                .rtspUri,
-                .sdkUnknown("")
+                .rtspUri
             ]
         }
 
@@ -2960,8 +2949,7 @@ extension KinesisVideoClientTypes {
             return [
                 .success,
                 .systemError,
-                .userError,
-                .sdkUnknown("")
+                .userError
             ]
         }
 
@@ -3316,8 +3304,7 @@ extension KinesisVideoClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3348,8 +3335,7 @@ extension KinesisVideoClientTypes {
         public static var allCases: [StrategyOnFullSize] {
             return [
                 .deleteOldestMedia,
-                .denyNewMedia,
-                .sdkUnknown("")
+                .denyNewMedia
             ]
         }
 
@@ -3520,8 +3506,7 @@ extension KinesisVideoClientTypes {
                 .deletingAcknowledged,
                 .inSync,
                 .syncing,
-                .syncFailed,
-                .sdkUnknown("")
+                .syncFailed
             ]
         }
 
@@ -3937,8 +3922,7 @@ extension KinesisVideoClientTypes {
         public static var allCases: [UpdateDataRetentionOperation] {
             return [
                 .decreaseDataRetention,
-                .increaseDataRetention,
-                .sdkUnknown("")
+                .increaseDataRetention
             ]
         }
 
@@ -4382,8 +4366,7 @@ extension KinesisVideoClientTypes {
             return [
                 .success,
                 .systemError,
-                .userError,
-                .sdkUnknown("")
+                .userError
             ]
         }
 

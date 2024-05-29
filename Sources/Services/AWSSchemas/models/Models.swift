@@ -61,8 +61,7 @@ extension SchemasClientTypes {
             return [
                 .createComplete,
                 .createFailed,
-                .createInProgress,
-                .sdkUnknown("")
+                .createInProgress
             ]
         }
 
@@ -1208,8 +1207,7 @@ extension SchemasClientTypes {
         public static var allCases: [DiscovererState] {
             return [
                 .started,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -3160,8 +3158,7 @@ extension SchemasClientTypes {
         public static var allCases: [ModelType] {
             return [
                 .jsonschemadraft4,
-                .openapi3,
-                .sdkUnknown("")
+                .openapi3
             ]
         }
 

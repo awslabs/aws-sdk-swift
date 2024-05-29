@@ -311,8 +311,7 @@ extension ForecastClientTypes {
                 .geolocation,
                 .integer,
                 .string,
-                .timestamp,
-                .sdkUnknown("")
+                .timestamp
             ]
         }
 
@@ -344,8 +343,7 @@ extension ForecastClientTypes {
         public static var allCases: [AutoMLOverrideStrategy] {
             return [
                 .accuracyoptimized,
-                .latencyoptimized,
-                .sdkUnknown("")
+                .latencyoptimized
             ]
         }
 
@@ -474,8 +472,7 @@ extension ForecastClientTypes {
                 .equals,
                 .greaterThan,
                 .lessThan,
-                .notEquals,
-                .sdkUnknown("")
+                .notEquals
             ]
         }
 
@@ -2446,8 +2443,7 @@ extension ForecastClientTypes {
             return [
                 .itemMetadata,
                 .relatedTimeSeries,
-                .targetTimeSeries,
-                .sdkUnknown("")
+                .targetTimeSeries
             ]
         }
 
@@ -2487,8 +2483,7 @@ extension ForecastClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -5282,8 +5277,7 @@ extension ForecastClientTypes {
                 .metrics,
                 .retail,
                 .webTraffic,
-                .workForce,
-                .sdkUnknown("")
+                .workForce
             ]
         }
 
@@ -5470,8 +5464,7 @@ extension ForecastClientTypes {
         public static var allCases: [EvaluationType] {
             return [
                 .computed,
-                .summary,
-                .sdkUnknown("")
+                .summary
             ]
         }
 
@@ -5907,8 +5900,7 @@ extension ForecastClientTypes {
 
         public static var allCases: [FeaturizationMethodName] {
             return [
-                .filling,
-                .sdkUnknown("")
+                .filling
             ]
         }
 
@@ -5973,8 +5965,7 @@ extension ForecastClientTypes {
         public static var allCases: [FilterConditionString] {
             return [
                 .is,
-                .isNot,
-                .sdkUnknown("")
+                .isNot
             ]
         }
 
@@ -6283,8 +6274,7 @@ extension ForecastClientTypes {
         public static var allCases: [ImportMode] {
             return [
                 .full,
-                .incremental,
-                .sdkUnknown("")
+                .incremental
             ]
         }
 
@@ -8073,8 +8063,7 @@ extension ForecastClientTypes {
                 .may,
                 .november,
                 .october,
-                .september,
-                .sdkUnknown("")
+                .september
             ]
         }
 
@@ -8117,8 +8106,7 @@ extension ForecastClientTypes {
                 .add,
                 .divide,
                 .multiply,
-                .subtract,
-                .sdkUnknown("")
+                .subtract
             ]
         }
 
@@ -8155,8 +8143,7 @@ extension ForecastClientTypes {
                 .mape,
                 .mase,
                 .rmse,
-                .wape,
-                .sdkUnknown("")
+                .wape
             ]
         }
 
@@ -8830,8 +8817,7 @@ extension ForecastClientTypes {
                 .auto,
                 .linear,
                 .logarithmic,
-                .reverselogarithmic,
-                .sdkUnknown("")
+                .reverselogarithmic
             ]
         }
 
@@ -8930,8 +8916,7 @@ extension ForecastClientTypes {
         public static var allCases: [State] {
             return [
                 .active,
-                .deleted,
-                .sdkUnknown("")
+                .deleted
             ]
         }
 
@@ -9498,8 +9483,7 @@ extension ForecastClientTypes {
         public static var allCases: [TimePointGranularity] {
             return [
                 .all,
-                .specific,
-                .sdkUnknown("")
+                .specific
             ]
         }
 
@@ -9574,8 +9558,7 @@ extension ForecastClientTypes {
         public static var allCases: [TimeSeriesGranularity] {
             return [
                 .all,
-                .specific,
-                .sdkUnknown("")
+                .specific
             ]
         }
 

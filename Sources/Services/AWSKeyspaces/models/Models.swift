@@ -330,8 +330,7 @@ extension KeyspacesClientTypes {
 
         public static var allCases: [ClientSideTimestampsStatus] {
             return [
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -962,8 +961,7 @@ extension KeyspacesClientTypes {
         public static var allCases: [EncryptionType] {
             return [
                 .awsOwnedKmsKey,
-                .customerManagedKmsKey,
-                .sdkUnknown("")
+                .customerManagedKmsKey
             ]
         }
 
@@ -1722,8 +1720,7 @@ extension KeyspacesClientTypes {
         public static var allCases: [PointInTimeRecoveryStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2122,8 +2119,7 @@ extension KeyspacesClientTypes {
         public static var allCases: [Rs] {
             return [
                 .multiRegion,
-                .singleRegion,
-                .sdkUnknown("")
+                .singleRegion
             ]
         }
 
@@ -2241,8 +2237,7 @@ extension KeyspacesClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -2313,8 +2308,7 @@ extension KeyspacesClientTypes {
                 .deleting,
                 .inaccessibleEncryptionCredentials,
                 .restoring,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2540,8 +2534,7 @@ extension KeyspacesClientTypes {
         public static var allCases: [ThroughputMode] {
             return [
                 .payPerRequest,
-                .provisioned,
-                .sdkUnknown("")
+                .provisioned
             ]
         }
 
@@ -2600,8 +2593,7 @@ extension KeyspacesClientTypes {
 
         public static var allCases: [TimeToLiveStatus] {
             return [
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 

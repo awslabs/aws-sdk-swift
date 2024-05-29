@@ -15,8 +15,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [AccountScope] {
             return [
                 .linked,
-                .payer,
-                .sdkUnknown("")
+                .payer
             ]
         }
 
@@ -147,8 +146,7 @@ extension CostExplorerClientTypes {
             return [
                 .no,
                 .plannedActivity,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 
@@ -430,8 +428,7 @@ extension CostExplorerClientTypes {
             return [
                 .daily,
                 .immediate,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -461,8 +458,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [ApproximationDimension] {
             return [
                 .resource,
-                .service,
-                .sdkUnknown("")
+                .service
             ]
         }
 
@@ -567,8 +563,7 @@ extension CostExplorerClientTypes {
             return [
                 .costAndUsage,
                 .reservations,
-                .savingsPlans,
-                .sdkUnknown("")
+                .savingsPlans
             ]
         }
 
@@ -695,8 +690,7 @@ extension CostExplorerClientTypes {
             return [
                 .failed,
                 .processing,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -726,8 +720,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [CostAllocationTagStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -787,8 +780,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [CostAllocationTagType] {
             return [
                 .awsGenerated,
-                .userDefined,
-                .sdkUnknown("")
+                .userDefined
             ]
         }
 
@@ -925,8 +917,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [CostCategoryInheritedValueDimensionName] {
             return [
                 .linkedAccountName,
-                .tag,
-                .sdkUnknown("")
+                .tag
             ]
         }
 
@@ -1096,8 +1087,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [CostCategoryRuleType] {
             return [
                 .inheritedValue,
-                .regular,
-                .sdkUnknown("")
+                .regular
             ]
         }
 
@@ -1125,8 +1115,7 @@ extension CostExplorerClientTypes {
 
         public static var allCases: [CostCategoryRuleVersion] {
             return [
-                .costcategoryexpressionv1,
-                .sdkUnknown("")
+                .costcategoryexpressionv1
             ]
         }
 
@@ -1156,8 +1145,7 @@ extension CostExplorerClientTypes {
             return [
                 .even,
                 .fixed,
-                .proportional,
-                .sdkUnknown("")
+                .proportional
             ]
         }
 
@@ -1276,8 +1264,7 @@ extension CostExplorerClientTypes {
 
         public static var allCases: [CostCategorySplitChargeRuleParameterType] {
             return [
-                .allocationPercentages,
-                .sdkUnknown("")
+                .allocationPercentages
             ]
         }
 
@@ -1305,8 +1292,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [CostCategoryStatus] {
             return [
                 .applied,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -1333,8 +1319,7 @@ extension CostExplorerClientTypes {
 
         public static var allCases: [CostCategoryStatusComponent] {
             return [
-                .costExplorer,
-                .sdkUnknown("")
+                .costExplorer
             ]
         }
 
@@ -2348,8 +2333,7 @@ extension CostExplorerClientTypes {
                 .subscriptionId,
                 .tenancy,
                 .usageType,
-                .usageTypeGroup,
-                .sdkUnknown("")
+                .usageTypeGroup
             ]
         }
 
@@ -3011,8 +2995,7 @@ extension CostExplorerClientTypes {
                 .networkBandwidthOverProvisioned,
                 .networkBandwidthUnderProvisioned,
                 .networkPpsOverProvisioned,
-                .networkPpsUnderProvisioned,
-                .sdkUnknown("")
+                .networkPpsUnderProvisioned
             ]
         }
 
@@ -3135,8 +3118,7 @@ extension CostExplorerClientTypes {
             return [
                 .failed,
                 .processing,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -6075,8 +6057,7 @@ extension CostExplorerClientTypes {
             return [
                 .daily,
                 .hourly,
-                .monthly,
-                .sdkUnknown("")
+                .monthly
             ]
         }
 
@@ -6176,8 +6157,7 @@ extension CostExplorerClientTypes {
             return [
                 .costCategory,
                 .dimension,
-                .tag,
-                .sdkUnknown("")
+                .tag
             ]
         }
 
@@ -6782,8 +6762,7 @@ extension CostExplorerClientTypes {
             return [
                 .sevenDays,
                 .sixtyDays,
-                .thirtyDays,
-                .sdkUnknown("")
+                .thirtyDays
             ]
         }
 
@@ -6825,8 +6804,7 @@ extension CostExplorerClientTypes {
                 .endsWith,
                 .equals,
                 .greaterThanOrEqual,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 
@@ -6917,8 +6895,7 @@ extension CostExplorerClientTypes {
                 .netUnblendedCost,
                 .normalizedUsageAmount,
                 .unblendedCost,
-                .usageQuantity,
-                .sdkUnknown("")
+                .usageQuantity
             ]
         }
 
@@ -7007,8 +6984,7 @@ extension CostExplorerClientTypes {
 
         public static var allCases: [MonitorDimension] {
             return [
-                .service,
-                .sdkUnknown("")
+                .service
             ]
         }
 
@@ -7036,8 +7012,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [MonitorType] {
             return [
                 .custom,
-                .dimensional,
-                .sdkUnknown("")
+                .dimensional
             ]
         }
 
@@ -7115,8 +7090,7 @@ extension CostExplorerClientTypes {
                 .greaterThan,
                 .greaterThanOrEqual,
                 .lessThan,
-                .lessThanOrEqual,
-                .sdkUnknown("")
+                .lessThanOrEqual
             ]
         }
 
@@ -7149,8 +7123,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [OfferingClass] {
             return [
                 .convertible,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -7187,8 +7160,7 @@ extension CostExplorerClientTypes {
                 .lightUtilization,
                 .mediumUtilization,
                 .noUpfront,
-                .partialUpfront,
-                .sdkUnknown("")
+                .partialUpfront
             ]
         }
 
@@ -7227,8 +7199,7 @@ extension CostExplorerClientTypes {
                 .instanceStoreAvailability,
                 .networkInterface,
                 .storageInterface,
-                .virtualizationType,
-                .sdkUnknown("")
+                .virtualizationType
             ]
         }
 
@@ -7611,8 +7582,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [RecommendationTarget] {
             return [
                 .crossInstanceFamily,
-                .sameInstanceFamily,
-                .sdkUnknown("")
+                .sameInstanceFamily
             ]
         }
 
@@ -8491,8 +8461,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [RightsizingType] {
             return [
                 .modify,
-                .terminate,
-                .sdkUnknown("")
+                .terminate
             ]
         }
 
@@ -8684,8 +8653,7 @@ extension CostExplorerClientTypes {
                 .amortizedCommitment,
                 .attributes,
                 .savings,
-                .utilization,
-                .sdkUnknown("")
+                .utilization
             ]
         }
 
@@ -9322,8 +9290,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -9533,8 +9500,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [SubscriberStatus] {
             return [
                 .confirmed,
-                .declined,
-                .sdkUnknown("")
+                .declined
             ]
         }
 
@@ -9563,8 +9529,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [SubscriberType] {
             return [
                 .email,
-                .sns,
-                .sdkUnknown("")
+                .sns
             ]
         }
 
@@ -9595,8 +9560,7 @@ extension CostExplorerClientTypes {
             return [
                 .computeSp,
                 .ec2InstanceSp,
-                .sagemakerSp,
-                .sdkUnknown("")
+                .sagemakerSp
             ]
         }
 
@@ -9801,8 +9765,7 @@ extension CostExplorerClientTypes {
         public static var allCases: [TermInYears] {
             return [
                 .oneYear,
-                .threeYears,
-                .sdkUnknown("")
+                .threeYears
             ]
         }
 

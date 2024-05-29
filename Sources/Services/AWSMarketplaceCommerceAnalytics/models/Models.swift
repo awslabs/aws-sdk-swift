@@ -61,8 +61,7 @@ extension MarketplaceCommerceAnalyticsClientTypes {
                 .monthlyRevenueFieldDemonstrationUsage,
                 .monthlyRevenueFlexiblePaymentSchedule,
                 .salesCompensationBilledRevenue,
-                .usSalesAndUseTaxRecords,
-                .sdkUnknown("")
+                .usSalesAndUseTaxRecords
             ]
         }
 
@@ -414,8 +413,7 @@ extension MarketplaceCommerceAnalyticsClientTypes {
         public static var allCases: [SupportDataSetType] {
             return [
                 .customerSupportContactsData,
-                .testCustomerSupportContactsData,
-                .sdkUnknown("")
+                .testCustomerSupportContactsData
             ]
         }
 

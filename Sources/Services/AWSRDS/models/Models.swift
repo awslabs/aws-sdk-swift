@@ -91,8 +91,7 @@ extension RDSClientTypes {
         public static var allCases: [ActivityStreamMode] {
             return [
                 .async,
-                .sync,
-                .sdkUnknown("")
+                .sync
             ]
         }
 
@@ -125,8 +124,7 @@ extension RDSClientTypes {
                 .locked,
                 .lockingPolicy,
                 .unlocked,
-                .unlockingPolicy,
-                .sdkUnknown("")
+                .unlockingPolicy
             ]
         }
 
@@ -161,8 +159,7 @@ extension RDSClientTypes {
                 .started,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -495,8 +492,7 @@ extension RDSClientTypes {
         public static var allCases: [ApplyMethod] {
             return [
                 .immediate,
-                .pendingReboot,
-                .sdkUnknown("")
+                .pendingReboot
             ]
         }
 
@@ -614,8 +610,7 @@ extension RDSClientTypes {
         public static var allCases: [AuditPolicyState] {
             return [
                 .lockedPolicy,
-                .unlockedPolicy,
-                .sdkUnknown("")
+                .unlockedPolicy
             ]
         }
 
@@ -642,8 +637,7 @@ extension RDSClientTypes {
 
         public static var allCases: [AuthScheme] {
             return [
-                .secrets,
-                .sdkUnknown("")
+                .secrets
             ]
         }
 
@@ -874,8 +868,7 @@ extension RDSClientTypes {
         public static var allCases: [AutomationMode] {
             return [
                 .allPaused,
-                .full,
-                .sdkUnknown("")
+                .full
             ]
         }
 
@@ -1671,8 +1664,7 @@ extension RDSClientTypes {
                 .mysqlNativePassword,
                 .postgresMd5,
                 .postgresScramSha256,
-                .sqlServerAuthentication,
-                .sdkUnknown("")
+                .sqlServerAuthentication
             ]
         }
 
@@ -6653,8 +6645,7 @@ extension RDSClientTypes {
             return [
                 .available,
                 .inactive,
-                .inactiveExceptRestore,
-                .sdkUnknown("")
+                .inactiveExceptRestore
             ]
         }
 
@@ -10143,8 +10134,7 @@ extension RDSClientTypes {
                 .deleting,
                 .incompatibleNetwork,
                 .insufficientResourceLimits,
-                .modifying,
-                .sdkUnknown("")
+                .modifying
             ]
         }
 
@@ -10177,8 +10167,7 @@ extension RDSClientTypes {
         public static var allCases: [DBProxyEndpointTargetRole] {
             return [
                 .readOnly,
-                .readWrite,
-                .sdkUnknown("")
+                .readWrite
             ]
         }
 
@@ -10295,8 +10284,7 @@ extension RDSClientTypes {
                 .modifying,
                 .reactivating,
                 .suspended,
-                .suspending,
-                .sdkUnknown("")
+                .suspending
             ]
         }
 
@@ -19168,8 +19156,7 @@ extension RDSClientTypes {
             return [
                 .mysql,
                 .postgresql,
-                .sqlserver,
-                .sdkUnknown("")
+                .sqlserver
             ]
         }
 
@@ -19389,8 +19376,7 @@ extension RDSClientTypes {
         public static var allCases: [ExportSourceType] {
             return [
                 .cluster,
-                .snapshot,
-                .sdkUnknown("")
+                .snapshot
             ]
         }
 
@@ -19836,8 +19822,7 @@ extension RDSClientTypes {
             return [
                 .cancelling,
                 .failingOver,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -20076,8 +20061,7 @@ extension RDSClientTypes {
         public static var allCases: [GlobalClusterMemberSynchronizationStatus] {
             return [
                 .connected,
-                .pendingResync,
-                .sdkUnknown("")
+                .pendingResync
             ]
         }
 
@@ -20182,8 +20166,7 @@ extension RDSClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -20774,8 +20757,7 @@ extension RDSClientTypes {
                 .failed,
                 .modifying,
                 .needsAttention,
-                .syncing,
-                .sdkUnknown("")
+                .syncing
             ]
         }
 
@@ -22062,8 +22044,7 @@ extension RDSClientTypes {
                 .enabling,
                 .error,
                 .modifyingMaxCapacity,
-                .notInUse,
-                .sdkUnknown("")
+                .notInUse
             ]
         }
 
@@ -22187,8 +22168,7 @@ extension RDSClientTypes {
                 .disabling,
                 .enabled,
                 .enabling,
-                .requested,
-                .sdkUnknown("")
+                .requested
             ]
         }
 
@@ -28306,8 +28286,7 @@ extension RDSClientTypes {
         public static var allCases: [ReplicaMode] {
             return [
                 .mounted,
-                .openReadOnly,
-                .sdkUnknown("")
+                .openReadOnly
             ]
         }
 
@@ -31757,8 +31736,7 @@ extension RDSClientTypes {
                 .dbParameterGroup,
                 .dbProxy,
                 .dbSecurityGroup,
-                .dbSnapshot,
-                .sdkUnknown("")
+                .dbSnapshot
             ]
         }
 
@@ -33357,8 +33335,7 @@ extension RDSClientTypes {
                 .connectionFailed,
                 .invalidReplicationState,
                 .pendingProxyCapacity,
-                .unreachable,
-                .sdkUnknown("")
+                .unreachable
             ]
         }
 
@@ -33392,8 +33369,7 @@ extension RDSClientTypes {
             return [
                 .readOnly,
                 .readWrite,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -33425,8 +33401,7 @@ extension RDSClientTypes {
             return [
                 .available,
                 .registering,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -33458,8 +33433,7 @@ extension RDSClientTypes {
             return [
                 .rdsInstance,
                 .rdsServerlessEndpoint,
-                .trackedCluster,
-                .sdkUnknown("")
+                .trackedCluster
             ]
         }
 
@@ -34095,8 +34069,7 @@ extension RDSClientTypes {
                 .disabling,
                 .enabled,
                 .enabling,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 

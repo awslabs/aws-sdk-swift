@@ -542,8 +542,7 @@ extension SyntheticsClientTypes {
             return [
                 .failed,
                 .passed,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -573,8 +572,7 @@ extension SyntheticsClientTypes {
         public static var allCases: [CanaryRunStateReasonCode] {
             return [
                 .canaryFailure,
-                .executionFailure,
-                .sdkUnknown("")
+                .executionFailure
             ]
         }
 
@@ -745,8 +743,7 @@ extension SyntheticsClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -802,8 +799,7 @@ extension SyntheticsClientTypes {
                 .syncDeleteInProgress,
                 .updateComplete,
                 .updateInProgress,
-                .updatePending,
-                .sdkUnknown("")
+                .updatePending
             ]
         }
 
@@ -1595,8 +1591,7 @@ extension SyntheticsClientTypes {
         public static var allCases: [EncryptionMode] {
             return [
                 .sseKms,
-                .sseS3,
-                .sdkUnknown("")
+                .sseS3
             ]
         }
 

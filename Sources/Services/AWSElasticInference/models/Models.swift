@@ -570,8 +570,7 @@ extension ElasticInferenceClientTypes {
             return [
                 .availabilityZone,
                 .availabilityZoneId,
-                .region,
-                .sdkUnknown("")
+                .region
             ]
         }
 

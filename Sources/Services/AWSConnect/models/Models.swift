@@ -91,8 +91,7 @@ extension ConnectClientTypes {
                 .generateEventbridgeEvent,
                 .sendNotification,
                 .submitAutoEvaluation,
-                .updateCase,
-                .sdkUnknown("")
+                .updateCase
             ]
         }
 
@@ -226,8 +225,7 @@ extension ConnectClientTypes {
         public static var allCases: [AgentAvailabilityTimer] {
             return [
                 .timeSinceLastActivity,
-                .timeSinceLastInbound,
-                .sdkUnknown("")
+                .timeSinceLastInbound
             ]
         }
 
@@ -531,8 +529,7 @@ extension ConnectClientTypes {
         public static var allCases: [AgentStatusState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -614,8 +611,7 @@ extension ConnectClientTypes {
             return [
                 .custom,
                 .offline,
-                .routable,
-                .sdkUnknown("")
+                .routable
             ]
         }
 
@@ -783,8 +779,7 @@ extension ConnectClientTypes {
             return [
                 .approved,
                 .inProgress,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -2017,8 +2012,7 @@ extension ConnectClientTypes {
             return [
                 .invalidFileName,
                 .invalidFileSize,
-                .invalidFileType,
-                .sdkUnknown("")
+                .invalidFileType
             ]
         }
 
@@ -2693,8 +2687,7 @@ extension ConnectClientTypes {
         public static var allCases: [BehaviorType] {
             return [
                 .routeAnyChannel,
-                .routeCurrentChannelOnly,
-                .sdkUnknown("")
+                .routeCurrentChannelOnly
             ]
         }
 
@@ -2749,8 +2742,7 @@ extension ConnectClientTypes {
             return [
                 .chat,
                 .task,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -2831,8 +2823,7 @@ extension ConnectClientTypes {
             return [
                 .disconnect,
                 .event,
-                .message,
-                .sdkUnknown("")
+                .message
             ]
         }
 
@@ -3133,8 +3124,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [Comparison] {
             return [
-                .lt,
-                .sdkUnknown("")
+                .lt
             ]
         }
 
@@ -3741,8 +3731,7 @@ extension ConnectClientTypes {
         public static var allCases: [ContactFlowModuleState] {
             return [
                 .active,
-                .archived,
-                .sdkUnknown("")
+                .archived
             ]
         }
 
@@ -3771,8 +3760,7 @@ extension ConnectClientTypes {
         public static var allCases: [ContactFlowModuleStatus] {
             return [
                 .published,
-                .saved,
-                .sdkUnknown("")
+                .saved
             ]
         }
 
@@ -3956,8 +3944,7 @@ extension ConnectClientTypes {
         public static var allCases: [ContactFlowState] {
             return [
                 .active,
-                .archived,
-                .sdkUnknown("")
+                .archived
             ]
         }
 
@@ -3986,8 +3973,7 @@ extension ConnectClientTypes {
         public static var allCases: [ContactFlowStatus] {
             return [
                 .published,
-                .saved,
-                .sdkUnknown("")
+                .saved
             ]
         }
 
@@ -4081,8 +4067,7 @@ extension ConnectClientTypes {
                 .customerQueue,
                 .customerWhisper,
                 .outboundWhisper,
-                .queueTransfer,
-                .sdkUnknown("")
+                .queueTransfer
             ]
         }
 
@@ -4132,8 +4117,7 @@ extension ConnectClientTypes {
                 .monitor,
                 .outbound,
                 .queueTransfer,
-                .transfer,
-                .sdkUnknown("")
+                .transfer
             ]
         }
 
@@ -4359,8 +4343,7 @@ extension ConnectClientTypes {
                 .incoming,
                 .missed,
                 .pending,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -7348,8 +7331,7 @@ extension ConnectClientTypes {
                 .contactsScheduled,
                 .oldestContactAge,
                 .slotsActive,
-                .slotsAvailable,
-                .sdkUnknown("")
+                .slotsAvailable
             ]
         }
 
@@ -10943,8 +10925,7 @@ extension ConnectClientTypes {
             return [
                 .connectManaged,
                 .existingDirectory,
-                .saml,
-                .sdkUnknown("")
+                .saml
             ]
         }
 
@@ -12226,8 +12207,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [EncryptionType] {
             return [
-                .kms,
-                .sdkUnknown("")
+                .kms
             ]
         }
 
@@ -12308,8 +12288,7 @@ extension ConnectClientTypes {
             return [
                 .contactFlow,
                 .telephoneNumber,
-                .voip,
-                .sdkUnknown("")
+                .voip
             ]
         }
 
@@ -12961,8 +12940,7 @@ extension ConnectClientTypes {
             return [
                 .numeric,
                 .singleselect,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -13032,8 +13010,7 @@ extension ConnectClientTypes {
         public static var allCases: [EvaluationFormScoringMode] {
             return [
                 .questionOnly,
-                .sectionOnly,
-                .sdkUnknown("")
+                .sectionOnly
             ]
         }
 
@@ -13062,8 +13039,7 @@ extension ConnectClientTypes {
         public static var allCases: [EvaluationFormScoringStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13261,8 +13237,7 @@ extension ConnectClientTypes {
         public static var allCases: [EvaluationFormSingleSelectQuestionDisplayMode] {
             return [
                 .dropdown,
-                .radio,
-                .sdkUnknown("")
+                .radio
             ]
         }
 
@@ -13470,8 +13445,7 @@ extension ConnectClientTypes {
         public static var allCases: [EvaluationFormVersionStatus] {
             return [
                 .active,
-                .draft,
-                .sdkUnknown("")
+                .draft
             ]
         }
 
@@ -13685,8 +13659,7 @@ extension ConnectClientTypes {
         public static var allCases: [EvaluationStatus] {
             return [
                 .draft,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -13839,8 +13812,7 @@ extension ConnectClientTypes {
                 .onrealtimechatanalysisavailable,
                 .onsalesforcecasecreate,
                 .onzendeskticketcreate,
-                .onzendeskticketstatusupdate,
-                .sdkUnknown("")
+                .onzendeskticketstatusupdate
             ]
         }
 
@@ -13930,8 +13902,7 @@ extension ConnectClientTypes {
                 .missingCampaign,
                 .missingCustomerEndpoint,
                 .missingQueueIdAndSystemEndpoint,
-                .requestThrottled,
-                .sdkUnknown("")
+                .requestThrottled
             ]
         }
 
@@ -14060,8 +14031,7 @@ extension ConnectClientTypes {
                 .approved,
                 .failed,
                 .processing,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -14090,8 +14060,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [FileUseCaseType] {
             return [
-                .attachment,
-                .sdkUnknown("")
+                .attachment
             ]
         }
 
@@ -14185,8 +14154,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [FlowAssociationResourceType] {
             return [
-                .smsPhoneNumber,
-                .sdkUnknown("")
+                .smsPhoneNumber
             ]
         }
 
@@ -15514,8 +15482,7 @@ extension ConnectClientTypes {
                 .channel,
                 .queue,
                 .routingProfile,
-                .routingStepExpression,
-                .sdkUnknown("")
+                .routingStepExpression
             ]
         }
 
@@ -15636,8 +15603,7 @@ extension ConnectClientTypes {
         public static var allCases: [HierarchyGroupMatchType] {
             return [
                 .exact,
-                .withChildGroups,
-                .sdkUnknown("")
+                .withChildGroups
             ]
         }
 
@@ -16123,8 +16089,7 @@ extension ConnectClientTypes {
                 .occupancy,
                 .queuedTime,
                 .queueAnswerTime,
-                .serviceLevel,
-                .sdkUnknown("")
+                .serviceLevel
             ]
         }
 
@@ -16329,8 +16294,7 @@ extension ConnectClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -16749,8 +16713,7 @@ extension ConnectClientTypes {
                 .inboundCalls,
                 .multiPartyConference,
                 .outboundCalls,
-                .useCustomTtsVoices,
-                .sdkUnknown("")
+                .useCustomTtsVoices
             ]
         }
 
@@ -16790,8 +16753,7 @@ extension ConnectClientTypes {
             return [
                 .active,
                 .creationFailed,
-                .creationInProgress,
-                .sdkUnknown("")
+                .creationInProgress
             ]
         }
 
@@ -16929,8 +16891,7 @@ extension ConnectClientTypes {
                 .realTimeContactAnalysisSegments,
                 .realTimeContactAnalysisVoiceSegments,
                 .scheduledReports,
-                .screenRecordings,
-                .sdkUnknown("")
+                .screenRecordings
             ]
         }
 
@@ -17120,8 +17081,7 @@ extension ConnectClientTypes {
                 .voiceId,
                 .wisdomAssistant,
                 .wisdomKnowledgeBase,
-                .wisdomQuickResponses,
-                .sdkUnknown("")
+                .wisdomQuickResponses
             ]
         }
 
@@ -17244,8 +17204,7 @@ extension ConnectClientTypes {
                 .hour,
                 .thirtyMin,
                 .total,
-                .week,
-                .sdkUnknown("")
+                .week
             ]
         }
 
@@ -17700,8 +17659,7 @@ extension ConnectClientTypes {
         public static var allCases: [LexVersion] {
             return [
                 .v1,
-                .v2,
-                .sdkUnknown("")
+                .v2
             ]
         }
 
@@ -18869,8 +18827,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [ListFlowAssociationResourceType] {
             return [
-                .voicePhoneNumber,
-                .sdkUnknown("")
+                .voicePhoneNumber
             ]
         }
 
@@ -22455,8 +22412,7 @@ extension ConnectClientTypes {
         public static var allCases: [MeetingFeatureStatus] {
             return [
                 .available,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -22700,8 +22656,7 @@ extension ConnectClientTypes {
         public static var allCases: [MonitorCapability] {
             return [
                 .barge,
-                .silentMonitor,
-                .sdkUnknown("")
+                .silentMonitor
             ]
         }
 
@@ -22866,8 +22821,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [NotificationContentType] {
             return [
-                .plainText,
-                .sdkUnknown("")
+                .plainText
             ]
         }
 
@@ -22893,8 +22847,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [NotificationDeliveryType] {
             return [
-                .email,
-                .sdkUnknown("")
+                .email
             ]
         }
 
@@ -23002,8 +22955,7 @@ extension ConnectClientTypes {
                 .nonTalkTimePercentage,
                 .numberOfInterruptions,
                 .overallAgentSentimentScore,
-                .overallCustomerSentimentScore,
-                .sdkUnknown("")
+                .overallCustomerSentimentScore
             ]
         }
 
@@ -23280,8 +23232,7 @@ extension ConnectClientTypes {
                 .customer,
                 .customBot,
                 .supervisor,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -23311,8 +23262,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [ParticipantTimerAction] {
             return [
-                .unset,
-                .sdkUnknown("")
+                .unset
             ]
         }
 
@@ -23377,8 +23327,7 @@ extension ConnectClientTypes {
         public static var allCases: [ParticipantTimerType] {
             return [
                 .disconnectNoncustomer,
-                .idle,
-                .sdkUnknown("")
+                .idle
             ]
         }
 
@@ -24043,8 +23992,7 @@ extension ConnectClientTypes {
                 .yt,
                 .za,
                 .zm,
-                .zw,
-                .sdkUnknown("")
+                .zw
             ]
         }
 
@@ -24433,8 +24381,7 @@ extension ConnectClientTypes {
                 .thirdPartyDid,
                 .thirdPartyTf,
                 .tollFree,
-                .uifn,
-                .sdkUnknown("")
+                .uifn
             ]
         }
 
@@ -24470,8 +24417,7 @@ extension ConnectClientTypes {
             return [
                 .claimed,
                 .failed,
-                .inprogress,
-                .sdkUnknown("")
+                .inprogress
             ]
         }
 
@@ -24501,8 +24447,7 @@ extension ConnectClientTypes {
         public static var allCases: [PhoneType] {
             return [
                 .deskPhone,
-                .softPhone,
-                .sdkUnknown("")
+                .softPhone
             ]
         }
 
@@ -24955,8 +24900,7 @@ extension ConnectClientTypes {
                 .referencedResourceNotFound,
                 .requiredPropertyMissing,
                 .resourceNameAlreadyExists,
-                .uniqueConstraintViolated,
-                .sdkUnknown("")
+                .uniqueConstraintViolated
             ]
         }
 
@@ -25308,8 +25252,7 @@ extension ConnectClientTypes {
         public static var allCases: [QueueStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -25389,8 +25332,7 @@ extension ConnectClientTypes {
         public static var allCases: [QueueType] {
             return [
                 .agent,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -25645,8 +25587,7 @@ extension ConnectClientTypes {
             return [
                 .phoneNumber,
                 .queue,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -25837,8 +25778,7 @@ extension ConnectClientTypes {
         public static var allCases: [RealTimeContactAnalysisOutputType] {
             return [
                 .raw,
-                .redacted,
-                .sdkUnknown("")
+                .redacted
             ]
         }
 
@@ -26134,8 +26074,7 @@ extension ConnectClientTypes {
                 .categories,
                 .event,
                 .issues,
-                .transcript,
-                .sdkUnknown("")
+                .transcript
             ]
         }
 
@@ -26169,8 +26108,7 @@ extension ConnectClientTypes {
             return [
                 .negative,
                 .neutral,
-                .positive,
-                .sdkUnknown("")
+                .positive
             ]
         }
 
@@ -26202,8 +26140,7 @@ extension ConnectClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -26233,8 +26170,7 @@ extension ConnectClientTypes {
         public static var allCases: [RealTimeContactAnalysisSupportedChannel] {
             return [
                 .chat,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -26461,8 +26397,7 @@ extension ConnectClientTypes {
         public static var allCases: [ReferenceStatus] {
             return [
                 .approved,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -26543,8 +26478,7 @@ extension ConnectClientTypes {
                 .email,
                 .number,
                 .string,
-                .url,
-                .sdkUnknown("")
+                .url
             ]
         }
 
@@ -26577,8 +26511,7 @@ extension ConnectClientTypes {
         public static var allCases: [RehydrationType] {
             return [
                 .entirePastSession,
-                .fromSegment,
-                .sdkUnknown("")
+                .fromSegment
             ]
         }
 
@@ -27006,8 +26939,7 @@ extension ConnectClientTypes {
                 .instance,
                 .participant,
                 .phoneNumber,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -27702,8 +27634,7 @@ extension ConnectClientTypes {
         public static var allCases: [RulePublishStatus] {
             return [
                 .draft,
-                .published,
-                .sdkUnknown("")
+                .published
             ]
         }
 
@@ -28243,8 +28174,7 @@ extension ConnectClientTypes {
         public static var allCases: [SearchContactsMatchType] {
             return [
                 .matchAll,
-                .matchAny,
-                .sdkUnknown("")
+                .matchAny
             ]
         }
 
@@ -28367,8 +28297,7 @@ extension ConnectClientTypes {
                 .connectedToAgentTimestamp,
                 .disconnectTimestamp,
                 .initiationTimestamp,
-                .scheduledTimestamp,
-                .sdkUnknown("")
+                .scheduledTimestamp
             ]
         }
 
@@ -29509,8 +29438,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [SearchableQueueType] {
             return [
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -30148,8 +30076,7 @@ extension ConnectClientTypes {
         public static var allCases: [SingleSelectQuestionRuleCategoryAutomationCondition] {
             return [
                 .notPresent,
-                .present,
-                .sdkUnknown("")
+                .present
             ]
         }
 
@@ -30209,8 +30136,7 @@ extension ConnectClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -30247,8 +30173,7 @@ extension ConnectClientTypes {
                 .disconnectTimestamp,
                 .initiationMethod,
                 .initiationTimestamp,
-                .scheduledTimestamp,
-                .sdkUnknown("")
+                .scheduledTimestamp
             ]
         }
 
@@ -30283,8 +30208,7 @@ extension ConnectClientTypes {
             return [
                 .cases,
                 .salesforce,
-                .zendesk,
-                .sdkUnknown("")
+                .zendesk
             ]
         }
 
@@ -31278,8 +31202,7 @@ extension ConnectClientTypes {
             return [
                 .avg,
                 .max,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -31519,8 +31442,7 @@ extension ConnectClientTypes {
                 .kinesisFirehose,
                 .kinesisStream,
                 .kinesisVideoStream,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -31553,8 +31475,7 @@ extension ConnectClientTypes {
             return [
                 .contains,
                 .exact,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 
@@ -32375,8 +32296,7 @@ extension ConnectClientTypes {
                 .singleSelect,
                 .text,
                 .textArea,
-                .url,
-                .sdkUnknown("")
+                .url
             ]
         }
 
@@ -32471,8 +32391,7 @@ extension ConnectClientTypes {
         public static var allCases: [TaskTemplateStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -32644,8 +32563,7 @@ extension ConnectClientTypes {
         public static var allCases: [TimerEligibleParticipantRoles] {
             return [
                 .agent,
-                .customer,
-                .sdkUnknown("")
+                .customer
             ]
         }
 
@@ -32792,8 +32710,7 @@ extension ConnectClientTypes {
                 .creationInProgress,
                 .deletionFailed,
                 .pendingDeletion,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -32915,8 +32832,7 @@ extension ConnectClientTypes {
         public static var allCases: [TrafficType] {
             return [
                 .campaign,
-                .general,
-                .sdkUnknown("")
+                .general
             ]
         }
 
@@ -33118,8 +33034,7 @@ extension ConnectClientTypes {
             return [
                 .count,
                 .percent,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -37276,8 +37191,7 @@ extension ConnectClientTypes {
         public static var allCases: [UseCaseType] {
             return [
                 .connectCampaigns,
-                .rulesEvaluation,
-                .sdkUnknown("")
+                .rulesEvaluation
             ]
         }
 
@@ -38021,8 +37935,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [VideoCapability] {
             return [
-                .send,
-                .sdkUnknown("")
+                .send
             ]
         }
 
@@ -38211,8 +38124,7 @@ extension ConnectClientTypes {
         public static var allCases: [ViewStatus] {
             return [
                 .published,
-                .saved,
-                .sdkUnknown("")
+                .saved
             ]
         }
 
@@ -38297,8 +38209,7 @@ extension ConnectClientTypes {
         public static var allCases: [ViewType] {
             return [
                 .awsManaged,
-                .customerManaged,
-                .sdkUnknown("")
+                .customerManaged
             ]
         }
 
@@ -38502,8 +38413,7 @@ extension ConnectClientTypes {
                 .koKr,
                 .ptBr,
                 .ptPt,
-                .zhCn,
-                .sdkUnknown("")
+                .zhCn
             ]
         }
 
@@ -38557,8 +38467,7 @@ extension ConnectClientTypes {
                 .active,
                 .creationFailed,
                 .creationInProgress,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -38677,8 +38586,7 @@ extension ConnectClientTypes {
             return [
                 .all,
                 .fromAgent,
-                .toAgent,
-                .sdkUnknown("")
+                .toAgent
             ]
         }
 

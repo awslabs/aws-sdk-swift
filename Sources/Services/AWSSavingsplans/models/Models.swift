@@ -110,8 +110,7 @@ extension SavingsplansClientTypes {
         public static var allCases: [CurrencyCode] {
             return [
                 .cny,
-                .usd,
-                .sdkUnknown("")
+                .usd
             ]
         }
 
@@ -1122,8 +1121,7 @@ extension SavingsplansClientTypes {
         public static var allCases: [SavingsPlanOfferingFilterAttribute] {
             return [
                 .instancefamily,
-                .region,
-                .sdkUnknown("")
+                .region
             ]
         }
 
@@ -1212,8 +1210,7 @@ extension SavingsplansClientTypes {
         public static var allCases: [SavingsPlanOfferingPropertyKey] {
             return [
                 .instanceFamily,
-                .region,
-                .sdkUnknown("")
+                .region
             ]
         }
 
@@ -1365,8 +1362,7 @@ extension SavingsplansClientTypes {
             return [
                 .allUpfront,
                 .noUpfront,
-                .partialUpfront,
-                .sdkUnknown("")
+                .partialUpfront
             ]
         }
 
@@ -1400,8 +1396,7 @@ extension SavingsplansClientTypes {
                 .ec2,
                 .fargate,
                 .lambda,
-                .sagemaker,
-                .sdkUnknown("")
+                .sagemaker
             ]
         }
 
@@ -1530,8 +1525,7 @@ extension SavingsplansClientTypes {
                 .productDescription,
                 .productId,
                 .region,
-                .tenancy,
-                .sdkUnknown("")
+                .tenancy
             ]
         }
 
@@ -1576,8 +1570,7 @@ extension SavingsplansClientTypes {
                 .region,
                 .serviceCode,
                 .tenancy,
-                .usageType,
-                .sdkUnknown("")
+                .usageType
             ]
         }
 
@@ -1649,8 +1642,7 @@ extension SavingsplansClientTypes {
                 .instanceType,
                 .productDescription,
                 .region,
-                .tenancy,
-                .sdkUnknown("")
+                .tenancy
             ]
         }
 
@@ -1688,8 +1680,7 @@ extension SavingsplansClientTypes {
                 .fargate,
                 .fargateEks,
                 .lambda,
-                .sagemaker,
-                .sdkUnknown("")
+                .sagemaker
             ]
         }
 
@@ -1723,8 +1714,7 @@ extension SavingsplansClientTypes {
             return [
                 .hours,
                 .lambdaGbSecond,
-                .request,
-                .sdkUnknown("")
+                .request
             ]
         }
 
@@ -1766,8 +1756,7 @@ extension SavingsplansClientTypes {
                 .queued,
                 .queuedDeleted,
                 .retired,
-                .returned,
-                .sdkUnknown("")
+                .returned
             ]
         }
 
@@ -1804,8 +1793,7 @@ extension SavingsplansClientTypes {
             return [
                 .compute,
                 .ec2Instance,
-                .sagemaker,
-                .sdkUnknown("")
+                .sagemaker
             ]
         }
 
@@ -1849,8 +1837,7 @@ extension SavingsplansClientTypes {
                 .savingsPlanType,
                 .start,
                 .term,
-                .upfront,
-                .sdkUnknown("")
+                .upfront
             ]
         }
 

@@ -385,8 +385,7 @@ extension WisdomClientTypes {
                 .createInProgress,
                 .deleted,
                 .deleteFailed,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -488,8 +487,7 @@ extension WisdomClientTypes {
 
         public static var allCases: [AssistantType] {
             return [
-                .agent,
-                .sdkUnknown("")
+                .agent
             ]
         }
 
@@ -515,8 +513,7 @@ extension WisdomClientTypes {
 
         public static var allCases: [AssociationType] {
             return [
-                .knowledgeBase,
-                .sdkUnknown("")
+                .knowledgeBase
             ]
         }
 
@@ -805,8 +802,7 @@ extension WisdomClientTypes {
                 .deleted,
                 .deleteFailed,
                 .deleteInProgress,
-                .updateFailed,
-                .sdkUnknown("")
+                .updateFailed
             ]
         }
 
@@ -1964,8 +1960,7 @@ extension WisdomClientTypes {
 
         public static var allCases: [ExternalSource] {
             return [
-                .amazonConnect,
-                .sdkUnknown("")
+                .amazonConnect
             ]
         }
 
@@ -2067,8 +2062,7 @@ extension WisdomClientTypes {
 
         public static var allCases: [FilterField] {
             return [
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -2094,8 +2088,7 @@ extension WisdomClientTypes {
 
         public static var allCases: [FilterOperator] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -2962,8 +2955,7 @@ extension WisdomClientTypes {
                 .deleteFailed,
                 .deleteInProgress,
                 .failed,
-                .startInProgress,
-                .sdkUnknown("")
+                .startInProgress
             ]
         }
 
@@ -3073,8 +3065,7 @@ extension WisdomClientTypes {
 
         public static var allCases: [ImportJobType] {
             return [
-                .quickResponses,
-                .sdkUnknown("")
+                .quickResponses
             ]
         }
 
@@ -3222,8 +3213,7 @@ extension WisdomClientTypes {
                 .createInProgress,
                 .deleted,
                 .deleteFailed,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -3334,8 +3324,7 @@ extension WisdomClientTypes {
             return [
                 .custom,
                 .external,
-                .quickResponses,
-                .sdkUnknown("")
+                .quickResponses
             ]
         }
 
@@ -4085,8 +4074,7 @@ extension WisdomClientTypes {
         public static var allCases: [Order] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -4154,8 +4142,7 @@ extension WisdomClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -4581,8 +4568,7 @@ extension WisdomClientTypes {
         public static var allCases: [QuickResponseFilterOperator] {
             return [
                 .equals,
-                .prefix,
-                .sdkUnknown("")
+                .prefix
             ]
         }
 
@@ -4720,8 +4706,7 @@ extension WisdomClientTypes {
         public static var allCases: [QuickResponseQueryOperator] {
             return [
                 .contains,
-                .containsAndPrefix,
-                .sdkUnknown("")
+                .containsAndPrefix
             ]
         }
 
@@ -4937,8 +4922,7 @@ extension WisdomClientTypes {
                 .deleteFailed,
                 .deleteInProgress,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -5127,8 +5111,7 @@ extension WisdomClientTypes {
             return [
                 .issueDetection,
                 .other,
-                .ruleEvaluation,
-                .sdkUnknown("")
+                .ruleEvaluation
             ]
         }
 
@@ -5235,8 +5218,7 @@ extension WisdomClientTypes {
 
         public static var allCases: [RecommendationTriggerType] {
             return [
-                .query,
-                .sdkUnknown("")
+                .query
             ]
         }
 
@@ -5262,8 +5244,7 @@ extension WisdomClientTypes {
 
         public static var allCases: [RecommendationType] {
             return [
-                .knowledgeContent,
-                .sdkUnknown("")
+                .knowledgeContent
             ]
         }
 
@@ -5293,8 +5274,7 @@ extension WisdomClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 

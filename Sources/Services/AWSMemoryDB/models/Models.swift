@@ -276,8 +276,7 @@ extension MemoryDBClientTypes {
         public static var allCases: [AZStatus] {
             return [
                 .multiaz,
-                .singleaz,
-                .sdkUnknown("")
+                .singleaz
             ]
         }
 
@@ -368,8 +367,7 @@ extension MemoryDBClientTypes {
             return [
                 .iam,
                 .noPassword,
-                .password,
-                .sdkUnknown("")
+                .password
             ]
         }
 
@@ -1625,8 +1623,7 @@ extension MemoryDBClientTypes {
         public static var allCases: [DataTieringStatus] {
             return [
                 .false,
-                .true,
-                .sdkUnknown("")
+                .true
             ]
         }
 
@@ -3454,8 +3451,7 @@ extension MemoryDBClientTypes {
         public static var allCases: [InputAuthenticationType] {
             return [
                 .iam,
-                .password,
-                .sdkUnknown("")
+                .password
             ]
         }
 
@@ -5289,8 +5285,7 @@ extension MemoryDBClientTypes {
                 .complete,
                 .inProgress,
                 .notApplied,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -5319,8 +5314,7 @@ extension MemoryDBClientTypes {
 
         public static var allCases: [ServiceUpdateType] {
             return [
-                .securityUpdate,
-                .sdkUnknown("")
+                .securityUpdate
             ]
         }
 
@@ -5765,8 +5759,7 @@ extension MemoryDBClientTypes {
                 .node,
                 .parameterGroup,
                 .subnetGroup,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 

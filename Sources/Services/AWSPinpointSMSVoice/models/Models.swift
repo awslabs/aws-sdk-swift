@@ -502,8 +502,7 @@ extension PinpointSMSVoiceClientTypes {
                 .failed,
                 .initiatedCall,
                 .noAnswer,
-                .ringing,
-                .sdkUnknown("")
+                .ringing
             ]
         }
 

@@ -13,8 +13,7 @@ extension PIClientTypes {
 
         public static var allCases: [AcceptLanguage] {
             return [
-                .enUs,
-                .sdkUnknown("")
+                .enUs
             ]
         }
 
@@ -161,8 +160,7 @@ extension PIClientTypes {
             return [
                 .failed,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -192,8 +190,7 @@ extension PIClientTypes {
         public static var allCases: [ContextType] {
             return [
                 .causal,
-                .contextual,
-                .sdkUnknown("")
+                .contextual
             ]
         }
 
@@ -618,8 +615,7 @@ extension PIClientTypes {
             return [
                 .available,
                 .processing,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -1011,8 +1007,7 @@ extension PIClientTypes {
                 .enabled,
                 .enabledPendingReboot,
                 .unknown,
-                .unsupported,
-                .sdkUnknown("")
+                .unsupported
             ]
         }
 
@@ -2180,8 +2175,7 @@ extension PIClientTypes {
         public static var allCases: [PeriodAlignment] {
             return [
                 .endTime,
-                .startTime,
-                .sdkUnknown("")
+                .startTime
             ]
         }
 
@@ -2352,8 +2346,7 @@ extension PIClientTypes {
         public static var allCases: [ServiceType] {
             return [
                 .docdb,
-                .rds,
-                .sdkUnknown("")
+                .rds
             ]
         }
 
@@ -2384,8 +2377,7 @@ extension PIClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -2522,8 +2514,7 @@ extension PIClientTypes {
         public static var allCases: [TextFormat] {
             return [
                 .markdown,
-                .plainText,
-                .sdkUnknown("")
+                .plainText
             ]
         }
 

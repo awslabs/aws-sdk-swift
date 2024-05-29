@@ -340,8 +340,7 @@ extension S3OutpostsClientTypes {
         public static var allCases: [EndpointAccessType] {
             return [
                 .customerOwnedIp,
-                .private,
-                .sdkUnknown("")
+                .private
             ]
         }
 
@@ -376,8 +375,7 @@ extension S3OutpostsClientTypes {
                 .createFailed,
                 .deleteFailed,
                 .deleting,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 

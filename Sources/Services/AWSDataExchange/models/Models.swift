@@ -367,8 +367,7 @@ extension DataExchangeClientTypes {
                 .lakeFormationDataPermission,
                 .redshiftDataShare,
                 .s3DataAccess,
-                .s3Snapshot,
-                .sdkUnknown("")
+                .s3Snapshot
             ]
         }
 
@@ -539,8 +538,7 @@ extension DataExchangeClientTypes {
                 .malwareScanEncryptedFile,
                 .resourceNotFoundException,
                 .serviceQuotaExceededException,
-                .validationException,
-                .sdkUnknown("")
+                .validationException
             ]
         }
 
@@ -1355,8 +1353,7 @@ extension DataExchangeClientTypes {
 
         public static var allCases: [DatabaseLFTagPolicyPermission] {
             return [
-                .describe,
-                .sdkUnknown("")
+                .describe
             ]
         }
 
@@ -1766,8 +1763,7 @@ extension DataExchangeClientTypes {
         public static var allCases: [ExceptionCause] {
             return [
                 .insufficients3bucketpolicy,
-                .s3accessdenied,
-                .sdkUnknown("")
+                .s3accessdenied
             ]
         }
 
@@ -3350,8 +3346,7 @@ extension DataExchangeClientTypes {
                 .amazonRedshiftDatashareAssetsPerRevision,
                 .amazonS3DataAccessAssetsPerRevision,
                 .assetSizeInGb,
-                .assetsPerRevision,
-                .sdkUnknown("")
+                .assetsPerRevision
             ]
         }
 
@@ -3385,8 +3380,7 @@ extension DataExchangeClientTypes {
             return [
                 .asset,
                 .dataSet,
-                .revision,
-                .sdkUnknown("")
+                .revision
             ]
         }
 
@@ -3448,8 +3442,7 @@ extension DataExchangeClientTypes {
         public static var allCases: [LFPermission] {
             return [
                 .describe,
-                .select,
-                .sdkUnknown("")
+                .select
             ]
         }
 
@@ -3509,8 +3502,7 @@ extension DataExchangeClientTypes {
         public static var allCases: [LFResourceType] {
             return [
                 .database,
-                .table,
-                .sdkUnknown("")
+                .table
             ]
         }
 
@@ -3685,8 +3677,7 @@ extension DataExchangeClientTypes {
 
         public static var allCases: [LakeFormationDataPermissionType] {
             return [
-                .lftagpolicy,
-                .sdkUnknown("")
+                .lftagpolicy
             ]
         }
 
@@ -3795,8 +3786,7 @@ extension DataExchangeClientTypes {
                 .revisionsPerAmazonApiGatewayApiDataSet,
                 .revisionsPerAmazonRedshiftDatashareDataSet,
                 .revisionsPerAmazonS3DataAccessDataSet,
-                .revisionsPerDataSet,
-                .sdkUnknown("")
+                .revisionsPerDataSet
             ]
         }
 
@@ -4430,8 +4420,7 @@ extension DataExchangeClientTypes {
                 .dataDelay,
                 .dataUpdate,
                 .deprecation,
-                .schemaChange,
-                .sdkUnknown("")
+                .schemaChange
             ]
         }
 
@@ -4462,8 +4451,7 @@ extension DataExchangeClientTypes {
         public static var allCases: [Origin] {
             return [
                 .entitled,
-                .owned,
-                .sdkUnknown("")
+                .owned
             ]
         }
 
@@ -4516,8 +4504,7 @@ extension DataExchangeClientTypes {
 
         public static var allCases: [ProtocolType] {
             return [
-                .rest,
-                .sdkUnknown("")
+                .rest
             ]
         }
 
@@ -4774,8 +4761,7 @@ extension DataExchangeClientTypes {
                 .dataSet,
                 .eventAction,
                 .job,
-                .revision,
-                .sdkUnknown("")
+                .revision
             ]
         }
 
@@ -5394,8 +5380,7 @@ extension DataExchangeClientTypes {
             return [
                 .add,
                 .modify,
-                .remove,
-                .sdkUnknown("")
+                .remove
             ]
         }
 
@@ -5705,8 +5690,7 @@ extension DataExchangeClientTypes {
         public static var allCases: [ServerSideEncryptionTypes] {
             return [
                 .aes256,
-                .awsKms,
-                .sdkUnknown("")
+                .awsKms
             ]
         }
 
@@ -5846,8 +5830,7 @@ extension DataExchangeClientTypes {
                 .error,
                 .inProgress,
                 .timedOut,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -5946,8 +5929,7 @@ extension DataExchangeClientTypes {
         public static var allCases: [TableTagPolicyLFPermission] {
             return [
                 .describe,
-                .select,
-                .sdkUnknown("")
+                .select
             ]
         }
 
@@ -6090,8 +6072,7 @@ extension DataExchangeClientTypes {
                 .importAssetsFromRedshiftDataShares,
                 .importAssetsFromS3,
                 .importAssetFromApiGatewayApi,
-                .importAssetFromSignedUrl,
-                .sdkUnknown("")
+                .importAssetFromSignedUrl
             ]
         }
 

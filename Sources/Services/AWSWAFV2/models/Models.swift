@@ -242,8 +242,7 @@ extension WAFV2ClientTypes {
                 .captcha,
                 .challenge,
                 .count,
-                .excludedAsCount,
-                .sdkUnknown("")
+                .excludedAsCount
             ]
         }
 
@@ -501,8 +500,7 @@ extension WAFV2ClientTypes {
                 .appRunnerService,
                 .cloudfront,
                 .cognitoUserPool,
-                .verifiedAccessInstance,
-                .sdkUnknown("")
+                .verifiedAccessInstance
             ]
         }
 
@@ -645,8 +643,7 @@ extension WAFV2ClientTypes {
             return [
                 .evaluateAsString,
                 .match,
-                .noMatch,
-                .sdkUnknown("")
+                .noMatch
             ]
         }
 
@@ -1067,8 +1064,7 @@ extension WAFV2ClientTypes {
                 .gt,
                 .le,
                 .lt,
-                .ne,
-                .sdkUnknown("")
+                .ne
             ]
         }
 
@@ -1760,8 +1756,7 @@ extension WAFV2ClientTypes {
                 .yt,
                 .za,
                 .zm,
-                .zw,
-                .sdkUnknown("")
+                .zw
             ]
         }
 
@@ -3797,8 +3792,7 @@ extension WAFV2ClientTypes {
                 .tokenDomainMismatch,
                 .tokenExpired,
                 .tokenInvalid,
-                .tokenMissing,
-                .sdkUnknown("")
+                .tokenMissing
             ]
         }
 
@@ -3829,8 +3823,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [FallbackBehavior] {
             return [
                 .match,
-                .noMatch,
-                .sdkUnknown("")
+                .noMatch
             ]
         }
 
@@ -4024,8 +4017,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [FilterBehavior] {
             return [
                 .drop,
-                .keep,
-                .sdkUnknown("")
+                .keep
             ]
         }
 
@@ -4054,8 +4046,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [FilterRequirement] {
             return [
                 .meetsAll,
-                .meetsAny,
-                .sdkUnknown("")
+                .meetsAny
             ]
         }
 
@@ -4211,8 +4202,7 @@ extension WAFV2ClientTypes {
             return [
                 .any,
                 .first,
-                .last,
-                .sdkUnknown("")
+                .last
             ]
         }
 
@@ -5624,8 +5614,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [IPAddressVersion] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -5901,8 +5890,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [InspectionLevel] {
             return [
                 .common,
-                .targeted,
-                .sdkUnknown("")
+                .targeted
             ]
         }
 
@@ -6088,8 +6076,7 @@ extension WAFV2ClientTypes {
             return [
                 .all,
                 .key,
-                .value,
-                .sdkUnknown("")
+                .value
             ]
         }
 
@@ -6151,8 +6138,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [LabelMatchScope] {
             return [
                 .label,
-                .namespace,
-                .sdkUnknown("")
+                .namespace
             ]
         }
 
@@ -7906,8 +7892,7 @@ extension WAFV2ClientTypes {
             return [
                 .all,
                 .key,
-                .value,
-                .sdkUnknown("")
+                .value
             ]
         }
 
@@ -8125,8 +8110,7 @@ extension WAFV2ClientTypes {
             return [
                 .continue,
                 .match,
-                .noMatch,
-                .sdkUnknown("")
+                .noMatch
             ]
         }
 
@@ -8292,8 +8276,7 @@ extension WAFV2ClientTypes {
                 .textTransformation,
                 .tokenDomain,
                 .webAcl,
-                .xssMatchStatement,
-                .sdkUnknown("")
+                .xssMatchStatement
             ]
         }
 
@@ -8426,8 +8409,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [PayloadType] {
             return [
                 .formEncoded,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -8492,8 +8474,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [Platform] {
             return [
                 .android,
-                .ios,
-                .sdkUnknown("")
+                .ios
             ]
         }
 
@@ -8528,8 +8509,7 @@ extension WAFV2ClientTypes {
                 .containsWord,
                 .endsWith,
                 .exactly,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 
@@ -8956,8 +8936,7 @@ extension WAFV2ClientTypes {
                 .constant,
                 .customKeys,
                 .forwardedIp,
-                .ip,
-                .sdkUnknown("")
+                .ip
             ]
         }
 
@@ -9799,8 +9778,7 @@ extension WAFV2ClientTypes {
                 .appsync,
                 .appRunnerService,
                 .cognitioUserPool,
-                .verifiedAccessInstance,
-                .sdkUnknown("")
+                .verifiedAccessInstance
             ]
         }
 
@@ -9835,8 +9813,7 @@ extension WAFV2ClientTypes {
             return [
                 .applicationJson,
                 .textHtml,
-                .textPlain,
-                .sdkUnknown("")
+                .textPlain
             ]
         }
 
@@ -10561,8 +10538,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [Scope] {
             return [
                 .cloudfront,
-                .regional,
-                .sdkUnknown("")
+                .regional
             ]
         }
 
@@ -10591,8 +10567,7 @@ extension WAFV2ClientTypes {
         public static var allCases: [SensitivityLevel] {
             return [
                 .high,
-                .low,
-                .sdkUnknown("")
+                .low
             ]
         }
 
@@ -10742,8 +10717,7 @@ extension WAFV2ClientTypes {
                 .kb16,
                 .kb32,
                 .kb48,
-                .kb64,
-                .sdkUnknown("")
+                .kb64
             ]
         }
 
@@ -11197,8 +11171,7 @@ extension WAFV2ClientTypes {
                 .sqlHexDecode,
                 .urlDecode,
                 .urlDecodeUni,
-                .utf8ToUnicode,
-                .sdkUnknown("")
+                .utf8ToUnicode
             ]
         }
 

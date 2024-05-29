@@ -51,8 +51,7 @@ extension TimestreamWriteClientTypes {
 
         public static var allCases: [BatchLoadDataFormat] {
             return [
-                .csv,
-                .sdkUnknown("")
+                .csv
             ]
         }
 
@@ -139,8 +138,7 @@ extension TimestreamWriteClientTypes {
                 .inProgress,
                 .pendingResume,
                 .progressStopped,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1446,8 +1444,7 @@ extension TimestreamWriteClientTypes {
 
         public static var allCases: [DimensionValueType] {
             return [
-                .varchar,
-                .sdkUnknown("")
+                .varchar
             ]
         }
 
@@ -2014,8 +2011,7 @@ extension TimestreamWriteClientTypes {
                 .double,
                 .multi,
                 .timestamp,
-                .varchar,
-                .sdkUnknown("")
+                .varchar
             ]
         }
 
@@ -2230,8 +2226,7 @@ extension TimestreamWriteClientTypes {
         public static var allCases: [PartitionKeyEnforcementLevel] {
             return [
                 .optional,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -2260,8 +2255,7 @@ extension TimestreamWriteClientTypes {
         public static var allCases: [PartitionKeyType] {
             return [
                 .dimension,
-                .measure,
-                .sdkUnknown("")
+                .measure
             ]
         }
 
@@ -2760,8 +2754,7 @@ extension TimestreamWriteClientTypes {
         public static var allCases: [S3EncryptionOption] {
             return [
                 .sseKms,
-                .sseS3,
-                .sdkUnknown("")
+                .sseS3
             ]
         }
 
@@ -2796,8 +2789,7 @@ extension TimestreamWriteClientTypes {
                 .boolean,
                 .double,
                 .timestamp,
-                .varchar,
-                .sdkUnknown("")
+                .varchar
             ]
         }
 
@@ -2969,8 +2961,7 @@ extension TimestreamWriteClientTypes {
             return [
                 .active,
                 .deleting,
-                .restoring,
-                .sdkUnknown("")
+                .restoring
             ]
         }
 
@@ -3145,8 +3136,7 @@ extension TimestreamWriteClientTypes {
                 .microseconds,
                 .milliseconds,
                 .nanoseconds,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 

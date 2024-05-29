@@ -77,8 +77,7 @@ extension OmicsClientTypes {
 
         public static var allCases: [Accelerators] {
             return [
-                .gpu,
-                .sdkUnknown("")
+                .gpu
             ]
         }
 
@@ -666,8 +665,7 @@ extension OmicsClientTypes {
                 .chrStartEndRefAltOneBase,
                 .chrStartEndRefAltZeroBase,
                 .chrStartEndZeroBase,
-                .generic,
-                .sdkUnknown("")
+                .generic
             ]
         }
 
@@ -2284,8 +2282,7 @@ extension OmicsClientTypes {
         public static var allCases: [CreationType] {
             return [
                 .import,
-                .upload,
-                .sdkUnknown("")
+                .upload
             ]
         }
 
@@ -3033,8 +3030,7 @@ extension OmicsClientTypes {
                 .cramSha512up,
                 .fastqMd5up,
                 .fastqSha256up,
-                .fastqSha512up,
-                .sdkUnknown("")
+                .fastqSha512up
             ]
         }
 
@@ -3072,8 +3068,7 @@ extension OmicsClientTypes {
             return [
                 .md5up,
                 .sha256up,
-                .sha512up,
-                .sdkUnknown("")
+                .sha512up
             ]
         }
 
@@ -3102,8 +3097,7 @@ extension OmicsClientTypes {
 
         public static var allCases: [EncryptionType] {
             return [
-                .kms,
-                .sdkUnknown("")
+                .kms
             ]
         }
 
@@ -3329,8 +3323,7 @@ extension OmicsClientTypes {
                 .bam,
                 .cram,
                 .fastq,
-                .ubam,
-                .sdkUnknown("")
+                .ubam
             ]
         }
 
@@ -3443,8 +3436,7 @@ extension OmicsClientTypes {
                 .end,
                 .pos,
                 .ref,
-                .start,
-                .sdkUnknown("")
+                .start
             ]
         }
 
@@ -6420,8 +6412,7 @@ extension OmicsClientTypes {
                 .completedWithFailures,
                 .failed,
                 .inProgress,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -9005,8 +8996,7 @@ extension OmicsClientTypes {
                 .failed,
                 .finished,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -9047,8 +9037,7 @@ extension OmicsClientTypes {
                 .completedWithFailures,
                 .failed,
                 .inProgress,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -9125,8 +9114,7 @@ extension OmicsClientTypes {
                 .failed,
                 .finished,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -9167,8 +9155,7 @@ extension OmicsClientTypes {
                 .completedWithFailures,
                 .failed,
                 .inProgress,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -9204,8 +9191,7 @@ extension OmicsClientTypes {
             return [
                 .index,
                 .source1,
-                .source2,
-                .sdkUnknown("")
+                .source2
             ]
         }
 
@@ -9339,8 +9325,7 @@ extension OmicsClientTypes {
                 .failed,
                 .finished,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -9381,8 +9366,7 @@ extension OmicsClientTypes {
                 .completedWithFailures,
                 .failed,
                 .inProgress,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -9518,8 +9502,7 @@ extension OmicsClientTypes {
         public static var allCases: [ReadSetPartSource] {
             return [
                 .source1,
-                .source2,
-                .sdkUnknown("")
+                .source2
             ]
         }
 
@@ -9584,8 +9567,7 @@ extension OmicsClientTypes {
                 .deleted,
                 .deleting,
                 .processingUpload,
-                .uploadFailed,
-                .sdkUnknown("")
+                .uploadFailed
             ]
         }
 
@@ -9703,8 +9685,7 @@ extension OmicsClientTypes {
         public static var allCases: [ReferenceFile] {
             return [
                 .index,
-                .source,
-                .sdkUnknown("")
+                .source
             ]
         }
 
@@ -9807,8 +9788,7 @@ extension OmicsClientTypes {
                 .failed,
                 .finished,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -9849,8 +9829,7 @@ extension OmicsClientTypes {
                 .completedWithFailures,
                 .failed,
                 .inProgress,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -9992,8 +9971,7 @@ extension OmicsClientTypes {
             return [
                 .active,
                 .deleted,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -10189,8 +10167,7 @@ extension OmicsClientTypes {
         public static var allCases: [ResourceOwner] {
             return [
                 .other,
-                .self,
-                .sdkUnknown("")
+                .self
             ]
         }
 
@@ -10217,8 +10194,7 @@ extension OmicsClientTypes {
 
         public static var allCases: [RunExport] {
             return [
-                .definition,
-                .sdkUnknown("")
+                .definition
             ]
         }
 
@@ -10387,8 +10363,7 @@ extension OmicsClientTypes {
                 .all,
                 .error,
                 .fatal,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -10450,8 +10425,7 @@ extension OmicsClientTypes {
         public static var allCases: [RunRetentionMode] {
             return [
                 .remove,
-                .retain,
-                .sdkUnknown("")
+                .retain
             ]
         }
 
@@ -10492,8 +10466,7 @@ extension OmicsClientTypes {
                 .pending,
                 .running,
                 .starting,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -10542,8 +10515,7 @@ extension OmicsClientTypes {
                 .float,
                 .int,
                 .long,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -10860,8 +10832,7 @@ extension OmicsClientTypes {
             return [
                 .annotationStore,
                 .variantStore,
-                .workflow,
-                .sdkUnknown("")
+                .workflow
             ]
         }
 
@@ -10905,8 +10876,7 @@ extension OmicsClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -11979,8 +11949,7 @@ extension OmicsClientTypes {
         public static var allCases: [StorageType] {
             return [
                 .dynamic,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -12014,8 +11983,7 @@ extension OmicsClientTypes {
             return [
                 .gff,
                 .tsv,
-                .vcf,
-                .sdkUnknown("")
+                .vcf
             ]
         }
 
@@ -12090,8 +12058,7 @@ extension OmicsClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -12273,8 +12240,7 @@ extension OmicsClientTypes {
                 .pending,
                 .running,
                 .starting,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -13562,8 +13528,7 @@ extension OmicsClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -13597,8 +13562,7 @@ extension OmicsClientTypes {
             return [
                 .cwl,
                 .nextflow,
-                .wdl,
-                .sdkUnknown("")
+                .wdl
             ]
         }
 
@@ -13626,8 +13590,7 @@ extension OmicsClientTypes {
 
         public static var allCases: [WorkflowExport] {
             return [
-                .definition,
-                .sdkUnknown("")
+                .definition
             ]
         }
 
@@ -13761,8 +13724,7 @@ extension OmicsClientTypes {
                 .deleted,
                 .failed,
                 .inactive,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -13795,8 +13757,7 @@ extension OmicsClientTypes {
         public static var allCases: [WorkflowType] {
             return [
                 .private,
-                .ready2run,
-                .sdkUnknown("")
+                .ready2run
             ]
         }
 

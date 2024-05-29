@@ -47,8 +47,7 @@ extension MqClientTypes {
         public static var allCases: [AuthenticationStrategy] {
             return [
                 .ldap,
-                .simple,
-                .sdkUnknown("")
+                .simple
             ]
         }
 
@@ -275,8 +274,7 @@ extension MqClientTypes {
                 .deletionInProgress,
                 .rebootInProgress,
                 .replica,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -311,8 +309,7 @@ extension MqClientTypes {
         public static var allCases: [BrokerStorageType] {
             return [
                 .ebs,
-                .efs,
-                .sdkUnknown("")
+                .efs
             ]
         }
 
@@ -407,8 +404,7 @@ extension MqClientTypes {
             return [
                 .create,
                 .delete,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -1194,8 +1190,7 @@ extension MqClientTypes {
         public static var allCases: [DataReplicationMode] {
             return [
                 .crdr,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1234,8 +1229,7 @@ extension MqClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -1469,8 +1463,7 @@ extension MqClientTypes {
             return [
                 .activeStandbyMultiAz,
                 .clusterMultiAz,
-                .singleInstance,
-                .sdkUnknown("")
+                .singleInstance
             ]
         }
 
@@ -2266,8 +2259,7 @@ extension MqClientTypes {
         public static var allCases: [EngineType] {
             return [
                 .activemq,
-                .rabbitmq,
-                .sdkUnknown("")
+                .rabbitmq
             ]
         }
 
@@ -3208,8 +3200,7 @@ extension MqClientTypes {
         public static var allCases: [PromoteMode] {
             return [
                 .failover,
-                .switchover,
-                .sdkUnknown("")
+                .switchover
             ]
         }
 
@@ -3371,8 +3362,7 @@ extension MqClientTypes {
             return [
                 .disallowedAttributeRemoved,
                 .disallowedElementRemoved,
-                .invalidAttributeValueRemoved,
-                .sdkUnknown("")
+                .invalidAttributeValueRemoved
             ]
         }
 

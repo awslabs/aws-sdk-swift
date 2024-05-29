@@ -15,8 +15,7 @@ extension ChimeSDKIdentityClientTypes {
         public static var allCases: [AllowMessages] {
             return [
                 .all,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -525,8 +524,7 @@ extension ChimeSDKIdentityClientTypes {
             return [
                 .apns,
                 .apnsSandbox,
-                .gcm,
-                .sdkUnknown("")
+                .gcm
             ]
         }
 
@@ -1863,8 +1861,7 @@ extension ChimeSDKIdentityClientTypes {
         public static var allCases: [EndpointStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -1893,8 +1890,7 @@ extension ChimeSDKIdentityClientTypes {
         public static var allCases: [EndpointStatusReason] {
             return [
                 .invalidDeviceToken,
-                .invalidPinpointArn,
-                .sdkUnknown("")
+                .invalidPinpointArn
             ]
         }
 
@@ -1949,8 +1945,7 @@ extension ChimeSDKIdentityClientTypes {
                 .throttling,
                 .unauthorized,
                 .unprocessable,
-                .voiceconnectorgroupassociationsexist,
-                .sdkUnknown("")
+                .voiceconnectorgroupassociationsexist
             ]
         }
 
@@ -1990,8 +1985,7 @@ extension ChimeSDKIdentityClientTypes {
 
         public static var allCases: [ExpirationCriterion] {
             return [
-                .createdTimestamp,
-                .sdkUnknown("")
+                .createdTimestamp
             ]
         }
 
@@ -3307,8 +3301,7 @@ extension ChimeSDKIdentityClientTypes {
 
         public static var allCases: [RespondsTo] {
             return [
-                .standardMessages,
-                .sdkUnknown("")
+                .standardMessages
             ]
         }
 
@@ -3422,8 +3415,7 @@ extension ChimeSDKIdentityClientTypes {
                 .all,
                 .auto,
                 .mentions,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3573,8 +3565,7 @@ extension ChimeSDKIdentityClientTypes {
         public static var allCases: [TargetedMessages] {
             return [
                 .all,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 

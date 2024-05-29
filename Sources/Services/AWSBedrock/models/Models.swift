@@ -131,8 +131,7 @@ extension BedrockClientTypes {
         public static var allCases: [CommitmentDuration] {
             return [
                 .oneMonth,
-                .sixMonths,
-                .sdkUnknown("")
+                .sixMonths
             ]
         }
 
@@ -866,8 +865,7 @@ extension BedrockClientTypes {
         public static var allCases: [CustomizationType] {
             return [
                 .continuedPreTraining,
-                .fineTuning,
-                .sdkUnknown("")
+                .fineTuning
             ]
         }
 
@@ -1361,8 +1359,7 @@ extension BedrockClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1394,8 +1391,7 @@ extension BedrockClientTypes {
         public static var allCases: [EvaluationJobType] {
             return [
                 .automated,
-                .human,
-                .sdkUnknown("")
+                .human
             ]
         }
 
@@ -1559,8 +1555,7 @@ extension BedrockClientTypes {
                 .custom,
                 .generation,
                 .questionAndAnswer,
-                .summarization,
-                .sdkUnknown("")
+                .summarization
             ]
         }
 
@@ -1598,8 +1593,7 @@ extension BedrockClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1731,8 +1725,7 @@ extension BedrockClientTypes {
         public static var allCases: [FoundationModelLifecycleStatus] {
             return [
                 .active,
-                .legacy,
-                .sdkUnknown("")
+                .legacy
             ]
         }
 
@@ -2829,8 +2822,7 @@ extension BedrockClientTypes {
                 .misconduct,
                 .promptAttack,
                 .sexual,
-                .violence,
-                .sdkUnknown("")
+                .violence
             ]
         }
 
@@ -2924,8 +2916,7 @@ extension BedrockClientTypes {
                 .high,
                 .low,
                 .medium,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -3006,8 +2997,7 @@ extension BedrockClientTypes {
 
         public static var allCases: [GuardrailManagedWordsType] {
             return [
-                .profanity,
-                .sdkUnknown("")
+                .profanity
             ]
         }
 
@@ -3157,8 +3147,7 @@ extension BedrockClientTypes {
                 .usIndividualTaxIdentificationNumber,
                 .usPassportNumber,
                 .usSocialSecurityNumber,
-                .vehicleIdentificationNumber,
-                .sdkUnknown("")
+                .vehicleIdentificationNumber
             ]
         }
 
@@ -3302,8 +3291,7 @@ extension BedrockClientTypes {
         public static var allCases: [GuardrailSensitiveInformationAction] {
             return [
                 .anonymize,
-                .block,
-                .sdkUnknown("")
+                .block
             ]
         }
 
@@ -3400,8 +3388,7 @@ extension BedrockClientTypes {
                 .failed,
                 .ready,
                 .updating,
-                .versioning,
-                .sdkUnknown("")
+                .versioning
             ]
         }
 
@@ -3666,8 +3653,7 @@ extension BedrockClientTypes {
 
         public static var allCases: [GuardrailTopicType] {
             return [
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -3944,8 +3930,7 @@ extension BedrockClientTypes {
         public static var allCases: [InferenceType] {
             return [
                 .onDemand,
-                .provisioned,
-                .sdkUnknown("")
+                .provisioned
             ]
         }
 
@@ -4875,8 +4860,7 @@ extension BedrockClientTypes {
         public static var allCases: [ModelCustomization] {
             return [
                 .continuedPreTraining,
-                .fineTuning,
-                .sdkUnknown("")
+                .fineTuning
             ]
         }
 
@@ -4911,8 +4895,7 @@ extension BedrockClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -5022,8 +5005,7 @@ extension BedrockClientTypes {
             return [
                 .embedding,
                 .image,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -5089,8 +5071,7 @@ extension BedrockClientTypes {
                 .creating,
                 .failed,
                 .inService,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -5381,8 +5362,7 @@ extension BedrockClientTypes {
 
         public static var allCases: [SortByProvisionedModels] {
             return [
-                .creationTime,
-                .sdkUnknown("")
+                .creationTime
             ]
         }
 
@@ -5408,8 +5388,7 @@ extension BedrockClientTypes {
 
         public static var allCases: [SortJobsBy] {
             return [
-                .creationTime,
-                .sdkUnknown("")
+                .creationTime
             ]
         }
 
@@ -5435,8 +5414,7 @@ extension BedrockClientTypes {
 
         public static var allCases: [SortModelsBy] {
             return [
-                .creationTime,
-                .sdkUnknown("")
+                .creationTime
             ]
         }
 
@@ -5464,8 +5442,7 @@ extension BedrockClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 

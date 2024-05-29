@@ -57,8 +57,7 @@ extension SecurityLakeClientTypes {
         public static var allCases: [AccessType] {
             return [
                 .lakeformation,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -179,8 +178,7 @@ extension SecurityLakeClientTypes {
                 .s3Data,
                 .shFindings,
                 .vpcFlow,
-                .waf,
-                .sdkUnknown("")
+                .waf
             ]
         }
 
@@ -1618,8 +1616,7 @@ extension SecurityLakeClientTypes {
                 .completed,
                 .failed,
                 .initialized,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -2445,8 +2442,7 @@ extension SecurityLakeClientTypes {
         public static var allCases: [HttpMethod] {
             return [
                 .post,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -3180,8 +3176,7 @@ extension SecurityLakeClientTypes {
             return [
                 .collecting,
                 .misconfigured,
-                .notCollecting,
-                .sdkUnknown("")
+                .notCollecting
             ]
         }
 
@@ -3333,8 +3328,7 @@ extension SecurityLakeClientTypes {
                 .active,
                 .deactivated,
                 .pending,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 

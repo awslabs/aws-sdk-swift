@@ -870,8 +870,7 @@ extension MedicalImagingClientTypes {
                 .createFailed,
                 .creating,
                 .deleted,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -1702,8 +1701,7 @@ extension MedicalImagingClientTypes {
             return [
                 .active,
                 .deleted,
-                .locked,
-                .sdkUnknown("")
+                .locked
             ]
         }
 
@@ -1749,8 +1747,7 @@ extension MedicalImagingClientTypes {
                 .deleting,
                 .updated,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1876,8 +1873,7 @@ extension MedicalImagingClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -2300,8 +2296,7 @@ extension MedicalImagingClientTypes {
         public static var allCases: [Operator] {
             return [
                 .between,
-                .equal,
-                .sdkUnknown("")
+                .equal
             ]
         }
 
@@ -2682,8 +2677,7 @@ extension MedicalImagingClientTypes {
             return [
                 .dicomstudydateandtime,
                 .createdat,
-                .updatedat,
-                .sdkUnknown("")
+                .updatedat
             ]
         }
 
@@ -2713,8 +2707,7 @@ extension MedicalImagingClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 

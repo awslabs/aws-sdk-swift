@@ -129,8 +129,7 @@ extension OSISClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -206,8 +205,7 @@ extension OSISClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1377,8 +1375,7 @@ extension OSISClientTypes {
                 .stopped,
                 .stopping,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2255,8 +2252,7 @@ extension OSISClientTypes {
 
         public static var allCases: [VpcEndpointServiceName] {
             return [
-                .opensearchServerless,
-                .sdkUnknown("")
+                .opensearchServerless
             ]
         }
 

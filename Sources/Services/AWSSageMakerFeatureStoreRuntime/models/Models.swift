@@ -373,8 +373,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         public static var allCases: [DeletionMode] {
             return [
                 .hardDelete,
-                .softDelete,
-                .sdkUnknown("")
+                .softDelete
             ]
         }
 
@@ -403,8 +402,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         public static var allCases: [ExpirationTimeResponse] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -778,8 +776,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         public static var allCases: [TargetStore] {
             return [
                 .offlineStore,
-                .onlineStore,
-                .sdkUnknown("")
+                .onlineStore
             ]
         }
 
@@ -845,8 +842,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
                 .hours,
                 .minutes,
                 .seconds,
-                .weeks,
-                .sdkUnknown("")
+                .weeks
             ]
         }
 

@@ -146,8 +146,7 @@ extension StorageGatewayClientTypes {
                 .joining,
                 .networkError,
                 .timeout,
-                .unknownError,
-                .sdkUnknown("")
+                .unknownError
             ]
         }
 
@@ -861,8 +860,7 @@ extension StorageGatewayClientTypes {
             return [
                 .complete,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1231,8 +1229,7 @@ extension StorageGatewayClientTypes {
         public static var allCases: [CaseSensitivity] {
             return [
                 .casesensitive,
-                .clientspecified,
-                .sdkUnknown("")
+                .clientspecified
             ]
         }
 
@@ -5407,8 +5404,7 @@ extension StorageGatewayClientTypes {
                 .volumeidinvalid,
                 .volumeinuse,
                 .volumenotfound,
-                .volumenotready,
-                .sdkUnknown("")
+                .volumenotready
             ]
         }
 
@@ -5544,8 +5540,7 @@ extension StorageGatewayClientTypes {
         public static var allCases: [FileShareType] {
             return [
                 .nfs,
-                .smb,
-                .sdkUnknown("")
+                .smb
             ]
         }
 
@@ -5709,8 +5704,7 @@ extension StorageGatewayClientTypes {
             return [
                 .large,
                 .medium,
-                .small,
-                .sdkUnknown("")
+                .small
             ]
         }
 
@@ -5824,8 +5818,7 @@ extension StorageGatewayClientTypes {
                 .kvm,
                 .other,
                 .snowball,
-                .vmware,
-                .sdkUnknown("")
+                .vmware
             ]
         }
 
@@ -7287,8 +7280,7 @@ extension StorageGatewayClientTypes {
                 .bucketOwnerRead,
                 .private,
                 .publicRead,
-                .publicReadWrite,
-                .sdkUnknown("")
+                .publicReadWrite
             ]
         }
 
@@ -7373,8 +7365,7 @@ extension StorageGatewayClientTypes {
         public static var allCases: [PoolStatus] {
             return [
                 .active,
-                .deleted,
-                .sdkUnknown("")
+                .deleted
             ]
         }
 
@@ -7631,8 +7622,7 @@ extension StorageGatewayClientTypes {
             return [
                 .compliance,
                 .governance,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -8011,8 +8001,7 @@ extension StorageGatewayClientTypes {
             return [
                 .clientspecified,
                 .mandatoryencryption,
-                .mandatorysigning,
-                .sdkUnknown("")
+                .mandatorysigning
             ]
         }
 
@@ -8890,8 +8879,7 @@ extension StorageGatewayClientTypes {
         public static var allCases: [TapeStorageClass] {
             return [
                 .deepArchive,
-                .glacier,
-                .sdkUnknown("")
+                .glacier
             ]
         }
 

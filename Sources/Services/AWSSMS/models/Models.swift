@@ -15,8 +15,7 @@ extension SMSClientTypes {
         public static var allCases: [AppLaunchConfigurationStatus] {
             return [
                 .configured,
-                .notconfigured,
-                .sdkUnknown("")
+                .notconfigured
             ]
         }
 
@@ -71,8 +70,7 @@ extension SMSClientTypes {
                 .terminatefailed,
                 .terminateinprogress,
                 .terminated,
-                .validationinprogress,
-                .sdkUnknown("")
+                .validationinprogress
             ]
         }
 
@@ -114,8 +112,7 @@ extension SMSClientTypes {
         public static var allCases: [AppReplicationConfigurationStatus] {
             return [
                 .configured,
-                .notconfigured,
-                .sdkUnknown("")
+                .notconfigured
             ]
         }
 
@@ -172,8 +169,7 @@ extension SMSClientTypes {
                 .replicationstopfailed,
                 .replicationstopped,
                 .replicationstopping,
-                .validationinprogress,
-                .sdkUnknown("")
+                .validationinprogress
             ]
         }
 
@@ -224,8 +220,7 @@ extension SMSClientTypes {
                 .deleteFailed,
                 .deleted,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -447,8 +442,7 @@ extension SMSClientTypes {
 
         public static var allCases: [AppValidationStrategy] {
             return [
-                .ssm,
-                .sdkUnknown("")
+                .ssm
             ]
         }
 
@@ -553,8 +547,7 @@ extension SMSClientTypes {
                 .scvmm,
                 .smsoptimized,
                 .snapshotbatching,
-                .vsphere,
-                .sdkUnknown("")
+                .vsphere
             ]
         }
 
@@ -586,8 +579,7 @@ extension SMSClientTypes {
         public static var allCases: [ConnectorStatus] {
             return [
                 .healthy,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -2428,8 +2420,7 @@ extension SMSClientTypes {
         public static var allCases: [LicenseType] {
             return [
                 .aws,
-                .byol,
-                .sdkUnknown("")
+                .byol
             ]
         }
 
@@ -2750,8 +2741,7 @@ extension SMSClientTypes {
         public static var allCases: [OutputFormat] {
             return [
                 .json,
-                .yaml,
-                .sdkUnknown("")
+                .yaml
             ]
         }
 
@@ -3190,8 +3180,7 @@ extension SMSClientTypes {
                 .failed,
                 .failing,
                 .pausedonfailure,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -3391,8 +3380,7 @@ extension SMSClientTypes {
                 .deleting,
                 .failed,
                 .missed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -3426,8 +3414,7 @@ extension SMSClientTypes {
         public static var allCases: [ReplicationRunType] {
             return [
                 .automatic,
-                .ondemand,
-                .sdkUnknown("")
+                .ondemand
             ]
         }
 
@@ -3582,8 +3569,7 @@ extension SMSClientTypes {
         public static var allCases: [ScriptType] {
             return [
                 .powershellScript,
-                .shellScript,
-                .sdkUnknown("")
+                .shellScript
             ]
         }
 
@@ -3710,8 +3696,7 @@ extension SMSClientTypes {
                 .deleted,
                 .expired,
                 .importing,
-                .notimported,
-                .sdkUnknown("")
+                .notimported
             ]
         }
 
@@ -4113,8 +4098,7 @@ extension SMSClientTypes {
 
         public static var allCases: [ServerType] {
             return [
-                .virtualmachine,
-                .sdkUnknown("")
+                .virtualmachine
             ]
         }
 
@@ -4221,8 +4205,7 @@ extension SMSClientTypes {
 
         public static var allCases: [ServerValidationStrategy] {
             return [
-                .userdata,
-                .sdkUnknown("")
+                .userdata
             ]
         }
 
@@ -5035,8 +5018,7 @@ extension SMSClientTypes {
                 .inprogress,
                 .pending,
                 .readyforvalidation,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -5070,8 +5052,7 @@ extension SMSClientTypes {
             return [
                 .hypervmanager,
                 .scvmm,
-                .vsphere,
-                .sdkUnknown("")
+                .vsphere
             ]
         }
 

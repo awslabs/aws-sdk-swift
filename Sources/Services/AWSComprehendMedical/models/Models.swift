@@ -100,8 +100,7 @@ extension ComprehendMedicalClientTypes {
                 .pastHistory,
                 .pertainsToFamily,
                 .sign,
-                .symptom,
-                .sdkUnknown("")
+                .symptom
             ]
         }
 
@@ -1051,8 +1050,7 @@ extension ComprehendMedicalClientTypes {
                 .timeToTreatmentName,
                 .tobaccoUse,
                 .treatmentName,
-                .url,
-                .sdkUnknown("")
+                .url
             ]
         }
 
@@ -1134,8 +1132,7 @@ extension ComprehendMedicalClientTypes {
                 .medication,
                 .protectedHealthInformation,
                 .testTreatmentProcedure,
-                .timeExpression,
-                .sdkUnknown("")
+                .timeExpression
             ]
         }
 
@@ -1250,8 +1247,7 @@ extension ComprehendMedicalClientTypes {
                 .quantity,
                 .systemOrganSite,
                 .timeExpression,
-                .timeToDxName,
-                .sdkUnknown("")
+                .timeToDxName
             ]
         }
 
@@ -1390,8 +1386,7 @@ extension ComprehendMedicalClientTypes {
 
         public static var allCases: [ICD10CMEntityCategory] {
             return [
-                .medicalCondition,
-                .sdkUnknown("")
+                .medicalCondition
             ]
         }
 
@@ -1419,8 +1414,7 @@ extension ComprehendMedicalClientTypes {
         public static var allCases: [ICD10CMEntityType] {
             return [
                 .dxName,
-                .timeExpression,
-                .sdkUnknown("")
+                .timeExpression
             ]
         }
 
@@ -1451,8 +1445,7 @@ extension ComprehendMedicalClientTypes {
             return [
                 .overlap,
                 .quality,
-                .systemOrganSite,
-                .sdkUnknown("")
+                .systemOrganSite
             ]
         }
 
@@ -1523,8 +1516,7 @@ extension ComprehendMedicalClientTypes {
                 .negation,
                 .pertainsToFamily,
                 .sign,
-                .symptom,
-                .sdkUnknown("")
+                .symptom
             ]
         }
 
@@ -1973,8 +1965,7 @@ extension ComprehendMedicalClientTypes {
                 .partialSuccess,
                 .stopped,
                 .stopRequested,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -2006,8 +1997,7 @@ extension ComprehendMedicalClientTypes {
 
         public static var allCases: [LanguageCode] {
             return [
-                .en,
-                .sdkUnknown("")
+                .en
             ]
         }
 
@@ -2528,8 +2518,7 @@ extension ComprehendMedicalClientTypes {
                 .testUnits,
                 .testValue,
                 .usage,
-                .withDosage,
-                .sdkUnknown("")
+                .withDosage
             ]
         }
 
@@ -2686,8 +2675,7 @@ extension ComprehendMedicalClientTypes {
                 .frequency,
                 .rate,
                 .routeOrMode,
-                .strength,
-                .sdkUnknown("")
+                .strength
             ]
         }
 
@@ -2826,8 +2814,7 @@ extension ComprehendMedicalClientTypes {
 
         public static var allCases: [RxNormEntityCategory] {
             return [
-                .medication,
-                .sdkUnknown("")
+                .medication
             ]
         }
 
@@ -2855,8 +2842,7 @@ extension ComprehendMedicalClientTypes {
         public static var allCases: [RxNormEntityType] {
             return [
                 .brandName,
-                .genericName,
-                .sdkUnknown("")
+                .genericName
             ]
         }
 
@@ -2916,8 +2902,7 @@ extension ComprehendMedicalClientTypes {
         public static var allCases: [RxNormTraitName] {
             return [
                 .negation,
-                .pastHistory,
-                .sdkUnknown("")
+                .pastHistory
             ]
         }
 
@@ -3030,8 +3015,7 @@ extension ComprehendMedicalClientTypes {
                 .quality,
                 .systemOrganSite,
                 .testUnit,
-                .testValue,
-                .sdkUnknown("")
+                .testValue
             ]
         }
 
@@ -3209,8 +3193,7 @@ extension ComprehendMedicalClientTypes {
             return [
                 .anatomy,
                 .medicalCondition,
-                .testTreatmentProcedure,
-                .sdkUnknown("")
+                .testTreatmentProcedure
             ]
         }
 
@@ -3244,8 +3227,7 @@ extension ComprehendMedicalClientTypes {
                 .dxName,
                 .procedureName,
                 .testName,
-                .treatmentName,
-                .sdkUnknown("")
+                .treatmentName
             ]
         }
 
@@ -3286,8 +3268,7 @@ extension ComprehendMedicalClientTypes {
                 .systemOrganSite,
                 .testUnit,
                 .testUnits,
-                .testValue,
-                .sdkUnknown("")
+                .testValue
             ]
         }
 
@@ -3366,8 +3347,7 @@ extension ComprehendMedicalClientTypes {
                 .pastHistory,
                 .pertainsToFamily,
                 .sign,
-                .symptom,
-                .sdkUnknown("")
+                .symptom
             ]
         }
 

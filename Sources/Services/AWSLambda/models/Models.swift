@@ -518,8 +518,7 @@ extension LambdaClientTypes {
                 .fatal,
                 .info,
                 .trace,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -552,8 +551,7 @@ extension LambdaClientTypes {
         public static var allCases: [Architecture] {
             return [
                 .arm64,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -710,8 +708,7 @@ extension LambdaClientTypes {
         public static var allCases: [CodeSigningPolicy] {
             return [
                 .enforce,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -3246,8 +3243,7 @@ extension LambdaClientTypes {
 
         public static var allCases: [EndPointType] {
             return [
-                .kafkaBootstrapServers,
-                .sdkUnknown("")
+                .kafkaBootstrapServers
             ]
         }
 
@@ -3566,8 +3562,7 @@ extension LambdaClientTypes {
             return [
                 .atTimestamp,
                 .latest,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -3698,8 +3693,7 @@ extension LambdaClientTypes {
         public static var allCases: [FullDocument] {
             return [
                 .default,
-                .updatelookup,
-                .sdkUnknown("")
+                .updatelookup
             ]
         }
 
@@ -4070,8 +4064,7 @@ extension LambdaClientTypes {
 
         public static var allCases: [FunctionResponseType] {
             return [
-                .reportbatchitemfailures,
-                .sdkUnknown("")
+                .reportbatchitemfailures
             ]
         }
 
@@ -4099,8 +4092,7 @@ extension LambdaClientTypes {
         public static var allCases: [FunctionUrlAuthType] {
             return [
                 .awsIam,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -4192,8 +4184,7 @@ extension LambdaClientTypes {
 
         public static var allCases: [FunctionVersion] {
             return [
-                .all,
-                .sdkUnknown("")
+                .all
             ]
         }
 
@@ -6438,8 +6429,7 @@ extension LambdaClientTypes {
             return [
                 .dryrun,
                 .event,
-                .requestresponse,
-                .sdkUnknown("")
+                .requestresponse
             ]
         }
 
@@ -6656,8 +6646,7 @@ extension LambdaClientTypes {
         public static var allCases: [InvokeMode] {
             return [
                 .buffered,
-                .responseStream,
-                .sdkUnknown("")
+                .responseStream
             ]
         }
 
@@ -7256,8 +7245,7 @@ extension LambdaClientTypes {
             return [
                 .failed,
                 .inprogress,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -7325,8 +7313,7 @@ extension LambdaClientTypes {
                 .invalidzipfileexception,
                 .kmskeyaccessdenied,
                 .kmskeynotfound,
-                .subnetoutofipaddresses,
-                .sdkUnknown("")
+                .subnetoutofipaddresses
             ]
         }
 
@@ -8790,8 +8777,7 @@ extension LambdaClientTypes {
         public static var allCases: [LogFormat] {
             return [
                 .json,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -8820,8 +8806,7 @@ extension LambdaClientTypes {
         public static var allCases: [LogType] {
             return [
                 .none,
-                .tail,
-                .sdkUnknown("")
+                .tail
             ]
         }
 
@@ -8961,8 +8946,7 @@ extension LambdaClientTypes {
         public static var allCases: [PackageType] {
             return [
                 .image,
-                .zip,
-                .sdkUnknown("")
+                .zip
             ]
         }
 
@@ -9174,8 +9158,7 @@ extension LambdaClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -10650,8 +10633,7 @@ extension LambdaClientTypes {
         public static var allCases: [ResponseStreamingInvocationType] {
             return [
                 .dryrun,
-                .requestresponse,
-                .sdkUnknown("")
+                .requestresponse
             ]
         }
 
@@ -10752,8 +10734,7 @@ extension LambdaClientTypes {
                 .ruby25,
                 .ruby27,
                 .ruby32,
-                .ruby33,
-                .sdkUnknown("")
+                .ruby33
             ]
         }
 
@@ -11043,8 +11024,7 @@ extension LambdaClientTypes {
         public static var allCases: [SnapStartApplyOn] {
             return [
                 .none,
-                .publishedversions,
-                .sdkUnknown("")
+                .publishedversions
             ]
         }
 
@@ -11155,8 +11135,7 @@ extension LambdaClientTypes {
         public static var allCases: [SnapStartOptimizationStatus] {
             return [
                 .off,
-                .on,
-                .sdkUnknown("")
+                .on
             ]
         }
 
@@ -11324,8 +11303,7 @@ extension LambdaClientTypes {
                 .serverRootCaCertificate,
                 .virtualHost,
                 .vpcSecurityGroup,
-                .vpcSubnet,
-                .sdkUnknown("")
+                .vpcSubnet
             ]
         }
 
@@ -11364,8 +11342,7 @@ extension LambdaClientTypes {
                 .active,
                 .failed,
                 .inactive,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -11440,8 +11417,7 @@ extension LambdaClientTypes {
                 .kmskeyaccessdenied,
                 .kmskeynotfound,
                 .restoring,
-                .subnetoutofipaddresses,
-                .sdkUnknown("")
+                .subnetoutofipaddresses
             ]
         }
 
@@ -11535,8 +11511,7 @@ extension LambdaClientTypes {
             return [
                 .debug,
                 .info,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -11640,8 +11615,7 @@ extension LambdaClientTypes {
                 .concurrentsnapshotcreatelimitexceeded,
                 .functioninvocationratelimitexceeded,
                 .reservedfunctionconcurrentinvocationlimitexceeded,
-                .reservedfunctioninvocationratelimitexceeded,
-                .sdkUnknown("")
+                .reservedfunctioninvocationratelimitexceeded
             ]
         }
 
@@ -11777,8 +11751,7 @@ extension LambdaClientTypes {
         public static var allCases: [TracingMode] {
             return [
                 .active,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -13416,8 +13389,7 @@ extension LambdaClientTypes {
             return [
                 .auto,
                 .functionupdate,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 

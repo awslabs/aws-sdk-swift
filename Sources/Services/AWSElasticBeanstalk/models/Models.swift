@@ -79,8 +79,7 @@ extension ElasticBeanstalkClientTypes {
             return [
                 .completed,
                 .failed,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -114,8 +113,7 @@ extension ElasticBeanstalkClientTypes {
                 .pending,
                 .running,
                 .scheduled,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -148,8 +146,7 @@ extension ElasticBeanstalkClientTypes {
             return [
                 .instancerefresh,
                 .platformupdate,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -442,8 +439,7 @@ extension ElasticBeanstalkClientTypes {
                 .failed,
                 .processed,
                 .processing,
-                .unprocessed,
-                .sdkUnknown("")
+                .unprocessed
             ]
         }
 
@@ -1002,8 +998,7 @@ extension ElasticBeanstalkClientTypes {
             return [
                 .buildGeneral1Large,
                 .buildGeneral1Medium,
-                .buildGeneral1Small,
-                .sdkUnknown("")
+                .buildGeneral1Small
             ]
         }
 
@@ -1035,8 +1030,7 @@ extension ElasticBeanstalkClientTypes {
             return [
                 .deployed,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1212,8 +1206,7 @@ extension ElasticBeanstalkClientTypes {
         public static var allCases: [ConfigurationOptionValueType] {
             return [
                 .list,
-                .scalar,
-                .sdkUnknown("")
+                .scalar
             ]
         }
 
@@ -3920,8 +3913,7 @@ extension ElasticBeanstalkClientTypes {
                 .green,
                 .grey,
                 .red,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -3964,8 +3956,7 @@ extension ElasticBeanstalkClientTypes {
                 .healthstatus,
                 .instanceshealth,
                 .refreshedat,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -4014,8 +4005,7 @@ extension ElasticBeanstalkClientTypes {
                 .severe,
                 .suspended,
                 .unknown,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -4092,8 +4082,7 @@ extension ElasticBeanstalkClientTypes {
         public static var allCases: [EnvironmentInfoType] {
             return [
                 .bundle,
-                .tail,
-                .sdkUnknown("")
+                .tail
             ]
         }
 
@@ -4252,8 +4241,7 @@ extension ElasticBeanstalkClientTypes {
                 .ready,
                 .terminated,
                 .terminating,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4413,8 +4401,7 @@ extension ElasticBeanstalkClientTypes {
                 .fatal,
                 .info,
                 .trace,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -4457,8 +4444,7 @@ extension ElasticBeanstalkClientTypes {
                 .permissionserror,
                 .rollbackfailed,
                 .rollbacksuccessful,
-                .updatecancelled,
-                .sdkUnknown("")
+                .updatecancelled
             ]
         }
 
@@ -4597,8 +4583,7 @@ extension ElasticBeanstalkClientTypes {
                 .instancetype,
                 .launchedat,
                 .refreshedat,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -5875,8 +5860,7 @@ extension ElasticBeanstalkClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -6852,8 +6836,7 @@ extension ElasticBeanstalkClientTypes {
         public static var allCases: [SourceRepository] {
             return [
                 .codecommit,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -6882,8 +6865,7 @@ extension ElasticBeanstalkClientTypes {
         public static var allCases: [SourceType] {
             return [
                 .git,
-                .zip,
-                .sdkUnknown("")
+                .zip
             ]
         }
 
@@ -8421,8 +8403,7 @@ extension ElasticBeanstalkClientTypes {
         public static var allCases: [ValidationSeverity] {
             return [
                 .error,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 

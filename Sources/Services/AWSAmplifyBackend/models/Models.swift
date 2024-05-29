@@ -19,8 +19,7 @@ extension AmplifyBackendClientTypes {
                 .requireDigit,
                 .requireLowercase,
                 .requireSymbol,
-                .requireUppercase,
-                .sdkUnknown("")
+                .requireUppercase
             ]
         }
 
@@ -53,8 +52,7 @@ extension AmplifyBackendClientTypes {
         public static var allCases: [AuthResources] {
             return [
                 .identityPoolAndUserPool,
-                .userPoolOnly,
-                .sdkUnknown("")
+                .userPoolOnly
             ]
         }
 
@@ -85,8 +83,7 @@ extension AmplifyBackendClientTypes {
             return [
                 .createAndUpdate,
                 .delete,
-                .read,
-                .sdkUnknown("")
+                .read
             ]
         }
 
@@ -2235,8 +2232,7 @@ extension AmplifyBackendClientTypes {
         public static var allCases: [DeliveryMethod] {
             return [
                 .email,
-                .sms,
-                .sdkUnknown("")
+                .sms
             ]
         }
 
@@ -3692,8 +3688,7 @@ extension AmplifyBackendClientTypes {
             return [
                 .off,
                 .on,
-                .optional,
-                .sdkUnknown("")
+                .optional
             ]
         }
 
@@ -3723,8 +3718,7 @@ extension AmplifyBackendClientTypes {
         public static var allCases: [MfaTypesElement] {
             return [
                 .sms,
-                .totp,
-                .sdkUnknown("")
+                .totp
             ]
         }
 
@@ -3757,8 +3751,7 @@ extension AmplifyBackendClientTypes {
                 .amazonCognitoUserPools,
                 .apiKey,
                 .awsIam,
-                .openidConnect,
-                .sdkUnknown("")
+                .openidConnect
             ]
         }
 
@@ -3832,8 +3825,7 @@ extension AmplifyBackendClientTypes {
         public static var allCases: [OAuthGrantType] {
             return [
                 .code,
-                .implicit,
-                .sdkUnknown("")
+                .implicit
             ]
         }
 
@@ -3868,8 +3860,7 @@ extension AmplifyBackendClientTypes {
                 .email,
                 .openid,
                 .phone,
-                .profile,
-                .sdkUnknown("")
+                .profile
             ]
         }
 
@@ -4092,8 +4083,7 @@ extension AmplifyBackendClientTypes {
                 .profile,
                 .updatedAt,
                 .website,
-                .zoneInfo,
-                .sdkUnknown("")
+                .zoneInfo
             ]
         }
 
@@ -4141,8 +4131,7 @@ extension AmplifyBackendClientTypes {
                 .automerge,
                 .lambda,
                 .none,
-                .optimisticConcurrency,
-                .sdkUnknown("")
+                .optimisticConcurrency
             ]
         }
 
@@ -4219,8 +4208,7 @@ extension AmplifyBackendClientTypes {
 
         public static var allCases: [Service] {
             return [
-                .cognito,
-                .sdkUnknown("")
+                .cognito
             ]
         }
 
@@ -4246,8 +4234,7 @@ extension AmplifyBackendClientTypes {
 
         public static var allCases: [ServiceName] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -4316,8 +4303,7 @@ extension AmplifyBackendClientTypes {
                 .email,
                 .emailAndPhoneNumber,
                 .phoneNumber,
-                .username,
-                .sdkUnknown("")
+                .username
             ]
         }
 
@@ -4439,8 +4425,7 @@ extension AmplifyBackendClientTypes {
         public static var allCases: [Status] {
             return [
                 .latest,
-                .stale,
-                .sdkUnknown("")
+                .stale
             ]
         }
 
@@ -4514,8 +4499,7 @@ extension AmplifyBackendClientTypes {
             return [
                 .createAndUpdate,
                 .delete,
-                .read,
-                .sdkUnknown("")
+                .read
             ]
         }
 

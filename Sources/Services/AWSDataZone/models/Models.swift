@@ -210,8 +210,7 @@ extension DataZoneClientTypes {
         public static var allCases: [AcceptRuleBehavior] {
             return [
                 .all,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -961,8 +960,7 @@ extension DataZoneClientTypes {
         public static var allCases: [AuthType] {
             return [
                 .disabled,
-                .iamIdc,
-                .sdkUnknown("")
+                .iamIdc
             ]
         }
 
@@ -1218,8 +1216,7 @@ extension DataZoneClientTypes {
         public static var allCases: [ChangeAction] {
             return [
                 .publish,
-                .unpublish,
-                .sdkUnknown("")
+                .unpublish
             ]
         }
 
@@ -1306,8 +1303,7 @@ extension DataZoneClientTypes {
         public static var allCases: [ConfigurableActionTypeAuthorization] {
             return [
                 .https,
-                .iam,
-                .sdkUnknown("")
+                .iam
             ]
         }
 
@@ -4466,8 +4462,7 @@ extension DataZoneClientTypes {
                 .skippedNoAccess,
                 .succeededCreated,
                 .succeededUpdated,
-                .unchanged,
-                .sdkUnknown("")
+                .unchanged
             ]
         }
 
@@ -4715,8 +4710,7 @@ extension DataZoneClientTypes {
                 .resourceNotFoundException,
                 .serviceQuotaExceededException,
                 .throttlingException,
-                .validationException,
-                .sdkUnknown("")
+                .validationException
             ]
         }
 
@@ -4839,8 +4833,7 @@ extension DataZoneClientTypes {
                 .partiallySucceeded,
                 .requested,
                 .running,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -4955,8 +4948,7 @@ extension DataZoneClientTypes {
         public static var allCases: [DataSourceRunType] {
             return [
                 .prioritized,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -4997,8 +4989,7 @@ extension DataZoneClientTypes {
                 .failedUpdate,
                 .ready,
                 .running,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6595,8 +6586,7 @@ extension DataZoneClientTypes {
                 .failed,
                 .inProgress,
                 .pendingDeployment,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -6629,8 +6619,7 @@ extension DataZoneClientTypes {
             return [
                 .create,
                 .delete,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -6704,8 +6693,7 @@ extension DataZoneClientTypes {
                 .creationFailed,
                 .deleted,
                 .deleting,
-                .deletionFailed,
-                .sdkUnknown("")
+                .deletionFailed
             ]
         }
 
@@ -6815,8 +6803,7 @@ extension DataZoneClientTypes {
         public static var allCases: [EnableSetting] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -6843,8 +6830,7 @@ extension DataZoneClientTypes {
 
         public static var allCases: [EntityType] {
             return [
-                .asset,
-                .sdkUnknown("")
+                .asset
             ]
         }
 
@@ -7169,8 +7155,7 @@ extension DataZoneClientTypes {
                 .suspended,
                 .updateFailed,
                 .updating,
-                .validationFailed,
-                .sdkUnknown("")
+                .validationFailed
             ]
         }
 
@@ -7439,8 +7424,7 @@ extension DataZoneClientTypes {
         public static var allCases: [FilterExpressionType] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -7730,8 +7714,7 @@ extension DataZoneClientTypes {
         public static var allCases: [FormTypeStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10992,8 +10975,7 @@ extension DataZoneClientTypes {
         public static var allCases: [GlossaryStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11113,8 +11095,7 @@ extension DataZoneClientTypes {
         public static var allCases: [GlossaryTermStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11299,8 +11280,7 @@ extension DataZoneClientTypes {
         public static var allCases: [GroupProfileStatus] {
             return [
                 .assigned,
-                .notAssigned,
-                .sdkUnknown("")
+                .notAssigned
             ]
         }
 
@@ -11375,8 +11355,7 @@ extension DataZoneClientTypes {
         public static var allCases: [GroupSearchType] {
             return [
                 .datazoneSsoGroup,
-                .ssoGroup,
-                .sdkUnknown("")
+                .ssoGroup
             ]
         }
 
@@ -11509,8 +11488,7 @@ extension DataZoneClientTypes {
             return [
                 .asset,
                 .glossary,
-                .glossaryTerm,
-                .sdkUnknown("")
+                .glossaryTerm
             ]
         }
 
@@ -13968,8 +13946,7 @@ extension DataZoneClientTypes {
             return [
                 .active,
                 .creating,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -14124,8 +14101,7 @@ extension DataZoneClientTypes {
                 .failed,
                 .inProgress,
                 .submitted,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -14200,8 +14176,7 @@ extension DataZoneClientTypes {
 
         public static var allCases: [MetadataGenerationRunType] {
             return [
-                .businessDescriptions,
-                .sdkUnknown("")
+                .businessDescriptions
             ]
         }
 
@@ -14227,8 +14202,7 @@ extension DataZoneClientTypes {
 
         public static var allCases: [MetadataGenerationTargetType] {
             return [
-                .asset,
-                .sdkUnknown("")
+                .asset
             ]
         }
 
@@ -14416,8 +14390,7 @@ extension DataZoneClientTypes {
 
         public static var allCases: [NotificationResourceType] {
             return [
-                .project,
-                .sdkUnknown("")
+                .project
             ]
         }
 
@@ -14451,8 +14424,7 @@ extension DataZoneClientTypes {
                 .projectContributor,
                 .projectOwner,
                 .projectSubscriber,
-                .projectViewer,
-                .sdkUnknown("")
+                .projectViewer
             ]
         }
 
@@ -14484,8 +14456,7 @@ extension DataZoneClientTypes {
         public static var allCases: [NotificationType] {
             return [
                 .event,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -14728,8 +14699,7 @@ extension DataZoneClientTypes {
             return [
                 .active,
                 .deleteFailed,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -15445,8 +15415,7 @@ extension DataZoneClientTypes {
         public static var allCases: [RejectRuleBehavior] {
             return [
                 .all,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -16386,8 +16355,7 @@ extension DataZoneClientTypes {
         public static var allCases: [SearchOutputAdditionalAttribute] {
             return [
                 .forms,
-                .timeSeriesDataPointForms,
-                .sdkUnknown("")
+                .timeSeriesDataPointForms
             ]
         }
 
@@ -16816,8 +16784,7 @@ extension DataZoneClientTypes {
 
         public static var allCases: [SortFieldProject] {
             return [
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -16845,8 +16812,7 @@ extension DataZoneClientTypes {
         public static var allCases: [SortKey] {
             return [
                 .createdAt,
-                .updatedAt,
-                .sdkUnknown("")
+                .updatedAt
             ]
         }
 
@@ -16875,8 +16841,7 @@ extension DataZoneClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -17569,8 +17534,7 @@ extension DataZoneClientTypes {
                 .inaccessible,
                 .inProgress,
                 .pending,
-                .revokeFailed,
-                .sdkUnknown("")
+                .revokeFailed
             ]
         }
 
@@ -17616,8 +17580,7 @@ extension DataZoneClientTypes {
                 .revoked,
                 .revokeFailed,
                 .revokeInProgress,
-                .revokePending,
-                .sdkUnknown("")
+                .revokePending
             ]
         }
 
@@ -17738,8 +17701,7 @@ extension DataZoneClientTypes {
             return [
                 .accepted,
                 .pending,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -17866,8 +17828,7 @@ extension DataZoneClientTypes {
             return [
                 .approved,
                 .cancelled,
-                .revoked,
-                .sdkUnknown("")
+                .revoked
             ]
         }
 
@@ -18199,8 +18160,7 @@ extension DataZoneClientTypes {
         public static var allCases: [TaskStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -18459,8 +18419,7 @@ extension DataZoneClientTypes {
         public static var allCases: [TimeSeriesEntityType] {
             return [
                 .asset,
-                .listing,
-                .sdkUnknown("")
+                .listing
             ]
         }
 
@@ -18613,8 +18572,7 @@ extension DataZoneClientTypes {
                 .usEastern,
                 .usMountain,
                 .usPacific,
-                .utc,
-                .sdkUnknown("")
+                .utc
             ]
         }
 
@@ -18744,8 +18702,7 @@ extension DataZoneClientTypes {
         public static var allCases: [TypesSearchScope] {
             return [
                 .assetType,
-                .formType,
-                .sdkUnknown("")
+                .formType
             ]
         }
 
@@ -20856,8 +20813,7 @@ extension DataZoneClientTypes {
         public static var allCases: [UserAssignment] {
             return [
                 .automatic,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -20886,8 +20842,7 @@ extension DataZoneClientTypes {
         public static var allCases: [UserDesignation] {
             return [
                 .projectContributor,
-                .projectOwner,
-                .sdkUnknown("")
+                .projectOwner
             ]
         }
 
@@ -20975,8 +20930,7 @@ extension DataZoneClientTypes {
                 .activated,
                 .assigned,
                 .deactivated,
-                .notAssigned,
-                .sdkUnknown("")
+                .notAssigned
             ]
         }
 
@@ -21053,8 +21007,7 @@ extension DataZoneClientTypes {
         public static var allCases: [UserProfileType] {
             return [
                 .iam,
-                .sso,
-                .sdkUnknown("")
+                .sso
             ]
         }
 
@@ -21087,8 +21040,7 @@ extension DataZoneClientTypes {
                 .datazoneIamUser,
                 .datazoneSsoUser,
                 .datazoneUser,
-                .ssoUser,
-                .sdkUnknown("")
+                .ssoUser
             ]
         }
 
@@ -21121,8 +21073,7 @@ extension DataZoneClientTypes {
             return [
                 .iamRole,
                 .iamUser,
-                .ssoUser,
-                .sdkUnknown("")
+                .ssoUser
             ]
         }
 

@@ -17,8 +17,7 @@ extension RoboMakerClientTypes {
             return [
                 .arm64,
                 .armhf,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -593,8 +592,7 @@ extension RoboMakerClientTypes {
         public static var allCases: [ComputeType] {
             return [
                 .cpu,
-                .gpuAndCpu,
-                .sdkUnknown("")
+                .gpuAndCpu
             ]
         }
 
@@ -2226,8 +2224,7 @@ extension RoboMakerClientTypes {
             return [
                 .archive,
                 .file,
-                .prefix,
-                .sdkUnknown("")
+                .prefix
             ]
         }
 
@@ -2752,8 +2749,7 @@ extension RoboMakerClientTypes {
                 .robotagentconnectiontimeout,
                 .robotapplicationdoesnotexist,
                 .robotdeploymentaborted,
-                .robotdeploymentnoresponse,
-                .sdkUnknown("")
+                .robotdeploymentnoresponse
             ]
         }
 
@@ -2869,8 +2865,7 @@ extension RoboMakerClientTypes {
                 .inprogress,
                 .pending,
                 .preparing,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4320,8 +4315,7 @@ extension RoboMakerClientTypes {
         public static var allCases: [ExitBehavior] {
             return [
                 .fail,
-                .restart,
-                .sdkUnknown("")
+                .restart
             ]
         }
 
@@ -4391,8 +4385,7 @@ extension RoboMakerClientTypes {
         public static var allCases: [FailureBehavior] {
             return [
                 .continue,
-                .fail,
-                .sdkUnknown("")
+                .fail
             ]
         }
 
@@ -6172,8 +6165,7 @@ extension RoboMakerClientTypes {
 
         public static var allCases: [RenderingEngineType] {
             return [
-                .ogre,
-                .sdkUnknown("")
+                .ogre
             ]
         }
 
@@ -6584,8 +6576,7 @@ extension RoboMakerClientTypes {
                 .launchingstep,
                 .postlaunchstep,
                 .prelaunchstep,
-                .validatingstep,
-                .sdkUnknown("")
+                .validatingstep
             ]
         }
 
@@ -6658,8 +6649,7 @@ extension RoboMakerClientTypes {
             return [
                 .general,
                 .ros,
-                .ros2,
-                .sdkUnknown("")
+                .ros2
             ]
         }
 
@@ -6693,8 +6683,7 @@ extension RoboMakerClientTypes {
                 .dashing,
                 .foxy,
                 .kinetic,
-                .melodic,
-                .sdkUnknown("")
+                .melodic
             ]
         }
 
@@ -6735,8 +6724,7 @@ extension RoboMakerClientTypes {
                 .insync,
                 .noresponse,
                 .pendingnewdeployment,
-                .registered,
-                .sdkUnknown("")
+                .registered
             ]
         }
 
@@ -7135,8 +7123,7 @@ extension RoboMakerClientTypes {
 
         public static var allCases: [SimulationJobBatchErrorCode] {
             return [
-                .internalserviceerror,
-                .sdkUnknown("")
+                .internalserviceerror
             ]
         }
 
@@ -7178,8 +7165,7 @@ extension RoboMakerClientTypes {
                 .inprogress,
                 .pending,
                 .timedout,
-                .timingout,
-                .sdkUnknown("")
+                .timingout
             ]
         }
 
@@ -7329,8 +7315,7 @@ extension RoboMakerClientTypes {
                 .wrongregionrobotapplication,
                 .wrongregions3bucket,
                 .wrongregions3output,
-                .wrongregionsimulationapplication,
-                .sdkUnknown("")
+                .wrongregionsimulationapplication
             ]
         }
 
@@ -7502,8 +7487,7 @@ extension RoboMakerClientTypes {
                 .running,
                 .runningfailed,
                 .terminated,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -7640,8 +7624,7 @@ extension RoboMakerClientTypes {
             return [
                 .gazebo,
                 .rosbagplay,
-                .simulationruntime,
-                .sdkUnknown("")
+                .simulationruntime
             ]
         }
 
@@ -8677,8 +8660,7 @@ extension RoboMakerClientTypes {
         public static var allCases: [UploadBehavior] {
             return [
                 .uploadOnTerminate,
-                .uploadRollingAutoRemove,
-                .sdkUnknown("")
+                .uploadRollingAutoRemove
             ]
         }
 
@@ -8914,8 +8896,7 @@ extension RoboMakerClientTypes {
                 .invalidinput,
                 .limitexceeded,
                 .requestthrottled,
-                .resourcenotfound,
-                .sdkUnknown("")
+                .resourcenotfound
             ]
         }
 
@@ -8956,8 +8937,7 @@ extension RoboMakerClientTypes {
                 .completed,
                 .failed,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -9080,8 +9060,7 @@ extension RoboMakerClientTypes {
                 .invalidinput,
                 .limitexceeded,
                 .requestthrottled,
-                .resourcenotfound,
-                .sdkUnknown("")
+                .resourcenotfound
             ]
         }
 
@@ -9124,8 +9103,7 @@ extension RoboMakerClientTypes {
                 .failed,
                 .partialfailed,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 

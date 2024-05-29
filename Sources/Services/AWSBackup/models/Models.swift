@@ -54,8 +54,7 @@ extension BackupClientTypes {
             return [
                 .fourteenDays,
                 .oneDay,
-                .sevenDays,
-                .sdkUnknown("")
+                .sevenDays
             ]
         }
 
@@ -308,8 +307,7 @@ extension BackupClientTypes {
                 .failed,
                 .partial,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -363,8 +361,7 @@ extension BackupClientTypes {
                 .failed,
                 .partial,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -945,8 +942,7 @@ extension BackupClientTypes {
                 .restoreJobStarted,
                 .restoreJobSuccessful,
                 .s3BackupObjectFailed,
-                .s3RestoreObjectFailed,
-                .sdkUnknown("")
+                .s3RestoreObjectFailed
             ]
         }
 
@@ -1253,8 +1249,7 @@ extension BackupClientTypes {
 
         public static var allCases: [ConditionType] {
             return [
-                .stringequals,
-                .sdkUnknown("")
+                .stringequals
             ]
         }
 
@@ -1637,8 +1632,7 @@ extension BackupClientTypes {
                 .created,
                 .failed,
                 .partial,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -1688,8 +1682,7 @@ extension BackupClientTypes {
                 .failed,
                 .failing,
                 .partial,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -6275,8 +6268,7 @@ extension BackupClientTypes {
                 .active,
                 .canceled,
                 .canceling,
-                .creating,
-                .sdkUnknown("")
+                .creating
             ]
         }
 
@@ -9951,8 +9943,7 @@ extension BackupClientTypes {
                 .completed,
                 .deleting,
                 .expired,
-                .partial,
-                .sdkUnknown("")
+                .partial
             ]
         }
 
@@ -10300,8 +10291,7 @@ extension BackupClientTypes {
             return [
                 .deleting,
                 .failed,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -10369,8 +10359,7 @@ extension BackupClientTypes {
                 .created,
                 .failed,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -10411,8 +10400,7 @@ extension BackupClientTypes {
                 .completed,
                 .failed,
                 .pending,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -10898,8 +10886,7 @@ extension BackupClientTypes {
         public static var allCases: [RestoreTestingRecoveryPointSelectionAlgorithm] {
             return [
                 .latestWithinWindow,
-                .randomWithinWindow,
-                .sdkUnknown("")
+                .randomWithinWindow
             ]
         }
 
@@ -10928,8 +10915,7 @@ extension BackupClientTypes {
         public static var allCases: [RestoreTestingRecoveryPointType] {
             return [
                 .continuous,
-                .snapshot,
-                .sdkUnknown("")
+                .snapshot
             ]
         }
 
@@ -11237,8 +11223,7 @@ extension BackupClientTypes {
                 .failed,
                 .successful,
                 .timedOut,
-                .validating,
-                .sdkUnknown("")
+                .validating
             ]
         }
 
@@ -11838,8 +11823,7 @@ extension BackupClientTypes {
             return [
                 .cold,
                 .deleted,
-                .warm,
-                .sdkUnknown("")
+                .warm
             ]
         }
 
@@ -12734,8 +12718,7 @@ extension BackupClientTypes {
             return [
                 .available,
                 .creating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -12765,8 +12748,7 @@ extension BackupClientTypes {
         public static var allCases: [VaultType] {
             return [
                 .backupVault,
-                .logicallyAirGappedBackupVault,
-                .sdkUnknown("")
+                .logicallyAirGappedBackupVault
             ]
         }
 

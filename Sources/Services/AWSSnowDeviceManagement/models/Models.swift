@@ -57,8 +57,7 @@ extension SnowDeviceManagementClientTypes {
                 .attached,
                 .attaching,
                 .detached,
-                .detaching,
-                .sdkUnknown("")
+                .detaching
             ]
         }
 
@@ -843,8 +842,7 @@ extension SnowDeviceManagementClientTypes {
                 .queued,
                 .rejected,
                 .succeeded,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -1090,8 +1088,7 @@ extension SnowDeviceManagementClientTypes {
                 .shuttingDown,
                 .stopped,
                 .stopping,
-                .terminated,
-                .sdkUnknown("")
+                .terminated
             ]
         }
 
@@ -1193,8 +1190,7 @@ extension SnowDeviceManagementClientTypes {
         public static var allCases: [IpAddressAssignment] {
             return [
                 .dhcp,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -1685,8 +1681,7 @@ extension SnowDeviceManagementClientTypes {
                 .rj45,
                 .rj452,
                 .sfpPlus,
-                .wifi,
-                .sdkUnknown("")
+                .wifi
             ]
         }
 
@@ -2039,8 +2034,7 @@ extension SnowDeviceManagementClientTypes {
             return [
                 .canceled,
                 .completed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -2169,8 +2163,7 @@ extension SnowDeviceManagementClientTypes {
             return [
                 .locked,
                 .unlocked,
-                .unlocking,
-                .sdkUnknown("")
+                .unlocking
             ]
         }
 

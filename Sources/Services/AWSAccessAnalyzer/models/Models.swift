@@ -42,8 +42,7 @@ extension AccessAnalyzerClientTypes {
         public static var allCases: [AccessCheckPolicyType] {
             return [
                 .identityPolicy,
-                .resourcePolicy,
-                .sdkUnknown("")
+                .resourcePolicy
             ]
         }
 
@@ -285,8 +284,7 @@ extension AccessAnalyzerClientTypes {
             return [
                 .completed,
                 .creating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -343,8 +341,7 @@ extension AccessAnalyzerClientTypes {
         public static var allCases: [AccessPreviewStatusReasonCode] {
             return [
                 .internalError,
-                .invalidConfiguration,
-                .sdkUnknown("")
+                .invalidConfiguration
             ]
         }
 
@@ -475,8 +472,7 @@ extension AccessAnalyzerClientTypes {
                 .read,
                 .readAcp,
                 .write,
-                .writeAcp,
-                .sdkUnknown("")
+                .writeAcp
             ]
         }
 
@@ -668,8 +664,7 @@ extension AccessAnalyzerClientTypes {
                 .active,
                 .creating,
                 .disabled,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -1041,8 +1036,7 @@ extension AccessAnalyzerClientTypes {
         public static var allCases: [CheckAccessNotGrantedResult] {
             return [
                 .fail,
-                .pass,
-                .sdkUnknown("")
+                .pass
             ]
         }
 
@@ -1169,8 +1163,7 @@ extension AccessAnalyzerClientTypes {
         public static var allCases: [CheckNoNewAccessResult] {
             return [
                 .fail,
-                .pass,
-                .sdkUnknown("")
+                .pass
             ]
         }
 
@@ -2257,8 +2250,7 @@ extension AccessAnalyzerClientTypes {
             return [
                 .changed,
                 .new,
-                .unchanged,
-                .sdkUnknown("")
+                .unchanged
             ]
         }
 
@@ -2395,8 +2387,7 @@ extension AccessAnalyzerClientTypes {
                 .bucketAcl,
                 .policy,
                 .s3AccessPoint,
-                .s3AccessPointAccount,
-                .sdkUnknown("")
+                .s3AccessPointAccount
             ]
         }
 
@@ -2429,8 +2420,7 @@ extension AccessAnalyzerClientTypes {
             return [
                 .active,
                 .archived,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -2460,8 +2450,7 @@ extension AccessAnalyzerClientTypes {
         public static var allCases: [FindingStatusUpdate] {
             return [
                 .active,
-                .archived,
-                .sdkUnknown("")
+                .archived
             ]
         }
 
@@ -2673,8 +2662,7 @@ extension AccessAnalyzerClientTypes {
                 .unusedIamRole,
                 .unusedIamUserAccessKey,
                 .unusedIamUserPassword,
-                .unusedPermission,
-                .sdkUnknown("")
+                .unusedPermission
             ]
         }
 
@@ -3718,8 +3706,7 @@ extension AccessAnalyzerClientTypes {
                 .authorizationError,
                 .resourceNotFoundError,
                 .serviceError,
-                .serviceQuotaExceededError,
-                .sdkUnknown("")
+                .serviceQuotaExceededError
             ]
         }
 
@@ -3754,8 +3741,7 @@ extension AccessAnalyzerClientTypes {
                 .canceled,
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3905,8 +3891,7 @@ extension AccessAnalyzerClientTypes {
                 .reencryptTo,
                 .retireGrant,
                 .sign,
-                .verify,
-                .sdkUnknown("")
+                .verify
             ]
         }
 
@@ -4838,8 +4823,7 @@ extension AccessAnalyzerClientTypes {
                 .ko,
                 .ptBr,
                 .zhCn,
-                .zhTw,
-                .sdkUnknown("")
+                .zhTw
             ]
         }
 
@@ -4949,8 +4933,7 @@ extension AccessAnalyzerClientTypes {
         public static var allCases: [OrderBy] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -5092,8 +5075,7 @@ extension AccessAnalyzerClientTypes {
             return [
                 .identityPolicy,
                 .resourcePolicy,
-                .serviceControlPolicy,
-                .sdkUnknown("")
+                .serviceControlPolicy
             ]
         }
 
@@ -5328,8 +5310,7 @@ extension AccessAnalyzerClientTypes {
                 .awsServiceAccessDisabled,
                 .delegatedAdministratorDeregistered,
                 .organizationDeleted,
-                .serviceLinkedRoleCreationFailed,
-                .sdkUnknown("")
+                .serviceLinkedRoleCreationFailed
             ]
         }
 
@@ -5474,8 +5455,7 @@ extension AccessAnalyzerClientTypes {
                 .awsS3Bucket,
                 .awsSecretsmanagerSecret,
                 .awsSnsTopic,
-                .awsSqsQueue,
-                .sdkUnknown("")
+                .awsSqsQueue
             ]
         }
 
@@ -6332,8 +6312,7 @@ extension AccessAnalyzerClientTypes {
                 .account,
                 .accountUnusedAccess,
                 .organization,
-                .organizationUnusedAccess,
-                .sdkUnknown("")
+                .organizationUnusedAccess
             ]
         }
 
@@ -6877,8 +6856,7 @@ extension AccessAnalyzerClientTypes {
                 .error,
                 .securityWarning,
                 .suggestion,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -7032,8 +7010,7 @@ extension AccessAnalyzerClientTypes {
                 .s3AccessPoint,
                 .s3Bucket,
                 .s3MultiRegionAccessPoint,
-                .s3ObjectLambdaAccessPoint,
-                .sdkUnknown("")
+                .s3ObjectLambdaAccessPoint
             ]
         }
 
@@ -7152,8 +7129,7 @@ extension AccessAnalyzerClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

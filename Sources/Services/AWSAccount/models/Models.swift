@@ -108,8 +108,7 @@ extension AccountClientTypes {
             return [
                 .billing,
                 .operations,
-                .security,
-                .sdkUnknown("")
+                .security
             ]
         }
 
@@ -1013,8 +1012,7 @@ extension AccountClientTypes {
                 .disabling,
                 .enabled,
                 .enabledByDefault,
-                .enabling,
-                .sdkUnknown("")
+                .enabling
             ]
         }
 
@@ -1214,8 +1212,7 @@ extension AccountClientTypes {
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .fieldValidationFailed,
-                .invalidRegionOptTarget,
-                .sdkUnknown("")
+                .invalidRegionOptTarget
             ]
         }
 

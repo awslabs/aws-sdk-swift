@@ -870,8 +870,7 @@ extension RUMClientTypes {
         public static var allCases: [CustomEventsStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1802,8 +1801,7 @@ extension RUMClientTypes {
         public static var allCases: [MetricDestination] {
             return [
                 .cloudwatch,
-                .evidently,
-                .sdkUnknown("")
+                .evidently
             ]
         }
 
@@ -2197,8 +2195,7 @@ extension RUMClientTypes {
             return [
                 .active,
                 .created,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -2297,8 +2294,7 @@ extension RUMClientTypes {
             return [
                 .errors,
                 .http,
-                .performance,
-                .sdkUnknown("")
+                .performance
             ]
         }
 

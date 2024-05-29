@@ -90,8 +90,7 @@ extension CloudHSMClientTypes {
         public static var allCases: [ClientVersion] {
             return [
                 .fiveOne,
-                .fiveThree,
-                .sdkUnknown("")
+                .fiveThree
             ]
         }
 
@@ -167,8 +166,7 @@ extension CloudHSMClientTypes {
             return [
                 .degraded,
                 .ready,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1189,8 +1187,7 @@ extension CloudHSMClientTypes {
                 .suspended,
                 .terminated,
                 .terminating,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1939,8 +1936,7 @@ extension CloudHSMClientTypes {
 
         public static var allCases: [SubscriptionType] {
             return [
-                .production,
-                .sdkUnknown("")
+                .production
             ]
         }
 

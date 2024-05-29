@@ -577,8 +577,7 @@ extension AutoScalingPlansClientTypes {
                 .capacityforecast,
                 .loadforecast,
                 .scheduledactionmaxcapacity,
-                .scheduledactionmincapacity,
-                .sdkUnknown("")
+                .scheduledactionmincapacity
             ]
         }
 
@@ -842,8 +841,7 @@ extension AutoScalingPlansClientTypes {
                 .albtargetgrouprequestcount,
                 .asgtotalcpuutilization,
                 .asgtotalnetworkin,
-                .asgtotalnetworkout,
-                .sdkUnknown("")
+                .asgtotalnetworkout
             ]
         }
 
@@ -919,8 +917,7 @@ extension AutoScalingPlansClientTypes {
                 .maximum,
                 .minimum,
                 .samplecount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -987,8 +984,7 @@ extension AutoScalingPlansClientTypes {
 
         public static var allCases: [PolicyType] {
             return [
-                .targettrackingscaling,
-                .sdkUnknown("")
+                .targettrackingscaling
             ]
         }
 
@@ -1108,8 +1104,7 @@ extension AutoScalingPlansClientTypes {
             return [
                 .setforecastcapacitytomaxcapacity,
                 .setmaxcapacityaboveforecastcapacity,
-                .setmaxcapacitytoforecastcapacity,
-                .sdkUnknown("")
+                .setmaxcapacitytoforecastcapacity
             ]
         }
 
@@ -1139,8 +1134,7 @@ extension AutoScalingPlansClientTypes {
         public static var allCases: [PredictiveScalingMode] {
             return [
                 .forecastandscale,
-                .forecastonly,
-                .sdkUnknown("")
+                .forecastonly
             ]
         }
 
@@ -1181,8 +1175,7 @@ extension AutoScalingPlansClientTypes {
                 .dynamodbtablewritecapacityunits,
                 .ec2spotfleetrequesttargetcapacity,
                 .ecsservicedesiredcount,
-                .rdsclusterreadreplicacount,
-                .sdkUnknown("")
+                .rdsclusterreadreplicacount
             ]
         }
 
@@ -1391,8 +1384,7 @@ extension AutoScalingPlansClientTypes {
                 .ecsserviceaveragecpuutilization,
                 .ecsserviceaveragememoryutilization,
                 .rdsreaderaveragecpuutilization,
-                .rdsreaderaveragedatabaseconnections,
-                .sdkUnknown("")
+                .rdsreaderaveragedatabaseconnections
             ]
         }
 
@@ -1627,8 +1619,7 @@ extension AutoScalingPlansClientTypes {
                 .deletionfailed,
                 .deletioninprogress,
                 .updatefailed,
-                .updateinprogress,
-                .sdkUnknown("")
+                .updateinprogress
             ]
         }
 
@@ -1701,8 +1692,7 @@ extension AutoScalingPlansClientTypes {
         public static var allCases: [ScalingPolicyUpdateBehavior] {
             return [
                 .keepexternalpolicies,
-                .replaceexternalpolicies,
-                .sdkUnknown("")
+                .replaceexternalpolicies
             ]
         }
 
@@ -1733,8 +1723,7 @@ extension AutoScalingPlansClientTypes {
             return [
                 .active,
                 .inactive,
-                .partiallyactive,
-                .sdkUnknown("")
+                .partiallyactive
             ]
         }
 
@@ -1770,8 +1759,7 @@ extension AutoScalingPlansClientTypes {
                 .dynamodb,
                 .ec2,
                 .ecs,
-                .rds,
-                .sdkUnknown("")
+                .rds
             ]
         }
 

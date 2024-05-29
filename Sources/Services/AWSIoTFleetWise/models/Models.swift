@@ -511,8 +511,7 @@ extension IoTFleetWiseClientTypes {
                 .creating,
                 .running,
                 .suspended,
-                .waitingForApproval,
-                .sdkUnknown("")
+                .waitingForApproval
             ]
         }
 
@@ -852,8 +851,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [Compression] {
             return [
                 .off,
-                .snappy,
-                .sdkUnknown("")
+                .snappy
             ]
         }
 
@@ -1923,8 +1921,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [DataFormat] {
             return [
                 .json,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -2524,8 +2521,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [DiagnosticsMode] {
             return [
                 .off,
-                .sendActiveDtcs,
-                .sdkUnknown("")
+                .sendActiveDtcs
             ]
         }
 
@@ -2620,8 +2616,7 @@ extension IoTFleetWiseClientTypes {
             return [
                 .failure,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2651,8 +2646,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [EncryptionType] {
             return [
                 .fleetwiseDefaultEncryption,
-                .kmsBasedEncryption,
-                .sdkUnknown("")
+                .kmsBasedEncryption
             ]
         }
 
@@ -5471,8 +5465,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [LogType] {
             return [
                 .error,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -5505,8 +5498,7 @@ extension IoTFleetWiseClientTypes {
                 .active,
                 .draft,
                 .invalid,
-                .validating,
-                .sdkUnknown("")
+                .validating
             ]
         }
 
@@ -5724,8 +5716,7 @@ extension IoTFleetWiseClientTypes {
                 .networkInterfaceToAddAlreadyExists,
                 .networkInterfaceToRemoveAssociatedWithSignals,
                 .obdNetworkInterfaceInfoIsNull,
-                .vehicleMiddlewareNetworkInterfaceInfoIsNull,
-                .sdkUnknown("")
+                .vehicleMiddlewareNetworkInterfaceInfoIsNull
             ]
         }
 
@@ -5761,8 +5752,7 @@ extension IoTFleetWiseClientTypes {
             return [
                 .canInterface,
                 .obdInterface,
-                .vehicleMiddleware,
-                .sdkUnknown("")
+                .vehicleMiddleware
             ]
         }
 
@@ -5912,8 +5902,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [NodeDataEncoding] {
             return [
                 .binary,
-                .typed,
-                .sdkUnknown("")
+                .typed
             ]
         }
 
@@ -5996,8 +5985,7 @@ extension IoTFleetWiseClientTypes {
                 .uint8Array,
                 .unixTimestamp,
                 .unixTimestampArray,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -6466,8 +6454,7 @@ extension IoTFleetWiseClientTypes {
                 .uint32,
                 .uint64,
                 .uint8,
-                .wstring,
-                .sdkUnknown("")
+                .wstring
             ]
         }
 
@@ -6613,8 +6600,7 @@ extension IoTFleetWiseClientTypes {
             return [
                 .registrationFailure,
                 .registrationPending,
-                .registrationSuccess,
-                .sdkUnknown("")
+                .registrationSuccess
             ]
         }
 
@@ -6966,8 +6952,7 @@ extension IoTFleetWiseClientTypes {
                 .signalNotAssociatedWithNetworkInterface,
                 .signalNotInModel,
                 .signalToAddAlreadyExists,
-                .structSizeMismatch,
-                .sdkUnknown("")
+                .structSizeMismatch
             ]
         }
 
@@ -7011,8 +6996,7 @@ extension IoTFleetWiseClientTypes {
             return [
                 .canSignal,
                 .messageSignal,
-                .obdSignal,
-                .sdkUnknown("")
+                .obdSignal
             ]
         }
 
@@ -7094,8 +7078,7 @@ extension IoTFleetWiseClientTypes {
                 .branch,
                 .customProperty,
                 .customStruct,
-                .sensor,
-                .sdkUnknown("")
+                .sensor
             ]
         }
 
@@ -7128,8 +7111,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [SpoolingMode] {
             return [
                 .off,
-                .toDisk,
-                .sdkUnknown("")
+                .toDisk
             ]
         }
 
@@ -7158,8 +7140,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [StorageCompressionFormat] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -7327,8 +7308,7 @@ extension IoTFleetWiseClientTypes {
             return [
                 .dynamicBoundedCapacity,
                 .dynamicUnboundedCapacity,
-                .fixedCapacity,
-                .sdkUnknown("")
+                .fixedCapacity
             ]
         }
 
@@ -7688,8 +7668,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [TriggerMode] {
             return [
                 .always,
-                .risingEdge,
-                .sdkUnknown("")
+                .risingEdge
             ]
         }
 
@@ -7793,8 +7772,7 @@ extension IoTFleetWiseClientTypes {
                 .approve,
                 .resume,
                 .suspend,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -8137,8 +8115,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [UpdateMode] {
             return [
                 .merge,
-                .overwrite,
-                .sdkUnknown("")
+                .overwrite
             ]
         }
 
@@ -8660,8 +8637,7 @@ extension IoTFleetWiseClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -8692,8 +8668,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [VehicleAssociationBehavior] {
             return [
                 .createIotThing,
-                .validateIotThingExists,
-                .sdkUnknown("")
+                .validateIotThingExists
             ]
         }
 
@@ -8759,8 +8734,7 @@ extension IoTFleetWiseClientTypes {
 
         public static var allCases: [VehicleMiddlewareProtocol] {
             return [
-                .ros2,
-                .sdkUnknown("")
+                .ros2
             ]
         }
 
@@ -8794,8 +8768,7 @@ extension IoTFleetWiseClientTypes {
                 .deleting,
                 .healthy,
                 .ready,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 

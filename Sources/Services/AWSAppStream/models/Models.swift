@@ -51,8 +51,7 @@ extension AppStreamClientTypes {
 
         public static var allCases: [AccessEndpointType] {
             return [
-                .streaming,
-                .sdkUnknown("")
+                .streaming
             ]
         }
 
@@ -90,8 +89,7 @@ extension AppStreamClientTypes {
                 .domainSmartCardSignin,
                 .fileDownload,
                 .fileUpload,
-                .printingToLocalDevice,
-                .sdkUnknown("")
+                .printingToLocalDevice
             ]
         }
 
@@ -335,8 +333,7 @@ extension AppStreamClientTypes {
             return [
                 .accessEndpoints,
                 .iamRoleArn,
-                .vpcConfigurationSecurityGroupIds,
-                .sdkUnknown("")
+                .vpcConfigurationSecurityGroupIds
             ]
         }
 
@@ -364,8 +361,7 @@ extension AppStreamClientTypes {
 
         public static var allCases: [AppBlockBuilderPlatformType] {
             return [
-                .windowsServer2019,
-                .sdkUnknown("")
+                .windowsServer2019
             ]
         }
 
@@ -397,8 +393,7 @@ extension AppStreamClientTypes {
                 .running,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -458,8 +453,7 @@ extension AppStreamClientTypes {
 
         public static var allCases: [AppBlockBuilderStateChangeReasonCode] {
             return [
-                .internalError,
-                .sdkUnknown("")
+                .internalError
             ]
         }
 
@@ -487,8 +481,7 @@ extension AppStreamClientTypes {
         public static var allCases: [AppBlockState] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -519,8 +512,7 @@ extension AppStreamClientTypes {
         public static var allCases: [AppVisibility] {
             return [
                 .all,
-                .associated,
-                .sdkUnknown("")
+                .associated
             ]
         }
 
@@ -645,8 +637,7 @@ extension AppStreamClientTypes {
         public static var allCases: [ApplicationAttribute] {
             return [
                 .launchParameters,
-                .workingDirectory,
-                .sdkUnknown("")
+                .workingDirectory
             ]
         }
 
@@ -1064,8 +1055,7 @@ extension AppStreamClientTypes {
                 .api,
                 .awsAd,
                 .saml,
-                .userpool,
-                .sdkUnknown("")
+                .userpool
             ]
         }
 
@@ -1269,8 +1259,7 @@ extension AppStreamClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .enabledNoDirectoryLoginFallback,
-                .sdkUnknown("")
+                .enabledNoDirectoryLoginFallback
             ]
         }
 
@@ -6224,8 +6213,7 @@ extension AppStreamClientTypes {
                 .sessionScriptS3Location,
                 .usbDeviceFilterStrings,
                 .vpcConfiguration,
-                .vpcConfigurationSecurityGroupIds,
-                .sdkUnknown("")
+                .vpcConfigurationSecurityGroupIds
             ]
         }
 
@@ -6346,8 +6334,7 @@ extension AppStreamClientTypes {
                 .securityGroupsNotFound,
                 .stsDisabledInRegion,
                 .subnetHasInsufficientIpAddresses,
-                .subnetNotFound,
-                .sdkUnknown("")
+                .subnetNotFound
             ]
         }
 
@@ -6408,8 +6395,7 @@ extension AppStreamClientTypes {
                 .running,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -6442,8 +6428,7 @@ extension AppStreamClientTypes {
             return [
                 .alwaysOn,
                 .elastic,
-                .onDemand,
-                .sdkUnknown("")
+                .onDemand
             ]
         }
 
@@ -6776,8 +6761,7 @@ extension AppStreamClientTypes {
                 .stopped,
                 .stopping,
                 .updating,
-                .updatingAgent,
-                .sdkUnknown("")
+                .updatingAgent
             ]
         }
 
@@ -6846,8 +6830,7 @@ extension AppStreamClientTypes {
         public static var allCases: [ImageBuilderStateChangeReasonCode] {
             return [
                 .imageUnavailable,
-                .internalError,
-                .sdkUnknown("")
+                .internalError
             ]
         }
 
@@ -6923,8 +6906,7 @@ extension AppStreamClientTypes {
                 .deleting,
                 .failed,
                 .importing,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -6991,8 +6973,7 @@ extension AppStreamClientTypes {
             return [
                 .imageBuilderNotAvailable,
                 .imageCopyFailure,
-                .internalError,
-                .sdkUnknown("")
+                .internalError
             ]
         }
 
@@ -7548,8 +7529,7 @@ extension AppStreamClientTypes {
         public static var allCases: [MessageAction] {
             return [
                 .resend,
-                .suppress,
-                .sdkUnknown("")
+                .suppress
             ]
         }
 
@@ -7647,8 +7627,7 @@ extension AppStreamClientTypes {
         public static var allCases: [PackagingType] {
             return [
                 .appstream2,
-                .custom,
-                .sdkUnknown("")
+                .custom
             ]
         }
 
@@ -7677,8 +7656,7 @@ extension AppStreamClientTypes {
         public static var allCases: [Permission] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7713,8 +7691,7 @@ extension AppStreamClientTypes {
                 .windows,
                 .windowsServer2016,
                 .windowsServer2019,
-                .windowsServer2022,
-                .sdkUnknown("")
+                .windowsServer2022
             ]
         }
 
@@ -7746,8 +7723,7 @@ extension AppStreamClientTypes {
         public static var allCases: [PreferredProtocol] {
             return [
                 .tcp,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -8227,8 +8203,7 @@ extension AppStreamClientTypes {
         public static var allCases: [SessionConnectionState] {
             return [
                 .connected,
-                .notConnected,
-                .sdkUnknown("")
+                .notConnected
             ]
         }
 
@@ -8260,8 +8235,7 @@ extension AppStreamClientTypes {
             return [
                 .active,
                 .expired,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -8436,8 +8410,7 @@ extension AppStreamClientTypes {
                 .storageConnectorOneDrive,
                 .streamingExperienceSettings,
                 .themeName,
-                .userSettings,
-                .sdkUnknown("")
+                .userSettings
             ]
         }
 
@@ -8507,8 +8480,7 @@ extension AppStreamClientTypes {
         public static var allCases: [StackErrorCode] {
             return [
                 .internalServiceError,
-                .storageConnectorError,
-                .sdkUnknown("")
+                .storageConnectorError
             ]
         }
 
@@ -8983,8 +8955,7 @@ extension AppStreamClientTypes {
             return [
                 .googleDrive,
                 .homefolders,
-                .oneDrive,
-                .sdkUnknown("")
+                .oneDrive
             ]
         }
 
@@ -9014,8 +8985,7 @@ extension AppStreamClientTypes {
         public static var allCases: [StreamView] {
             return [
                 .app,
-                .desktop,
-                .sdkUnknown("")
+                .desktop
             ]
         }
 
@@ -10079,8 +10049,7 @@ extension AppStreamClientTypes {
             return [
                 .accessDenied,
                 .internalServiceError,
-                .resourceNotFound,
-                .sdkUnknown("")
+                .resourceNotFound
             ]
         }
 
@@ -10108,8 +10077,7 @@ extension AppStreamClientTypes {
 
         public static var allCases: [UsageReportSchedule] {
             return [
-                .daily,
-                .sdkUnknown("")
+                .daily
             ]
         }
 
@@ -10397,8 +10365,7 @@ extension AppStreamClientTypes {
                 .directoryNotFound,
                 .internalError,
                 .stackNotFound,
-                .userNameNotFound,
-                .sdkUnknown("")
+                .userNameNotFound
             ]
         }
 
@@ -10431,8 +10398,7 @@ extension AppStreamClientTypes {
             return [
                 .private,
                 .public,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 

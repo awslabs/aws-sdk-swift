@@ -342,8 +342,7 @@ extension GreengrassClientTypes {
                 .initializing,
                 .running,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -376,8 +375,7 @@ extension GreengrassClientTypes {
         public static var allCases: [ConfigurationSyncStatus] {
             return [
                 .insync,
-                .outofsync,
-                .sdkUnknown("")
+                .outofsync
             ]
         }
 
@@ -3242,8 +3240,7 @@ extension GreengrassClientTypes {
                 .forceresetdeployment,
                 .newdeployment,
                 .redeployment,
-                .resetdeployment,
-                .sdkUnknown("")
+                .resetdeployment
             ]
         }
 
@@ -3469,8 +3466,7 @@ extension GreengrassClientTypes {
         public static var allCases: [EncodingType] {
             return [
                 .binary,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -3839,8 +3835,7 @@ extension GreengrassClientTypes {
         public static var allCases: [FunctionIsolationMode] {
             return [
                 .greengrasscontainer,
-                .nocontainer,
-                .sdkUnknown("")
+                .nocontainer
             ]
         }
 
@@ -8197,8 +8192,7 @@ extension GreengrassClientTypes {
         public static var allCases: [LoggerComponent] {
             return [
                 .greengrasssystem,
-                .lambda,
-                .sdkUnknown("")
+                .lambda
             ]
         }
 
@@ -8264,8 +8258,7 @@ extension GreengrassClientTypes {
                 .error,
                 .fatal,
                 .info,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -8297,8 +8290,7 @@ extension GreengrassClientTypes {
         public static var allCases: [LoggerType] {
             return [
                 .awscloudwatch,
-                .filesystem,
-                .sdkUnknown("")
+                .filesystem
             ]
         }
 
@@ -8328,8 +8320,7 @@ extension GreengrassClientTypes {
         public static var allCases: [Permission] {
             return [
                 .ro,
-                .rw,
-                .sdkUnknown("")
+                .rw
             ]
         }
 
@@ -8811,8 +8802,7 @@ extension GreengrassClientTypes {
         public static var allCases: [SoftwareToUpdate] {
             return [
                 .core,
-                .otaAgent,
-                .sdkUnknown("")
+                .otaAgent
             ]
         }
 
@@ -9133,8 +9123,7 @@ extension GreengrassClientTypes {
         public static var allCases: [Telemetry] {
             return [
                 .off,
-                .on,
-                .sdkUnknown("")
+                .on
             ]
         }
 
@@ -9303,8 +9292,7 @@ extension GreengrassClientTypes {
                 .none,
                 .trace,
                 .verbose,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -9996,8 +9984,7 @@ extension GreengrassClientTypes {
                 .aarch64,
                 .armv6l,
                 .armv7l,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -10033,8 +10020,7 @@ extension GreengrassClientTypes {
                 .amazonLinux,
                 .openwrt,
                 .raspbian,
-                .ubuntu,
-                .sdkUnknown("")
+                .ubuntu
             ]
         }
 

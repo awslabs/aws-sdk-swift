@@ -258,8 +258,7 @@ extension KinesisClientTypes {
             return [
                 .active,
                 .creating,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -1163,8 +1162,7 @@ extension KinesisClientTypes {
         public static var allCases: [EncryptionType] {
             return [
                 .kms,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -2567,8 +2565,7 @@ extension KinesisClientTypes {
                 .outgoingBytes,
                 .outgoingRecords,
                 .readProvisionedThroughputExceeded,
-                .writeProvisionedThroughputExceeded,
-                .sdkUnknown("")
+                .writeProvisionedThroughputExceeded
             ]
         }
 
@@ -3295,8 +3292,7 @@ extension KinesisClientTypes {
 
         public static var allCases: [ScalingType] {
             return [
-                .uniformScaling,
-                .sdkUnknown("")
+                .uniformScaling
             ]
         }
 
@@ -3460,8 +3456,7 @@ extension KinesisClientTypes {
                 .atTimestamp,
                 .atTrimHorizon,
                 .fromTimestamp,
-                .fromTrimHorizon,
-                .sdkUnknown("")
+                .fromTrimHorizon
             ]
         }
 
@@ -3500,8 +3495,7 @@ extension KinesisClientTypes {
                 .atSequenceNumber,
                 .atTimestamp,
                 .latest,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -4029,8 +4023,7 @@ extension KinesisClientTypes {
         public static var allCases: [StreamMode] {
             return [
                 .onDemand,
-                .provisioned,
-                .sdkUnknown("")
+                .provisioned
             ]
         }
 
@@ -4095,8 +4088,7 @@ extension KinesisClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 

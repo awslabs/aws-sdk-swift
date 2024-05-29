@@ -134,8 +134,7 @@ extension LicenseManagerClientTypes {
         public static var allCases: [ActivationOverrideBehavior] {
             return [
                 .allGrantsPermittedByIssuer,
-                .distributedGrantsOnly,
-                .sdkUnknown("")
+                .distributedGrantsOnly
             ]
         }
 
@@ -174,8 +173,7 @@ extension LicenseManagerClientTypes {
                 .createGrant,
                 .createToken,
                 .extendConsumptionLicense,
-                .listPurchasedLicenses,
-                .sdkUnknown("")
+                .listPurchasedLicenses
             ]
         }
 
@@ -660,8 +658,7 @@ extension LicenseManagerClientTypes {
         public static var allCases: [CheckoutType] {
             return [
                 .perpetual,
-                .provisional,
-                .sdkUnknown("")
+                .provisional
             ]
         }
 
@@ -2144,8 +2141,7 @@ extension LicenseManagerClientTypes {
 
         public static var allCases: [DigitalSignatureMethod] {
             return [
-                .jwtPs384,
-                .sdkUnknown("")
+                .jwtPs384
             ]
         }
 
@@ -2331,8 +2327,7 @@ extension LicenseManagerClientTypes {
                 .terabits,
                 .terabitsPerSecond,
                 .terabytes,
-                .terabytesPerSecond,
-                .sdkUnknown("")
+                .terabytesPerSecond
             ]
         }
 
@@ -2473,8 +2468,7 @@ extension LicenseManagerClientTypes {
                 .terabits,
                 .terabitsPerSecond,
                 .terabytes,
-                .terabytesPerSecond,
-                .sdkUnknown("")
+                .terabytesPerSecond
             ]
         }
 
@@ -3573,8 +3567,7 @@ extension LicenseManagerClientTypes {
                 .pendingDelete,
                 .pendingWorkflow,
                 .rejected,
-                .workflowCompleted,
-                .sdkUnknown("")
+                .workflowCompleted
             ]
         }
 
@@ -3820,8 +3813,7 @@ extension LicenseManagerClientTypes {
                 .beginsWith,
                 .contains,
                 .equals,
-                .notEquals,
-                .sdkUnknown("")
+                .notEquals
             ]
         }
 
@@ -4156,8 +4148,7 @@ extension LicenseManagerClientTypes {
         public static var allCases: [LicenseConfigurationStatus] {
             return [
                 .available,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -4336,8 +4327,7 @@ extension LicenseManagerClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4371,8 +4361,7 @@ extension LicenseManagerClientTypes {
                 .core,
                 .instance,
                 .socket,
-                .vcpu,
-                .sdkUnknown("")
+                .vcpu
             ]
         }
 
@@ -4403,8 +4392,7 @@ extension LicenseManagerClientTypes {
         public static var allCases: [LicenseDeletionStatus] {
             return [
                 .deleted,
-                .pendingDelete,
-                .sdkUnknown("")
+                .pendingDelete
             ]
         }
 
@@ -4544,8 +4532,7 @@ extension LicenseManagerClientTypes {
                 .expired,
                 .pendingAvailable,
                 .pendingDelete,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -6596,8 +6583,7 @@ extension LicenseManagerClientTypes {
                 .pendingAccept,
                 .pendingWorkflow,
                 .rejected,
-                .workflowCompleted,
-                .sdkUnknown("")
+                .workflowCompleted
             ]
         }
 
@@ -6760,8 +6746,7 @@ extension LicenseManagerClientTypes {
             return [
                 .monthly,
                 .none,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -6862,8 +6847,7 @@ extension LicenseManagerClientTypes {
             return [
                 .day,
                 .month,
-                .week,
-                .sdkUnknown("")
+                .week
             ]
         }
 
@@ -6979,8 +6963,7 @@ extension LicenseManagerClientTypes {
         public static var allCases: [ReportType] {
             return [
                 .licenseConfigurationSummaryReport,
-                .licenseConfigurationUsageReport,
-                .sdkUnknown("")
+                .licenseConfigurationUsageReport
             ]
         }
 
@@ -7140,8 +7123,7 @@ extension LicenseManagerClientTypes {
                 .ec2Host,
                 .ec2Instance,
                 .rds,
-                .systemsManagerManagedInstance,
-                .sdkUnknown("")
+                .systemsManagerManagedInstance
             ]
         }
 
@@ -7396,8 +7378,7 @@ extension LicenseManagerClientTypes {
 
         public static var allCases: [TokenType] {
             return [
-                .refreshToken,
-                .sdkUnknown("")
+                .refreshToken
             ]
         }
 

@@ -52,8 +52,7 @@ extension SageMakerA2IRuntimeClientTypes {
         public static var allCases: [ContentClassifier] {
             return [
                 .freeOfAdultContent,
-                .freeOfPersonallyIdentifiableInformation,
-                .sdkUnknown("")
+                .freeOfPersonallyIdentifiableInformation
             ]
         }
 
@@ -321,8 +320,7 @@ extension SageMakerA2IRuntimeClientTypes {
                 .failed,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -634,8 +632,7 @@ extension SageMakerA2IRuntimeClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 

@@ -253,8 +253,7 @@ extension WorkLinkClientTypes {
 
         public static var allCases: [AuthorizationProviderType] {
             return [
-                .saml,
-                .sdkUnknown("")
+                .saml
             ]
         }
 
@@ -1129,8 +1128,7 @@ extension WorkLinkClientTypes {
         public static var allCases: [DeviceStatus] {
             return [
                 .active,
-                .signedOut,
-                .sdkUnknown("")
+                .signedOut
             ]
         }
 
@@ -1395,8 +1393,7 @@ extension WorkLinkClientTypes {
                 .failedToAssociate,
                 .failedToDisassociate,
                 .inactive,
-                .pendingValidation,
-                .sdkUnknown("")
+                .pendingValidation
             ]
         }
 
@@ -1483,8 +1480,7 @@ extension WorkLinkClientTypes {
                 .deleted,
                 .deleting,
                 .failedToCreate,
-                .failedToDelete,
-                .sdkUnknown("")
+                .failedToDelete
             ]
         }
 
@@ -1576,8 +1572,7 @@ extension WorkLinkClientTypes {
 
         public static var allCases: [IdentityProviderType] {
             return [
-                .saml,
-                .sdkUnknown("")
+                .saml
             ]
         }
 

@@ -603,8 +603,7 @@ extension WorkSpacesWebClientTypes {
         public static var allCases: [AuthenticationType] {
             return [
                 .iamIdentityCenter,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -710,8 +709,7 @@ extension WorkSpacesWebClientTypes {
 
         public static var allCases: [BrowserType] {
             return [
-                .chrome,
-                .sdkUnknown("")
+                .chrome
             ]
         }
 
@@ -2610,8 +2608,7 @@ extension WorkSpacesWebClientTypes {
         public static var allCases: [EnabledType] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3492,8 +3489,7 @@ extension WorkSpacesWebClientTypes {
                 .loginwithamazon,
                 .oidc,
                 .saml,
-                .signinwithapple,
-                .sdkUnknown("")
+                .signinwithapple
             ]
         }
 
@@ -3528,8 +3524,7 @@ extension WorkSpacesWebClientTypes {
             return [
                 .standardLarge,
                 .standardRegular,
-                .standardXlarge,
-                .sdkUnknown("")
+                .standardXlarge
             ]
         }
 
@@ -4817,8 +4812,7 @@ extension WorkSpacesWebClientTypes {
             return [
                 .active,
                 .incomplete,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -4953,8 +4947,7 @@ extension WorkSpacesWebClientTypes {
 
         public static var allCases: [RendererType] {
             return [
-                .appstream,
-                .sdkUnknown("")
+                .appstream
             ]
         }
 
@@ -6589,8 +6582,7 @@ extension WorkSpacesWebClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

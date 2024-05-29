@@ -162,8 +162,7 @@ extension ChimeClientTypes {
         public static var allCases: [AccountStatus] {
             return [
                 .active,
-                .suspended,
-                .sdkUnknown("")
+                .suspended
             ]
         }
 
@@ -196,8 +195,7 @@ extension ChimeClientTypes {
                 .enterprisedirectory,
                 .enterpriselwa,
                 .enterpriseoidc,
-                .team,
-                .sdkUnknown("")
+                .team
             ]
         }
 
@@ -459,8 +457,7 @@ extension ChimeClientTypes {
         public static var allCases: [AppInstanceDataType] {
             return [
                 .channel,
-                .channelmessage,
-                .sdkUnknown("")
+                .channelmessage
             ]
         }
 
@@ -774,8 +771,7 @@ extension ChimeClientTypes {
         public static var allCases: [ArtifactsState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1235,8 +1231,7 @@ extension ChimeClientTypes {
         public static var allCases: [AudioMuxType] {
             return [
                 .audioonly,
-                .audiowithactivespeakervideo,
-                .sdkUnknown("")
+                .audiowithactivespeakervideo
             ]
         }
 
@@ -2177,8 +2172,7 @@ extension ChimeClientTypes {
 
         public static var allCases: [BotType] {
             return [
-                .chatbot,
-                .sdkUnknown("")
+                .chatbot
             ]
         }
 
@@ -2241,8 +2235,7 @@ extension ChimeClientTypes {
                 .unassigned,
                 .updatefailed,
                 .updateinprogress,
-                .updatesucceeded,
-                .sdkUnknown("")
+                .updatesucceeded
             ]
         }
 
@@ -2334,8 +2327,7 @@ extension ChimeClientTypes {
         public static var allCases: [Capability] {
             return [
                 .sms,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -2610,8 +2602,7 @@ extension ChimeClientTypes {
         public static var allCases: [ChannelMembershipType] {
             return [
                 .default,
-                .hidden,
-                .sdkUnknown("")
+                .hidden
             ]
         }
 
@@ -2721,8 +2712,7 @@ extension ChimeClientTypes {
         public static var allCases: [ChannelMessagePersistenceType] {
             return [
                 .nonPersistent,
-                .persistent,
-                .sdkUnknown("")
+                .persistent
             ]
         }
 
@@ -2822,8 +2812,7 @@ extension ChimeClientTypes {
         public static var allCases: [ChannelMessageType] {
             return [
                 .control,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -2852,8 +2841,7 @@ extension ChimeClientTypes {
         public static var allCases: [ChannelMode] {
             return [
                 .restricted,
-                .unrestricted,
-                .sdkUnknown("")
+                .unrestricted
             ]
         }
 
@@ -2975,8 +2963,7 @@ extension ChimeClientTypes {
         public static var allCases: [ChannelPrivacy] {
             return [
                 .private,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -3208,8 +3195,7 @@ extension ChimeClientTypes {
 
         public static var allCases: [ContentMuxType] {
             return [
-                .contentonly,
-                .sdkUnknown("")
+                .contentonly
             ]
         }
 
@@ -8571,8 +8557,7 @@ extension ChimeClientTypes {
             return [
                 .failed,
                 .notsent,
-                .sent,
-                .sdkUnknown("")
+                .sent
             ]
         }
 
@@ -8810,8 +8795,7 @@ extension ChimeClientTypes {
                 .throttling,
                 .unauthorized,
                 .unprocessable,
-                .voiceconnectorgroupassociationsexist,
-                .sdkUnknown("")
+                .voiceconnectorgroupassociationsexist
             ]
         }
 
@@ -8935,8 +8919,7 @@ extension ChimeClientTypes {
         public static var allCases: [GeoMatchLevel] {
             return [
                 .areacode,
-                .country,
-                .sdkUnknown("")
+                .country
             ]
         }
 
@@ -11299,8 +11282,7 @@ extension ChimeClientTypes {
             return [
                 .accepted,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -11428,8 +11410,7 @@ extension ChimeClientTypes {
                 .basic,
                 .plus,
                 .pro,
-                .protrial,
-                .sdkUnknown("")
+                .protrial
             ]
         }
 
@@ -14699,8 +14680,7 @@ extension ChimeClientTypes {
 
         public static var allCases: [MediaPipelineSinkType] {
             return [
-                .s3bucket,
-                .sdkUnknown("")
+                .s3bucket
             ]
         }
 
@@ -14726,8 +14706,7 @@ extension ChimeClientTypes {
 
         public static var allCases: [MediaPipelineSourceType] {
             return [
-                .chimesdkmeeting,
-                .sdkUnknown("")
+                .chimesdkmeeting
             ]
         }
 
@@ -14761,8 +14740,7 @@ extension ChimeClientTypes {
                 .inprogress,
                 .initializing,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -15024,8 +15002,7 @@ extension ChimeClientTypes {
             return [
                 .bot,
                 .user,
-                .webhook,
-                .sdkUnknown("")
+                .webhook
             ]
         }
 
@@ -15153,8 +15130,7 @@ extension ChimeClientTypes {
             return [
                 .eventbridge,
                 .sns,
-                .sqs,
-                .sdkUnknown("")
+                .sqs
             ]
         }
 
@@ -15184,8 +15160,7 @@ extension ChimeClientTypes {
         public static var allCases: [NumberSelectionBehavior] {
             return [
                 .avoidsticky,
-                .prefersticky,
-                .sdkUnknown("")
+                .prefersticky
             ]
         }
 
@@ -15252,8 +15227,7 @@ extension ChimeClientTypes {
             return [
                 .acquired,
                 .failed,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -15375,8 +15349,7 @@ extension ChimeClientTypes {
         public static var allCases: [OriginationRouteProtocol] {
             return [
                 .tcp,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -15574,8 +15547,7 @@ extension ChimeClientTypes {
                 .sipruleid,
                 .userid,
                 .voiceconnectorgroupid,
-                .voiceconnectorid,
-                .sdkUnknown("")
+                .voiceconnectorid
             ]
         }
 
@@ -15780,8 +15752,7 @@ extension ChimeClientTypes {
                 .failed,
                 .partial,
                 .processing,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -15814,8 +15785,7 @@ extension ChimeClientTypes {
             return [
                 .businesscalling,
                 .sipmediaapplicationdialin,
-                .voiceconnector,
-                .sdkUnknown("")
+                .voiceconnector
             ]
         }
 
@@ -15857,8 +15827,7 @@ extension ChimeClientTypes {
                 .deleteinprogress,
                 .releasefailed,
                 .releaseinprogress,
-                .unassigned,
-                .sdkUnknown("")
+                .unassigned
             ]
         }
 
@@ -15893,8 +15862,7 @@ extension ChimeClientTypes {
         public static var allCases: [PhoneNumberType] {
             return [
                 .local,
-                .tollfree,
-                .sdkUnknown("")
+                .tollfree
             ]
         }
 
@@ -16057,8 +16025,7 @@ extension ChimeClientTypes {
             return [
                 .closed,
                 .inprogress,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 
@@ -17444,8 +17411,7 @@ extension ChimeClientTypes {
             return [
                 .registered,
                 .suspended,
-                .unregistered,
-                .sdkUnknown("")
+                .unregistered
             ]
         }
 
@@ -17816,8 +17782,7 @@ extension ChimeClientTypes {
         public static var allCases: [RoomMembershipRole] {
             return [
                 .administrator,
-                .member,
-                .sdkUnknown("")
+                .member
             ]
         }
 
@@ -18540,8 +18505,7 @@ extension ChimeClientTypes {
         public static var allCases: [SipRuleTriggerType] {
             return [
                 .requesturihostname,
-                .tophonenumber,
-                .sdkUnknown("")
+                .tophonenumber
             ]
         }
 
@@ -18570,8 +18534,7 @@ extension ChimeClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -19314,8 +19277,7 @@ extension ChimeClientTypes {
 
         public static var allCases: [TranscribeContentIdentificationType] {
             return [
-                .pii,
-                .sdkUnknown("")
+                .pii
             ]
         }
 
@@ -19341,8 +19303,7 @@ extension ChimeClientTypes {
 
         public static var allCases: [TranscribeContentRedactionType] {
             return [
-                .pii,
-                .sdkUnknown("")
+                .pii
             ]
         }
 
@@ -19394,8 +19355,7 @@ extension ChimeClientTypes {
                 .koKr,
                 .ptBr,
                 .thTh,
-                .zhCn,
-                .sdkUnknown("")
+                .zhCn
             ]
         }
 
@@ -19434,8 +19394,7 @@ extension ChimeClientTypes {
 
         public static var allCases: [TranscribeMedicalContentIdentificationType] {
             return [
-                .phi,
-                .sdkUnknown("")
+                .phi
             ]
         }
 
@@ -19461,8 +19420,7 @@ extension ChimeClientTypes {
 
         public static var allCases: [TranscribeMedicalLanguageCode] {
             return [
-                .enUs,
-                .sdkUnknown("")
+                .enUs
             ]
         }
 
@@ -19500,8 +19458,7 @@ extension ChimeClientTypes {
                 .euWest1,
                 .usEast1,
                 .usEast2,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -19543,8 +19500,7 @@ extension ChimeClientTypes {
                 .oncology,
                 .primarycare,
                 .radiology,
-                .urology,
-                .sdkUnknown("")
+                .urology
             ]
         }
 
@@ -19577,8 +19533,7 @@ extension ChimeClientTypes {
         public static var allCases: [TranscribeMedicalType] {
             return [
                 .conversation,
-                .dictation,
-                .sdkUnknown("")
+                .dictation
             ]
         }
 
@@ -19609,8 +19564,7 @@ extension ChimeClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -19660,8 +19614,7 @@ extension ChimeClientTypes {
                 .saEast1,
                 .usEast1,
                 .usEast2,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 
@@ -19702,8 +19655,7 @@ extension ChimeClientTypes {
             return [
                 .mask,
                 .remove,
-                .tag,
-                .sdkUnknown("")
+                .tag
             ]
         }
 
@@ -22164,8 +22116,7 @@ extension ChimeClientTypes {
         public static var allCases: [UserType] {
             return [
                 .privateuser,
-                .shareddevice,
-                .sdkUnknown("")
+                .shareddevice
             ]
         }
 
@@ -22358,8 +22309,7 @@ extension ChimeClientTypes {
 
         public static var allCases: [VideoMuxType] {
             return [
-                .videoonly,
-                .sdkUnknown("")
+                .videoonly
             ]
         }
 
@@ -22448,8 +22398,7 @@ extension ChimeClientTypes {
         public static var allCases: [VoiceConnectorAwsRegion] {
             return [
                 .usEast1,
-                .usWest2,
-                .sdkUnknown("")
+                .usWest2
             ]
         }
 

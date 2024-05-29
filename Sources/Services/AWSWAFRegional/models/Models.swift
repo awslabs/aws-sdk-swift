@@ -389,8 +389,7 @@ extension WAFRegionalClientTypes {
         public static var allCases: [ChangeAction] {
             return [
                 .delete,
-                .insert,
-                .sdkUnknown("")
+                .insert
             ]
         }
 
@@ -421,8 +420,7 @@ extension WAFRegionalClientTypes {
             return [
                 .insync,
                 .pending,
-                .provisioned,
-                .sdkUnknown("")
+                .provisioned
             ]
         }
 
@@ -460,8 +458,7 @@ extension WAFRegionalClientTypes {
                 .gt,
                 .le,
                 .lt,
-                .ne,
-                .sdkUnknown("")
+                .ne
             ]
         }
 
@@ -2867,8 +2864,7 @@ extension WAFRegionalClientTypes {
 
         public static var allCases: [GeoMatchConstraintType] {
             return [
-                .country,
-                .sdkUnknown("")
+                .country
             ]
         }
 
@@ -3390,8 +3386,7 @@ extension WAFRegionalClientTypes {
                 .yt,
                 .za,
                 .zm,
-                .zw,
-                .sdkUnknown("")
+                .zw
             ]
         }
 
@@ -5313,8 +5308,7 @@ extension WAFRegionalClientTypes {
         public static var allCases: [IPSetDescriptorType] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -6772,8 +6766,7 @@ extension WAFRegionalClientTypes {
                 .method,
                 .queryString,
                 .singleQueryArg,
-                .uri,
-                .sdkUnknown("")
+                .uri
             ]
         }
 
@@ -6817,8 +6810,7 @@ extension WAFRegionalClientTypes {
                 .s3BucketNotAccessible,
                 .s3BucketNotFound,
                 .s3BucketNoPermission,
-                .s3InternalError,
-                .sdkUnknown("")
+                .s3InternalError
             ]
         }
 
@@ -6884,8 +6876,7 @@ extension WAFRegionalClientTypes {
                 .tags,
                 .tagKeys,
                 .wafAction,
-                .wafOverrideAction,
-                .sdkUnknown("")
+                .wafOverrideAction
             ]
         }
 
@@ -6934,8 +6925,7 @@ extension WAFRegionalClientTypes {
                 .illegalArgument,
                 .illegalCombination,
                 .invalidOption,
-                .invalidTagKey,
-                .sdkUnknown("")
+                .invalidTagKey
             ]
         }
 
@@ -6972,8 +6962,7 @@ extension WAFRegionalClientTypes {
                 .containsWord,
                 .endsWith,
                 .exactly,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 
@@ -7061,8 +7050,7 @@ extension WAFRegionalClientTypes {
                 .regexMatch,
                 .sizeConstraint,
                 .sqlInjectionMatch,
-                .xssMatch,
-                .sdkUnknown("")
+                .xssMatch
             ]
         }
 
@@ -7288,8 +7276,7 @@ extension WAFRegionalClientTypes {
 
         public static var allCases: [RateKey] {
             return [
-                .ip,
-                .sdkUnknown("")
+                .ip
             ]
         }
 
@@ -7620,8 +7607,7 @@ extension WAFRegionalClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .apiGateway,
-                .applicationLoadBalancer,
-                .sdkUnknown("")
+                .applicationLoadBalancer
             ]
         }
 
@@ -8484,8 +8470,7 @@ extension WAFRegionalClientTypes {
                 .htmlEntityDecode,
                 .lowercase,
                 .none,
-                .urlDecode,
-                .sdkUnknown("")
+                .urlDecode
             ]
         }
 
@@ -10572,8 +10557,7 @@ extension WAFRegionalClientTypes {
             return [
                 .allow,
                 .block,
-                .count,
-                .sdkUnknown("")
+                .count
             ]
         }
 
@@ -10635,8 +10619,7 @@ extension WAFRegionalClientTypes {
         public static var allCases: [WafOverrideActionType] {
             return [
                 .count,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -10667,8 +10650,7 @@ extension WAFRegionalClientTypes {
             return [
                 .group,
                 .rateBased,
-                .regular,
-                .sdkUnknown("")
+                .regular
             ]
         }
 

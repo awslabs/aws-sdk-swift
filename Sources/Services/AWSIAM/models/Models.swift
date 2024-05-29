@@ -16,8 +16,7 @@ extension IAMClientTypes {
         public static var allCases: [AccessAdvisorUsageGranularityType] {
             return [
                 .actionLevel,
-                .serviceLevel,
-                .sdkUnknown("")
+                .serviceLevel
             ]
         }
 
@@ -452,8 +451,7 @@ extension IAMClientTypes {
             return [
                 .any,
                 .assigned,
-                .unassigned,
-                .sdkUnknown("")
+                .unassigned
             ]
         }
 
@@ -907,8 +905,7 @@ extension IAMClientTypes {
                 .numeric,
                 .numericList,
                 .string,
-                .stringList,
-                .sdkUnknown("")
+                .stringList
             ]
         }
 
@@ -3795,8 +3792,7 @@ extension IAMClientTypes {
                 .failed,
                 .inProgress,
                 .notStarted,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4177,8 +4173,7 @@ extension IAMClientTypes {
         public static var allCases: [EncodingType] {
             return [
                 .pem,
-                .ssh,
-                .sdkUnknown("")
+                .ssh
             ]
         }
 
@@ -4369,8 +4364,7 @@ extension IAMClientTypes {
                 .group,
                 .localmanagedpolicy,
                 .role,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -6900,8 +6894,7 @@ extension IAMClientTypes {
         public static var allCases: [GlobalEndpointTokenVersion] {
             return [
                 .v1token,
-                .v2token,
-                .sdkUnknown("")
+                .v2token
             ]
         }
 
@@ -7302,8 +7295,7 @@ extension IAMClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -10940,8 +10932,7 @@ extension IAMClientTypes {
 
         public static var allCases: [PermissionsBoundaryAttachmentType] {
             return [
-                .policy,
-                .sdkUnknown("")
+                .policy
             ]
         }
 
@@ -11109,8 +11100,7 @@ extension IAMClientTypes {
             return [
                 .allowed,
                 .explicitDeny,
-                .implicitDeny,
-                .sdkUnknown("")
+                .implicitDeny
             ]
         }
 
@@ -11295,8 +11285,7 @@ extension IAMClientTypes {
             return [
                 .group,
                 .role,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -11359,8 +11348,7 @@ extension IAMClientTypes {
             return [
                 .aws,
                 .all,
-                .local,
-                .sdkUnknown("")
+                .local
             ]
         }
 
@@ -11400,8 +11388,7 @@ extension IAMClientTypes {
                 .resource,
                 .role,
                 .user,
-                .userManaged,
-                .sdkUnknown("")
+                .userManaged
             ]
         }
 
@@ -11435,8 +11422,7 @@ extension IAMClientTypes {
         public static var allCases: [PolicyType] {
             return [
                 .inline,
-                .managed,
-                .sdkUnknown("")
+                .managed
             ]
         }
 
@@ -11466,8 +11452,7 @@ extension IAMClientTypes {
         public static var allCases: [PolicyUsageType] {
             return [
                 .permissionsboundary,
-                .permissionspolicy,
-                .sdkUnknown("")
+                .permissionspolicy
             ]
         }
 
@@ -12153,8 +12138,7 @@ extension IAMClientTypes {
 
         public static var allCases: [ReportFormatType] {
             return [
-                .textCsv,
-                .sdkUnknown("")
+                .textCsv
             ]
         }
 
@@ -12221,8 +12205,7 @@ extension IAMClientTypes {
             return [
                 .complete,
                 .inprogress,
-                .started,
-                .sdkUnknown("")
+                .started
             ]
         }
 
@@ -13673,8 +13656,7 @@ extension IAMClientTypes {
                 .lastAuthenticatedTimeAscending,
                 .lastAuthenticatedTimeDescending,
                 .serviceNamespaceAscending,
-                .serviceNamespaceDescending,
-                .sdkUnknown("")
+                .serviceNamespaceDescending
             ]
         }
 
@@ -13746,8 +13728,7 @@ extension IAMClientTypes {
         public static var allCases: [StatusType] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -13824,8 +13805,7 @@ extension IAMClientTypes {
                 .userpolicysizequota,
                 .users,
                 .usersquota,
-                .versionsperpolicyquota,
-                .sdkUnknown("")
+                .versionsperpolicyquota
             ]
         }
 

@@ -536,8 +536,7 @@ extension TimestreamInfluxDBClientTypes {
                 .dbInflux8xlarge,
                 .dbInfluxLarge,
                 .dbInfluxMedium,
-                .dbInfluxXlarge,
-                .sdkUnknown("")
+                .dbInfluxXlarge
             ]
         }
 
@@ -618,8 +617,7 @@ extension TimestreamInfluxDBClientTypes {
             return [
                 .influxIoIncludedT1,
                 .influxIoIncludedT2,
-                .influxIoIncludedT3,
-                .sdkUnknown("")
+                .influxIoIncludedT3
             ]
         }
 
@@ -804,8 +802,7 @@ extension TimestreamInfluxDBClientTypes {
         public static var allCases: [DeploymentType] {
             return [
                 .singleAz,
-                .withMultiazStandby,
-                .sdkUnknown("")
+                .withMultiazStandby
             ]
         }
 
@@ -1446,8 +1443,7 @@ extension TimestreamInfluxDBClientTypes {
             return [
                 .debug,
                 .error,
-                .info,
-                .sdkUnknown("")
+                .info
             ]
         }
 
@@ -1648,8 +1644,7 @@ extension TimestreamInfluxDBClientTypes {
                 .deleting,
                 .failed,
                 .modifying,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1791,8 +1786,7 @@ extension TimestreamInfluxDBClientTypes {
         public static var allCases: [TracingType] {
             return [
                 .jaeger,
-                .log,
-                .sdkUnknown("")
+                .log
             ]
         }
 
@@ -2089,8 +2083,7 @@ extension TimestreamInfluxDBClientTypes {
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .fieldValidationFailed,
-                .other,
-                .sdkUnknown("")
+                .other
             ]
         }
 

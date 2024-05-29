@@ -153,8 +153,7 @@ extension EMRServerlessClientTypes {
                 .starting,
                 .stopped,
                 .stopping,
-                .terminated,
-                .sdkUnknown("")
+                .terminated
             ]
         }
 
@@ -266,8 +265,7 @@ extension EMRServerlessClientTypes {
         public static var allCases: [Architecture] {
             return [
                 .arm64,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -1399,8 +1397,7 @@ extension EMRServerlessClientTypes {
                 .running,
                 .scheduled,
                 .submitted,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 

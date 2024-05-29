@@ -833,8 +833,7 @@ extension SecretsManagerClientTypes {
                 .owningService,
                 .primaryRegion,
                 .tagKey,
-                .tagValue,
-                .sdkUnknown("")
+                .tagValue
             ]
         }
 
@@ -2624,8 +2623,7 @@ extension SecretsManagerClientTypes {
         public static var allCases: [SortOrderType] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -2656,8 +2654,7 @@ extension SecretsManagerClientTypes {
             return [
                 .failed,
                 .inprogress,
-                .insync,
-                .sdkUnknown("")
+                .insync
             ]
         }
 

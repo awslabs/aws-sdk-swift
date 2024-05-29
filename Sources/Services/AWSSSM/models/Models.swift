@@ -556,8 +556,7 @@ extension SSMClientTypes {
                 .high,
                 .low,
                 .medium,
-                .unspecified,
-                .sdkUnknown("")
+                .unspecified
             ]
         }
 
@@ -944,8 +943,7 @@ extension SSMClientTypes {
             return [
                 .createdtime,
                 .executionid,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -1074,8 +1072,7 @@ extension SSMClientTypes {
             return [
                 .resourceid,
                 .resourcetype,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -1148,8 +1145,7 @@ extension SSMClientTypes {
                 .lastexecutedbefore,
                 .name,
                 .resourcegroupname,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -1186,8 +1182,7 @@ extension SSMClientTypes {
             return [
                 .equal,
                 .greaterthan,
-                .lessthan,
-                .sdkUnknown("")
+                .lessthan
             ]
         }
 
@@ -1331,8 +1326,7 @@ extension SSMClientTypes {
             return [
                 .failed,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -1362,8 +1356,7 @@ extension SSMClientTypes {
         public static var allCases: [AssociationSyncCompliance] {
             return [
                 .auto,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -1599,8 +1592,7 @@ extension SSMClientTypes {
 
         public static var allCases: [AttachmentHashType] {
             return [
-                .sha256,
-                .sdkUnknown("")
+                .sha256
             ]
         }
 
@@ -1696,8 +1688,7 @@ extension SSMClientTypes {
             return [
                 .attachmentreference,
                 .s3fileurl,
-                .sourceurl,
-                .sdkUnknown("")
+                .sourceurl
             ]
         }
 
@@ -2080,8 +2071,7 @@ extension SSMClientTypes {
                 .startTimeAfter,
                 .startTimeBefore,
                 .tagKey,
-                .targetResourceGroup,
-                .sdkUnknown("")
+                .targetResourceGroup
             ]
         }
 
@@ -2399,8 +2389,7 @@ extension SSMClientTypes {
                 .scheduled,
                 .success,
                 .timedout,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -2481,8 +2470,7 @@ extension SSMClientTypes {
 
         public static var allCases: [AutomationSubtype] {
             return [
-                .changerequest,
-                .sdkUnknown("")
+                .changerequest
             ]
         }
 
@@ -2510,8 +2498,7 @@ extension SSMClientTypes {
         public static var allCases: [AutomationType] {
             return [
                 .crossaccount,
-                .local,
-                .sdkUnknown("")
+                .local
             ]
         }
 
@@ -2604,8 +2591,7 @@ extension SSMClientTypes {
         public static var allCases: [CalendarState] {
             return [
                 .closed,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 
@@ -3085,8 +3071,7 @@ extension SSMClientTypes {
                 .executionStage,
                 .invokedAfter,
                 .invokedBefore,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -3251,8 +3236,7 @@ extension SSMClientTypes {
                 .inProgress,
                 .pending,
                 .success,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -3394,8 +3378,7 @@ extension SSMClientTypes {
                 .inProgress,
                 .pending,
                 .success,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -3438,8 +3421,7 @@ extension SSMClientTypes {
                 .inProgress,
                 .pending,
                 .success,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -3635,8 +3617,7 @@ extension SSMClientTypes {
                 .equal,
                 .greaterthan,
                 .lessthan,
-                .notequal,
-                .sdkUnknown("")
+                .notequal
             ]
         }
 
@@ -3676,8 +3657,7 @@ extension SSMClientTypes {
                 .informational,
                 .low,
                 .medium,
-                .unspecified,
-                .sdkUnknown("")
+                .unspecified
             ]
         }
 
@@ -3710,8 +3690,7 @@ extension SSMClientTypes {
         public static var allCases: [ComplianceStatus] {
             return [
                 .compliant,
-                .noncompliant,
-                .sdkUnknown("")
+                .noncompliant
             ]
         }
 
@@ -3847,8 +3826,7 @@ extension SSMClientTypes {
         public static var allCases: [ComplianceUploadType] {
             return [
                 .complete,
-                .partial,
-                .sdkUnknown("")
+                .partial
             ]
         }
 
@@ -3908,8 +3886,7 @@ extension SSMClientTypes {
         public static var allCases: [ConnectionStatus] {
             return [
                 .connected,
-                .notConnected,
-                .sdkUnknown("")
+                .notConnected
             ]
         }
 
@@ -6363,8 +6340,7 @@ extension SSMClientTypes {
             return [
                 .activationIds,
                 .defaultInstanceName,
-                .iamRole,
-                .sdkUnknown("")
+                .iamRole
             ]
         }
 
@@ -9742,8 +9718,7 @@ extension SSMClientTypes {
                 .documenttype,
                 .name,
                 .owner,
-                .platformtypes,
-                .sdkUnknown("")
+                .platformtypes
             ]
         }
 
@@ -9776,8 +9751,7 @@ extension SSMClientTypes {
             return [
                 .json,
                 .text,
-                .yaml,
-                .sdkUnknown("")
+                .yaml
             ]
         }
 
@@ -9807,8 +9781,7 @@ extension SSMClientTypes {
         public static var allCases: [DocumentHashType] {
             return [
                 .sha1,
-                .sha256,
-                .sdkUnknown("")
+                .sha256
             ]
         }
 
@@ -10036,8 +10009,7 @@ extension SSMClientTypes {
 
         public static var allCases: [DocumentMetadataEnum] {
             return [
-                .documentreviews,
-                .sdkUnknown("")
+                .documentreviews
             ]
         }
 
@@ -10132,8 +10104,7 @@ extension SSMClientTypes {
         public static var allCases: [DocumentParameterType] {
             return [
                 .string,
-                .stringlist,
-                .sdkUnknown("")
+                .stringlist
             ]
         }
 
@@ -10197,8 +10168,7 @@ extension SSMClientTypes {
 
         public static var allCases: [DocumentPermissionType] {
             return [
-                .share,
-                .sdkUnknown("")
+                .share
             ]
         }
 
@@ -10280,8 +10250,7 @@ extension SSMClientTypes {
                 .approve,
                 .reject,
                 .sendforreview,
-                .updatereview,
-                .sdkUnknown("")
+                .updatereview
             ]
         }
 
@@ -10347,8 +10316,7 @@ extension SSMClientTypes {
 
         public static var allCases: [DocumentReviewCommentType] {
             return [
-                .comment,
-                .sdkUnknown("")
+                .comment
             ]
         }
 
@@ -10459,8 +10427,7 @@ extension SSMClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -10518,8 +10485,7 @@ extension SSMClientTypes {
                 .problemanalysis,
                 .problemanalysistemplate,
                 .quicksetup,
-                .session,
-                .sdkUnknown("")
+                .session
             ]
         }
 
@@ -10835,8 +10801,7 @@ extension SSMClientTypes {
         public static var allCases: [ExecutionMode] {
             return [
                 .auto,
-                .interactive,
-                .sdkUnknown("")
+                .interactive
             ]
         }
 
@@ -10865,8 +10830,7 @@ extension SSMClientTypes {
         public static var allCases: [ExternalAlarmState] {
             return [
                 .alarm,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -10969,8 +10933,7 @@ extension SSMClientTypes {
             return [
                 .client,
                 .server,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -14167,8 +14130,7 @@ extension SSMClientTypes {
                 .instanceIds,
                 .pingStatus,
                 .platformTypes,
-                .resourceType,
-                .sdkUnknown("")
+                .resourceType
             ]
         }
 
@@ -14459,8 +14421,7 @@ extension SSMClientTypes {
                 .equal,
                 .greaterThan,
                 .lessThan,
-                .notEqual,
-                .sdkUnknown("")
+                .notEqual
             ]
         }
 
@@ -14687,8 +14648,7 @@ extension SSMClientTypes {
                 .instanceIds,
                 .pingStatus,
                 .platformTypes,
-                .resourceType,
-                .sdkUnknown("")
+                .resourceType
             ]
         }
 
@@ -14730,8 +14690,7 @@ extension SSMClientTypes {
                 .equal,
                 .greaterThan,
                 .lessThan,
-                .notEqual,
-                .sdkUnknown("")
+                .notEqual
             ]
         }
 
@@ -16645,8 +16604,7 @@ extension SSMClientTypes {
         public static var allCases: [InventoryAttributeDataType] {
             return [
                 .number,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -16675,8 +16633,7 @@ extension SSMClientTypes {
         public static var allCases: [InventoryDeletionStatus] {
             return [
                 .complete,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -17036,8 +16993,7 @@ extension SSMClientTypes {
                 .exists,
                 .greaterThan,
                 .lessThan,
-                .notEqual,
-                .sdkUnknown("")
+                .notEqual
             ]
         }
 
@@ -17150,8 +17106,7 @@ extension SSMClientTypes {
         public static var allCases: [InventorySchemaDeleteOption] {
             return [
                 .deleteSchema,
-                .disableSchema,
-                .sdkUnknown("")
+                .disableSchema
             ]
         }
 
@@ -17374,8 +17329,7 @@ extension SSMClientTypes {
             return [
                 .failed,
                 .inprogress,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -18967,8 +18921,7 @@ extension SSMClientTypes {
                 .pending,
                 .skippedoverlapping,
                 .success,
-                .timedout,
-                .sdkUnknown("")
+                .timedout
             ]
         }
 
@@ -19366,8 +19319,7 @@ extension SSMClientTypes {
         public static var allCases: [MaintenanceWindowResourceType] {
             return [
                 .instance,
-                .resourcegroup,
-                .sdkUnknown("")
+                .resourcegroup
             ]
         }
 
@@ -19700,8 +19652,7 @@ extension SSMClientTypes {
         public static var allCases: [MaintenanceWindowTaskCutoffBehavior] {
             return [
                 .canceltask,
-                .continuetask,
-                .sdkUnknown("")
+                .continuetask
             ]
         }
 
@@ -19820,8 +19771,7 @@ extension SSMClientTypes {
                 .automation,
                 .lambda,
                 .runcommand,
-                .stepfunctions,
-                .sdkUnknown("")
+                .stepfunctions
             ]
         }
 
@@ -20122,8 +20072,7 @@ extension SSMClientTypes {
                 .failed,
                 .inProgress,
                 .success,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -20156,8 +20105,7 @@ extension SSMClientTypes {
         public static var allCases: [NotificationType] {
             return [
                 .command,
-                .invocation,
-                .sdkUnknown("")
+                .invocation
             ]
         }
 
@@ -20212,8 +20160,7 @@ extension SSMClientTypes {
                 .rockyLinux,
                 .suse,
                 .ubuntu,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -20410,8 +20357,7 @@ extension SSMClientTypes {
                 .exists,
                 .greaterThan,
                 .lessThan,
-                .notEqual,
-                .sdkUnknown("")
+                .notEqual
             ]
         }
 
@@ -20696,8 +20642,7 @@ extension SSMClientTypes {
         public static var allCases: [OpsItemDataType] {
             return [
                 .searchableString,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -20798,8 +20743,7 @@ extension SSMClientTypes {
 
         public static var allCases: [OpsItemEventFilterKey] {
             return [
-                .opsitemId,
-                .sdkUnknown("")
+                .opsitemId
             ]
         }
 
@@ -20825,8 +20769,7 @@ extension SSMClientTypes {
 
         public static var allCases: [OpsItemEventFilterOperator] {
             return [
-                .equal,
-                .sdkUnknown("")
+                .equal
             ]
         }
 
@@ -20999,8 +20942,7 @@ extension SSMClientTypes {
                 .severity,
                 .source,
                 .status,
-                .title,
-                .sdkUnknown("")
+                .title
             ]
         }
 
@@ -21059,8 +21001,7 @@ extension SSMClientTypes {
                 .contains,
                 .equal,
                 .greaterThan,
-                .lessThan,
-                .sdkUnknown("")
+                .lessThan
             ]
         }
 
@@ -21462,8 +21403,7 @@ extension SSMClientTypes {
             return [
                 .associationId,
                 .resourceType,
-                .resourceUri,
-                .sdkUnknown("")
+                .resourceUri
             ]
         }
 
@@ -21491,8 +21431,7 @@ extension SSMClientTypes {
 
         public static var allCases: [OpsItemRelatedItemsFilterOperator] {
             return [
-                .equal,
-                .sdkUnknown("")
+                .equal
             ]
         }
 
@@ -21554,8 +21493,7 @@ extension SSMClientTypes {
                 .resolved,
                 .runbookInProgress,
                 .scheduled,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -22570,8 +22508,7 @@ extension SSMClientTypes {
             return [
                 .advanced,
                 .intelligentTiering,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -22603,8 +22540,7 @@ extension SSMClientTypes {
             return [
                 .secureString,
                 .string,
-                .stringList,
-                .sdkUnknown("")
+                .stringList
             ]
         }
 
@@ -22741,8 +22677,7 @@ extension SSMClientTypes {
             return [
                 .keyId,
                 .name,
-                .type,
-                .sdkUnknown("")
+                .type
             ]
         }
 
@@ -22954,8 +22889,7 @@ extension SSMClientTypes {
         public static var allCases: [PatchAction] {
             return [
                 .allowasdependency,
-                .block,
-                .sdkUnknown("")
+                .block
             ]
         }
 
@@ -23102,8 +23036,7 @@ extension SSMClientTypes {
                 .installedpendingreboot,
                 .installedrejected,
                 .missing,
-                .notapplicable,
-                .sdkUnknown("")
+                .notapplicable
             ]
         }
 
@@ -23145,8 +23078,7 @@ extension SSMClientTypes {
                 .informational,
                 .low,
                 .medium,
-                .unspecified,
-                .sdkUnknown("")
+                .unspecified
             ]
         }
 
@@ -23183,8 +23115,7 @@ extension SSMClientTypes {
                 .approved,
                 .explicitapproved,
                 .explicitrejected,
-                .pendingapproval,
-                .sdkUnknown("")
+                .pendingapproval
             ]
         }
 
@@ -23320,8 +23251,7 @@ extension SSMClientTypes {
                 .section,
                 .security,
                 .severity,
-                .version,
-                .sdkUnknown("")
+                .version
             ]
         }
 
@@ -23398,8 +23328,7 @@ extension SSMClientTypes {
         public static var allCases: [PatchOperationType] {
             return [
                 .install,
-                .scan,
-                .sdkUnknown("")
+                .scan
             ]
         }
 
@@ -23473,8 +23402,7 @@ extension SSMClientTypes {
                 .patchpriority,
                 .patchproductfamily,
                 .patchseverity,
-                .product,
-                .sdkUnknown("")
+                .product
             ]
         }
 
@@ -23595,8 +23523,7 @@ extension SSMClientTypes {
         public static var allCases: [PatchSet] {
             return [
                 .application,
-                .os,
-                .sdkUnknown("")
+                .os
             ]
         }
 
@@ -23720,8 +23647,7 @@ extension SSMClientTypes {
             return [
                 .connectionLost,
                 .inactive,
-                .online,
-                .sdkUnknown("")
+                .online
             ]
         }
 
@@ -23753,8 +23679,7 @@ extension SSMClientTypes {
             return [
                 .linux,
                 .macos,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -24329,8 +24254,7 @@ extension SSMClientTypes {
         public static var allCases: [RebootOption] {
             return [
                 .noReboot,
-                .rebootIfNeeded,
-                .sdkUnknown("")
+                .rebootIfNeeded
             ]
         }
 
@@ -25513,8 +25437,7 @@ extension SSMClientTypes {
 
         public static var allCases: [ResourceDataSyncS3Format] {
             return [
-                .jsonSerde,
-                .sdkUnknown("")
+                .jsonSerde
             ]
         }
 
@@ -25910,8 +25833,7 @@ extension SSMClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .ec2Instance,
-                .managedInstance,
-                .sdkUnknown("")
+                .managedInstance
             ]
         }
 
@@ -25954,8 +25876,7 @@ extension SSMClientTypes {
                 .opsmetadata,
                 .opsItem,
                 .parameter,
-                .patchBaseline,
-                .sdkUnknown("")
+                .patchBaseline
             ]
         }
 
@@ -26133,8 +26054,7 @@ extension SSMClientTypes {
                 .approved,
                 .notReviewed,
                 .pending,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -26822,8 +26742,7 @@ extension SSMClientTypes {
                 .owner,
                 .sessionId,
                 .status,
-                .targetId,
-                .sdkUnknown("")
+                .targetId
             ]
         }
 
@@ -26887,8 +26806,7 @@ extension SSMClientTypes {
         public static var allCases: [SessionState] {
             return [
                 .active,
-                .history,
-                .sdkUnknown("")
+                .history
             ]
         }
 
@@ -26925,8 +26843,7 @@ extension SSMClientTypes {
                 .disconnected,
                 .failed,
                 .terminated,
-                .terminating,
-                .sdkUnknown("")
+                .terminating
             ]
         }
 
@@ -27016,8 +26933,7 @@ extension SSMClientTypes {
                 .reject,
                 .resume,
                 .startStep,
-                .stopStep,
-                .sdkUnknown("")
+                .stopStep
             ]
         }
 
@@ -27051,8 +26967,7 @@ extension SSMClientTypes {
             return [
                 .awsEc2Instance,
                 .awsIotThing,
-                .awsSsmManagedinstance,
-                .sdkUnknown("")
+                .awsSsmManagedinstance
             ]
         }
 
@@ -27706,8 +27621,7 @@ extension SSMClientTypes {
                 .startTimeBefore,
                 .stepExecutionId,
                 .stepExecutionStatus,
-                .stepName,
-                .sdkUnknown("")
+                .stepName
             ]
         }
 
@@ -27804,8 +27718,7 @@ extension SSMClientTypes {
         public static var allCases: [StopType] {
             return [
                 .cancel,
-                .complete,
-                .sdkUnknown("")
+                .complete
             ]
         }
 

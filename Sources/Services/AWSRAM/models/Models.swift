@@ -3177,8 +3177,7 @@ extension RAMClientTypes {
             return [
                 .createdFromPolicy,
                 .promotingToStandard,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -3250,8 +3249,7 @@ extension RAMClientTypes {
                 .attachable,
                 .deleted,
                 .deleting,
-                .unattachable,
-                .sdkUnknown("")
+                .unattachable
             ]
         }
 
@@ -3282,8 +3280,7 @@ extension RAMClientTypes {
         public static var allCases: [PermissionType] {
             return [
                 .awsManaged,
-                .customerManaged,
-                .sdkUnknown("")
+                .customerManaged
             ]
         }
 
@@ -3314,8 +3311,7 @@ extension RAMClientTypes {
             return [
                 .all,
                 .awsManaged,
-                .customerManaged,
-                .sdkUnknown("")
+                .customerManaged
             ]
         }
 
@@ -3857,8 +3853,7 @@ extension RAMClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -3996,8 +3991,7 @@ extension RAMClientTypes {
         public static var allCases: [ResourceOwner] {
             return [
                 .otherAccounts,
-                .self,
-                .sdkUnknown("")
+                .self
             ]
         }
 
@@ -4026,8 +4020,7 @@ extension RAMClientTypes {
         public static var allCases: [ResourceRegionScope] {
             return [
                 .global,
-                .regional,
-                .sdkUnknown("")
+                .regional
             ]
         }
 
@@ -4058,8 +4051,7 @@ extension RAMClientTypes {
             return [
                 .all,
                 .global,
-                .regional,
-                .sdkUnknown("")
+                .regional
             ]
         }
 
@@ -4256,8 +4248,7 @@ extension RAMClientTypes {
                 .associating,
                 .disassociated,
                 .disassociating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -4289,8 +4280,7 @@ extension RAMClientTypes {
         public static var allCases: [ResourceShareAssociationType] {
             return [
                 .principal,
-                .resource,
-                .sdkUnknown("")
+                .resource
             ]
         }
 
@@ -4321,8 +4311,7 @@ extension RAMClientTypes {
             return [
                 .createdFromPolicy,
                 .promotingToStandard,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -4575,8 +4564,7 @@ extension RAMClientTypes {
                 .accepted,
                 .expired,
                 .pending,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -4846,8 +4834,7 @@ extension RAMClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -4885,8 +4872,7 @@ extension RAMClientTypes {
                 .limitExceeded,
                 .pending,
                 .unavailable,
-                .zonalResourceInaccessible,
-                .sdkUnknown("")
+                .zonalResourceInaccessible
             ]
         }
 

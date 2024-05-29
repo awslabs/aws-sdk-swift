@@ -814,8 +814,7 @@ extension BedrockRuntimeClientTypes {
         public static var allCases: [Trace] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 

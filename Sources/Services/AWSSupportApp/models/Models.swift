@@ -52,8 +52,7 @@ extension SupportAppClientTypes {
         public static var allCases: [AccountType] {
             return [
                 .management,
-                .member,
-                .sdkUnknown("")
+                .member
             ]
         }
 
@@ -639,8 +638,7 @@ extension SupportAppClientTypes {
             return [
                 .all,
                 .high,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 

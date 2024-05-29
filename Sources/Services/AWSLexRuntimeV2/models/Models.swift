@@ -412,8 +412,7 @@ extension LexRuntimeV2ClientTypes {
             return [
                 .confirmed,
                 .denied,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -491,8 +490,7 @@ extension LexRuntimeV2ClientTypes {
         public static var allCases: [ConversationMode] {
             return [
                 .audio,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -789,8 +787,7 @@ extension LexRuntimeV2ClientTypes {
                 .delegate,
                 .elicitIntent,
                 .elicitSlot,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1072,8 +1069,7 @@ extension LexRuntimeV2ClientTypes {
             return [
                 .dtmf,
                 .speech,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -1229,8 +1225,7 @@ extension LexRuntimeV2ClientTypes {
                 .fulfillmentInProgress,
                 .inProgress,
                 .readyForFulfillment,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -1352,8 +1347,7 @@ extension LexRuntimeV2ClientTypes {
         public static var allCases: [InterpretationSource] {
             return [
                 .bedrock,
-                .lex,
-                .sdkUnknown("")
+                .lex
             ]
         }
 
@@ -1437,8 +1431,7 @@ extension LexRuntimeV2ClientTypes {
                 .customPayload,
                 .imageResponseCard,
                 .plainText,
-                .ssml,
-                .sdkUnknown("")
+                .ssml
             ]
         }
 
@@ -1536,8 +1529,7 @@ extension LexRuntimeV2ClientTypes {
             return [
                 .dtmfStartDetected,
                 .textDetected,
-                .voiceStartDetected,
-                .sdkUnknown("")
+                .voiceStartDetected
             ]
         }
 
@@ -2392,8 +2384,7 @@ extension LexRuntimeV2ClientTypes {
                 .mixed,
                 .negative,
                 .neutral,
-                .positive,
-                .sdkUnknown("")
+                .positive
             ]
         }
 
@@ -2487,8 +2478,7 @@ extension LexRuntimeV2ClientTypes {
             return [
                 .composite,
                 .list,
-                .scalar,
-                .sdkUnknown("")
+                .scalar
             ]
         }
 
@@ -2860,8 +2850,7 @@ extension LexRuntimeV2ClientTypes {
             return [
                 .default,
                 .spellByLetter,
-                .spellByWord,
-                .sdkUnknown("")
+                .spellByWord
             ]
         }
 

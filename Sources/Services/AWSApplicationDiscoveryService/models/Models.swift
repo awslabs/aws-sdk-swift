@@ -167,8 +167,7 @@ extension ApplicationDiscoveryClientTypes {
                 .running,
                 .shutdown,
                 .unhealthy,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -484,8 +483,7 @@ extension ApplicationDiscoveryClientTypes {
                 .deleting,
                 .failed,
                 .initializing,
-                .validating,
-                .sdkUnknown("")
+                .validating
             ]
         }
 
@@ -555,8 +553,7 @@ extension ApplicationDiscoveryClientTypes {
             return [
                 .internalServerError,
                 .notFound,
-                .overLimit,
-                .sdkUnknown("")
+                .overLimit
             ]
         }
 
@@ -665,8 +662,7 @@ extension ApplicationDiscoveryClientTypes {
                 .application,
                 .connections,
                 .process,
-                .server,
-                .sdkUnknown("")
+                .server
             ]
         }
 
@@ -897,8 +893,7 @@ extension ApplicationDiscoveryClientTypes {
                 .startFailed,
                 .startInProgress,
                 .stopFailed,
-                .stopInProgress,
-                .sdkUnknown("")
+                .stopInProgress
             ]
         }
 
@@ -1322,8 +1317,7 @@ extension ApplicationDiscoveryClientTypes {
 
         public static var allCases: [DataSource] {
             return [
-                .agent,
-                .sdkUnknown("")
+                .agent
             ]
         }
 
@@ -1383,8 +1377,7 @@ extension ApplicationDiscoveryClientTypes {
             return [
                 .agentInUse,
                 .internalServerError,
-                .notFound,
-                .sdkUnknown("")
+                .notFound
             ]
         }
 
@@ -1534,8 +1527,7 @@ extension ApplicationDiscoveryClientTypes {
 
         public static var allCases: [DeletionConfigurationItemType] {
             return [
-                .server,
-                .sdkUnknown("")
+                .server
             ]
         }
 
@@ -2437,8 +2429,7 @@ extension ApplicationDiscoveryClientTypes {
 
         public static var allCases: [ExportDataFormat] {
             return [
-                .csv,
-                .sdkUnknown("")
+                .csv
             ]
         }
 
@@ -2593,8 +2584,7 @@ extension ApplicationDiscoveryClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2849,8 +2839,7 @@ extension ApplicationDiscoveryClientTypes {
                 .importFailedRecordLimitExceeded,
                 .importFailedServerLimitExceeded,
                 .importInProgress,
-                .internalError,
-                .sdkUnknown("")
+                .internalError
             ]
         }
 
@@ -3005,8 +2994,7 @@ extension ApplicationDiscoveryClientTypes {
             return [
                 .importTaskId,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -3393,8 +3381,7 @@ extension ApplicationDiscoveryClientTypes {
         public static var allCases: [OfferingClass] {
             return [
                 .convertible,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -3490,8 +3477,7 @@ extension ApplicationDiscoveryClientTypes {
         public static var allCases: [OrderString] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -3522,8 +3508,7 @@ extension ApplicationDiscoveryClientTypes {
             return [
                 .allUpfront,
                 .noUpfront,
-                .partialUpfront,
-                .sdkUnknown("")
+                .partialUpfront
             ]
         }
 
@@ -4317,8 +4302,7 @@ extension ApplicationDiscoveryClientTypes {
         public static var allCases: [Tenancy] {
             return [
                 .dedicated,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -4347,8 +4331,7 @@ extension ApplicationDiscoveryClientTypes {
         public static var allCases: [TermLength] {
             return [
                 .oneYear,
-                .threeYear,
-                .sdkUnknown("")
+                .threeYear
             ]
         }
 

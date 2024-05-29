@@ -61,8 +61,7 @@ extension ECSClientTypes {
                 .staged,
                 .staging,
                 .updated,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -97,8 +96,7 @@ extension ECSClientTypes {
             return [
                 .grpc,
                 .http,
-                .http2,
-                .sdkUnknown("")
+                .http2
             ]
         }
 
@@ -128,8 +126,7 @@ extension ECSClientTypes {
         public static var allCases: [AssignPublicIp] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -484,8 +481,7 @@ extension ECSClientTypes {
         public static var allCases: [CPUArchitecture] {
             return [
                 .arm64,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -582,8 +578,7 @@ extension ECSClientTypes {
 
         public static var allCases: [CapacityProviderField] {
             return [
-                .tags,
-                .sdkUnknown("")
+                .tags
             ]
         }
 
@@ -611,8 +606,7 @@ extension ECSClientTypes {
         public static var allCases: [CapacityProviderStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -693,8 +687,7 @@ extension ECSClientTypes {
                 .deleteInProgress,
                 .updateComplete,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -1047,8 +1040,7 @@ extension ECSClientTypes {
                 .configurations,
                 .settings,
                 .statistics,
-                .tags,
-                .sdkUnknown("")
+                .tags
             ]
         }
 
@@ -1204,8 +1196,7 @@ extension ECSClientTypes {
 
         public static var allCases: [ClusterSettingName] {
             return [
-                .containerInsights,
-                .sdkUnknown("")
+                .containerInsights
             ]
         }
 
@@ -1235,8 +1226,7 @@ extension ECSClientTypes {
             return [
                 .ec2,
                 .external,
-                .fargate,
-                .sdkUnknown("")
+                .fargate
             ]
         }
 
@@ -1313,8 +1303,7 @@ extension ECSClientTypes {
         public static var allCases: [Connectivity] {
             return [
                 .connected,
-                .disconnected,
-                .sdkUnknown("")
+                .disconnected
             ]
         }
 
@@ -1453,8 +1442,7 @@ extension ECSClientTypes {
                 .complete,
                 .healthy,
                 .start,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -1979,8 +1967,7 @@ extension ECSClientTypes {
         public static var allCases: [ContainerInstanceField] {
             return [
                 .containerInstanceHealth,
-                .tags,
-                .sdkUnknown("")
+                .tags
             ]
         }
 
@@ -2046,8 +2033,7 @@ extension ECSClientTypes {
                 .deregistering,
                 .draining,
                 .registering,
-                .registrationFailed,
-                .sdkUnknown("")
+                .registrationFailed
             ]
         }
 
@@ -3604,8 +3590,7 @@ extension ECSClientTypes {
             return [
                 .codeDeploy,
                 .ecs,
-                .external,
-                .sdkUnknown("")
+                .external
             ]
         }
 
@@ -3637,8 +3622,7 @@ extension ECSClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -4424,8 +4408,7 @@ extension ECSClientTypes {
             return [
                 .pending,
                 .running,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -4501,8 +4484,7 @@ extension ECSClientTypes {
             return [
                 .mknod,
                 .read,
-                .write,
-                .sdkUnknown("")
+                .write
             ]
         }
 
@@ -4666,8 +4648,7 @@ extension ECSClientTypes {
 
         public static var allCases: [EBSResourceType] {
             return [
-                .volume,
-                .sdkUnknown("")
+                .volume
             ]
         }
 
@@ -4778,8 +4759,7 @@ extension ECSClientTypes {
         public static var allCases: [EFSAuthorizationConfigIAM] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4808,8 +4788,7 @@ extension ECSClientTypes {
         public static var allCases: [EFSTransitEncryption] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4944,8 +4923,7 @@ extension ECSClientTypes {
 
         public static var allCases: [EnvironmentFileType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -5165,8 +5143,7 @@ extension ECSClientTypes {
             return [
                 .default,
                 .none,
-                .override,
-                .sdkUnknown("")
+                .override
             ]
         }
 
@@ -5423,8 +5400,7 @@ extension ECSClientTypes {
         public static var allCases: [FirelensConfigurationType] {
             return [
                 .fluentbit,
-                .fluentd,
-                .sdkUnknown("")
+                .fluentd
             ]
         }
 
@@ -5653,8 +5629,7 @@ extension ECSClientTypes {
             return [
                 .healthy,
                 .unhealthy,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -5875,8 +5850,7 @@ extension ECSClientTypes {
                 .impaired,
                 .initializing,
                 .insufficientData,
-                .ok,
-                .sdkUnknown("")
+                .ok
             ]
         }
 
@@ -5905,8 +5879,7 @@ extension ECSClientTypes {
 
         public static var allCases: [InstanceHealthCheckType] {
             return [
-                .containerRuntime,
-                .sdkUnknown("")
+                .containerRuntime
             ]
         }
 
@@ -5974,8 +5947,7 @@ extension ECSClientTypes {
             return [
                 .host,
                 .none,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -6081,8 +6053,7 @@ extension ECSClientTypes {
             return [
                 .ec2,
                 .external,
-                .fargate,
-                .sdkUnknown("")
+                .fargate
             ]
         }
 
@@ -7233,8 +7204,7 @@ extension ECSClientTypes {
                 .journald,
                 .jsonFile,
                 .splunk,
-                .syslog,
-                .sdkUnknown("")
+                .syslog
             ]
         }
 
@@ -7308,8 +7278,7 @@ extension ECSClientTypes {
 
         public static var allCases: [ManagedAgentName] {
             return [
-                .executecommandagent,
-                .sdkUnknown("")
+                .executecommandagent
             ]
         }
 
@@ -7379,8 +7348,7 @@ extension ECSClientTypes {
         public static var allCases: [ManagedDraining] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7464,8 +7432,7 @@ extension ECSClientTypes {
         public static var allCases: [ManagedScalingStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7494,8 +7461,7 @@ extension ECSClientTypes {
         public static var allCases: [ManagedTerminationProtection] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7807,8 +7773,7 @@ extension ECSClientTypes {
                 .awsvpc,
                 .bridge,
                 .host,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -7889,8 +7854,7 @@ extension ECSClientTypes {
                 .windowsServer2019Full,
                 .windowsServer2022Core,
                 .windowsServer2022Full,
-                .windowsServer20h2Core,
-                .sdkUnknown("")
+                .windowsServer20h2Core
             ]
         }
 
@@ -7925,8 +7889,7 @@ extension ECSClientTypes {
         public static var allCases: [PidMode] {
             return [
                 .host,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -7992,8 +7955,7 @@ extension ECSClientTypes {
         public static var allCases: [PlacementConstraintType] {
             return [
                 .distinctInstance,
-                .memberOf,
-                .sdkUnknown("")
+                .memberOf
             ]
         }
 
@@ -8061,8 +8023,7 @@ extension ECSClientTypes {
             return [
                 .binpack,
                 .random,
-                .spread,
-                .sdkUnknown("")
+                .spread
             ]
         }
 
@@ -8121,8 +8082,7 @@ extension ECSClientTypes {
 
         public static var allCases: [PlatformDeviceType] {
             return [
-                .gpu,
-                .sdkUnknown("")
+                .gpu
             ]
         }
 
@@ -8328,8 +8288,7 @@ extension ECSClientTypes {
             return [
                 .none,
                 .service,
-                .taskDefinition,
-                .sdkUnknown("")
+                .taskDefinition
             ]
         }
 
@@ -8451,8 +8410,7 @@ extension ECSClientTypes {
 
         public static var allCases: [ProxyConfigurationType] {
             return [
-                .appmesh,
-                .sdkUnknown("")
+                .appmesh
             ]
         }
 
@@ -9378,8 +9336,7 @@ extension ECSClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .gpu,
-                .inferenceAccelerator,
-                .sdkUnknown("")
+                .inferenceAccelerator
             ]
         }
 
@@ -9664,8 +9621,7 @@ extension ECSClientTypes {
 
         public static var allCases: [ScaleUnit] {
             return [
-                .percent,
-                .sdkUnknown("")
+                .percent
             ]
         }
 
@@ -9693,8 +9649,7 @@ extension ECSClientTypes {
         public static var allCases: [SchedulingStrategy] {
             return [
                 .daemon,
-                .replica,
-                .sdkUnknown("")
+                .replica
             ]
         }
 
@@ -9723,8 +9678,7 @@ extension ECSClientTypes {
         public static var allCases: [Scope] {
             return [
                 .shared,
-                .task,
-                .sdkUnknown("")
+                .task
             ]
         }
 
@@ -10329,8 +10283,7 @@ extension ECSClientTypes {
 
         public static var allCases: [ServiceField] {
             return [
-                .tags,
-                .sdkUnknown("")
+                .tags
             ]
         }
 
@@ -10730,8 +10683,7 @@ extension ECSClientTypes {
                 .guardDutyActivate,
                 .serviceLongArnFormat,
                 .tagResourceAuthorization,
-                .taskLongArnFormat,
-                .sdkUnknown("")
+                .taskLongArnFormat
             ]
         }
 
@@ -10767,8 +10719,7 @@ extension ECSClientTypes {
         public static var allCases: [SettingType] {
             return [
                 .awsManaged,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -10797,8 +10748,7 @@ extension ECSClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -10827,8 +10777,7 @@ extension ECSClientTypes {
         public static var allCases: [StabilityStatus] {
             return [
                 .stabilizing,
-                .steadyState,
-                .sdkUnknown("")
+                .steadyState
             ]
         }
 
@@ -11638,8 +11587,7 @@ extension ECSClientTypes {
 
         public static var allCases: [TargetType] {
             return [
-                .containerInstance,
-                .sdkUnknown("")
+                .containerInstance
             ]
         }
 
@@ -12088,8 +12036,7 @@ extension ECSClientTypes {
             return [
                 .active,
                 .all,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -12117,8 +12064,7 @@ extension ECSClientTypes {
 
         public static var allCases: [TaskDefinitionField] {
             return [
-                .tags,
-                .sdkUnknown("")
+                .tags
             ]
         }
 
@@ -12181,8 +12127,7 @@ extension ECSClientTypes {
 
         public static var allCases: [TaskDefinitionPlacementConstraintType] {
             return [
-                .memberOf,
-                .sdkUnknown("")
+                .memberOf
             ]
         }
 
@@ -12212,8 +12157,7 @@ extension ECSClientTypes {
             return [
                 .active,
                 .deleteInProgress,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -12241,8 +12185,7 @@ extension ECSClientTypes {
 
         public static var allCases: [TaskField] {
             return [
-                .tags,
-                .sdkUnknown("")
+                .tags
             ]
         }
 
@@ -12272,8 +12215,7 @@ extension ECSClientTypes {
             return [
                 .ext3,
                 .ext4,
-                .xfs,
-                .sdkUnknown("")
+                .xfs
             ]
         }
 
@@ -12665,8 +12607,7 @@ extension ECSClientTypes {
 
         public static var allCases: [TaskSetField] {
             return [
-                .tags,
-                .sdkUnknown("")
+                .tags
             ]
         }
 
@@ -12740,8 +12681,7 @@ extension ECSClientTypes {
                 .spotInterruption,
                 .taskFailedToStart,
                 .terminationNotice,
-                .userInitiated,
-                .sdkUnknown("")
+                .userInitiated
             ]
         }
 
@@ -12886,8 +12826,7 @@ extension ECSClientTypes {
         public static var allCases: [TransportProtocol] {
             return [
                 .tcp,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -12988,8 +12927,7 @@ extension ECSClientTypes {
                 .rtprio,
                 .rttime,
                 .sigpending,
-                .stack,
-                .sdkUnknown("")
+                .stack
             ]
         }
 

@@ -52,8 +52,7 @@ extension SageMakerGeospatialClientTypes {
 
         public static var allCases: [AlgorithmNameCloudRemoval] {
             return [
-                .interpolation,
-                .sdkUnknown("")
+                .interpolation
             ]
         }
 
@@ -119,8 +118,7 @@ extension SageMakerGeospatialClientTypes {
                 .q1,
                 .q3,
                 .rms,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -199,8 +197,7 @@ extension SageMakerGeospatialClientTypes {
                 .q1,
                 .q3,
                 .rms,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -448,8 +445,7 @@ extension SageMakerGeospatialClientTypes {
             return [
                 .equals,
                 .notEquals,
-                .startsWith,
-                .sdkUnknown("")
+                .startsWith
             ]
         }
 
@@ -558,8 +554,7 @@ extension SageMakerGeospatialClientTypes {
             return [
                 .premium,
                 .public,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -730,8 +725,7 @@ extension SageMakerGeospatialClientTypes {
         public static var allCases: [EarthObservationJobErrorType] {
             return [
                 .clientError,
-                .serverError,
-                .sdkUnknown("")
+                .serverError
             ]
         }
 
@@ -765,8 +759,7 @@ extension SageMakerGeospatialClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -816,8 +809,7 @@ extension SageMakerGeospatialClientTypes {
                 .initializing,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1079,8 +1071,7 @@ extension SageMakerGeospatialClientTypes {
         public static var allCases: [ExportErrorType] {
             return [
                 .clientError,
-                .serverError,
-                .sdkUnknown("")
+                .serverError
             ]
         }
 
@@ -1967,8 +1958,7 @@ extension SageMakerGeospatialClientTypes {
         public static var allCases: [GroupBy] {
             return [
                 .all,
-                .yearly,
-                .sdkUnknown("")
+                .yearly
             ]
         }
 
@@ -2787,8 +2777,7 @@ extension SageMakerGeospatialClientTypes {
 
         public static var allCases: [LogicalOperator] {
             return [
-                .and,
-                .sdkUnknown("")
+                .and
             ]
         }
 
@@ -3091,8 +3080,7 @@ extension SageMakerGeospatialClientTypes {
                 .float64,
                 .int16,
                 .int32,
-                .uint16,
-                .sdkUnknown("")
+                .uint16
             ]
         }
 
@@ -3199,8 +3187,7 @@ extension SageMakerGeospatialClientTypes {
             return [
                 .average,
                 .highest,
-                .lowest,
-                .sdkUnknown("")
+                .lowest
             ]
         }
 
@@ -3895,8 +3882,7 @@ extension SageMakerGeospatialClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -4469,8 +4455,7 @@ extension SageMakerGeospatialClientTypes {
         public static var allCases: [TargetOptions] {
             return [
                 .input,
-                .output,
-                .sdkUnknown("")
+                .output
             ]
         }
 
@@ -4504,8 +4489,7 @@ extension SageMakerGeospatialClientTypes {
             return [
                 .mean,
                 .median,
-                .standardDeviation,
-                .sdkUnknown("")
+                .standardDeviation
             ]
         }
 
@@ -4697,8 +4681,7 @@ extension SageMakerGeospatialClientTypes {
 
         public static var allCases: [Unit] {
             return [
-                .meters,
-                .sdkUnknown("")
+                .meters
             ]
         }
 
@@ -4954,8 +4937,7 @@ extension SageMakerGeospatialClientTypes {
 
         public static var allCases: [VectorEnrichmentJobDocumentType] {
             return [
-                .csv,
-                .sdkUnknown("")
+                .csv
             ]
         }
 
@@ -5016,8 +4998,7 @@ extension SageMakerGeospatialClientTypes {
         public static var allCases: [VectorEnrichmentJobErrorType] {
             return [
                 .clientError,
-                .serverError,
-                .sdkUnknown("")
+                .serverError
             ]
         }
 
@@ -5077,8 +5058,7 @@ extension SageMakerGeospatialClientTypes {
         public static var allCases: [VectorEnrichmentJobExportErrorType] {
             return [
                 .clientError,
-                .serverError,
-                .sdkUnknown("")
+                .serverError
             ]
         }
 
@@ -5109,8 +5089,7 @@ extension SageMakerGeospatialClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -5229,8 +5208,7 @@ extension SageMakerGeospatialClientTypes {
                 .initializing,
                 .inProgress,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -5265,8 +5243,7 @@ extension SageMakerGeospatialClientTypes {
         public static var allCases: [VectorEnrichmentJobType] {
             return [
                 .mapMatching,
-                .reverseGeocoding,
-                .sdkUnknown("")
+                .reverseGeocoding
             ]
         }
 
@@ -5426,8 +5403,7 @@ extension SageMakerGeospatialClientTypes {
                 .median,
                 .min,
                 .standardDeviation,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 

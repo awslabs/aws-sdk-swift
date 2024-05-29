@@ -625,8 +625,7 @@ extension Route53DomainsClientTypes {
                 .company,
                 .person,
                 .publicBody,
-                .reseller,
-                .sdkUnknown("")
+                .reseller
             ]
         }
 
@@ -1156,8 +1155,7 @@ extension Route53DomainsClientTypes {
                 .yt,
                 .za,
                 .zm,
-                .zw,
-                .sdkUnknown("")
+                .zw
             ]
         }
 
@@ -1913,8 +1911,7 @@ extension Route53DomainsClientTypes {
                 .reserved,
                 .unavailable,
                 .unavailablePremium,
-                .unavailableRestricted,
-                .sdkUnknown("")
+                .unavailableRestricted
             ]
         }
 
@@ -2795,8 +2792,7 @@ extension Route53DomainsClientTypes {
                 .sgIdNumber,
                 .ukCompanyNumber,
                 .ukContactType,
-                .vatNumber,
-                .sdkUnknown("")
+                .vatNumber
             ]
         }
 
@@ -3399,8 +3395,7 @@ extension Route53DomainsClientTypes {
         public static var allCases: [ListDomainsAttributeName] {
             return [
                 .domainname,
-                .expiry,
-                .sdkUnknown("")
+                .expiry
             ]
         }
 
@@ -3616,8 +3611,7 @@ extension Route53DomainsClientTypes {
 
         public static var allCases: [ListOperationsSortAttributeName] {
             return [
-                .submitteddate,
-                .sdkUnknown("")
+                .submitteddate
             ]
         }
 
@@ -3878,8 +3872,7 @@ extension Route53DomainsClientTypes {
                 .failed,
                 .inProgress,
                 .submitted,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -4018,8 +4011,7 @@ extension Route53DomainsClientTypes {
                 .transferOnRenew,
                 .transferOutDomain,
                 .updateDomainContact,
-                .updateNameserver,
-                .sdkUnknown("")
+                .updateNameserver
             ]
         }
 
@@ -4068,8 +4060,7 @@ extension Route53DomainsClientTypes {
             return [
                 .beginsWith,
                 .ge,
-                .le,
-                .sdkUnknown("")
+                .le
             ]
         }
 
@@ -4196,8 +4187,7 @@ extension Route53DomainsClientTypes {
             return [
                 .done,
                 .expired,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -4770,8 +4760,7 @@ extension Route53DomainsClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -4806,8 +4795,7 @@ extension Route53DomainsClientTypes {
                 .pendingAuthorization,
                 .pendingCustomerAction,
                 .pendingPaymentVerification,
-                .pendingSupportCase,
-                .sdkUnknown("")
+                .pendingSupportCase
             ]
         }
 
@@ -5165,8 +5153,7 @@ extension Route53DomainsClientTypes {
                 .dontKnow,
                 .premiumDomain,
                 .transferable,
-                .untransferable,
-                .sdkUnknown("")
+                .untransferable
             ]
         }
 

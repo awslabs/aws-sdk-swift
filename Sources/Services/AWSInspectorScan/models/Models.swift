@@ -107,8 +107,7 @@ extension InspectorScanClientTypes {
         public static var allCases: [InternalServerExceptionReason] {
             return [
                 .failedToGenerateSbom,
-                .other,
-                .sdkUnknown("")
+                .other
             ]
         }
 
@@ -137,8 +136,7 @@ extension InspectorScanClientTypes {
         public static var allCases: [OutputFormat] {
             return [
                 .cycloneDx15,
-                .inspector,
-                .sdkUnknown("")
+                .inspector
             ]
         }
 
@@ -375,8 +373,7 @@ extension InspectorScanClientTypes {
                 .fieldValidationFailed,
                 .other,
                 .unknownOperation,
-                .unsupportedSbomType,
-                .sdkUnknown("")
+                .unsupportedSbomType
             ]
         }
 

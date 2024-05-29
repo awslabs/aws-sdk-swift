@@ -53,8 +53,7 @@ extension RepostspaceClientTypes {
         public static var allCases: [ConfigurationStatus] {
             return [
                 .configured,
-                .unconfigured,
-                .sdkUnknown("")
+                .unconfigured
             ]
         }
 
@@ -1238,8 +1237,7 @@ extension RepostspaceClientTypes {
         public static var allCases: [TierLevel] {
             return [
                 .basic,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -1509,8 +1507,7 @@ extension RepostspaceClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -1543,8 +1540,7 @@ extension RepostspaceClientTypes {
             return [
                 .approved,
                 .pending,
-                .unapproved,
-                .sdkUnknown("")
+                .unapproved
             ]
         }
 

@@ -242,8 +242,7 @@ extension ApiGatewayV2ClientTypes {
                 .awsIam,
                 .custom,
                 .jwt,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -352,8 +351,7 @@ extension ApiGatewayV2ClientTypes {
         public static var allCases: [AuthorizerType] {
             return [
                 .jwt,
-                .request,
-                .sdkUnknown("")
+                .request
             ]
         }
 
@@ -459,8 +457,7 @@ extension ApiGatewayV2ClientTypes {
         public static var allCases: [ConnectionType] {
             return [
                 .internet,
-                .vpcLink,
-                .sdkUnknown("")
+                .vpcLink
             ]
         }
 
@@ -490,8 +487,7 @@ extension ApiGatewayV2ClientTypes {
         public static var allCases: [ContentHandlingStrategy] {
             return [
                 .convertToBinary,
-                .convertToText,
-                .sdkUnknown("")
+                .convertToText
             ]
         }
 
@@ -3381,8 +3377,7 @@ extension ApiGatewayV2ClientTypes {
             return [
                 .deployed,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -3549,8 +3544,7 @@ extension ApiGatewayV2ClientTypes {
                 .available,
                 .pendingCertificateReimport,
                 .pendingOwnershipVerification,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3582,8 +3576,7 @@ extension ApiGatewayV2ClientTypes {
         public static var allCases: [EndpointType] {
             return [
                 .edge,
-                .regional,
-                .sdkUnknown("")
+                .regional
             ]
         }
 
@@ -6651,8 +6644,7 @@ extension ApiGatewayV2ClientTypes {
                 .awsProxy,
                 .http,
                 .httpProxy,
-                .mock,
-                .sdkUnknown("")
+                .mock
             ]
         }
 
@@ -6724,8 +6716,7 @@ extension ApiGatewayV2ClientTypes {
             return [
                 .error,
                 .info,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -6942,8 +6933,7 @@ extension ApiGatewayV2ClientTypes {
             return [
                 .never,
                 .whenNoMatch,
-                .whenNoTemplates,
-                .sdkUnknown("")
+                .whenNoTemplates
             ]
         }
 
@@ -6974,8 +6964,7 @@ extension ApiGatewayV2ClientTypes {
         public static var allCases: [ProtocolType] {
             return [
                 .http,
-                .websocket,
-                .sdkUnknown("")
+                .websocket
             ]
         }
 
@@ -7429,8 +7418,7 @@ extension ApiGatewayV2ClientTypes {
         public static var allCases: [SecurityPolicy] {
             return [
                 .tls10,
-                .tls12,
-                .sdkUnknown("")
+                .tls12
             ]
         }
 
@@ -9706,8 +9694,7 @@ extension ApiGatewayV2ClientTypes {
                 .deleting,
                 .failed,
                 .inactive,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -9738,8 +9725,7 @@ extension ApiGatewayV2ClientTypes {
 
         public static var allCases: [VpcLinkVersion] {
             return [
-                .v2,
-                .sdkUnknown("")
+                .v2
             ]
         }
 

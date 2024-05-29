@@ -155,8 +155,7 @@ extension PcaConnectorAdClientTypes {
         public static var allCases: [AccessRight] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -430,8 +429,7 @@ extension PcaConnectorAdClientTypes {
                 .windowsSystemComponentVerification,
                 .windowsTcbComponent,
                 .windowsThirdPartyApplicationComponent,
-                .windowsUpdate,
-                .sdkUnknown("")
+                .windowsUpdate
             ]
         }
 
@@ -572,8 +570,7 @@ extension PcaConnectorAdClientTypes {
                 .windowsServer2008R2,
                 .windowsServer2012,
                 .windowsServer2012R2,
-                .windowsServer2016,
-                .sdkUnknown("")
+                .windowsServer2016
             ]
         }
 
@@ -612,8 +609,7 @@ extension PcaConnectorAdClientTypes {
                 .windowsServer2008R2,
                 .windowsServer2012,
                 .windowsServer2012R2,
-                .windowsServer2016,
-                .sdkUnknown("")
+                .windowsServer2016
             ]
         }
 
@@ -647,8 +643,7 @@ extension PcaConnectorAdClientTypes {
             return [
                 .windowsServer2012,
                 .windowsServer2012R2,
-                .windowsServer2016,
-                .sdkUnknown("")
+                .windowsServer2016
             ]
         }
 
@@ -798,8 +793,7 @@ extension PcaConnectorAdClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -842,8 +836,7 @@ extension PcaConnectorAdClientTypes {
                 .securityGroupNotInVpc,
                 .vpcAccessDenied,
                 .vpcEndpointLimitExceeded,
-                .vpcResourceNotFound,
-                .sdkUnknown("")
+                .vpcResourceNotFound
             ]
         }
 
@@ -1711,8 +1704,7 @@ extension PcaConnectorAdClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -1751,8 +1743,7 @@ extension PcaConnectorAdClientTypes {
                 .directoryNotReachable,
                 .directoryResourceNotFound,
                 .directoryTypeNotSupported,
-                .internalFailure,
-                .sdkUnknown("")
+                .internalFailure
             ]
         }
 
@@ -2569,8 +2560,7 @@ extension PcaConnectorAdClientTypes {
             return [
                 .sha256,
                 .sha384,
-                .sha512,
-                .sdkUnknown("")
+                .sha512
             ]
         }
 
@@ -2638,8 +2628,7 @@ extension PcaConnectorAdClientTypes {
         public static var allCases: [KeySpec] {
             return [
                 .keyExchange,
-                .signature,
-                .sdkUnknown("")
+                .signature
             ]
         }
 
@@ -2842,8 +2831,7 @@ extension PcaConnectorAdClientTypes {
 
         public static var allCases: [KeyUsagePropertyType] {
             return [
-                .all,
-                .sdkUnknown("")
+                .all
             ]
         }
 
@@ -3397,8 +3385,7 @@ extension PcaConnectorAdClientTypes {
                 .ecdhP256,
                 .ecdhP384,
                 .ecdhP521,
-                .rsa,
-                .sdkUnknown("")
+                .rsa
             ]
         }
 
@@ -3851,8 +3838,7 @@ extension PcaConnectorAdClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -3889,8 +3875,7 @@ extension PcaConnectorAdClientTypes {
                 .directoryNotReachable,
                 .directoryResourceNotFound,
                 .internalFailure,
-                .spnExistsOnDifferentAdObject,
-                .sdkUnknown("")
+                .spnExistsOnDifferentAdObject
             ]
         }
 
@@ -4506,8 +4491,7 @@ extension PcaConnectorAdClientTypes {
         public static var allCases: [TemplateStatus] {
             return [
                 .active,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -5187,8 +5171,7 @@ extension PcaConnectorAdClientTypes {
                 .mismatchedVpc,
                 .noClientToken,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -5268,8 +5251,7 @@ extension PcaConnectorAdClientTypes {
                 .hours,
                 .months,
                 .weeks,
-                .years,
-                .sdkUnknown("")
+                .years
             ]
         }
 

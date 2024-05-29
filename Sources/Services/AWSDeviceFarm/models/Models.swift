@@ -218,8 +218,7 @@ extension DeviceFarmClientTypes {
             return [
                 .file,
                 .log,
-                .screenshot,
-                .sdkUnknown("")
+                .screenshot
             ]
         }
 
@@ -301,8 +300,7 @@ extension DeviceFarmClientTypes {
                 .video,
                 .videoLog,
                 .webkitLog,
-                .xctestLog,
-                .sdkUnknown("")
+                .xctestLog
             ]
         }
 
@@ -357,8 +355,7 @@ extension DeviceFarmClientTypes {
         public static var allCases: [BillingMethod] {
             return [
                 .metered,
-                .unmetered,
-                .sdkUnknown("")
+                .unmetered
             ]
         }
 
@@ -1467,8 +1464,7 @@ extension DeviceFarmClientTypes {
 
         public static var allCases: [CurrencyCode] {
             return [
-                .usd,
-                .sdkUnknown("")
+                .usd
             ]
         }
 
@@ -2218,8 +2214,7 @@ extension DeviceFarmClientTypes {
                 .osVersion,
                 .platform,
                 .remoteAccessEnabled,
-                .remoteDebugEnabled,
-                .sdkUnknown("")
+                .remoteDebugEnabled
             ]
         }
 
@@ -2263,8 +2258,7 @@ extension DeviceFarmClientTypes {
                 .available,
                 .busy,
                 .highlyAvailable,
-                .temporaryNotAvailable,
-                .sdkUnknown("")
+                .temporaryNotAvailable
             ]
         }
 
@@ -2378,8 +2372,7 @@ extension DeviceFarmClientTypes {
                 .osVersion,
                 .platform,
                 .remoteAccessEnabled,
-                .remoteDebugEnabled,
-                .sdkUnknown("")
+                .remoteDebugEnabled
             ]
         }
 
@@ -2418,8 +2411,7 @@ extension DeviceFarmClientTypes {
         public static var allCases: [DeviceFormFactor] {
             return [
                 .phone,
-                .tablet,
-                .sdkUnknown("")
+                .tablet
             ]
         }
 
@@ -2535,8 +2527,7 @@ extension DeviceFarmClientTypes {
         public static var allCases: [DevicePlatform] {
             return [
                 .android,
-                .ios,
-                .sdkUnknown("")
+                .ios
             ]
         }
 
@@ -2656,8 +2647,7 @@ extension DeviceFarmClientTypes {
         public static var allCases: [DevicePoolType] {
             return [
                 .curated,
-                .private,
-                .sdkUnknown("")
+                .private
             ]
         }
 
@@ -2866,8 +2856,7 @@ extension DeviceFarmClientTypes {
                 .pending,
                 .skipped,
                 .stopped,
-                .warned,
-                .sdkUnknown("")
+                .warned
             ]
         }
 
@@ -2901,8 +2890,7 @@ extension DeviceFarmClientTypes {
         public static var allCases: [ExecutionResultCode] {
             return [
                 .parsingFailed,
-                .vpcEndpointSetupFailed,
-                .sdkUnknown("")
+                .vpcEndpointSetupFailed
             ]
         }
 
@@ -2945,8 +2933,7 @@ extension DeviceFarmClientTypes {
                 .processing,
                 .running,
                 .scheduling,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -4530,8 +4517,7 @@ extension DeviceFarmClientTypes {
                 .available,
                 .inUse,
                 .notAvailable,
-                .preparing,
-                .sdkUnknown("")
+                .preparing
             ]
         }
 
@@ -4564,8 +4550,7 @@ extension DeviceFarmClientTypes {
             return [
                 .interactive,
                 .noVideo,
-                .videoOnly,
-                .sdkUnknown("")
+                .videoOnly
             ]
         }
 
@@ -7116,8 +7101,7 @@ extension DeviceFarmClientTypes {
         public static var allCases: [NetworkProfileType] {
             return [
                 .curated,
-                .private,
-                .sdkUnknown("")
+                .private
             ]
         }
 
@@ -7388,8 +7372,7 @@ extension DeviceFarmClientTypes {
             return [
                 .purchase,
                 .renew,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -7417,8 +7400,7 @@ extension DeviceFarmClientTypes {
 
         public static var allCases: [OfferingType] {
             return [
-                .recurring,
-                .sdkUnknown("")
+                .recurring
             ]
         }
 
@@ -7754,8 +7736,7 @@ extension DeviceFarmClientTypes {
 
         public static var allCases: [RecurringChargeFrequency] {
             return [
-                .monthly,
-                .sdkUnknown("")
+                .monthly
             ]
         }
 
@@ -8116,8 +8097,7 @@ extension DeviceFarmClientTypes {
                 .in,
                 .lessThan,
                 .lessThanOrEquals,
-                .notIn,
-                .sdkUnknown("")
+                .notIn
             ]
         }
 
@@ -8505,8 +8485,7 @@ extension DeviceFarmClientTypes {
                 .rxRate,
                 .threads,
                 .tx,
-                .txRate,
-                .sdkUnknown("")
+                .txRate
             ]
         }
 
@@ -9789,8 +9768,7 @@ extension DeviceFarmClientTypes {
         public static var allCases: [TestGridSessionArtifactCategory] {
             return [
                 .log,
-                .video,
-                .sdkUnknown("")
+                .video
             ]
         }
 
@@ -9821,8 +9799,7 @@ extension DeviceFarmClientTypes {
             return [
                 .seleniumLog,
                 .unknown,
-                .video,
-                .sdkUnknown("")
+                .video
             ]
         }
 
@@ -9854,8 +9831,7 @@ extension DeviceFarmClientTypes {
             return [
                 .active,
                 .closed,
-                .errored,
-                .sdkUnknown("")
+                .errored
             ]
         }
 
@@ -9969,8 +9945,7 @@ extension DeviceFarmClientTypes {
                 .uiautomator,
                 .webPerformanceProfile,
                 .xctest,
-                .xctestUi,
-                .sdkUnknown("")
+                .xctestUi
             ]
         }
 
@@ -11071,8 +11046,7 @@ extension DeviceFarmClientTypes {
         public static var allCases: [UploadCategory] {
             return [
                 .curated,
-                .private,
-                .sdkUnknown("")
+                .private
             ]
         }
 
@@ -11105,8 +11079,7 @@ extension DeviceFarmClientTypes {
                 .failed,
                 .initialized,
                 .processing,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -11197,8 +11170,7 @@ extension DeviceFarmClientTypes {
                 .webApp,
                 .xctestTestPackage,
                 .xctestUiTestPackage,
-                .xctestUiTestSpec,
-                .sdkUnknown("")
+                .xctestUiTestSpec
             ]
         }
 

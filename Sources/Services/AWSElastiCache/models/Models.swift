@@ -53,8 +53,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [AZMode] {
             return [
                 .crossAz,
-                .singleAz,
-                .sdkUnknown("")
+                .singleAz
             ]
         }
 
@@ -174,8 +173,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [AuthTokenUpdateStatus] {
             return [
                 .rotating,
-                .setting,
-                .sdkUnknown("")
+                .setting
             ]
         }
 
@@ -206,8 +204,7 @@ extension ElastiCacheClientTypes {
             return [
                 .delete,
                 .rotate,
-                .set,
-                .sdkUnknown("")
+                .set
             ]
         }
 
@@ -299,8 +296,7 @@ extension ElastiCacheClientTypes {
             return [
                 .iam,
                 .noPassword,
-                .password,
-                .sdkUnknown("")
+                .password
             ]
         }
 
@@ -499,8 +495,7 @@ extension ElastiCacheClientTypes {
                 .disabled,
                 .disabling,
                 .enabled,
-                .enabling,
-                .sdkUnknown("")
+                .enabling
             ]
         }
 
@@ -2009,8 +2004,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [ChangeType] {
             return [
                 .immediate,
-                .requiresReboot,
-                .sdkUnknown("")
+                .requiresReboot
             ]
         }
 
@@ -2072,8 +2066,7 @@ extension ElastiCacheClientTypes {
             return [
                 .compatible,
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4131,8 +4124,7 @@ extension ElastiCacheClientTypes {
 
         public static var allCases: [DataStorageUnit] {
             return [
-                .gb,
-                .sdkUnknown("")
+                .gb
             ]
         }
 
@@ -4160,8 +4152,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [DataTieringStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7252,8 +7243,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [DestinationType] {
             return [
                 .cloudwatchlogs,
-                .kinesisfirehose,
-                .sdkUnknown("")
+                .kinesisfirehose
             ]
         }
 
@@ -8241,8 +8231,7 @@ extension ElastiCacheClientTypes {
             return [
                 .iam,
                 .noPassword,
-                .password,
-                .sdkUnknown("")
+                .password
             ]
         }
 
@@ -8940,8 +8929,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [IpDiscovery] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -9268,8 +9256,7 @@ extension ElastiCacheClientTypes {
                 .disabling,
                 .enabling,
                 .error,
-                .modifying,
-                .sdkUnknown("")
+                .modifying
             ]
         }
 
@@ -9301,8 +9288,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [LogFormat] {
             return [
                 .json,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -9331,8 +9317,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [LogType] {
             return [
                 .engineLog,
-                .slowLog,
-                .sdkUnknown("")
+                .slowLog
             ]
         }
 
@@ -10632,8 +10617,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [MultiAZStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10664,8 +10648,7 @@ extension ElastiCacheClientTypes {
             return [
                 .dualStack,
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -11202,8 +11185,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [NodeUpdateInitiatedBy] {
             return [
                 .customer,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -11240,8 +11222,7 @@ extension ElastiCacheClientTypes {
                 .notApplied,
                 .stopped,
                 .stopping,
-                .waitingToStart,
-                .sdkUnknown("")
+                .waitingToStart
             ]
         }
 
@@ -11305,8 +11286,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [OutpostMode] {
             return [
                 .crossOutpost,
-                .singleOutpost,
-                .sdkUnknown("")
+                .singleOutpost
             ]
         }
 
@@ -11430,8 +11410,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [PendingAutomaticFailoverStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13622,8 +13601,7 @@ extension ElastiCacheClientTypes {
                 .critical,
                 .important,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -13656,8 +13634,7 @@ extension ElastiCacheClientTypes {
             return [
                 .available,
                 .cancelled,
-                .expired,
-                .sdkUnknown("")
+                .expired
             ]
         }
 
@@ -13685,8 +13662,7 @@ extension ElastiCacheClientTypes {
 
         public static var allCases: [ServiceUpdateType] {
             return [
-                .securityUpdate,
-                .sdkUnknown("")
+                .securityUpdate
             ]
         }
 
@@ -13716,8 +13692,7 @@ extension ElastiCacheClientTypes {
             return [
                 .na,
                 .no,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 
@@ -14159,8 +14134,7 @@ extension ElastiCacheClientTypes {
                 .serverlessCache,
                 .serverlessCacheSnapshot,
                 .user,
-                .userGroup,
-                .sdkUnknown("")
+                .userGroup
             ]
         }
 
@@ -14750,8 +14724,7 @@ extension ElastiCacheClientTypes {
         public static var allCases: [TransitEncryptionMode] {
             return [
                 .preferred,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -14946,8 +14919,7 @@ extension ElastiCacheClientTypes {
                 .scheduling,
                 .stopped,
                 .stopping,
-                .waitingToStart,
-                .sdkUnknown("")
+                .waitingToStart
             ]
         }
 

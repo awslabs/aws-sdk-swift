@@ -99,8 +99,7 @@ extension DirectConnectClientTypes {
         public static var allCases: [AddressFamily] {
             return [
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -1933,8 +1932,7 @@ extension DirectConnectClientTypes {
                 .deleted,
                 .deleting,
                 .pending,
-                .verifying,
-                .sdkUnknown("")
+                .verifying
             ]
         }
 
@@ -1968,8 +1966,7 @@ extension DirectConnectClientTypes {
             return [
                 .down,
                 .unknown,
-                .up,
-                .sdkUnknown("")
+                .up
             ]
         }
 
@@ -2585,8 +2582,7 @@ extension DirectConnectClientTypes {
                 .pending,
                 .rejected,
                 .requested,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -6529,8 +6525,7 @@ extension DirectConnectClientTypes {
             return [
                 .accepted,
                 .deleted,
-                .requested,
-                .sdkUnknown("")
+                .requested
             ]
         }
 
@@ -6566,8 +6561,7 @@ extension DirectConnectClientTypes {
                 .associating,
                 .disassociated,
                 .disassociating,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6667,8 +6661,7 @@ extension DirectConnectClientTypes {
                 .attached,
                 .attaching,
                 .detached,
-                .detaching,
-                .sdkUnknown("")
+                .detaching
             ]
         }
 
@@ -6699,8 +6692,7 @@ extension DirectConnectClientTypes {
         public static var allCases: [DirectConnectGatewayAttachmentType] {
             return [
                 .privatevirtualinterface,
-                .transitvirtualinterface,
-                .sdkUnknown("")
+                .transitvirtualinterface
             ]
         }
 
@@ -6733,8 +6725,7 @@ extension DirectConnectClientTypes {
                 .available,
                 .deleted,
                 .deleting,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -7115,8 +7106,7 @@ extension DirectConnectClientTypes {
         public static var allCases: [GatewayType] {
             return [
                 .transitgateway,
-                .virtualprivategateway,
-                .sdkUnknown("")
+                .virtualprivategateway
             ]
         }
 
@@ -7147,8 +7137,7 @@ extension DirectConnectClientTypes {
             return [
                 .no,
                 .unknown,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 
@@ -7299,8 +7288,7 @@ extension DirectConnectClientTypes {
                 .down,
                 .pending,
                 .requested,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -7485,8 +7473,7 @@ extension DirectConnectClientTypes {
                 .down,
                 .pending,
                 .requested,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -7645,8 +7632,7 @@ extension DirectConnectClientTypes {
 
         public static var allCases: [LoaContentType] {
             return [
-                .pdf,
-                .sdkUnknown("")
+                .pdf
             ]
         }
 
@@ -8241,8 +8227,7 @@ extension DirectConnectClientTypes {
             return [
                 .nonpartner,
                 .v1,
-                .v2,
-                .sdkUnknown("")
+                .v2
             ]
         }
 
@@ -9725,8 +9710,7 @@ extension DirectConnectClientTypes {
                 .pending,
                 .rejected,
                 .unknown,
-                .verifying,
-                .sdkUnknown("")
+                .verifying
             ]
         }
 

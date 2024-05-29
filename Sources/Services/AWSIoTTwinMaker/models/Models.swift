@@ -351,8 +351,7 @@ extension IoTTwinMakerClientTypes {
             return [
                 .edge,
                 .node,
-                .value,
-                .sdkUnknown("")
+                .value
             ]
         }
 
@@ -740,8 +739,7 @@ extension IoTTwinMakerClientTypes {
             return [
                 .create,
                 .delete,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -2284,8 +2282,7 @@ extension IoTTwinMakerClientTypes {
             return [
                 .iotsitewise,
                 .iottwinmaker,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -2455,8 +2452,7 @@ extension IoTTwinMakerClientTypes {
                 .syncDeletingError,
                 .syncInitializingError,
                 .syncProcessingError,
-                .validationError,
-                .sdkUnknown("")
+                .validationError
             ]
         }
 
@@ -3971,8 +3967,7 @@ extension IoTTwinMakerClientTypes {
 
         public static var allCases: [GroupType] {
             return [
-                .tabular,
-                .sdkUnknown("")
+                .tabular
             ]
         }
 
@@ -4064,8 +4059,7 @@ extension IoTTwinMakerClientTypes {
 
         public static var allCases: [InterpolationType] {
             return [
-                .linear,
-                .sdkUnknown("")
+                .linear
             ]
         }
 
@@ -5382,8 +5376,7 @@ extension IoTTwinMakerClientTypes {
                 .error,
                 .pending,
                 .running,
-                .validating,
-                .sdkUnknown("")
+                .validating
             ]
         }
 
@@ -5509,8 +5502,7 @@ extension IoTTwinMakerClientTypes {
         public static var allCases: [Order] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -5569,8 +5561,7 @@ extension IoTTwinMakerClientTypes {
         public static var allCases: [OrderByTime] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -5629,8 +5620,7 @@ extension IoTTwinMakerClientTypes {
         public static var allCases: [ParentEntityUpdateType] {
             return [
                 .delete,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -5661,8 +5651,7 @@ extension IoTTwinMakerClientTypes {
             return [
                 .basic,
                 .standard,
-                .tieredBundle,
-                .sdkUnknown("")
+                .tieredBundle
             ]
         }
 
@@ -5751,8 +5740,7 @@ extension IoTTwinMakerClientTypes {
                 .tier1,
                 .tier2,
                 .tier3,
-                .tier4,
-                .sdkUnknown("")
+                .tier4
             ]
         }
 
@@ -6030,8 +6018,7 @@ extension IoTTwinMakerClientTypes {
             return [
                 .create,
                 .delete,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -6207,8 +6194,7 @@ extension IoTTwinMakerClientTypes {
             return [
                 .create,
                 .delete,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -6641,8 +6627,7 @@ extension IoTTwinMakerClientTypes {
 
         public static var allCases: [SceneErrorCode] {
             return [
-                .matterportError,
-                .sdkUnknown("")
+                .matterportError
             ]
         }
 
@@ -6726,8 +6711,7 @@ extension IoTTwinMakerClientTypes {
         public static var allCases: [Scope] {
             return [
                 .entity,
-                .workspace,
-                .sdkUnknown("")
+                .workspace
             ]
         }
 
@@ -6845,8 +6829,7 @@ extension IoTTwinMakerClientTypes {
             return [
                 .iotsitewise,
                 .iottwinmaker,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -6882,8 +6865,7 @@ extension IoTTwinMakerClientTypes {
                 .creating,
                 .deleting,
                 .error,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6952,8 +6934,7 @@ extension IoTTwinMakerClientTypes {
                 .creating,
                 .deleting,
                 .error,
-                .initializing,
-                .sdkUnknown("")
+                .initializing
             ]
         }
 
@@ -7108,8 +7089,7 @@ extension IoTTwinMakerClientTypes {
                 .error,
                 .initializing,
                 .inSync,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -7218,8 +7198,7 @@ extension IoTTwinMakerClientTypes {
         public static var allCases: [SyncResourceType] {
             return [
                 .componentType,
-                .entity,
-                .sdkUnknown("")
+                .entity
             ]
         }
 
@@ -7425,8 +7404,7 @@ extension IoTTwinMakerClientTypes {
                 .long,
                 .map,
                 .relationship,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -7875,8 +7853,7 @@ extension IoTTwinMakerClientTypes {
                 .entityCountUpdate,
                 .overwritten,
                 .pricingModeUpdate,
-                .pricingTierUpdate,
-                .sdkUnknown("")
+                .pricingTierUpdate
             ]
         }
 

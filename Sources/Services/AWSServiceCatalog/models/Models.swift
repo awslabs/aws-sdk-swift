@@ -131,8 +131,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .account,
                 .role,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -164,8 +163,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .underChange,
-                .sdkUnknown("")
+                .underChange
             ]
         }
 
@@ -756,8 +754,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .add,
                 .modify,
-                .remove,
-                .sdkUnknown("")
+                .remove
             ]
         }
 
@@ -962,8 +959,7 @@ extension ServiceCatalogClientTypes {
 
         public static var allCases: [CopyOption] {
             return [
-                .copytags,
-                .sdkUnknown("")
+                .copytags
             ]
         }
 
@@ -1095,8 +1091,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2925,8 +2920,7 @@ extension ServiceCatalogClientTypes {
                 .account,
                 .organization,
                 .organizationalUnit,
-                .organizationMemberAccount,
-                .sdkUnknown("")
+                .organizationMemberAccount
             ]
         }
 
@@ -4576,8 +4570,7 @@ extension ServiceCatalogClientTypes {
         public static var allCases: [EngineWorkflowStatus] {
             return [
                 .failed,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4606,8 +4599,7 @@ extension ServiceCatalogClientTypes {
         public static var allCases: [EvaluationType] {
             return [
                 .dynamic,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -5286,8 +5278,7 @@ extension ServiceCatalogClientTypes {
         public static var allCases: [LastSyncStatus] {
             return [
                 .failed,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -7460,8 +7451,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .account,
                 .organization,
-                .organizationalUnit,
-                .sdkUnknown("")
+                .organizationalUnit
             ]
         }
 
@@ -7646,8 +7636,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .awsOrganizations,
                 .awsServicecatalog,
-                .imported,
-                .sdkUnknown("")
+                .imported
             ]
         }
 
@@ -7708,8 +7697,7 @@ extension ServiceCatalogClientTypes {
         public static var allCases: [PrincipalType] {
             return [
                 .iam,
-                .iamPattern,
-                .sdkUnknown("")
+                .iamPattern
             ]
         }
 
@@ -7736,8 +7724,7 @@ extension ServiceCatalogClientTypes {
 
         public static var allCases: [ProductSource] {
             return [
-                .account,
-                .sdkUnknown("")
+                .account
             ]
         }
 
@@ -7771,8 +7758,7 @@ extension ServiceCatalogClientTypes {
                 .external,
                 .marketplace,
                 .terraformCloud,
-                .terraformOpenSource,
-                .sdkUnknown("")
+                .terraformOpenSource
             ]
         }
 
@@ -7891,8 +7877,7 @@ extension ServiceCatalogClientTypes {
                 .fulltextsearch,
                 .owner,
                 .producttype,
-                .sourceproductid,
-                .sdkUnknown("")
+                .sourceproductid
             ]
         }
 
@@ -7925,8 +7910,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .creationdate,
                 .title,
-                .versioncount,
-                .sdkUnknown("")
+                .versioncount
             ]
         }
 
@@ -8032,8 +8016,7 @@ extension ServiceCatalogClientTypes {
         public static var allCases: [PropertyKey] {
             return [
                 .launchrole,
-                .owner,
-                .sdkUnknown("")
+                .owner
             ]
         }
 
@@ -8558,8 +8541,7 @@ extension ServiceCatalogClientTypes {
                 .createSuccess,
                 .executeFailed,
                 .executeInProgress,
-                .executeSuccess,
-                .sdkUnknown("")
+                .executeSuccess
             ]
         }
 
@@ -8641,8 +8623,7 @@ extension ServiceCatalogClientTypes {
 
         public static var allCases: [ProvisionedProductPlanType] {
             return [
-                .cloudformation,
-                .sdkUnknown("")
+                .cloudformation
             ]
         }
 
@@ -8676,8 +8657,7 @@ extension ServiceCatalogClientTypes {
                 .error,
                 .planInProgress,
                 .tainted,
-                .underChange,
-                .sdkUnknown("")
+                .underChange
             ]
         }
 
@@ -8707,8 +8687,7 @@ extension ServiceCatalogClientTypes {
 
         public static var allCases: [ProvisionedProductViewFilterBy] {
             return [
-                .searchquery,
-                .sdkUnknown("")
+                .searchquery
             ]
         }
 
@@ -8851,8 +8830,7 @@ extension ServiceCatalogClientTypes {
         public static var allCases: [ProvisioningArtifactGuidance] {
             return [
                 .default,
-                .deprecated,
-                .sdkUnknown("")
+                .deprecated
             ]
         }
 
@@ -9044,8 +9022,7 @@ extension ServiceCatalogClientTypes {
 
         public static var allCases: [ProvisioningArtifactPropertyName] {
             return [
-                .id,
-                .sdkUnknown("")
+                .id
             ]
         }
 
@@ -9127,8 +9104,7 @@ extension ServiceCatalogClientTypes {
                 .marketplaceAmi,
                 .marketplaceCar,
                 .terraformCloud,
-                .terraformOpenSource,
-                .sdkUnknown("")
+                .terraformOpenSource
             ]
         }
 
@@ -9457,8 +9433,7 @@ extension ServiceCatalogClientTypes {
                 .failed,
                 .inProgress,
                 .inProgressInError,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -9600,8 +9575,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .conditional,
                 .false,
-                .true,
-                .sdkUnknown("")
+                .true
             ]
         }
 
@@ -9633,8 +9607,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .always,
                 .conditionally,
-                .never,
-                .sdkUnknown("")
+                .never
             ]
         }
 
@@ -9672,8 +9645,7 @@ extension ServiceCatalogClientTypes {
                 .metadata,
                 .properties,
                 .tags,
-                .updatepolicy,
-                .sdkUnknown("")
+                .updatepolicy
             ]
         }
 
@@ -10411,8 +10383,7 @@ extension ServiceCatalogClientTypes {
                 .invalidparameterexception,
                 .limitexceededexception,
                 .resourcenotfoundexception,
-                .throttlingexception,
-                .sdkUnknown("")
+                .throttlingexception
             ]
         }
 
@@ -10449,8 +10420,7 @@ extension ServiceCatalogClientTypes {
                 .assumerole,
                 .name,
                 .parameters,
-                .version,
-                .sdkUnknown("")
+                .version
             ]
         }
 
@@ -10479,8 +10449,7 @@ extension ServiceCatalogClientTypes {
 
         public static var allCases: [ServiceActionDefinitionType] {
             return [
-                .ssmautomation,
-                .sdkUnknown("")
+                .ssmautomation
             ]
         }
 
@@ -10655,8 +10624,7 @@ extension ServiceCatalogClientTypes {
                 .completedWithErrors,
                 .error,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -10688,8 +10656,7 @@ extension ServiceCatalogClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -10823,8 +10790,7 @@ extension ServiceCatalogClientTypes {
 
         public static var allCases: [SourceType] {
             return [
-                .codestar,
-                .sdkUnknown("")
+                .codestar
             ]
         }
 
@@ -10896,8 +10862,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .current,
                 .inoperable,
-                .outdated,
-                .sdkUnknown("")
+                .outdated
             ]
         }
 
@@ -10929,8 +10894,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .create,
                 .delete,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -10962,8 +10926,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .available,
                 .creating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 

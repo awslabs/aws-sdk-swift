@@ -15,8 +15,7 @@ extension BatchClientTypes {
         public static var allCases: [ArrayJobDependency] {
             return [
                 .nToN,
-                .sequential,
-                .sdkUnknown("")
+                .sequential
             ]
         }
 
@@ -136,8 +135,7 @@ extension BatchClientTypes {
         public static var allCases: [AssignPublicIp] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -347,8 +345,7 @@ extension BatchClientTypes {
         public static var allCases: [CEState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -385,8 +382,7 @@ extension BatchClientTypes {
                 .deleting,
                 .invalid,
                 .updating,
-                .valid,
-                .sdkUnknown("")
+                .valid
             ]
         }
 
@@ -419,8 +415,7 @@ extension BatchClientTypes {
         public static var allCases: [CEType] {
             return [
                 .managed,
-                .unmanaged,
-                .sdkUnknown("")
+                .unmanaged
             ]
         }
 
@@ -453,8 +448,7 @@ extension BatchClientTypes {
                 .bestFit,
                 .bestFitProgressive,
                 .spotCapacityOptimized,
-                .spotPriceCapacityOptimized,
-                .sdkUnknown("")
+                .spotPriceCapacityOptimized
             ]
         }
 
@@ -489,8 +483,7 @@ extension BatchClientTypes {
                 .ec2,
                 .fargate,
                 .fargateSpot,
-                .spot,
-                .sdkUnknown("")
+                .spot
             ]
         }
 
@@ -523,8 +516,7 @@ extension BatchClientTypes {
             return [
                 .bestFitProgressive,
                 .spotCapacityOptimized,
-                .spotPriceCapacityOptimized,
-                .sdkUnknown("")
+                .spotPriceCapacityOptimized
             ]
         }
 
@@ -2410,8 +2402,7 @@ extension BatchClientTypes {
             return [
                 .mknod,
                 .read,
-                .write,
-                .sdkUnknown("")
+                .write
             ]
         }
 
@@ -2478,8 +2469,7 @@ extension BatchClientTypes {
         public static var allCases: [EFSAuthorizationConfigIAM] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2508,8 +2498,7 @@ extension BatchClientTypes {
         public static var allCases: [EFSTransitEncryption] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4078,8 +4067,7 @@ extension BatchClientTypes {
         public static var allCases: [JQState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4116,8 +4104,7 @@ extension BatchClientTypes {
                 .deleting,
                 .invalid,
                 .updating,
-                .valid,
-                .sdkUnknown("")
+                .valid
             ]
         }
 
@@ -4260,8 +4247,7 @@ extension BatchClientTypes {
         public static var allCases: [JobDefinitionType] {
             return [
                 .container,
-                .multinode,
-                .sdkUnknown("")
+                .multinode
             ]
         }
 
@@ -4634,8 +4620,7 @@ extension BatchClientTypes {
 
         public static var allCases: [JobStateTimeLimitActionsAction] {
             return [
-                .cancel,
-                .sdkUnknown("")
+                .cancel
             ]
         }
 
@@ -4661,8 +4646,7 @@ extension BatchClientTypes {
 
         public static var allCases: [JobStateTimeLimitActionsState] {
             return [
-                .runnable,
-                .sdkUnknown("")
+                .runnable
             ]
         }
 
@@ -4700,8 +4684,7 @@ extension BatchClientTypes {
                 .running,
                 .starting,
                 .submitted,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -5325,8 +5308,7 @@ extension BatchClientTypes {
                 .journald,
                 .jsonFile,
                 .splunk,
-                .syslog,
-                .sdkUnknown("")
+                .syslog
             ]
         }
 
@@ -5708,8 +5690,7 @@ extension BatchClientTypes {
         public static var allCases: [OrchestrationType] {
             return [
                 .ecs,
-                .eks,
-                .sdkUnknown("")
+                .eks
             ]
         }
 
@@ -5738,8 +5719,7 @@ extension BatchClientTypes {
         public static var allCases: [PlatformCapability] {
             return [
                 .ec2,
-                .fargate,
-                .sdkUnknown("")
+                .fargate
             ]
         }
 
@@ -5990,8 +5970,7 @@ extension BatchClientTypes {
             return [
                 .gpu,
                 .memory,
-                .vcpu,
-                .sdkUnknown("")
+                .vcpu
             ]
         }
 
@@ -6021,8 +6000,7 @@ extension BatchClientTypes {
         public static var allCases: [RetryAction] {
             return [
                 .exit,
-                .retry,
-                .sdkUnknown("")
+                .retry
             ]
         }
 

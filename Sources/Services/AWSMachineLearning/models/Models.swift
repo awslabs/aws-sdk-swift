@@ -106,8 +106,7 @@ extension MachineLearningClientTypes {
 
         public static var allCases: [Algorithm] {
             return [
-                .sgd,
-                .sdkUnknown("")
+                .sgd
             ]
         }
 
@@ -273,8 +272,7 @@ extension MachineLearningClientTypes {
                 .lastUpdatedAt,
                 .mlModelId,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -1151,8 +1149,7 @@ extension MachineLearningClientTypes {
                 .iamUser,
                 .lastUpdatedAt,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -2308,8 +2305,7 @@ extension MachineLearningClientTypes {
         public static var allCases: [DetailsAttributes] {
             return [
                 .algorithm,
-                .predictiveModelType,
-                .sdkUnknown("")
+                .predictiveModelType
             ]
         }
 
@@ -2355,8 +2351,7 @@ extension MachineLearningClientTypes {
                 .deleted,
                 .failed,
                 .inprogress,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -2525,8 +2520,7 @@ extension MachineLearningClientTypes {
                 .lastUpdatedAt,
                 .mlModelId,
                 .name,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -3616,8 +3610,7 @@ extension MachineLearningClientTypes {
                 .realTimeEndpointStatus,
                 .status,
                 .trainingDatasourceId,
-                .trainingDataUri,
-                .sdkUnknown("")
+                .trainingDataUri
             ]
         }
 
@@ -3656,8 +3649,7 @@ extension MachineLearningClientTypes {
             return [
                 .binary,
                 .multiclass,
-                .regression,
-                .sdkUnknown("")
+                .regression
             ]
         }
 
@@ -4165,8 +4157,7 @@ extension MachineLearningClientTypes {
                 .failed,
                 .none,
                 .ready,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4468,8 +4459,7 @@ extension MachineLearningClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .dsc,
-                .sdkUnknown("")
+                .dsc
             ]
         }
 
@@ -4575,8 +4565,7 @@ extension MachineLearningClientTypes {
                 .batchPrediction,
                 .datasource,
                 .evaluation,
-                .mlModel,
-                .sdkUnknown("")
+                .mlModel
             ]
         }
 

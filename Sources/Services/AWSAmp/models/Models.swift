@@ -146,8 +146,7 @@ extension AmpClientTypes {
                 .creationFailed,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2160,8 +2159,7 @@ extension AmpClientTypes {
                 .creationFailed,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2555,8 +2553,7 @@ extension AmpClientTypes {
                 .creationFailed,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2808,8 +2805,7 @@ extension AmpClientTypes {
                 .creating,
                 .creationFailed,
                 .deleting,
-                .deletionFailed,
-                .sdkUnknown("")
+                .deletionFailed
             ]
         }
 
@@ -3466,8 +3462,7 @@ extension AmpClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -3602,8 +3597,7 @@ extension AmpClientTypes {
                 .creating,
                 .creationFailed,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 

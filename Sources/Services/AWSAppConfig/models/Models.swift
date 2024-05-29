@@ -144,8 +144,7 @@ extension AppConfigClientTypes {
                 .onDeploymentStart,
                 .onDeploymentStep,
                 .preCreateHostedConfigurationVersion,
-                .preStartDeployment,
-                .sdkUnknown("")
+                .preStartDeployment
             ]
         }
 
@@ -325,8 +324,7 @@ extension AppConfigClientTypes {
 
         public static var allCases: [BadRequestReason] {
             return [
-                .invalidConfiguration,
-                .sdkUnknown("")
+                .invalidConfiguration
             ]
         }
 
@@ -352,8 +350,7 @@ extension AppConfigClientTypes {
 
         public static var allCases: [BytesMeasure] {
             return [
-                .kilobytes,
-                .sdkUnknown("")
+                .kilobytes
             ]
         }
 
@@ -1894,8 +1891,7 @@ extension AppConfigClientTypes {
                 .deploymentStarted,
                 .percentageUpdated,
                 .rollbackCompleted,
-                .rollbackStarted,
-                .sdkUnknown("")
+                .rollbackStarted
             ]
         }
 
@@ -1936,8 +1932,7 @@ extension AppConfigClientTypes {
                 .deploying,
                 .rolledBack,
                 .rollingBack,
-                .validating,
-                .sdkUnknown("")
+                .validating
             ]
         }
 
@@ -2165,8 +2160,7 @@ extension AppConfigClientTypes {
                 .deploying,
                 .readyForDeployment,
                 .rolledBack,
-                .rollingBack,
-                .sdkUnknown("")
+                .rollingBack
             ]
         }
 
@@ -3310,8 +3304,7 @@ extension AppConfigClientTypes {
         public static var allCases: [GrowthType] {
             return [
                 .exponential,
-                .linear,
-                .sdkUnknown("")
+                .linear
             ]
         }
 
@@ -4436,8 +4429,7 @@ extension AppConfigClientTypes {
         public static var allCases: [ReplicateTo] {
             return [
                 .none,
-                .ssmDocument,
-                .sdkUnknown("")
+                .ssmDocument
             ]
         }
 
@@ -5018,8 +5010,7 @@ extension AppConfigClientTypes {
                 .appconfig,
                 .cloudwatchAlarm,
                 .internalError,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -5955,8 +5946,7 @@ extension AppConfigClientTypes {
         public static var allCases: [ValidatorType] {
             return [
                 .jsonSchema,
-                .lambda,
-                .sdkUnknown("")
+                .lambda
             ]
         }
 

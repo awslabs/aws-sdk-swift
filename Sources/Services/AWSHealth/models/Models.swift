@@ -1360,8 +1360,7 @@ extension HealthClientTypes {
                 .pending,
                 .resolved,
                 .unimpaired,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -1541,8 +1540,7 @@ extension HealthClientTypes {
 
         public static var allCases: [EventAggregateField] {
             return [
-                .eventtypecategory,
-                .sdkUnknown("")
+                .eventtypecategory
             ]
         }
 
@@ -1754,8 +1752,7 @@ extension HealthClientTypes {
             return [
                 .accountSpecific,
                 .none,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -1787,8 +1784,7 @@ extension HealthClientTypes {
             return [
                 .closed,
                 .open,
-                .upcoming,
-                .sdkUnknown("")
+                .upcoming
             ]
         }
 
@@ -1858,8 +1854,7 @@ extension HealthClientTypes {
                 .accountNotification,
                 .investigation,
                 .issue,
-                .scheduledChange,
-                .sdkUnknown("")
+                .scheduledChange
             ]
         }
 

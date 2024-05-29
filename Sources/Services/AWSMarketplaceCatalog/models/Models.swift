@@ -201,8 +201,7 @@ extension MarketplaceCatalogClientTypes {
                 .entityid,
                 .lastmodifieddate,
                 .producttitle,
-                .visibility,
-                .sdkUnknown("")
+                .visibility
             ]
         }
 
@@ -321,8 +320,7 @@ extension MarketplaceCatalogClientTypes {
                 .draft,
                 .limited,
                 .public,
-                .restricted,
-                .sdkUnknown("")
+                .restricted
             ]
         }
 
@@ -669,8 +667,7 @@ extension MarketplaceCatalogClientTypes {
                 .cancelled,
                 .failed,
                 .preparing,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -902,8 +899,7 @@ extension MarketplaceCatalogClientTypes {
                 .entityid,
                 .lastmodifieddate,
                 .producttitle,
-                .visibility,
-                .sdkUnknown("")
+                .visibility
             ]
         }
 
@@ -1022,8 +1018,7 @@ extension MarketplaceCatalogClientTypes {
                 .draft,
                 .limited,
                 .public,
-                .restricted,
-                .sdkUnknown("")
+                .restricted
             ]
         }
 
@@ -1203,8 +1198,7 @@ extension MarketplaceCatalogClientTypes {
                 .entityid,
                 .lastmodifieddate,
                 .producttitle,
-                .visibility,
-                .sdkUnknown("")
+                .visibility
             ]
         }
 
@@ -1325,8 +1319,7 @@ extension MarketplaceCatalogClientTypes {
                 .limited,
                 .public,
                 .restricted,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -1980,8 +1973,7 @@ extension MarketplaceCatalogClientTypes {
         public static var allCases: [FailureCode] {
             return [
                 .clienterror,
-                .serverfault,
-                .sdkUnknown("")
+                .serverfault
             ]
         }
 
@@ -2129,8 +2121,7 @@ extension MarketplaceCatalogClientTypes {
         public static var allCases: [Intent] {
             return [
                 .apply,
-                .validate,
-                .sdkUnknown("")
+                .validate
             ]
         }
 
@@ -2881,8 +2872,7 @@ extension MarketplaceCatalogClientTypes {
                 .releasedate,
                 .resaleauthorizationid,
                 .state,
-                .targeting,
-                .sdkUnknown("")
+                .targeting
             ]
         }
 
@@ -2943,8 +2933,7 @@ extension MarketplaceCatalogClientTypes {
         public static var allCases: [OfferStateString] {
             return [
                 .draft,
-                .released,
-                .sdkUnknown("")
+                .released
             ]
         }
 
@@ -3062,8 +3051,7 @@ extension MarketplaceCatalogClientTypes {
                 .buyeraccounts,
                 .countrycodes,
                 .none,
-                .participatingprograms,
-                .sdkUnknown("")
+                .participatingprograms
             ]
         }
 
@@ -3094,8 +3082,7 @@ extension MarketplaceCatalogClientTypes {
         public static var allCases: [OwnershipType] {
             return [
                 .self,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -3743,8 +3730,7 @@ extension MarketplaceCatalogClientTypes {
                 .productname,
                 .reselleraccountid,
                 .resellerlegalname,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -3810,8 +3796,7 @@ extension MarketplaceCatalogClientTypes {
             return [
                 .active,
                 .draft,
-                .restricted,
-                .sdkUnknown("")
+                .restricted
             ]
         }
 
@@ -4177,8 +4162,7 @@ extension MarketplaceCatalogClientTypes {
                 .entityid,
                 .lastmodifieddate,
                 .producttitle,
-                .visibility,
-                .sdkUnknown("")
+                .visibility
             ]
         }
 
@@ -4297,8 +4281,7 @@ extension MarketplaceCatalogClientTypes {
                 .draft,
                 .limited,
                 .public,
-                .restricted,
-                .sdkUnknown("")
+                .restricted
             ]
         }
 
@@ -4395,8 +4378,7 @@ extension MarketplaceCatalogClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 

@@ -53,8 +53,7 @@ extension BCMDataExportsClientTypes {
         public static var allCases: [CompressionOption] {
             return [
                 .gzip,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -385,8 +384,7 @@ extension BCMDataExportsClientTypes {
                 .initiationInProcess,
                 .queryFailure,
                 .queryInProcess,
-                .queryQueued,
-                .sdkUnknown("")
+                .queryQueued
             ]
         }
 
@@ -422,8 +420,7 @@ extension BCMDataExportsClientTypes {
             return [
                 .billOwnerChanged,
                 .insufficientPermission,
-                .internalFailure,
-                .sdkUnknown("")
+                .internalFailure
             ]
         }
 
@@ -603,8 +600,7 @@ extension BCMDataExportsClientTypes {
         public static var allCases: [ExportStatusCode] {
             return [
                 .healthy,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -633,8 +629,7 @@ extension BCMDataExportsClientTypes {
         public static var allCases: [FormatOption] {
             return [
                 .parquet,
-                .textOrCsv,
-                .sdkUnknown("")
+                .textOrCsv
             ]
         }
 
@@ -661,8 +656,7 @@ extension BCMDataExportsClientTypes {
 
         public static var allCases: [FrequencyOption] {
             return [
-                .synchronous,
-                .sdkUnknown("")
+                .synchronous
             ]
         }
 
@@ -1297,8 +1291,7 @@ extension BCMDataExportsClientTypes {
         public static var allCases: [OverwriteOption] {
             return [
                 .createNewReport,
-                .overwriteReport,
-                .sdkUnknown("")
+                .overwriteReport
             ]
         }
 
@@ -1552,8 +1545,7 @@ extension BCMDataExportsClientTypes {
 
         public static var allCases: [S3OutputType] {
             return [
-                .custom,
-                .sdkUnknown("")
+                .custom
             ]
         }
 
@@ -2052,8 +2044,7 @@ extension BCMDataExportsClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

@@ -999,8 +999,7 @@ extension MediaConnectClientTypes {
             return [
                 .aes128,
                 .aes192,
-                .aes256,
-                .sdkUnknown("")
+                .aes256
             ]
         }
 
@@ -1361,8 +1360,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [BridgePlacement] {
             return [
                 .available,
-                .locked,
-                .sdkUnknown("")
+                .locked
             ]
         }
 
@@ -1442,8 +1440,7 @@ extension MediaConnectClientTypes {
                 .startPending,
                 .stopping,
                 .stopFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1492,8 +1489,7 @@ extension MediaConnectClientTypes {
                 .bt709,
                 .st20651,
                 .st20653,
-                .xyz,
-                .sdkUnknown("")
+                .xyz
             ]
         }
 
@@ -1566,8 +1562,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [ConnectionStatus] {
             return [
                 .connected,
-                .disconnected,
-                .sdkUnknown("")
+                .disconnected
             ]
         }
 
@@ -2797,8 +2792,7 @@ extension MediaConnectClientTypes {
             return [
                 .active,
                 .deleted,
-                .standby,
-                .sdkUnknown("")
+                .standby
             ]
         }
 
@@ -2908,8 +2902,7 @@ extension MediaConnectClientTypes {
 
         public static var allCases: [DurationUnits] {
             return [
-                .months,
-                .sdkUnknown("")
+                .months
             ]
         }
 
@@ -2968,8 +2961,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [EncoderProfile] {
             return [
                 .high,
-                .main,
-                .sdkUnknown("")
+                .main
             ]
         }
 
@@ -3002,8 +2994,7 @@ extension MediaConnectClientTypes {
                 .jxsv,
                 .pcm,
                 .raw,
-                .smpte291,
-                .sdkUnknown("")
+                .smpte291
             ]
         }
 
@@ -3237,8 +3228,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [EntitlementStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3315,8 +3305,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [FailoverMode] {
             return [
                 .failover,
-                .merge,
-                .sdkUnknown("")
+                .merge
             ]
         }
 
@@ -3824,8 +3813,7 @@ extension MediaConnectClientTypes {
                 .deleted,
                 .deleting,
                 .error,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4148,8 +4136,7 @@ extension MediaConnectClientTypes {
                 .deregistering,
                 .deregistrationError,
                 .registering,
-                .registrationError,
-                .sdkUnknown("")
+                .registrationError
             ]
         }
 
@@ -4275,8 +4262,7 @@ extension MediaConnectClientTypes {
             return [
                 .speke,
                 .srtPassword,
-                .staticKey,
-                .sdkUnknown("")
+                .staticKey
             ]
         }
 
@@ -5266,8 +5252,7 @@ extension MediaConnectClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -5589,8 +5574,7 @@ extension MediaConnectClientTypes {
             return [
                 .ancillaryData,
                 .audio,
-                .video,
-                .sdkUnknown("")
+                .video
             ]
         }
 
@@ -5684,8 +5668,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [NetworkInterfaceType] {
             return [
                 .efa,
-                .ena,
-                .sdkUnknown("")
+                .ena
             ]
         }
 
@@ -5918,8 +5901,7 @@ extension MediaConnectClientTypes {
 
         public static var allCases: [PriceUnits] {
             return [
-                .hourly,
-                .sdkUnknown("")
+                .hourly
             ]
         }
 
@@ -5965,8 +5947,7 @@ extension MediaConnectClientTypes {
                 .st2110Jpegxs,
                 .udp,
                 .zixiPull,
-                .zixiPush,
-                .sdkUnknown("")
+                .zixiPush
             ]
         }
 
@@ -6092,8 +6073,7 @@ extension MediaConnectClientTypes {
             return [
                 .full,
                 .fullprotect,
-                .narrow,
-                .sdkUnknown("")
+                .narrow
             ]
         }
 
@@ -6703,8 +6683,7 @@ extension MediaConnectClientTypes {
                 .active,
                 .canceled,
                 .expired,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -6765,8 +6744,7 @@ extension MediaConnectClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
-                .mbpsOutboundBandwidth,
-                .sdkUnknown("")
+                .mbpsOutboundBandwidth
             ]
         }
 
@@ -6875,8 +6853,7 @@ extension MediaConnectClientTypes {
             return [
                 .interlace,
                 .progressive,
-                .progressiveSegmentedFrame,
-                .sdkUnknown("")
+                .progressiveSegmentedFrame
             ]
         }
 
@@ -7218,8 +7195,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [SourceType] {
             return [
                 .entitled,
-                .owned,
-                .sdkUnknown("")
+                .owned
             ]
         }
 
@@ -7319,8 +7295,7 @@ extension MediaConnectClientTypes {
         public static var allCases: [State] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7359,8 +7334,7 @@ extension MediaConnectClientTypes {
                 .standby,
                 .starting,
                 .stopping,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -7544,8 +7518,7 @@ extension MediaConnectClientTypes {
                 .pq,
                 .sdr,
                 .st20651,
-                .st4281,
-                .sdkUnknown("")
+                .st4281
             ]
         }
 

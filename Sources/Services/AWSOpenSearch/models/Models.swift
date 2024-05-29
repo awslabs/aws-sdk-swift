@@ -197,8 +197,7 @@ extension OpenSearchClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -236,8 +235,7 @@ extension OpenSearchClientTypes {
                 .failed,
                 .inProgress,
                 .notEligible,
-                .pendingUpdate,
-                .sdkUnknown("")
+                .pendingUpdate
             ]
         }
 
@@ -272,8 +270,7 @@ extension OpenSearchClientTypes {
             return [
                 .jvmHeapSizeTuning,
                 .jvmYoungGenTuning,
-                .serviceSoftwareUpdate,
-                .sdkUnknown("")
+                .serviceSoftwareUpdate
             ]
         }
 
@@ -879,8 +876,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [AutoTuneDesiredState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -1143,8 +1139,7 @@ extension OpenSearchClientTypes {
                 .disableInProgress,
                 .enabled,
                 .enableInProgress,
-                .error,
-                .sdkUnknown("")
+                .error
             ]
         }
 
@@ -1233,8 +1228,7 @@ extension OpenSearchClientTypes {
 
         public static var allCases: [AutoTuneType] {
             return [
-                .scheduledAction,
-                .sdkUnknown("")
+                .scheduledAction
             ]
         }
 
@@ -2001,8 +1995,7 @@ extension OpenSearchClientTypes {
                 .pending,
                 .pendingUserInput,
                 .validating,
-                .validationFailed,
-                .sdkUnknown("")
+                .validationFailed
             ]
         }
 
@@ -2080,8 +2073,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [ConnectionMode] {
             return [
                 .direct,
-                .vpcEndpoint,
-                .sdkUnknown("")
+                .vpcEndpoint
             ]
         }
 
@@ -3166,8 +3158,7 @@ extension OpenSearchClientTypes {
                 .eligible,
                 .inProgress,
                 .notEligible,
-                .pendingUpdate,
-                .sdkUnknown("")
+                .pendingUpdate
             ]
         }
 
@@ -4177,8 +4168,7 @@ extension OpenSearchClientTypes {
                 .packageid,
                 .packagename,
                 .packagestatus,
-                .packagetype,
-                .sdkUnknown("")
+                .packagetype
             ]
         }
 
@@ -4890,8 +4880,7 @@ extension OpenSearchClientTypes {
                 .green,
                 .notavailable,
                 .red,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -5178,8 +5167,7 @@ extension OpenSearchClientTypes {
                 .associating,
                 .associationFailed,
                 .dissociating,
-                .dissociationFailed,
-                .sdkUnknown("")
+                .dissociationFailed
             ]
         }
 
@@ -5221,8 +5209,7 @@ extension OpenSearchClientTypes {
                 .isolated,
                 .modifying,
                 .updating,
-                .upgrading,
-                .sdkUnknown("")
+                .upgrading
             ]
         }
 
@@ -5258,8 +5245,7 @@ extension OpenSearchClientTypes {
             return [
                 .active,
                 .notavailable,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -5478,8 +5464,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [DryRunMode] {
             return [
                 .basic,
-                .verbose,
-                .sdkUnknown("")
+                .verbose
             ]
         }
 
@@ -5792,8 +5777,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [EngineType] {
             return [
                 .elasticsearch,
-                .opensearch,
-                .sdkUnknown("")
+                .opensearch
             ]
         }
 
@@ -6454,8 +6438,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [IPAddressType] {
             return [
                 .dualstack,
-                .ipv4,
-                .sdkUnknown("")
+                .ipv4
             ]
         }
 
@@ -6622,8 +6605,7 @@ extension OpenSearchClientTypes {
                 .pendingAcceptance,
                 .provisioning,
                 .rejected,
-                .rejecting,
-                .sdkUnknown("")
+                .rejecting
             ]
         }
 
@@ -6658,8 +6640,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [InitiatedBy] {
             return [
                 .customer,
-                .service,
-                .sdkUnknown("")
+                .service
             ]
         }
 
@@ -8146,8 +8127,7 @@ extension OpenSearchClientTypes {
                 .auditLogs,
                 .esApplicationLogs,
                 .indexSlowLogs,
-                .searchSlowLogs,
-                .sdkUnknown("")
+                .searchSlowLogs
             ]
         }
 
@@ -8184,8 +8164,7 @@ extension OpenSearchClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -8219,8 +8198,7 @@ extension OpenSearchClientTypes {
             return [
                 .rebootNode,
                 .restartDashboard,
-                .restartSearchProcess,
-                .sdkUnknown("")
+                .restartSearchProcess
             ]
         }
 
@@ -8250,8 +8228,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [MasterNodeStatus] {
             return [
                 .available,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -8366,8 +8343,7 @@ extension OpenSearchClientTypes {
             return [
                 .active,
                 .notavailable,
-                .standby,
-                .sdkUnknown("")
+                .standby
             ]
         }
 
@@ -8463,8 +8439,7 @@ extension OpenSearchClientTypes {
             return [
                 .data,
                 .master,
-                .ultrawarm,
-                .sdkUnknown("")
+                .ultrawarm
             ]
         }
 
@@ -8797,8 +8772,7 @@ extension OpenSearchClientTypes {
                 .t4gSmallSearch,
                 .ultrawarm1LargeSearch,
                 .ultrawarm1MediumSearch,
-                .ultrawarm1XlargeSearch,
-                .sdkUnknown("")
+                .ultrawarm1XlargeSearch
             ]
         }
 
@@ -8930,8 +8904,7 @@ extension OpenSearchClientTypes {
             return [
                 .ultrawarm1LargeSearch,
                 .ultrawarm1MediumSearch,
-                .ultrawarm1XlargeSearch,
-                .sdkUnknown("")
+                .ultrawarm1XlargeSearch
             ]
         }
 
@@ -8968,8 +8941,7 @@ extension OpenSearchClientTypes {
             return [
                 .active,
                 .processing,
-                .requiresindexdocuments,
-                .sdkUnknown("")
+                .requiresindexdocuments
             ]
         }
 
@@ -9171,8 +9143,7 @@ extension OpenSearchClientTypes {
                 .rejected,
                 .rejecting,
                 .validating,
-                .validationFailed,
-                .sdkUnknown("")
+                .validationFailed
             ]
         }
 
@@ -9214,8 +9185,7 @@ extension OpenSearchClientTypes {
                 .completed,
                 .failed,
                 .pending,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -9363,8 +9333,7 @@ extension OpenSearchClientTypes {
                 .deleteFailed,
                 .deleting,
                 .validating,
-                .validationFailed,
-                .sdkUnknown("")
+                .validationFailed
             ]
         }
 
@@ -9399,8 +9368,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [PackageType] {
             return [
                 .txtDictionary,
-                .zipPlugin,
-                .sdkUnknown("")
+                .zipPlugin
             ]
         }
 
@@ -9516,8 +9484,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [PrincipalType] {
             return [
                 .awsAccount,
-                .awsService,
-                .sdkUnknown("")
+                .awsService
             ]
         }
 
@@ -9546,8 +9513,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [PropertyValueType] {
             return [
                 .plainText,
-                .stringifiedJson,
-                .sdkUnknown("")
+                .stringifiedJson
             ]
         }
 
@@ -9977,8 +9943,7 @@ extension OpenSearchClientTypes {
             return [
                 .allUpfront,
                 .noUpfront,
-                .partialUpfront,
-                .sdkUnknown("")
+                .partialUpfront
             ]
         }
 
@@ -10151,8 +10116,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [RollbackOnDisable] {
             return [
                 .defaultRollback,
-                .noRollback,
-                .sdkUnknown("")
+                .noRollback
             ]
         }
 
@@ -10358,8 +10322,7 @@ extension OpenSearchClientTypes {
             return [
                 .now,
                 .offPeakWindow,
-                .timestamp,
-                .sdkUnknown("")
+                .timestamp
             ]
         }
 
@@ -10460,8 +10423,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [ScheduledAutoTuneActionType] {
             return [
                 .jvmHeapSizeTuning,
-                .jvmYoungGenTuning,
-                .sdkUnknown("")
+                .jvmYoungGenTuning
             ]
         }
 
@@ -10534,8 +10496,7 @@ extension OpenSearchClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -10565,8 +10526,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [ScheduledBy] {
             return [
                 .customer,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -10661,8 +10621,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [SkipUnavailableStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11116,8 +11075,7 @@ extension OpenSearchClientTypes {
             return [
                 .policyMinTls10201907,
                 .policyMinTls12201907,
-                .policyMinTls12Pfs202310,
-                .sdkUnknown("")
+                .policyMinTls12Pfs202310
             ]
         }
 
@@ -11185,8 +11143,7 @@ extension OpenSearchClientTypes {
 
         public static var allCases: [TimeUnit] {
             return [
-                .hours,
-                .sdkUnknown("")
+                .hours
             ]
         }
 
@@ -11934,8 +11891,7 @@ extension OpenSearchClientTypes {
                 .failed,
                 .inProgress,
                 .succeeded,
-                .succeededWithIssues,
-                .sdkUnknown("")
+                .succeededWithIssues
             ]
         }
 
@@ -11968,8 +11924,7 @@ extension OpenSearchClientTypes {
             return [
                 .preUpgradeCheck,
                 .snapshot,
-                .upgrade,
-                .sdkUnknown("")
+                .upgrade
             ]
         }
 
@@ -12264,8 +12219,7 @@ extension OpenSearchClientTypes {
                 .gp2,
                 .gp3,
                 .io1,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -12383,8 +12337,7 @@ extension OpenSearchClientTypes {
         public static var allCases: [VpcEndpointErrorCode] {
             return [
                 .endpointNotFound,
-                .serverError,
-                .sdkUnknown("")
+                .serverError
             ]
         }
 
@@ -12423,8 +12376,7 @@ extension OpenSearchClientTypes {
                 .deleteFailed,
                 .deleting,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -12571,8 +12523,7 @@ extension OpenSearchClientTypes {
             return [
                 .active,
                 .notavailable,
-                .standby,
-                .sdkUnknown("")
+                .standby
             ]
         }
 

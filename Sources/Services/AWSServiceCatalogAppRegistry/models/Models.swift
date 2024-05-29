@@ -201,8 +201,7 @@ extension ServiceCatalogAppRegistryClientTypes {
             return [
                 .failure,
                 .inProgress,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -414,8 +413,7 @@ extension ServiceCatalogAppRegistryClientTypes {
         public static var allCases: [AssociationOption] {
             return [
                 .applyApplicationTag,
-                .skipApplicationTag,
-                .sdkUnknown("")
+                .skipApplicationTag
             ]
         }
 
@@ -2224,8 +2222,7 @@ extension ServiceCatalogAppRegistryClientTypes {
                 .creating,
                 .updateComplete,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2334,8 +2331,7 @@ extension ServiceCatalogAppRegistryClientTypes {
                 .failed,
                 .inProgress,
                 .skipped,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2403,8 +2399,7 @@ extension ServiceCatalogAppRegistryClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .cfnStack,
-                .resourceTagValue,
-                .sdkUnknown("")
+                .resourceTagValue
             ]
         }
 
@@ -2513,8 +2508,7 @@ extension ServiceCatalogAppRegistryClientTypes {
         public static var allCases: [SyncAction] {
             return [
                 .noAction,
-                .startSync,
-                .sdkUnknown("")
+                .startSync
             ]
         }
 

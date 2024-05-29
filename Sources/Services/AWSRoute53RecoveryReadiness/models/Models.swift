@@ -2520,8 +2520,7 @@ extension Route53RecoveryReadinessClientTypes {
                 .notAuthorized,
                 .notReady,
                 .ready,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 

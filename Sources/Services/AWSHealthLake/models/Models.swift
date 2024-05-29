@@ -52,8 +52,7 @@ extension HealthLakeClientTypes {
         public static var allCases: [AuthorizationStrategy] {
             return [
                 .awsAuth,
-                .smartv1,
-                .sdkUnknown("")
+                .smartv1
             ]
         }
 
@@ -82,8 +81,7 @@ extension HealthLakeClientTypes {
         public static var allCases: [CmkType] {
             return [
                 .aoCmk,
-                .cmCmk,
-                .sdkUnknown("")
+                .cmCmk
             ]
         }
 
@@ -393,8 +391,7 @@ extension HealthLakeClientTypes {
                 .createFailed,
                 .creating,
                 .deleted,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -738,8 +735,7 @@ extension HealthLakeClientTypes {
         public static var allCases: [ErrorCategory] {
             return [
                 .nonRetryableError,
-                .retryableError,
-                .sdkUnknown("")
+                .retryableError
             ]
         }
 
@@ -868,8 +864,7 @@ extension HealthLakeClientTypes {
 
         public static var allCases: [FHIRVersion] {
             return [
-                .r4,
-                .sdkUnknown("")
+                .r4
             ]
         }
 
@@ -1176,8 +1171,7 @@ extension HealthLakeClientTypes {
                 .completedWithErrors,
                 .failed,
                 .inProgress,
-                .submitted,
-                .sdkUnknown("")
+                .submitted
             ]
         }
 
@@ -1677,8 +1671,7 @@ extension HealthLakeClientTypes {
 
         public static var allCases: [PreloadDataType] {
             return [
-                .synthea,
-                .sdkUnknown("")
+                .synthea
             ]
         }
 

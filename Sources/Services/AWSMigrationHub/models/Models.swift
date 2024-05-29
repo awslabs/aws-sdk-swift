@@ -90,8 +90,7 @@ extension MigrationHubClientTypes {
             return [
                 .completed,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 
@@ -1932,8 +1931,7 @@ extension MigrationHubClientTypes {
                 .vmManagedObjectReference,
                 .vmManagerId,
                 .vmName,
-                .vmPath,
-                .sdkUnknown("")
+                .vmPath
             ]
         }
 
@@ -2048,8 +2046,7 @@ extension MigrationHubClientTypes {
                 .completed,
                 .failed,
                 .inProgress,
-                .notStarted,
-                .sdkUnknown("")
+                .notStarted
             ]
         }
 

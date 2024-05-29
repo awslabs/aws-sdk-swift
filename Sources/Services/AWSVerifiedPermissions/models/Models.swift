@@ -1334,8 +1334,7 @@ extension VerifiedPermissionsClientTypes {
         public static var allCases: [Decision] {
             return [
                 .allow,
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -3125,8 +3124,7 @@ extension VerifiedPermissionsClientTypes {
 
         public static var allCases: [OpenIdIssuer] {
             return [
-                .cognito,
-                .sdkUnknown("")
+                .cognito
             ]
         }
 
@@ -3237,8 +3235,7 @@ extension VerifiedPermissionsClientTypes {
         public static var allCases: [PolicyEffect] {
             return [
                 .forbid,
-                .permit,
-                .sdkUnknown("")
+                .permit
             ]
         }
 
@@ -3496,8 +3493,7 @@ extension VerifiedPermissionsClientTypes {
         public static var allCases: [PolicyType] {
             return [
                 .static,
-                .templateLinked,
-                .sdkUnknown("")
+                .templateLinked
             ]
         }
 
@@ -3709,8 +3705,7 @@ extension VerifiedPermissionsClientTypes {
                 .policy,
                 .policyStore,
                 .policyTemplate,
-                .schema,
-                .sdkUnknown("")
+                .schema
             ]
         }
 
@@ -4816,8 +4811,7 @@ extension VerifiedPermissionsClientTypes {
         public static var allCases: [ValidationMode] {
             return [
                 .off,
-                .strict,
-                .sdkUnknown("")
+                .strict
             ]
         }
 

@@ -379,8 +379,7 @@ extension PersonalizeClientTypes {
         public static var allCases: [BatchInferenceJobMode] {
             return [
                 .batchInference,
-                .themeGeneration,
-                .sdkUnknown("")
+                .themeGeneration
             ]
         }
 
@@ -5272,8 +5271,7 @@ extension PersonalizeClientTypes {
         public static var allCases: [Domain] {
             return [
                 .ecommerce,
-                .videoOnDemand,
-                .sdkUnknown("")
+                .videoOnDemand
             ]
         }
 
@@ -5863,8 +5861,7 @@ extension PersonalizeClientTypes {
         public static var allCases: [ImportMode] {
             return [
                 .full,
-                .incremental,
-                .sdkUnknown("")
+                .incremental
             ]
         }
 
@@ -5895,8 +5892,7 @@ extension PersonalizeClientTypes {
             return [
                 .all,
                 .bulk,
-                .put,
-                .sdkUnknown("")
+                .put
             ]
         }
 
@@ -7719,8 +7715,7 @@ extension PersonalizeClientTypes {
                 .high,
                 .low,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -7860,8 +7855,7 @@ extension PersonalizeClientTypes {
 
         public static var allCases: [RecipeProvider] {
             return [
-                .service,
-                .sdkUnknown("")
+                .service
             ]
         }
 
@@ -9172,8 +9166,7 @@ extension PersonalizeClientTypes {
             return [
                 .autotrain,
                 .full,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -9203,8 +9196,7 @@ extension PersonalizeClientTypes {
         public static var allCases: [TrainingType] {
             return [
                 .automatic,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 

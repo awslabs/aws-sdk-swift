@@ -527,8 +527,7 @@ extension CustomerProfilesClientTypes {
         public static var allCases: [AttributeMatchingModel] {
             return [
                 .manyToMany,
-                .oneToOne,
-                .sdkUnknown("")
+                .oneToOne
             ]
         }
 
@@ -840,8 +839,7 @@ extension CustomerProfilesClientTypes {
         public static var allCases: [ConflictResolvingModel] {
             return [
                 .recency,
-                .source,
-                .sdkUnknown("")
+                .source
             ]
         }
 
@@ -1657,8 +1655,7 @@ extension CustomerProfilesClientTypes {
         public static var allCases: [DataPullMode] {
             return [
                 .complete,
-                .incremental,
-                .sdkUnknown("")
+                .incremental
             ]
         }
 
@@ -2593,8 +2590,7 @@ extension CustomerProfilesClientTypes {
         public static var allCases: [EventStreamDestinationStatus] {
             return [
                 .healthy,
-                .unhealthy,
-                .sdkUnknown("")
+                .unhealthy
             ]
         }
 
@@ -2623,8 +2619,7 @@ extension CustomerProfilesClientTypes {
         public static var allCases: [EventStreamState] {
             return [
                 .running,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -2776,8 +2771,7 @@ extension CustomerProfilesClientTypes {
                 .name,
                 .number,
                 .phoneNumber,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -3027,8 +3021,7 @@ extension CustomerProfilesClientTypes {
             return [
                 .female,
                 .male,
-                .unspecified,
-                .sdkUnknown("")
+                .unspecified
             ]
         }
 
@@ -4640,8 +4633,7 @@ extension CustomerProfilesClientTypes {
                 .merging,
                 .partialSuccess,
                 .pending,
-                .preprocessing,
-                .sdkUnknown("")
+                .preprocessing
             ]
         }
 
@@ -4809,8 +4801,7 @@ extension CustomerProfilesClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -6538,8 +6529,7 @@ extension CustomerProfilesClientTypes {
         public static var allCases: [LogicalOperator] {
             return [
                 .and,
-                .or,
-                .sdkUnknown("")
+                .or
             ]
         }
 
@@ -6596,8 +6586,7 @@ extension CustomerProfilesClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -6701,8 +6690,7 @@ extension CustomerProfilesClientTypes {
         public static var allCases: [MatchType] {
             return [
                 .mlBasedMatching,
-                .ruleBasedMatching,
-                .sdkUnknown("")
+                .ruleBasedMatching
             ]
         }
 
@@ -7081,8 +7069,7 @@ extension CustomerProfilesClientTypes {
                 .equalTo,
                 .greaterThan,
                 .lessThan,
-                .notEqualTo,
-                .sdkUnknown("")
+                .notEqualTo
             ]
         }
 
@@ -7137,8 +7124,7 @@ extension CustomerProfilesClientTypes {
                 .upperBound,
                 .validationAction,
                 .value,
-                .values,
-                .sdkUnknown("")
+                .values
             ]
         }
 
@@ -7182,8 +7168,7 @@ extension CustomerProfilesClientTypes {
             return [
                 .business,
                 .individual,
-                .other,
-                .sdkUnknown("")
+                .other
             ]
         }
 
@@ -8007,8 +7992,7 @@ extension CustomerProfilesClientTypes {
             return [
                 .active,
                 .inProgress,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -8074,8 +8058,7 @@ extension CustomerProfilesClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -8259,8 +8242,7 @@ extension CustomerProfilesClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -8566,8 +8548,7 @@ extension CustomerProfilesClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 
@@ -8690,8 +8671,7 @@ extension CustomerProfilesClientTypes {
                 .s3,
                 .salesforce,
                 .servicenow,
-                .zendesk,
-                .sdkUnknown("")
+                .zendesk
             ]
         }
 
@@ -8776,8 +8756,7 @@ extension CustomerProfilesClientTypes {
                 .order,
                 .profile,
                 .secondary,
-                .unique,
-                .sdkUnknown("")
+                .unique
             ]
         }
 
@@ -8824,8 +8803,7 @@ extension CustomerProfilesClientTypes {
                 .maximum,
                 .maxOccurrence,
                 .minimum,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -8870,8 +8848,7 @@ extension CustomerProfilesClientTypes {
                 .inProgress,
                 .notStarted,
                 .retry,
-                .split,
-                .sdkUnknown("")
+                .split
             ]
         }
 
@@ -9025,8 +9002,7 @@ extension CustomerProfilesClientTypes {
                 .mask,
                 .merge,
                 .truncate,
-                .validate,
-                .sdkUnknown("")
+                .validate
             ]
         }
 
@@ -9192,8 +9168,7 @@ extension CustomerProfilesClientTypes {
             return [
                 .event,
                 .ondemand,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -9221,8 +9196,7 @@ extension CustomerProfilesClientTypes {
 
         public static var allCases: [Unit] {
             return [
-                .days,
-                .sdkUnknown("")
+                .days
             ]
         }
 
@@ -9964,8 +9938,7 @@ extension CustomerProfilesClientTypes {
 
         public static var allCases: [WorkflowType] {
             return [
-                .appflowIntegration,
-                .sdkUnknown("")
+                .appflowIntegration
             ]
         }
 
@@ -10017,8 +9990,7 @@ extension CustomerProfilesClientTypes {
                 .validateNonNegative,
                 .validateNonNull,
                 .validateNonZero,
-                .validateNumeric,
-                .sdkUnknown("")
+                .validateNumeric
             ]
         }
 

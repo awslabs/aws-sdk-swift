@@ -18,8 +18,7 @@ extension CloudWatchClientTypes {
             return [
                 .alarm,
                 .extensionperiod,
-                .waitperiod,
-                .sdkUnknown("")
+                .waitperiod
             ]
         }
 
@@ -100,8 +99,7 @@ extension CloudWatchClientTypes {
         public static var allCases: [AlarmType] {
             return [
                 .compositealarm,
-                .metricalarm,
-                .sdkUnknown("")
+                .metricalarm
             ]
         }
 
@@ -239,8 +237,7 @@ extension CloudWatchClientTypes {
             return [
                 .pendingTraining,
                 .trained,
-                .trainedInsufficientData,
-                .sdkUnknown("")
+                .trainedInsufficientData
             ]
         }
 
@@ -270,8 +267,7 @@ extension CloudWatchClientTypes {
         public static var allCases: [AnomalyDetectorType] {
             return [
                 .metricMath,
-                .singleMetric,
-                .sdkUnknown("")
+                .singleMetric
             ]
         }
 
@@ -312,8 +308,7 @@ extension CloudWatchClientTypes {
                 .lessthanlowerorgreaterthanupperthreshold,
                 .lessthanlowerthreshold,
                 .lessthanorequaltothreshold,
-                .lessthanthreshold,
-                .sdkUnknown("")
+                .lessthanthreshold
             ]
         }
 
@@ -1881,8 +1876,7 @@ extension CloudWatchClientTypes {
 
         public static var allCases: [EvaluationState] {
             return [
-                .partialData,
-                .sdkUnknown("")
+                .partialData
             ]
         }
 
@@ -2611,8 +2605,7 @@ extension CloudWatchClientTypes {
             return [
                 .action,
                 .configurationupdate,
-                .stateupdate,
-                .sdkUnknown("")
+                .stateupdate
             ]
         }
 
@@ -4280,8 +4273,7 @@ extension CloudWatchClientTypes {
             return [
                 .json,
                 .openTelemetry07,
-                .openTelemetry10,
-                .sdkUnknown("")
+                .openTelemetry10
             ]
         }
 
@@ -5495,8 +5487,7 @@ extension CloudWatchClientTypes {
 
         public static var allCases: [RecentlyActive] {
             return [
-                .pt3h,
-                .sdkUnknown("")
+                .pt3h
             ]
         }
 
@@ -5607,8 +5598,7 @@ extension CloudWatchClientTypes {
         public static var allCases: [ScanBy] {
             return [
                 .timestampAscending,
-                .timestampDescending,
-                .sdkUnknown("")
+                .timestampDescending
             ]
         }
 
@@ -5816,8 +5806,7 @@ extension CloudWatchClientTypes {
                 .terabits,
                 .terabitsSecond,
                 .terabytes,
-                .terabytesSecond,
-                .sdkUnknown("")
+                .terabytesSecond
             ]
         }
 
@@ -5931,8 +5920,7 @@ extension CloudWatchClientTypes {
             return [
                 .alarm,
                 .insufficientData,
-                .ok,
-                .sdkUnknown("")
+                .ok
             ]
         }
 
@@ -5968,8 +5956,7 @@ extension CloudWatchClientTypes {
                 .maximum,
                 .minimum,
                 .samplecount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -6048,8 +6035,7 @@ extension CloudWatchClientTypes {
                 .complete,
                 .forbidden,
                 .internalError,
-                .partialData,
-                .sdkUnknown("")
+                .partialData
             ]
         }
 

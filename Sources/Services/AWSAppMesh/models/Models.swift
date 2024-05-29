@@ -1200,8 +1200,7 @@ extension AppMeshClientTypes {
         public static var allCases: [DefaultGatewayRouteRewrite] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2531,8 +2530,7 @@ extension AppMeshClientTypes {
         public static var allCases: [DnsResponseType] {
             return [
                 .endpoints,
-                .loadbalancer,
-                .sdkUnknown("")
+                .loadbalancer
             ]
         }
 
@@ -2642,8 +2640,7 @@ extension AppMeshClientTypes {
         public static var allCases: [DurationUnit] {
             return [
                 .ms,
-                .s,
-                .sdkUnknown("")
+                .s
             ]
         }
 
@@ -2704,8 +2701,7 @@ extension AppMeshClientTypes {
         public static var allCases: [EgressFilterType] {
             return [
                 .allowAll,
-                .dropAll,
-                .sdkUnknown("")
+                .dropAll
             ]
         }
 
@@ -3087,8 +3083,7 @@ extension AppMeshClientTypes {
             return [
                 .active,
                 .deleted,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -3518,8 +3513,7 @@ extension AppMeshClientTypes {
                 .deadlineExceeded,
                 .internal,
                 .resourceExhausted,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -4265,8 +4259,7 @@ extension AppMeshClientTypes {
                 .patch,
                 .post,
                 .put,
-                .trace,
-                .sdkUnknown("")
+                .trace
             ]
         }
 
@@ -4630,8 +4623,7 @@ extension AppMeshClientTypes {
         public static var allCases: [HttpScheme] {
             return [
                 .http,
-                .https,
-                .sdkUnknown("")
+                .https
             ]
         }
 
@@ -4738,8 +4730,7 @@ extension AppMeshClientTypes {
                 .ipv4Only,
                 .ipv4Preferred,
                 .ipv6Only,
-                .ipv6Preferred,
-                .sdkUnknown("")
+                .ipv6Preferred
             ]
         }
 
@@ -5969,8 +5960,7 @@ extension AppMeshClientTypes {
             return [
                 .disabled,
                 .permissive,
-                .strict,
-                .sdkUnknown("")
+                .strict
             ]
         }
 
@@ -6424,8 +6414,7 @@ extension AppMeshClientTypes {
             return [
                 .active,
                 .deleted,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -6588,8 +6577,7 @@ extension AppMeshClientTypes {
                 .grpc,
                 .http,
                 .http2,
-                .tcp,
-                .sdkUnknown("")
+                .tcp
             ]
         }
 
@@ -6967,8 +6955,7 @@ extension AppMeshClientTypes {
             return [
                 .active,
                 .deleted,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -7257,8 +7244,7 @@ extension AppMeshClientTypes {
 
         public static var allCases: [TcpRetryPolicyEvent] {
             return [
-                .connectionError,
-                .sdkUnknown("")
+                .connectionError
             ]
         }
 
@@ -9250,8 +9236,7 @@ extension AppMeshClientTypes {
             return [
                 .disabled,
                 .permissive,
-                .strict,
-                .sdkUnknown("")
+                .strict
             ]
         }
 
@@ -9463,8 +9448,7 @@ extension AppMeshClientTypes {
             return [
                 .grpc,
                 .http,
-                .http2,
-                .sdkUnknown("")
+                .http2
             ]
         }
 
@@ -9636,8 +9620,7 @@ extension AppMeshClientTypes {
             return [
                 .active,
                 .deleted,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -10237,8 +10220,7 @@ extension AppMeshClientTypes {
             return [
                 .active,
                 .deleted,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -10544,8 +10526,7 @@ extension AppMeshClientTypes {
             return [
                 .active,
                 .deleted,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -10833,8 +10814,7 @@ extension AppMeshClientTypes {
             return [
                 .active,
                 .deleted,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 

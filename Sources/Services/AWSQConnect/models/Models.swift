@@ -306,8 +306,7 @@ extension QConnectClientTypes {
         public static var allCases: [AssistantCapabilityType] {
             return [
                 .v1,
-                .v2,
-                .sdkUnknown("")
+                .v2
             ]
         }
 
@@ -446,8 +445,7 @@ extension QConnectClientTypes {
                 .createInProgress,
                 .deleted,
                 .deleteFailed,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -554,8 +552,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [AssistantType] {
             return [
-                .agent,
-                .sdkUnknown("")
+                .agent
             ]
         }
 
@@ -581,8 +578,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [AssociationType] {
             return [
-                .knowledgeBase,
-                .sdkUnknown("")
+                .knowledgeBase
             ]
         }
 
@@ -938,8 +934,7 @@ extension QConnectClientTypes {
                 .deleted,
                 .deleteFailed,
                 .deleteInProgress,
-                .updateFailed,
-                .sdkUnknown("")
+                .updateFailed
             ]
         }
 
@@ -2196,8 +2191,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [ExternalSource] {
             return [
-                .amazonConnect,
-                .sdkUnknown("")
+                .amazonConnect
             ]
         }
 
@@ -2299,8 +2293,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [FilterField] {
             return [
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -2326,8 +2319,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [FilterOperator] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -3301,8 +3293,7 @@ extension QConnectClientTypes {
                 .deleteFailed,
                 .deleteInProgress,
                 .failed,
-                .startInProgress,
-                .sdkUnknown("")
+                .startInProgress
             ]
         }
 
@@ -3412,8 +3403,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [ImportJobType] {
             return [
-                .quickResponses,
-                .sdkUnknown("")
+                .quickResponses
             ]
         }
 
@@ -3561,8 +3551,7 @@ extension QConnectClientTypes {
                 .createInProgress,
                 .deleted,
                 .deleteFailed,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -3673,8 +3662,7 @@ extension QConnectClientTypes {
             return [
                 .custom,
                 .external,
-                .quickResponses,
-                .sdkUnknown("")
+                .quickResponses
             ]
         }
 
@@ -4464,8 +4452,7 @@ extension QConnectClientTypes {
         public static var allCases: [Order] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -4533,8 +4520,7 @@ extension QConnectClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -4808,8 +4794,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [QueryConditionComparisonOperator] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -4835,8 +4820,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [QueryConditionFieldName] {
             return [
-                .resultType,
-                .sdkUnknown("")
+                .resultType
             ]
         }
 
@@ -4932,8 +4916,7 @@ extension QConnectClientTypes {
         public static var allCases: [QueryResultType] {
             return [
                 .generativeAnswer,
-                .knowledgeContent,
-                .sdkUnknown("")
+                .knowledgeContent
             ]
         }
 
@@ -5229,8 +5212,7 @@ extension QConnectClientTypes {
         public static var allCases: [QuickResponseFilterOperator] {
             return [
                 .equals,
-                .prefix,
-                .sdkUnknown("")
+                .prefix
             ]
         }
 
@@ -5368,8 +5350,7 @@ extension QConnectClientTypes {
         public static var allCases: [QuickResponseQueryOperator] {
             return [
                 .contains,
-                .containsAndPrefix,
-                .sdkUnknown("")
+                .containsAndPrefix
             ]
         }
 
@@ -5585,8 +5566,7 @@ extension QConnectClientTypes {
                 .deleteFailed,
                 .deleteInProgress,
                 .updateFailed,
-                .updateInProgress,
-                .sdkUnknown("")
+                .updateInProgress
             ]
         }
 
@@ -5810,8 +5790,7 @@ extension QConnectClientTypes {
             return [
                 .issueDetection,
                 .other,
-                .ruleEvaluation,
-                .sdkUnknown("")
+                .ruleEvaluation
             ]
         }
 
@@ -5920,8 +5899,7 @@ extension QConnectClientTypes {
         public static var allCases: [RecommendationTriggerType] {
             return [
                 .generative,
-                .query,
-                .sdkUnknown("")
+                .query
             ]
         }
 
@@ -5952,8 +5930,7 @@ extension QConnectClientTypes {
             return [
                 .generativeAnswer,
                 .generativeResponse,
-                .knowledgeContent,
-                .sdkUnknown("")
+                .knowledgeContent
             ]
         }
 
@@ -5983,8 +5960,7 @@ extension QConnectClientTypes {
         public static var allCases: [Relevance] {
             return [
                 .helpful,
-                .notHelpful,
-                .sdkUnknown("")
+                .notHelpful
             ]
         }
 
@@ -6015,8 +5991,7 @@ extension QConnectClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -6892,8 +6867,7 @@ extension QConnectClientTypes {
 
         public static var allCases: [SourceContentType] {
             return [
-                .knowledgeContent,
-                .sdkUnknown("")
+                .knowledgeContent
             ]
         }
 
@@ -7276,8 +7250,7 @@ extension QConnectClientTypes {
         public static var allCases: [TargetType] {
             return [
                 .recommendation,
-                .result,
-                .sdkUnknown("")
+                .result
             ]
         }
 

@@ -161,8 +161,7 @@ extension MarketplaceAgreementClientTypes {
                 .replaced,
                 .rolledBack,
                 .superseded,
-                .terminated,
-                .sdkUnknown("")
+                .terminated
             ]
         }
 
@@ -1278,8 +1277,7 @@ extension MarketplaceAgreementClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
-                .agreement,
-                .sdkUnknown("")
+                .agreement
             ]
         }
 
@@ -1509,8 +1507,7 @@ extension MarketplaceAgreementClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -1777,8 +1774,7 @@ extension MarketplaceAgreementClientTypes {
                 .invalidSortOrder,
                 .missingAgreementId,
                 .other,
-                .unsupportedFilters,
-                .sdkUnknown("")
+                .unsupportedFilters
             ]
         }
 

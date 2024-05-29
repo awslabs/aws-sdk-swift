@@ -1089,8 +1089,7 @@ extension InternetMonitorClientTypes {
                 .availability,
                 .localAvailability,
                 .localPerformance,
-                .performance,
-                .sdkUnknown("")
+                .performance
             ]
         }
 
@@ -1121,8 +1120,7 @@ extension InternetMonitorClientTypes {
         public static var allCases: [HealthEventStatus] {
             return [
                 .active,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -1374,8 +1372,7 @@ extension InternetMonitorClientTypes {
         public static var allCases: [InternetEventStatus] {
             return [
                 .active,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -1466,8 +1463,7 @@ extension InternetMonitorClientTypes {
         public static var allCases: [InternetEventType] {
             return [
                 .availability,
-                .performance,
-                .sdkUnknown("")
+                .performance
             ]
         }
 
@@ -2051,8 +2047,7 @@ extension InternetMonitorClientTypes {
         public static var allCases: [LocalHealthEventsConfigStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2081,8 +2076,7 @@ extension InternetMonitorClientTypes {
         public static var allCases: [LogDeliveryStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2159,8 +2153,7 @@ extension InternetMonitorClientTypes {
                 .active,
                 .error,
                 .inactive,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -2199,8 +2192,7 @@ extension InternetMonitorClientTypes {
                 .faultService,
                 .inactive,
                 .insufficientData,
-                .ok,
-                .sdkUnknown("")
+                .ok
             ]
         }
 
@@ -2342,8 +2334,7 @@ extension InternetMonitorClientTypes {
         public static var allCases: [Operator] {
             return [
                 .equals,
-                .notEquals,
-                .sdkUnknown("")
+                .notEquals
             ]
         }
 
@@ -2450,8 +2441,7 @@ extension InternetMonitorClientTypes {
                 .failed,
                 .queued,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2485,8 +2475,7 @@ extension InternetMonitorClientTypes {
             return [
                 .measurements,
                 .topLocations,
-                .topLocationDetails,
-                .sdkUnknown("")
+                .topLocationDetails
             ]
         }
 
@@ -2943,8 +2932,7 @@ extension InternetMonitorClientTypes {
         public static var allCases: [TriangulationEventType] {
             return [
                 .aws,
-                .internet,
-                .sdkUnknown("")
+                .internet
             ]
         }
 

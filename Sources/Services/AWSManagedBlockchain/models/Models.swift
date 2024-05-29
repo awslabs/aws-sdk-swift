@@ -119,8 +119,7 @@ extension ManagedBlockchainClientTypes {
                 .ethereumMainnet,
                 .ethereumMainnetAndGoerli,
                 .polygonMainnet,
-                .polygonMumbai,
-                .sdkUnknown("")
+                .polygonMumbai
             ]
         }
 
@@ -154,8 +153,7 @@ extension ManagedBlockchainClientTypes {
             return [
                 .available,
                 .deleted,
-                .pendingDeletion,
-                .sdkUnknown("")
+                .pendingDeletion
             ]
         }
 
@@ -234,8 +232,7 @@ extension ManagedBlockchainClientTypes {
 
         public static var allCases: [AccessorType] {
             return [
-                .billingToken,
-                .sdkUnknown("")
+                .billingToken
             ]
         }
 
@@ -1025,8 +1022,7 @@ extension ManagedBlockchainClientTypes {
         public static var allCases: [Edition] {
             return [
                 .standard,
-                .starter,
-                .sdkUnknown("")
+                .starter
             ]
         }
 
@@ -1055,8 +1051,7 @@ extension ManagedBlockchainClientTypes {
         public static var allCases: [Framework] {
             return [
                 .ethereum,
-                .hyperledgerFabric,
-                .sdkUnknown("")
+                .hyperledgerFabric
             ]
         }
 
@@ -1615,8 +1610,7 @@ extension ManagedBlockchainClientTypes {
                 .accepting,
                 .expired,
                 .pending,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -2852,8 +2846,7 @@ extension ManagedBlockchainClientTypes {
                 .deleted,
                 .deleting,
                 .inaccessibleEncryptionKey,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3185,8 +3178,7 @@ extension ManagedBlockchainClientTypes {
                 .createFailed,
                 .creating,
                 .deleted,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -3598,8 +3590,7 @@ extension ManagedBlockchainClientTypes {
                 .failed,
                 .inaccessibleEncryptionKey,
                 .unhealthy,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3830,8 +3821,7 @@ extension ManagedBlockchainClientTypes {
                 .approved,
                 .expired,
                 .inProgress,
-                .rejected,
-                .sdkUnknown("")
+                .rejected
             ]
         }
 
@@ -4173,8 +4163,7 @@ extension ManagedBlockchainClientTypes {
         public static var allCases: [StateDBType] {
             return [
                 .couchdb,
-                .leveldb,
-                .sdkUnknown("")
+                .leveldb
             ]
         }
 
@@ -4269,8 +4258,7 @@ extension ManagedBlockchainClientTypes {
         public static var allCases: [ThresholdComparator] {
             return [
                 .greaterThan,
-                .greaterThanOrEqualTo,
-                .sdkUnknown("")
+                .greaterThanOrEqualTo
             ]
         }
 
@@ -4706,8 +4694,7 @@ extension ManagedBlockchainClientTypes {
         public static var allCases: [VoteValue] {
             return [
                 .no,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 

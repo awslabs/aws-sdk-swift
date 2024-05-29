@@ -887,8 +887,7 @@ extension DrsClientTypes {
                 .failedToStartDataTransfer,
                 .notConverging,
                 .snapshotsFailure,
-                .unstableNetwork,
-                .sdkUnknown("")
+                .unstableNetwork
             ]
         }
 
@@ -1126,8 +1125,7 @@ extension DrsClientTypes {
                 .launchReplicationServer,
                 .pairReplicationServerWithAgent,
                 .startDataTransfer,
-                .wait,
-                .sdkUnknown("")
+                .wait
             ]
         }
 
@@ -1171,8 +1169,7 @@ extension DrsClientTypes {
                 .inProgress,
                 .notStarted,
                 .skipped,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1220,8 +1217,7 @@ extension DrsClientTypes {
                 .paused,
                 .rescan,
                 .stalled,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -2751,8 +2747,7 @@ extension DrsClientTypes {
                 .shuttingDown,
                 .stopped,
                 .stopping,
-                .terminated,
-                .sdkUnknown("")
+                .terminated
             ]
         }
 
@@ -2883,8 +2878,7 @@ extension DrsClientTypes {
             return [
                 .extended,
                 .extensionError,
-                .notExtended,
-                .sdkUnknown("")
+                .notExtended
             ]
         }
 
@@ -2914,8 +2908,7 @@ extension DrsClientTypes {
         public static var allCases: [FailbackLaunchType] {
             return [
                 .drill,
-                .recovery,
-                .sdkUnknown("")
+                .recovery
             ]
         }
 
@@ -2982,8 +2975,7 @@ extension DrsClientTypes {
                 .failedToStartDataTransfer,
                 .notConverging,
                 .snapshotsFailure,
-                .unstableNetwork,
-                .sdkUnknown("")
+                .unstableNetwork
             ]
         }
 
@@ -3041,8 +3033,7 @@ extension DrsClientTypes {
                 .failbackLaunchStateNotAvailable,
                 .failbackNotReadyForLaunch,
                 .failbackNotStarted,
-                .failbackReadyForLaunch,
-                .sdkUnknown("")
+                .failbackReadyForLaunch
             ]
         }
 
@@ -3526,8 +3517,7 @@ extension DrsClientTypes {
                 .startRecovery,
                 .targetAccount,
                 .terminateRecoveryInstances,
-                .updateNetworkRecovery,
-                .sdkUnknown("")
+                .updateNetworkRecovery
             ]
         }
 
@@ -3772,8 +3762,7 @@ extension DrsClientTypes {
                 .updateNetworkConfigurationFailed,
                 .updateNetworkConfigurationStart,
                 .usingPreviousSnapshot,
-                .usingPreviousSnapshotFailed,
-                .sdkUnknown("")
+                .usingPreviousSnapshotFailed
             ]
         }
 
@@ -3880,8 +3869,7 @@ extension DrsClientTypes {
             return [
                 .completed,
                 .pending,
-                .started,
-                .sdkUnknown("")
+                .started
             ]
         }
 
@@ -3913,8 +3901,7 @@ extension DrsClientTypes {
             return [
                 .createConvertedSnapshot,
                 .launch,
-                .terminate,
-                .sdkUnknown("")
+                .terminate
             ]
         }
 
@@ -3948,8 +3935,7 @@ extension DrsClientTypes {
                 .failed,
                 .notStarted,
                 .pending,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3980,8 +3966,7 @@ extension DrsClientTypes {
         public static var allCases: [LastLaunchType] {
             return [
                 .drill,
-                .recovery,
-                .sdkUnknown("")
+                .recovery
             ]
         }
 
@@ -4093,8 +4078,7 @@ extension DrsClientTypes {
                 .monitoring,
                 .other,
                 .security,
-                .validation,
-                .sdkUnknown("")
+                .validation
             ]
         }
 
@@ -4163,8 +4147,7 @@ extension DrsClientTypes {
         public static var allCases: [LaunchActionParameterType] {
             return [
                 .dynamic,
-                .ssmStore,
-                .sdkUnknown("")
+                .ssmStore
             ]
         }
 
@@ -4236,8 +4219,7 @@ extension DrsClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -4267,8 +4249,7 @@ extension DrsClientTypes {
         public static var allCases: [LaunchActionType] {
             return [
                 .ssmAutomation,
-                .ssmCommand,
-                .sdkUnknown("")
+                .ssmCommand
             ]
         }
 
@@ -4433,8 +4414,7 @@ extension DrsClientTypes {
         public static var allCases: [LaunchDisposition] {
             return [
                 .started,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -4500,8 +4480,7 @@ extension DrsClientTypes {
                 .inProgress,
                 .launched,
                 .pending,
-                .terminated,
-                .sdkUnknown("")
+                .terminated
             ]
         }
 
@@ -5070,8 +5049,7 @@ extension DrsClientTypes {
         public static var allCases: [OriginEnvironment] {
             return [
                 .aws,
-                .onPremises,
-                .sdkUnknown("")
+                .onPremises
             ]
         }
 
@@ -5160,8 +5138,7 @@ extension DrsClientTypes {
             return [
                 .day,
                 .hour,
-                .minute,
-                .sdkUnknown("")
+                .minute
             ]
         }
 
@@ -5318,8 +5295,7 @@ extension DrsClientTypes {
         public static var allCases: [ProductCodeMode] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5871,8 +5847,7 @@ extension DrsClientTypes {
                 .pairAgentWithReplicationSoftware,
                 .pairReplicationServerWithAgent,
                 .startDataTransfer,
-                .wait,
-                .sdkUnknown("")
+                .wait
             ]
         }
 
@@ -5923,8 +5898,7 @@ extension DrsClientTypes {
                 .inProgress,
                 .notStarted,
                 .skipped,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -5976,8 +5950,7 @@ extension DrsClientTypes {
                 .replicationStateNotAvailable,
                 .rescan,
                 .stalled,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -6225,8 +6198,7 @@ extension DrsClientTypes {
                 .inProgress,
                 .notStarted,
                 .partialSuccess,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -6309,8 +6281,7 @@ extension DrsClientTypes {
         public static var allCases: [RecoverySnapshotsOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -6339,8 +6310,7 @@ extension DrsClientTypes {
         public static var allCases: [ReplicationConfigurationDataPlaneRouting] {
             return [
                 .privateIp,
-                .publicIp,
-                .sdkUnknown("")
+                .publicIp
             ]
         }
 
@@ -6373,8 +6343,7 @@ extension DrsClientTypes {
                 .auto,
                 .gp2,
                 .gp3,
-                .st1,
-                .sdkUnknown("")
+                .st1
             ]
         }
 
@@ -6407,8 +6376,7 @@ extension DrsClientTypes {
             return [
                 .custom,
                 .default,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -6509,8 +6477,7 @@ extension DrsClientTypes {
                 .io1,
                 .sc1,
                 .st1,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -6656,8 +6623,7 @@ extension DrsClientTypes {
         public static var allCases: [ReplicationDirection] {
             return [
                 .failback,
-                .failover,
-                .sdkUnknown("")
+                .failover
             ]
         }
 
@@ -6690,8 +6656,7 @@ extension DrsClientTypes {
                 .error,
                 .inProgress,
                 .protected,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -8181,8 +8146,7 @@ extension DrsClientTypes {
             return [
                 .basic,
                 .inAws,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -9363,8 +9327,7 @@ extension DrsClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -9401,8 +9364,7 @@ extension DrsClientTypes {
                 .missingVolumeAttributes,
                 .missingVolumeAttributesAndPrecheckUnavailable,
                 .pending,
-                .regular,
-                .sdkUnknown("")
+                .regular
             ]
         }
 

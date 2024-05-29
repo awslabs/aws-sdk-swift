@@ -116,8 +116,7 @@ extension CodeGuruSecurityClientTypes {
         public static var allCases: [AnalysisType] {
             return [
                 .all,
-                .security,
-                .sdkUnknown("")
+                .security
             ]
         }
 
@@ -637,8 +636,7 @@ extension CodeGuruSecurityClientTypes {
                 .internalError,
                 .invalidFindingId,
                 .invalidScanName,
-                .itemDoesNotExist,
-                .sdkUnknown("")
+                .itemDoesNotExist
             ]
         }
 
@@ -1814,8 +1812,7 @@ extension CodeGuruSecurityClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -1900,8 +1897,7 @@ extension CodeGuruSecurityClientTypes {
         public static var allCases: [ScanType] {
             return [
                 .express,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -1936,8 +1932,7 @@ extension CodeGuruSecurityClientTypes {
                 .high,
                 .info,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -1971,8 +1966,7 @@ extension CodeGuruSecurityClientTypes {
             return [
                 .all,
                 .closed,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 
@@ -2400,8 +2394,7 @@ extension CodeGuruSecurityClientTypes {
                 .fieldValidationFailed,
                 .lambdaCodeShaMismatch,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

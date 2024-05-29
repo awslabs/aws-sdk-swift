@@ -50,8 +50,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .bottomleft,
                 .bottomright,
                 .topleft,
-                .topright,
-                .sdkUnknown("")
+                .topright
             ]
         }
 
@@ -387,8 +386,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [ArtifactsConcatenationState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -469,8 +467,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [ArtifactsState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -497,8 +494,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [AudioArtifactsConcatenationState] {
             return [
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -558,8 +554,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [AudioChannelsOption] {
             return [
                 .mono,
-                .stereo,
-                .sdkUnknown("")
+                .stereo
             ]
         }
 
@@ -622,8 +617,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             return [
                 .audioonly,
                 .audiowithactivespeakervideo,
-                .audiowithcompositedvideo,
-                .sdkUnknown("")
+                .audiowithcompositedvideo
             ]
         }
 
@@ -707,8 +701,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .green,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -755,8 +748,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .frCa,
                 .frFr,
                 .itIt,
-                .ptBr,
-                .sdkUnknown("")
+                .ptBr
             ]
         }
 
@@ -792,8 +784,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [CanvasOrientation] {
             return [
                 .landscape,
-                .portrait,
-                .sdkUnknown("")
+                .portrait
             ]
         }
 
@@ -1100,8 +1091,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [ConcatenationSinkType] {
             return [
-                .s3bucket,
-                .sdkUnknown("")
+                .s3bucket
             ]
         }
 
@@ -1166,8 +1156,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [ConcatenationSourceType] {
             return [
-                .mediacapturepipeline,
-                .sdkUnknown("")
+                .mediacapturepipeline
             ]
         }
 
@@ -1309,8 +1298,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [ContentMuxType] {
             return [
-                .contentonly,
-                .sdkUnknown("")
+                .contentonly
             ]
         }
 
@@ -1338,8 +1326,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [ContentRedactionOutput] {
             return [
                 .redacted,
-                .redactedAndUnredacted,
-                .sdkUnknown("")
+                .redactedAndUnredacted
             ]
         }
 
@@ -1372,8 +1359,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .activespeakeronly,
                 .horizontal,
                 .presenteronly,
-                .vertical,
-                .sdkUnknown("")
+                .vertical
             ]
         }
 
@@ -1402,8 +1388,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [ContentType] {
             return [
-                .pii,
-                .sdkUnknown("")
+                .pii
             ]
         }
 
@@ -2394,8 +2379,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .resourcelimitexceeded,
                 .servicefailure,
                 .serviceunavailable,
-                .throttling,
-                .sdkUnknown("")
+                .throttling
             ]
         }
 
@@ -2525,8 +2509,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [FragmentSelectorType] {
             return [
                 .producertimestamp,
-                .servertimestamp,
-                .sdkUnknown("")
+                .servertimestamp
             ]
         }
 
@@ -3049,8 +3032,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .green,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -3132,8 +3114,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [HorizontalTilePosition] {
             return [
                 .bottom,
-                .top,
-                .sdkUnknown("")
+                .top
             ]
         }
 
@@ -3409,8 +3390,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3638,8 +3618,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [LayoutOption] {
             return [
-                .gridview,
-                .sdkUnknown("")
+                .gridview
             ]
         }
 
@@ -4097,8 +4076,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [LiveConnectorMuxType] {
             return [
                 .audiowithactivespeakervideo,
-                .audiowithcompositedvideo,
-                .sdkUnknown("")
+                .audiowithcompositedvideo
             ]
         }
 
@@ -4213,8 +4191,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [LiveConnectorSinkType] {
             return [
-                .rtmp,
-                .sdkUnknown("")
+                .rtmp
             ]
         }
 
@@ -4279,8 +4256,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [LiveConnectorSourceType] {
             return [
-                .chimesdkmeeting,
-                .sdkUnknown("")
+                .chimesdkmeeting
             ]
         }
 
@@ -4513,8 +4489,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [MediaEncoding] {
             return [
-                .pcm,
-                .sdkUnknown("")
+                .pcm
             ]
         }
 
@@ -4784,8 +4759,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .snsTopicSink,
                 .sqsQueueSink,
                 .voiceAnalyticsProcessor,
-                .voiceEnhancementSink,
-                .sdkUnknown("")
+                .voiceEnhancementSink
             ]
         }
 
@@ -5007,8 +4981,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .notsupported,
                 .paused,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -5041,8 +5014,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [MediaPipelineSinkType] {
             return [
-                .s3bucket,
-                .sdkUnknown("")
+                .s3bucket
             ]
         }
 
@@ -5068,8 +5040,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [MediaPipelineSourceType] {
             return [
-                .chimesdkmeeting,
-                .sdkUnknown("")
+                .chimesdkmeeting
             ]
         }
 
@@ -5107,8 +5078,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .notstarted,
                 .paused,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -5142,8 +5112,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [MediaPipelineStatusUpdate] {
             return [
                 .pause,
-                .resume,
-                .sdkUnknown("")
+                .resume
             ]
         }
 
@@ -5211,8 +5180,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .initializing,
                 .notstarted,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -5299,8 +5267,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [MediaStreamPipelineSinkType] {
             return [
-                .kinesisvideostreampool,
-                .sdkUnknown("")
+                .kinesisvideostreampool
             ]
         }
 
@@ -5430,8 +5397,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [MediaStreamType] {
             return [
                 .individualaudio,
-                .mixedaudio,
-                .sdkUnknown("")
+                .mixedaudio
             ]
         }
 
@@ -5540,8 +5506,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -5571,8 +5536,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [ParticipantRole] {
             return [
                 .agent,
-                .customer,
-                .sdkUnknown("")
+                .customer
             ]
         }
 
@@ -5687,8 +5651,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
                 .bottomleft,
                 .bottomright,
                 .topleft,
-                .topright,
-                .sdkUnknown("")
+                .topright
             ]
         }
 
@@ -5808,8 +5771,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             return [
                 .issuedetection,
                 .keywordmatch,
-                .sentiment,
-                .sdkUnknown("")
+                .sentiment
             ]
         }
 
@@ -5839,8 +5801,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [RecordingFileFormat] {
             return [
                 .opus,
-                .wav,
-                .sdkUnknown("")
+                .wav
             ]
         }
 
@@ -5900,8 +5861,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [ResolutionOption] {
             return [
                 .fhd,
-                .hd,
-                .sdkUnknown("")
+                .hd
             ]
         }
 
@@ -6180,8 +6140,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [SentimentType] {
             return [
-                .negative,
-                .sdkUnknown("")
+                .negative
             ]
         }
 
@@ -7044,8 +7003,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [TileOrder] {
             return [
                 .joinsequence,
-                .speakersequence,
-                .sdkUnknown("")
+                .speakersequence
             ]
         }
 
@@ -7561,8 +7519,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [VerticalTilePosition] {
             return [
                 .left,
-                .right,
-                .sdkUnknown("")
+                .right
             ]
         }
 
@@ -7708,8 +7665,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [VideoMuxType] {
             return [
-                .videoonly,
-                .sdkUnknown("")
+                .videoonly
             ]
         }
 
@@ -7739,8 +7695,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             return [
                 .mask,
                 .remove,
-                .tag,
-                .sdkUnknown("")
+                .tag
             ]
         }
 
@@ -7770,8 +7725,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public static var allCases: [VoiceAnalyticsConfigurationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7798,8 +7752,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
         public static var allCases: [VoiceAnalyticsLanguageCode] {
             return [
-                .enUs,
-                .sdkUnknown("")
+                .enUs
             ]
         }
 

@@ -22,8 +22,7 @@ extension MediaLiveClientTypes {
                 .codingMode10,
                 .codingMode11,
                 .codingMode20,
-                .codingMode51,
-                .sdkUnknown("")
+                .codingMode51
             ]
         }
 
@@ -56,8 +55,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AacInputType] {
             return [
                 .broadcasterMixedAd,
-                .normal,
-                .sdkUnknown("")
+                .normal
             ]
         }
 
@@ -89,8 +87,7 @@ extension MediaLiveClientTypes {
             return [
                 .hev1,
                 .hev2,
-                .lc,
-                .sdkUnknown("")
+                .lc
             ]
         }
 
@@ -121,8 +118,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AacRateControlMode] {
             return [
                 .cbr,
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -152,8 +148,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AacRawFormat] {
             return [
                 .latmLoas,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -262,8 +257,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AacSpec] {
             return [
                 .mpeg2,
-                .mpeg4,
-                .sdkUnknown("")
+                .mpeg4
             ]
         }
 
@@ -297,8 +291,7 @@ extension MediaLiveClientTypes {
                 .high,
                 .low,
                 .mediumHigh,
-                .mediumLow,
-                .sdkUnknown("")
+                .mediumLow
             ]
         }
 
@@ -330,8 +323,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Ac3AttenuationControl] {
             return [
                 .attenuate3Db,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -373,8 +365,7 @@ extension MediaLiveClientTypes {
                 .hearingImpaired,
                 .musicAndEffects,
                 .visuallyImpaired,
-                .voiceOver,
-                .sdkUnknown("")
+                .voiceOver
             ]
         }
 
@@ -414,8 +405,7 @@ extension MediaLiveClientTypes {
                 .codingMode10,
                 .codingMode11,
                 .codingMode20,
-                .codingMode32Lfe,
-                .sdkUnknown("")
+                .codingMode32Lfe
             ]
         }
 
@@ -447,8 +437,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Ac3DrcProfile] {
             return [
                 .filmStandard,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -478,8 +467,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Ac3LfeFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -509,8 +497,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Ac3MetadataControl] {
             return [
                 .followInput,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -611,8 +598,7 @@ extension MediaLiveClientTypes {
 
         public static var allCases: [AcceptHeader] {
             return [
-                .imageJpeg,
-                .sdkUnknown("")
+                .imageJpeg
             ]
         }
 
@@ -700,8 +686,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AccessibilityType] {
             return [
                 .doesNotImplementAccessibilityFeatures,
-                .implementsAccessibilityFeatures,
-                .sdkUnknown("")
+                .implementsAccessibilityFeatures
             ]
         }
 
@@ -764,8 +749,7 @@ extension MediaLiveClientTypes {
             return [
                 .auto,
                 .fixed,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1269,8 +1253,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AudioDescriptionAudioTypeControl] {
             return [
                 .followInput,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -1300,8 +1283,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AudioDescriptionLanguageCodeControl] {
             return [
                 .followInput,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -1440,8 +1422,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AudioLanguageSelectionPolicy] {
             return [
                 .loose,
-                .strict,
-                .sdkUnknown("")
+                .strict
             ]
         }
 
@@ -1471,8 +1452,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AudioNormalizationAlgorithm] {
             return [
                 .itu17701,
-                .itu17702,
-                .sdkUnknown("")
+                .itu17702
             ]
         }
 
@@ -1500,8 +1480,7 @@ extension MediaLiveClientTypes {
 
         public static var allCases: [AudioNormalizationAlgorithmControl] {
             return [
-                .correctAudio,
-                .sdkUnknown("")
+                .correctAudio
             ]
         }
 
@@ -1573,8 +1552,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AudioOnlyHlsSegmentType] {
             return [
                 .aac,
-                .fmp4,
-                .sdkUnknown("")
+                .fmp4
             ]
         }
 
@@ -1657,8 +1635,7 @@ extension MediaLiveClientTypes {
                 .alternateAudioAutoSelect,
                 .alternateAudioAutoSelectDefault,
                 .alternateAudioNotAutoSelect,
-                .audioOnlyVariantStream,
-                .sdkUnknown("")
+                .audioOnlyVariantStream
             ]
         }
 
@@ -1921,8 +1898,7 @@ extension MediaLiveClientTypes {
                 .cleanEffects,
                 .hearingImpaired,
                 .undefined,
-                .visualImpairedCommentary,
-                .sdkUnknown("")
+                .visualImpairedCommentary
             ]
         }
 
@@ -1985,8 +1961,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AuthenticationScheme] {
             return [
                 .akamai,
-                .common,
-                .sdkUnknown("")
+                .common
             ]
         }
 
@@ -2103,8 +2078,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [AvailBlankingState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2880,8 +2854,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [BlackoutSlateNetworkEndBlackout] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2911,8 +2884,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [BlackoutSlateState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2944,8 +2916,7 @@ extension MediaLiveClientTypes {
             return [
                 .centered,
                 .left,
-                .smart,
-                .sdkUnknown("")
+                .smart
             ]
         }
 
@@ -2978,8 +2949,7 @@ extension MediaLiveClientTypes {
             return [
                 .black,
                 .none,
-                .white,
-                .sdkUnknown("")
+                .white
             ]
         }
 
@@ -3145,8 +3115,7 @@ extension MediaLiveClientTypes {
                 .green,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -3188,8 +3157,7 @@ extension MediaLiveClientTypes {
                 .green,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -3225,8 +3193,7 @@ extension MediaLiveClientTypes {
             return [
                 .black,
                 .none,
-                .white,
-                .sdkUnknown("")
+                .white
             ]
         }
 
@@ -3257,8 +3224,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [BurnInTeletextGridControl] {
             return [
                 .fixed,
-                .scaled,
-                .sdkUnknown("")
+                .scaled
             ]
         }
 
@@ -3739,8 +3705,7 @@ extension MediaLiveClientTypes {
                 .fhd,
                 .hd,
                 .sd,
-                .uhd,
-                .sdkUnknown("")
+                .uhd
             ]
         }
 
@@ -3914,8 +3879,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [ChannelClass] {
             return [
                 .singlePipeline,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -3971,8 +3935,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [ChannelPipelineIdToRestart] {
             return [
                 .pipeline0,
-                .pipeline1,
-                .sdkUnknown("")
+                .pipeline1
             ]
         }
 
@@ -4020,8 +3983,7 @@ extension MediaLiveClientTypes {
                 .starting,
                 .stopping,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4227,8 +4189,7 @@ extension MediaLiveClientTypes {
                 .greaterthanorequaltothreshold,
                 .greaterthanthreshold,
                 .lessthanorequaltothreshold,
-                .lessthanthreshold,
-                .sdkUnknown("")
+                .lessthanthreshold
             ]
         }
 
@@ -4332,8 +4293,7 @@ extension MediaLiveClientTypes {
                 .maximum,
                 .minimum,
                 .samplecount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -4497,8 +4457,7 @@ extension MediaLiveClientTypes {
                 .medialiveMultiplex,
                 .mediapackageChannel,
                 .mediapackageOriginEndpoint,
-                .s3Bucket,
-                .sdkUnknown("")
+                .s3Bucket
             ]
         }
 
@@ -4538,8 +4497,7 @@ extension MediaLiveClientTypes {
                 .breaching,
                 .ignore,
                 .missing,
-                .notbreaching,
-                .sdkUnknown("")
+                .notbreaching
             ]
         }
 
@@ -4664,8 +4622,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [CmafIngestSegmentLengthUnits] {
             return [
                 .milliseconds,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -4695,8 +4652,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [CmafNielsenId3Behavior] {
             return [
                 .noPassthrough,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -4808,8 +4764,7 @@ extension MediaLiveClientTypes {
                 .hdr10,
                 .hlg2020,
                 .rec601,
-                .rec709,
-                .sdkUnknown("")
+                .rec709
             ]
         }
 
@@ -4899,8 +4854,7 @@ extension MediaLiveClientTypes {
 
         public static var allCases: [ContentType] {
             return [
-                .imageJpeg,
-                .sdkUnknown("")
+                .imageJpeg
             ]
         }
 
@@ -6402,8 +6356,7 @@ extension MediaLiveClientTypes {
                 .enhancedAudioIntelligibility,
                 .karaoke,
                 .main,
-                .supplementary,
-                .sdkUnknown("")
+                .supplementary
             ]
         }
 
@@ -6462,8 +6415,7 @@ extension MediaLiveClientTypes {
                 .main,
                 .metadata,
                 .subtitle,
-                .supplementary,
-                .sdkUnknown("")
+                .supplementary
             ]
         }
 
@@ -8950,8 +8902,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [DeviceSettingsSyncState] {
             return [
                 .synced,
-                .syncing,
-                .sdkUnknown("")
+                .syncing
             ]
         }
 
@@ -8983,8 +8934,7 @@ extension MediaLiveClientTypes {
             return [
                 .notUpToDate,
                 .updating,
-                .upToDate,
-                .sdkUnknown("")
+                .upToDate
             ]
         }
 
@@ -9029,8 +8979,7 @@ extension MediaLiveClientTypes {
                 .program5,
                 .program6,
                 .program7,
-                .program8,
-                .sdkUnknown("")
+                .program8
             ]
         }
 
@@ -9099,8 +9048,7 @@ extension MediaLiveClientTypes {
                 .dvbdash4DirectorsCommentary,
                 .dvbdash5EducationalNotes,
                 .dvbdash6MainProgram,
-                .dvbdash7CleanFeed,
-                .sdkUnknown("")
+                .dvbdash7CleanFeed
             ]
         }
 
@@ -9184,8 +9132,7 @@ extension MediaLiveClientTypes {
                 .sdtFollow,
                 .sdtFollowIfPresent,
                 .sdtManual,
-                .sdtNone,
-                .sdkUnknown("")
+                .sdtNone
             ]
         }
 
@@ -9268,8 +9215,7 @@ extension MediaLiveClientTypes {
             return [
                 .centered,
                 .left,
-                .smart,
-                .sdkUnknown("")
+                .smart
             ]
         }
 
@@ -9302,8 +9248,7 @@ extension MediaLiveClientTypes {
             return [
                 .black,
                 .none,
-                .white,
-                .sdkUnknown("")
+                .white
             ]
         }
 
@@ -9342,8 +9287,7 @@ extension MediaLiveClientTypes {
                 .green,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -9385,8 +9329,7 @@ extension MediaLiveClientTypes {
                 .green,
                 .red,
                 .white,
-                .yellow,
-                .sdkUnknown("")
+                .yellow
             ]
         }
 
@@ -9549,8 +9492,7 @@ extension MediaLiveClientTypes {
             return [
                 .black,
                 .none,
-                .white,
-                .sdkUnknown("")
+                .white
             ]
         }
 
@@ -9581,8 +9523,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [DvbSubDestinationTeletextGridControl] {
             return [
                 .fixed,
-                .scaled,
-                .sdkUnknown("")
+                .scaled
             ]
         }
 
@@ -9620,8 +9561,7 @@ extension MediaLiveClientTypes {
                 .fra,
                 .nld,
                 .por,
-                .spa,
-                .sdkUnknown("")
+                .spa
             ]
         }
 
@@ -9725,8 +9665,7 @@ extension MediaLiveClientTypes {
             return [
                 .codingMode514,
                 .codingMode714,
-                .codingMode916,
-                .sdkUnknown("")
+                .codingMode916
             ]
         }
 
@@ -9765,8 +9704,7 @@ extension MediaLiveClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -9808,8 +9746,7 @@ extension MediaLiveClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -9910,8 +9847,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Eac3AttenuationControl] {
             return [
                 .attenuate3Db,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -9947,8 +9883,7 @@ extension MediaLiveClientTypes {
                 .completeMain,
                 .emergency,
                 .hearingImpaired,
-                .visuallyImpaired,
-                .sdkUnknown("")
+                .visuallyImpaired
             ]
         }
 
@@ -9983,8 +9918,7 @@ extension MediaLiveClientTypes {
             return [
                 .codingMode10,
                 .codingMode20,
-                .codingMode32,
-                .sdkUnknown("")
+                .codingMode32
             ]
         }
 
@@ -10015,8 +9949,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Eac3DcFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10054,8 +9987,7 @@ extension MediaLiveClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -10097,8 +10029,7 @@ extension MediaLiveClientTypes {
                 .musicLight,
                 .musicStandard,
                 .none,
-                .speech,
-                .sdkUnknown("")
+                .speech
             ]
         }
 
@@ -10132,8 +10063,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Eac3LfeControl] {
             return [
                 .lfe,
-                .noLfe,
-                .sdkUnknown("")
+                .noLfe
             ]
         }
 
@@ -10163,8 +10093,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Eac3LfeFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10194,8 +10123,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Eac3MetadataControl] {
             return [
                 .followInput,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -10225,8 +10153,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Eac3PassthroughControl] {
             return [
                 .noPassthrough,
-                .whenPossible,
-                .sdkUnknown("")
+                .whenPossible
             ]
         }
 
@@ -10256,8 +10183,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Eac3PhaseControl] {
             return [
                 .noShift,
-                .shift90Degrees,
-                .sdkUnknown("")
+                .shift90Degrees
             ]
         }
 
@@ -10436,8 +10362,7 @@ extension MediaLiveClientTypes {
                 .dpl2,
                 .loRo,
                 .ltRt,
-                .notIndicated,
-                .sdkUnknown("")
+                .notIndicated
             ]
         }
 
@@ -10471,8 +10396,7 @@ extension MediaLiveClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .notIndicated,
-                .sdkUnknown("")
+                .notIndicated
             ]
         }
 
@@ -10505,8 +10429,7 @@ extension MediaLiveClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .notIndicated,
-                .sdkUnknown("")
+                .notIndicated
             ]
         }
 
@@ -10598,8 +10521,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [EbuTtDDestinationStyleControl] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -10629,8 +10551,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [EbuTtDFillLineGapControl] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -10660,8 +10581,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [EmbeddedConvert608To708] {
             return [
                 .disabled,
-                .upconvert,
-                .sdkUnknown("")
+                .upconvert
             ]
         }
 
@@ -10735,8 +10655,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [EmbeddedScte20Detection] {
             return [
                 .auto,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -11050,8 +10969,7 @@ extension MediaLiveClientTypes {
                 .mediapackageHarvestJobNotification,
                 .mediapackageInputNotification,
                 .mediapackageKeyProviderNotification,
-                .signalMapActiveAlarm,
-                .sdkUnknown("")
+                .signalMapActiveAlarm
             ]
         }
 
@@ -11379,8 +11297,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [FeatureActivationsInputPrepareScheduleActions] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11410,8 +11327,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [FeatureActivationsOutputStaticImageOverlayScheduleActions] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11441,8 +11357,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [FecOutputIncludeFec] {
             return [
                 .column,
-                .columnAndRow,
-                .sdkUnknown("")
+                .columnAndRow
             ]
         }
 
@@ -11533,8 +11448,7 @@ extension MediaLiveClientTypes {
                 .afd1011,
                 .afd1101,
                 .afd1110,
-                .afd1111,
-                .sdkUnknown("")
+                .afd1111
             ]
         }
 
@@ -11648,8 +11562,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Fmp4NielsenId3Behavior] {
             return [
                 .noPassthrough,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -11679,8 +11592,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Fmp4TimedMetadataBehavior] {
             return [
                 .noPassthrough,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -11749,8 +11661,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [FollowPoint] {
             return [
                 .end,
-                .start,
-                .sdkUnknown("")
+                .start
             ]
         }
 
@@ -11909,8 +11820,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [FrameCaptureIntervalUnit] {
             return [
                 .milliseconds,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -12755,8 +12665,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [GlobalConfigurationInputEndAction] {
             return [
                 .none,
-                .switchAndLoopInputs,
-                .sdkUnknown("")
+                .switchAndLoopInputs
             ]
         }
 
@@ -12786,8 +12695,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [GlobalConfigurationLowFramerateInputs] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -12817,8 +12725,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [GlobalConfigurationOutputLockingMode] {
             return [
                 .epochLocking,
-                .pipelineLocking,
-                .sdkUnknown("")
+                .pipelineLocking
             ]
         }
 
@@ -12848,8 +12755,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [GlobalConfigurationOutputTimingSource] {
             return [
                 .inputClock,
-                .systemClock,
-                .sdkUnknown("")
+                .systemClock
             ]
         }
 
@@ -12889,8 +12795,7 @@ extension MediaLiveClientTypes {
                 .low,
                 .max,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -12925,8 +12830,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264ColorMetadata] {
             return [
                 .ignore,
-                .insert,
-                .sdkUnknown("")
+                .insert
             ]
         }
 
@@ -12999,8 +12903,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264EntropyEncoding] {
             return [
                 .cabac,
-                .cavlc,
-                .sdkUnknown("")
+                .cavlc
             ]
         }
 
@@ -13061,8 +12964,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264FlickerAq] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13092,8 +12994,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264ForceFieldPictures] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13123,8 +13024,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264FramerateControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -13154,8 +13054,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264GopBReference] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13185,8 +13084,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264GopSizeUnits] {
             return [
                 .frames,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -13246,8 +13144,7 @@ extension MediaLiveClientTypes {
                 .h264Level5,
                 .h264Level51,
                 .h264Level52,
-                .h264LevelAuto,
-                .sdkUnknown("")
+                .h264LevelAuto
             ]
         }
 
@@ -13294,8 +13191,7 @@ extension MediaLiveClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -13326,8 +13222,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264ParControl] {
             return [
                 .initializeFromSource,
-                .specified,
-                .sdkUnknown("")
+                .specified
             ]
         }
 
@@ -13365,8 +13260,7 @@ extension MediaLiveClientTypes {
                 .high10bit,
                 .high422,
                 .high42210bit,
-                .main,
-                .sdkUnknown("")
+                .main
             ]
         }
 
@@ -13400,8 +13294,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264QualityLevel] {
             return [
                 .enhancedQuality,
-                .standardQuality,
-                .sdkUnknown("")
+                .standardQuality
             ]
         }
 
@@ -13435,8 +13328,7 @@ extension MediaLiveClientTypes {
                 .cbr,
                 .multiplex,
                 .qvbr,
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -13468,8 +13360,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264ScanType] {
             return [
                 .interlaced,
-                .progressive,
-                .sdkUnknown("")
+                .progressive
             ]
         }
 
@@ -13499,8 +13390,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264SceneChangeDetect] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13825,8 +13715,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264SpatialAq] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13856,8 +13745,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264SubGopLength] {
             return [
                 .dynamic,
-                .fixed,
-                .sdkUnknown("")
+                .fixed
             ]
         }
 
@@ -13887,8 +13775,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264Syntax] {
             return [
                 .default,
-                .rp2027,
-                .sdkUnknown("")
+                .rp2027
             ]
         }
 
@@ -13918,8 +13805,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264TemporalAq] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -13949,8 +13835,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H264TimecodeInsertionBehavior] {
             return [
                 .disabled,
-                .picTimingSei,
-                .sdkUnknown("")
+                .picTimingSei
             ]
         }
 
@@ -13990,8 +13875,7 @@ extension MediaLiveClientTypes {
                 .low,
                 .max,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -14026,8 +13910,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265AlternativeTransferFunction] {
             return [
                 .insert,
-                .omit,
-                .sdkUnknown("")
+                .omit
             ]
         }
 
@@ -14057,8 +13940,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265ColorMetadata] {
             return [
                 .ignore,
-                .insert,
-                .sdkUnknown("")
+                .insert
             ]
         }
 
@@ -14174,8 +14056,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265FlickerAq] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -14205,8 +14086,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265GopSizeUnits] {
             return [
                 .frames,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -14260,8 +14140,7 @@ extension MediaLiveClientTypes {
                 .h265Level6,
                 .h265Level61,
                 .h265Level62,
-                .h265LevelAuto,
-                .sdkUnknown("")
+                .h265LevelAuto
             ]
         }
 
@@ -14305,8 +14184,7 @@ extension MediaLiveClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -14337,8 +14215,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265MvOverPictureBoundaries] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -14368,8 +14245,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265MvTemporalPredictor] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -14399,8 +14275,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265Profile] {
             return [
                 .main,
-                .main10bit,
-                .sdkUnknown("")
+                .main10bit
             ]
         }
 
@@ -14432,8 +14307,7 @@ extension MediaLiveClientTypes {
             return [
                 .cbr,
                 .multiplex,
-                .qvbr,
-                .sdkUnknown("")
+                .qvbr
             ]
         }
 
@@ -14464,8 +14338,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265ScanType] {
             return [
                 .interlaced,
-                .progressive,
-                .sdkUnknown("")
+                .progressive
             ]
         }
 
@@ -14495,8 +14368,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265SceneChangeDetect] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -14779,8 +14651,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265Tier] {
             return [
                 .high,
-                .main,
-                .sdkUnknown("")
+                .main
             ]
         }
 
@@ -14810,8 +14681,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265TilePadding] {
             return [
                 .none,
-                .padded,
-                .sdkUnknown("")
+                .padded
             ]
         }
 
@@ -14841,8 +14711,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265TimecodeInsertionBehavior] {
             return [
                 .disabled,
-                .picTimingSei,
-                .sdkUnknown("")
+                .picTimingSei
             ]
         }
 
@@ -14872,8 +14741,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [H265TreeblockSize] {
             return [
                 .auto,
-                .treeSize32x32,
-                .sdkUnknown("")
+                .treeSize32x32
             ]
         }
 
@@ -14942,8 +14810,7 @@ extension MediaLiveClientTypes {
             return [
                 .adobe,
                 .elemental,
-                .elementalScte35,
-                .sdkUnknown("")
+                .elementalScte35
             ]
         }
 
@@ -14974,8 +14841,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsAkamaiHttpTransferMode] {
             return [
                 .chunked,
-                .nonChunked,
-                .sdkUnknown("")
+                .nonChunked
             ]
         }
 
@@ -15123,8 +14989,7 @@ extension MediaLiveClientTypes {
             return [
                 .insert,
                 .none,
-                .omit,
-                .sdkUnknown("")
+                .omit
             ]
         }
 
@@ -15210,8 +15075,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsClientCache] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15241,8 +15105,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsCodecSpecification] {
             return [
                 .rfc4281,
-                .rfc6381,
-                .sdkUnknown("")
+                .rfc6381
             ]
         }
 
@@ -15272,8 +15135,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsDirectoryStructure] {
             return [
                 .singleDirectory,
-                .subdirectoryPerStream,
-                .sdkUnknown("")
+                .subdirectoryPerStream
             ]
         }
 
@@ -15303,8 +15165,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsDiscontinuityTags] {
             return [
                 .insert,
-                .neverInsert,
-                .sdkUnknown("")
+                .neverInsert
             ]
         }
 
@@ -15334,8 +15195,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsEncryptionType] {
             return [
                 .aes128,
-                .sampleAes,
-                .sdkUnknown("")
+                .sampleAes
             ]
         }
 
@@ -15649,8 +15509,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsH265PackagingType] {
             return [
                 .hev1,
-                .hvc1,
-                .sdkUnknown("")
+                .hvc1
             ]
         }
 
@@ -15717,8 +15576,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsId3SegmentTaggingState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -15748,8 +15606,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsIncompleteSegmentBehavior] {
             return [
                 .auto,
-                .suppress,
-                .sdkUnknown("")
+                .suppress
             ]
         }
 
@@ -15834,8 +15691,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsIvInManifest] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -15865,8 +15721,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsIvSource] {
             return [
                 .explicit,
-                .followsSegmentNumber,
-                .sdkUnknown("")
+                .followsSegmentNumber
             ]
         }
 
@@ -15896,8 +15751,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsManifestCompression] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -15927,8 +15781,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsManifestDurationFormat] {
             return [
                 .floatingPoint,
-                .integer,
-                .sdkUnknown("")
+                .integer
             ]
         }
 
@@ -16011,8 +15864,7 @@ extension MediaLiveClientTypes {
 
         public static var allCases: [HlsMediaStoreStorageClass] {
             return [
-                .temporal,
-                .sdkUnknown("")
+                .temporal
             ]
         }
 
@@ -16041,8 +15893,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsMode] {
             return [
                 .live,
-                .vod,
-                .sdkUnknown("")
+                .vod
             ]
         }
 
@@ -16074,8 +15925,7 @@ extension MediaLiveClientTypes {
             return [
                 .manifestsAndSegments,
                 .segmentsOnly,
-                .variantManifestsAndSegments,
-                .sdkUnknown("")
+                .variantManifestsAndSegments
             ]
         }
 
@@ -16156,8 +16006,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsProgramDateTime] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -16187,8 +16036,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsProgramDateTimeClock] {
             return [
                 .initializeFromOutputTimecode,
-                .systemClock,
-                .sdkUnknown("")
+                .systemClock
             ]
         }
 
@@ -16218,8 +16066,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsRedundantManifest] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -16280,8 +16127,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsScte35SourceType] {
             return [
                 .manifest,
-                .segments,
-                .sdkUnknown("")
+                .segments
             ]
         }
 
@@ -16311,8 +16157,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsSegmentationMode] {
             return [
                 .useInputSegmentation,
-                .useSegmentDuration,
-                .sdkUnknown("")
+                .useSegmentDuration
             ]
         }
 
@@ -16391,8 +16236,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsStreamInfResolution] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -16424,8 +16268,7 @@ extension MediaLiveClientTypes {
             return [
                 .none,
                 .priv,
-                .tdrl,
-                .sdkUnknown("")
+                .tdrl
             ]
         }
 
@@ -16488,8 +16331,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsTsFileMode] {
             return [
                 .segmentedFiles,
-                .singleFile,
-                .sdkUnknown("")
+                .singleFile
             ]
         }
 
@@ -16519,8 +16361,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [HlsWebdavHttpTransferMode] {
             return [
                 .chunked,
-                .nonChunked,
-                .sdkUnknown("")
+                .nonChunked
             ]
         }
 
@@ -16627,8 +16468,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [IFrameOnlyPlaylistType] {
             return [
                 .disabled,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -16682,8 +16522,7 @@ extension MediaLiveClientTypes {
             return [
                 .auto,
                 .drop,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -16903,8 +16742,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputClass] {
             return [
                 .singlePipeline,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -16980,8 +16818,7 @@ extension MediaLiveClientTypes {
             return [
                 .avc,
                 .hevc,
-                .mpeg2,
-                .sdkUnknown("")
+                .mpeg2
             ]
         }
 
@@ -17012,8 +16849,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDeblockFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -17043,8 +16879,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDenoiseFilter] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -17170,8 +17005,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDeviceActiveInput] {
             return [
                 .hdmi,
-                .sdi,
-                .sdkUnknown("")
+                .sdi
             ]
         }
 
@@ -17201,8 +17035,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDeviceCodec] {
             return [
                 .avc,
-                .hevc,
-                .sdkUnknown("")
+                .hevc
             ]
         }
 
@@ -17273,8 +17106,7 @@ extension MediaLiveClientTypes {
                 .disabled,
                 .vbrAacHe64000,
                 .vbrAacHhe16000,
-                .vbrAacLc128000,
-                .sdkUnknown("")
+                .vbrAacLc128000
             ]
         }
 
@@ -17361,8 +17193,7 @@ extension MediaLiveClientTypes {
             return [
                 .auto,
                 .hdmi,
-                .sdi,
-                .sdkUnknown("")
+                .sdi
             ]
         }
 
@@ -17393,8 +17224,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDeviceConnectionState] {
             return [
                 .connected,
-                .disconnected,
-                .sdkUnknown("")
+                .disconnected
             ]
         }
 
@@ -17490,8 +17320,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDeviceIpScheme] {
             return [
                 .dhcp,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -17649,8 +17478,7 @@ extension MediaLiveClientTypes {
             return [
                 .mediaconnectFlow,
                 .medialiveInput,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -17705,8 +17533,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDeviceScanType] {
             return [
                 .interlaced,
-                .progressive,
-                .sdkUnknown("")
+                .progressive
             ]
         }
 
@@ -17767,8 +17594,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDeviceState] {
             return [
                 .idle,
-                .streaming,
-                .sdkUnknown("")
+                .streaming
             ]
         }
 
@@ -17899,8 +17725,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDeviceTransferType] {
             return [
                 .incoming,
-                .outgoing,
-                .sdkUnknown("")
+                .outgoing
             ]
         }
 
@@ -17930,8 +17755,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputDeviceType] {
             return [
                 .hd,
-                .uhd,
-                .sdkUnknown("")
+                .uhd
             ]
         }
 
@@ -18004,8 +17828,7 @@ extension MediaLiveClientTypes {
                 .disabled,
                 .vbrAacHe64000,
                 .vbrAacHhe16000,
-                .vbrAacLc128000,
-                .sdkUnknown("")
+                .vbrAacLc128000
             ]
         }
 
@@ -18124,8 +17947,7 @@ extension MediaLiveClientTypes {
             return [
                 .auto,
                 .disabled,
-                .forced,
-                .sdkUnknown("")
+                .forced
             ]
         }
 
@@ -18200,8 +18022,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputLossActionForHlsOut] {
             return [
                 .emitOutput,
-                .pauseOutput,
-                .sdkUnknown("")
+                .pauseOutput
             ]
         }
 
@@ -18231,8 +18052,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputLossActionForMsSmoothOut] {
             return [
                 .emitOutput,
-                .pauseOutput,
-                .sdkUnknown("")
+                .pauseOutput
             ]
         }
 
@@ -18262,8 +18082,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputLossActionForRtmpOut] {
             return [
                 .emitOutput,
-                .pauseOutput,
-                .sdkUnknown("")
+                .pauseOutput
             ]
         }
 
@@ -18295,8 +18114,7 @@ extension MediaLiveClientTypes {
             return [
                 .dropProgram,
                 .dropTs,
-                .emitProgram,
-                .sdkUnknown("")
+                .emitProgram
             ]
         }
 
@@ -18413,8 +18231,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputLossImageType] {
             return [
                 .color,
-                .slate,
-                .sdkUnknown("")
+                .slate
             ]
         }
 
@@ -18446,8 +18263,7 @@ extension MediaLiveClientTypes {
             return [
                 .max10Mbps,
                 .max20Mbps,
-                .max50Mbps,
-                .sdkUnknown("")
+                .max50Mbps
             ]
         }
 
@@ -18478,8 +18294,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputPreference] {
             return [
                 .equalInputPreference,
-                .primaryInputPreferred,
-                .sdkUnknown("")
+                .primaryInputPreferred
             ]
         }
 
@@ -18554,8 +18369,7 @@ extension MediaLiveClientTypes {
             return [
                 .hd,
                 .sd,
-                .uhd,
-                .sdkUnknown("")
+                .uhd
             ]
         }
 
@@ -18641,8 +18455,7 @@ extension MediaLiveClientTypes {
                 .deleted,
                 .idle,
                 .inUse,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -18811,8 +18624,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputSourceEndBehavior] {
             return [
                 .continue,
-                .loop,
-                .sdkUnknown("")
+                .loop
             ]
         }
 
@@ -18876,8 +18688,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputSourceType] {
             return [
                 .dynamic,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -18956,8 +18767,7 @@ extension MediaLiveClientTypes {
                 .creating,
                 .deleted,
                 .deleting,
-                .detached,
-                .sdkUnknown("")
+                .detached
             ]
         }
 
@@ -19034,8 +18844,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [InputTimecodeSource] {
             return [
                 .embedded,
-                .zerobased,
-                .sdkUnknown("")
+                .zerobased
             ]
         }
 
@@ -19081,8 +18890,7 @@ extension MediaLiveClientTypes {
                 .rtpPush,
                 .tsFile,
                 .udpPush,
-                .urlPull,
-                .sdkUnknown("")
+                .urlPull
             ]
         }
 
@@ -19269,8 +19077,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [LastFrameClippingBehavior] {
             return [
                 .excludeLastFrame,
-                .includeLastFrame,
-                .sdkUnknown("")
+                .includeLastFrame
             ]
         }
 
@@ -20858,8 +20665,7 @@ extension MediaLiveClientTypes {
                 .disabled,
                 .error,
                 .info,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -20892,8 +20698,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsAbsentInputAudioBehavior] {
             return [
                 .drop,
-                .encodeSilence,
-                .sdkUnknown("")
+                .encodeSilence
             ]
         }
 
@@ -20923,8 +20728,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsArib] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -20954,8 +20758,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsAribCaptionsPidControl] {
             return [
                 .auto,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -20985,8 +20788,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsAudioBufferModel] {
             return [
                 .atsc,
-                .dvb,
-                .sdkUnknown("")
+                .dvb
             ]
         }
 
@@ -21016,8 +20818,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsAudioInterval] {
             return [
                 .videoAndFixedIntervals,
-                .videoInterval,
-                .sdkUnknown("")
+                .videoInterval
             ]
         }
 
@@ -21047,8 +20848,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsAudioStreamType] {
             return [
                 .atsc,
-                .dvb,
-                .sdkUnknown("")
+                .dvb
             ]
         }
 
@@ -21078,8 +20878,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsBufferModel] {
             return [
                 .multiplex,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -21109,8 +20908,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsCcDescriptor] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -21140,8 +20938,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsEbifControl] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -21171,8 +20968,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsEbpPlacement] {
             return [
                 .videoAndAudioPids,
-                .videoPid,
-                .sdkUnknown("")
+                .videoPid
             ]
         }
 
@@ -21202,8 +20998,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsEsRateInPes] {
             return [
                 .exclude,
-                .include,
-                .sdkUnknown("")
+                .include
             ]
         }
 
@@ -21233,8 +21028,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsKlv] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -21264,8 +21058,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsNielsenId3Behavior] {
             return [
                 .noPassthrough,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -21295,8 +21088,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsPcrControl] {
             return [
                 .configuredPcrPeriod,
-                .pcrEveryPesPacket,
-                .sdkUnknown("")
+                .pcrEveryPesPacket
             ]
         }
 
@@ -21326,8 +21118,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsRateMode] {
             return [
                 .cbr,
-                .vbr,
-                .sdkUnknown("")
+                .vbr
             ]
         }
 
@@ -21357,8 +21148,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsScte35Control] {
             return [
                 .none,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -21396,8 +21186,7 @@ extension MediaLiveClientTypes {
                 .none,
                 .psiSegstart,
                 .raiAdapt,
-                .raiSegstart,
-                .sdkUnknown("")
+                .raiSegstart
             ]
         }
 
@@ -21431,8 +21220,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsSegmentationStyle] {
             return [
                 .maintainCadence,
-                .resetCadence,
-                .sdkUnknown("")
+                .resetCadence
             ]
         }
 
@@ -21775,8 +21563,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M2tsTimedMetadataBehavior] {
             return [
                 .noPassthrough,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -21806,8 +21593,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M3u8KlvBehavior] {
             return [
                 .noPassthrough,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -21837,8 +21623,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M3u8NielsenId3Behavior] {
             return [
                 .noPassthrough,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -21868,8 +21653,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M3u8PcrControl] {
             return [
                 .configuredPcrPeriod,
-                .pcrEveryPesPacket,
-                .sdkUnknown("")
+                .pcrEveryPesPacket
             ]
         }
 
@@ -21899,8 +21683,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M3u8Scte35Behavior] {
             return [
                 .noPassthrough,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -22069,8 +21852,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [M3u8TimedMetadataBehavior] {
             return [
                 .noPassthrough,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -22139,8 +21921,7 @@ extension MediaLiveClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -22601,8 +22382,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [MotionGraphicsInsertion] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -22663,8 +22443,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Mp2CodingMode] {
             return [
                 .codingMode10,
-                .codingMode20,
-                .sdkUnknown("")
+                .codingMode20
             ]
         }
 
@@ -22743,8 +22522,7 @@ extension MediaLiveClientTypes {
                 .high,
                 .low,
                 .medium,
-                .off,
-                .sdkUnknown("")
+                .off
             ]
         }
 
@@ -22777,8 +22555,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Mpeg2ColorMetadata] {
             return [
                 .ignore,
-                .insert,
-                .sdkUnknown("")
+                .insert
             ]
         }
 
@@ -22808,8 +22585,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Mpeg2ColorSpace] {
             return [
                 .auto,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 
@@ -22839,8 +22615,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Mpeg2DisplayRatio] {
             return [
                 .displayratio16x9,
-                .displayratio4x3,
-                .sdkUnknown("")
+                .displayratio4x3
             ]
         }
 
@@ -22901,8 +22676,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Mpeg2GopSizeUnits] {
             return [
                 .frames,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 
@@ -22932,8 +22706,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Mpeg2ScanType] {
             return [
                 .interlaced,
-                .progressive,
-                .sdkUnknown("")
+                .progressive
             ]
         }
 
@@ -23092,8 +22865,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Mpeg2SubGopLength] {
             return [
                 .dynamic,
-                .fixed,
-                .sdkUnknown("")
+                .fixed
             ]
         }
 
@@ -23123,8 +22895,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Mpeg2TimecodeInsertionBehavior] {
             return [
                 .disabled,
-                .gopTimecode,
-                .sdkUnknown("")
+                .gopTimecode
             ]
         }
 
@@ -23310,8 +23081,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [MsSmoothH265PackagingType] {
             return [
                 .hev1,
-                .hvc1,
-                .sdkUnknown("")
+                .hvc1
             ]
         }
 
@@ -23966,8 +23736,7 @@ extension MediaLiveClientTypes {
                 .recovering,
                 .running,
                 .starting,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -24150,8 +23919,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [NetworkInputServerValidation] {
             return [
                 .checkCryptographyAndValidateName,
-                .checkCryptographyOnly,
-                .sdkUnknown("")
+                .checkCryptographyOnly
             ]
         }
 
@@ -24346,8 +24114,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [NielsenPcmToId3TaggingState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -24393,8 +24160,7 @@ extension MediaLiveClientTypes {
                 .usMountain,
                 .usPacific,
                 .usSamoa,
-                .utc,
-                .sdkUnknown("")
+                .utc
             ]
         }
 
@@ -24432,8 +24198,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [NielsenWatermarksCbetStepaside] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -24463,8 +24228,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [NielsenWatermarksDistributionTypes] {
             return [
                 .finalDistributor,
-                .programContent,
-                .sdkUnknown("")
+                .programContent
             ]
         }
 
@@ -24653,8 +24417,7 @@ extension MediaLiveClientTypes {
 
         public static var allCases: [OfferingDurationUnits] {
             return [
-                .months,
-                .sdkUnknown("")
+                .months
             ]
         }
 
@@ -24681,8 +24444,7 @@ extension MediaLiveClientTypes {
 
         public static var allCases: [OfferingType] {
             return [
-                .noUpfront,
-                .sdkUnknown("")
+                .noUpfront
             ]
         }
 
@@ -25235,8 +24997,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [PipelineId] {
             return [
                 .pipeline0,
-                .pipeline1,
-                .sdkUnknown("")
+                .pipeline1
             ]
         }
 
@@ -25322,8 +25083,7 @@ extension MediaLiveClientTypes {
             return [
                 .currentlyActive,
                 .pipeline0,
-                .pipeline1,
-                .sdkUnknown("")
+                .pipeline1
             ]
         }
 
@@ -25484,8 +25244,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [RebootInputDeviceForce] {
             return [
                 .no,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 
@@ -25887,8 +25646,7 @@ extension MediaLiveClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .unavailable,
-                .sdkUnknown("")
+                .unavailable
             ]
         }
 
@@ -25925,8 +25683,7 @@ extension MediaLiveClientTypes {
                 .avc,
                 .hevc,
                 .link,
-                .mpeg2,
-                .sdkUnknown("")
+                .mpeg2
             ]
         }
 
@@ -25961,8 +25718,7 @@ extension MediaLiveClientTypes {
             return [
                 .max10Mbps,
                 .max20Mbps,
-                .max50Mbps,
-                .sdkUnknown("")
+                .max50Mbps
             ]
         }
 
@@ -25993,8 +25749,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [ReservationMaximumFramerate] {
             return [
                 .max30Fps,
-                .max60Fps,
-                .sdkUnknown("")
+                .max60Fps
             ]
         }
 
@@ -26028,8 +25783,7 @@ extension MediaLiveClientTypes {
                 .fhd,
                 .hd,
                 .sd,
-                .uhd,
-                .sdkUnknown("")
+                .uhd
             ]
         }
 
@@ -26126,8 +25880,7 @@ extension MediaLiveClientTypes {
                 .channel,
                 .input,
                 .multiplex,
-                .output,
-                .sdkUnknown("")
+                .output
             ]
         }
 
@@ -26163,8 +25916,7 @@ extension MediaLiveClientTypes {
                 .advancedAudio,
                 .audioNormalization,
                 .mghd,
-                .mguhd,
-                .sdkUnknown("")
+                .mguhd
             ]
         }
 
@@ -26200,8 +25952,7 @@ extension MediaLiveClientTypes {
                 .active,
                 .canceled,
                 .deleted,
-                .expired,
-                .sdkUnknown("")
+                .expired
             ]
         }
 
@@ -26235,8 +25986,7 @@ extension MediaLiveClientTypes {
             return [
                 .enhanced,
                 .premium,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -26437,8 +26187,7 @@ extension MediaLiveClientTypes {
 
         public static var allCases: [RtmpAdMarkers] {
             return [
-                .onCuePointScte35,
-                .sdkUnknown("")
+                .onCuePointScte35
             ]
         }
 
@@ -26467,8 +26216,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [RtmpCacheFullBehavior] {
             return [
                 .disconnectImmediately,
-                .waitForServer,
-                .sdkUnknown("")
+                .waitForServer
             ]
         }
 
@@ -26500,8 +26248,7 @@ extension MediaLiveClientTypes {
             return [
                 .all,
                 .field1608,
-                .field1AndField2608,
-                .sdkUnknown("")
+                .field1AndField2608
             ]
         }
 
@@ -26631,8 +26378,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [RtmpOutputCertificateMode] {
             return [
                 .selfSigned,
-                .verifyAuthenticity,
-                .sdkUnknown("")
+                .verifyAuthenticity
             ]
         }
 
@@ -26716,8 +26462,7 @@ extension MediaLiveClientTypes {
                 .authenticatedRead,
                 .bucketOwnerFullControl,
                 .bucketOwnerRead,
-                .publicRead,
-                .sdkUnknown("")
+                .publicRead
             ]
         }
 
@@ -26953,8 +26698,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte20Convert608To708] {
             return [
                 .disabled,
-                .upconvert,
-                .sdkUnknown("")
+                .upconvert
             ]
         }
 
@@ -27073,8 +26817,7 @@ extension MediaLiveClientTypes {
                 .fra,
                 .nld,
                 .por,
-                .spa,
-                .sdkUnknown("")
+                .spa
             ]
         }
 
@@ -27153,8 +26896,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35AposNoRegionalBlackoutBehavior] {
             return [
                 .follow,
-                .ignore,
-                .sdkUnknown("")
+                .ignore
             ]
         }
 
@@ -27184,8 +26926,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35AposWebDeliveryAllowedBehavior] {
             return [
                 .follow,
-                .ignore,
-                .sdkUnknown("")
+                .ignore
             ]
         }
 
@@ -27215,8 +26956,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35ArchiveAllowedFlag] {
             return [
                 .archiveAllowed,
-                .archiveNotAllowed,
-                .sdkUnknown("")
+                .archiveNotAllowed
             ]
         }
 
@@ -27367,8 +27107,7 @@ extension MediaLiveClientTypes {
                 .none,
                 .restrictGroup0,
                 .restrictGroup1,
-                .restrictGroup2,
-                .sdkUnknown("")
+                .restrictGroup2
             ]
         }
 
@@ -27400,8 +27139,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35InputMode] {
             return [
                 .fixed,
-                .followActive,
-                .sdkUnknown("")
+                .followActive
             ]
         }
 
@@ -27469,8 +27207,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35NoRegionalBlackoutFlag] {
             return [
                 .noRegionalBlackout,
-                .regionalBlackout,
-                .sdkUnknown("")
+                .regionalBlackout
             ]
         }
 
@@ -27532,8 +27269,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35SegmentationCancelIndicator] {
             return [
                 .segmentationEventCanceled,
-                .segmentationEventNotCanceled,
-                .sdkUnknown("")
+                .segmentationEventNotCanceled
             ]
         }
 
@@ -27656,8 +27392,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35SegmentationScope] {
             return [
                 .allOutputGroups,
-                .scte35EnabledOutputGroups,
-                .sdkUnknown("")
+                .scte35EnabledOutputGroups
             ]
         }
 
@@ -27730,8 +27465,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35SpliceInsertNoRegionalBlackoutBehavior] {
             return [
                 .follow,
-                .ignore,
-                .sdkUnknown("")
+                .ignore
             ]
         }
 
@@ -27799,8 +27533,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35SpliceInsertWebDeliveryAllowedBehavior] {
             return [
                 .follow,
-                .ignore,
-                .sdkUnknown("")
+                .ignore
             ]
         }
 
@@ -27905,8 +27638,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35Type] {
             return [
                 .none,
-                .scte35WithoutSegmentation,
-                .sdkUnknown("")
+                .scte35WithoutSegmentation
             ]
         }
 
@@ -27936,8 +27668,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Scte35WebDeliveryAllowedFlag] {
             return [
                 .webDeliveryAllowed,
-                .webDeliveryNotAllowed,
-                .sdkUnknown("")
+                .webDeliveryNotAllowed
             ]
         }
 
@@ -27983,8 +27714,7 @@ extension MediaLiveClientTypes {
                 .dryRunDeploymentComplete,
                 .dryRunDeploymentFailed,
                 .dryRunDeploymentInProgress,
-                .notDeployed,
-                .sdkUnknown("")
+                .notDeployed
             ]
         }
 
@@ -28036,8 +27766,7 @@ extension MediaLiveClientTypes {
                 .updateComplete,
                 .updateFailed,
                 .updateInProgress,
-                .updateReverted,
-                .sdkUnknown("")
+                .updateReverted
             ]
         }
 
@@ -28146,8 +27875,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [SmoothGroupAudioOnlyTimecodeControl] {
             return [
                 .passthrough,
-                .useConfiguredClock,
-                .sdkUnknown("")
+                .useConfiguredClock
             ]
         }
 
@@ -28177,8 +27905,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [SmoothGroupCertificateMode] {
             return [
                 .selfSigned,
-                .verifyAuthenticity,
-                .sdkUnknown("")
+                .verifyAuthenticity
             ]
         }
 
@@ -28210,8 +27937,7 @@ extension MediaLiveClientTypes {
             return [
                 .noEventId,
                 .useConfigured,
-                .useTimestamp,
-                .sdkUnknown("")
+                .useTimestamp
             ]
         }
 
@@ -28242,8 +27968,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [SmoothGroupEventStopBehavior] {
             return [
                 .none,
-                .sendEos,
-                .sdkUnknown("")
+                .sendEos
             ]
         }
 
@@ -28273,8 +27998,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [SmoothGroupSegmentationMode] {
             return [
                 .useInputSegmentation,
-                .useSegmentDuration,
-                .sdkUnknown("")
+                .useSegmentDuration
             ]
         }
 
@@ -28306,8 +28030,7 @@ extension MediaLiveClientTypes {
             return [
                 .none,
                 .scte35,
-                .scte35WithoutSegmentation,
-                .sdkUnknown("")
+                .scte35WithoutSegmentation
             ]
         }
 
@@ -28338,8 +28061,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [SmoothGroupStreamManifestBehavior] {
             return [
                 .doNotSend,
-                .send,
-                .sdkUnknown("")
+                .send
             ]
         }
 
@@ -28369,8 +28091,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [SmoothGroupTimestampOffsetMode] {
             return [
                 .useConfiguredOffset,
-                .useEventStartDate,
-                .sdkUnknown("")
+                .useEventStartDate
             ]
         }
 
@@ -28400,8 +28121,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [Smpte2038DataPreference] {
             return [
                 .ignore,
-                .prefer,
-                .sdkUnknown("")
+                .prefer
             ]
         }
 
@@ -30173,8 +29893,7 @@ extension MediaLiveClientTypes {
             return [
                 .auto,
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -30276,8 +29995,7 @@ extension MediaLiveClientTypes {
                 .strength6,
                 .strength7,
                 .strength8,
-                .strength9,
-                .sdkUnknown("")
+                .strength9
             ]
         }
 
@@ -30426,8 +30144,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [ThumbnailState] {
             return [
                 .auto,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -30457,8 +30174,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [ThumbnailType] {
             return [
                 .currentActive,
-                .unspecified,
-                .sdkUnknown("")
+                .unspecified
             ]
         }
 
@@ -30492,8 +30208,7 @@ extension MediaLiveClientTypes {
                 .extraSmall10,
                 .large48,
                 .medium32,
-                .small16,
-                .sdkUnknown("")
+                .small16
             ]
         }
 
@@ -30539,8 +30254,7 @@ extension MediaLiveClientTypes {
                 .middleRight,
                 .topCenter,
                 .topLeft,
-                .topRight,
-                .sdkUnknown("")
+                .topRight
             ]
         }
 
@@ -30662,8 +30376,7 @@ extension MediaLiveClientTypes {
             return [
                 .embedded,
                 .systemclock,
-                .zerobased,
-                .sdkUnknown("")
+                .zerobased
             ]
         }
 
@@ -30885,8 +30598,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [TtmlDestinationStyleControl] {
             return [
                 .passthrough,
-                .useConfigured,
-                .sdkUnknown("")
+                .useConfigured
             ]
         }
 
@@ -31043,8 +30755,7 @@ extension MediaLiveClientTypes {
             return [
                 .none,
                 .priv,
-                .tdrl,
-                .sdkUnknown("")
+                .tdrl
             ]
         }
 
@@ -32801,8 +32512,7 @@ extension MediaLiveClientTypes {
             return [
                 .none,
                 .passthrough,
-                .respond,
-                .sdkUnknown("")
+                .respond
             ]
         }
 
@@ -32833,8 +32543,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [VideoDescriptionScalingBehavior] {
             return [
                 .default,
-                .stretchToOutput,
-                .sdkUnknown("")
+                .stretchToOutput
             ]
         }
 
@@ -32919,8 +32628,7 @@ extension MediaLiveClientTypes {
                 .hdr10,
                 .hlg2020,
                 .rec601,
-                .rec709,
-                .sdkUnknown("")
+                .rec709
             ]
         }
 
@@ -32984,8 +32692,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [VideoSelectorColorSpaceUsage] {
             return [
                 .fallback,
-                .force,
-                .sdkUnknown("")
+                .force
             ]
         }
 
@@ -33194,8 +32901,7 @@ extension MediaLiveClientTypes {
                 .codingMode10,
                 .codingMode20,
                 .codingMode40,
-                .codingMode80,
-                .sdkUnknown("")
+                .codingMode80
             ]
         }
 
@@ -33301,8 +33007,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [WebvttDestinationStyleControl] {
             return [
                 .noStyleData,
-                .passthrough,
-                .sdkUnknown("")
+                .passthrough
             ]
         }
 

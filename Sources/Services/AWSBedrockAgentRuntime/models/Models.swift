@@ -557,8 +557,7 @@ extension BedrockAgentRuntimeClientTypes {
         public static var allCases: [CreationMode] {
             return [
                 .default,
-                .overridden,
-                .sdkUnknown("")
+                .overridden
             ]
         }
 
@@ -675,8 +674,7 @@ extension BedrockAgentRuntimeClientTypes {
         public static var allCases: [ExternalSourceType] {
             return [
                 .byteContent,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -1076,8 +1074,7 @@ extension BedrockAgentRuntimeClientTypes {
         public static var allCases: [GuadrailAction] {
             return [
                 .intervened,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1106,8 +1103,7 @@ extension BedrockAgentRuntimeClientTypes {
         public static var allCases: [GuardrailAction] {
             return [
                 .intervened,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1260,8 +1256,7 @@ extension BedrockAgentRuntimeClientTypes {
                 .high,
                 .low,
                 .medium,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1300,8 +1295,7 @@ extension BedrockAgentRuntimeClientTypes {
                 .misconduct,
                 .promptAttack,
                 .sexual,
-                .violence,
-                .sdkUnknown("")
+                .violence
             ]
         }
 
@@ -1332,8 +1326,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public static var allCases: [GuardrailContentPolicyAction] {
             return [
-                .blocked,
-                .sdkUnknown("")
+                .blocked
             ]
         }
 
@@ -1470,8 +1463,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public static var allCases: [GuardrailManagedWordType] {
             return [
-                .profanity,
-                .sdkUnknown("")
+                .profanity
             ]
         }
 
@@ -1599,8 +1591,7 @@ extension BedrockAgentRuntimeClientTypes {
                 .usIndividualTaxIdentificationNumber,
                 .usPassportNumber,
                 .usSocialSecurityNumber,
-                .vehicleIdentificationNumber,
-                .sdkUnknown("")
+                .vehicleIdentificationNumber
             ]
         }
 
@@ -1705,8 +1696,7 @@ extension BedrockAgentRuntimeClientTypes {
         public static var allCases: [GuardrailSensitiveInformationPolicyAction] {
             return [
                 .anonymized,
-                .blocked,
-                .sdkUnknown("")
+                .blocked
             ]
         }
 
@@ -1812,8 +1802,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public static var allCases: [GuardrailTopicPolicyAction] {
             return [
-                .blocked,
-                .sdkUnknown("")
+                .blocked
             ]
         }
 
@@ -1871,8 +1860,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public static var allCases: [GuardrailTopicType] {
             return [
-                .deny,
-                .sdkUnknown("")
+                .deny
             ]
         }
 
@@ -1945,8 +1933,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public static var allCases: [GuardrailWordPolicyAction] {
             return [
-                .blocked,
-                .sdkUnknown("")
+                .blocked
             ]
         }
 
@@ -2236,8 +2223,7 @@ extension BedrockAgentRuntimeClientTypes {
             return [
                 .actionGroup,
                 .finish,
-                .knowledgeBase,
-                .sdkUnknown("")
+                .knowledgeBase
             ]
         }
 
@@ -3163,8 +3149,7 @@ extension BedrockAgentRuntimeClientTypes {
                 .knowledgeBaseResponseGeneration,
                 .orchestration,
                 .postProcessing,
-                .preProcessing,
-                .sdkUnknown("")
+                .preProcessing
             ]
         }
 
@@ -3368,8 +3353,7 @@ extension BedrockAgentRuntimeClientTypes {
         public static var allCases: [ResponseState] {
             return [
                 .failure,
-                .reprompt,
-                .sdkUnknown("")
+                .reprompt
             ]
         }
 
@@ -3637,8 +3621,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public static var allCases: [RetrievalResultLocationType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -3946,8 +3929,7 @@ extension BedrockAgentRuntimeClientTypes {
         public static var allCases: [RetrieveAndGenerateType] {
             return [
                 .externalSources,
-                .knowledgeBase,
-                .sdkUnknown("")
+                .knowledgeBase
             ]
         }
 
@@ -4193,8 +4175,7 @@ extension BedrockAgentRuntimeClientTypes {
         public static var allCases: [SearchType] {
             return [
                 .hybrid,
-                .semantic,
-                .sdkUnknown("")
+                .semantic
             ]
         }
 
@@ -4311,8 +4292,7 @@ extension BedrockAgentRuntimeClientTypes {
             return [
                 .actionGroup,
                 .knowledgeBase,
-                .parser,
-                .sdkUnknown("")
+                .parser
             ]
         }
 
@@ -4602,8 +4582,7 @@ extension BedrockAgentRuntimeClientTypes {
                 .askUser,
                 .finish,
                 .knowledgeBase,
-                .reprompt,
-                .sdkUnknown("")
+                .reprompt
             ]
         }
 

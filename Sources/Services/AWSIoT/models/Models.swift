@@ -13,8 +13,7 @@ extension IoTClientTypes {
 
         public static var allCases: [AbortAction] {
             return [
-                .cancel,
-                .sdkUnknown("")
+                .cancel
             ]
         }
 
@@ -366,8 +365,7 @@ extension IoTClientTypes {
                 .connect,
                 .publish,
                 .receive,
-                .subscribe,
-                .sdkUnknown("")
+                .subscribe
             ]
         }
 
@@ -694,8 +692,7 @@ extension IoTClientTypes {
             return [
                 .cardinality,
                 .percentiles,
-                .statistics,
-                .sdkUnknown("")
+                .statistics
             ]
         }
 
@@ -763,8 +760,7 @@ extension IoTClientTypes {
 
         public static var allCases: [AlertTargetType] {
             return [
-                .sns,
-                .sdkUnknown("")
+                .sns
             ]
         }
 
@@ -1479,8 +1475,7 @@ extension IoTClientTypes {
                 .completedNonCompliant,
                 .failed,
                 .inProgress,
-                .waitingForDataCollection,
-                .sdkUnknown("")
+                .waitingForDataCollection
             ]
         }
 
@@ -1593,8 +1588,7 @@ extension IoTClientTypes {
                 .critical,
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -1629,8 +1623,7 @@ extension IoTClientTypes {
                 .biweekly,
                 .daily,
                 .monthly,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -1735,8 +1728,7 @@ extension IoTClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .skipped,
-                .sdkUnknown("")
+                .skipped
             ]
         }
 
@@ -1809,8 +1801,7 @@ extension IoTClientTypes {
                 .canceled,
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -1925,8 +1916,7 @@ extension IoTClientTypes {
 
         public static var allCases: [AuditNotificationType] {
             return [
-                .sns,
-                .sdkUnknown("")
+                .sns
             ]
         }
 
@@ -2042,8 +2032,7 @@ extension IoTClientTypes {
                 .canceled,
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -2074,8 +2063,7 @@ extension IoTClientTypes {
         public static var allCases: [AuditTaskType] {
             return [
                 .onDemandAuditTask,
-                .scheduledAuditTask,
-                .sdkUnknown("")
+                .scheduledAuditTask
             ]
         }
 
@@ -2106,8 +2094,7 @@ extension IoTClientTypes {
             return [
                 .allowed,
                 .explicitDeny,
-                .implicitDeny,
-                .sdkUnknown("")
+                .implicitDeny
             ]
         }
 
@@ -2329,8 +2316,7 @@ extension IoTClientTypes {
         public static var allCases: [AuthorizerStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -2390,8 +2376,7 @@ extension IoTClientTypes {
         public static var allCases: [AutoRegistrationStatus] {
             return [
                 .disable,
-                .enable,
-                .sdkUnknown("")
+                .enable
             ]
         }
 
@@ -2486,8 +2471,7 @@ extension IoTClientTypes {
 
         public static var allCases: [AwsJobAbortCriteriaAbortAction] {
             return [
-                .cancel,
-                .sdkUnknown("")
+                .cancel
             ]
         }
 
@@ -2519,8 +2503,7 @@ extension IoTClientTypes {
                 .all,
                 .failed,
                 .rejected,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -2865,8 +2848,7 @@ extension IoTClientTypes {
             return [
                 .machineLearning,
                 .static,
-                .statistical,
-                .sdkUnknown("")
+                .statistical
             ]
         }
 
@@ -3181,8 +3163,7 @@ extension IoTClientTypes {
         public static var allCases: [CACertificateStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -3209,8 +3190,7 @@ extension IoTClientTypes {
 
         public static var allCases: [CACertificateUpdateAction] {
             return [
-                .deactivate,
-                .sdkUnknown("")
+                .deactivate
             ]
         }
 
@@ -3665,8 +3645,7 @@ extension IoTClientTypes {
                 .logdeliverywrite,
                 .private,
                 .publicread,
-                .publicreadwrite,
-                .sdkUnknown("")
+                .publicreadwrite
             ]
         }
 
@@ -3876,8 +3855,7 @@ extension IoTClientTypes {
         public static var allCases: [CertificateMode] {
             return [
                 .default,
-                .sniOnly,
-                .sdkUnknown("")
+                .sniOnly
             ]
         }
 
@@ -3904,8 +3882,7 @@ extension IoTClientTypes {
 
         public static var allCases: [CertificateProviderOperation] {
             return [
-                .createcertificatefromcsr,
-                .sdkUnknown("")
+                .createcertificatefromcsr
             ]
         }
 
@@ -4010,8 +3987,7 @@ extension IoTClientTypes {
                 .pendingActivation,
                 .pendingTransfer,
                 .registerInactive,
-                .revoked,
-                .sdkUnknown("")
+                .revoked
             ]
         }
 
@@ -4447,8 +4423,7 @@ extension IoTClientTypes {
                 .lessThanEquals,
                 .notInCidrSet,
                 .notInPortSet,
-                .notInSet,
-                .sdkUnknown("")
+                .notInSet
             ]
         }
 
@@ -4487,8 +4462,7 @@ extension IoTClientTypes {
             return [
                 .high,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -8104,8 +8078,7 @@ extension IoTClientTypes {
                 .ipAddressList,
                 .number,
                 .numberList,
-                .stringList,
-                .sdkUnknown("")
+                .stringList
             ]
         }
 
@@ -8146,8 +8119,7 @@ extension IoTClientTypes {
                 .sun,
                 .thu,
                 .tue,
-                .wed,
-                .sdkUnknown("")
+                .wed
             ]
         }
 
@@ -13827,8 +13799,7 @@ extension IoTClientTypes {
                 .failed,
                 .inProgress,
                 .skipped,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -13899,8 +13870,7 @@ extension IoTClientTypes {
                 .canceled,
                 .failed,
                 .inProgress,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -14043,8 +14013,7 @@ extension IoTClientTypes {
 
         public static var allCases: [DeviceCertificateUpdateAction] {
             return [
-                .deactivate,
-                .sdkUnknown("")
+                .deactivate
             ]
         }
 
@@ -14072,8 +14041,7 @@ extension IoTClientTypes {
         public static var allCases: [DeviceDefenderIndexingMode] {
             return [
                 .off,
-                .violations,
-                .sdkUnknown("")
+                .violations
             ]
         }
 
@@ -14100,8 +14068,7 @@ extension IoTClientTypes {
 
         public static var allCases: [DimensionType] {
             return [
-                .topicFilter,
-                .sdkUnknown("")
+                .topicFilter
             ]
         }
 
@@ -14129,8 +14096,7 @@ extension IoTClientTypes {
         public static var allCases: [DimensionValueOperator] {
             return [
                 .in,
-                .notIn,
-                .sdkUnknown("")
+                .notIn
             ]
         }
 
@@ -14259,8 +14225,7 @@ extension IoTClientTypes {
         public static var allCases: [DomainConfigurationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -14333,8 +14298,7 @@ extension IoTClientTypes {
             return [
                 .awsManaged,
                 .customerManaged,
-                .endpoint,
-                .sdkUnknown("")
+                .endpoint
             ]
         }
 
@@ -14366,8 +14330,7 @@ extension IoTClientTypes {
             return [
                 .active,
                 .building,
-                .rebuilding,
-                .sdkUnknown("")
+                .rebuilding
             ]
         }
 
@@ -14525,8 +14488,7 @@ extension IoTClientTypes {
         public static var allCases: [DynamoKeyType] {
             return [
                 .number,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -14793,8 +14755,7 @@ extension IoTClientTypes {
                 .thingGroupHierarchy,
                 .thingGroupMembership,
                 .thingType,
-                .thingTypeAssociation,
-                .sdkUnknown("")
+                .thingTypeAssociation
             ]
         }
 
@@ -14943,8 +14904,7 @@ extension IoTClientTypes {
             return [
                 .boolean,
                 .number,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 
@@ -15143,8 +15103,7 @@ extension IoTClientTypes {
                 .terabits,
                 .terabitssecond,
                 .terabytes,
-                .terabytessecond,
-                .sdkUnknown("")
+                .terabytessecond
             ]
         }
 
@@ -17088,8 +17047,7 @@ extension IoTClientTypes {
             return [
                 .active,
                 .building,
-                .rebuilding,
-                .sdkUnknown("")
+                .rebuilding
             ]
         }
 
@@ -17794,8 +17752,7 @@ extension IoTClientTypes {
             return [
                 .cancel,
                 .forceCancel,
-                .stopRollout,
-                .sdkUnknown("")
+                .stopRollout
             ]
         }
 
@@ -17905,8 +17862,7 @@ extension IoTClientTypes {
                 .all,
                 .failed,
                 .rejected,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -17949,8 +17905,7 @@ extension IoTClientTypes {
                 .rejected,
                 .removed,
                 .succeeded,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -18265,8 +18220,7 @@ extension IoTClientTypes {
                 .completed,
                 .deletionInProgress,
                 .inProgress,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -24804,8 +24758,7 @@ extension IoTClientTypes {
                 .disabled,
                 .error,
                 .info,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -24912,8 +24865,7 @@ extension IoTClientTypes {
                 .default,
                 .principalId,
                 .sourceIp,
-                .thingGroup,
-                .sdkUnknown("")
+                .thingGroup
             ]
         }
 
@@ -25130,8 +25082,7 @@ extension IoTClientTypes {
         public static var allCases: [MessageFormat] {
             return [
                 .json,
-                .raw,
-                .sdkUnknown("")
+                .raw
             ]
         }
 
@@ -25519,8 +25470,7 @@ extension IoTClientTypes {
                 .publishFindingToSns,
                 .replaceDefaultPolicyVersion,
                 .updateCaCertificate,
-                .updateDeviceCertificate,
-                .sdkUnknown("")
+                .updateDeviceCertificate
             ]
         }
 
@@ -25555,8 +25505,7 @@ extension IoTClientTypes {
             return [
                 .active,
                 .expired,
-                .pendingBuild,
-                .sdkUnknown("")
+                .pendingBuild
             ]
         }
 
@@ -25681,8 +25630,7 @@ extension IoTClientTypes {
         public static var allCases: [NamedShadowIndexingMode] {
             return [
                 .off,
-                .on,
-                .sdkUnknown("")
+                .on
             ]
         }
 
@@ -25955,8 +25903,7 @@ extension IoTClientTypes {
                 .createInProgress,
                 .createPending,
                 .deleteFailed,
-                .deleteInProgress,
-                .sdkUnknown("")
+                .deleteInProgress
             ]
         }
 
@@ -26177,8 +26124,7 @@ extension IoTClientTypes {
         public static var allCases: [PackageVersionAction] {
             return [
                 .deprecate,
-                .publish,
-                .sdkUnknown("")
+                .publish
             ]
         }
 
@@ -26209,8 +26155,7 @@ extension IoTClientTypes {
             return [
                 .deprecated,
                 .draft,
-                .published,
-                .sdkUnknown("")
+                .published
             ]
         }
 
@@ -26346,8 +26291,7 @@ extension IoTClientTypes {
 
         public static var allCases: [PolicyTemplateName] {
             return [
-                .blankPolicy,
-                .sdkUnknown("")
+                .blankPolicy
             ]
         }
 
@@ -26485,8 +26429,7 @@ extension IoTClientTypes {
         public static var allCases: [ModelProtocol] {
             return [
                 .http,
-                .mqtt,
-                .sdkUnknown("")
+                .mqtt
             ]
         }
 
@@ -27697,8 +27640,7 @@ extension IoTClientTypes {
         public static var allCases: [ReportType] {
             return [
                 .errors,
-                .results,
-                .sdkUnknown("")
+                .results
             ]
         }
 
@@ -28001,8 +27943,7 @@ extension IoTClientTypes {
                 .iamRole,
                 .iotPolicy,
                 .issuerCertificate,
-                .roleAlias,
-                .sdkUnknown("")
+                .roleAlias
             ]
         }
 
@@ -28079,8 +28020,7 @@ extension IoTClientTypes {
             return [
                 .all,
                 .failed,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -28683,8 +28623,7 @@ extension IoTClientTypes {
         public static var allCases: [ServerCertificateStatus] {
             return [
                 .invalid,
-                .valid,
-                .sdkUnknown("")
+                .valid
             ]
         }
 
@@ -28788,8 +28727,7 @@ extension IoTClientTypes {
             return [
                 .credentialProvider,
                 .data,
-                .jobs,
-                .sdkUnknown("")
+                .jobs
             ]
         }
 
@@ -29892,8 +29830,7 @@ extension IoTClientTypes {
                 .cancelling,
                 .completed,
                 .failed,
-                .inprogress,
-                .sdkUnknown("")
+                .inprogress
             ]
         }
 
@@ -30301,8 +30238,7 @@ extension IoTClientTypes {
         public static var allCases: [TargetFieldOrder] {
             return [
                 .latlon,
-                .lonlat,
-                .sdkUnknown("")
+                .lonlat
             ]
         }
 
@@ -30331,8 +30267,7 @@ extension IoTClientTypes {
         public static var allCases: [TargetSelection] {
             return [
                 .continuous,
-                .snapshot,
-                .sdkUnknown("")
+                .snapshot
             ]
         }
 
@@ -30500,8 +30435,7 @@ extension IoTClientTypes {
         public static var allCases: [TemplateType] {
             return [
                 .fleetProvisioning,
-                .jitp,
-                .sdkUnknown("")
+                .jitp
             ]
         }
 
@@ -30863,8 +30797,7 @@ extension IoTClientTypes {
         public static var allCases: [ThingConnectivityIndexingMode] {
             return [
                 .off,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -31044,8 +30977,7 @@ extension IoTClientTypes {
         public static var allCases: [ThingGroupIndexingMode] {
             return [
                 .off,
-                .on,
-                .sdkUnknown("")
+                .on
             ]
         }
 
@@ -31245,8 +31177,7 @@ extension IoTClientTypes {
             return [
                 .off,
                 .registry,
-                .registryAndShadow,
-                .sdkUnknown("")
+                .registryAndShadow
             ]
         }
 
@@ -31803,8 +31734,7 @@ extension IoTClientTypes {
                 .disabled,
                 .enabled,
                 .error,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -35107,8 +35037,7 @@ extension IoTClientTypes {
                 .benignPositive,
                 .falsePositive,
                 .truePositive,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -35390,8 +35319,7 @@ extension IoTClientTypes {
             return [
                 .alarmCleared,
                 .alarmInvalidated,
-                .inAlarm,
-                .sdkUnknown("")
+                .inAlarm
             ]
         }
 

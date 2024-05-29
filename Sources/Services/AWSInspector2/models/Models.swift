@@ -164,8 +164,7 @@ extension Inspector2ClientTypes {
             return [
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -236,8 +235,7 @@ extension Inspector2ClientTypes {
             return [
                 .codeVulnerability,
                 .networkReachability,
-                .packageVulnerability,
-                .sdkUnknown("")
+                .packageVulnerability
             ]
         }
 
@@ -332,8 +330,7 @@ extension Inspector2ClientTypes {
             return [
                 .awsEc2Instance,
                 .awsEcrContainerImage,
-                .awsLambdaFunction,
-                .sdkUnknown("")
+                .awsLambdaFunction
             ]
         }
 
@@ -445,8 +442,7 @@ extension Inspector2ClientTypes {
                 .lambdaLayer,
                 .package,
                 .repository,
-                .title,
-                .sdkUnknown("")
+                .title
             ]
         }
 
@@ -564,8 +560,7 @@ extension Inspector2ClientTypes {
                 .affectedInstances,
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -596,8 +591,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [Architecture] {
             return [
                 .arm64,
-                .x8664,
-                .sdkUnknown("")
+                .x8664
             ]
         }
 
@@ -1036,8 +1030,7 @@ extension Inspector2ClientTypes {
             return [
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -1861,8 +1854,7 @@ extension Inspector2ClientTypes {
             return [
                 .failed,
                 .passed,
-                .skipped,
-                .sdkUnknown("")
+                .skipped
             ]
         }
 
@@ -1890,8 +1882,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [CisFindingStatusComparison] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -1979,8 +1970,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [CisReportFormat] {
             return [
                 .csv,
-                .pdf,
-                .sdkUnknown("")
+                .pdf
             ]
         }
 
@@ -2011,8 +2001,7 @@ extension Inspector2ClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2044,8 +2033,7 @@ extension Inspector2ClientTypes {
             return [
                 .failed,
                 .passed,
-                .skipped,
-                .sdkUnknown("")
+                .skipped
             ]
         }
 
@@ -2073,8 +2061,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [CisResultStatusComparison] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -2143,8 +2130,7 @@ extension Inspector2ClientTypes {
                 .notApplicable,
                 .notEvaluated,
                 .passed,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -2308,8 +2294,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [CisScanConfigurationsSortBy] {
             return [
                 .scanConfigurationArn,
-                .scanName,
-                .sdkUnknown("")
+                .scanName
             ]
         }
 
@@ -2464,8 +2449,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [CisScanResultDetailsSortBy] {
             return [
                 .checkId,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -2549,8 +2533,7 @@ extension Inspector2ClientTypes {
                 .failedCounts,
                 .platform,
                 .securityLevel,
-                .title,
-                .sdkUnknown("")
+                .title
             ]
         }
 
@@ -2654,8 +2637,7 @@ extension Inspector2ClientTypes {
                 .platform,
                 .resourceId,
                 .targetStatus,
-                .targetStatusReason,
-                .sdkUnknown("")
+                .targetStatusReason
             ]
         }
 
@@ -2692,8 +2674,7 @@ extension Inspector2ClientTypes {
                 .cancelled,
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -2722,8 +2703,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [CisScanStatusComparison] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -2782,8 +2762,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [CisSecurityLevel] {
             return [
                 .level1,
-                .level2,
-                .sdkUnknown("")
+                .level2
             ]
         }
 
@@ -2810,8 +2789,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [CisSecurityLevelComparison] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -2907,8 +2885,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [CisSortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -2939,8 +2916,7 @@ extension Inspector2ClientTypes {
             return [
                 .equals,
                 .notEquals,
-                .prefix,
-                .sdkUnknown("")
+                .prefix
             ]
         }
 
@@ -3065,8 +3041,7 @@ extension Inspector2ClientTypes {
             return [
                 .cancelled,
                 .completed,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -3094,8 +3069,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [CisTargetStatusComparison] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -3156,8 +3130,7 @@ extension Inspector2ClientTypes {
             return [
                 .scanInProgress,
                 .ssmUnmanaged,
-                .unsupportedOs,
-                .sdkUnknown("")
+                .unsupportedOs
             ]
         }
 
@@ -3406,8 +3379,7 @@ extension Inspector2ClientTypes {
                 .accessDenied,
                 .codeSnippetNotFound,
                 .internalError,
-                .invalidInput,
-                .sdkUnknown("")
+                .invalidInput
             ]
         }
 
@@ -3785,8 +3757,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [CoverageMapComparison] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -3854,8 +3825,7 @@ extension Inspector2ClientTypes {
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsEcrRepository,
-                .awsLambdaFunction,
-                .sdkUnknown("")
+                .awsLambdaFunction
             ]
         }
 
@@ -3886,8 +3856,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [CoverageStringComparison] {
             return [
                 .equals,
-                .notEquals,
-                .sdkUnknown("")
+                .notEquals
             ]
         }
 
@@ -4394,8 +4363,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [Currency] {
             return [
-                .usd,
-                .sdkUnknown("")
+                .usd
             ]
         }
 
@@ -4697,8 +4665,7 @@ extension Inspector2ClientTypes {
                 .sun,
                 .thu,
                 .tue,
-                .wed,
-                .sdkUnknown("")
+                .wed
             ]
         }
 
@@ -4794,8 +4761,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [DelegatedAdminStatus] {
             return [
                 .disableInProgress,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5346,8 +5312,7 @@ extension Inspector2ClientTypes {
                 .activated,
                 .deactivated,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -5488,8 +5453,7 @@ extension Inspector2ClientTypes {
                 .all,
                 .critical,
                 .high,
-                .networkFindings,
-                .sdkUnknown("")
+                .networkFindings
             ]
         }
 
@@ -5560,8 +5524,7 @@ extension Inspector2ClientTypes {
                 .linux,
                 .macos,
                 .unknown,
-                .windows,
-                .sdkUnknown("")
+                .windows
             ]
         }
 
@@ -5592,8 +5555,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [Ec2ScanMode] {
             return [
                 .ec2Hybrid,
-                .ec2SsmAgentBased,
-                .sdkUnknown("")
+                .ec2SsmAgentBased
             ]
         }
 
@@ -5653,8 +5615,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [Ec2ScanModeStatus] {
             return [
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -5776,8 +5737,7 @@ extension Inspector2ClientTypes {
                 .days180,
                 .days30,
                 .days60,
-                .days90,
-                .sdkUnknown("")
+                .days90
             ]
         }
 
@@ -5848,8 +5808,7 @@ extension Inspector2ClientTypes {
                 .days30,
                 .days60,
                 .days90,
-                .lifetime,
-                .sdkUnknown("")
+                .lifetime
             ]
         }
 
@@ -5925,8 +5884,7 @@ extension Inspector2ClientTypes {
             return [
                 .failed,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -5958,8 +5916,7 @@ extension Inspector2ClientTypes {
             return [
                 .continuousScan,
                 .manual,
-                .scanOnPush,
-                .sdkUnknown("")
+                .scanOnPush
             ]
         }
 
@@ -6228,8 +6185,7 @@ extension Inspector2ClientTypes {
                 .resourceScanNotDisabled,
                 .ssmThrottled,
                 .ssmUnavailable,
-                .suspendInProgress,
-                .sdkUnknown("")
+                .suspendInProgress
             ]
         }
 
@@ -6306,8 +6262,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [ExploitAvailable] {
             return [
                 .no,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 
@@ -6397,8 +6352,7 @@ extension Inspector2ClientTypes {
                 .cancelled,
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -6593,8 +6547,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [FilterAction] {
             return [
                 .none,
-                .suppress,
-                .sdkUnknown("")
+                .suppress
             ]
         }
 
@@ -7150,8 +7103,7 @@ extension Inspector2ClientTypes {
                 .accessDenied,
                 .findingDetailsNotFound,
                 .internalError,
-                .invalidInput,
-                .sdkUnknown("")
+                .invalidInput
             ]
         }
 
@@ -7184,8 +7136,7 @@ extension Inspector2ClientTypes {
             return [
                 .active,
                 .closed,
-                .suppressed,
-                .sdkUnknown("")
+                .suppressed
             ]
         }
 
@@ -7217,8 +7168,7 @@ extension Inspector2ClientTypes {
             return [
                 .codeVulnerability,
                 .networkReachability,
-                .packageVulnerability,
-                .sdkUnknown("")
+                .packageVulnerability
             ]
         }
 
@@ -7320,8 +7270,7 @@ extension Inspector2ClientTypes {
             return [
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -7353,8 +7302,7 @@ extension Inspector2ClientTypes {
             return [
                 .no,
                 .partial,
-                .yes,
-                .sdkUnknown("")
+                .yes
             ]
         }
 
@@ -7501,8 +7449,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [FreeTrialInfoErrorCode] {
             return [
                 .accessDenied,
-                .internalError,
-                .sdkUnknown("")
+                .internalError
             ]
         }
 
@@ -7531,8 +7478,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [FreeTrialStatus] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -7565,8 +7511,7 @@ extension Inspector2ClientTypes {
                 .ec2,
                 .ecr,
                 .lambda,
-                .lambdaCode,
-                .sdkUnknown("")
+                .lambdaCode
             ]
         }
 
@@ -8330,8 +8275,7 @@ extension Inspector2ClientTypes {
                 .ecrRepositoryName,
                 .resourceType,
                 .scanStatusCode,
-                .scanStatusReason,
-                .sdkUnknown("")
+                .scanStatusReason
             ]
         }
 
@@ -8459,8 +8403,7 @@ extension Inspector2ClientTypes {
             return [
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -8713,8 +8656,7 @@ extension Inspector2ClientTypes {
             return [
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -8840,8 +8782,7 @@ extension Inspector2ClientTypes {
             return [
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -9316,8 +9257,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [ListCisScansDetailLevel] {
             return [
                 .member,
-                .organization,
-                .sdkUnknown("")
+                .organization
             ]
         }
 
@@ -9517,8 +9457,7 @@ extension Inspector2ClientTypes {
                 .failedChecks,
                 .scanStartDate,
                 .scheduledBy,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -10300,8 +10239,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [MapComparison] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -10548,8 +10486,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [NetworkProtocol] {
             return [
                 .tcp,
-                .udp,
-                .sdkUnknown("")
+                .udp
             ]
         }
 
@@ -10680,8 +10617,7 @@ extension Inspector2ClientTypes {
                 .disableRepository,
                 .disableScanning,
                 .enableRepository,
-                .enableScanning,
-                .sdkUnknown("")
+                .enableScanning
             ]
         }
 
@@ -10880,8 +10816,7 @@ extension Inspector2ClientTypes {
                 .poetry,
                 .pom,
                 .pythonpkg,
-                .yarn,
-                .sdkUnknown("")
+                .yarn
             ]
         }
 
@@ -10927,8 +10862,7 @@ extension Inspector2ClientTypes {
             return [
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -10958,8 +10892,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [PackageType] {
             return [
                 .image,
-                .zip,
-                .sdkUnknown("")
+                .zip
             ]
         }
 
@@ -11215,8 +11148,7 @@ extension Inspector2ClientTypes {
                 .invited,
                 .regionDisabled,
                 .removed,
-                .resigned,
-                .sdkUnknown("")
+                .resigned
             ]
         }
 
@@ -11281,8 +11213,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [ReportFormat] {
             return [
                 .csv,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -11319,8 +11250,7 @@ extension Inspector2ClientTypes {
                 .internalError,
                 .invalidPermissions,
                 .malformedKmsKey,
-                .noFindingsFound,
-                .sdkUnknown("")
+                .noFindingsFound
             ]
         }
 
@@ -11433,8 +11363,7 @@ extension Inspector2ClientTypes {
                 .affectedImages,
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -11689,8 +11618,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [ResourceMapComparison] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -11846,8 +11774,7 @@ extension Inspector2ClientTypes {
                 .ec2,
                 .ecr,
                 .lambda,
-                .lambdaCode,
-                .sdkUnknown("")
+                .lambdaCode
             ]
         }
 
@@ -11964,8 +11891,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [ResourceStringComparison] {
             return [
                 .equals,
-                .notEquals,
-                .sdkUnknown("")
+                .notEquals
             ]
         }
 
@@ -12037,8 +11963,7 @@ extension Inspector2ClientTypes {
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsEcrRepository,
-                .awsLambdaFunction,
-                .sdkUnknown("")
+                .awsLambdaFunction
             ]
         }
 
@@ -12095,8 +12020,7 @@ extension Inspector2ClientTypes {
                 .python37,
                 .python38,
                 .python39,
-                .unsupported,
-                .sdkUnknown("")
+                .unsupported
             ]
         }
 
@@ -12138,8 +12062,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [SbomReportFormat] {
             return [
                 .cyclonedx14,
-                .spdx23,
-                .sdkUnknown("")
+                .spdx23
             ]
         }
 
@@ -12168,8 +12091,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [ScanMode] {
             return [
                 .ec2Agentless,
-                .ec2SsmAgentBased,
-                .sdkUnknown("")
+                .ec2SsmAgentBased
             ]
         }
 
@@ -12231,8 +12153,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [ScanStatusCode] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -12305,8 +12226,7 @@ extension Inspector2ClientTypes {
                 .unsupportedConfigFile,
                 .unsupportedMediaType,
                 .unsupportedOs,
-                .unsupportedRuntime,
-                .sdkUnknown("")
+                .unsupportedRuntime
             ]
         }
 
@@ -12359,8 +12279,7 @@ extension Inspector2ClientTypes {
             return [
                 .code,
                 .network,
-                .package,
-                .sdkUnknown("")
+                .package
             ]
         }
 
@@ -12683,8 +12602,7 @@ extension Inspector2ClientTypes {
             return [
                 .ec2,
                 .ecr,
-                .lambda,
-                .sdkUnknown("")
+                .lambda
             ]
         }
 
@@ -12766,8 +12684,7 @@ extension Inspector2ClientTypes {
                 .informational,
                 .low,
                 .medium,
-                .untriaged,
-                .sdkUnknown("")
+                .untriaged
             ]
         }
 
@@ -12902,8 +12819,7 @@ extension Inspector2ClientTypes {
                 .severity,
                 .vendorSeverity,
                 .vulnerabilityId,
-                .vulnerabilitySource,
-                .sdkUnknown("")
+                .vulnerabilitySource
             ]
         }
 
@@ -12947,8 +12863,7 @@ extension Inspector2ClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -13113,8 +13028,7 @@ extension Inspector2ClientTypes {
                 .enabled,
                 .enabling,
                 .suspended,
-                .suspending,
-                .sdkUnknown("")
+                .suspending
             ]
         }
 
@@ -13400,8 +13314,7 @@ extension Inspector2ClientTypes {
                 .failed,
                 .interrupted,
                 .success,
-                .unsupportedOs,
-                .sdkUnknown("")
+                .unsupportedOs
             ]
         }
 
@@ -13434,8 +13347,7 @@ extension Inspector2ClientTypes {
             return [
                 .equals,
                 .notEquals,
-                .prefix,
-                .sdkUnknown("")
+                .prefix
             ]
         }
 
@@ -13533,8 +13445,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [TagComparison] {
             return [
-                .equals,
-                .sdkUnknown("")
+                .equals
             ]
         }
 
@@ -13843,8 +13754,7 @@ extension Inspector2ClientTypes {
             return [
                 .all,
                 .critical,
-                .high,
-                .sdkUnknown("")
+                .high
             ]
         }
 
@@ -14587,8 +14497,7 @@ extension Inspector2ClientTypes {
                 .ecrInitialScan,
                 .ecrRescan,
                 .lambdaFunctionCodeHours,
-                .lambdaFunctionHours,
-                .sdkUnknown("")
+                .lambdaFunctionHours
             ]
         }
 
@@ -14704,8 +14613,7 @@ extension Inspector2ClientTypes {
             return [
                 .cannotParse,
                 .fieldValidationFailed,
-                .other,
-                .sdkUnknown("")
+                .other
             ]
         }
 
@@ -14840,8 +14748,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [VulnerabilitySource] {
             return [
-                .nvd,
-                .sdkUnknown("")
+                .nvd
             ]
         }
 

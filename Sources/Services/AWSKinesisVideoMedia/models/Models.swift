@@ -438,8 +438,7 @@ extension KinesisVideoMediaClientTypes {
                 .fragmentNumber,
                 .now,
                 .producerTimestamp,
-                .serverTimestamp,
-                .sdkUnknown("")
+                .serverTimestamp
             ]
         }
 

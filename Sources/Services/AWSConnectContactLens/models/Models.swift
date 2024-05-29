@@ -451,8 +451,7 @@ extension ConnectContactLensClientTypes {
             return [
                 .negative,
                 .neutral,
-                .positive,
-                .sdkUnknown("")
+                .positive
             ]
         }
 

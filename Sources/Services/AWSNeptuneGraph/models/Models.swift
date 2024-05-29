@@ -259,8 +259,7 @@ extension NeptuneGraphClientTypes {
 
         public static var allCases: [ConflictExceptionReason] {
             return [
-                .concurrentModification,
-                .sdkUnknown("")
+                .concurrentModification
             ]
         }
 
@@ -1354,8 +1353,7 @@ extension NeptuneGraphClientTypes {
         public static var allCases: [ExplainMode] {
             return [
                 .details,
-                .static,
-                .sdkUnknown("")
+                .static
             ]
         }
 
@@ -1384,8 +1382,7 @@ extension NeptuneGraphClientTypes {
         public static var allCases: [Format] {
             return [
                 .csv,
-                .openCypher,
-                .sdkUnknown("")
+                .openCypher
             ]
         }
 
@@ -2233,8 +2230,7 @@ extension NeptuneGraphClientTypes {
                 .importing,
                 .resetting,
                 .snapshotting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2343,8 +2339,7 @@ extension NeptuneGraphClientTypes {
         public static var allCases: [GraphSummaryMode] {
             return [
                 .basic,
-                .detailed,
-                .sdkUnknown("")
+                .detailed
             ]
         }
 
@@ -2491,8 +2486,7 @@ extension NeptuneGraphClientTypes {
                 .initializing,
                 .reprovisioning,
                 .rollingBack,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3237,8 +3231,7 @@ extension NeptuneGraphClientTypes {
             return [
                 .auto,
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -3272,8 +3265,7 @@ extension NeptuneGraphClientTypes {
                 .available,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -3346,8 +3338,7 @@ extension NeptuneGraphClientTypes {
 
         public static var allCases: [QueryLanguage] {
             return [
-                .openCypher,
-                .sdkUnknown("")
+                .openCypher
             ]
         }
 
@@ -3377,8 +3368,7 @@ extension NeptuneGraphClientTypes {
             return [
                 .cancelling,
                 .running,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -3412,8 +3402,7 @@ extension NeptuneGraphClientTypes {
                 .all,
                 .cancelling,
                 .running,
-                .waiting,
-                .sdkUnknown("")
+                .waiting
             ]
         }
 
@@ -3919,8 +3908,7 @@ extension NeptuneGraphClientTypes {
                 .available,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -4238,8 +4226,7 @@ extension NeptuneGraphClientTypes {
                 .memoryLimitExceeded,
                 .partitionFull,
                 .queryTimeout,
-                .storageLimitExceeded,
-                .sdkUnknown("")
+                .storageLimitExceeded
             ]
         }
 
@@ -4558,8 +4545,7 @@ extension NeptuneGraphClientTypes {
                 .malformedQuery,
                 .queryCancelled,
                 .queryTooLarge,
-                .unsupportedOperation,
-                .sdkUnknown("")
+                .unsupportedOperation
             ]
         }
 

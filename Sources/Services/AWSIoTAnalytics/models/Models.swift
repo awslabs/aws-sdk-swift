@@ -406,8 +406,7 @@ extension IoTAnalyticsClientTypes {
             return [
                 .active,
                 .creating,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -595,8 +594,7 @@ extension IoTAnalyticsClientTypes {
         public static var allCases: [ComputeType] {
             return [
                 .acu1,
-                .acu2,
-                .sdkUnknown("")
+                .acu2
             ]
         }
 
@@ -1472,8 +1470,7 @@ extension IoTAnalyticsClientTypes {
         public static var allCases: [DatasetActionType] {
             return [
                 .container,
-                .query,
-                .sdkUnknown("")
+                .query
             ]
         }
 
@@ -1579,8 +1576,7 @@ extension IoTAnalyticsClientTypes {
             return [
                 .creating,
                 .failed,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1752,8 +1748,7 @@ extension IoTAnalyticsClientTypes {
             return [
                 .active,
                 .creating,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -2135,8 +2130,7 @@ extension IoTAnalyticsClientTypes {
             return [
                 .active,
                 .creating,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -3203,8 +3197,7 @@ extension IoTAnalyticsClientTypes {
         public static var allCases: [FileFormatType] {
             return [
                 .json,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -4297,8 +4290,7 @@ extension IoTAnalyticsClientTypes {
 
         public static var allCases: [LoggingLevel] {
             return [
-                .error,
-                .sdkUnknown("")
+                .error
             ]
         }
 
@@ -4864,8 +4856,7 @@ extension IoTAnalyticsClientTypes {
                 .cancelled,
                 .failed,
                 .running,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 

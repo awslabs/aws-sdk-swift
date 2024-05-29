@@ -311,8 +311,7 @@ extension WorkDocsClientTypes {
                 .folderShareableLinkRemoved,
                 .folderShared,
                 .folderSharePermissionChanged,
-                .folderUnshared,
-                .sdkUnknown("")
+                .folderUnshared
             ]
         }
 
@@ -473,8 +472,7 @@ extension WorkDocsClientTypes {
 
         public static var allCases: [AdditionalResponseFieldType] {
             return [
-                .weburl,
-                .sdkUnknown("")
+                .weburl
             ]
         }
 
@@ -502,8 +500,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [BooleanEnumType] {
             return [
                 .false,
-                .true,
-                .sdkUnknown("")
+                .true
             ]
         }
 
@@ -657,8 +654,7 @@ extension WorkDocsClientTypes {
             return [
                 .deleted,
                 .draft,
-                .published,
-                .sdkUnknown("")
+                .published
             ]
         }
 
@@ -688,8 +684,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [CommentVisibilityType] {
             return [
                 .private,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -806,8 +801,7 @@ extension WorkDocsClientTypes {
                 .presentation,
                 .sourceCode,
                 .spreadsheet,
-                .video,
-                .sdkUnknown("")
+                .video
             ]
         }
 
@@ -3715,8 +3709,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [DocumentSourceType] {
             return [
                 .original,
-                .withComments,
-                .sdkUnknown("")
+                .withComments
             ]
         }
 
@@ -3745,8 +3738,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [DocumentStatusType] {
             return [
                 .active,
-                .initialized,
-                .sdkUnknown("")
+                .initialized
             ]
         }
 
@@ -3777,8 +3769,7 @@ extension WorkDocsClientTypes {
             return [
                 .large,
                 .small,
-                .smallHq,
-                .sdkUnknown("")
+                .smallHq
             ]
         }
 
@@ -3897,8 +3888,7 @@ extension WorkDocsClientTypes {
 
         public static var allCases: [DocumentVersionStatus] {
             return [
-                .active,
-                .sdkUnknown("")
+                .active
             ]
         }
 
@@ -4150,8 +4140,7 @@ extension WorkDocsClientTypes {
             return [
                 .all,
                 .document,
-                .folder,
-                .sdkUnknown("")
+                .folder
             ]
         }
 
@@ -5448,8 +5437,7 @@ extension WorkDocsClientTypes {
                 .sw,
                 .th,
                 .tr,
-                .zh,
-                .sdkUnknown("")
+                .zh
             ]
         }
 
@@ -5562,8 +5550,7 @@ extension WorkDocsClientTypes {
                 .ptBr,
                 .ru,
                 .zhCn,
-                .zhTw,
-                .sdkUnknown("")
+                .zhTw
             ]
         }
 
@@ -5670,8 +5657,7 @@ extension WorkDocsClientTypes {
                 .modifiedTimestamp,
                 .name,
                 .relevance,
-                .size,
-                .sdkUnknown("")
+                .size
             ]
         }
 
@@ -5703,8 +5689,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [OrderType] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -5835,8 +5820,7 @@ extension WorkDocsClientTypes {
                 .contributor,
                 .coowner,
                 .owner,
-                .viewer,
-                .sdkUnknown("")
+                .viewer
             ]
         }
 
@@ -5873,8 +5857,7 @@ extension WorkDocsClientTypes {
                 .group,
                 .invite,
                 .organization,
-                .user,
-                .sdkUnknown("")
+                .user
             ]
         }
 
@@ -6183,8 +6166,7 @@ extension WorkDocsClientTypes {
 
         public static var allCases: [ResourceCollectionType] {
             return [
-                .sharedWithMe,
-                .sdkUnknown("")
+                .sharedWithMe
             ]
         }
 
@@ -6335,8 +6317,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [ResourceSortType] {
             return [
                 .date,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -6369,8 +6350,7 @@ extension WorkDocsClientTypes {
                 .active,
                 .recycled,
                 .recycling,
-                .restoring,
-                .sdkUnknown("")
+                .restoring
             ]
         }
 
@@ -6401,8 +6381,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .document,
-                .folder,
-                .sdkUnknown("")
+                .folder
             ]
         }
 
@@ -6491,8 +6470,7 @@ extension WorkDocsClientTypes {
                 .comment,
                 .document,
                 .documentVersion,
-                .folder,
-                .sdkUnknown("")
+                .folder
             ]
         }
 
@@ -6599,8 +6577,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [RolePermissionType] {
             return [
                 .direct,
-                .inherited,
-                .sdkUnknown("")
+                .inherited
             ]
         }
 
@@ -6633,8 +6610,7 @@ extension WorkDocsClientTypes {
                 .contributor,
                 .coowner,
                 .owner,
-                .viewer,
-                .sdkUnknown("")
+                .viewer
             ]
         }
 
@@ -6665,8 +6641,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [SearchCollectionType] {
             return [
                 .owned,
-                .sharedWithMe,
-                .sdkUnknown("")
+                .sharedWithMe
             ]
         }
 
@@ -6725,8 +6700,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [SearchQueryScopeType] {
             return [
                 .content,
-                .name,
-                .sdkUnknown("")
+                .name
             ]
         }
 
@@ -6759,8 +6733,7 @@ extension WorkDocsClientTypes {
                 .comment,
                 .document,
                 .documentVersion,
-                .folder,
-                .sdkUnknown("")
+                .folder
             ]
         }
 
@@ -7078,8 +7051,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [ShareStatusType] {
             return [
                 .failure,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -7108,8 +7080,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .asc,
-                .desc,
-                .sdkUnknown("")
+                .desc
             ]
         }
 
@@ -7249,8 +7220,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [StorageType] {
             return [
                 .quota,
-                .unlimited,
-                .sdkUnknown("")
+                .unlimited
             ]
         }
 
@@ -7315,8 +7285,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [SubscriptionProtocolType] {
             return [
                 .https,
-                .sqs,
-                .sdkUnknown("")
+                .sqs
             ]
         }
 
@@ -7343,8 +7312,7 @@ extension WorkDocsClientTypes {
 
         public static var allCases: [SubscriptionType] {
             return [
-                .all,
-                .sdkUnknown("")
+                .all
             ]
         }
 
@@ -8088,8 +8056,7 @@ extension WorkDocsClientTypes {
         public static var allCases: [UserFilterType] {
             return [
                 .activePending,
-                .all,
-                .sdkUnknown("")
+                .all
             ]
         }
 
@@ -8175,8 +8142,7 @@ extension WorkDocsClientTypes {
                 .storageLimit,
                 .storageUsed,
                 .userName,
-                .userStatus,
-                .sdkUnknown("")
+                .userStatus
             ]
         }
 
@@ -8210,8 +8176,7 @@ extension WorkDocsClientTypes {
             return [
                 .active,
                 .inactive,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -8278,8 +8243,7 @@ extension WorkDocsClientTypes {
                 .minimaluser,
                 .poweruser,
                 .user,
-                .workspacesuser,
-                .sdkUnknown("")
+                .workspacesuser
             ]
         }
 

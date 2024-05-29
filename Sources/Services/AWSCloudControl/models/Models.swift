@@ -686,8 +686,7 @@ extension CloudControlClientTypes {
                 .serviceInternalError,
                 .serviceLimitExceeded,
                 .serviceTimeout,
-                .throttling,
-                .sdkUnknown("")
+                .throttling
             ]
         }
 
@@ -1191,8 +1190,7 @@ extension CloudControlClientTypes {
             return [
                 .create,
                 .delete,
-                .update,
-                .sdkUnknown("")
+                .update
             ]
         }
 
@@ -1230,8 +1228,7 @@ extension CloudControlClientTypes {
                 .failed,
                 .inProgress,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 

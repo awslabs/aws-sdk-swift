@@ -130,8 +130,7 @@ extension BedrockAgentClientTypes {
 
         public static var allCases: [ActionGroupSignature] {
             return [
-                .amazonUserinput,
-                .sdkUnknown("")
+                .amazonUserinput
             ]
         }
 
@@ -159,8 +158,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [ActionGroupState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -654,8 +652,7 @@ extension BedrockAgentClientTypes {
                 .deleting,
                 .failed,
                 .prepared,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -867,8 +864,7 @@ extension BedrockAgentClientTypes {
                 .prepared,
                 .preparing,
                 .updating,
-                .versioning,
-                .sdkUnknown("")
+                .versioning
             ]
         }
 
@@ -1288,8 +1284,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [ChunkingStrategy] {
             return [
                 .fixedSize,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1924,8 +1919,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [CreationMode] {
             return [
                 .default,
-                .overridden,
-                .sdkUnknown("")
+                .overridden
             ]
         }
 
@@ -1952,8 +1946,7 @@ extension BedrockAgentClientTypes {
 
         public static var allCases: [CustomControlMethod] {
             return [
-                .returnControl,
-                .sdkUnknown("")
+                .returnControl
             ]
         }
 
@@ -1981,8 +1974,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [DataDeletionPolicy] {
             return [
                 .delete,
-                .retain,
-                .sdkUnknown("")
+                .retain
             ]
         }
 
@@ -2143,8 +2135,7 @@ extension BedrockAgentClientTypes {
             return [
                 .available,
                 .deleteUnsuccessful,
-                .deleting,
-                .sdkUnknown("")
+                .deleting
             ]
         }
 
@@ -2228,8 +2219,7 @@ extension BedrockAgentClientTypes {
 
         public static var allCases: [DataSourceType] {
             return [
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -3793,8 +3783,7 @@ extension BedrockAgentClientTypes {
 
         public static var allCases: [IngestionJobFilterAttribute] {
             return [
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -3820,8 +3809,7 @@ extension BedrockAgentClientTypes {
 
         public static var allCases: [IngestionJobFilterOperator] {
             return [
-                .eq,
-                .sdkUnknown("")
+                .eq
             ]
         }
 
@@ -3880,8 +3868,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [IngestionJobSortByAttribute] {
             return [
                 .startedAt,
-                .status,
-                .sdkUnknown("")
+                .status
             ]
         }
 
@@ -3970,8 +3957,7 @@ extension BedrockAgentClientTypes {
                 .complete,
                 .failed,
                 .inProgress,
-                .starting,
-                .sdkUnknown("")
+                .starting
             ]
         }
 
@@ -4239,8 +4225,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [KnowledgeBaseState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4277,8 +4262,7 @@ extension BedrockAgentClientTypes {
                 .deleteUnsuccessful,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4317,8 +4301,7 @@ extension BedrockAgentClientTypes {
                 .opensearchServerless,
                 .pinecone,
                 .rds,
-                .redisEnterpriseCloud,
-                .sdkUnknown("")
+                .redisEnterpriseCloud
             ]
         }
 
@@ -4398,8 +4381,7 @@ extension BedrockAgentClientTypes {
 
         public static var allCases: [KnowledgeBaseType] {
             return [
-                .vector,
-                .sdkUnknown("")
+                .vector
             ]
         }
 
@@ -5767,8 +5749,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [PromptState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5801,8 +5782,7 @@ extension BedrockAgentClientTypes {
                 .knowledgeBaseResponseGeneration,
                 .orchestration,
                 .postProcessing,
-                .preProcessing,
-                .sdkUnknown("")
+                .preProcessing
             ]
         }
 
@@ -6231,8 +6211,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -6526,8 +6505,7 @@ extension BedrockAgentClientTypes {
                 .boolean,
                 .integer,
                 .number,
-                .string,
-                .sdkUnknown("")
+                .string
             ]
         }
 

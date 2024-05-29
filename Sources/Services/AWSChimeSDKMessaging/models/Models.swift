@@ -17,8 +17,7 @@ extension ChimeSDKMessagingClientTypes {
             return [
                 .all,
                 .filtered,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -958,8 +957,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [ChannelMembershipType] {
             return [
                 .default,
-                .hidden,
-                .sdkUnknown("")
+                .hidden
             ]
         }
 
@@ -1154,8 +1152,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [ChannelMessagePersistenceType] {
             return [
                 .nonPersistent,
-                .persistent,
-                .sdkUnknown("")
+                .persistent
             ]
         }
 
@@ -1188,8 +1185,7 @@ extension ChimeSDKMessagingClientTypes {
                 .denied,
                 .failed,
                 .pending,
-                .sent,
-                .sdkUnknown("")
+                .sent
             ]
         }
 
@@ -1342,8 +1338,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [ChannelMessageType] {
             return [
                 .control,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -1372,8 +1367,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [ChannelMode] {
             return [
                 .restricted,
-                .unrestricted,
-                .sdkUnknown("")
+                .unrestricted
             ]
         }
 
@@ -1495,8 +1489,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [ChannelPrivacy] {
             return [
                 .private,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -3517,8 +3510,7 @@ extension ChimeSDKMessagingClientTypes {
                 .throttling,
                 .unauthorized,
                 .unprocessable,
-                .voiceconnectorgroupassociationsexist,
-                .sdkUnknown("")
+                .voiceconnectorgroupassociationsexist
             ]
         }
 
@@ -3560,8 +3552,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [ExpirationCriterion] {
             return [
                 .createdTimestamp,
-                .lastMessageTimestamp,
-                .sdkUnknown("")
+                .lastMessageTimestamp
             ]
         }
 
@@ -3629,8 +3620,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [FallbackAction] {
             return [
                 .abort,
-                .continue,
-                .sdkUnknown("")
+                .continue
             ]
         }
 
@@ -4169,8 +4159,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public static var allCases: [InvocationType] {
             return [
-                .async,
-                .sdkUnknown("")
+                .async
             ]
         }
 
@@ -5621,8 +5610,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [MessagingDataType] {
             return [
                 .channel,
-                .channelmessage,
-                .sdkUnknown("")
+                .channelmessage
             ]
         }
 
@@ -5890,8 +5878,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [PushNotificationType] {
             return [
                 .default,
-                .voip,
-                .sdkUnknown("")
+                .voip
             ]
         }
 
@@ -6538,8 +6525,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public static var allCases: [SearchFieldKey] {
             return [
-                .members,
-                .sdkUnknown("")
+                .members
             ]
         }
 
@@ -6567,8 +6553,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [SearchFieldOperator] {
             return [
                 .equals,
-                .includes,
-                .sdkUnknown("")
+                .includes
             ]
         }
 
@@ -6843,8 +6828,7 @@ extension ChimeSDKMessagingClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 

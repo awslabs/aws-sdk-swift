@@ -999,8 +999,7 @@ extension PinpointClientTypes {
             return [
                 .deepLink,
                 .openApp,
-                .url,
-                .sdkUnknown("")
+                .url
             ]
         }
 
@@ -1298,8 +1297,7 @@ extension PinpointClientTypes {
             return [
                 .center,
                 .left,
-                .right,
-                .sdkUnknown("")
+                .right
             ]
         }
 
@@ -1716,8 +1714,7 @@ extension PinpointClientTypes {
                 .contains,
                 .exclusive,
                 .inclusive,
-                .on,
-                .sdkUnknown("")
+                .on
             ]
         }
 
@@ -2076,8 +2073,7 @@ extension PinpointClientTypes {
             return [
                 .close,
                 .deepLink,
-                .link,
-                .sdkUnknown("")
+                .link
             ]
         }
 
@@ -2695,8 +2691,7 @@ extension PinpointClientTypes {
                 .invalid,
                 .paused,
                 .pendingNextRun,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -2850,8 +2845,7 @@ extension PinpointClientTypes {
                 .inApp,
                 .push,
                 .sms,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -4381,8 +4375,7 @@ extension PinpointClientTypes {
                 .sunday,
                 .thursday,
                 .tuesday,
-                .wednesday,
-                .sdkUnknown("")
+                .wednesday
             ]
         }
 
@@ -6353,8 +6346,7 @@ extension PinpointClientTypes {
                 .successful,
                 .temporaryFailure,
                 .throttled,
-                .unknownFailure,
-                .sdkUnknown("")
+                .unknownFailure
             ]
         }
 
@@ -6388,8 +6380,7 @@ extension PinpointClientTypes {
         public static var allCases: [DimensionType] {
             return [
                 .exclusive,
-                .inclusive,
-                .sdkUnknown("")
+                .inclusive
             ]
         }
 
@@ -6486,8 +6477,7 @@ extension PinpointClientTypes {
                 .day14,
                 .day30,
                 .day7,
-                .hr24,
-                .sdkUnknown("")
+                .hr24
             ]
         }
 
@@ -8143,8 +8133,7 @@ extension PinpointClientTypes {
         public static var allCases: [FilterType] {
             return [
                 .endpoint,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -8216,8 +8205,7 @@ extension PinpointClientTypes {
         public static var allCases: [Format] {
             return [
                 .csv,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -8256,8 +8244,7 @@ extension PinpointClientTypes {
                 .inAppEvent,
                 .monthly,
                 .once,
-                .weekly,
-                .sdkUnknown("")
+                .weekly
             ]
         }
 
@@ -13564,8 +13551,7 @@ extension PinpointClientTypes {
             return [
                 .all,
                 .any,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -13683,8 +13669,7 @@ extension PinpointClientTypes {
                 .initializing,
                 .pendingJob,
                 .preparingForInitialization,
-                .processing,
-                .sdkUnknown("")
+                .processing
             ]
         }
 
@@ -14419,8 +14404,7 @@ extension PinpointClientTypes {
                 .cancelled,
                 .completed,
                 .running,
-                .scheduled,
-                .sdkUnknown("")
+                .scheduled
             ]
         }
 
@@ -14682,8 +14666,7 @@ extension PinpointClientTypes {
                 .middleBanner,
                 .mobileFeed,
                 .overlays,
-                .topBanner,
-                .sdkUnknown("")
+                .topBanner
             ]
         }
 
@@ -15503,8 +15486,7 @@ extension PinpointClientTypes {
         public static var allCases: [MessageType] {
             return [
                 .promotional,
-                .transactional,
-                .sdkUnknown("")
+                .transactional
             ]
         }
 
@@ -15615,8 +15597,7 @@ extension PinpointClientTypes {
         public static var allCases: [Mode] {
             return [
                 .delivery,
-                .filter,
-                .sdkUnknown("")
+                .filter
             ]
         }
 
@@ -15980,8 +15961,7 @@ extension PinpointClientTypes {
         public static var allCases: [Operator] {
             return [
                 .all,
-                .any,
-                .sdkUnknown("")
+                .any
             ]
         }
 
@@ -16783,8 +16763,7 @@ extension PinpointClientTypes {
         public static var allCases: [RecencyType] {
             return [
                 .active,
-                .inactive,
-                .sdkUnknown("")
+                .inactive
             ]
         }
 
@@ -18002,8 +17981,7 @@ extension PinpointClientTypes {
         public static var allCases: [SegmentType] {
             return [
                 .dimensional,
-                .import,
-                .sdkUnknown("")
+                .import
             ]
         }
 
@@ -18661,8 +18639,7 @@ extension PinpointClientTypes {
             return [
                 .all,
                 .any,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -18743,8 +18720,7 @@ extension PinpointClientTypes {
                 .closed,
                 .completed,
                 .draft,
-                .paused,
-                .sdkUnknown("")
+                .paused
             ]
         }
 
@@ -19098,8 +19074,7 @@ extension PinpointClientTypes {
                 .inapp,
                 .push,
                 .sms,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -19378,8 +19353,7 @@ extension PinpointClientTypes {
             return [
                 .all,
                 .any,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -22657,8 +22631,7 @@ extension PinpointClientTypes {
                 .inApp,
                 .push,
                 .sms,
-                .voice,
-                .sdkUnknown("")
+                .voice
             ]
         }
 
@@ -22698,8 +22671,7 @@ extension PinpointClientTypes {
         public static var allCases: [__TimezoneEstimationMethodsElement] {
             return [
                 .phoneNumber,
-                .postalCode,
-                .sdkUnknown("")
+                .postalCode
             ]
         }
 

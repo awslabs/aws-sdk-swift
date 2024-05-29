@@ -228,8 +228,7 @@ extension ConnectCampaignsClientTypes {
                 .initialized,
                 .paused,
                 .running,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -826,8 +825,7 @@ extension ConnectCampaignsClientTypes {
 
         public static var allCases: [EncryptionType] {
             return [
-                .kms,
-                .sdkUnknown("")
+                .kms
             ]
         }
 
@@ -928,8 +926,7 @@ extension ConnectCampaignsClientTypes {
             return [
                 .invalidInput,
                 .requestThrottled,
-                .unknownError,
-                .sdkUnknown("")
+                .unknownError
             ]
         }
 
@@ -962,8 +959,7 @@ extension ConnectCampaignsClientTypes {
         public static var allCases: [GetCampaignStateBatchFailureCode] {
             return [
                 .resourceNotFound,
-                .unknownError,
-                .sdkUnknown("")
+                .unknownError
             ]
         }
 
@@ -1337,8 +1333,7 @@ extension ConnectCampaignsClientTypes {
 
         public static var allCases: [InstanceIdFilterOperator] {
             return [
-                .eq,
-                .sdkUnknown("")
+                .eq
             ]
         }
 
@@ -1375,8 +1370,7 @@ extension ConnectCampaignsClientTypes {
                 .iamAccessDenied,
                 .internalFailure,
                 .kmsAccessDenied,
-                .kmsKeyNotFound,
-                .sdkUnknown("")
+                .kmsKeyNotFound
             ]
         }
 
@@ -1450,8 +1444,7 @@ extension ConnectCampaignsClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 

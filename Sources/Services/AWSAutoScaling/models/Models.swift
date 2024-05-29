@@ -57,8 +57,7 @@ extension AutoScalingClientTypes {
                 .amazonWebServices,
                 .amd,
                 .nvidia,
-                .xilinx,
-                .sdkUnknown("")
+                .xilinx
             ]
         }
 
@@ -99,8 +98,7 @@ extension AutoScalingClientTypes {
                 .radeonProV520,
                 .t4,
                 .v100,
-                .vu9p,
-                .sdkUnknown("")
+                .vu9p
             ]
         }
 
@@ -173,8 +171,7 @@ extension AutoScalingClientTypes {
             return [
                 .fpga,
                 .gpu,
-                .inference,
-                .sdkUnknown("")
+                .inference
             ]
         }
 
@@ -989,8 +986,7 @@ extension AutoScalingClientTypes {
             return [
                 .excluded,
                 .included,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -1259,8 +1255,7 @@ extension AutoScalingClientTypes {
             return [
                 .excluded,
                 .included,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -1473,8 +1468,7 @@ extension AutoScalingClientTypes {
             return [
                 .amazonWebServices,
                 .amd,
-                .intel,
-                .sdkUnknown("")
+                .intel
             ]
         }
 
@@ -5285,8 +5279,7 @@ extension AutoScalingClientTypes {
         public static var allCases: [InstanceGeneration] {
             return [
                 .current,
-                .previous,
-                .sdkUnknown("")
+                .previous
             ]
         }
 
@@ -5352,8 +5345,7 @@ extension AutoScalingClientTypes {
         public static var allCases: [InstanceMetadataEndpointState] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5382,8 +5374,7 @@ extension AutoScalingClientTypes {
         public static var allCases: [InstanceMetadataHttpTokensState] {
             return [
                 .optional,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -5698,8 +5689,7 @@ extension AutoScalingClientTypes {
                 .rollbackfailed,
                 .rollbackinprogress,
                 .rollbacksuccessful,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 
@@ -6600,8 +6590,7 @@ extension AutoScalingClientTypes {
                 .warmedTerminated,
                 .warmedTerminating,
                 .warmedTerminatingProceed,
-                .warmedTerminatingWait,
-                .sdkUnknown("")
+                .warmedTerminatingWait
             ]
         }
 
@@ -6812,8 +6801,7 @@ extension AutoScalingClientTypes {
             return [
                 .excluded,
                 .included,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -6843,8 +6831,7 @@ extension AutoScalingClientTypes {
         public static var allCases: [LocalStorageType] {
             return [
                 .hdd,
-                .ssd,
-                .sdkUnknown("")
+                .ssd
             ]
         }
 
@@ -7231,8 +7218,7 @@ extension AutoScalingClientTypes {
                 .maximum,
                 .minimum,
                 .samplecount,
-                .sum,
-                .sdkUnknown("")
+                .sum
             ]
         }
 
@@ -7268,8 +7254,7 @@ extension AutoScalingClientTypes {
                 .albrequestcountpertarget,
                 .asgaveragecpuutilization,
                 .asgaveragenetworkin,
-                .asgaveragenetworkout,
-                .sdkUnknown("")
+                .asgaveragenetworkout
             ]
         }
 
@@ -7461,8 +7446,7 @@ extension AutoScalingClientTypes {
                 .albtargetgrouprequestcount,
                 .asgtotalcpuutilization,
                 .asgtotalnetworkin,
-                .asgtotalnetworkout,
-                .sdkUnknown("")
+                .asgtotalnetworkout
             ]
         }
 
@@ -7497,8 +7481,7 @@ extension AutoScalingClientTypes {
                 .albrequestcount,
                 .asgcpuutilization,
                 .asgnetworkin,
-                .asgnetworkout,
-                .sdkUnknown("")
+                .asgnetworkout
             ]
         }
 
@@ -7586,8 +7569,7 @@ extension AutoScalingClientTypes {
                 .albrequestcountpertarget,
                 .asgaveragecpuutilization,
                 .asgaveragenetworkin,
-                .asgaveragenetworkout,
-                .sdkUnknown("")
+                .asgaveragenetworkout
             ]
         }
 
@@ -7774,8 +7756,7 @@ extension AutoScalingClientTypes {
         public static var allCases: [PredictiveScalingMaxCapacityBreachBehavior] {
             return [
                 .honormaxcapacity,
-                .increasemaxcapacity,
-                .sdkUnknown("")
+                .increasemaxcapacity
             ]
         }
 
@@ -7885,8 +7866,7 @@ extension AutoScalingClientTypes {
         public static var allCases: [PredictiveScalingMode] {
             return [
                 .forecastandscale,
-                .forecastonly,
-                .sdkUnknown("")
+                .forecastonly
             ]
         }
 
@@ -8772,8 +8752,7 @@ extension AutoScalingClientTypes {
 
         public static var allCases: [RefreshStrategy] {
             return [
-                .rolling,
-                .sdkUnknown("")
+                .rolling
             ]
         }
 
@@ -9079,8 +9058,7 @@ extension AutoScalingClientTypes {
             return [
                 .ignore,
                 .refresh,
-                .wait,
-                .sdkUnknown("")
+                .wait
             ]
         }
 
@@ -9170,8 +9148,7 @@ extension AutoScalingClientTypes {
                 .waitingforinstanceid,
                 .waitingforinstancewarmup,
                 .waitingforspotinstanceid,
-                .waitingforspotinstancerequestid,
-                .sdkUnknown("")
+                .waitingforspotinstancerequestid
             ]
         }
 
@@ -9703,8 +9680,7 @@ extension AutoScalingClientTypes {
             return [
                 .ignore,
                 .terminate,
-                .wait,
-                .sdkUnknown("")
+                .wait
             ]
         }
 
@@ -10723,8 +10699,7 @@ extension AutoScalingClientTypes {
             return [
                 .hibernated,
                 .running,
-                .stopped,
-                .sdkUnknown("")
+                .stopped
             ]
         }
 
@@ -10752,8 +10727,7 @@ extension AutoScalingClientTypes {
 
         public static var allCases: [WarmPoolStatus] {
             return [
-                .pendingdelete,
-                .sdkUnknown("")
+                .pendingdelete
             ]
         }
 

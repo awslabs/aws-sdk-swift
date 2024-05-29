@@ -1194,8 +1194,7 @@ extension MarketplaceMeteringClientTypes {
             return [
                 .customerNotSubscribed,
                 .duplicateRecord,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 

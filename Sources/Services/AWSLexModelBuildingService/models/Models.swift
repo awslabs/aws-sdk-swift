@@ -368,8 +368,7 @@ extension LexModelBuildingClientTypes {
             return [
                 .created,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -403,8 +402,7 @@ extension LexModelBuildingClientTypes {
                 .facebook,
                 .kik,
                 .slack,
-                .twilioSms,
-                .sdkUnknown("")
+                .twilioSms
             ]
         }
 
@@ -513,8 +511,7 @@ extension LexModelBuildingClientTypes {
             return [
                 .customPayload,
                 .plainText,
-                .ssml,
-                .sdkUnknown("")
+                .ssml
             ]
         }
 
@@ -1589,8 +1586,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [Destination] {
             return [
                 .cloudwatchLogs,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -1665,8 +1661,7 @@ extension LexModelBuildingClientTypes {
             return [
                 .failed,
                 .inProgress,
-                .ready,
-                .sdkUnknown("")
+                .ready
             ]
         }
 
@@ -1696,8 +1691,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [ExportType] {
             return [
                 .alexaSkillsKit,
-                .lex,
-                .sdkUnknown("")
+                .lex
             ]
         }
 
@@ -1807,8 +1801,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [FulfillmentActivityType] {
             return [
                 .codeHook,
-                .returnIntent,
-                .sdkUnknown("")
+                .returnIntent
             ]
         }
 
@@ -4116,8 +4109,7 @@ extension LexModelBuildingClientTypes {
             return [
                 .complete,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -4478,8 +4470,7 @@ extension LexModelBuildingClientTypes {
                 .frFr,
                 .itIt,
                 .jaJp,
-                .koKr,
-                .sdkUnknown("")
+                .koKr
             ]
         }
 
@@ -4607,8 +4598,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [LogType] {
             return [
                 .audio,
-                .text,
-                .sdkUnknown("")
+                .text
             ]
         }
 
@@ -4637,8 +4627,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [MergeStrategy] {
             return [
                 .failOnConflict,
-                .overwriteLatest,
-                .sdkUnknown("")
+                .overwriteLatest
             ]
         }
 
@@ -4757,8 +4746,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [MigrationAlertType] {
             return [
                 .error,
-                .warn,
-                .sdkUnknown("")
+                .warn
             ]
         }
 
@@ -4787,8 +4775,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [MigrationSortAttribute] {
             return [
                 .migrationDateTime,
-                .v1BotName,
-                .sdkUnknown("")
+                .v1BotName
             ]
         }
 
@@ -4819,8 +4806,7 @@ extension LexModelBuildingClientTypes {
             return [
                 .completed,
                 .failed,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -4850,8 +4836,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [MigrationStrategy] {
             return [
                 .createNew,
-                .updateExisting,
-                .sdkUnknown("")
+                .updateExisting
             ]
         }
 
@@ -4983,8 +4968,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [ObfuscationSetting] {
             return [
                 .defaultObfuscation,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -5096,8 +5080,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [ProcessBehavior] {
             return [
                 .build,
-                .save,
-                .sdkUnknown("")
+                .save
             ]
         }
 
@@ -6013,8 +5996,7 @@ extension LexModelBuildingClientTypes {
                 .bot,
                 .botalias,
                 .botchannel,
-                .intent,
-                .sdkUnknown("")
+                .intent
             ]
         }
 
@@ -6124,8 +6106,7 @@ extension LexModelBuildingClientTypes {
             return [
                 .bot,
                 .intent,
-                .slotType,
-                .sdkUnknown("")
+                .slotType
             ]
         }
 
@@ -6248,8 +6229,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [SlotConstraint] {
             return [
                 .optional,
-                .required,
-                .sdkUnknown("")
+                .required
             ]
         }
 
@@ -6470,8 +6450,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [SlotValueSelectionStrategy] {
             return [
                 .originalValue,
-                .topResolution,
-                .sdkUnknown("")
+                .topResolution
             ]
         }
 
@@ -6500,8 +6479,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -6832,8 +6810,7 @@ extension LexModelBuildingClientTypes {
                 .failed,
                 .notBuilt,
                 .ready,
-                .readyBasicTesting,
-                .sdkUnknown("")
+                .readyBasicTesting
             ]
         }
 
@@ -6865,8 +6842,7 @@ extension LexModelBuildingClientTypes {
         public static var allCases: [StatusType] {
             return [
                 .detected,
-                .missed,
-                .sdkUnknown("")
+                .missed
             ]
         }
 

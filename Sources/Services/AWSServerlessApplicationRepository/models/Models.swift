@@ -212,8 +212,7 @@ extension ServerlessApplicationRepositoryClientTypes {
                 .capabilityAutoExpand,
                 .capabilityIam,
                 .capabilityNamedIam,
-                .capabilityResourcePolicy,
-                .sdkUnknown("")
+                .capabilityResourcePolicy
             ]
         }
 
@@ -1917,8 +1916,7 @@ extension ServerlessApplicationRepositoryClientTypes {
             return [
                 .active,
                 .expired,
-                .preparing,
-                .sdkUnknown("")
+                .preparing
             ]
         }
 

@@ -210,8 +210,7 @@ extension ACMPCAClientTypes {
             return [
                 .caRepository,
                 .resourcePkiManifest,
-                .resourcePkiNotify,
-                .sdkUnknown("")
+                .resourcePkiNotify
             ]
         }
 
@@ -243,8 +242,7 @@ extension ACMPCAClientTypes {
             return [
                 .getcertificate,
                 .issuecertificate,
-                .listpermissions,
-                .sdkUnknown("")
+                .listpermissions
             ]
         }
 
@@ -303,8 +301,7 @@ extension ACMPCAClientTypes {
         public static var allCases: [AuditReportResponseFormat] {
             return [
                 .csv,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 
@@ -335,8 +332,7 @@ extension ACMPCAClientTypes {
             return [
                 .creating,
                 .failed,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -524,8 +520,7 @@ extension ACMPCAClientTypes {
                 .disabled,
                 .expired,
                 .failed,
-                .pendingCertificate,
-                .sdkUnknown("")
+                .pendingCertificate
             ]
         }
 
@@ -559,8 +554,7 @@ extension ACMPCAClientTypes {
         public static var allCases: [CertificateAuthorityType] {
             return [
                 .root,
-                .subordinate,
-                .sdkUnknown("")
+                .subordinate
             ]
         }
 
@@ -589,8 +583,7 @@ extension ACMPCAClientTypes {
         public static var allCases: [CertificateAuthorityUsageMode] {
             return [
                 .generalPurpose,
-                .shortLivedCertificate,
-                .sdkUnknown("")
+                .shortLivedCertificate
             ]
         }
 
@@ -1642,8 +1635,7 @@ extension ACMPCAClientTypes {
                 .ocspSigning,
                 .serverAuth,
                 .smartCardLogin,
-                .timeStamping,
-                .sdkUnknown("")
+                .timeStamping
             ]
         }
 
@@ -1725,8 +1717,7 @@ extension ACMPCAClientTypes {
             return [
                 .other,
                 .requestTimedOut,
-                .unsupportedAlgorithm,
-                .sdkUnknown("")
+                .unsupportedAlgorithm
             ]
         }
 
@@ -2567,8 +2558,7 @@ extension ACMPCAClientTypes {
                 .ecPrime256v1,
                 .ecSecp384r1,
                 .rsa2048,
-                .rsa4096,
-                .sdkUnknown("")
+                .rsa4096
             ]
         }
 
@@ -2599,8 +2589,7 @@ extension ACMPCAClientTypes {
         public static var allCases: [KeyStorageSecurityStandard] {
             return [
                 .fips1402Level2OrHigher,
-                .fips1402Level3OrHigher,
-                .sdkUnknown("")
+                .fips1402Level3OrHigher
             ]
         }
 
@@ -3297,8 +3286,7 @@ extension ACMPCAClientTypes {
 
         public static var allCases: [PolicyQualifierId] {
             return [
-                .cps,
-                .sdkUnknown("")
+                .cps
             ]
         }
 
@@ -3596,8 +3584,7 @@ extension ACMPCAClientTypes {
         public static var allCases: [ResourceOwner] {
             return [
                 .otherAccounts,
-                .self,
-                .sdkUnknown("")
+                .self
             ]
         }
 
@@ -3731,8 +3718,7 @@ extension ACMPCAClientTypes {
                 .keyCompromise,
                 .privilegeWithdrawn,
                 .superseded,
-                .unspecified,
-                .sdkUnknown("")
+                .unspecified
             ]
         }
 
@@ -3841,8 +3827,7 @@ extension ACMPCAClientTypes {
         public static var allCases: [S3ObjectAcl] {
             return [
                 .bucketOwnerFullControl,
-                .publicRead,
-                .sdkUnknown("")
+                .publicRead
             ]
         }
 
@@ -3879,8 +3864,7 @@ extension ACMPCAClientTypes {
                 .sha384withecdsa,
                 .sha384withrsa,
                 .sha512withecdsa,
-                .sha512withrsa,
-                .sdkUnknown("")
+                .sha512withrsa
             ]
         }
 
@@ -4250,8 +4234,7 @@ extension ACMPCAClientTypes {
                 .days,
                 .endDate,
                 .months,
-                .years,
-                .sdkUnknown("")
+                .years
             ]
         }
 

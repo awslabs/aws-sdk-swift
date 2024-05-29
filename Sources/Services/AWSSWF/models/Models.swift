@@ -332,8 +332,7 @@ extension SWFClientTypes {
                 .heartbeat,
                 .scheduleToClose,
                 .scheduleToStart,
-                .startToClose,
-                .sdkUnknown("")
+                .startToClose
             ]
         }
 
@@ -537,8 +536,7 @@ extension SWFClientTypes {
         public static var allCases: [CancelTimerFailedCause] {
             return [
                 .operationNotPermitted,
-                .timerIdUnknown,
-                .sdkUnknown("")
+                .timerIdUnknown
             ]
         }
 
@@ -639,8 +637,7 @@ extension SWFClientTypes {
         public static var allCases: [CancelWorkflowExecutionFailedCause] {
             return [
                 .operationNotPermitted,
-                .unhandledDecision,
-                .sdkUnknown("")
+                .unhandledDecision
             ]
         }
 
@@ -704,8 +701,7 @@ extension SWFClientTypes {
             return [
                 .abandon,
                 .requestCancel,
-                .terminate,
-                .sdkUnknown("")
+                .terminate
             ]
         }
 
@@ -1033,8 +1029,7 @@ extension SWFClientTypes {
                 .continuedAsNew,
                 .failed,
                 .terminated,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -1125,8 +1120,7 @@ extension SWFClientTypes {
         public static var allCases: [CompleteWorkflowExecutionFailedCause] {
             return [
                 .operationNotPermitted,
-                .unhandledDecision,
-                .sdkUnknown("")
+                .unhandledDecision
             ]
         }
 
@@ -1293,8 +1287,7 @@ extension SWFClientTypes {
                 .operationNotPermitted,
                 .unhandledDecision,
                 .workflowTypeDeprecated,
-                .workflowTypeDoesNotExist,
-                .sdkUnknown("")
+                .workflowTypeDoesNotExist
             ]
         }
 
@@ -2058,8 +2051,7 @@ extension SWFClientTypes {
         public static var allCases: [DecisionTaskTimeoutType] {
             return [
                 .scheduleToStart,
-                .startToClose,
-                .sdkUnknown("")
+                .startToClose
             ]
         }
 
@@ -2110,8 +2102,7 @@ extension SWFClientTypes {
                 .schedulelambdafunction,
                 .signalexternalworkflowexecution,
                 .startchildworkflowexecution,
-                .starttimer,
-                .sdkUnknown("")
+                .starttimer
             ]
         }
 
@@ -2964,8 +2955,7 @@ extension SWFClientTypes {
                 .workflowexecutionsignaled,
                 .workflowexecutionstarted,
                 .workflowexecutionterminated,
-                .workflowexecutiontimedout,
-                .sdkUnknown("")
+                .workflowexecutiontimedout
             ]
         }
 
@@ -3046,8 +3036,7 @@ extension SWFClientTypes {
         public static var allCases: [ExecutionStatus] {
             return [
                 .closed,
-                .open,
-                .sdkUnknown("")
+                .open
             ]
         }
 
@@ -3210,8 +3199,7 @@ extension SWFClientTypes {
         public static var allCases: [FailWorkflowExecutionFailedCause] {
             return [
                 .operationNotPermitted,
-                .unhandledDecision,
-                .sdkUnknown("")
+                .unhandledDecision
             ]
         }
 
@@ -3971,8 +3959,7 @@ extension SWFClientTypes {
 
         public static var allCases: [LambdaFunctionTimeoutType] {
             return [
-                .startToClose,
-                .sdkUnknown("")
+                .startToClose
             ]
         }
 
@@ -5055,8 +5042,7 @@ extension SWFClientTypes {
 
         public static var allCases: [RecordMarkerFailedCause] {
             return [
-                .operationNotPermitted,
-                .sdkUnknown("")
+                .operationNotPermitted
             ]
         }
 
@@ -5410,8 +5396,7 @@ extension SWFClientTypes {
         public static var allCases: [RegistrationStatus] {
             return [
                 .deprecated,
-                .registered,
-                .sdkUnknown("")
+                .registered
             ]
         }
 
@@ -5474,8 +5459,7 @@ extension SWFClientTypes {
         public static var allCases: [RequestCancelActivityTaskFailedCause] {
             return [
                 .activityIdUnknown,
-                .operationNotPermitted,
-                .sdkUnknown("")
+                .operationNotPermitted
             ]
         }
 
@@ -5589,8 +5573,7 @@ extension SWFClientTypes {
             return [
                 .operationNotPermitted,
                 .requestCancelExternalWorkflowExecutionRateExceeded,
-                .unknownExternalWorkflowExecution,
-                .sdkUnknown("")
+                .unknownExternalWorkflowExecution
             ]
         }
 
@@ -6192,8 +6175,7 @@ extension SWFClientTypes {
                 .defaultStartToCloseTimeoutUndefined,
                 .defaultTaskListUndefined,
                 .openActivitiesLimitExceeded,
-                .operationNotPermitted,
-                .sdkUnknown("")
+                .operationNotPermitted
             ]
         }
 
@@ -6326,8 +6308,7 @@ extension SWFClientTypes {
                 .idAlreadyInUse,
                 .lambdaFunctionCreationRateExceeded,
                 .lambdaServiceNotAvailableInRegion,
-                .openLambdaFunctionsLimitExceeded,
-                .sdkUnknown("")
+                .openLambdaFunctionsLimitExceeded
             ]
         }
 
@@ -6460,8 +6441,7 @@ extension SWFClientTypes {
             return [
                 .operationNotPermitted,
                 .signalExternalWorkflowExecutionRateExceeded,
-                .unknownExternalWorkflowExecution,
-                .sdkUnknown("")
+                .unknownExternalWorkflowExecution
             ]
         }
 
@@ -6800,8 +6780,7 @@ extension SWFClientTypes {
                 .operationNotPermitted,
                 .workflowAlreadyRunning,
                 .workflowTypeDeprecated,
-                .workflowTypeDoesNotExist,
-                .sdkUnknown("")
+                .workflowTypeDoesNotExist
             ]
         }
 
@@ -6985,8 +6964,7 @@ extension SWFClientTypes {
 
         public static var allCases: [StartLambdaFunctionFailedCause] {
             return [
-                .assumeRoleFailed,
-                .sdkUnknown("")
+                .assumeRoleFailed
             ]
         }
 
@@ -7099,8 +7077,7 @@ extension SWFClientTypes {
                 .openTimersLimitExceeded,
                 .operationNotPermitted,
                 .timerCreationRateExceeded,
-                .timerIdAlreadyInUse,
-                .sdkUnknown("")
+                .timerIdAlreadyInUse
             ]
         }
 
@@ -8097,8 +8074,7 @@ extension SWFClientTypes {
 
         public static var allCases: [WorkflowExecutionCancelRequestedCause] {
             return [
-                .childPolicyApplied,
-                .sdkUnknown("")
+                .childPolicyApplied
             ]
         }
 
@@ -8702,8 +8678,7 @@ extension SWFClientTypes {
             return [
                 .childPolicyApplied,
                 .eventLimitExceeded,
-                .operatorInitiated,
-                .sdkUnknown("")
+                .operatorInitiated
             ]
         }
 
@@ -8818,8 +8793,7 @@ extension SWFClientTypes {
 
         public static var allCases: [WorkflowExecutionTimeoutType] {
             return [
-                .startToClose,
-                .sdkUnknown("")
+                .startToClose
             ]
         }
 

@@ -494,8 +494,7 @@ extension MWAAClientTypes {
         public static var allCases: [EndpointManagement] {
             return [
                 .customer,
-                .service,
-                .sdkUnknown("")
+                .service
             ]
         }
 
@@ -767,8 +766,7 @@ extension MWAAClientTypes {
                 .rollingBack,
                 .unavailable,
                 .updateFailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1191,8 +1189,7 @@ extension MWAAClientTypes {
                 .debug,
                 .error,
                 .info,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -1641,8 +1638,7 @@ extension MWAAClientTypes {
                 .terabits,
                 .terabitsPerSecond,
                 .terabytes,
-                .terabytesPerSecond,
-                .sdkUnknown("")
+                .terabytesPerSecond
             ]
         }
 
@@ -2006,8 +2002,7 @@ extension MWAAClientTypes {
             return [
                 .failed,
                 .pending,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -2074,8 +2069,7 @@ extension MWAAClientTypes {
         public static var allCases: [WebserverAccessMode] {
             return [
                 .privateOnly,
-                .publicOnly,
-                .sdkUnknown("")
+                .publicOnly
             ]
         }
 

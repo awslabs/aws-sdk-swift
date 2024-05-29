@@ -783,8 +783,7 @@ extension XRayClientTypes {
         public static var allCases: [EncryptionStatus] {
             return [
                 .active,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -813,8 +812,7 @@ extension XRayClientTypes {
         public static var allCases: [EncryptionType] {
             return [
                 .kms,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -2612,8 +2610,7 @@ extension XRayClientTypes {
 
         public static var allCases: [InsightCategory] {
             return [
-                .fault,
-                .sdkUnknown("")
+                .fault
             ]
         }
 
@@ -2772,8 +2769,7 @@ extension XRayClientTypes {
         public static var allCases: [InsightState] {
             return [
                 .active,
-                .closed,
-                .sdkUnknown("")
+                .closed
             ]
         }
 
@@ -4314,8 +4310,7 @@ extension XRayClientTypes {
         public static var allCases: [SamplingStrategyName] {
             return [
                 .fixedrate,
-                .partialscan,
-                .sdkUnknown("")
+                .partialscan
             ]
         }
 
@@ -4811,8 +4806,7 @@ extension XRayClientTypes {
             return [
                 .event,
                 .service,
-                .traceid,
-                .sdkUnknown("")
+                .traceid
             ]
         }
 

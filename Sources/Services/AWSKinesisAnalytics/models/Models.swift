@@ -471,8 +471,7 @@ extension KinesisAnalyticsClientTypes {
                 .running,
                 .starting,
                 .stopping,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -1871,8 +1870,7 @@ extension KinesisAnalyticsClientTypes {
             return [
                 .lastStoppedPoint,
                 .now,
-                .trimHorizon,
-                .sdkUnknown("")
+                .trimHorizon
             ]
         }
 
@@ -3010,8 +3008,7 @@ extension KinesisAnalyticsClientTypes {
         public static var allCases: [RecordFormatType] {
             return [
                 .csv,
-                .json,
-                .sdkUnknown("")
+                .json
             ]
         }
 

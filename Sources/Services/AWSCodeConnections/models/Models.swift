@@ -52,8 +52,7 @@ extension CodeConnectionsClientTypes {
         public static var allCases: [BlockerStatus] {
             return [
                 .active,
-                .resolved,
-                .sdkUnknown("")
+                .resolved
             ]
         }
 
@@ -80,8 +79,7 @@ extension CodeConnectionsClientTypes {
 
         public static var allCases: [BlockerType] {
             return [
-                .automated,
-                .sdkUnknown("")
+                .automated
             ]
         }
 
@@ -275,8 +273,7 @@ extension CodeConnectionsClientTypes {
             return [
                 .available,
                 .error,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -2134,8 +2131,7 @@ extension CodeConnectionsClientTypes {
                 .github,
                 .githubEnterpriseServer,
                 .gitlab,
-                .gitlabSelfManaged,
-                .sdkUnknown("")
+                .gitlabSelfManaged
             ]
         }
 
@@ -2167,8 +2163,7 @@ extension CodeConnectionsClientTypes {
         public static var allCases: [PublishDeploymentStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2403,8 +2398,7 @@ extension CodeConnectionsClientTypes {
                 .initiated,
                 .inProgress,
                 .queued,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -2623,8 +2617,7 @@ extension CodeConnectionsClientTypes {
                 .failed,
                 .initiated,
                 .inProgress,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -3078,8 +3071,7 @@ extension CodeConnectionsClientTypes {
 
         public static var allCases: [SyncConfigurationType] {
             return [
-                .cfnStackSync,
-                .sdkUnknown("")
+                .cfnStackSync
             ]
         }
 
@@ -3244,8 +3236,7 @@ extension CodeConnectionsClientTypes {
         public static var allCases: [TriggerResourceUpdateOn] {
             return [
                 .anyChange,
-                .fileChange,
-                .sdkUnknown("")
+                .fileChange
             ]
         }
 

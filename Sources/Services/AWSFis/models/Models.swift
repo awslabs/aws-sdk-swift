@@ -15,8 +15,7 @@ extension FisClientTypes {
         public static var allCases: [AccountTargeting] {
             return [
                 .multiAccount,
-                .singleAccount,
-                .sdkUnknown("")
+                .singleAccount
             ]
         }
 
@@ -199,8 +198,7 @@ extension FisClientTypes {
         public static var allCases: [ActionsMode] {
             return [
                 .runAll,
-                .skipAll,
-                .sdkUnknown("")
+                .skipAll
             ]
         }
 
@@ -802,8 +800,7 @@ extension FisClientTypes {
         public static var allCases: [EmptyTargetResolutionMode] {
             return [
                 .fail,
-                .skip,
-                .sdkUnknown("")
+                .skip
             ]
         }
 
@@ -1034,8 +1031,7 @@ extension FisClientTypes {
                 .running,
                 .skipped,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -1241,8 +1237,7 @@ extension FisClientTypes {
                 .pending,
                 .running,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 

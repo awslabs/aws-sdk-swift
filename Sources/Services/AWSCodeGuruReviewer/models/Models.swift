@@ -52,8 +52,7 @@ extension CodeGuruReviewerClientTypes {
         public static var allCases: [AnalysisType] {
             return [
                 .codeQuality,
-                .security,
-                .sdkUnknown("")
+                .security
             ]
         }
 
@@ -569,8 +568,7 @@ extension CodeGuruReviewerClientTypes {
             return [
                 .absent,
                 .present,
-                .presentWithErrors,
-                .sdkUnknown("")
+                .presentWithErrors
             ]
         }
 
@@ -1031,8 +1029,7 @@ extension CodeGuruReviewerClientTypes {
         public static var allCases: [EncryptionOption] {
             return [
                 .aocmk,
-                .cmcmk,
-                .sdkUnknown("")
+                .cmcmk
             ]
         }
 
@@ -1139,8 +1136,7 @@ extension CodeGuruReviewerClientTypes {
                 .completed,
                 .deleting,
                 .failed,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1877,8 +1873,7 @@ extension CodeGuruReviewerClientTypes {
                 .codeCommit,
                 .gitHub,
                 .gitHubEnterpriseServer,
-                .s3Bucket,
-                .sdkUnknown("")
+                .s3Bucket
             ]
         }
 
@@ -1980,8 +1975,7 @@ extension CodeGuruReviewerClientTypes {
         public static var allCases: [Reaction] {
             return [
                 .thumbsDown,
-                .thumbsUp,
-                .sdkUnknown("")
+                .thumbsUp
             ]
         }
 
@@ -2028,8 +2022,7 @@ extension CodeGuruReviewerClientTypes {
                 .javaBestPractices,
                 .pythonBestPractices,
                 .resourceLeaks,
-                .securityIssues,
-                .sdkUnknown("")
+                .securityIssues
             ]
         }
 
@@ -2391,8 +2384,7 @@ extension CodeGuruReviewerClientTypes {
                 .associating,
                 .disassociated,
                 .disassociating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -2778,8 +2770,7 @@ extension CodeGuruReviewerClientTypes {
                 .high,
                 .info,
                 .low,
-                .medium,
-                .sdkUnknown("")
+                .medium
             ]
         }
 
@@ -3008,8 +2999,7 @@ extension CodeGuruReviewerClientTypes {
         public static var allCases: [ModelType] {
             return [
                 .pullRequest,
-                .repositoryAnalysis,
-                .sdkUnknown("")
+                .repositoryAnalysis
             ]
         }
 
@@ -3149,8 +3139,7 @@ extension CodeGuruReviewerClientTypes {
             return [
                 .github,
                 .gitlab,
-                .nativeS3,
-                .sdkUnknown("")
+                .nativeS3
             ]
         }
 

@@ -144,8 +144,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [AccountJiraIssueManagementStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -174,8 +173,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [AdditionalResourceType] {
             return [
                 .helpfulResource,
-                .improvementPlan,
-                .sdkUnknown("")
+                .improvementPlan
             ]
         }
 
@@ -337,8 +335,7 @@ extension WellArchitectedClientTypes {
                 .businessPriorities,
                 .none,
                 .other,
-                .outOfScope,
-                .sdkUnknown("")
+                .outOfScope
             ]
         }
 
@@ -702,8 +699,7 @@ extension WellArchitectedClientTypes {
                 .accessDenied,
                 .assumeRoleError,
                 .premiumSupportRequired,
-                .unknownError,
-                .sdkUnknown("")
+                .unknownError
             ]
         }
 
@@ -732,8 +728,7 @@ extension WellArchitectedClientTypes {
 
         public static var allCases: [CheckProvider] {
             return [
-                .trustedAdvisor,
-                .sdkUnknown("")
+                .trustedAdvisor
             ]
         }
 
@@ -767,8 +762,7 @@ extension WellArchitectedClientTypes {
                 .fetchFailed,
                 .notAvailable,
                 .okay,
-                .warning,
-                .sdkUnknown("")
+                .warning
             ]
         }
 
@@ -1077,8 +1071,7 @@ extension WellArchitectedClientTypes {
                 .businessPriorities,
                 .none,
                 .other,
-                .outOfScope,
-                .sdkUnknown("")
+                .outOfScope
             ]
         }
 
@@ -1112,8 +1105,7 @@ extension WellArchitectedClientTypes {
             return [
                 .notApplicable,
                 .selected,
-                .unselected,
-                .sdkUnknown("")
+                .unselected
             ]
         }
 
@@ -2277,8 +2269,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [DefinitionType] {
             return [
                 .appRegistry,
-                .workloadMetadata,
-                .sdkUnknown("")
+                .workloadMetadata
             ]
         }
 
@@ -2938,8 +2929,7 @@ extension WellArchitectedClientTypes {
             return [
                 .deleted,
                 .new,
-                .updated,
-                .sdkUnknown("")
+                .updated
             ]
         }
 
@@ -3104,8 +3094,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [DiscoveryIntegrationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4515,8 +4504,7 @@ extension WellArchitectedClientTypes {
             return [
                 .complete,
                 .error,
-                .inProgress,
-                .sdkUnknown("")
+                .inProgress
             ]
         }
 
@@ -4600,8 +4588,7 @@ extension WellArchitectedClientTypes {
 
         public static var allCases: [IntegratingService] {
             return [
-                .jira,
-                .sdkUnknown("")
+                .jira
             ]
         }
 
@@ -4629,8 +4616,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [IntegrationStatus] {
             return [
                 .configured,
-                .notConfigured,
-                .sdkUnknown("")
+                .notConfigured
             ]
         }
 
@@ -4657,8 +4643,7 @@ extension WellArchitectedClientTypes {
 
         public static var allCases: [IntegrationStatusInput] {
             return [
-                .notConfigured,
-                .sdkUnknown("")
+                .notConfigured
             ]
         }
 
@@ -4725,8 +4710,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [IssueManagementType] {
             return [
                 .auto,
-                .manual,
-                .sdkUnknown("")
+                .manual
             ]
         }
 
@@ -5144,8 +5128,7 @@ extension WellArchitectedClientTypes {
                 .deleted,
                 .deprecated,
                 .notCurrent,
-                .unshared,
-                .sdkUnknown("")
+                .unshared
             ]
         }
 
@@ -5179,8 +5162,7 @@ extension WellArchitectedClientTypes {
             return [
                 .all,
                 .draft,
-                .published,
-                .sdkUnknown("")
+                .published
             ]
         }
 
@@ -5283,8 +5265,7 @@ extension WellArchitectedClientTypes {
             return [
                 .awsOfficial,
                 .customSelf,
-                .customShared,
-                .sdkUnknown("")
+                .customShared
             ]
         }
 
@@ -7423,8 +7404,7 @@ extension WellArchitectedClientTypes {
 
         public static var allCases: [MetricType] {
             return [
-                .workload,
-                .sdkUnknown("")
+                .workload
             ]
         }
 
@@ -7565,8 +7545,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [NotificationType] {
             return [
                 .lensVersionDeprecated,
-                .lensVersionUpgraded,
-                .sdkUnknown("")
+                .lensVersionUpgraded
             ]
         }
 
@@ -7595,8 +7574,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [OrganizationSharingStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -7626,8 +7604,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [PermissionType] {
             return [
                 .contributor,
-                .readonly,
-                .sdkUnknown("")
+                .readonly
             ]
         }
 
@@ -7942,8 +7919,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [ProfileNotificationType] {
             return [
                 .profileAnswersUpdated,
-                .profileDeleted,
-                .sdkUnknown("")
+                .profileDeleted
             ]
         }
 
@@ -7972,8 +7948,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [ProfileOwnerType] {
             return [
                 .self,
-                .shared,
-                .sdkUnknown("")
+                .shared
             ]
         }
 
@@ -8312,8 +8287,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [Question] {
             return [
                 .answered,
-                .unanswered,
-                .sdkUnknown("")
+                .unanswered
             ]
         }
 
@@ -8414,8 +8388,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [QuestionPriority] {
             return [
                 .none,
-                .prioritized,
-                .sdkUnknown("")
+                .prioritized
             ]
         }
 
@@ -8444,8 +8417,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [QuestionType] {
             return [
                 .nonPrioritized,
-                .prioritized,
-                .sdkUnknown("")
+                .prioritized
             ]
         }
 
@@ -8474,8 +8446,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [ReportFormat] {
             return [
                 .json,
-                .pdf,
-                .sdkUnknown("")
+                .pdf
             ]
         }
 
@@ -8722,8 +8693,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [ReviewTemplateAnswerStatus] {
             return [
                 .answered,
-                .unanswered,
-                .sdkUnknown("")
+                .unanswered
             ]
         }
 
@@ -8991,8 +8961,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [ReviewTemplateUpdateStatus] {
             return [
                 .current,
-                .lensNotCurrent,
-                .sdkUnknown("")
+                .lensNotCurrent
             ]
         }
 
@@ -9028,8 +8997,7 @@ extension WellArchitectedClientTypes {
                 .medium,
                 .none,
                 .notApplicable,
-                .unanswered,
-                .sdkUnknown("")
+                .unanswered
             ]
         }
 
@@ -9216,8 +9184,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [ShareInvitationAction] {
             return [
                 .accept,
-                .reject,
-                .sdkUnknown("")
+                .reject
             ]
         }
 
@@ -9336,8 +9303,7 @@ extension WellArchitectedClientTypes {
                 .lens,
                 .profile,
                 .template,
-                .workload,
-                .sdkUnknown("")
+                .workload
             ]
         }
 
@@ -9381,8 +9347,7 @@ extension WellArchitectedClientTypes {
                 .failed,
                 .pending,
                 .rejected,
-                .revoked,
-                .sdkUnknown("")
+                .revoked
             ]
         }
 
@@ -9570,8 +9535,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [TrustedAdvisorIntegrationStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -11156,8 +11120,7 @@ extension WellArchitectedClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 
@@ -11469,8 +11432,7 @@ extension WellArchitectedClientTypes {
         public static var allCases: [WorkloadEnvironment] {
             return [
                 .preproduction,
-                .production,
-                .sdkUnknown("")
+                .production
             ]
         }
 
@@ -11506,8 +11468,7 @@ extension WellArchitectedClientTypes {
                 .inProgress,
                 .notApplicable,
                 .notStarted,
-                .riskAcknowledged,
-                .sdkUnknown("")
+                .riskAcknowledged
             ]
         }
 
@@ -11541,8 +11502,7 @@ extension WellArchitectedClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .inherit,
-                .sdkUnknown("")
+                .inherit
             ]
         }
 

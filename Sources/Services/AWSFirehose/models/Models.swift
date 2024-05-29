@@ -285,8 +285,7 @@ extension FirehoseClientTypes {
         public static var allCases: [AmazonOpenSearchServerlessS3BackupMode] {
             return [
                 .alldocuments,
-                .faileddocumentsonly,
-                .sdkUnknown("")
+                .faileddocumentsonly
             ]
         }
 
@@ -620,8 +619,7 @@ extension FirehoseClientTypes {
                 .oneday,
                 .onehour,
                 .onemonth,
-                .oneweek,
-                .sdkUnknown("")
+                .oneweek
             ]
         }
 
@@ -684,8 +682,7 @@ extension FirehoseClientTypes {
         public static var allCases: [AmazonopensearchserviceS3BackupMode] {
             return [
                 .alldocuments,
-                .faileddocumentsonly,
-                .sdkUnknown("")
+                .faileddocumentsonly
             ]
         }
 
@@ -839,8 +836,7 @@ extension FirehoseClientTypes {
                 .hadoopSnappy,
                 .snappy,
                 .uncompressed,
-                .zip,
-                .sdkUnknown("")
+                .zip
             ]
         }
 
@@ -910,8 +906,7 @@ extension FirehoseClientTypes {
         public static var allCases: [Connectivity] {
             return [
                 .private,
-                .public,
-                .sdkUnknown("")
+                .public
             ]
         }
 
@@ -940,8 +935,7 @@ extension FirehoseClientTypes {
         public static var allCases: [ContentEncoding] {
             return [
                 .gzip,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -1207,8 +1201,7 @@ extension FirehoseClientTypes {
         public static var allCases: [DefaultDocumentIdFormat] {
             return [
                 .firehoseDefault,
-                .noDocumentId,
-                .sdkUnknown("")
+                .noDocumentId
             ]
         }
 
@@ -1468,8 +1461,7 @@ extension FirehoseClientTypes {
                 .disablingFailed,
                 .enabled,
                 .enabling,
-                .enablingFailed,
-                .sdkUnknown("")
+                .enablingFailed
             ]
         }
 
@@ -1528,8 +1520,7 @@ extension FirehoseClientTypes {
                 .securityGroupNotFound,
                 .subnetAccessDenied,
                 .subnetNotFound,
-                .unknownError,
-                .sdkUnknown("")
+                .unknownError
             ]
         }
 
@@ -1577,8 +1568,7 @@ extension FirehoseClientTypes {
                 .creating,
                 .creatingFailed,
                 .deleting,
-                .deletingFailed,
-                .sdkUnknown("")
+                .deletingFailed
             ]
         }
 
@@ -1612,8 +1602,7 @@ extension FirehoseClientTypes {
             return [
                 .directput,
                 .kinesisstreamassource,
-                .mskassource,
-                .sdkUnknown("")
+                .mskassource
             ]
         }
 
@@ -2203,8 +2192,7 @@ extension FirehoseClientTypes {
                 .oneday,
                 .onehour,
                 .onemonth,
-                .oneweek,
-                .sdkUnknown("")
+                .oneweek
             ]
         }
 
@@ -2267,8 +2255,7 @@ extension FirehoseClientTypes {
         public static var allCases: [ElasticsearchS3BackupMode] {
             return [
                 .alldocuments,
-                .faileddocumentsonly,
-                .sdkUnknown("")
+                .faileddocumentsonly
             ]
         }
 
@@ -2660,8 +2647,7 @@ extension FirehoseClientTypes {
         public static var allCases: [HECEndpointType] {
             return [
                 .event,
-                .raw,
-                .sdkUnknown("")
+                .raw
             ]
         }
 
@@ -3142,8 +3128,7 @@ extension FirehoseClientTypes {
         public static var allCases: [HttpEndpointS3BackupMode] {
             return [
                 .alldata,
-                .faileddataonly,
-                .sdkUnknown("")
+                .faileddataonly
             ]
         }
 
@@ -3355,8 +3340,7 @@ extension FirehoseClientTypes {
         public static var allCases: [KeyType] {
             return [
                 .awsOwnedCmk,
-                .customerManagedCmk,
-                .sdkUnknown("")
+                .customerManagedCmk
             ]
         }
 
@@ -3739,8 +3723,7 @@ extension FirehoseClientTypes {
 
         public static var allCases: [NoEncryptionConfig] {
             return [
-                .noencryption,
-                .sdkUnknown("")
+                .noencryption
             ]
         }
 
@@ -3813,8 +3796,7 @@ extension FirehoseClientTypes {
             return [
                 .none,
                 .snappy,
-                .zlib,
-                .sdkUnknown("")
+                .zlib
             ]
         }
 
@@ -3844,8 +3826,7 @@ extension FirehoseClientTypes {
         public static var allCases: [OrcFormatVersion] {
             return [
                 .v011,
-                .v012,
-                .sdkUnknown("")
+                .v012
             ]
         }
 
@@ -3992,8 +3973,7 @@ extension FirehoseClientTypes {
             return [
                 .gzip,
                 .snappy,
-                .uncompressed,
-                .sdkUnknown("")
+                .uncompressed
             ]
         }
 
@@ -4084,8 +4064,7 @@ extension FirehoseClientTypes {
         public static var allCases: [ParquetWriterVersion] {
             return [
                 .v1,
-                .v2,
-                .sdkUnknown("")
+                .v2
             ]
         }
 
@@ -4246,8 +4225,7 @@ extension FirehoseClientTypes {
                 .lambdaNumberOfRetries,
                 .metadataExtractionQuery,
                 .roleArn,
-                .subRecordType,
-                .sdkUnknown("")
+                .subRecordType
             ]
         }
 
@@ -4293,8 +4271,7 @@ extension FirehoseClientTypes {
                 .decompression,
                 .lambda,
                 .metadataextraction,
-                .recorddeaggregation,
-                .sdkUnknown("")
+                .recorddeaggregation
             ]
         }
 
@@ -4834,8 +4811,7 @@ extension FirehoseClientTypes {
         public static var allCases: [RedshiftS3BackupMode] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -4971,8 +4947,7 @@ extension FirehoseClientTypes {
         public static var allCases: [S3BackupMode] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -5325,8 +5300,7 @@ extension FirehoseClientTypes {
             return [
                 .jsonMapping,
                 .variantContentAndMetadataMapping,
-                .variantContentMapping,
-                .sdkUnknown("")
+                .variantContentMapping
             ]
         }
 
@@ -5766,8 +5740,7 @@ extension FirehoseClientTypes {
         public static var allCases: [SnowflakeS3BackupMode] {
             return [
                 .alldata,
-                .faileddataonly,
-                .sdkUnknown("")
+                .faileddataonly
             ]
         }
 
@@ -6145,8 +6118,7 @@ extension FirehoseClientTypes {
         public static var allCases: [SplunkS3BackupMode] {
             return [
                 .allevents,
-                .failedeventsonly,
-                .sdkUnknown("")
+                .failedeventsonly
             ]
         }
 

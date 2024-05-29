@@ -130,8 +130,7 @@ extension SnowballClientTypes {
         public static var allCases: [AddressType] {
             return [
                 .awsShip,
-                .custPickup,
-                .sdkUnknown("")
+                .custPickup
             ]
         }
 
@@ -460,8 +459,7 @@ extension SnowballClientTypes {
                 .cancelled,
                 .complete,
                 .inUse,
-                .pending,
-                .sdkUnknown("")
+                .pending
             ]
         }
 
@@ -1594,8 +1592,7 @@ extension SnowballClientTypes {
         public static var allCases: [DeviceServiceName] {
             return [
                 .nfsOnDeviceService,
-                .s3OnDeviceService,
-                .sdkUnknown("")
+                .s3OnDeviceService
             ]
         }
 
@@ -2067,8 +2064,7 @@ extension SnowballClientTypes {
                 .il4,
                 .il5,
                 .il6,
-                .il99,
-                .sdkUnknown("")
+                .il99
             ]
         }
 
@@ -2593,8 +2589,7 @@ extension SnowballClientTypes {
                 .preparingShipment,
                 .withAws,
                 .withAwsSortingFacility,
-                .withCustomer,
-                .sdkUnknown("")
+                .withCustomer
             ]
         }
 
@@ -2636,8 +2631,7 @@ extension SnowballClientTypes {
             return [
                 .export,
                 .import,
-                .localUse,
-                .sdkUnknown("")
+                .localUse
             ]
         }
 
@@ -3409,8 +3403,7 @@ extension SnowballClientTypes {
             return [
                 .oneMonth,
                 .oneYear,
-                .threeYear,
-                .sdkUnknown("")
+                .threeYear
             ]
         }
 
@@ -3649,8 +3642,7 @@ extension SnowballClientTypes {
             return [
                 .installedAutostart,
                 .installedOnly,
-                .notInstalled,
-                .sdkUnknown("")
+                .notInstalled
             ]
         }
 
@@ -3809,8 +3801,7 @@ extension SnowballClientTypes {
         public static var allCases: [ServiceName] {
             return [
                 .eksAnywhere,
-                .kubernetes,
-                .sdkUnknown("")
+                .kubernetes
             ]
         }
 
@@ -3901,8 +3892,7 @@ extension SnowballClientTypes {
         public static var allCases: [ShipmentState] {
             return [
                 .received,
-                .returned,
-                .sdkUnknown("")
+                .returned
             ]
         }
 
@@ -3979,8 +3969,7 @@ extension SnowballClientTypes {
                 .failed,
                 .inProgress,
                 .succeeded,
-                .timedOut,
-                .sdkUnknown("")
+                .timedOut
             ]
         }
 
@@ -4015,8 +4004,7 @@ extension SnowballClientTypes {
                 .express,
                 .nextDay,
                 .secondDay,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -4065,8 +4053,7 @@ extension SnowballClientTypes {
                 .t50,
                 .t8,
                 .t80,
-                .t98,
-                .sdkUnknown("")
+                .t98
             ]
         }
 
@@ -4122,8 +4109,7 @@ extension SnowballClientTypes {
                 .snc1Ssd,
                 .standard,
                 .v35c,
-                .v35s,
-                .sdkUnknown("")
+                .v35s
             ]
         }
 
@@ -4189,8 +4175,7 @@ extension SnowballClientTypes {
 
         public static var allCases: [StorageUnit] {
             return [
-                .tb,
-                .sdkUnknown("")
+                .tb
             ]
         }
 
@@ -4325,8 +4310,7 @@ extension SnowballClientTypes {
             return [
                 .export,
                 .import,
-                .localUse,
-                .sdkUnknown("")
+                .localUse
             ]
         }
 

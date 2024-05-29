@@ -316,8 +316,7 @@ extension CloudWatchLogsClientTypes {
                 .failed,
                 .initializing,
                 .paused,
-                .training,
-                .sdkUnknown("")
+                .training
             ]
         }
 
@@ -995,8 +994,7 @@ extension CloudWatchLogsClientTypes {
                 .activated,
                 .archived,
                 .deleted,
-                .disabled,
-                .sdkUnknown("")
+                .disabled
             ]
         }
 
@@ -2068,8 +2066,7 @@ extension CloudWatchLogsClientTypes {
             return [
                 .cwl,
                 .fh,
-                .s3,
-                .sdkUnknown("")
+                .s3
             ]
         }
 
@@ -3400,8 +3397,7 @@ extension CloudWatchLogsClientTypes {
         public static var allCases: [Distribution] {
             return [
                 .bylogstream,
-                .random,
-                .sdkUnknown("")
+                .random
             ]
         }
 
@@ -3438,8 +3434,7 @@ extension CloudWatchLogsClientTypes {
                 .oneHour,
                 .oneMin,
                 .tenMin,
-                .thirtyMin,
-                .sdkUnknown("")
+                .thirtyMin
             ]
         }
 
@@ -3608,8 +3603,7 @@ extension CloudWatchLogsClientTypes {
                 .failed,
                 .pending,
                 .pendingCancel,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -4633,8 +4627,7 @@ extension CloudWatchLogsClientTypes {
 
         public static var allCases: [InheritedProperty] {
             return [
-                .accountDataProtection,
-                .sdkUnknown("")
+                .accountDataProtection
             ]
         }
 
@@ -5427,8 +5420,7 @@ extension CloudWatchLogsClientTypes {
         public static var allCases: [LogGroupClass] {
             return [
                 .infrequentAccess,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -5775,8 +5767,7 @@ extension CloudWatchLogsClientTypes {
         public static var allCases: [OrderBy] {
             return [
                 .lasteventtime,
-                .logstreamname,
-                .sdkUnknown("")
+                .logstreamname
             ]
         }
 
@@ -5811,8 +5802,7 @@ extension CloudWatchLogsClientTypes {
                 .parquet,
                 .plain,
                 .raw,
-                .w3c,
-                .sdkUnknown("")
+                .w3c
             ]
         }
 
@@ -5947,8 +5937,7 @@ extension CloudWatchLogsClientTypes {
         public static var allCases: [PolicyType] {
             return [
                 .dataProtectionPolicy,
-                .subscriptionFilterPolicy,
-                .sdkUnknown("")
+                .subscriptionFilterPolicy
             ]
         }
 
@@ -7283,8 +7272,7 @@ extension CloudWatchLogsClientTypes {
                 .running,
                 .scheduled,
                 .timeout,
-                .unknown,
-                .sdkUnknown("")
+                .unknown
             ]
         }
 
@@ -7493,8 +7481,7 @@ extension CloudWatchLogsClientTypes {
 
         public static var allCases: [Scope] {
             return [
-                .all,
-                .sdkUnknown("")
+                .all
             ]
         }
 
@@ -7745,8 +7732,7 @@ extension CloudWatchLogsClientTypes {
                 .terabits,
                 .terabitssecond,
                 .terabytes,
-                .terabytessecond,
-                .sdkUnknown("")
+                .terabytessecond
             ]
         }
 
@@ -8043,8 +8029,7 @@ extension CloudWatchLogsClientTypes {
             return [
                 .active,
                 .baseline,
-                .suppressed,
-                .sdkUnknown("")
+                .suppressed
             ]
         }
 
@@ -8227,8 +8212,7 @@ extension CloudWatchLogsClientTypes {
         public static var allCases: [SuppressionState] {
             return [
                 .suppressed,
-                .unsuppressed,
-                .sdkUnknown("")
+                .unsuppressed
             ]
         }
 
@@ -8257,8 +8241,7 @@ extension CloudWatchLogsClientTypes {
         public static var allCases: [SuppressionType] {
             return [
                 .infinite,
-                .limited,
-                .sdkUnknown("")
+                .limited
             ]
         }
 
@@ -8289,8 +8272,7 @@ extension CloudWatchLogsClientTypes {
             return [
                 .hours,
                 .minutes,
-                .seconds,
-                .sdkUnknown("")
+                .seconds
             ]
         }
 

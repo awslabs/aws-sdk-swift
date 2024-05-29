@@ -541,8 +541,7 @@ extension DLMClientTypes {
             return [
                 .all,
                 .instance,
-                .volume,
-                .sdkUnknown("")
+                .volume
             ]
         }
 
@@ -572,8 +571,7 @@ extension DLMClientTypes {
         public static var allCases: [DefaultPolicyTypeValues] {
             return [
                 .instance,
-                .volume,
-                .sdkUnknown("")
+                .volume
             ]
         }
 
@@ -816,8 +814,7 @@ extension DLMClientTypes {
 
         public static var allCases: [EventSourceValues] {
             return [
-                .managedCwe,
-                .sdkUnknown("")
+                .managedCwe
             ]
         }
 
@@ -843,8 +840,7 @@ extension DLMClientTypes {
 
         public static var allCases: [EventTypeValues] {
             return [
-                .shareSnapshot,
-                .sdkUnknown("")
+                .shareSnapshot
             ]
         }
 
@@ -913,8 +909,7 @@ extension DLMClientTypes {
 
         public static var allCases: [ExecutionHandlerServiceValues] {
             return [
-                .awsSystemsManager,
-                .sdkUnknown("")
+                .awsSystemsManager
             ]
         }
 
@@ -1183,8 +1178,7 @@ extension DLMClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .error,
-                .sdkUnknown("")
+                .error
             ]
         }
 
@@ -1253,8 +1247,7 @@ extension DLMClientTypes {
 
         public static var allCases: [IntervalUnitValues] {
             return [
-                .hours,
-                .sdkUnknown("")
+                .hours
             ]
         }
 
@@ -1577,8 +1570,7 @@ extension DLMClientTypes {
         public static var allCases: [LocationValues] {
             return [
                 .cloud,
-                .outpostLocal,
-                .sdkUnknown("")
+                .outpostLocal
             ]
         }
 
@@ -1786,8 +1778,7 @@ extension DLMClientTypes {
         public static var allCases: [PolicyLanguageValues] {
             return [
                 .simplified,
-                .standard,
-                .sdkUnknown("")
+                .standard
             ]
         }
 
@@ -1818,8 +1809,7 @@ extension DLMClientTypes {
             return [
                 .ebsSnapshotManagement,
                 .eventBasedPolicy,
-                .imageManagement,
-                .sdkUnknown("")
+                .imageManagement
             ]
         }
 
@@ -1849,8 +1839,7 @@ extension DLMClientTypes {
         public static var allCases: [ResourceLocationValues] {
             return [
                 .cloud,
-                .outpost,
-                .sdkUnknown("")
+                .outpost
             ]
         }
 
@@ -1930,8 +1919,7 @@ extension DLMClientTypes {
         public static var allCases: [ResourceTypeValues] {
             return [
                 .instance,
-                .volume,
-                .sdkUnknown("")
+                .volume
             ]
         }
 
@@ -2054,8 +2042,7 @@ extension DLMClientTypes {
                 .days,
                 .months,
                 .weeks,
-                .years,
-                .sdkUnknown("")
+                .years
             ]
         }
 
@@ -2275,8 +2262,7 @@ extension DLMClientTypes {
         public static var allCases: [SettablePolicyStateValues] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -2349,8 +2335,7 @@ extension DLMClientTypes {
         public static var allCases: [StageValues] {
             return [
                 .post,
-                .pre,
-                .sdkUnknown("")
+                .pre
             ]
         }
 

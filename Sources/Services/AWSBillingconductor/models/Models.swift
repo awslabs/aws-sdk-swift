@@ -322,8 +322,7 @@ extension BillingconductorClientTypes {
                 .internalServerException,
                 .invalidArn,
                 .invalidBillingPeriodRange,
-                .serviceLimitExceeded,
-                .sdkUnknown("")
+                .serviceLimitExceeded
             ]
         }
 
@@ -780,8 +779,7 @@ extension BillingconductorClientTypes {
         public static var allCases: [BillingGroupStatus] {
             return [
                 .active,
-                .primaryAccountMissing,
-                .sdkUnknown("")
+                .primaryAccountMissing
             ]
         }
 
@@ -936,8 +934,7 @@ extension BillingconductorClientTypes {
                 .pricingRuleAttachedToPricingPlanDeleteConflict,
                 .pricingRuleInPricingPlanConflict,
                 .resourceNameConflict,
-                .writeConflictRetry,
-                .sdkUnknown("")
+                .writeConflictRetry
             ]
         }
 
@@ -1511,8 +1508,7 @@ extension BillingconductorClientTypes {
         public static var allCases: [CurrencyCode] {
             return [
                 .cny,
-                .usd,
-                .sdkUnknown("")
+                .usd
             ]
         }
 
@@ -1747,8 +1743,7 @@ extension BillingconductorClientTypes {
         public static var allCases: [CustomLineItemRelationship] {
             return [
                 .child,
-                .parent,
-                .sdkUnknown("")
+                .parent
             ]
         }
 
@@ -1777,8 +1772,7 @@ extension BillingconductorClientTypes {
         public static var allCases: [CustomLineItemType] {
             return [
                 .credit,
-                .fee,
-                .sdkUnknown("")
+                .fee
             ]
         }
 
@@ -2494,8 +2488,7 @@ extension BillingconductorClientTypes {
         public static var allCases: [GroupByAttributeName] {
             return [
                 .billingPeriod,
-                .productName,
-                .sdkUnknown("")
+                .productName
             ]
         }
 
@@ -2614,8 +2607,7 @@ extension BillingconductorClientTypes {
 
         public static var allCases: [LineItemFilterAttributeName] {
             return [
-                .lineItemType,
-                .sdkUnknown("")
+                .lineItemType
             ]
         }
 
@@ -2641,8 +2633,7 @@ extension BillingconductorClientTypes {
 
         public static var allCases: [LineItemFilterValue] {
             return [
-                .savingsPlanNegation,
-                .sdkUnknown("")
+                .savingsPlanNegation
             ]
         }
 
@@ -4078,8 +4069,7 @@ extension BillingconductorClientTypes {
 
         public static var allCases: [MatchOption] {
             return [
-                .notEqual,
-                .sdkUnknown("")
+                .notEqual
             ]
         }
 
@@ -4263,8 +4253,7 @@ extension BillingconductorClientTypes {
                 .billingEntity,
                 .global,
                 .service,
-                .sku,
-                .sdkUnknown("")
+                .sku
             ]
         }
 
@@ -4297,8 +4286,7 @@ extension BillingconductorClientTypes {
             return [
                 .discount,
                 .markup,
-                .tiering,
-                .sdkUnknown("")
+                .tiering
             ]
         }
 
@@ -5585,8 +5573,7 @@ extension BillingconductorClientTypes {
                 .tooManyAccountsInRequest,
                 .tooManyAutoAssociateBillingGroups,
                 .tooManyCustomlineitemsInRequest,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

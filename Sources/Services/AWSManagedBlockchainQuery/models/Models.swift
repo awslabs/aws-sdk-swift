@@ -364,8 +364,7 @@ extension ManagedBlockchainQueryClientTypes {
         public static var allCases: [ConfirmationStatus] {
             return [
                 .final,
-                .nonfinal,
-                .sdkUnknown("")
+                .nonfinal
             ]
         }
 
@@ -533,8 +532,7 @@ extension ManagedBlockchainQueryClientTypes {
         public static var allCases: [ErrorType] {
             return [
                 .resourceNotFoundException,
-                .validationException,
-                .sdkUnknown("")
+                .validationException
             ]
         }
 
@@ -563,8 +561,7 @@ extension ManagedBlockchainQueryClientTypes {
         public static var allCases: [ExecutionStatus] {
             return [
                 .failed,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1141,8 +1138,7 @@ extension ManagedBlockchainQueryClientTypes {
 
         public static var allCases: [ListFilteredTransactionEventsSortBy] {
             return [
-                .blockchaininstant,
-                .sdkUnknown("")
+                .blockchaininstant
             ]
         }
 
@@ -1497,8 +1493,7 @@ extension ManagedBlockchainQueryClientTypes {
 
         public static var allCases: [ListTransactionsSortBy] {
             return [
-                .transactionTimestamp,
-                .sdkUnknown("")
+                .transactionTimestamp
             ]
         }
 
@@ -1593,8 +1588,7 @@ extension ManagedBlockchainQueryClientTypes {
                 .bitcoinMainnet,
                 .bitcoinTestnet,
                 .ethereumMainnet,
-                .ethereumSepoliaTestnet,
-                .sdkUnknown("")
+                .ethereumSepoliaTestnet
             ]
         }
 
@@ -1627,8 +1621,7 @@ extension ManagedBlockchainQueryClientTypes {
             return [
                 .erc1155,
                 .erc20,
-                .erc721,
-                .sdkUnknown("")
+                .erc721
             ]
         }
 
@@ -1687,8 +1680,7 @@ extension ManagedBlockchainQueryClientTypes {
                 .erc20Withdrawal,
                 .erc721Transfer,
                 .ethTransfer,
-                .internalEthTransfer,
-                .sdkUnknown("")
+                .internalEthTransfer
             ]
         }
 
@@ -1775,8 +1767,7 @@ extension ManagedBlockchainQueryClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
-                .collection,
-                .sdkUnknown("")
+                .collection
             ]
         }
 
@@ -1869,8 +1860,7 @@ extension ManagedBlockchainQueryClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -2485,8 +2475,7 @@ extension ManagedBlockchainQueryClientTypes {
                 .cannotParse,
                 .fieldValidationFailed,
                 .other,
-                .unknownOperation,
-                .sdkUnknown("")
+                .unknownOperation
             ]
         }
 

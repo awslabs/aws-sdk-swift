@@ -104,8 +104,7 @@ extension M2ClientTypes {
         public static var allCases: [ApplicationDeploymentLifecycle] {
             return [
                 .deployed,
-                .deploying,
-                .sdkUnknown("")
+                .deploying
             ]
         }
 
@@ -152,8 +151,7 @@ extension M2ClientTypes {
                 .running,
                 .starting,
                 .stopped,
-                .stopping,
-                .sdkUnknown("")
+                .stopping
             ]
         }
 
@@ -286,8 +284,7 @@ extension M2ClientTypes {
             return [
                 .available,
                 .creating,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -405,8 +402,7 @@ extension M2ClientTypes {
                 .running,
                 .submitting,
                 .succeeded,
-                .succeededWithWarning,
-                .sdkUnknown("")
+                .succeededWithWarning
             ]
         }
 
@@ -572,8 +568,7 @@ extension M2ClientTypes {
             return [
                 .jes2,
                 .jes3,
-                .vse,
-                .sdkUnknown("")
+                .vse
             ]
         }
 
@@ -1407,8 +1402,7 @@ extension M2ClientTypes {
                 .completed,
                 .creating,
                 .failed,
-                .running,
-                .sdkUnknown("")
+                .running
             ]
         }
 
@@ -1747,8 +1741,7 @@ extension M2ClientTypes {
                 .deploying,
                 .deployUpdate,
                 .failed,
-                .succeeded,
-                .sdkUnknown("")
+                .succeeded
             ]
         }
 
@@ -1880,8 +1873,7 @@ extension M2ClientTypes {
         public static var allCases: [EngineType] {
             return [
                 .bluage,
-                .microfocus,
-                .sdkUnknown("")
+                .microfocus
             ]
         }
 
@@ -1949,8 +1941,7 @@ extension M2ClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -5856,8 +5847,7 @@ extension M2ClientTypes {
                 .fieldValidationFailed,
                 .other,
                 .unknownOperation,
-                .unsupportedEngineVersion,
-                .sdkUnknown("")
+                .unsupportedEngineVersion
             ]
         }
 

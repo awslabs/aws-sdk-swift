@@ -68,8 +68,7 @@ extension CostandUsageReportClientTypes {
                 .tokyo,
                 .uae,
                 .usStandard,
-                .zurich,
-                .sdkUnknown("")
+                .zurich
             ]
         }
 
@@ -127,8 +126,7 @@ extension CostandUsageReportClientTypes {
             return [
                 .athena,
                 .quicksight,
-                .redshift,
-                .sdkUnknown("")
+                .redshift
             ]
         }
 
@@ -161,8 +159,7 @@ extension CostandUsageReportClientTypes {
             return [
                 .gzip,
                 .parquet,
-                .zip,
-                .sdkUnknown("")
+                .zip
             ]
         }
 
@@ -418,8 +415,7 @@ extension CostandUsageReportClientTypes {
             return [
                 .errorNoBucket,
                 .errorPermissions,
-                .success,
-                .sdkUnknown("")
+                .success
             ]
         }
 
@@ -755,8 +751,7 @@ extension CostandUsageReportClientTypes {
         public static var allCases: [ReportFormat] {
             return [
                 .csv,
-                .parquet,
-                .sdkUnknown("")
+                .parquet
             ]
         }
 
@@ -860,8 +855,7 @@ extension CostandUsageReportClientTypes {
         public static var allCases: [ReportVersioning] {
             return [
                 .createNewReport,
-                .overwriteReport,
-                .sdkUnknown("")
+                .overwriteReport
             ]
         }
 
@@ -931,8 +925,7 @@ extension CostandUsageReportClientTypes {
             return [
                 .manualDiscountCompatibility,
                 .resources,
-                .splitCostAllocationData,
-                .sdkUnknown("")
+                .splitCostAllocationData
             ]
         }
 
@@ -1066,8 +1059,7 @@ extension CostandUsageReportClientTypes {
             return [
                 .daily,
                 .hourly,
-                .monthly,
-                .sdkUnknown("")
+                .monthly
             ]
         }
 

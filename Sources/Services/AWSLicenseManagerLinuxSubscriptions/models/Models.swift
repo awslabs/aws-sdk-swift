@@ -233,8 +233,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
         public static var allCases: [LinuxSubscriptionsDiscovery] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -509,8 +508,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
             return [
                 .contains,
                 .equal,
-                .notEqual,
-                .sdkUnknown("")
+                .notEqual
             ]
         }
 
@@ -542,8 +540,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
         public static var allCases: [OrganizationIntegration] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -580,8 +577,7 @@ extension LicenseManagerLinuxSubscriptionsClientTypes {
                 .completed,
                 .failed,
                 .inprogress,
-                .successful,
-                .sdkUnknown("")
+                .successful
             ]
         }
 

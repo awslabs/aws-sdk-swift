@@ -54,8 +54,7 @@ extension Route53ResolverClientTypes {
             return [
                 .alert,
                 .allow,
-                .block,
-                .sdkUnknown("")
+                .block
             ]
         }
 
@@ -434,8 +433,7 @@ extension Route53ResolverClientTypes {
             return [
                 .disable,
                 .enable,
-                .useLocalResourceSetting,
-                .sdkUnknown("")
+                .useLocalResourceSetting
             ]
         }
 
@@ -463,8 +461,7 @@ extension Route53ResolverClientTypes {
 
         public static var allCases: [BlockOverrideDnsType] {
             return [
-                .cname,
-                .sdkUnknown("")
+                .cname
             ]
         }
 
@@ -494,8 +491,7 @@ extension Route53ResolverClientTypes {
             return [
                 .nodata,
                 .nxdomain,
-                .override,
-                .sdkUnknown("")
+                .override
             ]
         }
 
@@ -2341,8 +2337,7 @@ extension Route53ResolverClientTypes {
 
         public static var allCases: [FirewallDomainImportOperation] {
             return [
-                .replace,
-                .sdkUnknown("")
+                .replace
             ]
         }
 
@@ -2493,8 +2488,7 @@ extension Route53ResolverClientTypes {
                 .completeImportFailed,
                 .deleting,
                 .importing,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -2526,8 +2520,7 @@ extension Route53ResolverClientTypes {
         public static var allCases: [FirewallDomainRedirectionAction] {
             return [
                 .inspectRedirectionDomain,
-                .trustRedirectionDomain,
-                .sdkUnknown("")
+                .trustRedirectionDomain
             ]
         }
 
@@ -2558,8 +2551,7 @@ extension Route53ResolverClientTypes {
             return [
                 .add,
                 .remove,
-                .replace,
-                .sdkUnknown("")
+                .replace
             ]
         }
 
@@ -2591,8 +2583,7 @@ extension Route53ResolverClientTypes {
             return [
                 .disabled,
                 .enabled,
-                .useLocalResourceSetting,
-                .sdkUnknown("")
+                .useLocalResourceSetting
             ]
         }
 
@@ -2917,8 +2908,7 @@ extension Route53ResolverClientTypes {
             return [
                 .complete,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -3001,8 +2991,7 @@ extension Route53ResolverClientTypes {
             return [
                 .complete,
                 .deleting,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -4522,8 +4511,7 @@ extension Route53ResolverClientTypes {
                 .remapattaching,
                 .remapdetaching,
                 .updatefailed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6127,8 +6115,7 @@ extension Route53ResolverClientTypes {
         public static var allCases: [MutationProtectionStatus] {
             return [
                 .disabled,
-                .enabled,
-                .sdkUnknown("")
+                .enabled
             ]
         }
 
@@ -6243,8 +6230,7 @@ extension Route53ResolverClientTypes {
                 .failedCreation,
                 .failedDeletion,
                 .operational,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6280,8 +6266,7 @@ extension Route53ResolverClientTypes {
             return [
                 .do53,
                 .doh,
-                .dohfips,
-                .sdkUnknown("")
+                .dohfips
             ]
         }
 
@@ -6572,8 +6557,7 @@ extension Route53ResolverClientTypes {
                 .enabled,
                 .enabling,
                 .updatingtouselocalresourcesetting,
-                .uselocalresourcesetting,
-                .sdkUnknown("")
+                .uselocalresourcesetting
             ]
         }
 
@@ -6663,8 +6647,7 @@ extension Route53ResolverClientTypes {
                 .enabled,
                 .enabling,
                 .updatetouselocalresourcesetting,
-                .uselocalresourcesetting,
-                .sdkUnknown("")
+                .uselocalresourcesetting
             ]
         }
 
@@ -6893,8 +6876,7 @@ extension Route53ResolverClientTypes {
         public static var allCases: [ResolverEndpointDirection] {
             return [
                 .inbound,
-                .outbound,
-                .sdkUnknown("")
+                .outbound
             ]
         }
 
@@ -6931,8 +6913,7 @@ extension Route53ResolverClientTypes {
                 .creating,
                 .deleting,
                 .operational,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -6967,8 +6948,7 @@ extension Route53ResolverClientTypes {
             return [
                 .dualstack,
                 .ipv4,
-                .ipv6,
-                .sdkUnknown("")
+                .ipv6
             ]
         }
 
@@ -7156,8 +7136,7 @@ extension Route53ResolverClientTypes {
                 .accessdenied,
                 .destinationnotfound,
                 .internalserviceerror,
-                .none,
-                .sdkUnknown("")
+                .none
             ]
         }
 
@@ -7194,8 +7173,7 @@ extension Route53ResolverClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -7231,8 +7209,7 @@ extension Route53ResolverClientTypes {
                 .created,
                 .creating,
                 .deleting,
-                .failed,
-                .sdkUnknown("")
+                .failed
             ]
         }
 
@@ -7411,8 +7388,7 @@ extension Route53ResolverClientTypes {
                 .creating,
                 .deleting,
                 .failed,
-                .overridden,
-                .sdkUnknown("")
+                .overridden
             ]
         }
 
@@ -7482,8 +7458,7 @@ extension Route53ResolverClientTypes {
                 .complete,
                 .deleting,
                 .failed,
-                .updating,
-                .sdkUnknown("")
+                .updating
             ]
         }
 
@@ -7686,8 +7661,7 @@ extension Route53ResolverClientTypes {
             return [
                 .forward,
                 .recursive,
-                .system,
-                .sdkUnknown("")
+                .system
             ]
         }
 
@@ -7756,8 +7730,7 @@ extension Route53ResolverClientTypes {
             return [
                 .notshared,
                 .sharedbyme,
-                .sharedwithme,
-                .sdkUnknown("")
+                .sharedwithme
             ]
         }
 
@@ -7787,8 +7760,7 @@ extension Route53ResolverClientTypes {
         public static var allCases: [SortOrder] {
             return [
                 .ascending,
-                .descending,
-                .sdkUnknown("")
+                .descending
             ]
         }
 
@@ -9071,8 +9043,7 @@ extension Route53ResolverClientTypes {
             return [
                 .disable,
                 .enable,
-                .useLocalResourceSetting,
-                .sdkUnknown("")
+                .useLocalResourceSetting
             ]
         }
 
