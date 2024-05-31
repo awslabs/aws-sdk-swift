@@ -290,7 +290,7 @@ class Sigv4SigningTests: XCTestCase {
             .withPort(443)
             .withProtocol(.http)
             .withHeader(name: "host", value: "example.amazonaws.com")
-            .withQueryItem(SDKURLQueryItem(name: "%E1%88%B4", value: "bar"))
+            .withQueryItem(URIQueryItem(name: "%E1%88%B4", value: "bar"))
 
         guard let url = await AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
                                                             awsCredentialIdentityResolver: TestCustomAWSCredentialIdentityResolver(),
