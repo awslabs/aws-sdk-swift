@@ -10,7 +10,6 @@ object AWSSDKIdentityTypes {
     val Partition = runtimeSymbol("Partition")
     val ServiceEndpointMetadata = runtimeSymbol("ServiceEndpointMetadata")
     val CredentialScope = runtimeSymbol("CredentialScope")
-    val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError")
     val AWSServiceError = runtimeSymbol("AWSServiceError")
     val RegionResolver = runtimeSymbol("RegionResolver")
     val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware")

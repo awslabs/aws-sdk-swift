@@ -3,6 +3,7 @@ package software.amazon.smithy.aws.swift.codegen.swiftmodules
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.SwiftDeclaration
+import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 import software.amazon.smithy.swift.codegen.model.toInternalSPI
 
@@ -40,9 +41,8 @@ object AWSClientRuntimeTypes {
         val Partition = runtimeSymbol("Partition")
         val ServiceEndpointMetadata = runtimeSymbol("ServiceEndpointMetadata")
         val CredentialScope = runtimeSymbol("CredentialScope")
-        val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError").toInternalSPI(
-            SwiftDeclaration.STRUCT, "UnknownAWSHTTPServiceError"
-        )
+        val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError", SwiftDeclaration.STRUCT)
+            .toInternalSPI("UnknownAWSHTTPServiceError")
         val AWSServiceError = runtimeSymbol("AWSServiceError")
         val RegionResolver = runtimeSymbol("RegionResolver")
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware")
@@ -64,8 +64,9 @@ object AWSClientRuntimeTypes {
     }
 }
 
-private fun runtimeSymbol(name: String): Symbol = buildSymbol {
+private fun runtimeSymbol(name: String, declaration: SwiftDeclaration? = null): Symbol = buildSymbol {
     this.name = name
     this.namespace = AWSSwiftDependency.AWS_CLIENT_RUNTIME.target
+    declaration?.let { this.setProperty("decl", it.keyword) }
     dependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
 }
