@@ -699,7 +699,7 @@ let serviceTargets: [String] = [
 ]
 
 // Uncomment this line to enable all services
-// addAllServices()
+addAllServices()
 
 let servicesWithIntegrationTests: [String] = [
     "AWSCloudFrontKeyValueStore",
