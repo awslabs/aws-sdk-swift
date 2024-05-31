@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import class Smithy.Context
 import ClientRuntime
 
 public struct Route53TrimHostedZoneMiddleware<Input, Output>: ClientRuntime.Middleware {
@@ -22,8 +23,7 @@ public struct Route53TrimHostedZoneMiddleware<Input, Output>: ClientRuntime.Midd
                           next: H) async throws -> ClientRuntime.OperationOutput<Output>
     where H: Handler,
     Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context {
+    Self.MOutput == H.Output {
         let updatedInput = getUpdatedInput(input: input)
         return try await next.handle(context: context, input: updatedInput)
     }
@@ -40,7 +40,6 @@ public struct Route53TrimHostedZoneMiddleware<Input, Output>: ClientRuntime.Midd
 
     public typealias MInput = Input
     public typealias MOutput = ClientRuntime.OperationOutput<Output>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension Route53TrimHostedZoneMiddleware: HttpInterceptor {

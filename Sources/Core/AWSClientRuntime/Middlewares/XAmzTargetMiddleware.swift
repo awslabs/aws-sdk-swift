@@ -1,5 +1,8 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0.
+
+import class Smithy.Context
+import SmithyHTTPAPI
 import ClientRuntime
 
 public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
@@ -16,8 +19,7 @@ public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput>: M
                           next: H) async throws -> OperationOutput<OperationStackOutput>
     where H: Handler,
           Self.MInput == H.Input,
-          Self.MOutput == H.Output,
-          Self.Context == H.Context {
+          Self.MOutput == H.Output {
 
         addHeader(builder: input.builder)
         return try await next.handle(context: context, input: input)
@@ -29,7 +31,6 @@ public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput>: M
 
     public typealias MInput = SerializeStepInput<OperationStackInput>
     public typealias MOutput = OperationOutput<OperationStackOutput>
-    public typealias Context = HttpContext
 }
 
 extension XAmzTargetMiddleware: HttpInterceptor {

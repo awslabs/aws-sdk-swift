@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import Smithy
 import Foundation
 import XCTest
 import AWSS3

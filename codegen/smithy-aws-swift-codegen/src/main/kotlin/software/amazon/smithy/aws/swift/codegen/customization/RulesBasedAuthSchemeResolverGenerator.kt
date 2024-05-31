@@ -5,11 +5,13 @@ import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 class RulesBasedAuthSchemeResolverGenerator {
@@ -18,9 +20,10 @@ class RulesBasedAuthSchemeResolverGenerator {
         val rootNamespace = ctx.settings.moduleName
 
         ctx.delegator.useFileWriter("./$rootNamespace/$AUTH_SCHEME_RESOLVER.swift") {
+            it.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+            it.addImport(SwiftDependency.SMITHY_HTTP_AUTH_API.target)
             renderServiceSpecificDefaultResolver(ctx, it)
             it.write("")
-            it.addImport(SwiftDependency.CLIENT_RUNTIME.target)
         }
     }
 
@@ -40,7 +43,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 write("")
                 renderConstructParametersMethod(
                     ctx,
-                    sdkId + ClientRuntimeTypes.Auth.AuthSchemeResolverParams.name,
+                    sdkId + SmithyHTTPAuthAPITypes.AuthSchemeResolverParams.name,
                     writer
                 )
             }
@@ -49,13 +52,13 @@ class RulesBasedAuthSchemeResolverGenerator {
 
     private fun renderResolveAuthSchemeMethod(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
         val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
-        val serviceParamsName = sdkId + ClientRuntimeTypes.Auth.AuthSchemeResolverParams.name
+        val serviceParamsName = sdkId + SmithyHTTPAuthAPITypes.AuthSchemeResolverParams.name
 
         writer.apply {
             openBlock(
                 "public func resolveAuthScheme(params: \$L) throws -> [AuthOption] {",
                 "}",
-                ClientRuntimeTypes.Auth.AuthSchemeResolverParams
+                SmithyHTTPAuthAPITypes.AuthSchemeResolverParams
             ) {
                 // Return value of array of auth options
                 write("var validAuthOptions = [AuthOption]()")
@@ -90,16 +93,16 @@ class RulesBasedAuthSchemeResolverGenerator {
                         write("case .sigV4(let param):")
                         indent()
                         write("var sigV4Option = AuthOption(schemeID: \$S)", SigV4Trait.ID)
-                        write("sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)")
-                        write("sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegion)")
+                        write("sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingName, value: param.signingName)")
+                        write("sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingRegion, value: param.signingRegion)")
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // SigV4A case
                         write("case .sigV4A(let param):")
                         indent()
                         write("var sigV4Option = AuthOption(schemeID: \$S)", SigV4ATrait.ID)
-                        write("sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)")
-                        write("sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegionSet?[0])")
+                        write("sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingName, value: param.signingName)")
+                        write("sigV4Option.signingProperties.set(key: SigningPropertyKeys.signingRegion, value: param.signingRegionSet?[0])")
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // Default case: throw error if returned auth scheme is neither SigV4 nor SigV4A
@@ -118,9 +121,10 @@ class RulesBasedAuthSchemeResolverGenerator {
     private fun renderConstructParametersMethod(ctx: ProtocolGenerator.GenerationContext, returnTypeName: String, writer: SwiftWriter) {
         writer.apply {
             openBlock(
-                "public func constructParameters(context: HttpContext) throws -> \$L {",
+                "public func constructParameters(context: \$N) throws -> \$N {",
                 "}",
-                ClientRuntimeTypes.Auth.AuthSchemeResolverParams
+                SmithyTypes.Context,
+                SmithyHTTPAuthAPITypes.AuthSchemeResolverParams
             ) {
                 openBlock("guard let opName = context.getOperation() else {", "}") {
                     write("throw ClientError.dataNotFound(\"Operation name not configured in middleware context for auth scheme resolver params construction.\")")

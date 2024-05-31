@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
@@ -16,12 +17,12 @@ import software.amazon.smithy.rulesengine.language.evaluation.value.RecordValue
 import software.amazon.smithy.rulesengine.language.evaluation.value.StringValue
 import software.amazon.smithy.rulesengine.language.evaluation.value.Value
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.XCTestTypes
 import software.amazon.smithy.swift.codegen.endpoints.EndpointTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 /**
@@ -43,6 +44,7 @@ class EndpointTestGenerator(
         writer.addImport(AWSSwiftDependency.AWS_COMMON_RUNTIME.target)
         writer.addImport(SwiftDependency.XCTest.target)
         writer.addImport(SwiftDependency.SMITHY_TEST_UTIL.target)
+        writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
 
         // used to filter out test params that are not valid
         val endpointParamsMembers = endpointRuleSet?.parameters?.toList()?.map { it.name.name.value }?.toSet() ?: emptySet()
@@ -100,13 +102,13 @@ class EndpointTestGenerator(
                         }
 
                         val reference = if (endpoint.headers.isNotEmpty()) "var" else "let"
-                        writer.write("$reference headers = Headers()")
+                        writer.write("$reference headers = \$N()", SmithyHTTPAPITypes.Headers)
                         endpoint.headers.forEach { (name, values) ->
                             writer.write("headers.add(name: \$S, values: [\$S])", name, values.sorted().joinToString(","))
                         }
                         writer.write(
                             "let expected = try \$L(urlString: \$S, headers: headers, properties: properties)",
-                            ClientRuntimeTypes.Core.Endpoint,
+                            SmithyHTTPAPITypes.Endpoint,
                             endpoint.url
                         ).write("")
                         writer.write("XCTAssertEqual(expected, actual)")

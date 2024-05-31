@@ -8,7 +8,6 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.swift.codegen.SigV4Utils.Companion.getModeledAuthSchemesSupportedBySDK
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
@@ -17,6 +16,9 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClien
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.toOptional
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyRetriesAPITypes
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
@@ -26,6 +28,7 @@ class AWSHttpProtocolServiceClient(
     private val serviceConfig: ServiceConfig
 ) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
     override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
+        writer.addImport(AWSSwiftDependency.AWS_SDK_HTTP_AUTH.target)
         writer.openBlock("public convenience init(region: Swift.String) throws {", "}") {
             writer.write("let config = try ${serviceConfig.typeName}(region: region)")
             writer.write("self.init(config: config)")
@@ -41,10 +44,10 @@ class AWSHttpProtocolServiceClient(
         return properties.map {
             when (it.name) {
                 "authSchemeResolver" -> {
-                    ConfigProperty("authSchemeResolver", ClientRuntimeTypes.Auth.AuthSchemeResolver, authSchemeResolverDefaultProvider)
+                    ConfigProperty("authSchemeResolver", SmithyHTTPAuthAPITypes.AuthSchemeResolver, authSchemeResolverDefaultProvider)
                 }
                 "authSchemes" -> {
-                    ConfigProperty("authSchemes", ClientRuntimeTypes.Auth.AuthSchemes.toOptional(), authSchemesDefaultProvider)
+                    ConfigProperty("authSchemes", SmithyHTTPAuthAPITypes.AuthSchemes.toOptional(), authSchemesDefaultProvider)
                 }
                 "retryStrategyOptions" -> {
                     writer.addImport(SwiftDependency.SMITHY_RETRIES_API.target)
@@ -57,7 +60,7 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty("idempotencyTokenGenerator", ClientRuntimeTypes.Core.IdempotencyTokenGenerator, "AWSClientConfigDefaultsProvider.idempotencyTokenGenerator")
                 }
                 "httpClientEngine" -> {
-                    ConfigProperty("httpClientEngine", ClientRuntimeTypes.Http.HttpClient, "AWSClientConfigDefaultsProvider.httpClientEngine")
+                    ConfigProperty("httpClientEngine", SmithyHTTPAPITypes.HttpClient, "AWSClientConfigDefaultsProvider.httpClientEngine")
                 }
                 "httpClientConfiguration" -> {
                     ConfigProperty("httpClientConfiguration", ClientRuntimeTypes.Http.HttpClientConfiguration, "AWSClientConfigDefaultsProvider.httpClientConfiguration")

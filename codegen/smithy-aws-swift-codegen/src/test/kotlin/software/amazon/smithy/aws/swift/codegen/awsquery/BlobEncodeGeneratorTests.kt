@@ -25,10 +25,10 @@ extension BlobInputParamsInput {
 
     static func write(value: BlobInputParamsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["BlobList"].writeList(value.blobList, memberWritingClosure: ClientRuntime.Data.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BlobListFlattened"].writeList(value.blobListFlattened, memberWritingClosure: ClientRuntime.Data.write(value:to:), memberNodeInfo: "member", isFlattened: true)
-        try writer["BlobMap"].writeMap(value.blobMap, valueWritingClosure: ClientRuntime.Data.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["BlobMapFlattened"].writeMap(value.blobMapFlattened, valueWritingClosure: ClientRuntime.Data.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
+        try writer["BlobList"].writeList(value.blobList, memberWritingClosure: Foundation.Data.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BlobListFlattened"].writeList(value.blobListFlattened, memberWritingClosure: Foundation.Data.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["BlobMap"].writeMap(value.blobMap, valueWritingClosure: Foundation.Data.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["BlobMapFlattened"].writeMap(value.blobMapFlattened, valueWritingClosure: Foundation.Data.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
         try writer["BlobMember"].write(value.blobMember)
         try writer["Action"].write("BlobInputParams")
         try writer["Version"].write("2020-01-08")

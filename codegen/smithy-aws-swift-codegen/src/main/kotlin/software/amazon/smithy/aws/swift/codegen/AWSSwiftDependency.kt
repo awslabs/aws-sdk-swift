@@ -15,6 +15,30 @@ enum class AWSSwiftDependency(
     private val localPath: String,
     override var packageName: String
 ) : Dependency {
+    AWS_SDK_IDENTITY(
+        "AWSSDKIdentity",
+        "main",
+        "0.1.0",
+        "https://github.com/awslabs/aws-sdk-swift",
+        Resources.computeAbsolutePath("aws-sdk-swift", "", "AWS_SDK_SWIFT_CI_DIR"),
+        "aws-sdk-swift"
+    ),
+    AWS_SDK_HTTP_AUTH(
+        "AWSSDKHTTPAuth",
+        "main",
+        "0.1.0",
+        "https://github.com/awslabs/aws-sdk-swift",
+        Resources.computeAbsolutePath("aws-sdk-swift", "", "AWS_SDK_SWIFT_CI_DIR"),
+        "aws-sdk-swift"
+    ),
+    AWS_SDK_EVENT_STREAMS_AUTH(
+        "AWSSDKEventStreamsAuth",
+        "main",
+        "0.1.0",
+        "https://github.com/awslabs/aws-sdk-swift",
+        Resources.computeAbsolutePath("aws-sdk-swift", "", "AWS_SDK_SWIFT_CI_DIR"),
+        "aws-sdk-swift"
+    ),
     AWS_CLIENT_RUNTIME(
         "AWSClientRuntime",
         "main",

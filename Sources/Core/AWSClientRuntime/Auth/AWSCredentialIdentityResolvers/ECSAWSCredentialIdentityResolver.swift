@@ -5,13 +5,16 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import SmithyHTTPAPI
+import AWSSDKIdentity
+import enum Smithy.ClientError
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
 
 /// A credential identity resolver that sources credentials from ECS container metadata
 public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
     /// Creates a credential identity resolver that resolves credentials from ECS container metadata.
     /// ECS creds provider can be used to access creds via either relative uri to a fixed endpoint http://169.254.170.2,
     /// or via a full uri specified by environment variables:
@@ -49,7 +52,7 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByC
             host = absoluteHost
             pathAndQuery = absolutePathAndQuery
         } else {
-            throw ClientError.pathCreationFailed(
+            throw HTTPClientError.pathCreationFailed(
                 "Failed to retrieve either relative or absolute URI! URI may be malformed."
             )
         }
@@ -64,15 +67,16 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByC
 
 private func retrieveHostPathAndQuery(from url: URL) throws -> (String, String) {
     guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-        throw ClientError.pathCreationFailed("Absolute URI is malformed! Could not instantiate URLComponents from URL.")
+        let message = "Absolute URI is malformed! Could not instantiate URLComponents from URL."
+        throw HTTPClientError.pathCreationFailed(message)
     }
     guard let hostComponent = components.host else {
-        throw ClientError.pathCreationFailed("Absolute URI is malformed! Could not retrieve host from URL.")
+        throw HTTPClientError.pathCreationFailed("Absolute URI is malformed! Could not retrieve host from URL.")
     }
     components.scheme = nil
     components.host = nil
     guard let pathQueryFragment = components.url else {
-        throw ClientError.pathCreationFailed("Could not retrieve path from URL!")
+        throw HTTPClientError.pathCreationFailed("Could not retrieve path from URL!")
     }
     return (hostComponent, pathQueryFragment.absoluteString)
 }

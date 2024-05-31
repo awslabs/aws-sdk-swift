@@ -9,6 +9,7 @@ import XCTest
 import AWSSTS
 import ClientRuntime
 import AWSClientRuntime
+import AWSSDKHTTPAuth
 
 /// Tests presigned request using STS::getCallerIdentity.
 class STSPresignedRequestTests: XCTestCase {

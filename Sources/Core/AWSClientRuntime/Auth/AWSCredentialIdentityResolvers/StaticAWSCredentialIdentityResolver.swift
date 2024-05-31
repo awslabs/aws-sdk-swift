@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import SmithyIdentityAPI
+import AWSSDKIdentity
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
@@ -12,7 +14,7 @@ import Foundation
 /// A credential identity resolver that provides a fixed set of credentials
 public struct StaticAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
     private let credentials: AWSCredentialIdentity
-    let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
 
     /// Creates a credential identity resolver for a fixed set of credentials
     ///

@@ -35,13 +35,12 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
 
     public init() {}
 
-    public func handle<H>(context: Context,
+    public func handle<H>(context: Smithy.Context,
                   input: ClientRuntime.SerializeStepInput<PutObjectInput>,
                   next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutput>
     where H: Handler,
     Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
+    Self.MOutput == H.Output
     {
         try self.apply(input: input.operationInput, builder: input.builder, attributes: context)
         return try await next.handle(context: context, input: input)
@@ -49,7 +48,6 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
 
     public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
     public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 """
         contents.shouldContainOnlyOnce(expectedContents)
