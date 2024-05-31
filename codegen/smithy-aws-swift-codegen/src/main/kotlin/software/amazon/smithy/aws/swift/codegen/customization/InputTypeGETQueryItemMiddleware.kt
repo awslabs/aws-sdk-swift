@@ -13,6 +13,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.model.isEnum
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 
 class InputTypeGETQueryItemMiddleware(
     private val ctx: ProtocolGenerator.GenerationContext,
@@ -81,7 +82,7 @@ class InputTypeGETQueryItemMiddleware(
     private fun writeRenderItem(queryKey: String, queryValue: String) {
         writer.write(
             "let queryItem = \$N(name: \$S.urlPercentEncoding(), value: \$S.urlPercentEncoding())",
-            SmithyHTTPAPITypes.SDKURLQueryItem,
+            SmithyTypes.URIQueryItem,
             queryValue,
             queryKey,
         )

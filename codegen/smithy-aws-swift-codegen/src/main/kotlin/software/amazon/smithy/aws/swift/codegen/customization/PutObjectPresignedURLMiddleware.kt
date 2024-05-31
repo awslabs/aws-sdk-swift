@@ -6,6 +6,7 @@ import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.steps.OperationSerializeStep
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 
 // This middleware is intended only for use with S3 `PutObject`, and only for use when
 // creating a presigned URL.
@@ -44,7 +45,7 @@ class PutObjectPresignedURLMiddleware(
                 }
             }
             """.trimIndent(),
-            SmithyHTTPAPITypes.SDKURLQueryItem
+            SmithyTypes.URIQueryItem,
         )
     }
 
