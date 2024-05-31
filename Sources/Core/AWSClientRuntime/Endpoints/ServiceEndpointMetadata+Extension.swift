@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import enum Smithy.URIScheme
 import SmithyHTTPAPI
 import ClientRuntime
 
@@ -21,7 +22,7 @@ extension ServiceEndpointMetadata {
 
         return AWSEndpoint(endpoint: Endpoint(host: editedHostName,
                            path: "/",
-                           protocolType: ProtocolType(rawValue: transportProtocol)),
+                           protocolType: URIScheme(rawValue: transportProtocol)),
                            signingName: signingName,
                            signingRegion: signingRegion)
     }
