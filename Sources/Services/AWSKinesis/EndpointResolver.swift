@@ -176,14 +176,11 @@ extension EndpointResolverMiddleware: ApplyEndpoint {
             attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))
         }
 
-        if let headers = endpoint.headers {
-            builder.withHeaders(headers)
-        }
-
         return builder.withMethod(attributes.getMethod())
             .withHost(host)
             .withPort(awsEndpoint.endpoint.port)
             .withPath(awsEndpoint.endpoint.path.appendingPathComponent(attributes.getPath()))
+            .withHeaders(endpoint.headers)
             .withHeader(name: "Host", value: host)
             .build()
     }

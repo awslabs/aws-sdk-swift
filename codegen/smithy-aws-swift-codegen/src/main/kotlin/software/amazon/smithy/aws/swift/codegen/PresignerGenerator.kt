@@ -10,6 +10,7 @@ import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTyp
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.FoundationTypes
+import software.amazon.smithy.swift.codegen.SwiftDeclaration
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -83,7 +84,7 @@ class PresignerGenerator : SwiftIntegration {
         writer.addImport(AWSClientConfiguration)
         writer.addImport(SwiftDependency.SMITHY.target)
         writer.addImport(SwiftDependency.SMITHY_HTTP_API.target)
-        writer.addIndividualTypeImport("typealias", "Foundation", "TimeInterval")
+        writer.addIndividualTypeImport(SwiftDeclaration.TYPEALIAS, "Foundation", "TimeInterval")
 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 

@@ -34,9 +34,9 @@ class AWSEndpointResolverMiddleware(
                     attributes: Smithy.Context) async throws -> SdkHttpRequest
                 {
                     let builder = request.toBuilder()
-                    
+
                     let endpoint = try endpointResolver.resolve(params: endpointParams)
-                    
+
                     var signingName: String? = nil
                     var signingRegion: String? = nil
                     var signingAlgorithm: String? = nil
@@ -55,42 +55,39 @@ class AWSEndpointResolverMiddleware(
                             break
                         }
                     }
-                    
+
                     let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)
-                    
+
                     var host = ""
                     if let hostOverride = attributes.host {
                         host = hostOverride
                     } else {
                         host = "\(attributes.hostPrefix ?? "")\(awsEndpoint.endpoint.host)"
                     }
-                    
+
                     if let protocolType = awsEndpoint.endpoint.protocolType {
                         builder.withProtocol(protocolType)
                     }
-                    
+
                     if let signingRegion = signingRegion {
                         attributes.signingRegion = signingRegion
                         attributes.selectedAuthScheme = selectedAuthScheme?.getCopyWithUpdatedSigningProperty(key: SigningPropertyKeys.signingRegion, value: signingRegion)
                     }
-                    
+
                     if let signingName = signingName {
                        attributes.signingName = signingName
                        attributes.selectedAuthScheme = selectedAuthScheme?.getCopyWithUpdatedSigningProperty(key: SigningPropertyKeys.signingName, value: signingName)
                     }
-                    
+
                     if let signingAlgorithm = signingAlgorithm {
                         attributes.signingAlgorithm = SigningAlgorithm(rawValue: signingAlgorithm)
                     }
-                    
-                    if let headers = endpoint.headers {
-                        builder.withHeaders(headers)
-                    }
-                    
+
                     return builder.withMethod(attributes.method)
                         .withHost(host)
                         .withPort(awsEndpoint.endpoint.port)
                         .withPath(awsEndpoint.endpoint.path.appendingPathComponent(attributes.path))
+                        .withHeaders(endpoint.headers)
                         .withHeader(name: "Host", value: host)
                         .build()
                 }

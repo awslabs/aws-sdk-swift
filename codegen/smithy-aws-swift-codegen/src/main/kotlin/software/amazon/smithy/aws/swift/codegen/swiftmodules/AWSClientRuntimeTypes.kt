@@ -2,7 +2,9 @@ package software.amazon.smithy.aws.swift.codegen.swiftmodules
 
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.swift.codegen.SwiftDeclaration
 import software.amazon.smithy.swift.codegen.model.buildSymbol
+import software.amazon.smithy.swift.codegen.model.toInternalSPI
 
 object AWSClientRuntimeTypes {
 
@@ -38,7 +40,9 @@ object AWSClientRuntimeTypes {
         val Partition = runtimeSymbol("Partition")
         val ServiceEndpointMetadata = runtimeSymbol("ServiceEndpointMetadata")
         val CredentialScope = runtimeSymbol("CredentialScope")
-        val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError")
+        val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError").toInternalSPI(
+            SwiftDeclaration.STRUCT, "UnknownAWSHTTPServiceError"
+        )
         val AWSServiceError = runtimeSymbol("AWSServiceError")
         val RegionResolver = runtimeSymbol("RegionResolver")
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware")
