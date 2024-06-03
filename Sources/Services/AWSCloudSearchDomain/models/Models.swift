@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -380,66 +382,66 @@ public struct SearchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 
 extension SearchInput {
 
-    static func queryItemProvider(_ value: SearchInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "format", value: "sdk"))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "pretty", value: "true"))
+    static func queryItemProvider(_ value: SearchInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "format", value: "sdk"))
+        items.append(Smithy.URIQueryItem(name: "pretty", value: "true"))
         if let cursor = value.cursor {
-            let cursorQueryItem = ClientRuntime.SDKURLQueryItem(name: "cursor".urlPercentEncoding(), value: Swift.String(cursor).urlPercentEncoding())
+            let cursorQueryItem = Smithy.URIQueryItem(name: "cursor".urlPercentEncoding(), value: Swift.String(cursor).urlPercentEncoding())
             items.append(cursorQueryItem)
         }
         if let queryOptions = value.queryOptions {
-            let queryOptionsQueryItem = ClientRuntime.SDKURLQueryItem(name: "q.options".urlPercentEncoding(), value: Swift.String(queryOptions).urlPercentEncoding())
+            let queryOptionsQueryItem = Smithy.URIQueryItem(name: "q.options".urlPercentEncoding(), value: Swift.String(queryOptions).urlPercentEncoding())
             items.append(queryOptionsQueryItem)
         }
         guard let query = value.query else {
             let message = "Creating a URL Query Item failed. query is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let queryQueryItem = ClientRuntime.SDKURLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
+        let queryQueryItem = Smithy.URIQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
         items.append(queryQueryItem)
         if let start = value.start {
-            let startQueryItem = ClientRuntime.SDKURLQueryItem(name: "start".urlPercentEncoding(), value: Swift.String(start).urlPercentEncoding())
+            let startQueryItem = Smithy.URIQueryItem(name: "start".urlPercentEncoding(), value: Swift.String(start).urlPercentEncoding())
             items.append(startQueryItem)
         }
         if let sort = value.sort {
-            let sortQueryItem = ClientRuntime.SDKURLQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort).urlPercentEncoding())
+            let sortQueryItem = Smithy.URIQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort).urlPercentEncoding())
             items.append(sortQueryItem)
         }
         if let queryParser = value.queryParser {
-            let queryParserQueryItem = ClientRuntime.SDKURLQueryItem(name: "q.parser".urlPercentEncoding(), value: Swift.String(queryParser.rawValue).urlPercentEncoding())
+            let queryParserQueryItem = Smithy.URIQueryItem(name: "q.parser".urlPercentEncoding(), value: Swift.String(queryParser.rawValue).urlPercentEncoding())
             items.append(queryParserQueryItem)
         }
         if let highlight = value.highlight {
-            let highlightQueryItem = ClientRuntime.SDKURLQueryItem(name: "highlight".urlPercentEncoding(), value: Swift.String(highlight).urlPercentEncoding())
+            let highlightQueryItem = Smithy.URIQueryItem(name: "highlight".urlPercentEncoding(), value: Swift.String(highlight).urlPercentEncoding())
             items.append(highlightQueryItem)
         }
         if let size = value.size {
-            let sizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
+            let sizeQueryItem = Smithy.URIQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
             items.append(sizeQueryItem)
         }
         if let stats = value.stats {
-            let statsQueryItem = ClientRuntime.SDKURLQueryItem(name: "stats".urlPercentEncoding(), value: Swift.String(stats).urlPercentEncoding())
+            let statsQueryItem = Smithy.URIQueryItem(name: "stats".urlPercentEncoding(), value: Swift.String(stats).urlPercentEncoding())
             items.append(statsQueryItem)
         }
         if let expr = value.expr {
-            let exprQueryItem = ClientRuntime.SDKURLQueryItem(name: "expr".urlPercentEncoding(), value: Swift.String(expr).urlPercentEncoding())
+            let exprQueryItem = Smithy.URIQueryItem(name: "expr".urlPercentEncoding(), value: Swift.String(expr).urlPercentEncoding())
             items.append(exprQueryItem)
         }
         if let facet = value.facet {
-            let facetQueryItem = ClientRuntime.SDKURLQueryItem(name: "facet".urlPercentEncoding(), value: Swift.String(facet).urlPercentEncoding())
+            let facetQueryItem = Smithy.URIQueryItem(name: "facet".urlPercentEncoding(), value: Swift.String(facet).urlPercentEncoding())
             items.append(facetQueryItem)
         }
         if let partial = value.partial {
-            let partialQueryItem = ClientRuntime.SDKURLQueryItem(name: "partial".urlPercentEncoding(), value: Swift.String(partial).urlPercentEncoding())
+            let partialQueryItem = Smithy.URIQueryItem(name: "partial".urlPercentEncoding(), value: Swift.String(partial).urlPercentEncoding())
             items.append(partialQueryItem)
         }
         if let `return` = value.`return` {
-            let returnQueryItem = ClientRuntime.SDKURLQueryItem(name: "return".urlPercentEncoding(), value: Swift.String(`return`).urlPercentEncoding())
+            let returnQueryItem = Smithy.URIQueryItem(name: "return".urlPercentEncoding(), value: Swift.String(`return`).urlPercentEncoding())
             items.append(returnQueryItem)
         }
         if let filterQuery = value.filterQuery {
-            let filterQueryQueryItem = ClientRuntime.SDKURLQueryItem(name: "fq".urlPercentEncoding(), value: Swift.String(filterQuery).urlPercentEncoding())
+            let filterQueryQueryItem = Smithy.URIQueryItem(name: "fq".urlPercentEncoding(), value: Swift.String(filterQuery).urlPercentEncoding())
             items.append(filterQueryQueryItem)
         }
         return items
@@ -563,7 +565,7 @@ public struct SearchInput {
 
 extension SearchOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -603,7 +605,7 @@ public struct SearchOutput {
 
 enum SearchOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -648,25 +650,25 @@ extension CloudSearchDomainClientTypes {
 
 extension SuggestInput {
 
-    static func queryItemProvider(_ value: SuggestInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "format", value: "sdk"))
-        items.append(ClientRuntime.SDKURLQueryItem(name: "pretty", value: "true"))
+    static func queryItemProvider(_ value: SuggestInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "format", value: "sdk"))
+        items.append(Smithy.URIQueryItem(name: "pretty", value: "true"))
         guard let suggester = value.suggester else {
             let message = "Creating a URL Query Item failed. suggester is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let suggesterQueryItem = ClientRuntime.SDKURLQueryItem(name: "suggester".urlPercentEncoding(), value: Swift.String(suggester).urlPercentEncoding())
+        let suggesterQueryItem = Smithy.URIQueryItem(name: "suggester".urlPercentEncoding(), value: Swift.String(suggester).urlPercentEncoding())
         items.append(suggesterQueryItem)
         if let size = value.size {
-            let sizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
+            let sizeQueryItem = Smithy.URIQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
             items.append(sizeQueryItem)
         }
         guard let query = value.query else {
             let message = "Creating a URL Query Item failed. query is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let queryQueryItem = ClientRuntime.SDKURLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
+        let queryQueryItem = Smithy.URIQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
         items.append(queryQueryItem)
         return items
     }
@@ -740,7 +742,7 @@ extension CloudSearchDomainClientTypes {
 
 extension SuggestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SuggestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SuggestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -770,7 +772,7 @@ public struct SuggestOutput {
 
 enum SuggestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -851,8 +853,8 @@ extension CloudSearchDomainClientTypes {
 
 extension UploadDocumentsInput {
 
-    static func headerProvider(_ value: UploadDocumentsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UploadDocumentsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
@@ -862,9 +864,9 @@ extension UploadDocumentsInput {
 
 extension UploadDocumentsInput {
 
-    static func queryItemProvider(_ value: UploadDocumentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "format", value: "sdk"))
+    static func queryItemProvider(_ value: UploadDocumentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "format", value: "sdk"))
         return items
     }
 }
@@ -895,11 +897,11 @@ public struct UploadDocumentsInput {
     public var contentType: CloudSearchDomainClientTypes.ContentType?
     /// A batch of documents formatted in JSON or HTML.
     /// This member is required.
-    public var documents: ClientRuntime.ByteStream?
+    public var documents: Smithy.ByteStream?
 
     public init(
         contentType: CloudSearchDomainClientTypes.ContentType? = nil,
-        documents: ClientRuntime.ByteStream? = nil
+        documents: Smithy.ByteStream? = nil
     )
     {
         self.contentType = contentType
@@ -909,7 +911,7 @@ public struct UploadDocumentsInput {
 
 extension UploadDocumentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadDocumentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UploadDocumentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -949,7 +951,7 @@ public struct UploadDocumentsOutput {
 
 enum UploadDocumentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

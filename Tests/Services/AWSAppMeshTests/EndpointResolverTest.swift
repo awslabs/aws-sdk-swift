@@ -4,6 +4,7 @@
 import AWSClientRuntime
 import AwsCommonRuntimeKit
 import ClientRuntime
+import SmithyHTTPAPI
 import SmithyTestUtil
 import XCTest
 
@@ -27,8 +28,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.af-south-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.af-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -47,8 +48,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.af-south-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.af-south-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -67,8 +68,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -87,8 +88,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-east-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-east-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -107,8 +108,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -127,8 +128,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-northeast-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-northeast-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -147,8 +148,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-northeast-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-northeast-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -167,8 +168,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-northeast-2.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-northeast-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -187,8 +188,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-south-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -207,8 +208,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-south-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-south-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -227,8 +228,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-southeast-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-southeast-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -247,8 +248,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-southeast-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-southeast-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -267,8 +268,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -287,8 +288,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ap-southeast-2.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ap-southeast-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -307,8 +308,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ca-central-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ca-central-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -327,8 +328,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.ca-central-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.ca-central-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -347,8 +348,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-central-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-central-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -367,8 +368,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-central-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-central-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -387,8 +388,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-north-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-north-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -407,8 +408,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-north-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-north-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -427,8 +428,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-south-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -447,8 +448,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-south-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-south-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -467,8 +468,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-west-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-west-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -487,8 +488,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-west-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-west-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -507,8 +508,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-west-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -527,8 +528,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-west-2.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-west-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -547,8 +548,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-west-3.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-west-3.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -567,8 +568,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.eu-west-3.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.eu-west-3.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -587,8 +588,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.me-south-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.me-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -607,8 +608,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.me-south-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.me-south-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -627,8 +628,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.sa-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.sa-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -647,8 +648,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.sa-east-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.sa-east-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -667,8 +668,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -687,8 +688,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-east-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-east-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -707,8 +708,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -727,8 +728,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-east-2.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-east-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -747,8 +748,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-west-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-west-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -767,8 +768,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-west-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-west-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -787,8 +788,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -807,8 +808,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-west-2.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-west-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -827,8 +828,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh-fips.us-east-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh-fips.us-east-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -847,8 +848,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -867,8 +868,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -887,8 +888,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -907,8 +908,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.cn-northwest-1.amazonaws.com.cn", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.cn-northwest-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -927,8 +928,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -947,8 +948,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -967,8 +968,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -987,8 +988,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1007,8 +1008,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1027,8 +1028,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-gov-east-1.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-gov-east-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1047,8 +1048,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1086,8 +1087,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1125,8 +1126,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1164,8 +1165,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1203,8 +1204,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://appmesh.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://appmesh.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1224,8 +1225,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -1244,8 +1245,8 @@ class EndpointResolverTest: XCTestCase {
         let properties: [String: AnyHashable] =
             [:]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

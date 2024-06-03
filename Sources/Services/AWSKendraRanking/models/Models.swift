@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -161,7 +164,7 @@ public struct CreateRescoreExecutionPlanInput {
 
 extension CreateRescoreExecutionPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRescoreExecutionPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRescoreExecutionPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -192,7 +195,7 @@ public struct CreateRescoreExecutionPlanOutput {
 
 enum CreateRescoreExecutionPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -239,7 +242,7 @@ public struct DeleteRescoreExecutionPlanInput {
 
 extension DeleteRescoreExecutionPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRescoreExecutionPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRescoreExecutionPlanOutput {
         return DeleteRescoreExecutionPlanOutput()
     }
 }
@@ -251,7 +254,7 @@ public struct DeleteRescoreExecutionPlanOutput {
 
 enum DeleteRescoreExecutionPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -298,7 +301,7 @@ public struct DescribeRescoreExecutionPlanInput {
 
 extension DescribeRescoreExecutionPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRescoreExecutionPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRescoreExecutionPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -322,7 +325,7 @@ public struct DescribeRescoreExecutionPlanOutput {
     /// The capacity units set for the rescore execution plan. A capacity of zero indicates that the rescore execution plan is using the default capacity. For more information on the default capacity and additional capacity units, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
     public var capacityUnits: KendraRankingClientTypes.CapacityUnitsConfiguration?
     /// The Unix timestamp of when the rescore execution plan was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for the rescore execution plan.
     public var description: Swift.String?
     /// When the Status field value is FAILED, the ErrorMessage field contains a message that explains why.
@@ -334,18 +337,18 @@ public struct DescribeRescoreExecutionPlanOutput {
     /// The current status of the rescore execution plan. When the value is ACTIVE, the rescore execution plan is ready for use. If the Status field value is FAILED, the ErrorMessage field contains a message that explains why.
     public var status: KendraRankingClientTypes.RescoreExecutionPlanStatus?
     /// The Unix timestamp of when the rescore execution plan was last updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         capacityUnits: KendraRankingClientTypes.CapacityUnitsConfiguration? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: KendraRankingClientTypes.RescoreExecutionPlanStatus? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -362,7 +365,7 @@ public struct DescribeRescoreExecutionPlanOutput {
 
 enum DescribeRescoreExecutionPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -475,7 +478,7 @@ public enum KendraRankingClientTypes {}
 
 extension ListRescoreExecutionPlansInput {
 
-    static func queryItemProvider(_ value: ListRescoreExecutionPlansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListRescoreExecutionPlansInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -513,7 +516,7 @@ public struct ListRescoreExecutionPlansInput {
 
 extension ListRescoreExecutionPlansOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRescoreExecutionPlansOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRescoreExecutionPlansOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -542,7 +545,7 @@ public struct ListRescoreExecutionPlansOutput {
 
 enum ListRescoreExecutionPlansOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -588,7 +591,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -613,7 +616,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -685,7 +688,7 @@ extension KendraRankingClientTypes {
     /// Summary information for a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
     public struct RescoreExecutionPlanSummary {
         /// The Unix timestamp when the rescore execution plan was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the rescore execution plan.
         public var id: Swift.String?
         /// The name of the rescore execution plan.
@@ -693,14 +696,14 @@ extension KendraRankingClientTypes {
         /// The current status of the rescore execution plan. When the value is ACTIVE, the rescore execution plan is ready for use.
         public var status: KendraRankingClientTypes.RescoreExecutionPlanStatus?
         /// The Unix timestamp when the rescore execution plan was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: KendraRankingClientTypes.RescoreExecutionPlanStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -754,7 +757,7 @@ public struct RescoreInput {
 
 extension RescoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RescoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RescoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -783,7 +786,7 @@ public struct RescoreOutput {
 
 enum RescoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1018,7 +1021,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -1031,7 +1034,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1121,7 +1124,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -1134,7 +1137,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1194,7 +1197,7 @@ public struct UpdateRescoreExecutionPlanInput {
 
 extension UpdateRescoreExecutionPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRescoreExecutionPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRescoreExecutionPlanOutput {
         return UpdateRescoreExecutionPlanOutput()
     }
 }
@@ -1206,7 +1209,7 @@ public struct UpdateRescoreExecutionPlanOutput {
 
 enum UpdateRescoreExecutionPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

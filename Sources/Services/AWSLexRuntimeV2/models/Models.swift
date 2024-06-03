@@ -2,8 +2,14 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyEventStreams
+import SmithyEventStreamsAPI
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import struct Foundation.Data
 
 extension AccessDeniedException {
 
@@ -153,7 +159,7 @@ extension LexRuntimeV2ClientTypes {
     /// Represents a chunk of audio sent from the client application to Amazon Lex V2. The audio is all or part of an utterance from the user. Amazon Lex V2 accumulates audio chunks until it recognizes a natural pause in speech before processing the input.
     public struct AudioInputEvent {
         /// An encoded stream of audio.
-        public var audioChunk: ClientRuntime.Data?
+        public var audioChunk: Foundation.Data?
         /// A timestamp set by the client of the date and time that the event was sent to Amazon Lex V2.
         public var clientTimestampMillis: Swift.Int
         /// The encoding used for the audio chunk. You must use 8 KHz PCM 16-bit mono-channel little-endian format. The value of the field should be: audio/lpcm; sample-rate=8000; sample-size-bits=16; channel-count=1; is-big-endian=false
@@ -163,7 +169,7 @@ extension LexRuntimeV2ClientTypes {
         public var eventId: Swift.String?
 
         public init(
-            audioChunk: ClientRuntime.Data? = nil,
+            audioChunk: Foundation.Data? = nil,
             clientTimestampMillis: Swift.Int = 0,
             contentType: Swift.String? = nil,
             eventId: Swift.String? = nil
@@ -194,14 +200,14 @@ extension LexRuntimeV2ClientTypes {
     /// An event sent from Amazon Lex V2 to your client application containing audio to play to the user.
     public struct AudioResponseEvent {
         /// A chunk of the audio to play.
-        public var audioChunk: ClientRuntime.Data?
+        public var audioChunk: Foundation.Data?
         /// The encoding of the audio chunk. This is the same as the encoding configure in the contentType field of the ConfigurationEvent.
         public var contentType: Swift.String?
         /// A unique identifier of the event sent by Amazon Lex V2. The identifier is in the form RESPONSE-N, where N is a number starting with one and incremented for each event sent by Amazon Lex V2 in the current session.
         public var eventId: Swift.String?
 
         public init(
-            audioChunk: ClientRuntime.Data? = nil,
+            audioChunk: Foundation.Data? = nil,
             contentType: Swift.String? = nil,
             eventId: Swift.String? = nil
         )
@@ -598,7 +604,7 @@ public struct DeleteSessionInput {
 
 extension DeleteSessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -637,7 +643,7 @@ public struct DeleteSessionOutput {
 
 enum DeleteSessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -926,7 +932,7 @@ public struct GetSessionInput {
 
 extension GetSessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -965,7 +971,7 @@ public struct GetSessionOutput {
 
 enum GetSessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1551,8 +1557,8 @@ extension LexRuntimeV2ClientTypes {
 
 extension PutSessionInput {
 
-    static func headerProvider(_ value: PutSessionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let responseContentType = value.responseContentType {
             items.add(Header(name: "ResponseContentType", value: Swift.String(responseContentType)))
         }
@@ -1638,7 +1644,7 @@ public struct PutSessionInput {
 
 extension PutSessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSessionOutput {
         var value = PutSessionOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -1669,7 +1675,7 @@ extension PutSessionOutput {
 
 public struct PutSessionOutput {
     /// If the requested content type was audio, the audio version of the message to convey to the user.
-    public var audioStream: ClientRuntime.ByteStream?
+    public var audioStream: Smithy.ByteStream?
     /// The type of response. Same as the type specified in the responseContentType field in the request.
     public var contentType: Swift.String?
     /// A list of messages that were last sent to the user. The messages are ordered based on how you return the messages from you Lambda function or the order that the messages are defined in the bot.
@@ -1682,7 +1688,7 @@ public struct PutSessionOutput {
     public var sessionState: Swift.String?
 
     public init(
-        audioStream: ClientRuntime.ByteStream? = nil,
+        audioStream: Smithy.ByteStream? = nil,
         contentType: Swift.String? = nil,
         messages: Swift.String? = nil,
         requestAttributes: Swift.String? = nil,
@@ -1701,7 +1707,7 @@ public struct PutSessionOutput {
 
 enum PutSessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1797,7 +1803,7 @@ public struct RecognizeTextInput {
 
 extension RecognizeTextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RecognizeTextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RecognizeTextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1846,7 +1852,7 @@ public struct RecognizeTextOutput {
 
 enum RecognizeTextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1872,8 +1878,8 @@ extension RecognizeUtteranceInput: Swift.CustomDebugStringConvertible {
 
 extension RecognizeUtteranceInput {
 
-    static func headerProvider(_ value: RecognizeUtteranceInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: RecognizeUtteranceInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let requestAttributes = value.requestAttributes {
             items.add(Header(name: "x-amz-lex-request-attributes", value: Swift.String(requestAttributes)))
         }
@@ -1925,7 +1931,7 @@ public struct RecognizeUtteranceInput {
     /// This member is required.
     public var botId: Swift.String?
     /// User input in PCM or Opus audio format or text format as described in the requestContentType parameter.
-    public var inputStream: ClientRuntime.ByteStream?
+    public var inputStream: Smithy.ByteStream?
     /// The locale where the session is in use.
     /// This member is required.
     public var localeId: Swift.String?
@@ -1985,7 +1991,7 @@ public struct RecognizeUtteranceInput {
     public init(
         botAliasId: Swift.String? = nil,
         botId: Swift.String? = nil,
-        inputStream: ClientRuntime.ByteStream? = nil,
+        inputStream: Smithy.ByteStream? = nil,
         localeId: Swift.String? = nil,
         requestAttributes: Swift.String? = nil,
         requestContentType: Swift.String? = nil,
@@ -2008,7 +2014,7 @@ public struct RecognizeUtteranceInput {
 
 extension RecognizeUtteranceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RecognizeUtteranceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RecognizeUtteranceOutput {
         var value = RecognizeUtteranceOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -2051,7 +2057,7 @@ extension RecognizeUtteranceOutput {
 
 public struct RecognizeUtteranceOutput {
     /// The prompt or statement to send to the user. This is based on the bot configuration and context. For example, if Amazon Lex V2 did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex V2 sends that message in the response.
-    public var audioStream: ClientRuntime.ByteStream?
+    public var audioStream: Smithy.ByteStream?
     /// Content type as specified in the responseContentType in the request.
     public var contentType: Swift.String?
     /// Indicates whether the input mode to the operation was text, speech, or from a touch-tone keypad.
@@ -2072,7 +2078,7 @@ public struct RecognizeUtteranceOutput {
     public var sessionState: Swift.String?
 
     public init(
-        audioStream: ClientRuntime.ByteStream? = nil,
+        audioStream: Smithy.ByteStream? = nil,
         contentType: Swift.String? = nil,
         inputMode: Swift.String? = nil,
         inputTranscript: Swift.String? = nil,
@@ -2099,7 +2105,7 @@ public struct RecognizeUtteranceOutput {
 
 enum RecognizeUtteranceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2549,8 +2555,8 @@ extension LexRuntimeV2ClientTypes {
 
 extension StartConversationInput {
 
-    static func headerProvider(_ value: StartConversationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: StartConversationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let conversationMode = value.conversationMode {
             items.add(Header(name: "x-amz-lex-conversation-mode", value: Swift.String(conversationMode.rawValue)))
         }
@@ -2616,11 +2622,11 @@ public struct StartConversationInput {
 
 extension StartConversationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartConversationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartConversationOutput {
         var value = StartConversationOutput()
         if case .stream(let stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: LexRuntimeV2ClientTypes.StartConversationResponseEventStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: LexRuntimeV2ClientTypes.StartConversationResponseEventStream.unmarshal)
             value.responseEventStream = decoderStream.toAsyncStream()
         }
         return value
@@ -2641,7 +2647,7 @@ public struct StartConversationOutput {
 
 enum StartConversationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2657,10 +2663,10 @@ enum StartConversationOutputError {
 }
 
 extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream {
-    static var marshal: ClientRuntime.MarshalClosure<LexRuntimeV2ClientTypes.StartConversationRequestEventStream> {
+    static var marshal: SmithyEventStreamsAPI.MarshalClosure<LexRuntimeV2ClientTypes.StartConversationRequestEventStream> {
         { (self) in
-            var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
-            var payload: ClientRuntime.Data? = nil
+            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: Foundation.Data? = nil
             switch self {
             case .configurationevent(let value):
                 headers.append(.init(name: ":event-type", value: .string("ConfigurationEvent")))
@@ -2678,7 +2684,7 @@ extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream {
                 headers.append(.init(name: ":event-type", value: .string("AudioInputEvent")))
                 headers.append(.init(name: ":content-type", value: .string("application/json")))
                 let writer = SmithyJSON.Writer(nodeInfo: "")
-                try writer["audioChunk"].write(value.audioChunk, with: ClientRuntime.Data.write(value:to:))
+                try writer["audioChunk"].write(value.audioChunk, with: Foundation.Data.write(value:to:))
                 try writer["contentType"].write(value.contentType, with: Swift.String.write(value:to:))
                 try writer["eventId"].write(value.eventId, with: Swift.String.write(value:to:))
                 try writer["clientTimestampMillis"].write(value.clientTimestampMillis, with: Swift.Int.write(value:to:))
@@ -2714,9 +2720,9 @@ extension LexRuntimeV2ClientTypes.StartConversationRequestEventStream {
                 try writer["clientTimestampMillis"].write(value.clientTimestampMillis, with: Swift.Int.write(value:to:))
                 payload = try writer.data()
             case .sdkUnknown(_):
-                throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
+                throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
             }
-            return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
+            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
         }
     }
 }
@@ -2748,7 +2754,7 @@ extension LexRuntimeV2ClientTypes {
 }
 
 extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<LexRuntimeV2ClientTypes.StartConversationResponseEventStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<LexRuntimeV2ClientTypes.StartConversationResponseEventStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -2775,7 +2781,7 @@ extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     case "AccessDeniedException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: AccessDeniedException.read(from:))
@@ -2802,17 +2808,17 @@ extension LexRuntimeV2ClientTypes.StartConversationResponseEventStream {
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: BadGatewayException.read(from:))
                         return value
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }

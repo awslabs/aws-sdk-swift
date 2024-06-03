@@ -2,6 +2,11 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyEventStreams
+import SmithyEventStreamsAPI
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -420,14 +425,14 @@ extension BedrockAgentRuntimeClientTypes {
         public var contentType: Swift.String?
         /// The byte value of the file to upload, encoded as a Base-64 string.
         /// This member is required.
-        public var data: ClientRuntime.Data?
+        public var data: Foundation.Data?
         /// The file name of the document contained in the wrapper object.
         /// This member is required.
         public var identifier: Swift.String?
 
         public init(
             contentType: Swift.String? = nil,
-            data: ClientRuntime.Data? = nil,
+            data: Foundation.Data? = nil,
             identifier: Swift.String? = nil
         )
         {
@@ -2316,7 +2321,7 @@ public struct InvokeAgentInput {
 
 extension InvokeAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InvokeAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InvokeAgentOutput {
         var value = InvokeAgentOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-bedrock-agent-content-type") {
             value.contentType = contentTypeHeaderValue
@@ -2325,8 +2330,8 @@ extension InvokeAgentOutput {
             value.sessionId = sessionIdHeaderValue
         }
         if case .stream(let stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentRuntimeClientTypes.ResponseStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentRuntimeClientTypes.ResponseStream.unmarshal)
             value.completion = decoderStream.toAsyncStream()
         }
         return value
@@ -2358,7 +2363,7 @@ public struct InvokeAgentOutput {
 
 enum InvokeAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2875,11 +2880,11 @@ extension BedrockAgentRuntimeClientTypes {
         /// Contains citations for a part of an agent response.
         public var attribution: BedrockAgentRuntimeClientTypes.Attribution?
         /// A part of the agent response in bytes.
-        public var bytes: ClientRuntime.Data?
+        public var bytes: Foundation.Data?
 
         public init(
             attribution: BedrockAgentRuntimeClientTypes.Attribution? = nil,
-            bytes: ClientRuntime.Data? = nil
+            bytes: Foundation.Data? = nil
         )
         {
             self.attribution = attribution
@@ -3373,7 +3378,7 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes.ResponseStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<BedrockAgentRuntimeClientTypes.ResponseStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<BedrockAgentRuntimeClientTypes.ResponseStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -3391,7 +3396,7 @@ extension BedrockAgentRuntimeClientTypes.ResponseStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     case "internalServerException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: InternalServerException.read(from:))
@@ -3421,17 +3426,17 @@ extension BedrockAgentRuntimeClientTypes.ResponseStream {
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: BadGatewayException.read(from:))
                         return value
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }
@@ -3802,7 +3807,7 @@ extension RetrieveAndGenerateOutput: Swift.CustomDebugStringConvertible {
 
 extension RetrieveAndGenerateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RetrieveAndGenerateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RetrieveAndGenerateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3872,7 +3877,7 @@ public struct RetrieveAndGenerateOutput {
 
 enum RetrieveAndGenerateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4006,7 +4011,7 @@ extension RetrieveOutput: Swift.CustomDebugStringConvertible {
 
 extension RetrieveOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RetrieveOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RetrieveOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4036,7 +4041,7 @@ public struct RetrieveOutput {
 
 enum RetrieveOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

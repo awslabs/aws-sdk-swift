@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -451,7 +454,7 @@ public struct CreateEnvironmentInput {
 
 extension CreateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -485,7 +488,7 @@ public struct CreateEnvironmentOutput {
 
 enum CreateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -571,7 +574,7 @@ public struct CreateKxChangesetInput {
 
 extension CreateKxChangesetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKxChangesetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKxChangesetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -594,7 +597,7 @@ public struct CreateKxChangesetOutput {
     /// A unique identifier for the changeset.
     public var changesetId: Swift.String?
     /// The timestamp at which the changeset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The name of the kdb database.
     public var databaseName: Swift.String?
     /// A unique identifier for the kdb environment.
@@ -602,7 +605,7 @@ public struct CreateKxChangesetOutput {
     /// The details of the error that you receive when creating a changeset. It consists of the type of error and the error message.
     public var errorInfo: FinspaceClientTypes.ErrorInfo?
     /// The timestamp at which the changeset was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// Status of the changeset creation process.
     ///
     /// * Pending – Changeset creation is pending.
@@ -617,11 +620,11 @@ public struct CreateKxChangesetOutput {
     public init(
         changeRequests: [FinspaceClientTypes.ChangeRequest]? = nil,
         changesetId: Swift.String? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         databaseName: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         errorInfo: FinspaceClientTypes.ErrorInfo? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         status: FinspaceClientTypes.ChangesetStatus? = nil
     )
     {
@@ -638,7 +641,7 @@ public struct CreateKxChangesetOutput {
 
 enum CreateKxChangesetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -807,7 +810,7 @@ public struct CreateKxClusterInput {
 
 extension CreateKxClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKxClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKxClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -876,7 +879,7 @@ public struct CreateKxClusterOutput {
     /// Defines the key-value pairs to make them available inside the cluster.
     public var commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
     /// The timestamp at which the cluster was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// A list of databases that will be available for querying.
     public var databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
     /// A unique identifier for the kdb environment.
@@ -886,7 +889,7 @@ public struct CreateKxClusterOutput {
     /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
     public var initializationScript: Swift.String?
     /// The last time that the cluster was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// A version of the FinSpace managed kdb to run.
     public var releaseLabel: Swift.String?
     /// The size and type of the temporary storage that is used to hold data during the savedown process. This parameter is required when you choose clusterType as RDB. All the data written to this storage space is lost when the cluster node is restarted.
@@ -931,12 +934,12 @@ public struct CreateKxClusterOutput {
         clusterType: FinspaceClientTypes.KxClusterType? = nil,
         code: FinspaceClientTypes.CodeConfiguration? = nil,
         commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         databases: [FinspaceClientTypes.KxDatabaseConfiguration]? = nil,
         environmentId: Swift.String? = nil,
         executionRole: Swift.String? = nil,
         initializationScript: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         releaseLabel: Swift.String? = nil,
         savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration? = nil,
         scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration? = nil,
@@ -976,7 +979,7 @@ public struct CreateKxClusterOutput {
 
 enum CreateKxClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1048,7 +1051,7 @@ public struct CreateKxDatabaseInput {
 
 extension CreateKxDatabaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKxDatabaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKxDatabaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1065,7 +1068,7 @@ extension CreateKxDatabaseOutput {
 
 public struct CreateKxDatabaseOutput {
     /// The timestamp at which the database is created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The ARN identifier of the database.
     public var databaseArn: Swift.String?
     /// The name of the kdb database.
@@ -1075,15 +1078,15 @@ public struct CreateKxDatabaseOutput {
     /// A unique identifier for the kdb environment.
     public var environmentId: Swift.String?
     /// The last time that the database was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         databaseArn: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil
+        lastModifiedTimestamp: Foundation.Date? = nil
     )
     {
         self.createdTimestamp = createdTimestamp
@@ -1097,7 +1100,7 @@ public struct CreateKxDatabaseOutput {
 
 enum CreateKxDatabaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1217,7 +1220,7 @@ public struct CreateKxDataviewInput {
 
 extension CreateKxDataviewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKxDataviewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKxDataviewOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1249,7 +1252,7 @@ public struct CreateKxDataviewOutput {
     /// A unique identifier for the changeset.
     public var changesetId: Swift.String?
     /// The timestamp at which the dataview was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The name of the database where you want to create a dataview.
     public var databaseName: Swift.String?
     /// A unique identifier for the dataview.
@@ -1259,7 +1262,7 @@ public struct CreateKxDataviewOutput {
     /// A unique identifier for the kdb environment, where you want to create the dataview.
     public var environmentId: Swift.String?
     /// The last time that the dataview was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// Returns True if the dataview is created as writeable and False otherwise.
     public var readWrite: Swift.Bool
     /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
@@ -1278,12 +1281,12 @@ public struct CreateKxDataviewOutput {
         availabilityZoneId: Swift.String? = nil,
         azMode: FinspaceClientTypes.KxAzMode? = nil,
         changesetId: Swift.String? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         databaseName: Swift.String? = nil,
         dataviewName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         readWrite: Swift.Bool = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         status: FinspaceClientTypes.KxDataviewStatus? = nil
@@ -1307,7 +1310,7 @@ public struct CreateKxDataviewOutput {
 
 enum CreateKxDataviewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1377,7 +1380,7 @@ public struct CreateKxEnvironmentInput {
 
 extension CreateKxEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKxEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKxEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1395,7 +1398,7 @@ extension CreateKxEnvironmentOutput {
 
 public struct CreateKxEnvironmentOutput {
     /// The timestamp at which the kdb environment was created in FinSpace.
-    public var creationTimestamp: ClientRuntime.Date?
+    public var creationTimestamp: Foundation.Date?
     /// A description for the kdb environment.
     public var description: Swift.String?
     /// The ARN identifier of the environment.
@@ -1410,7 +1413,7 @@ public struct CreateKxEnvironmentOutput {
     public var status: FinspaceClientTypes.EnvironmentStatus?
 
     public init(
-        creationTimestamp: ClientRuntime.Date? = nil,
+        creationTimestamp: Foundation.Date? = nil,
         description: Swift.String? = nil,
         environmentArn: Swift.String? = nil,
         environmentId: Swift.String? = nil,
@@ -1431,7 +1434,7 @@ public struct CreateKxEnvironmentOutput {
 
 enum CreateKxEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1522,7 +1525,7 @@ public struct CreateKxScalingGroupInput {
 
 extension CreateKxScalingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKxScalingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKxScalingGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1542,13 +1545,13 @@ public struct CreateKxScalingGroupOutput {
     /// The identifier of the availability zones.
     public var availabilityZoneId: Swift.String?
     /// The timestamp at which the scaling group was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// A unique identifier for the kdb environment, where you create the scaling group.
     public var environmentId: Swift.String?
     /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed.
     public var hostType: Swift.String?
     /// The last time that the scaling group was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// A unique identifier for the kdb scaling group.
     public var scalingGroupName: Swift.String?
     /// The status of scaling group.
@@ -1572,10 +1575,10 @@ public struct CreateKxScalingGroupOutput {
 
     public init(
         availabilityZoneId: Swift.String? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         environmentId: Swift.String? = nil,
         hostType: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         scalingGroupName: Swift.String? = nil,
         status: FinspaceClientTypes.KxScalingGroupStatus? = nil
     )
@@ -1592,7 +1595,7 @@ public struct CreateKxScalingGroupOutput {
 
 enum CreateKxScalingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1664,7 +1667,7 @@ public struct CreateKxUserInput {
 
 extension CreateKxUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKxUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKxUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1703,7 +1706,7 @@ public struct CreateKxUserOutput {
 
 enum CreateKxUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1798,7 +1801,7 @@ public struct CreateKxVolumeInput {
 
 extension CreateKxVolumeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKxVolumeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKxVolumeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1824,7 +1827,7 @@ public struct CreateKxVolumeOutput {
     /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// A description of the volume.
     public var description: Swift.String?
     /// A unique identifier for the kdb environment, whose clusters can attach to the volume.
@@ -1863,7 +1866,7 @@ public struct CreateKxVolumeOutput {
     public init(
         availabilityZoneIds: [Swift.String]? = nil,
         azMode: FinspaceClientTypes.KxAzMode? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         nas1Configuration: FinspaceClientTypes.KxNAS1Configuration? = nil,
@@ -1890,7 +1893,7 @@ public struct CreateKxVolumeOutput {
 
 enum CreateKxVolumeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1973,7 +1976,7 @@ public struct DeleteEnvironmentInput {
 
 extension DeleteEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEnvironmentOutput {
         return DeleteEnvironmentOutput()
     }
 }
@@ -1985,7 +1988,7 @@ public struct DeleteEnvironmentOutput {
 
 enum DeleteEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2003,10 +2006,10 @@ enum DeleteEnvironmentOutputError {
 
 extension DeleteKxClusterInput {
 
-    static func queryItemProvider(_ value: DeleteKxClusterInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteKxClusterInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -2089,7 +2092,7 @@ public struct DeleteKxClusterNodeInput {
 
 extension DeleteKxClusterNodeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKxClusterNodeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKxClusterNodeOutput {
         return DeleteKxClusterNodeOutput()
     }
 }
@@ -2101,7 +2104,7 @@ public struct DeleteKxClusterNodeOutput {
 
 enum DeleteKxClusterNodeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2119,7 +2122,7 @@ enum DeleteKxClusterNodeOutputError {
 
 extension DeleteKxClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKxClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKxClusterOutput {
         return DeleteKxClusterOutput()
     }
 }
@@ -2131,7 +2134,7 @@ public struct DeleteKxClusterOutput {
 
 enum DeleteKxClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2151,13 +2154,13 @@ enum DeleteKxClusterOutputError {
 
 extension DeleteKxDatabaseInput {
 
-    static func queryItemProvider(_ value: DeleteKxDatabaseInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteKxDatabaseInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let clientToken = value.clientToken else {
             let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+        let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
         items.append(clientTokenQueryItem)
         return items
     }
@@ -2201,7 +2204,7 @@ public struct DeleteKxDatabaseInput {
 
 extension DeleteKxDatabaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKxDatabaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKxDatabaseOutput {
         return DeleteKxDatabaseOutput()
     }
 }
@@ -2213,7 +2216,7 @@ public struct DeleteKxDatabaseOutput {
 
 enum DeleteKxDatabaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2232,13 +2235,13 @@ enum DeleteKxDatabaseOutputError {
 
 extension DeleteKxDataviewInput {
 
-    static func queryItemProvider(_ value: DeleteKxDataviewInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteKxDataviewInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let clientToken = value.clientToken else {
             let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+        let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
         items.append(clientTokenQueryItem)
         return items
     }
@@ -2290,7 +2293,7 @@ public struct DeleteKxDataviewInput {
 
 extension DeleteKxDataviewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKxDataviewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKxDataviewOutput {
         return DeleteKxDataviewOutput()
     }
 }
@@ -2302,7 +2305,7 @@ public struct DeleteKxDataviewOutput {
 
 enum DeleteKxDataviewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2321,10 +2324,10 @@ enum DeleteKxDataviewOutputError {
 
 extension DeleteKxEnvironmentInput {
 
-    static func queryItemProvider(_ value: DeleteKxEnvironmentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteKxEnvironmentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -2360,7 +2363,7 @@ public struct DeleteKxEnvironmentInput {
 
 extension DeleteKxEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKxEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKxEnvironmentOutput {
         return DeleteKxEnvironmentOutput()
     }
 }
@@ -2372,7 +2375,7 @@ public struct DeleteKxEnvironmentOutput {
 
 enum DeleteKxEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2391,10 +2394,10 @@ enum DeleteKxEnvironmentOutputError {
 
 extension DeleteKxScalingGroupInput {
 
-    static func queryItemProvider(_ value: DeleteKxScalingGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteKxScalingGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -2438,7 +2441,7 @@ public struct DeleteKxScalingGroupInput {
 
 extension DeleteKxScalingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKxScalingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKxScalingGroupOutput {
         return DeleteKxScalingGroupOutput()
     }
 }
@@ -2450,7 +2453,7 @@ public struct DeleteKxScalingGroupOutput {
 
 enum DeleteKxScalingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2470,10 +2473,10 @@ enum DeleteKxScalingGroupOutputError {
 
 extension DeleteKxUserInput {
 
-    static func queryItemProvider(_ value: DeleteKxUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteKxUserInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -2517,7 +2520,7 @@ public struct DeleteKxUserInput {
 
 extension DeleteKxUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKxUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKxUserOutput {
         return DeleteKxUserOutput()
     }
 }
@@ -2529,7 +2532,7 @@ public struct DeleteKxUserOutput {
 
 enum DeleteKxUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2548,10 +2551,10 @@ enum DeleteKxUserOutputError {
 
 extension DeleteKxVolumeInput {
 
-    static func queryItemProvider(_ value: DeleteKxVolumeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteKxVolumeInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -2595,7 +2598,7 @@ public struct DeleteKxVolumeInput {
 
 extension DeleteKxVolumeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKxVolumeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKxVolumeOutput {
         return DeleteKxVolumeOutput()
     }
 }
@@ -2607,7 +2610,7 @@ public struct DeleteKxVolumeOutput {
 
 enum DeleteKxVolumeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3001,7 +3004,7 @@ public struct GetEnvironmentInput {
 
 extension GetEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3025,7 +3028,7 @@ public struct GetEnvironmentOutput {
 
 enum GetEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3081,7 +3084,7 @@ public struct GetKxChangesetInput {
 
 extension GetKxChangesetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKxChangesetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKxChangesetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3101,13 +3104,13 @@ extension GetKxChangesetOutput {
 
 public struct GetKxChangesetOutput {
     /// Beginning time from which the changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var activeFromTimestamp: ClientRuntime.Date?
+    public var activeFromTimestamp: Foundation.Date?
     /// A list of change request objects that are run in order.
     public var changeRequests: [FinspaceClientTypes.ChangeRequest]?
     /// A unique identifier for the changeset.
     public var changesetId: Swift.String?
     /// The timestamp at which the changeset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The name of the kdb database.
     public var databaseName: Swift.String?
     /// A unique identifier for the kdb environment.
@@ -3115,7 +3118,7 @@ public struct GetKxChangesetOutput {
     /// Provides details in the event of a failed flow, including the error type and the related error message.
     public var errorInfo: FinspaceClientTypes.ErrorInfo?
     /// The timestamp at which the changeset was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// Status of the changeset creation process.
     ///
     /// * Pending – Changeset creation is pending.
@@ -3128,14 +3131,14 @@ public struct GetKxChangesetOutput {
     public var status: FinspaceClientTypes.ChangesetStatus?
 
     public init(
-        activeFromTimestamp: ClientRuntime.Date? = nil,
+        activeFromTimestamp: Foundation.Date? = nil,
         changeRequests: [FinspaceClientTypes.ChangeRequest]? = nil,
         changesetId: Swift.String? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         databaseName: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         errorInfo: FinspaceClientTypes.ErrorInfo? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         status: FinspaceClientTypes.ChangesetStatus? = nil
     )
     {
@@ -3153,7 +3156,7 @@ public struct GetKxChangesetOutput {
 
 enum GetKxChangesetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3202,7 +3205,7 @@ public struct GetKxClusterInput {
 
 extension GetKxClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKxClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKxClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3270,7 +3273,7 @@ public struct GetKxClusterOutput {
     /// Defines key-value pairs to make them available inside the cluster.
     public var commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]?
     /// The timestamp at which the cluster was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// A list of databases mounted on the cluster.
     public var databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
     /// An IAM role that defines a set of permissions associated with a cluster. These permissions are assumed when a cluster attempts to access another cluster.
@@ -3278,7 +3281,7 @@ public struct GetKxClusterOutput {
     /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
     public var initializationScript: Swift.String?
     /// The last time that the cluster was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// The version of FinSpace managed kdb to run.
     public var releaseLabel: Swift.String?
     /// The size and type of the temporary storage that is used to hold data during the savedown process. This parameter is required when you choose clusterType as RDB. All the data written to this storage space is lost when the cluster node is restarted.
@@ -3323,11 +3326,11 @@ public struct GetKxClusterOutput {
         clusterType: FinspaceClientTypes.KxClusterType? = nil,
         code: FinspaceClientTypes.CodeConfiguration? = nil,
         commandLineArguments: [FinspaceClientTypes.KxCommandLineArgument]? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         databases: [FinspaceClientTypes.KxDatabaseConfiguration]? = nil,
         executionRole: Swift.String? = nil,
         initializationScript: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         releaseLabel: Swift.String? = nil,
         savedownStorageConfiguration: FinspaceClientTypes.KxSavedownStorageConfiguration? = nil,
         scalingGroupConfiguration: FinspaceClientTypes.KxScalingGroupConfiguration? = nil,
@@ -3366,7 +3369,7 @@ public struct GetKxClusterOutput {
 
 enum GetKxClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3386,19 +3389,19 @@ enum GetKxClusterOutputError {
 
 extension GetKxConnectionStringInput {
 
-    static func queryItemProvider(_ value: GetKxConnectionStringInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetKxConnectionStringInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let clusterName = value.clusterName else {
             let message = "Creating a URL Query Item failed. clusterName is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let clusterNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "clusterName".urlPercentEncoding(), value: Swift.String(clusterName).urlPercentEncoding())
+        let clusterNameQueryItem = Smithy.URIQueryItem(name: "clusterName".urlPercentEncoding(), value: Swift.String(clusterName).urlPercentEncoding())
         items.append(clusterNameQueryItem)
         guard let userArn = value.userArn else {
             let message = "Creating a URL Query Item failed. userArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let userArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "userArn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
+        let userArnQueryItem = Smithy.URIQueryItem(name: "userArn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
         items.append(userArnQueryItem)
         return items
     }
@@ -3444,7 +3447,7 @@ extension GetKxConnectionStringOutput: Swift.CustomDebugStringConvertible {
 
 extension GetKxConnectionStringOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKxConnectionStringOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKxConnectionStringOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3468,7 +3471,7 @@ public struct GetKxConnectionStringOutput {
 
 enum GetKxConnectionStringOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3517,7 +3520,7 @@ public struct GetKxDatabaseInput {
 
 extension GetKxDatabaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKxDatabaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKxDatabaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3538,7 +3541,7 @@ extension GetKxDatabaseOutput {
 
 public struct GetKxDatabaseOutput {
     /// The timestamp at which the database is created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The ARN identifier of the database.
     public var databaseArn: Swift.String?
     /// The name of the kdb database for which the information is retrieved.
@@ -3550,7 +3553,7 @@ public struct GetKxDatabaseOutput {
     /// A unique identifier for the changeset.
     public var lastCompletedChangesetId: Swift.String?
     /// The last time that the database was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// The total number of bytes in the database.
     public var numBytes: Swift.Int
     /// The total number of changesets in the database.
@@ -3559,13 +3562,13 @@ public struct GetKxDatabaseOutput {
     public var numFiles: Swift.Int
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         databaseArn: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         lastCompletedChangesetId: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         numBytes: Swift.Int = 0,
         numChangesets: Swift.Int = 0,
         numFiles: Swift.Int = 0
@@ -3586,7 +3589,7 @@ public struct GetKxDatabaseOutput {
 
 enum GetKxDatabaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3643,7 +3646,7 @@ public struct GetKxDataviewInput {
 
 extension GetKxDataviewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKxDataviewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKxDataviewOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3679,7 +3682,7 @@ public struct GetKxDataviewOutput {
     /// A unique identifier of the changeset that you want to use to ingest data.
     public var changesetId: Swift.String?
     /// The timestamp at which the dataview was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The name of the database where you created the dataview.
     public var databaseName: Swift.String?
     /// A unique identifier for the dataview.
@@ -3689,7 +3692,7 @@ public struct GetKxDataviewOutput {
     /// A unique identifier for the kdb environment, from where you want to retrieve the dataview details.
     public var environmentId: Swift.String?
     /// The last time that the dataview was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// Returns True if the dataview is created as writeable and False otherwise.
     public var readWrite: Swift.Bool
     /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
@@ -3711,12 +3714,12 @@ public struct GetKxDataviewOutput {
         availabilityZoneId: Swift.String? = nil,
         azMode: FinspaceClientTypes.KxAzMode? = nil,
         changesetId: Swift.String? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         databaseName: Swift.String? = nil,
         dataviewName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         readWrite: Swift.Bool = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         status: FinspaceClientTypes.KxDataviewStatus? = nil,
@@ -3743,7 +3746,7 @@ public struct GetKxDataviewOutput {
 
 enum GetKxDataviewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3784,7 +3787,7 @@ public struct GetKxEnvironmentInput {
 
 extension GetKxEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKxEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKxEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3818,7 +3821,7 @@ public struct GetKxEnvironmentOutput {
     /// The Amazon Resource Name (ARN) of the certificate authority of the kdb environment.
     public var certificateAuthorityArn: Swift.String?
     /// The timestamp at which the kdb environment was created in FinSpace.
-    public var creationTimestamp: ClientRuntime.Date?
+    public var creationTimestamp: Foundation.Date?
     /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
     public var customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
     /// A unique identifier for the AWS environment infrastructure account.
@@ -3844,13 +3847,13 @@ public struct GetKxEnvironmentOutput {
     /// The structure of the transit gateway and network configuration that is used to connect the kdb environment to an internal network.
     public var transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
     /// The timestamp at which the kdb environment was updated.
-    public var updateTimestamp: ClientRuntime.Date?
+    public var updateTimestamp: Foundation.Date?
 
     public init(
         availabilityZoneIds: [Swift.String]? = nil,
         awsAccountId: Swift.String? = nil,
         certificateAuthorityArn: Swift.String? = nil,
-        creationTimestamp: ClientRuntime.Date? = nil,
+        creationTimestamp: Foundation.Date? = nil,
         customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
         dedicatedServiceAccountId: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -3863,7 +3866,7 @@ public struct GetKxEnvironmentOutput {
         status: FinspaceClientTypes.EnvironmentStatus? = nil,
         tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
         transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
-        updateTimestamp: ClientRuntime.Date? = nil
+        updateTimestamp: Foundation.Date? = nil
     )
     {
         self.availabilityZoneIds = availabilityZoneIds
@@ -3888,7 +3891,7 @@ public struct GetKxEnvironmentOutput {
 
 enum GetKxEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3937,7 +3940,7 @@ public struct GetKxScalingGroupInput {
 
 extension GetKxScalingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKxScalingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKxScalingGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3961,7 +3964,7 @@ public struct GetKxScalingGroupOutput {
     /// The list of Managed kdb clusters that are currently active in the given scaling group.
     public var clusters: [Swift.String]?
     /// The timestamp at which the scaling group was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. It can have one of the following values:
     ///
     /// * kx.sg.4xlarge – The host type with a configuration of 108 GiB memory and 16 vCPUs.
@@ -3977,7 +3980,7 @@ public struct GetKxScalingGroupOutput {
     /// * kx.sg1.24xlarge – The host type with a configuration of 2948 GiB memory and 96 vCPUs.
     public var hostType: Swift.String?
     /// The last time that the scaling group was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// The ARN identifier for the scaling group.
     public var scalingGroupArn: Swift.String?
     /// A unique identifier for the kdb scaling group.
@@ -4006,9 +4009,9 @@ public struct GetKxScalingGroupOutput {
     public init(
         availabilityZoneId: Swift.String? = nil,
         clusters: [Swift.String]? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         hostType: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         scalingGroupArn: Swift.String? = nil,
         scalingGroupName: Swift.String? = nil,
         status: FinspaceClientTypes.KxScalingGroupStatus? = nil,
@@ -4029,7 +4032,7 @@ public struct GetKxScalingGroupOutput {
 
 enum GetKxScalingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4080,7 +4083,7 @@ public struct GetKxUserInput {
 
 extension GetKxUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKxUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKxUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4119,7 +4122,7 @@ public struct GetKxUserOutput {
 
 enum GetKxUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4168,7 +4171,7 @@ public struct GetKxVolumeInput {
 
 extension GetKxVolumeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKxVolumeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKxVolumeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4198,13 +4201,13 @@ public struct GetKxVolumeOutput {
     /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// A description of the volume.
     public var description: Swift.String?
     /// A unique identifier for the kdb environment, whose clusters can attach to the volume.
     public var environmentId: Swift.String?
     /// The last time that the volume was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// Specifies the configuration for the Network attached storage (NAS_1) file system volume.
     public var nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
     /// The status of volume creation.
@@ -4240,10 +4243,10 @@ public struct GetKxVolumeOutput {
         attachedClusters: [FinspaceClientTypes.KxAttachedCluster]? = nil,
         availabilityZoneIds: [Swift.String]? = nil,
         azMode: FinspaceClientTypes.KxAzMode? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         nas1Configuration: FinspaceClientTypes.KxNAS1Configuration? = nil,
         status: FinspaceClientTypes.KxVolumeStatus? = nil,
         statusReason: Swift.String? = nil,
@@ -4270,7 +4273,7 @@ public struct GetKxVolumeOutput {
 
 enum GetKxVolumeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4574,13 +4577,13 @@ extension FinspaceClientTypes {
     /// Details of changeset.
     public struct KxChangesetListEntry {
         /// Beginning time from which the changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var activeFromTimestamp: ClientRuntime.Date?
+        public var activeFromTimestamp: Foundation.Date?
         /// A unique identifier for the changeset.
         public var changesetId: Swift.String?
         /// The timestamp at which the changeset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The timestamp at which the changeset was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var lastModifiedTimestamp: ClientRuntime.Date?
+        public var lastModifiedTimestamp: Foundation.Date?
         /// Status of the changeset.
         ///
         /// * Pending – Changeset creation is pending.
@@ -4593,10 +4596,10 @@ extension FinspaceClientTypes {
         public var status: FinspaceClientTypes.ChangesetStatus?
 
         public init(
-            activeFromTimestamp: ClientRuntime.Date? = nil,
+            activeFromTimestamp: Foundation.Date? = nil,
             changesetId: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
-            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            lastModifiedTimestamp: Foundation.Date? = nil,
             status: FinspaceClientTypes.ChangesetStatus? = nil
         )
         {
@@ -4660,13 +4663,13 @@ extension FinspaceClientTypes {
         /// * Tickerplant – A tickerplant cluster allows you to subscribe to feed handlers based on IAM permissions. It can publish to RDBs, other Tickerplants, and real-time subscribers (RTS). Tickerplants can persist messages to log, which is readable by any RDB environment. It supports only single-node that is only one kdb process.
         public var clusterType: FinspaceClientTypes.KxClusterType?
         /// The timestamp at which the cluster was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// An IAM role that defines a set of permissions associated with a cluster. These permissions are assumed when a cluster attempts to access another cluster.
         public var executionRole: Swift.String?
         /// Specifies a Q program that will be run at launch of a cluster. It is a relative path within .zip file that contains the custom code, which will be loaded on the cluster. It must include the file name itself. For example, somedir/init.q.
         public var initializationScript: Swift.String?
         /// The last time that the cluster was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var lastModifiedTimestamp: ClientRuntime.Date?
+        public var lastModifiedTimestamp: Foundation.Date?
         /// A version of the FinSpace managed kdb to run.
         public var releaseLabel: Swift.String?
         /// The status of a cluster.
@@ -4698,10 +4701,10 @@ extension FinspaceClientTypes {
             clusterDescription: Swift.String? = nil,
             clusterName: Swift.String? = nil,
             clusterType: FinspaceClientTypes.KxClusterType? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             executionRole: Swift.String? = nil,
             initializationScript: Swift.String? = nil,
-            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            lastModifiedTimestamp: Foundation.Date? = nil,
             releaseLabel: Swift.String? = nil,
             status: FinspaceClientTypes.KxClusterStatus? = nil,
             statusReason: Swift.String? = nil,
@@ -5030,16 +5033,16 @@ extension FinspaceClientTypes {
     /// Details about a FinSpace managed kdb database
     public struct KxDatabaseListEntry {
         /// The timestamp at which the database was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The name of the kdb database.
         public var databaseName: Swift.String?
         /// The last time that the database was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var lastModifiedTimestamp: ClientRuntime.Date?
+        public var lastModifiedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             databaseName: Swift.String? = nil,
-            lastModifiedTimestamp: ClientRuntime.Date? = nil
+            lastModifiedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -5072,7 +5075,7 @@ extension FinspaceClientTypes {
         /// A unique identifier for the changeset.
         public var changesetId: Swift.String?
         /// The timestamp at which the dataview version was active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
         public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
         /// A unique identifier of the active version.
@@ -5081,7 +5084,7 @@ extension FinspaceClientTypes {
         public init(
             attachedClusters: [Swift.String]? = nil,
             changesetId: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
             versionId: Swift.String? = nil
         )
@@ -5183,7 +5186,7 @@ extension FinspaceClientTypes {
         /// A unique identifier for the changeset.
         public var changesetId: Swift.String?
         /// The timestamp at which the dataview list entry was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// A unique identifier of the database.
         public var databaseName: Swift.String?
         /// A unique identifier of the dataview.
@@ -5193,7 +5196,7 @@ extension FinspaceClientTypes {
         /// A unique identifier for the kdb environment.
         public var environmentId: Swift.String?
         /// The last time that the dataview list was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var lastModifiedTimestamp: ClientRuntime.Date?
+        public var lastModifiedTimestamp: Foundation.Date?
         /// Returns True if the dataview is created as writeable and False otherwise.
         public var readWrite: Swift.Bool
         /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
@@ -5209,12 +5212,12 @@ extension FinspaceClientTypes {
             availabilityZoneId: Swift.String? = nil,
             azMode: FinspaceClientTypes.KxAzMode? = nil,
             changesetId: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             databaseName: Swift.String? = nil,
             dataviewName: Swift.String? = nil,
             description: Swift.String? = nil,
             environmentId: Swift.String? = nil,
-            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            lastModifiedTimestamp: Foundation.Date? = nil,
             readWrite: Swift.Bool = false,
             segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
             status: FinspaceClientTypes.KxDataviewStatus? = nil,
@@ -5418,7 +5421,7 @@ extension FinspaceClientTypes {
         /// The Amazon Resource Name (ARN) of the certificate authority:
         public var certificateAuthorityArn: Swift.String?
         /// The timestamp at which the kdb environment was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
         public var customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
         /// A unique identifier for the AWS environment infrastructure account.
@@ -5462,13 +5465,13 @@ extension FinspaceClientTypes {
         /// Specifies the transit gateway and network configuration to connect the kdb environment to an internal network.
         public var transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
         /// The timestamp at which the kdb environment was modified in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var updateTimestamp: ClientRuntime.Date?
+        public var updateTimestamp: Foundation.Date?
 
         public init(
             availabilityZoneIds: [Swift.String]? = nil,
             awsAccountId: Swift.String? = nil,
             certificateAuthorityArn: Swift.String? = nil,
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
             dedicatedServiceAccountId: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -5481,7 +5484,7 @@ extension FinspaceClientTypes {
             status: FinspaceClientTypes.EnvironmentStatus? = nil,
             tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
             transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
-            updateTimestamp: ClientRuntime.Date? = nil
+            updateTimestamp: Foundation.Date? = nil
         )
         {
             self.availabilityZoneIds = availabilityZoneIds
@@ -5594,7 +5597,7 @@ extension FinspaceClientTypes {
         /// The identifier of the availability zones where subnets for the environment are created.
         public var availabilityZoneId: Swift.String?
         /// The time when a particular node is started. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var launchTime: ClientRuntime.Date?
+        public var launchTime: Foundation.Date?
         /// A unique identifier for the node.
         public var nodeId: Swift.String?
         /// Specifies the status of the cluster nodes.
@@ -5606,7 +5609,7 @@ extension FinspaceClientTypes {
 
         public init(
             availabilityZoneId: Swift.String? = nil,
-            launchTime: ClientRuntime.Date? = nil,
+            launchTime: Foundation.Date? = nil,
             nodeId: Swift.String? = nil,
             status: FinspaceClientTypes.KxNodeStatus? = nil
         )
@@ -5745,7 +5748,7 @@ extension FinspaceClientTypes {
         /// The list of clusters currently active in a given scaling group.
         public var clusters: [Swift.String]?
         /// The timestamp at which the scaling group was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. You can add one of the following values:
         ///
         /// * kx.sg.4xlarge – The host type with a configuration of 108 GiB memory and 16 vCPUs.
@@ -5761,7 +5764,7 @@ extension FinspaceClientTypes {
         /// * kx.sg1.24xlarge – The host type with a configuration of 2948 GiB memory and 96 vCPUs.
         public var hostType: Swift.String?
         /// The last time that the scaling group was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var lastModifiedTimestamp: ClientRuntime.Date?
+        public var lastModifiedTimestamp: Foundation.Date?
         /// A unique identifier for the kdb scaling group.
         public var scalingGroupName: Swift.String?
         /// The status of scaling groups.
@@ -5772,9 +5775,9 @@ extension FinspaceClientTypes {
         public init(
             availabilityZoneId: Swift.String? = nil,
             clusters: [Swift.String]? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             hostType: Swift.String? = nil,
-            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            lastModifiedTimestamp: Foundation.Date? = nil,
             scalingGroupName: Swift.String? = nil,
             status: FinspaceClientTypes.KxScalingGroupStatus? = nil,
             statusReason: Swift.String? = nil
@@ -5910,20 +5913,20 @@ extension FinspaceClientTypes {
     /// A structure that stores metadata for a kdb user.
     public struct KxUser {
         /// The timestamp at which the kdb user was created.
-        public var createTimestamp: ClientRuntime.Date?
+        public var createTimestamp: Foundation.Date?
         /// The IAM role ARN that is associated with the user.
         public var iamRole: Swift.String?
         /// The timestamp at which the kdb user was updated.
-        public var updateTimestamp: ClientRuntime.Date?
+        public var updateTimestamp: Foundation.Date?
         /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         public var userArn: Swift.String?
         /// A unique identifier for the user.
         public var userName: Swift.String?
 
         public init(
-            createTimestamp: ClientRuntime.Date? = nil,
+            createTimestamp: Foundation.Date? = nil,
             iamRole: Swift.String? = nil,
-            updateTimestamp: ClientRuntime.Date? = nil,
+            updateTimestamp: Foundation.Date? = nil,
             userArn: Swift.String? = nil,
             userName: Swift.String? = nil
         )
@@ -5964,11 +5967,11 @@ extension FinspaceClientTypes {
         /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
         public var azMode: FinspaceClientTypes.KxAzMode?
         /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// A description of the volume.
         public var description: Swift.String?
         /// The last time that the volume was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-        public var lastModifiedTimestamp: ClientRuntime.Date?
+        public var lastModifiedTimestamp: Foundation.Date?
         /// The status of volume.
         ///
         /// * CREATING – The volume creation is in progress.
@@ -5999,9 +6002,9 @@ extension FinspaceClientTypes {
         public init(
             availabilityZoneIds: [Swift.String]? = nil,
             azMode: FinspaceClientTypes.KxAzMode? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            lastModifiedTimestamp: Foundation.Date? = nil,
             status: FinspaceClientTypes.KxVolumeStatus? = nil,
             statusReason: Swift.String? = nil,
             volumeName: Swift.String? = nil,
@@ -6137,14 +6140,14 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListEnvironmentsInput {
 
-    static func queryItemProvider(_ value: ListEnvironmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListEnvironmentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6176,7 +6179,7 @@ public struct ListEnvironmentsInput {
 
 extension ListEnvironmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEnvironmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEnvironmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6205,7 +6208,7 @@ public struct ListEnvironmentsOutput {
 
 enum ListEnvironmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6221,14 +6224,14 @@ enum ListEnvironmentsOutputError {
 
 extension ListKxChangesetsInput {
 
-    static func queryItemProvider(_ value: ListKxChangesetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKxChangesetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6276,7 +6279,7 @@ public struct ListKxChangesetsInput {
 
 extension ListKxChangesetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKxChangesetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKxChangesetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6305,7 +6308,7 @@ public struct ListKxChangesetsOutput {
 
 enum ListKxChangesetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6323,14 +6326,14 @@ enum ListKxChangesetsOutputError {
 
 extension ListKxClusterNodesInput {
 
-    static func queryItemProvider(_ value: ListKxClusterNodesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKxClusterNodesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6378,7 +6381,7 @@ public struct ListKxClusterNodesInput {
 
 extension ListKxClusterNodesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKxClusterNodesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKxClusterNodesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6407,7 +6410,7 @@ public struct ListKxClusterNodesOutput {
 
 enum ListKxClusterNodesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6426,18 +6429,18 @@ enum ListKxClusterNodesOutputError {
 
 extension ListKxClustersInput {
 
-    static func queryItemProvider(_ value: ListKxClustersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKxClustersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clusterType = value.clusterType {
-            let clusterTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "clusterType".urlPercentEncoding(), value: Swift.String(clusterType.rawValue).urlPercentEncoding())
+            let clusterTypeQueryItem = Smithy.URIQueryItem(name: "clusterType".urlPercentEncoding(), value: Swift.String(clusterType.rawValue).urlPercentEncoding())
             items.append(clusterTypeQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -6491,7 +6494,7 @@ public struct ListKxClustersInput {
 
 extension ListKxClustersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKxClustersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKxClustersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6520,7 +6523,7 @@ public struct ListKxClustersOutput {
 
 enum ListKxClustersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6540,14 +6543,14 @@ enum ListKxClustersOutputError {
 
 extension ListKxDatabasesInput {
 
-    static func queryItemProvider(_ value: ListKxDatabasesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKxDatabasesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6587,7 +6590,7 @@ public struct ListKxDatabasesInput {
 
 extension ListKxDatabasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKxDatabasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKxDatabasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6616,7 +6619,7 @@ public struct ListKxDatabasesOutput {
 
 enum ListKxDatabasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6634,14 +6637,14 @@ enum ListKxDatabasesOutputError {
 
 extension ListKxDataviewsInput {
 
-    static func queryItemProvider(_ value: ListKxDataviewsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKxDataviewsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6689,7 +6692,7 @@ public struct ListKxDataviewsInput {
 
 extension ListKxDataviewsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKxDataviewsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKxDataviewsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6718,7 +6721,7 @@ public struct ListKxDataviewsOutput {
 
 enum ListKxDataviewsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6736,14 +6739,14 @@ enum ListKxDataviewsOutputError {
 
 extension ListKxEnvironmentsInput {
 
-    static func queryItemProvider(_ value: ListKxEnvironmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKxEnvironmentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6775,7 +6778,7 @@ public struct ListKxEnvironmentsInput {
 
 extension ListKxEnvironmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKxEnvironmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKxEnvironmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6804,7 +6807,7 @@ public struct ListKxEnvironmentsOutput {
 
 enum ListKxEnvironmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6820,14 +6823,14 @@ enum ListKxEnvironmentsOutputError {
 
 extension ListKxScalingGroupsInput {
 
-    static func queryItemProvider(_ value: ListKxScalingGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKxScalingGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -6867,7 +6870,7 @@ public struct ListKxScalingGroupsInput {
 
 extension ListKxScalingGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKxScalingGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKxScalingGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6896,7 +6899,7 @@ public struct ListKxScalingGroupsOutput {
 
 enum ListKxScalingGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6916,14 +6919,14 @@ enum ListKxScalingGroupsOutputError {
 
 extension ListKxUsersInput {
 
-    static func queryItemProvider(_ value: ListKxUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKxUsersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6963,7 +6966,7 @@ public struct ListKxUsersInput {
 
 extension ListKxUsersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKxUsersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKxUsersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6992,7 +6995,7 @@ public struct ListKxUsersOutput {
 
 enum ListKxUsersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7010,18 +7013,18 @@ enum ListKxUsersOutputError {
 
 extension ListKxVolumesInput {
 
-    static func queryItemProvider(_ value: ListKxVolumesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKxVolumesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let volumeType = value.volumeType {
-            let volumeTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "volumeType".urlPercentEncoding(), value: Swift.String(volumeType.rawValue).urlPercentEncoding())
+            let volumeTypeQueryItem = Smithy.URIQueryItem(name: "volumeType".urlPercentEncoding(), value: Swift.String(volumeType.rawValue).urlPercentEncoding())
             items.append(volumeTypeQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -7065,7 +7068,7 @@ public struct ListKxVolumesInput {
 
 extension ListKxVolumesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKxVolumesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKxVolumesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7094,7 +7097,7 @@ public struct ListKxVolumesOutput {
 
 enum ListKxVolumesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7137,7 +7140,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7161,7 +7164,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7499,7 +7502,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7511,7 +7514,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7678,14 +7681,14 @@ extension FinspaceClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -7722,7 +7725,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7734,7 +7737,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7804,7 +7807,7 @@ public struct UpdateEnvironmentInput {
 
 extension UpdateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7828,7 +7831,7 @@ public struct UpdateEnvironmentOutput {
 
 enum UpdateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7910,7 +7913,7 @@ public struct UpdateKxClusterCodeConfigurationInput {
 
 extension UpdateKxClusterCodeConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKxClusterCodeConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKxClusterCodeConfigurationOutput {
         return UpdateKxClusterCodeConfigurationOutput()
     }
 }
@@ -7922,7 +7925,7 @@ public struct UpdateKxClusterCodeConfigurationOutput {
 
 enum UpdateKxClusterCodeConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7996,7 +7999,7 @@ public struct UpdateKxClusterDatabasesInput {
 
 extension UpdateKxClusterDatabasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKxClusterDatabasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKxClusterDatabasesOutput {
         return UpdateKxClusterDatabasesOutput()
     }
 }
@@ -8008,7 +8011,7 @@ public struct UpdateKxClusterDatabasesOutput {
 
 enum UpdateKxClusterDatabasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8077,7 +8080,7 @@ public struct UpdateKxDatabaseInput {
 
 extension UpdateKxDatabaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKxDatabaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKxDatabaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8098,13 +8101,13 @@ public struct UpdateKxDatabaseOutput {
     /// A unique identifier for the kdb environment.
     public var environmentId: Swift.String?
     /// The last time that the database was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
 
     public init(
         databaseName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil
+        lastModifiedTimestamp: Foundation.Date? = nil
     )
     {
         self.databaseName = databaseName
@@ -8116,7 +8119,7 @@ public struct UpdateKxDatabaseOutput {
 
 enum UpdateKxDatabaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8202,7 +8205,7 @@ public struct UpdateKxDataviewInput {
 
 extension UpdateKxDataviewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKxDataviewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKxDataviewOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8237,7 +8240,7 @@ public struct UpdateKxDataviewOutput {
     /// A unique identifier for the changeset.
     public var changesetId: Swift.String?
     /// The timestamp at which the dataview was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The name of the database.
     public var databaseName: Swift.String?
     /// The name of the database under which the dataview was created.
@@ -8247,7 +8250,7 @@ public struct UpdateKxDataviewOutput {
     /// A unique identifier for the kdb environment, where you want to update the dataview.
     public var environmentId: Swift.String?
     /// The last time that the dataview was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// Returns True if the dataview is created as writeable and False otherwise.
     public var readWrite: Swift.Bool
     /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
@@ -8267,12 +8270,12 @@ public struct UpdateKxDataviewOutput {
         availabilityZoneId: Swift.String? = nil,
         azMode: FinspaceClientTypes.KxAzMode? = nil,
         changesetId: Swift.String? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         databaseName: Swift.String? = nil,
         dataviewName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         readWrite: Swift.Bool = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         status: FinspaceClientTypes.KxDataviewStatus? = nil
@@ -8297,7 +8300,7 @@ public struct UpdateKxDataviewOutput {
 
 enum UpdateKxDataviewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8407,7 +8410,7 @@ public struct UpdateKxEnvironmentNetworkInput {
 
 extension UpdateKxEnvironmentNetworkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKxEnvironmentNetworkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKxEnvironmentNetworkOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8438,7 +8441,7 @@ public struct UpdateKxEnvironmentNetworkOutput {
     /// The unique identifier of the AWS account that is used to create the kdb environment.
     public var awsAccountId: Swift.String?
     /// The timestamp at which the kdb environment was created in FinSpace.
-    public var creationTimestamp: ClientRuntime.Date?
+    public var creationTimestamp: Foundation.Date?
     /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
     public var customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
     /// A unique identifier for the AWS environment infrastructure account.
@@ -8464,12 +8467,12 @@ public struct UpdateKxEnvironmentNetworkOutput {
     /// The structure of the transit gateway and network configuration that is used to connect the kdb environment to an internal network.
     public var transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
     /// The timestamp at which the kdb environment was updated.
-    public var updateTimestamp: ClientRuntime.Date?
+    public var updateTimestamp: Foundation.Date?
 
     public init(
         availabilityZoneIds: [Swift.String]? = nil,
         awsAccountId: Swift.String? = nil,
-        creationTimestamp: ClientRuntime.Date? = nil,
+        creationTimestamp: Foundation.Date? = nil,
         customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
         dedicatedServiceAccountId: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -8482,7 +8485,7 @@ public struct UpdateKxEnvironmentNetworkOutput {
         status: FinspaceClientTypes.EnvironmentStatus? = nil,
         tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
         transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
-        updateTimestamp: ClientRuntime.Date? = nil
+        updateTimestamp: Foundation.Date? = nil
     )
     {
         self.availabilityZoneIds = availabilityZoneIds
@@ -8506,7 +8509,7 @@ public struct UpdateKxEnvironmentNetworkOutput {
 
 enum UpdateKxEnvironmentNetworkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8525,7 +8528,7 @@ enum UpdateKxEnvironmentNetworkOutputError {
 
 extension UpdateKxEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKxEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKxEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8556,7 +8559,7 @@ public struct UpdateKxEnvironmentOutput {
     /// The unique identifier of the AWS account that is used to create the kdb environment.
     public var awsAccountId: Swift.String?
     /// The timestamp at which the kdb environment was created in FinSpace.
-    public var creationTimestamp: ClientRuntime.Date?
+    public var creationTimestamp: Foundation.Date?
     /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers.
     public var customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]?
     /// A unique identifier for the AWS environment infrastructure account.
@@ -8582,12 +8585,12 @@ public struct UpdateKxEnvironmentOutput {
     /// The structure of the transit gateway and network configuration that is used to connect the kdb environment to an internal network.
     public var transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration?
     /// The timestamp at which the kdb environment was updated.
-    public var updateTimestamp: ClientRuntime.Date?
+    public var updateTimestamp: Foundation.Date?
 
     public init(
         availabilityZoneIds: [Swift.String]? = nil,
         awsAccountId: Swift.String? = nil,
-        creationTimestamp: ClientRuntime.Date? = nil,
+        creationTimestamp: Foundation.Date? = nil,
         customDNSConfiguration: [FinspaceClientTypes.CustomDNSServer]? = nil,
         dedicatedServiceAccountId: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -8600,7 +8603,7 @@ public struct UpdateKxEnvironmentOutput {
         status: FinspaceClientTypes.EnvironmentStatus? = nil,
         tgwStatus: FinspaceClientTypes.TgwStatus? = nil,
         transitGatewayConfiguration: FinspaceClientTypes.TransitGatewayConfiguration? = nil,
-        updateTimestamp: ClientRuntime.Date? = nil
+        updateTimestamp: Foundation.Date? = nil
     )
     {
         self.availabilityZoneIds = availabilityZoneIds
@@ -8624,7 +8627,7 @@ public struct UpdateKxEnvironmentOutput {
 
 enum UpdateKxEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8692,7 +8695,7 @@ public struct UpdateKxUserInput {
 
 extension UpdateKxUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKxUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKxUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8731,7 +8734,7 @@ public struct UpdateKxUserOutput {
 
 enum UpdateKxUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8804,7 +8807,7 @@ public struct UpdateKxVolumeInput {
 
 extension UpdateKxVolumeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKxVolumeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKxVolumeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8834,13 +8837,13 @@ public struct UpdateKxVolumeOutput {
     /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The description for the volume.
     public var description: Swift.String?
     /// A unique identifier for the kdb environment where you want to update the volume.
     public var environmentId: Swift.String?
     /// The last time that the volume was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
-    public var lastModifiedTimestamp: ClientRuntime.Date?
+    public var lastModifiedTimestamp: Foundation.Date?
     /// Specifies the configuration for the Network attached storage (NAS_1) file system volume.
     public var nas1Configuration: FinspaceClientTypes.KxNAS1Configuration?
     /// The status of the volume.
@@ -8876,10 +8879,10 @@ public struct UpdateKxVolumeOutput {
         attachedClusters: [FinspaceClientTypes.KxAttachedCluster]? = nil,
         availabilityZoneIds: [Swift.String]? = nil,
         azMode: FinspaceClientTypes.KxAzMode? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
-        lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
         nas1Configuration: FinspaceClientTypes.KxNAS1Configuration? = nil,
         status: FinspaceClientTypes.KxVolumeStatus? = nil,
         statusReason: Swift.String? = nil,
@@ -8906,7 +8909,7 @@ public struct UpdateKxVolumeOutput {
 
 enum UpdateKxVolumeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

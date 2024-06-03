@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -130,7 +132,7 @@ public struct GenerateDataSetInput {
     public var customerDefinedValues: [Swift.String:Swift.String]?
     /// The date a data set was published. For daily data sets, provide a date with day-level granularity for the desired day. For monthly data sets except those with prefix disbursed_amount, provide a date with month-level granularity for the desired month (the day value will be ignored). For data sets with prefix disbursed_amount, provide a date with day-level granularity for the desired day. For these data sets we will look backwards in time over the range of 31 days until the first data set is found (the latest one).
     /// This member is required.
-    public var dataSetPublicationDate: ClientRuntime.Date?
+    public var dataSetPublicationDate: Foundation.Date?
     /// The desired data set type.
     ///
     /// * customer_subscriber_hourly_monthly_subscriptions From 2017-09-15 to present: Available daily by 24:00 UTC.
@@ -198,7 +200,7 @@ public struct GenerateDataSetInput {
 
     public init(
         customerDefinedValues: [Swift.String:Swift.String]? = nil,
-        dataSetPublicationDate: ClientRuntime.Date? = nil,
+        dataSetPublicationDate: Foundation.Date? = nil,
         dataSetType: MarketplaceCommerceAnalyticsClientTypes.DataSetType? = nil,
         destinationS3BucketName: Swift.String? = nil,
         destinationS3Prefix: Swift.String? = nil,
@@ -218,7 +220,7 @@ public struct GenerateDataSetInput {
 
 extension GenerateDataSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateDataSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateDataSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -243,7 +245,7 @@ public struct GenerateDataSetOutput {
 
 enum GenerateDataSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -335,7 +337,7 @@ public struct StartSupportDataExportInput {
     public var destinationS3Prefix: Swift.String?
     /// This target has been deprecated. The start date from which to retrieve the data set in UTC. This parameter only affects the customer_support_contacts_data data set type.
     /// This member is required.
-    public var fromDate: ClientRuntime.Date?
+    public var fromDate: Foundation.Date?
     /// This target has been deprecated. The Amazon Resource Name (ARN) of the Role with an attached permissions policy to interact with the provided AWS services.
     /// This member is required.
     public var roleNameArn: Swift.String?
@@ -348,7 +350,7 @@ public struct StartSupportDataExportInput {
         dataSetType: MarketplaceCommerceAnalyticsClientTypes.SupportDataSetType? = nil,
         destinationS3BucketName: Swift.String? = nil,
         destinationS3Prefix: Swift.String? = nil,
-        fromDate: ClientRuntime.Date? = nil,
+        fromDate: Foundation.Date? = nil,
         roleNameArn: Swift.String? = nil,
         snsTopicArn: Swift.String? = nil
     )
@@ -365,7 +367,7 @@ public struct StartSupportDataExportInput {
 
 extension StartSupportDataExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSupportDataExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSupportDataExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -391,7 +393,7 @@ public struct StartSupportDataExportOutput {
 
 enum StartSupportDataExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

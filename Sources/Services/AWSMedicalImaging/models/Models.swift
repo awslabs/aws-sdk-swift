@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -132,7 +135,7 @@ extension MedicalImagingClientTypes {
     /// Copy the image set properties of the destination image set.
     public struct CopyDestinationImageSetProperties {
         /// The timestamp when the destination image set properties were created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) assigned to the destination image set.
         public var imageSetArn: Swift.String?
         /// The image set identifier of the copied image set properties.
@@ -146,16 +149,16 @@ extension MedicalImagingClientTypes {
         /// This member is required.
         public var latestVersionId: Swift.String?
         /// The timestamp when the destination image set properties were last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             imageSetArn: Swift.String? = nil,
             imageSetId: Swift.String? = nil,
             imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
             imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
             latestVersionId: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -246,7 +249,7 @@ public struct CopyImageSetInput {
 
 extension CopyImageSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CopyImageSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopyImageSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -283,7 +286,7 @@ public struct CopyImageSetOutput {
 
 enum CopyImageSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -346,7 +349,7 @@ extension MedicalImagingClientTypes {
     /// Copy source image set properties.
     public struct CopySourceImageSetProperties {
         /// The timestamp when the source image set properties were created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) assigned to the source image set.
         public var imageSetArn: Swift.String?
         /// The image set identifier for the copied source image set.
@@ -360,16 +363,16 @@ extension MedicalImagingClientTypes {
         /// This member is required.
         public var latestVersionId: Swift.String?
         /// The timestamp when the source image set properties were updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             imageSetArn: Swift.String? = nil,
             imageSetId: Swift.String? = nil,
             imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
             imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
             latestVersionId: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -429,7 +432,7 @@ public struct CreateDatastoreInput {
 
 extension CreateDatastoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDatastoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDatastoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -460,7 +463,7 @@ public struct CreateDatastoreOutput {
 
 enum CreateDatastoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -506,7 +509,7 @@ extension MedicalImagingClientTypes {
         /// This member is required.
         public var datastoreId: Swift.String?
         /// The timestamp for when the import job was ended.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// The input prefix path for the S3 bucket that contains the DICOM P10 files to be imported.
         /// This member is required.
         public var inputS3Uri: Swift.String?
@@ -525,19 +528,19 @@ extension MedicalImagingClientTypes {
         /// This member is required.
         public var outputS3Uri: Swift.String?
         /// The timestamp for when the import job was submitted.
-        public var submittedAt: ClientRuntime.Date?
+        public var submittedAt: Foundation.Date?
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             inputS3Uri: Swift.String? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobStatus: MedicalImagingClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
             outputS3Uri: Swift.String? = nil,
-            submittedAt: ClientRuntime.Date? = nil
+            submittedAt: Foundation.Date? = nil
         )
         {
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -581,7 +584,7 @@ extension MedicalImagingClientTypes {
         /// This member is required.
         public var datastoreId: Swift.String?
         /// The timestamp when an import job ended.
-        public var endedAt: ClientRuntime.Date?
+        public var endedAt: Foundation.Date?
         /// The import job identifier.
         /// This member is required.
         public var jobId: Swift.String?
@@ -594,17 +597,17 @@ extension MedicalImagingClientTypes {
         /// The error message thrown if an import job fails.
         public var message: Swift.String?
         /// The timestamp when an import job was submitted.
-        public var submittedAt: ClientRuntime.Date?
+        public var submittedAt: Foundation.Date?
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
-            endedAt: ClientRuntime.Date? = nil,
+            endedAt: Foundation.Date? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobStatus: MedicalImagingClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
-            submittedAt: ClientRuntime.Date? = nil
+            submittedAt: Foundation.Date? = nil
         )
         {
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -779,13 +782,13 @@ extension MedicalImagingClientTypes {
     /// The object containing removableAttributes and updatableAttributes.
     public struct DICOMUpdates {
         /// The DICOM tags to be removed from ImageSetMetadata.
-        public var removableAttributes: ClientRuntime.Data?
+        public var removableAttributes: Foundation.Data?
         /// The DICOM tags that need to be updated in ImageSetMetadata.
-        public var updatableAttributes: ClientRuntime.Data?
+        public var updatableAttributes: Foundation.Data?
 
         public init(
-            removableAttributes: ClientRuntime.Data? = nil,
-            updatableAttributes: ClientRuntime.Data? = nil
+            removableAttributes: Foundation.Data? = nil,
+            updatableAttributes: Foundation.Data? = nil
         )
         {
             self.removableAttributes = removableAttributes
@@ -815,7 +818,7 @@ extension MedicalImagingClientTypes {
     /// The properties associated with the data store.
     public struct DatastoreProperties {
         /// The timestamp when the data store was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) for the data store.
         public var datastoreArn: Swift.String?
         /// The data store identifier.
@@ -830,16 +833,16 @@ extension MedicalImagingClientTypes {
         /// The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
         public var kmsKeyArn: Swift.String?
         /// The timestamp when the data store was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             datastoreArn: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
             datastoreName: Swift.String? = nil,
             datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil,
             kmsKeyArn: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -911,7 +914,7 @@ extension MedicalImagingClientTypes {
     /// List of summaries of data stores.
     public struct DatastoreSummary {
         /// The timestamp when the data store was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) for the data store.
         public var datastoreArn: Swift.String?
         /// The data store identifier.
@@ -924,15 +927,15 @@ extension MedicalImagingClientTypes {
         /// This member is required.
         public var datastoreStatus: MedicalImagingClientTypes.DatastoreStatus?
         /// The timestamp when the data store was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             datastoreArn: Swift.String? = nil,
             datastoreId: Swift.String? = nil,
             datastoreName: Swift.String? = nil,
             datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -971,7 +974,7 @@ public struct DeleteDatastoreInput {
 
 extension DeleteDatastoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDatastoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDatastoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1002,7 +1005,7 @@ public struct DeleteDatastoreOutput {
 
 enum DeleteDatastoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1052,7 +1055,7 @@ public struct DeleteImageSetInput {
 
 extension DeleteImageSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteImageSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteImageSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1095,7 +1098,7 @@ public struct DeleteImageSetOutput {
 
 enum DeleteImageSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1145,7 +1148,7 @@ public struct GetDICOMImportJobInput {
 
 extension GetDICOMImportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDICOMImportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDICOMImportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1170,7 +1173,7 @@ public struct GetDICOMImportJobOutput {
 
 enum GetDICOMImportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1212,7 +1215,7 @@ public struct GetDatastoreInput {
 
 extension GetDatastoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDatastoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDatastoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1237,7 +1240,7 @@ public struct GetDatastoreOutput {
 
 enum GetDatastoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1299,7 +1302,7 @@ public struct GetImageFrameInput {
 
 extension GetImageFrameOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetImageFrameOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetImageFrameOutput {
         var value = GetImageFrameOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -1321,11 +1324,11 @@ public struct GetImageFrameOutput {
     public var contentType: Swift.String?
     /// The blob containing the aggregated image frame information.
     /// This member is required.
-    public var imageFrameBlob: ClientRuntime.ByteStream?
+    public var imageFrameBlob: Smithy.ByteStream?
 
     public init(
         contentType: Swift.String? = nil,
-        imageFrameBlob: ClientRuntime.ByteStream? = nil
+        imageFrameBlob: Smithy.ByteStream? = nil
     )
     {
         self.contentType = contentType
@@ -1335,7 +1338,7 @@ public struct GetImageFrameOutput {
 
 enum GetImageFrameOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1354,10 +1357,10 @@ enum GetImageFrameOutputError {
 
 extension GetImageSetInput {
 
-    static func queryItemProvider(_ value: GetImageSetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetImageSetInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -1401,10 +1404,10 @@ public struct GetImageSetInput {
 
 extension GetImageSetMetadataInput {
 
-    static func queryItemProvider(_ value: GetImageSetMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetImageSetMetadataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -1448,7 +1451,7 @@ public struct GetImageSetMetadataInput {
 
 extension GetImageSetMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetImageSetMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetImageSetMetadataOutput {
         var value = GetImageSetMetadataOutput()
         if let contentEncodingHeaderValue = httpResponse.headers.value(for: "Content-Encoding") {
             value.contentEncoding = contentEncodingHeaderValue
@@ -1475,12 +1478,12 @@ public struct GetImageSetMetadataOutput {
     public var contentType: Swift.String?
     /// The blob containing the aggregated metadata information for the image set.
     /// This member is required.
-    public var imageSetMetadataBlob: ClientRuntime.ByteStream?
+    public var imageSetMetadataBlob: Smithy.ByteStream?
 
     public init(
         contentEncoding: Swift.String? = nil,
         contentType: Swift.String? = nil,
-        imageSetMetadataBlob: ClientRuntime.ByteStream? = nil
+        imageSetMetadataBlob: Smithy.ByteStream? = nil
     )
     {
         self.contentEncoding = contentEncoding
@@ -1491,7 +1494,7 @@ public struct GetImageSetMetadataOutput {
 
 enum GetImageSetMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1510,7 +1513,7 @@ enum GetImageSetMetadataOutputError {
 
 extension GetImageSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetImageSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetImageSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1531,12 +1534,12 @@ extension GetImageSetOutput {
 
 public struct GetImageSetOutput {
     /// The timestamp when image set properties were created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
     /// The timestamp when the image set properties were deleted.
-    public var deletedAt: ClientRuntime.Date?
+    public var deletedAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) assigned to the image set.
     public var imageSetArn: Swift.String?
     /// The image set identifier.
@@ -1550,21 +1553,21 @@ public struct GetImageSetOutput {
     /// The error message thrown if an image set action fails.
     public var message: Swift.String?
     /// The timestamp when image set properties were updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
     /// The image set version identifier.
     /// This member is required.
     public var versionId: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         datastoreId: Swift.String? = nil,
-        deletedAt: ClientRuntime.Date? = nil,
+        deletedAt: Foundation.Date? = nil,
         imageSetArn: Swift.String? = nil,
         imageSetId: Swift.String? = nil,
         imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
         imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
         message: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil,
+        updatedAt: Foundation.Date? = nil,
         versionId: Swift.String? = nil
     )
     {
@@ -1583,7 +1586,7 @@ public struct GetImageSetOutput {
 
 enum GetImageSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1646,9 +1649,9 @@ extension MedicalImagingClientTypes {
     /// The image set properties.
     public struct ImageSetProperties {
         /// The timestamp when the image set properties were created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The timestamp when the image set properties were deleted.
-        public var deletedAt: ClientRuntime.Date?
+        public var deletedAt: Foundation.Date?
         /// The image set identifier.
         /// This member is required.
         public var imageSetId: Swift.String?
@@ -1660,19 +1663,19 @@ extension MedicalImagingClientTypes {
         /// The error message thrown if an image set action fails.
         public var message: Swift.String?
         /// The timestamp when the image set properties were updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// The image set version identifier.
         /// This member is required.
         public var versionId: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            deletedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            deletedAt: Foundation.Date? = nil,
             imageSetId: Swift.String? = nil,
             imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
             imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
             message: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             versionId: Swift.String? = nil
         )
         {
@@ -1792,22 +1795,22 @@ extension MedicalImagingClientTypes {
     /// Summary of the image set metadata.
     public struct ImageSetsMetadataSummary {
         /// The time an image set is created. Sample creation date is provided in 1985-04-12T23:20:50.52Z format.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The DICOM tags associated with the image set.
         public var dicomTags: MedicalImagingClientTypes.DICOMTags?
         /// The image set identifier.
         /// This member is required.
         public var imageSetId: Swift.String?
         /// The time an image set was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// The image set version.
         public var version: Swift.Int?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             dicomTags: MedicalImagingClientTypes.DICOMTags? = nil,
             imageSetId: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             version: Swift.Int? = nil
         )
         {
@@ -1896,18 +1899,18 @@ extension MedicalImagingClientTypes {
 
 extension ListDICOMImportJobsInput {
 
-    static func queryItemProvider(_ value: ListDICOMImportJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDICOMImportJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let jobStatus = value.jobStatus {
-            let jobStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "jobStatus".urlPercentEncoding(), value: Swift.String(jobStatus.rawValue).urlPercentEncoding())
+            let jobStatusQueryItem = Smithy.URIQueryItem(name: "jobStatus".urlPercentEncoding(), value: Swift.String(jobStatus.rawValue).urlPercentEncoding())
             items.append(jobStatusQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1951,7 +1954,7 @@ public struct ListDICOMImportJobsInput {
 
 extension ListDICOMImportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDICOMImportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDICOMImportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1981,7 +1984,7 @@ public struct ListDICOMImportJobsOutput {
 
 enum ListDICOMImportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2000,18 +2003,18 @@ enum ListDICOMImportJobsOutputError {
 
 extension ListDatastoresInput {
 
-    static func queryItemProvider(_ value: ListDatastoresInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDatastoresInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let datastoreStatus = value.datastoreStatus {
-            let datastoreStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "datastoreStatus".urlPercentEncoding(), value: Swift.String(datastoreStatus.rawValue).urlPercentEncoding())
+            let datastoreStatusQueryItem = Smithy.URIQueryItem(name: "datastoreStatus".urlPercentEncoding(), value: Swift.String(datastoreStatus.rawValue).urlPercentEncoding())
             items.append(datastoreStatusQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2047,7 +2050,7 @@ public struct ListDatastoresInput {
 
 extension ListDatastoresOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDatastoresOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDatastoresOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2076,7 +2079,7 @@ public struct ListDatastoresOutput {
 
 enum ListDatastoresOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2093,14 +2096,14 @@ enum ListDatastoresOutputError {
 
 extension ListImageSetVersionsInput {
 
-    static func queryItemProvider(_ value: ListImageSetVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListImageSetVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2148,7 +2151,7 @@ public struct ListImageSetVersionsInput {
 
 extension ListImageSetVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListImageSetVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListImageSetVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2178,7 +2181,7 @@ public struct ListImageSetVersionsOutput {
 
 enum ListImageSetVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2220,7 +2223,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2245,7 +2248,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2394,9 +2397,9 @@ extension MedicalImagingClientTypes {
         /// The Series Instance UID input for search.
         case dicomseriesinstanceuid(Swift.String)
         /// The created at time of the image set provided for search.
-        case createdat(ClientRuntime.Date)
+        case createdat(Foundation.Date)
         /// The timestamp input for search.
-        case updatedat(ClientRuntime.Date)
+        case updatedat(Foundation.Date)
         /// The aggregated structure containing DICOM study date and study time for search.
         case dicomstudydateandtime(MedicalImagingClientTypes.DICOMStudyDateAndTime)
         case sdkUnknown(Swift.String)
@@ -2477,14 +2480,14 @@ extension SearchImageSetsInput: Swift.CustomDebugStringConvertible {
 
 extension SearchImageSetsInput {
 
-    static func queryItemProvider(_ value: SearchImageSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: SearchImageSetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -2536,7 +2539,7 @@ public struct SearchImageSetsInput {
 
 extension SearchImageSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchImageSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchImageSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2571,7 +2574,7 @@ public struct SearchImageSetsOutput {
 
 enum SearchImageSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2792,7 +2795,7 @@ public struct StartDICOMImportJobInput {
 
 extension StartDICOMImportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDICOMImportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDICOMImportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2817,13 +2820,13 @@ public struct StartDICOMImportJobOutput {
     public var jobStatus: MedicalImagingClientTypes.JobStatus?
     /// The timestamp when the import job was submitted.
     /// This member is required.
-    public var submittedAt: ClientRuntime.Date?
+    public var submittedAt: Foundation.Date?
 
     public init(
         datastoreId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobStatus: MedicalImagingClientTypes.JobStatus? = nil,
-        submittedAt: ClientRuntime.Date? = nil
+        submittedAt: Foundation.Date? = nil
     )
     {
         self.datastoreId = datastoreId
@@ -2835,7 +2838,7 @@ public struct StartDICOMImportJobOutput {
 
 enum StartDICOMImportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2891,7 +2894,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2903,7 +2906,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2959,14 +2962,14 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3003,7 +3006,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3015,7 +3018,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3033,13 +3036,13 @@ enum UntagResourceOutputError {
 
 extension UpdateImageSetMetadataInput {
 
-    static func queryItemProvider(_ value: UpdateImageSetMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateImageSetMetadataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let latestVersionId = value.latestVersionId else {
             let message = "Creating a URL Query Item failed. latestVersionId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let latestVersionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "latestVersion".urlPercentEncoding(), value: Swift.String(latestVersionId).urlPercentEncoding())
+        let latestVersionIdQueryItem = Smithy.URIQueryItem(name: "latestVersion".urlPercentEncoding(), value: Swift.String(latestVersionId).urlPercentEncoding())
         items.append(latestVersionIdQueryItem)
         return items
     }
@@ -3096,7 +3099,7 @@ public struct UpdateImageSetMetadataInput {
 
 extension UpdateImageSetMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateImageSetMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateImageSetMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3115,7 +3118,7 @@ extension UpdateImageSetMetadataOutput {
 
 public struct UpdateImageSetMetadataOutput {
     /// The timestamp when image set metadata was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -3133,17 +3136,17 @@ public struct UpdateImageSetMetadataOutput {
     /// The error message thrown if an update image set metadata action fails.
     public var message: Swift.String?
     /// The timestamp when image set metadata was updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         datastoreId: Swift.String? = nil,
         imageSetId: Swift.String? = nil,
         imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
         imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
         latestVersionId: Swift.String? = nil,
         message: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.createdAt = createdAt
@@ -3159,7 +3162,7 @@ public struct UpdateImageSetMetadataOutput {
 
 enum UpdateImageSetMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

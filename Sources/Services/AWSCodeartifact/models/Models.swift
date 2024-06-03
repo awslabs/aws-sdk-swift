@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -140,29 +143,29 @@ extension CodeartifactClientTypes {
 
 extension AssociateExternalConnectionInput {
 
-    static func queryItemProvider(_ value: AssociateExternalConnectionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: AssociateExternalConnectionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let externalConnection = value.externalConnection else {
             let message = "Creating a URL Query Item failed. externalConnection is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let externalConnectionQueryItem = ClientRuntime.SDKURLQueryItem(name: "external-connection".urlPercentEncoding(), value: Swift.String(externalConnection).urlPercentEncoding())
+        let externalConnectionQueryItem = Smithy.URIQueryItem(name: "external-connection".urlPercentEncoding(), value: Swift.String(externalConnection).urlPercentEncoding())
         items.append(externalConnectionQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -220,7 +223,7 @@ public struct AssociateExternalConnectionInput {
 
 extension AssociateExternalConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateExternalConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateExternalConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -244,7 +247,7 @@ public struct AssociateExternalConnectionOutput {
 
 enum AssociateExternalConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -363,44 +366,44 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension CopyPackageVersionsInput {
 
-    static func queryItemProvider(_ value: CopyPackageVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CopyPackageVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let sourceRepository = value.sourceRepository else {
             let message = "Creating a URL Query Item failed. sourceRepository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let sourceRepositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "source-repository".urlPercentEncoding(), value: Swift.String(sourceRepository).urlPercentEncoding())
+        let sourceRepositoryQueryItem = Smithy.URIQueryItem(name: "source-repository".urlPercentEncoding(), value: Swift.String(sourceRepository).urlPercentEncoding())
         items.append(sourceRepositoryQueryItem)
         guard let destinationRepository = value.destinationRepository else {
             let message = "Creating a URL Query Item failed. destinationRepository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let destinationRepositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "destination-repository".urlPercentEncoding(), value: Swift.String(destinationRepository).urlPercentEncoding())
+        let destinationRepositoryQueryItem = Smithy.URIQueryItem(name: "destination-repository".urlPercentEncoding(), value: Swift.String(destinationRepository).urlPercentEncoding())
         items.append(destinationRepositoryQueryItem)
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         return items
@@ -501,7 +504,7 @@ public struct CopyPackageVersionsInput {
 
 extension CopyPackageVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CopyPackageVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopyPackageVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -542,7 +545,7 @@ public struct CopyPackageVersionsOutput {
 
 enum CopyPackageVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -562,13 +565,13 @@ enum CopyPackageVersionsOutputError {
 
 extension CreateDomainInput {
 
-    static func queryItemProvider(_ value: CreateDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateDomainInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         return items
     }
@@ -613,7 +616,7 @@ public struct CreateDomainInput {
 
 extension CreateDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -637,7 +640,7 @@ public struct CreateDomainOutput {
 
 enum CreateDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -657,16 +660,16 @@ enum CreateDomainOutputError {
 
 extension CreatePackageGroupInput {
 
-    static func queryItemProvider(_ value: CreatePackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreatePackageGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -727,7 +730,7 @@ public struct CreatePackageGroupInput {
 
 extension CreatePackageGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePackageGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePackageGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -751,7 +754,7 @@ public struct CreatePackageGroupOutput {
 
 enum CreatePackageGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -771,23 +774,23 @@ enum CreatePackageGroupOutputError {
 
 extension CreateRepositoryInput {
 
-    static func queryItemProvider(_ value: CreateRepositoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateRepositoryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -846,7 +849,7 @@ public struct CreateRepositoryInput {
 
 extension CreateRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRepositoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -870,7 +873,7 @@ public struct CreateRepositoryOutput {
 
 enum CreateRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -890,16 +893,16 @@ enum CreateRepositoryOutputError {
 
 extension DeleteDomainInput {
 
-    static func queryItemProvider(_ value: DeleteDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteDomainInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -932,7 +935,7 @@ public struct DeleteDomainInput {
 
 extension DeleteDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -956,7 +959,7 @@ public struct DeleteDomainOutput {
 
 enum DeleteDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -974,20 +977,20 @@ enum DeleteDomainOutputError {
 
 extension DeleteDomainPermissionsPolicyInput {
 
-    static func queryItemProvider(_ value: DeleteDomainPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteDomainPermissionsPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         if let policyRevision = value.policyRevision {
-            let policyRevisionQueryItem = ClientRuntime.SDKURLQueryItem(name: "policy-revision".urlPercentEncoding(), value: Swift.String(policyRevision).urlPercentEncoding())
+            let policyRevisionQueryItem = Smithy.URIQueryItem(name: "policy-revision".urlPercentEncoding(), value: Swift.String(policyRevision).urlPercentEncoding())
             items.append(policyRevisionQueryItem)
         }
         return items
@@ -1024,7 +1027,7 @@ public struct DeleteDomainPermissionsPolicyInput {
 
 extension DeleteDomainPermissionsPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDomainPermissionsPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDomainPermissionsPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1048,7 +1051,7 @@ public struct DeleteDomainPermissionsPolicyOutput {
 
 enum DeleteDomainPermissionsPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1067,22 +1070,22 @@ enum DeleteDomainPermissionsPolicyOutputError {
 
 extension DeletePackageGroupInput {
 
-    static func queryItemProvider(_ value: DeletePackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeletePackageGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let packageGroup = value.packageGroup else {
             let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        let packageGroupQueryItem = Smithy.URIQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
         items.append(packageGroupQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -1120,7 +1123,7 @@ public struct DeletePackageGroupInput {
 
 extension DeletePackageGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePackageGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePackageGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1144,7 +1147,7 @@ public struct DeletePackageGroupOutput {
 
 enum DeletePackageGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1164,39 +1167,39 @@ enum DeletePackageGroupOutputError {
 
 extension DeletePackageInput {
 
-    static func queryItemProvider(_ value: DeletePackageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeletePackageInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -1264,7 +1267,7 @@ public struct DeletePackageInput {
 
 extension DeletePackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1288,7 +1291,7 @@ public struct DeletePackageOutput {
 
 enum DeletePackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1307,39 +1310,39 @@ enum DeletePackageOutputError {
 
 extension DeletePackageVersionsInput {
 
-    static func queryItemProvider(_ value: DeletePackageVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeletePackageVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -1425,7 +1428,7 @@ public struct DeletePackageVersionsInput {
 
 extension DeletePackageVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePackageVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePackageVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1466,7 +1469,7 @@ public struct DeletePackageVersionsOutput {
 
 enum DeletePackageVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1485,23 +1488,23 @@ enum DeletePackageVersionsOutputError {
 
 extension DeleteRepositoryInput {
 
-    static func queryItemProvider(_ value: DeleteRepositoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteRepositoryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -1538,7 +1541,7 @@ public struct DeleteRepositoryInput {
 
 extension DeleteRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRepositoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1562,7 +1565,7 @@ public struct DeleteRepositoryOutput {
 
 enum DeleteRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1581,27 +1584,27 @@ enum DeleteRepositoryOutputError {
 
 extension DeleteRepositoryPermissionsPolicyInput {
 
-    static func queryItemProvider(_ value: DeleteRepositoryPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteRepositoryPermissionsPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         if let policyRevision = value.policyRevision {
-            let policyRevisionQueryItem = ClientRuntime.SDKURLQueryItem(name: "policy-revision".urlPercentEncoding(), value: Swift.String(policyRevision).urlPercentEncoding())
+            let policyRevisionQueryItem = Smithy.URIQueryItem(name: "policy-revision".urlPercentEncoding(), value: Swift.String(policyRevision).urlPercentEncoding())
             items.append(policyRevisionQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -1642,7 +1645,7 @@ public struct DeleteRepositoryPermissionsPolicyInput {
 
 extension DeleteRepositoryPermissionsPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRepositoryPermissionsPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRepositoryPermissionsPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1666,7 +1669,7 @@ public struct DeleteRepositoryPermissionsPolicyOutput {
 
 enum DeleteRepositoryPermissionsPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1685,16 +1688,16 @@ enum DeleteRepositoryPermissionsPolicyOutputError {
 
 extension DescribeDomainInput {
 
-    static func queryItemProvider(_ value: DescribeDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeDomainInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -1727,7 +1730,7 @@ public struct DescribeDomainInput {
 
 extension DescribeDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1751,7 +1754,7 @@ public struct DescribeDomainOutput {
 
 enum DescribeDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1769,22 +1772,22 @@ enum DescribeDomainOutputError {
 
 extension DescribePackageGroupInput {
 
-    static func queryItemProvider(_ value: DescribePackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribePackageGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let packageGroup = value.packageGroup else {
             let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        let packageGroupQueryItem = Smithy.URIQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
         items.append(packageGroupQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -1822,7 +1825,7 @@ public struct DescribePackageGroupInput {
 
 extension DescribePackageGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePackageGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePackageGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1846,7 +1849,7 @@ public struct DescribePackageGroupOutput {
 
 enum DescribePackageGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1864,39 +1867,39 @@ enum DescribePackageGroupOutputError {
 
 extension DescribePackageInput {
 
-    static func queryItemProvider(_ value: DescribePackageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribePackageInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -1964,7 +1967,7 @@ public struct DescribePackageInput {
 
 extension DescribePackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1989,7 +1992,7 @@ public struct DescribePackageOutput {
 
 enum DescribePackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2007,45 +2010,45 @@ enum DescribePackageOutputError {
 
 extension DescribePackageVersionInput {
 
-    static func queryItemProvider(_ value: DescribePackageVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribePackageVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let packageVersion = value.packageVersion else {
             let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        let packageVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
         items.append(packageVersionQueryItem)
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -2118,7 +2121,7 @@ public struct DescribePackageVersionInput {
 
 extension DescribePackageVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePackageVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePackageVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2143,7 +2146,7 @@ public struct DescribePackageVersionOutput {
 
 enum DescribePackageVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2162,23 +2165,23 @@ enum DescribePackageVersionOutputError {
 
 extension DescribeRepositoryInput {
 
-    static func queryItemProvider(_ value: DescribeRepositoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeRepositoryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -2215,7 +2218,7 @@ public struct DescribeRepositoryInput {
 
 extension DescribeRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRepositoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2239,7 +2242,7 @@ public struct DescribeRepositoryOutput {
 
 enum DescribeRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2257,29 +2260,29 @@ enum DescribeRepositoryOutputError {
 
 extension DisassociateExternalConnectionInput {
 
-    static func queryItemProvider(_ value: DisassociateExternalConnectionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DisassociateExternalConnectionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let externalConnection = value.externalConnection else {
             let message = "Creating a URL Query Item failed. externalConnection is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let externalConnectionQueryItem = ClientRuntime.SDKURLQueryItem(name: "external-connection".urlPercentEncoding(), value: Swift.String(externalConnection).urlPercentEncoding())
+        let externalConnectionQueryItem = Smithy.URIQueryItem(name: "external-connection".urlPercentEncoding(), value: Swift.String(externalConnection).urlPercentEncoding())
         items.append(externalConnectionQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -2321,7 +2324,7 @@ public struct DisassociateExternalConnectionInput {
 
 extension DisassociateExternalConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateExternalConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateExternalConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2345,7 +2348,7 @@ public struct DisassociateExternalConnectionOutput {
 
 enum DisassociateExternalConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2365,39 +2368,39 @@ enum DisassociateExternalConnectionOutputError {
 
 extension DisposePackageVersionsInput {
 
-    static func queryItemProvider(_ value: DisposePackageVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DisposePackageVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -2488,7 +2491,7 @@ public struct DisposePackageVersionsInput {
 
 extension DisposePackageVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisposePackageVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisposePackageVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2529,7 +2532,7 @@ public struct DisposePackageVersionsOutput {
 
 enum DisposePackageVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2572,7 +2575,7 @@ extension CodeartifactClientTypes {
         /// The total size of all assets in the domain.
         public var assetSizeBytes: Swift.Int
         /// A timestamp that represents the date and time the domain was created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// The ARN of an Key Management Service (KMS) key associated with a domain.
         public var encryptionKey: Swift.String?
         /// The name of the domain.
@@ -2589,7 +2592,7 @@ extension CodeartifactClientTypes {
         public init(
             arn: Swift.String? = nil,
             assetSizeBytes: Swift.Int = 0,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             encryptionKey: Swift.String? = nil,
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
@@ -2693,7 +2696,7 @@ extension CodeartifactClientTypes {
         /// The ARN of the domain.
         public var arn: Swift.String?
         /// A timestamp that contains the date and time the domain was created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// The key used to encrypt the domain.
         public var encryptionKey: Swift.String?
         /// The name of the domain.
@@ -2705,7 +2708,7 @@ extension CodeartifactClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             encryptionKey: Swift.String? = nil,
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
@@ -2751,32 +2754,32 @@ extension CodeartifactClientTypes {
 
 extension GetAssociatedPackageGroupInput {
 
-    static func queryItemProvider(_ value: GetAssociatedPackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetAssociatedPackageGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         return items
@@ -2840,7 +2843,7 @@ public struct GetAssociatedPackageGroupInput {
 
 extension GetAssociatedPackageGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAssociatedPackageGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAssociatedPackageGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2869,7 +2872,7 @@ public struct GetAssociatedPackageGroupOutput {
 
 enum GetAssociatedPackageGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2886,20 +2889,20 @@ enum GetAssociatedPackageGroupOutputError {
 
 extension GetAuthorizationTokenInput {
 
-    static func queryItemProvider(_ value: GetAuthorizationTokenInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetAuthorizationTokenInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let durationSeconds = value.durationSeconds {
-            let durationSecondsQueryItem = ClientRuntime.SDKURLQueryItem(name: "duration".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
+            let durationSecondsQueryItem = Smithy.URIQueryItem(name: "duration".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
             items.append(durationSecondsQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -2942,7 +2945,7 @@ extension GetAuthorizationTokenOutput: Swift.CustomDebugStringConvertible {
 
 extension GetAuthorizationTokenOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAuthorizationTokenOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAuthorizationTokenOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2957,11 +2960,11 @@ public struct GetAuthorizationTokenOutput {
     /// The returned authentication token.
     public var authorizationToken: Swift.String?
     /// A timestamp that specifies the date and time the authorization token expires.
-    public var expiration: ClientRuntime.Date?
+    public var expiration: Foundation.Date?
 
     public init(
         authorizationToken: Swift.String? = nil,
-        expiration: ClientRuntime.Date? = nil
+        expiration: Foundation.Date? = nil
     )
     {
         self.authorizationToken = authorizationToken
@@ -2971,7 +2974,7 @@ public struct GetAuthorizationTokenOutput {
 
 enum GetAuthorizationTokenOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2989,16 +2992,16 @@ enum GetAuthorizationTokenOutputError {
 
 extension GetDomainPermissionsPolicyInput {
 
-    static func queryItemProvider(_ value: GetDomainPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetDomainPermissionsPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -3031,7 +3034,7 @@ public struct GetDomainPermissionsPolicyInput {
 
 extension GetDomainPermissionsPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDomainPermissionsPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDomainPermissionsPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3055,7 +3058,7 @@ public struct GetDomainPermissionsPolicyOutput {
 
 enum GetDomainPermissionsPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3073,55 +3076,55 @@ enum GetDomainPermissionsPolicyOutputError {
 
 extension GetPackageVersionAssetInput {
 
-    static func queryItemProvider(_ value: GetPackageVersionAssetInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetPackageVersionAssetInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let packageVersion = value.packageVersion else {
             let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        let packageVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
         items.append(packageVersionQueryItem)
         if let packageVersionRevision = value.packageVersionRevision {
-            let packageVersionRevisionQueryItem = ClientRuntime.SDKURLQueryItem(name: "revision".urlPercentEncoding(), value: Swift.String(packageVersionRevision).urlPercentEncoding())
+            let packageVersionRevisionQueryItem = Smithy.URIQueryItem(name: "revision".urlPercentEncoding(), value: Swift.String(packageVersionRevision).urlPercentEncoding())
             items.append(packageVersionRevisionQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         guard let asset = value.asset else {
             let message = "Creating a URL Query Item failed. asset is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let assetQueryItem = ClientRuntime.SDKURLQueryItem(name: "asset".urlPercentEncoding(), value: Swift.String(asset).urlPercentEncoding())
+        let assetQueryItem = Smithy.URIQueryItem(name: "asset".urlPercentEncoding(), value: Swift.String(asset).urlPercentEncoding())
         items.append(assetQueryItem)
         return items
     }
@@ -3203,7 +3206,7 @@ public struct GetPackageVersionAssetInput {
 
 extension GetPackageVersionAssetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPackageVersionAssetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPackageVersionAssetOutput {
         var value = GetPackageVersionAssetOutput()
         if let assetNameHeaderValue = httpResponse.headers.value(for: "X-AssetName") {
             value.assetName = assetNameHeaderValue
@@ -3228,7 +3231,7 @@ extension GetPackageVersionAssetOutput {
 
 public struct GetPackageVersionAssetOutput {
     /// The binary file, or asset, that is downloaded.
-    public var asset: ClientRuntime.ByteStream?
+    public var asset: Smithy.ByteStream?
     /// The name of the asset that is downloaded.
     public var assetName: Swift.String?
     /// A string that contains the package version (for example, 3.5.2).
@@ -3237,7 +3240,7 @@ public struct GetPackageVersionAssetOutput {
     public var packageVersionRevision: Swift.String?
 
     public init(
-        asset: ClientRuntime.ByteStream? = nil,
+        asset: Smithy.ByteStream? = nil,
         assetName: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         packageVersionRevision: Swift.String? = nil
@@ -3252,7 +3255,7 @@ public struct GetPackageVersionAssetOutput {
 
 enum GetPackageVersionAssetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3271,45 +3274,45 @@ enum GetPackageVersionAssetOutputError {
 
 extension GetPackageVersionReadmeInput {
 
-    static func queryItemProvider(_ value: GetPackageVersionReadmeInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetPackageVersionReadmeInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let packageVersion = value.packageVersion else {
             let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        let packageVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
         items.append(packageVersionQueryItem)
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -3382,7 +3385,7 @@ public struct GetPackageVersionReadmeInput {
 
 extension GetPackageVersionReadmeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPackageVersionReadmeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPackageVersionReadmeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3439,7 +3442,7 @@ public struct GetPackageVersionReadmeOutput {
 
 enum GetPackageVersionReadmeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3457,29 +3460,29 @@ enum GetPackageVersionReadmeOutputError {
 
 extension GetRepositoryEndpointInput {
 
-    static func queryItemProvider(_ value: GetRepositoryEndpointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetRepositoryEndpointInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -3521,7 +3524,7 @@ public struct GetRepositoryEndpointInput {
 
 extension GetRepositoryEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRepositoryEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRepositoryEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3545,7 +3548,7 @@ public struct GetRepositoryEndpointOutput {
 
 enum GetRepositoryEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3563,23 +3566,23 @@ enum GetRepositoryEndpointOutputError {
 
 extension GetRepositoryPermissionsPolicyInput {
 
-    static func queryItemProvider(_ value: GetRepositoryPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetRepositoryPermissionsPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -3616,7 +3619,7 @@ public struct GetRepositoryPermissionsPolicyInput {
 
 extension GetRepositoryPermissionsPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRepositoryPermissionsPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRepositoryPermissionsPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3640,7 +3643,7 @@ public struct GetRepositoryPermissionsPolicyOutput {
 
 enum GetRepositoryPermissionsPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3762,37 +3765,37 @@ extension CodeartifactClientTypes {
 
 extension ListAllowedRepositoriesForGroupInput {
 
-    static func queryItemProvider(_ value: ListAllowedRepositoriesForGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAllowedRepositoriesForGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let packageGroup = value.packageGroup else {
             let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        let packageGroupQueryItem = Smithy.URIQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
         items.append(packageGroupQueryItem)
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let originRestrictionType = value.originRestrictionType else {
             let message = "Creating a URL Query Item failed. originRestrictionType is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let originRestrictionTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "originRestrictionType".urlPercentEncoding(), value: Swift.String(originRestrictionType.rawValue).urlPercentEncoding())
+        let originRestrictionTypeQueryItem = Smithy.URIQueryItem(name: "originRestrictionType".urlPercentEncoding(), value: Swift.String(originRestrictionType.rawValue).urlPercentEncoding())
         items.append(originRestrictionTypeQueryItem)
         return items
     }
@@ -3842,7 +3845,7 @@ public struct ListAllowedRepositoriesForGroupInput {
 
 extension ListAllowedRepositoriesForGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAllowedRepositoriesForGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAllowedRepositoriesForGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3871,7 +3874,7 @@ public struct ListAllowedRepositoriesForGroupOutput {
 
 enum ListAllowedRepositoriesForGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3890,34 +3893,34 @@ enum ListAllowedRepositoriesForGroupOutputError {
 
 extension ListAssociatedPackagesInput {
 
-    static func queryItemProvider(_ value: ListAssociatedPackagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAssociatedPackagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let preview = value.preview {
-            let previewQueryItem = ClientRuntime.SDKURLQueryItem(name: "preview".urlPercentEncoding(), value: Swift.String(preview).urlPercentEncoding())
+            let previewQueryItem = Smithy.URIQueryItem(name: "preview".urlPercentEncoding(), value: Swift.String(preview).urlPercentEncoding())
             items.append(previewQueryItem)
         }
         guard let packageGroup = value.packageGroup else {
             let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        let packageGroupQueryItem = Smithy.URIQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
         items.append(packageGroupQueryItem)
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -3967,7 +3970,7 @@ public struct ListAssociatedPackagesInput {
 
 extension ListAssociatedPackagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAssociatedPackagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAssociatedPackagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3996,7 +3999,7 @@ public struct ListAssociatedPackagesOutput {
 
 enum ListAssociatedPackagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4045,7 +4048,7 @@ public struct ListDomainsInput {
 
 extension ListDomainsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDomainsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDomainsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4074,7 +4077,7 @@ public struct ListDomainsOutput {
 
 enum ListDomainsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4091,28 +4094,28 @@ enum ListDomainsOutputError {
 
 extension ListPackageGroupsInput {
 
-    static func queryItemProvider(_ value: ListPackageGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPackageGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let `prefix` = value.`prefix` {
-            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            let prefixQueryItem = Smithy.URIQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
             items.append(prefixQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -4157,7 +4160,7 @@ public struct ListPackageGroupsInput {
 
 extension ListPackageGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPackageGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPackageGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4186,7 +4189,7 @@ public struct ListPackageGroupsOutput {
 
 enum ListPackageGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4204,53 +4207,53 @@ enum ListPackageGroupsOutputError {
 
 extension ListPackageVersionAssetsInput {
 
-    static func queryItemProvider(_ value: ListPackageVersionAssetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPackageVersionAssetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let packageVersion = value.packageVersion else {
             let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        let packageVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
         items.append(packageVersionQueryItem)
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -4331,7 +4334,7 @@ public struct ListPackageVersionAssetsInput {
 
 extension ListPackageVersionAssetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPackageVersionAssetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPackageVersionAssetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4393,7 +4396,7 @@ public struct ListPackageVersionAssetsOutput {
 
 enum ListPackageVersionAssetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4411,49 +4414,49 @@ enum ListPackageVersionAssetsOutputError {
 
 extension ListPackageVersionDependenciesInput {
 
-    static func queryItemProvider(_ value: ListPackageVersionDependenciesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPackageVersionDependenciesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let packageVersion = value.packageVersion else {
             let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        let packageVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
         items.append(packageVersionQueryItem)
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -4530,7 +4533,7 @@ public struct ListPackageVersionDependenciesInput {
 
 extension ListPackageVersionDependenciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPackageVersionDependenciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPackageVersionDependenciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4592,7 +4595,7 @@ public struct ListPackageVersionDependenciesOutput {
 
 enum ListPackageVersionDependenciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4610,58 +4613,58 @@ enum ListPackageVersionDependenciesOutputError {
 
 extension ListPackageVersionsInput {
 
-    static func queryItemProvider(_ value: ListPackageVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPackageVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let originType = value.originType {
-            let originTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "originType".urlPercentEncoding(), value: Swift.String(originType.rawValue).urlPercentEncoding())
+            let originTypeQueryItem = Smithy.URIQueryItem(name: "originType".urlPercentEncoding(), value: Swift.String(originType.rawValue).urlPercentEncoding())
             items.append(originTypeQueryItem)
         }
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         if let sortBy = value.sortBy {
-            let sortByQueryItem = ClientRuntime.SDKURLQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
             items.append(sortByQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         return items
@@ -4750,7 +4753,7 @@ public struct ListPackageVersionsInput {
 
 extension ListPackageVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPackageVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPackageVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4811,7 +4814,7 @@ public struct ListPackageVersionsOutput {
 
 enum ListPackageVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4829,51 +4832,51 @@ enum ListPackageVersionsOutputError {
 
 extension ListPackagesInput {
 
-    static func queryItemProvider(_ value: ListPackagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPackagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let upstream = value.upstream {
-            let upstreamQueryItem = ClientRuntime.SDKURLQueryItem(name: "upstream".urlPercentEncoding(), value: Swift.String(upstream.rawValue).urlPercentEncoding())
+            let upstreamQueryItem = Smithy.URIQueryItem(name: "upstream".urlPercentEncoding(), value: Swift.String(upstream.rawValue).urlPercentEncoding())
             items.append(upstreamQueryItem)
         }
         if let packagePrefix = value.packagePrefix {
-            let packagePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-prefix".urlPercentEncoding(), value: Swift.String(packagePrefix).urlPercentEncoding())
+            let packagePrefixQueryItem = Smithy.URIQueryItem(name: "package-prefix".urlPercentEncoding(), value: Swift.String(packagePrefix).urlPercentEncoding())
             items.append(packagePrefixQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let publish = value.publish {
-            let publishQueryItem = ClientRuntime.SDKURLQueryItem(name: "publish".urlPercentEncoding(), value: Swift.String(publish.rawValue).urlPercentEncoding())
+            let publishQueryItem = Smithy.URIQueryItem(name: "publish".urlPercentEncoding(), value: Swift.String(publish.rawValue).urlPercentEncoding())
             items.append(publishQueryItem)
         }
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         if let format = value.format {
-            let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+            let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
             items.append(formatQueryItem)
         }
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -4946,7 +4949,7 @@ public struct ListPackagesInput {
 
 extension ListPackagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPackagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPackagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4975,7 +4978,7 @@ public struct ListPackagesOutput {
 
 enum ListPackagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4993,32 +4996,32 @@ enum ListPackagesOutputError {
 
 extension ListRepositoriesInDomainInput {
 
-    static func queryItemProvider(_ value: ListRepositoriesInDomainInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRepositoriesInDomainInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let repositoryPrefix = value.repositoryPrefix {
-            let repositoryPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository-prefix".urlPercentEncoding(), value: Swift.String(repositoryPrefix).urlPercentEncoding())
+            let repositoryPrefixQueryItem = Smithy.URIQueryItem(name: "repository-prefix".urlPercentEncoding(), value: Swift.String(repositoryPrefix).urlPercentEncoding())
             items.append(repositoryPrefixQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         if let administratorAccount = value.administratorAccount {
-            let administratorAccountQueryItem = ClientRuntime.SDKURLQueryItem(name: "administrator-account".urlPercentEncoding(), value: Swift.String(administratorAccount).urlPercentEncoding())
+            let administratorAccountQueryItem = Smithy.URIQueryItem(name: "administrator-account".urlPercentEncoding(), value: Swift.String(administratorAccount).urlPercentEncoding())
             items.append(administratorAccountQueryItem)
         }
         return items
@@ -5067,7 +5070,7 @@ public struct ListRepositoriesInDomainInput {
 
 extension ListRepositoriesInDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRepositoriesInDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRepositoriesInDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5096,7 +5099,7 @@ public struct ListRepositoriesInDomainOutput {
 
 enum ListRepositoriesInDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5114,18 +5117,18 @@ enum ListRepositoriesInDomainOutputError {
 
 extension ListRepositoriesInput {
 
-    static func queryItemProvider(_ value: ListRepositoriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRepositoriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let repositoryPrefix = value.repositoryPrefix {
-            let repositoryPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository-prefix".urlPercentEncoding(), value: Swift.String(repositoryPrefix).urlPercentEncoding())
+            let repositoryPrefixQueryItem = Smithy.URIQueryItem(name: "repository-prefix".urlPercentEncoding(), value: Swift.String(repositoryPrefix).urlPercentEncoding())
             items.append(repositoryPrefixQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -5161,7 +5164,7 @@ public struct ListRepositoriesInput {
 
 extension ListRepositoriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRepositoriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRepositoriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5190,7 +5193,7 @@ public struct ListRepositoriesOutput {
 
 enum ListRepositoriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5207,30 +5210,30 @@ enum ListRepositoriesOutputError {
 
 extension ListSubPackageGroupsInput {
 
-    static func queryItemProvider(_ value: ListSubPackageGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSubPackageGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let packageGroup = value.packageGroup else {
             let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        let packageGroupQueryItem = Smithy.URIQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
         items.append(packageGroupQueryItem)
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -5276,7 +5279,7 @@ public struct ListSubPackageGroupsInput {
 
 extension ListSubPackageGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSubPackageGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSubPackageGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5305,7 +5308,7 @@ public struct ListSubPackageGroupsOutput {
 
 enum ListSubPackageGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5323,13 +5326,13 @@ enum ListSubPackageGroupsOutputError {
 
 extension ListTagsForResourceInput {
 
-    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceArn = value.resourceArn else {
             let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
         return items
     }
@@ -5357,7 +5360,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5381,7 +5384,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5659,7 +5662,7 @@ extension CodeartifactClientTypes {
         /// The contact information of the package group.
         public var contactInfo: Swift.String?
         /// A timestamp that represents the date and time the package group was created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// The description of the package group.
         public var description: Swift.String?
         /// The name of the domain that contains the package group.
@@ -5676,7 +5679,7 @@ extension CodeartifactClientTypes {
         public init(
             arn: Swift.String? = nil,
             contactInfo: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             domainName: Swift.String? = nil,
             domainOwner: Swift.String? = nil,
@@ -5890,7 +5893,7 @@ extension CodeartifactClientTypes {
         /// The contact information of the package group.
         public var contactInfo: Swift.String?
         /// A timestamp that represents the date and time the repository was created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// The description of the package group.
         public var description: Swift.String?
         /// The domain that contains the package group.
@@ -5907,7 +5910,7 @@ extension CodeartifactClientTypes {
         public init(
             arn: Swift.String? = nil,
             contactInfo: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             domainName: Swift.String? = nil,
             domainOwner: Swift.String? = nil,
@@ -6092,7 +6095,7 @@ extension CodeartifactClientTypes {
         /// The name of the requested package.
         public var packageName: Swift.String?
         /// A timestamp that contains the date and time the package version was published.
-        public var publishedTime: ClientRuntime.Date?
+        public var publishedTime: Foundation.Date?
         /// The revision of the package version.
         public var revision: Swift.String?
         /// The repository for the source code in the package version, or the source code used to build it.
@@ -6112,7 +6115,7 @@ extension CodeartifactClientTypes {
             namespace: Swift.String? = nil,
             origin: CodeartifactClientTypes.PackageVersionOrigin? = nil,
             packageName: Swift.String? = nil,
-            publishedTime: ClientRuntime.Date? = nil,
+            publishedTime: Foundation.Date? = nil,
             revision: Swift.String? = nil,
             sourceCodeRepository: Swift.String? = nil,
             status: CodeartifactClientTypes.PackageVersionStatus? = nil,
@@ -6397,8 +6400,8 @@ extension CodeartifactClientTypes {
 
 extension PublishPackageVersionInput {
 
-    static func headerProvider(_ value: PublishPackageVersionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PublishPackageVersionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let assetSHA256 = value.assetSHA256 {
             items.add(Header(name: "x-amz-content-sha256", value: Swift.String(assetSHA256)))
         }
@@ -6408,55 +6411,55 @@ extension PublishPackageVersionInput {
 
 extension PublishPackageVersionInput {
 
-    static func queryItemProvider(_ value: PublishPackageVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PublishPackageVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let assetName = value.assetName else {
             let message = "Creating a URL Query Item failed. assetName is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let assetNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "asset".urlPercentEncoding(), value: Swift.String(assetName).urlPercentEncoding())
+        let assetNameQueryItem = Smithy.URIQueryItem(name: "asset".urlPercentEncoding(), value: Swift.String(assetName).urlPercentEncoding())
         items.append(assetNameQueryItem)
         guard let packageVersion = value.packageVersion else {
             let message = "Creating a URL Query Item failed. packageVersion is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
+        let packageVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(packageVersion).urlPercentEncoding())
         items.append(packageVersionQueryItem)
         if let unfinished = value.unfinished {
-            let unfinishedQueryItem = ClientRuntime.SDKURLQueryItem(name: "unfinished".urlPercentEncoding(), value: Swift.String(unfinished).urlPercentEncoding())
+            let unfinishedQueryItem = Smithy.URIQueryItem(name: "unfinished".urlPercentEncoding(), value: Swift.String(unfinished).urlPercentEncoding())
             items.append(unfinishedQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -6480,7 +6483,7 @@ extension PublishPackageVersionInput {
 public struct PublishPackageVersionInput {
     /// The content of the asset to publish.
     /// This member is required.
-    public var assetContent: ClientRuntime.ByteStream?
+    public var assetContent: Smithy.ByteStream?
     /// The name of the asset to publish. Asset names can include Unicode letters and numbers, and the following special characters: ~ ! @ ^ & ( ) - ` _ + [ ] { } ; , . `
     /// This member is required.
     public var assetName: Swift.String?
@@ -6510,7 +6513,7 @@ public struct PublishPackageVersionInput {
     public var unfinished: Swift.Bool?
 
     public init(
-        assetContent: ClientRuntime.ByteStream? = nil,
+        assetContent: Smithy.ByteStream? = nil,
         assetName: Swift.String? = nil,
         assetSHA256: Swift.String? = nil,
         domain: Swift.String? = nil,
@@ -6539,7 +6542,7 @@ public struct PublishPackageVersionInput {
 
 extension PublishPackageVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PublishPackageVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PublishPackageVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6593,7 +6596,7 @@ public struct PublishPackageVersionOutput {
 
 enum PublishPackageVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6657,7 +6660,7 @@ public struct PutDomainPermissionsPolicyInput {
 
 extension PutDomainPermissionsPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutDomainPermissionsPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutDomainPermissionsPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6681,7 +6684,7 @@ public struct PutDomainPermissionsPolicyOutput {
 
 enum PutDomainPermissionsPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6701,39 +6704,39 @@ enum PutDomainPermissionsPolicyOutputError {
 
 extension PutPackageOriginConfigurationInput {
 
-    static func queryItemProvider(_ value: PutPackageOriginConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PutPackageOriginConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -6805,7 +6808,7 @@ public struct PutPackageOriginConfigurationInput {
 
 extension PutPackageOriginConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPackageOriginConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutPackageOriginConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6829,7 +6832,7 @@ public struct PutPackageOriginConfigurationOutput {
 
 enum PutPackageOriginConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6847,23 +6850,23 @@ enum PutPackageOriginConfigurationOutputError {
 
 extension PutRepositoryPermissionsPolicyInput {
 
-    static func queryItemProvider(_ value: PutRepositoryPermissionsPolicyInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PutRepositoryPermissionsPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -6918,7 +6921,7 @@ public struct PutRepositoryPermissionsPolicyInput {
 
 extension PutRepositoryPermissionsPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRepositoryPermissionsPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRepositoryPermissionsPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6942,7 +6945,7 @@ public struct PutRepositoryPermissionsPolicyOutput {
 
 enum PutRepositoryPermissionsPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6986,7 +6989,7 @@ extension CodeartifactClientTypes {
         /// The Amazon Resource Name (ARN) of the repository.
         public var arn: Swift.String?
         /// A timestamp that represents the date and time the repository was created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// A text description of the repository.
         public var description: Swift.String?
         /// The name of the domain that contains the repository.
@@ -7003,7 +7006,7 @@ extension CodeartifactClientTypes {
         public init(
             administratorAccount: Swift.String? = nil,
             arn: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             domainName: Swift.String? = nil,
             domainOwner: Swift.String? = nil,
@@ -7094,7 +7097,7 @@ extension CodeartifactClientTypes {
         /// The ARN of the repository.
         public var arn: Swift.String?
         /// A timestamp that represents the date and time the repository was created.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// The description of the repository.
         public var description: Swift.String?
         /// The name of the domain that contains the repository.
@@ -7107,7 +7110,7 @@ extension CodeartifactClientTypes {
         public init(
             administratorAccount: Swift.String? = nil,
             arn: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             domainName: Swift.String? = nil,
             domainOwner: Swift.String? = nil,
@@ -7368,13 +7371,13 @@ extension CodeartifactClientTypes {
 
 extension TagResourceInput {
 
-    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceArn = value.resourceArn else {
             let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
         return items
     }
@@ -7415,7 +7418,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7427,7 +7430,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7491,13 +7494,13 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceArn = value.resourceArn else {
             let message = "Creating a URL Query Item failed. resourceArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+        let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
         return items
     }
@@ -7538,7 +7541,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7550,7 +7553,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7567,16 +7570,16 @@ enum UntagResourceOutputError {
 
 extension UpdatePackageGroupInput {
 
-    static func queryItemProvider(_ value: UpdatePackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdatePackageGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -7632,22 +7635,22 @@ public struct UpdatePackageGroupInput {
 
 extension UpdatePackageGroupOriginConfigurationInput {
 
-    static func queryItemProvider(_ value: UpdatePackageGroupOriginConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdatePackageGroupOriginConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let packageGroup = value.packageGroup else {
             let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        let packageGroupQueryItem = Smithy.URIQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
         items.append(packageGroupQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         return items
@@ -7707,7 +7710,7 @@ public struct UpdatePackageGroupOriginConfigurationInput {
 
 extension UpdatePackageGroupOriginConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePackageGroupOriginConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePackageGroupOriginConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7736,7 +7739,7 @@ public struct UpdatePackageGroupOriginConfigurationOutput {
 
 enum UpdatePackageGroupOriginConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7755,7 +7758,7 @@ enum UpdatePackageGroupOriginConfigurationOutputError {
 
 extension UpdatePackageGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePackageGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePackageGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7779,7 +7782,7 @@ public struct UpdatePackageGroupOutput {
 
 enum UpdatePackageGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7798,39 +7801,39 @@ enum UpdatePackageGroupOutputError {
 
 extension UpdatePackageVersionsStatusInput {
 
-    static func queryItemProvider(_ value: UpdatePackageVersionsStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdatePackageVersionsStatusInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let package = value.package else {
             let message = "Creating a URL Query Item failed. package is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let format = value.format else {
             let message = "Creating a URL Query Item failed. format is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
         items.append(formatQueryItem)
         if let namespace = value.namespace {
-            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
             items.append(namespaceQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -7918,7 +7921,7 @@ public struct UpdatePackageVersionsStatusInput {
 
 extension UpdatePackageVersionsStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePackageVersionsStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePackageVersionsStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7947,7 +7950,7 @@ public struct UpdatePackageVersionsStatusOutput {
 
 enum UpdatePackageVersionsStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7966,23 +7969,23 @@ enum UpdatePackageVersionsStatusOutputError {
 
 extension UpdateRepositoryInput {
 
-    static func queryItemProvider(_ value: UpdateRepositoryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateRepositoryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
         items.append(domainQueryItem)
         if let domainOwner = value.domainOwner {
-            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            let domainOwnerQueryItem = Smithy.URIQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
             items.append(domainOwnerQueryItem)
         }
         guard let repository = value.repository else {
             let message = "Creating a URL Query Item failed. repository is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let repositoryQueryItem = ClientRuntime.SDKURLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+        let repositoryQueryItem = Smithy.URIQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
         items.append(repositoryQueryItem)
         return items
     }
@@ -8036,7 +8039,7 @@ public struct UpdateRepositoryInput {
 
 extension UpdateRepositoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRepositoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRepositoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8060,7 +8063,7 @@ public struct UpdateRepositoryOutput {
 
 enum UpdateRepositoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

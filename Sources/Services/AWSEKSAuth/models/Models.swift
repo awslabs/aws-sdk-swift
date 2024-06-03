@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -90,7 +92,7 @@ extension AssumeRoleForPodIdentityOutput: Swift.CustomDebugStringConvertible {
 
 extension AssumeRoleForPodIdentityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssumeRoleForPodIdentityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssumeRoleForPodIdentityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -139,7 +141,7 @@ public struct AssumeRoleForPodIdentityOutput {
 
 enum AssumeRoleForPodIdentityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -219,7 +221,7 @@ extension EKSAuthClientTypes {
         public var accessKeyId: Swift.String?
         /// The Unix epoch timestamp in seconds when the current credentials expire.
         /// This member is required.
-        public var expiration: ClientRuntime.Date?
+        public var expiration: Foundation.Date?
         /// The secret access key that applications inside the pods use to sign requests.
         /// This member is required.
         public var secretAccessKey: Swift.String?
@@ -229,7 +231,7 @@ extension EKSAuthClientTypes {
 
         public init(
             accessKeyId: Swift.String? = nil,
-            expiration: ClientRuntime.Date? = nil,
+            expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
         )

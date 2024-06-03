@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -61,13 +64,13 @@ extension ServiceCatalogAppRegistryClientTypes {
         /// The Amazon resource name (ARN) that specifies the application across services.
         public var arn: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment when the application was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the application.
         public var description: Swift.String?
         /// The identifier of the application.
         public var id: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment when the application was last updated.
-        public var lastUpdateTime: ClientRuntime.Date?
+        public var lastUpdateTime: Foundation.Date?
         /// The name of the application. The name must be unique in the region in which you are creating the application.
         public var name: Swift.String?
         /// Key-value pairs you can use to associate with the application.
@@ -76,10 +79,10 @@ extension ServiceCatalogAppRegistryClientTypes {
         public init(
             applicationTag: [Swift.String:Swift.String]? = nil,
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastUpdateTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
@@ -118,22 +121,22 @@ extension ServiceCatalogAppRegistryClientTypes {
         /// The Amazon resource name (ARN) that specifies the application across services.
         public var arn: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment when the application was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the application.
         public var description: Swift.String?
         /// The identifier of the application.
         public var id: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment when the application was last updated.
-        public var lastUpdateTime: ClientRuntime.Date?
+        public var lastUpdateTime: Foundation.Date?
         /// The name of the application. The name must be unique in the region in which you are creating the application.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastUpdateTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil
         )
         {
@@ -254,7 +257,7 @@ public struct AssociateAttributeGroupInput {
 
 extension AssociateAttributeGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateAttributeGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateAttributeGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -283,7 +286,7 @@ public struct AssociateAttributeGroupOutput {
 
 enum AssociateAttributeGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -352,7 +355,7 @@ public struct AssociateResourceInput {
 
 extension AssociateResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -386,7 +389,7 @@ public struct AssociateResourceOutput {
 
 enum AssociateResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -454,13 +457,13 @@ extension ServiceCatalogAppRegistryClientTypes {
         /// The Amazon resource name (ARN) that specifies the attribute group across services.
         public var arn: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment the attribute group was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the attribute group that the user provides.
         public var description: Swift.String?
         /// The globally unique attribute group identifier of the attribute group.
         public var id: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment the attribute group was last updated. This time is the same as the creationTime for a newly created attribute group.
-        public var lastUpdateTime: ClientRuntime.Date?
+        public var lastUpdateTime: Foundation.Date?
         /// The name of the attribute group.
         public var name: Swift.String?
         /// Key-value pairs you can use to associate with the attribute group.
@@ -468,10 +471,10 @@ extension ServiceCatalogAppRegistryClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastUpdateTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
@@ -553,23 +556,23 @@ extension ServiceCatalogAppRegistryClientTypes {
         /// The service principal that created the attribute group.
         public var createdBy: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment the attribute group was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description of the attribute group that the user provides.
         public var description: Swift.String?
         /// The globally unique attribute group identifier of the attribute group.
         public var id: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment the attribute group was last updated. This time is the same as the creationTime for a newly created attribute group.
-        public var lastUpdateTime: ClientRuntime.Date?
+        public var lastUpdateTime: Foundation.Date?
         /// The name of the attribute group.
         public var name: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             createdBy: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastUpdateTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: Foundation.Date? = nil,
             name: Swift.String? = nil
         )
         {
@@ -668,7 +671,7 @@ public struct CreateApplicationInput {
 
 extension CreateApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -692,7 +695,7 @@ public struct CreateApplicationOutput {
 
 enum CreateApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -760,7 +763,7 @@ public struct CreateAttributeGroupInput {
 
 extension CreateAttributeGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAttributeGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAttributeGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -784,7 +787,7 @@ public struct CreateAttributeGroupOutput {
 
 enum CreateAttributeGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -824,7 +827,7 @@ public struct DeleteApplicationInput {
 
 extension DeleteApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -848,7 +851,7 @@ public struct DeleteApplicationOutput {
 
 enum DeleteApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -887,7 +890,7 @@ public struct DeleteAttributeGroupInput {
 
 extension DeleteAttributeGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAttributeGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAttributeGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -911,7 +914,7 @@ public struct DeleteAttributeGroupOutput {
 
 enum DeleteAttributeGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -958,7 +961,7 @@ public struct DisassociateAttributeGroupInput {
 
 extension DisassociateAttributeGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateAttributeGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateAttributeGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -987,7 +990,7 @@ public struct DisassociateAttributeGroupOutput {
 
 enum DisassociateAttributeGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1042,7 +1045,7 @@ public struct DisassociateResourceInput {
 
 extension DisassociateResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1071,7 +1074,7 @@ public struct DisassociateResourceOutput {
 
 enum DisassociateResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1111,7 +1114,7 @@ public struct GetApplicationInput {
 
 extension GetApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1138,7 +1141,7 @@ public struct GetApplicationOutput {
     /// The number of top-level resources that were registered as part of this application.
     public var associatedResourceCount: Swift.Int
     /// The ISO-8601 formatted timestamp of the moment when the application was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the application.
     public var description: Swift.String?
     /// The identifier of the application.
@@ -1146,7 +1149,7 @@ public struct GetApplicationOutput {
     /// The information about the integration of the application with other services, such as Resource Groups.
     public var integrations: ServiceCatalogAppRegistryClientTypes.Integrations?
     /// The ISO-8601 formatted timestamp of the moment when the application was last updated.
-    public var lastUpdateTime: ClientRuntime.Date?
+    public var lastUpdateTime: Foundation.Date?
     /// The name of the application. The name must be unique in the region in which you are creating the application.
     public var name: Swift.String?
     /// Key-value pairs associated with the application.
@@ -1156,11 +1159,11 @@ public struct GetApplicationOutput {
         applicationTag: [Swift.String:Swift.String]? = nil,
         arn: Swift.String? = nil,
         associatedResourceCount: Swift.Int = 0,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         integrations: ServiceCatalogAppRegistryClientTypes.Integrations? = nil,
-        lastUpdateTime: ClientRuntime.Date? = nil,
+        lastUpdateTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -1180,7 +1183,7 @@ public struct GetApplicationOutput {
 
 enum GetApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1197,20 +1200,20 @@ enum GetApplicationOutputError {
 
 extension GetAssociatedResourceInput {
 
-    static func queryItemProvider(_ value: GetAssociatedResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetAssociatedResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let resourceTagStatus = value.resourceTagStatus {
             resourceTagStatus.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "resourceTagStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "resourceTagStatus".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1270,7 +1273,7 @@ public struct GetAssociatedResourceInput {
 
 extension GetAssociatedResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAssociatedResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAssociatedResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1304,7 +1307,7 @@ public struct GetAssociatedResourceOutput {
 
 enum GetAssociatedResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1343,7 +1346,7 @@ public struct GetAttributeGroupInput {
 
 extension GetAttributeGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAttributeGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAttributeGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1369,13 +1372,13 @@ public struct GetAttributeGroupOutput {
     /// The service principal that created the attribute group.
     public var createdBy: Swift.String?
     /// The ISO-8601 formatted timestamp of the moment the attribute group was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The description of the attribute group that the user provides.
     public var description: Swift.String?
     /// The identifier of the attribute group.
     public var id: Swift.String?
     /// The ISO-8601 formatted timestamp of the moment the attribute group was last updated. This time is the same as the creationTime for a newly created attribute group.
-    public var lastUpdateTime: ClientRuntime.Date?
+    public var lastUpdateTime: Foundation.Date?
     /// The name of the attribute group.
     public var name: Swift.String?
     /// Key-value pairs associated with the attribute group.
@@ -1385,10 +1388,10 @@ public struct GetAttributeGroupOutput {
         arn: Swift.String? = nil,
         attributes: Swift.String? = nil,
         createdBy: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
-        lastUpdateTime: ClientRuntime.Date? = nil,
+        lastUpdateTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -1407,7 +1410,7 @@ public struct GetAttributeGroupOutput {
 
 enum GetAttributeGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1436,7 +1439,7 @@ public struct GetConfigurationInput {
 
 extension GetConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1460,7 +1463,7 @@ public struct GetConfigurationOutput {
 
 enum GetConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1542,14 +1545,14 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListApplicationsInput {
 
-    static func queryItemProvider(_ value: ListApplicationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListApplicationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1581,7 +1584,7 @@ public struct ListApplicationsInput {
 
 extension ListApplicationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1610,7 +1613,7 @@ public struct ListApplicationsOutput {
 
 enum ListApplicationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1625,14 +1628,14 @@ enum ListApplicationsOutputError {
 
 extension ListAssociatedAttributeGroupsInput {
 
-    static func queryItemProvider(_ value: ListAssociatedAttributeGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAssociatedAttributeGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1672,7 +1675,7 @@ public struct ListAssociatedAttributeGroupsInput {
 
 extension ListAssociatedAttributeGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAssociatedAttributeGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAssociatedAttributeGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1701,7 +1704,7 @@ public struct ListAssociatedAttributeGroupsOutput {
 
 enum ListAssociatedAttributeGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1717,14 +1720,14 @@ enum ListAssociatedAttributeGroupsOutputError {
 
 extension ListAssociatedResourcesInput {
 
-    static func queryItemProvider(_ value: ListAssociatedResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAssociatedResourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1764,7 +1767,7 @@ public struct ListAssociatedResourcesInput {
 
 extension ListAssociatedResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAssociatedResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAssociatedResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1793,7 +1796,7 @@ public struct ListAssociatedResourcesOutput {
 
 enum ListAssociatedResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1809,14 +1812,14 @@ enum ListAssociatedResourcesOutputError {
 
 extension ListAttributeGroupsForApplicationInput {
 
-    static func queryItemProvider(_ value: ListAttributeGroupsForApplicationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAttributeGroupsForApplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1856,7 +1859,7 @@ public struct ListAttributeGroupsForApplicationInput {
 
 extension ListAttributeGroupsForApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAttributeGroupsForApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAttributeGroupsForApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1885,7 +1888,7 @@ public struct ListAttributeGroupsForApplicationOutput {
 
 enum ListAttributeGroupsForApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1901,14 +1904,14 @@ enum ListAttributeGroupsForApplicationOutputError {
 
 extension ListAttributeGroupsInput {
 
-    static func queryItemProvider(_ value: ListAttributeGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAttributeGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1940,7 +1943,7 @@ public struct ListAttributeGroupsInput {
 
 extension ListAttributeGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAttributeGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAttributeGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1969,7 +1972,7 @@ public struct ListAttributeGroupsOutput {
 
 enum ListAttributeGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2007,7 +2010,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2031,7 +2034,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2075,7 +2078,7 @@ public struct PutConfigurationInput {
 
 extension PutConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutConfigurationOutput {
         return PutConfigurationOutput()
     }
 }
@@ -2087,7 +2090,7 @@ public struct PutConfigurationOutput {
 
 enum PutConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2120,7 +2123,7 @@ extension ServiceCatalogAppRegistryClientTypes {
         /// The Amazon resource name (ARN) of the resource.
         public var arn: Swift.String?
         /// The time the resource was associated with the application.
-        public var associationTime: ClientRuntime.Date?
+        public var associationTime: Foundation.Date?
         /// The service integration information about the resource.
         public var integrations: ServiceCatalogAppRegistryClientTypes.ResourceIntegrations?
         /// The name of the resource.
@@ -2128,7 +2131,7 @@ extension ServiceCatalogAppRegistryClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            associationTime: ClientRuntime.Date? = nil,
+            associationTime: Foundation.Date? = nil,
             integrations: ServiceCatalogAppRegistryClientTypes.ResourceIntegrations? = nil,
             name: Swift.String? = nil
         )
@@ -2560,7 +2563,7 @@ public struct SyncResourceInput {
 
 extension SyncResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SyncResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SyncResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2594,7 +2597,7 @@ public struct SyncResourceOutput {
 
 enum SyncResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2679,7 +2682,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2691,7 +2694,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2751,14 +2754,14 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -2795,7 +2798,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -2807,7 +2810,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2864,7 +2867,7 @@ public struct UpdateApplicationInput {
 
 extension UpdateApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2888,7 +2891,7 @@ public struct UpdateApplicationOutput {
 
 enum UpdateApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2952,7 +2955,7 @@ public struct UpdateAttributeGroupInput {
 
 extension UpdateAttributeGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAttributeGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAttributeGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2976,7 +2979,7 @@ public struct UpdateAttributeGroupOutput {
 
 enum UpdateAttributeGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -134,18 +137,18 @@ extension MobileClientTypes {
 
 extension CreateProjectInput {
 
-    static func queryItemProvider(_ value: CreateProjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateProjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let snapshotId = value.snapshotId {
-            let snapshotIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "snapshotId".urlPercentEncoding(), value: Swift.String(snapshotId).urlPercentEncoding())
+            let snapshotIdQueryItem = Smithy.URIQueryItem(name: "snapshotId".urlPercentEncoding(), value: Swift.String(snapshotId).urlPercentEncoding())
             items.append(snapshotIdQueryItem)
         }
         if let name = value.name {
-            let nameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
             items.append(nameQueryItem)
         }
         if let region = value.region {
-            let regionQueryItem = ClientRuntime.SDKURLQueryItem(name: "region".urlPercentEncoding(), value: Swift.String(region).urlPercentEncoding())
+            let regionQueryItem = Smithy.URIQueryItem(name: "region".urlPercentEncoding(), value: Swift.String(region).urlPercentEncoding())
             items.append(regionQueryItem)
         }
         return items
@@ -170,7 +173,7 @@ extension CreateProjectInput {
 /// Request structure used to request a project be created.
 public struct CreateProjectInput {
     /// ZIP or YAML file which contains configuration settings to be used when creating the project. This may be the contents of the file downloaded from the URL provided in an export project operation.
-    public var contents: ClientRuntime.Data?
+    public var contents: Foundation.Data?
     /// Name of the project.
     public var name: Swift.String?
     /// Default region where project resources should be created.
@@ -179,7 +182,7 @@ public struct CreateProjectInput {
     public var snapshotId: Swift.String?
 
     public init(
-        contents: ClientRuntime.Data? = nil,
+        contents: Foundation.Data? = nil,
         name: Swift.String? = nil,
         region: Swift.String? = nil,
         snapshotId: Swift.String? = nil
@@ -194,7 +197,7 @@ public struct CreateProjectInput {
 
 extension CreateProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -219,7 +222,7 @@ public struct CreateProjectOutput {
 
 enum CreateProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -263,7 +266,7 @@ public struct DeleteProjectInput {
 
 extension DeleteProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -293,7 +296,7 @@ public struct DeleteProjectOutput {
 
 enum DeleteProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -335,7 +338,7 @@ public struct DescribeBundleInput {
 
 extension DescribeBundleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBundleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBundleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -360,7 +363,7 @@ public struct DescribeBundleOutput {
 
 enum DescribeBundleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -379,17 +382,17 @@ enum DescribeBundleOutputError {
 
 extension DescribeProjectInput {
 
-    static func queryItemProvider(_ value: DescribeProjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeProjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let syncFromResources = value.syncFromResources {
-            let syncFromResourcesQueryItem = ClientRuntime.SDKURLQueryItem(name: "syncFromResources".urlPercentEncoding(), value: Swift.String(syncFromResources).urlPercentEncoding())
+            let syncFromResourcesQueryItem = Smithy.URIQueryItem(name: "syncFromResources".urlPercentEncoding(), value: Swift.String(syncFromResources).urlPercentEncoding())
             items.append(syncFromResourcesQueryItem)
         }
         guard let projectId = value.projectId else {
             let message = "Creating a URL Query Item failed. projectId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let projectIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
+        let projectIdQueryItem = Smithy.URIQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
         items.append(projectIdQueryItem)
         return items
     }
@@ -422,7 +425,7 @@ public struct DescribeProjectInput {
 
 extension DescribeProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -447,7 +450,7 @@ public struct DescribeProjectOutput {
 
 enum DescribeProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -466,14 +469,14 @@ enum DescribeProjectOutputError {
 
 extension ExportBundleInput {
 
-    static func queryItemProvider(_ value: ExportBundleInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ExportBundleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let projectId = value.projectId {
-            let projectIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
+            let projectIdQueryItem = Smithy.URIQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
             items.append(projectIdQueryItem)
         }
         if let platform = value.platform {
-            let platformQueryItem = ClientRuntime.SDKURLQueryItem(name: "platform".urlPercentEncoding(), value: Swift.String(platform.rawValue).urlPercentEncoding())
+            let platformQueryItem = Smithy.URIQueryItem(name: "platform".urlPercentEncoding(), value: Swift.String(platform.rawValue).urlPercentEncoding())
             items.append(platformQueryItem)
         }
         return items
@@ -514,7 +517,7 @@ public struct ExportBundleInput {
 
 extension ExportBundleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportBundleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportBundleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -539,7 +542,7 @@ public struct ExportBundleOutput {
 
 enum ExportBundleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -582,7 +585,7 @@ public struct ExportProjectInput {
 
 extension ExportProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -617,7 +620,7 @@ public struct ExportProjectOutput {
 
 enum ExportProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -720,14 +723,14 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListBundlesInput {
 
-    static func queryItemProvider(_ value: ListBundlesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListBundlesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -760,7 +763,7 @@ public struct ListBundlesInput {
 
 extension ListBundlesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListBundlesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListBundlesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -790,7 +793,7 @@ public struct ListBundlesOutput {
 
 enum ListBundlesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -808,14 +811,14 @@ enum ListBundlesOutputError {
 
 extension ListProjectsInput {
 
-    static func queryItemProvider(_ value: ListProjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListProjectsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -848,7 +851,7 @@ public struct ListProjectsInput {
 
 extension ListProjectsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProjectsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProjectsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -878,7 +881,7 @@ public struct ListProjectsOutput {
 
 enum ListProjectsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1002,9 +1005,9 @@ extension MobileClientTypes {
         /// Website URL for this project in the AWS Mobile Hub console.
         public var consoleUrl: Swift.String?
         /// Date the project was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// Date of the last modification of the project.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// Name of the project.
         public var name: Swift.String?
         /// Unique project identifier.
@@ -1018,8 +1021,8 @@ extension MobileClientTypes {
 
         public init(
             consoleUrl: Swift.String? = nil,
-            createdDate: ClientRuntime.Date? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             projectId: Swift.String? = nil,
             region: Swift.String? = nil,
@@ -1282,13 +1285,13 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension UpdateProjectInput {
 
-    static func queryItemProvider(_ value: UpdateProjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateProjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let projectId = value.projectId else {
             let message = "Creating a URL Query Item failed. projectId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let projectIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
+        let projectIdQueryItem = Smithy.URIQueryItem(name: "projectId".urlPercentEncoding(), value: Swift.String(projectId).urlPercentEncoding())
         items.append(projectIdQueryItem)
         return items
     }
@@ -1312,13 +1315,13 @@ extension UpdateProjectInput {
 /// Request structure used for requests to update project configuration.
 public struct UpdateProjectInput {
     /// ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation.
-    public var contents: ClientRuntime.Data?
+    public var contents: Foundation.Data?
     /// Unique project identifier.
     /// This member is required.
     public var projectId: Swift.String?
 
     public init(
-        contents: ClientRuntime.Data? = nil,
+        contents: Foundation.Data? = nil,
         projectId: Swift.String? = nil
     )
     {
@@ -1329,7 +1332,7 @@ public struct UpdateProjectInput {
 
 extension UpdateProjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1354,7 +1357,7 @@ public struct UpdateProjectOutput {
 
 enum UpdateProjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

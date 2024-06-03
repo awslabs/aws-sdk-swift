@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -198,7 +201,7 @@ public struct CreateEnvironmentInput {
 
 extension CreateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -222,7 +225,7 @@ public struct CreateEnvironmentOutput {
 
 enum CreateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -286,10 +289,10 @@ extension WorkSpacesThinClientClientTypes {
 
 extension DeleteDeviceInput {
 
-    static func queryItemProvider(_ value: DeleteDeviceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteDeviceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -325,7 +328,7 @@ public struct DeleteDeviceInput {
 
 extension DeleteDeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDeviceOutput {
         return DeleteDeviceOutput()
     }
 }
@@ -337,7 +340,7 @@ public struct DeleteDeviceOutput {
 
 enum DeleteDeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -356,10 +359,10 @@ enum DeleteDeviceOutputError {
 
 extension DeleteEnvironmentInput {
 
-    static func queryItemProvider(_ value: DeleteEnvironmentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteEnvironmentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         return items
@@ -395,7 +398,7 @@ public struct DeleteEnvironmentInput {
 
 extension DeleteEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEnvironmentOutput {
         return DeleteEnvironmentOutput()
     }
 }
@@ -407,7 +410,7 @@ public struct DeleteEnvironmentOutput {
 
 enum DeleteEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -466,7 +469,7 @@ public struct DeregisterDeviceInput {
 
 extension DeregisterDeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeregisterDeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeregisterDeviceOutput {
         return DeregisterDeviceOutput()
     }
 }
@@ -478,7 +481,7 @@ public struct DeregisterDeviceOutput {
 
 enum DeregisterDeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -568,7 +571,7 @@ extension WorkSpacesThinClientClientTypes {
         /// The Amazon Resource Name (ARN) of the device.
         public var arn: Swift.String?
         /// The timestamp of when the device was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The ID of the software set currently installed on the device.
         public var currentSoftwareSetId: Swift.String?
         /// The version of the software set currently installed on the device.
@@ -582,9 +585,9 @@ extension WorkSpacesThinClientClientTypes {
         /// The Amazon Resource Name (ARN) of the Key Management Service key used to encrypt the device.
         public var kmsKeyArn: Swift.String?
         /// The timestamp of the most recent session on the device.
-        public var lastConnectedAt: ClientRuntime.Date?
+        public var lastConnectedAt: Foundation.Date?
         /// The timestamp of the most recent check-in of the device.
-        public var lastPostureAt: ClientRuntime.Date?
+        public var lastPostureAt: Foundation.Date?
         /// The model number of the device.
         public var model: Swift.String?
         /// The name of the device.
@@ -606,19 +609,19 @@ extension WorkSpacesThinClientClientTypes {
         /// The tag keys and optional values for the resource.
         public var tags: [Swift.String:Swift.String]?
         /// The timestamp of when the device was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             currentSoftwareSetId: Swift.String? = nil,
             currentSoftwareSetVersion: Swift.String? = nil,
             desiredSoftwareSetId: Swift.String? = nil,
             environmentId: Swift.String? = nil,
             id: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil,
-            lastConnectedAt: ClientRuntime.Date? = nil,
-            lastPostureAt: ClientRuntime.Date? = nil,
+            lastConnectedAt: Foundation.Date? = nil,
+            lastPostureAt: Foundation.Date? = nil,
             model: Swift.String? = nil,
             name: Swift.String? = nil,
             pendingSoftwareSetId: Swift.String? = nil,
@@ -629,7 +632,7 @@ extension WorkSpacesThinClientClientTypes {
             softwareSetUpdateStatus: WorkSpacesThinClientClientTypes.SoftwareSetUpdateStatus? = nil,
             status: WorkSpacesThinClientClientTypes.DeviceStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -760,7 +763,7 @@ extension WorkSpacesThinClientClientTypes {
         /// The Amazon Resource Name (ARN) of the device.
         public var arn: Swift.String?
         /// The timestamp of when the device was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The ID of the software set currently installed on the device.
         public var currentSoftwareSetId: Swift.String?
         /// The ID of the software set which the device has been set to.
@@ -770,9 +773,9 @@ extension WorkSpacesThinClientClientTypes {
         /// The ID of the device.
         public var id: Swift.String?
         /// The timestamp of the most recent session on the device.
-        public var lastConnectedAt: ClientRuntime.Date?
+        public var lastConnectedAt: Foundation.Date?
         /// The timestamp of the most recent check-in of the device.
-        public var lastPostureAt: ClientRuntime.Date?
+        public var lastPostureAt: Foundation.Date?
         /// The model number of the device.
         public var model: Swift.String?
         /// The name of the device.
@@ -786,24 +789,24 @@ extension WorkSpacesThinClientClientTypes {
         /// The status of the device.
         public var status: WorkSpacesThinClientClientTypes.DeviceStatus?
         /// The timestamp of when the device was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             currentSoftwareSetId: Swift.String? = nil,
             desiredSoftwareSetId: Swift.String? = nil,
             environmentId: Swift.String? = nil,
             id: Swift.String? = nil,
-            lastConnectedAt: ClientRuntime.Date? = nil,
-            lastPostureAt: ClientRuntime.Date? = nil,
+            lastConnectedAt: Foundation.Date? = nil,
+            lastPostureAt: Foundation.Date? = nil,
             model: Swift.String? = nil,
             name: Swift.String? = nil,
             pendingSoftwareSetId: Swift.String? = nil,
             serialNumber: Swift.String? = nil,
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
             status: WorkSpacesThinClientClientTypes.DeviceStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -867,7 +870,7 @@ extension WorkSpacesThinClientClientTypes {
         /// The Amazon Resource Name (ARN) of the environment.
         public var arn: Swift.String?
         /// The timestamp of when the environment was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The ID of the software set to apply.
         public var desiredSoftwareSetId: Swift.String?
         /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
@@ -899,12 +902,12 @@ extension WorkSpacesThinClientClientTypes {
         /// The tag keys and optional values for the resource.
         public var tags: [Swift.String:Swift.String]?
         /// The timestamp of when the device was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             activationCode: Swift.String? = nil,
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             desiredSoftwareSetId: Swift.String? = nil,
             desktopArn: Swift.String? = nil,
             desktopEndpoint: Swift.String? = nil,
@@ -920,7 +923,7 @@ extension WorkSpacesThinClientClientTypes {
             softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode? = nil,
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
             tags: [Swift.String:Swift.String]? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.activationCode = activationCode
@@ -1015,7 +1018,7 @@ extension WorkSpacesThinClientClientTypes {
         /// The Amazon Resource Name (ARN) of the environment.
         public var arn: Swift.String?
         /// The timestamp of when the environment was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The ID of the software set to apply.
         public var desiredSoftwareSetId: Swift.String?
         /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
@@ -1037,12 +1040,12 @@ extension WorkSpacesThinClientClientTypes {
         /// An option to define if software updates should be applied within a maintenance window.
         public var softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule?
         /// The timestamp of when the device was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             activationCode: Swift.String? = nil,
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             desiredSoftwareSetId: Swift.String? = nil,
             desktopArn: Swift.String? = nil,
             desktopEndpoint: Swift.String? = nil,
@@ -1053,7 +1056,7 @@ extension WorkSpacesThinClientClientTypes {
             pendingSoftwareSetId: Swift.String? = nil,
             softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode? = nil,
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.activationCode = activationCode
@@ -1100,7 +1103,7 @@ public struct GetDeviceInput {
 
 extension GetDeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDeviceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1124,7 +1127,7 @@ public struct GetDeviceOutput {
 
 enum GetDeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1165,7 +1168,7 @@ public struct GetEnvironmentInput {
 
 extension GetEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1189,7 +1192,7 @@ public struct GetEnvironmentOutput {
 
 enum GetEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1230,7 +1233,7 @@ public struct GetSoftwareSetInput {
 
 extension GetSoftwareSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSoftwareSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSoftwareSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1254,7 +1257,7 @@ public struct GetSoftwareSetOutput {
 
 enum GetSoftwareSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1317,14 +1320,14 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListDevicesInput {
 
-    static func queryItemProvider(_ value: ListDevicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDevicesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1356,7 +1359,7 @@ public struct ListDevicesInput {
 
 extension ListDevicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDevicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDevicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1385,7 +1388,7 @@ public struct ListDevicesOutput {
 
 enum ListDevicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1402,14 +1405,14 @@ enum ListDevicesOutputError {
 
 extension ListEnvironmentsInput {
 
-    static func queryItemProvider(_ value: ListEnvironmentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListEnvironmentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1441,7 +1444,7 @@ public struct ListEnvironmentsInput {
 
 extension ListEnvironmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEnvironmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEnvironmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1470,7 +1473,7 @@ public struct ListEnvironmentsOutput {
 
 enum ListEnvironmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1487,14 +1490,14 @@ enum ListEnvironmentsOutputError {
 
 extension ListSoftwareSetsInput {
 
-    static func queryItemProvider(_ value: ListSoftwareSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSoftwareSetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -1526,7 +1529,7 @@ public struct ListSoftwareSetsInput {
 
 extension ListSoftwareSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSoftwareSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSoftwareSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1555,7 +1558,7 @@ public struct ListSoftwareSetsOutput {
 
 enum ListSoftwareSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1600,7 +1603,7 @@ extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1624,7 +1627,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1901,11 +1904,11 @@ extension WorkSpacesThinClientClientTypes {
         /// The ID of the software set.
         public var id: Swift.String?
         /// The timestamp of when the software set was released.
-        public var releasedAt: ClientRuntime.Date?
+        public var releasedAt: Foundation.Date?
         /// A list of the software components in the software set.
         public var software: [WorkSpacesThinClientClientTypes.Software]?
         /// The timestamp of the end of support for the software set.
-        public var supportedUntil: ClientRuntime.Date?
+        public var supportedUntil: Foundation.Date?
         /// The tag keys and optional values for the resource.
         public var tags: [Swift.String:Swift.String]?
         /// An option to define if the software set has been validated.
@@ -1916,9 +1919,9 @@ extension WorkSpacesThinClientClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
-            releasedAt: ClientRuntime.Date? = nil,
+            releasedAt: Foundation.Date? = nil,
             software: [WorkSpacesThinClientClientTypes.Software]? = nil,
-            supportedUntil: ClientRuntime.Date? = nil,
+            supportedUntil: Foundation.Date? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus? = nil,
             version: Swift.String? = nil
@@ -1960,9 +1963,9 @@ extension WorkSpacesThinClientClientTypes {
         /// The ID of the software set.
         public var id: Swift.String?
         /// The timestamp of when the software set was released.
-        public var releasedAt: ClientRuntime.Date?
+        public var releasedAt: Foundation.Date?
         /// The timestamp of the end of support for the software set.
-        public var supportedUntil: ClientRuntime.Date?
+        public var supportedUntil: Foundation.Date?
         /// An option to define if the software set has been validated.
         public var validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus?
         /// The version of the software set.
@@ -1971,8 +1974,8 @@ extension WorkSpacesThinClientClientTypes {
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
-            releasedAt: ClientRuntime.Date? = nil,
-            supportedUntil: ClientRuntime.Date? = nil,
+            releasedAt: Foundation.Date? = nil,
+            supportedUntil: Foundation.Date? = nil,
             validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus? = nil,
             version: Swift.String? = nil
         )
@@ -2150,7 +2153,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2162,7 +2165,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2270,14 +2273,14 @@ extension UntagResourceInput: Swift.CustomDebugStringConvertible {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -2314,7 +2317,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -2326,7 +2329,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2395,7 +2398,7 @@ public struct UpdateDeviceInput {
 
 extension UpdateDeviceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDeviceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDeviceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2419,7 +2422,7 @@ public struct UpdateDeviceOutput {
 
 enum UpdateDeviceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2507,7 +2510,7 @@ public struct UpdateEnvironmentInput {
 
 extension UpdateEnvironmentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEnvironmentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEnvironmentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2531,7 +2534,7 @@ public struct UpdateEnvironmentOutput {
 
 enum UpdateEnvironmentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2585,7 +2588,7 @@ public struct UpdateSoftwareSetInput {
 
 extension UpdateSoftwareSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSoftwareSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSoftwareSetOutput {
         return UpdateSoftwareSetOutput()
     }
 }
@@ -2597,7 +2600,7 @@ public struct UpdateSoftwareSetOutput {
 
 enum UpdateSoftwareSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

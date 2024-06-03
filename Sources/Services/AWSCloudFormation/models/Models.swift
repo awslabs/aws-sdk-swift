@@ -2,7 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
 import SmithyFormURL
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
 
@@ -180,7 +182,7 @@ public struct ActivateOrganizationsAccessInput {
 
 extension ActivateOrganizationsAccessOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ActivateOrganizationsAccessOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ActivateOrganizationsAccessOutput {
         return ActivateOrganizationsAccessOutput()
     }
 }
@@ -192,7 +194,7 @@ public struct ActivateOrganizationsAccessOutput {
 
 enum ActivateOrganizationsAccessOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -285,7 +287,7 @@ public struct ActivateTypeInput {
 
 extension ActivateTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ActivateTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ActivateTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ActivateTypeResult"]
@@ -309,7 +311,7 @@ public struct ActivateTypeOutput {
 
 enum ActivateTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -496,7 +498,7 @@ public struct BatchDescribeTypeConfigurationsInput {
 
 extension BatchDescribeTypeConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDescribeTypeConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDescribeTypeConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["BatchDescribeTypeConfigurationsResult"]
@@ -530,7 +532,7 @@ public struct BatchDescribeTypeConfigurationsOutput {
 
 enum BatchDescribeTypeConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -648,7 +650,7 @@ public struct CancelUpdateStackInput {
 
 extension CancelUpdateStackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelUpdateStackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelUpdateStackOutput {
         return CancelUpdateStackOutput()
     }
 }
@@ -660,7 +662,7 @@ public struct CancelUpdateStackOutput {
 
 enum CancelUpdateStackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1097,7 +1099,7 @@ extension CloudFormationClientTypes {
         /// The name of the change set.
         public var changeSetName: Swift.String?
         /// The start time when the change set was created, in UTC.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Descriptive information about the change set.
         public var description: Swift.String?
         /// If the change set execution status is AVAILABLE, you can execute the change set. If you can't execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
@@ -1122,7 +1124,7 @@ extension CloudFormationClientTypes {
         public init(
             changeSetId: Swift.String? = nil,
             changeSetName: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             executionStatus: CloudFormationClientTypes.ExecutionStatus? = nil,
             importExistingResources: Swift.Bool? = nil,
@@ -1365,7 +1367,7 @@ public struct ContinueUpdateRollbackInput {
 
 extension ContinueUpdateRollbackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ContinueUpdateRollbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ContinueUpdateRollbackOutput {
         return ContinueUpdateRollbackOutput()
     }
 }
@@ -1378,7 +1380,7 @@ public struct ContinueUpdateRollbackOutput {
 
 enum ContinueUpdateRollbackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1556,7 +1558,7 @@ public struct CreateChangeSetInput {
 
 extension CreateChangeSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChangeSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChangeSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateChangeSetResult"]
@@ -1586,7 +1588,7 @@ public struct CreateChangeSetOutput {
 
 enum CreateChangeSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1647,7 +1649,7 @@ public struct CreateGeneratedTemplateInput {
 
 extension CreateGeneratedTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGeneratedTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGeneratedTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateGeneratedTemplateResult"]
@@ -1671,7 +1673,7 @@ public struct CreateGeneratedTemplateOutput {
 
 enum CreateGeneratedTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1917,7 +1919,7 @@ public struct CreateStackInstancesInput {
 
 extension CreateStackInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateStackInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateStackInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateStackInstancesResult"]
@@ -1941,7 +1943,7 @@ public struct CreateStackInstancesOutput {
 
 enum CreateStackInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1960,7 +1962,7 @@ enum CreateStackInstancesOutputError {
 
 extension CreateStackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateStackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateStackOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateStackResult"]
@@ -1985,7 +1987,7 @@ public struct CreateStackOutput {
 
 enum CreateStackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2143,7 +2145,7 @@ public struct CreateStackSetInput {
 
 extension CreateStackSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateStackSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateStackSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateStackSetResult"]
@@ -2167,7 +2169,7 @@ public struct CreateStackSetOutput {
 
 enum CreateStackSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2242,7 +2244,7 @@ public struct DeactivateOrganizationsAccessInput {
 
 extension DeactivateOrganizationsAccessOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeactivateOrganizationsAccessOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeactivateOrganizationsAccessOutput {
         return DeactivateOrganizationsAccessOutput()
     }
 }
@@ -2254,7 +2256,7 @@ public struct DeactivateOrganizationsAccessOutput {
 
 enum DeactivateOrganizationsAccessOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2308,7 +2310,7 @@ public struct DeactivateTypeInput {
 
 extension DeactivateTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeactivateTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeactivateTypeOutput {
         return DeactivateTypeOutput()
     }
 }
@@ -2320,7 +2322,7 @@ public struct DeactivateTypeOutput {
 
 enum DeactivateTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2371,7 +2373,7 @@ public struct DeleteChangeSetInput {
 
 extension DeleteChangeSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChangeSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChangeSetOutput {
         return DeleteChangeSetOutput()
     }
 }
@@ -2384,7 +2386,7 @@ public struct DeleteChangeSetOutput {
 
 enum DeleteChangeSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2428,7 +2430,7 @@ public struct DeleteGeneratedTemplateInput {
 
 extension DeleteGeneratedTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGeneratedTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGeneratedTemplateOutput {
         return DeleteGeneratedTemplateOutput()
     }
 }
@@ -2440,7 +2442,7 @@ public struct DeleteGeneratedTemplateOutput {
 
 enum DeleteGeneratedTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2572,7 +2574,7 @@ public struct DeleteStackInstancesInput {
 
 extension DeleteStackInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStackInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteStackInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteStackInstancesResult"]
@@ -2596,7 +2598,7 @@ public struct DeleteStackInstancesOutput {
 
 enum DeleteStackInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2614,7 +2616,7 @@ enum DeleteStackInstancesOutputError {
 
 extension DeleteStackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteStackOutput {
         return DeleteStackOutput()
     }
 }
@@ -2626,7 +2628,7 @@ public struct DeleteStackOutput {
 
 enum DeleteStackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2679,7 +2681,7 @@ public struct DeleteStackSetInput {
 
 extension DeleteStackSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStackSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteStackSetOutput {
         return DeleteStackSetOutput()
     }
 }
@@ -2691,7 +2693,7 @@ public struct DeleteStackSetOutput {
 
 enum DeleteStackSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2836,7 +2838,7 @@ public struct DeregisterTypeInput {
 
 extension DeregisterTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeregisterTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeregisterTypeOutput {
         return DeregisterTypeOutput()
     }
 }
@@ -2848,7 +2850,7 @@ public struct DeregisterTypeOutput {
 
 enum DeregisterTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2893,7 +2895,7 @@ public struct DescribeAccountLimitsInput {
 
 extension DescribeAccountLimitsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAccountLimitsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAccountLimitsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAccountLimitsResult"]
@@ -2923,7 +2925,7 @@ public struct DescribeAccountLimitsOutput {
 
 enum DescribeAccountLimitsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2981,7 +2983,7 @@ public struct DescribeChangeSetHooksInput {
 
 extension DescribeChangeSetHooksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChangeSetHooksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChangeSetHooksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeChangeSetHooksResult"]
@@ -3035,7 +3037,7 @@ public struct DescribeChangeSetHooksOutput {
 
 enum DescribeChangeSetHooksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3095,7 +3097,7 @@ public struct DescribeChangeSetInput {
 
 extension DescribeChangeSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChangeSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChangeSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeChangeSetResult"]
@@ -3136,7 +3138,7 @@ public struct DescribeChangeSetOutput {
     /// A list of Change structures that describes the resources CloudFormation changes if you execute the change set.
     public var changes: [CloudFormationClientTypes.Change]?
     /// The start time when the change set was created, in UTC.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// Information about the change set.
     public var description: Swift.String?
     /// If the change set execution status is AVAILABLE, you can execute the change set. If you can't execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
@@ -3181,7 +3183,7 @@ public struct DescribeChangeSetOutput {
         changeSetId: Swift.String? = nil,
         changeSetName: Swift.String? = nil,
         changes: [CloudFormationClientTypes.Change]? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         executionStatus: CloudFormationClientTypes.ExecutionStatus? = nil,
         importExistingResources: Swift.Bool? = nil,
@@ -3226,7 +3228,7 @@ public struct DescribeChangeSetOutput {
 
 enum DescribeChangeSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3270,7 +3272,7 @@ public struct DescribeGeneratedTemplateInput {
 
 extension DescribeGeneratedTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeGeneratedTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeGeneratedTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeGeneratedTemplateResult"]
@@ -3292,13 +3294,13 @@ extension DescribeGeneratedTemplateOutput {
 
 public struct DescribeGeneratedTemplateOutput {
     /// The time the generated template was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}. For example, arn:aws:cloudformation:us-east-1:123456789012:generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc .
     public var generatedTemplateId: Swift.String?
     /// The name of the generated template.
     public var generatedTemplateName: Swift.String?
     /// The time the generated template was last updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// An object describing the progress of the template generation.
     public var progress: CloudFormationClientTypes.TemplateProgress?
     /// A list of objects describing the details of the resources in the template generation.
@@ -3331,10 +3333,10 @@ public struct DescribeGeneratedTemplateOutput {
     public var totalWarnings: Swift.Int?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         generatedTemplateId: Swift.String? = nil,
         generatedTemplateName: Swift.String? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         progress: CloudFormationClientTypes.TemplateProgress? = nil,
         resources: [CloudFormationClientTypes.ResourceDetail]? = nil,
         stackId: Swift.String? = nil,
@@ -3360,7 +3362,7 @@ public struct DescribeGeneratedTemplateOutput {
 
 enum DescribeGeneratedTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3407,7 +3409,7 @@ public struct DescribeOrganizationsAccessInput {
 
 extension DescribeOrganizationsAccessOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeOrganizationsAccessOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeOrganizationsAccessOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeOrganizationsAccessResult"]
@@ -3431,7 +3433,7 @@ public struct DescribeOrganizationsAccessOutput {
 
 enum DescribeOrganizationsAccessOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3475,7 +3477,7 @@ public struct DescribePublisherInput {
 
 extension DescribePublisherOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePublisherOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePublisherOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribePublisherResult"]
@@ -3514,7 +3516,7 @@ public struct DescribePublisherOutput {
 
 enum DescribePublisherOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3558,7 +3560,7 @@ public struct DescribeResourceScanInput {
 
 extension DescribeResourceScanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeResourceScanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeResourceScanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeResourceScanResult"]
@@ -3578,7 +3580,7 @@ extension DescribeResourceScanOutput {
 
 public struct DescribeResourceScanOutput {
     /// The time that the resource scan was finished.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The percentage of the resource scan that has been completed.
     public var percentageCompleted: Swift.Double?
     /// The Amazon Resource Name (ARN) of the resource scan. The format is arn:${Partition}:cloudformation:${Region}:${Account}:resourceScan/${Id}. An example is arn:aws:cloudformation:us-east-1:123456789012:resourceScan/f5b490f7-7ed4-428a-aa06-31ff25db0772 .
@@ -3590,20 +3592,20 @@ public struct DescribeResourceScanOutput {
     /// The number of resources that were listed. This is only available for scans with a Status set to COMPLETE, EXPIRED, or FAILED .
     public var resourcesScanned: Swift.Int?
     /// The time that the resource scan was started.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// Status of the resource scan. INPROGRESS The resource scan is still in progress. COMPLETE The resource scan is complete. EXPIRED The resource scan has expired. FAILED The resource scan has failed.
     public var status: CloudFormationClientTypes.ResourceScanStatus?
     /// The reason for the resource scan status, providing more information if a failure happened.
     public var statusReason: Swift.String?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         percentageCompleted: Swift.Double? = nil,
         resourceScanId: Swift.String? = nil,
         resourceTypes: [Swift.String]? = nil,
         resourcesRead: Swift.Int? = nil,
         resourcesScanned: Swift.Int? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: CloudFormationClientTypes.ResourceScanStatus? = nil,
         statusReason: Swift.String? = nil
     )
@@ -3622,7 +3624,7 @@ public struct DescribeResourceScanOutput {
 
 enum DescribeResourceScanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3666,7 +3668,7 @@ public struct DescribeStackDriftDetectionStatusInput {
 
 extension DescribeStackDriftDetectionStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStackDriftDetectionStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStackDriftDetectionStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeStackDriftDetectionStatusResult"]
@@ -3714,7 +3716,7 @@ public struct DescribeStackDriftDetectionStatusOutput {
     public var stackId: Swift.String?
     /// Time at which the stack drift detection operation was initiated.
     /// This member is required.
-    public var timestamp: ClientRuntime.Date?
+    public var timestamp: Foundation.Date?
 
     public init(
         detectionStatus: CloudFormationClientTypes.StackDriftDetectionStatus? = nil,
@@ -3723,7 +3725,7 @@ public struct DescribeStackDriftDetectionStatusOutput {
         stackDriftDetectionId: Swift.String? = nil,
         stackDriftStatus: CloudFormationClientTypes.StackDriftStatus? = nil,
         stackId: Swift.String? = nil,
-        timestamp: ClientRuntime.Date? = nil
+        timestamp: Foundation.Date? = nil
     )
     {
         self.detectionStatus = detectionStatus
@@ -3738,7 +3740,7 @@ public struct DescribeStackDriftDetectionStatusOutput {
 
 enum DescribeStackDriftDetectionStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3793,7 +3795,7 @@ public struct DescribeStackEventsInput {
 
 extension DescribeStackEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStackEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStackEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeStackEventsResult"]
@@ -3823,7 +3825,7 @@ public struct DescribeStackEventsOutput {
 
 enum DescribeStackEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3887,7 +3889,7 @@ public struct DescribeStackInstanceInput {
 
 extension DescribeStackInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStackInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStackInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeStackInstanceResult"]
@@ -3911,7 +3913,7 @@ public struct DescribeStackInstanceOutput {
 
 enum DescribeStackInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3979,7 +3981,7 @@ public struct DescribeStackResourceDriftsInput {
 
 extension DescribeStackResourceDriftsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStackResourceDriftsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStackResourceDriftsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeStackResourceDriftsResult"]
@@ -4009,7 +4011,7 @@ public struct DescribeStackResourceDriftsOutput {
 
 enum DescribeStackResourceDriftsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4066,7 +4068,7 @@ public struct DescribeStackResourceInput {
 
 extension DescribeStackResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStackResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStackResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeStackResourceResult"]
@@ -4091,7 +4093,7 @@ public struct DescribeStackResourceOutput {
 
 enum DescribeStackResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4151,7 +4153,7 @@ public struct DescribeStackResourcesInput {
 
 extension DescribeStackResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStackResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStackResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeStackResourcesResult"]
@@ -4176,7 +4178,7 @@ public struct DescribeStackResourcesOutput {
 
 enum DescribeStackResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4273,7 +4275,7 @@ public struct DescribeStackSetOperationInput {
 
 extension DescribeStackSetOperationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStackSetOperationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStackSetOperationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeStackSetOperationResult"]
@@ -4297,7 +4299,7 @@ public struct DescribeStackSetOperationOutput {
 
 enum DescribeStackSetOperationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4312,7 +4314,7 @@ enum DescribeStackSetOperationOutputError {
 
 extension DescribeStackSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStackSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStackSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeStackSetResult"]
@@ -4336,7 +4338,7 @@ public struct DescribeStackSetOutput {
 
 enum DescribeStackSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4392,7 +4394,7 @@ public struct DescribeStacksInput {
 
 extension DescribeStacksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStacksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStacksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeStacksResult"]
@@ -4422,7 +4424,7 @@ public struct DescribeStacksOutput {
 
 enum DescribeStacksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4489,7 +4491,7 @@ public struct DescribeTypeInput {
 
 extension DescribeTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeTypeResult"]
@@ -4558,7 +4560,7 @@ public struct DescribeTypeOutput {
     /// * Private extensions you have registered in your account. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html).
     ///
     /// * Public extensions you have activated in your account with auto-update specified. For more information, see [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html).
-    public var lastUpdated: ClientRuntime.Date?
+    public var lastUpdated: Foundation.Date?
     /// The latest version of a public extension that is available for use. This only applies if you specify a public extension, and you don't specify a version. For all other requests, CloudFormation returns null.
     public var latestPublicVersion: Swift.String?
     /// Contains logging configuration information for private extensions. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon Web Services and published by third parties, CloudFormation returns null. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html).
@@ -4592,7 +4594,7 @@ public struct DescribeTypeOutput {
     /// The URL of the source code for the extension.
     public var sourceUrl: Swift.String?
     /// When the specified private extension version was registered or activated in your account.
-    public var timeCreated: ClientRuntime.Date?
+    public var timeCreated: Foundation.Date?
     /// The kind of extension.
     public var type: CloudFormationClientTypes.RegistryType?
     /// The name of the extension. If the extension is a public third-party type you have activated with a type name alias, CloudFormation returns the type name alias. For more information, see [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html).
@@ -4627,7 +4629,7 @@ public struct DescribeTypeOutput {
         executionRoleArn: Swift.String? = nil,
         isActivated: Swift.Bool? = nil,
         isDefaultVersion: Swift.Bool? = nil,
-        lastUpdated: ClientRuntime.Date? = nil,
+        lastUpdated: Foundation.Date? = nil,
         latestPublicVersion: Swift.String? = nil,
         loggingConfig: CloudFormationClientTypes.LoggingConfig? = nil,
         originalTypeArn: Swift.String? = nil,
@@ -4638,7 +4640,7 @@ public struct DescribeTypeOutput {
         requiredActivatedTypes: [CloudFormationClientTypes.RequiredActivatedType]? = nil,
         schema: Swift.String? = nil,
         sourceUrl: Swift.String? = nil,
-        timeCreated: ClientRuntime.Date? = nil,
+        timeCreated: Foundation.Date? = nil,
         type: CloudFormationClientTypes.RegistryType? = nil,
         typeName: Swift.String? = nil,
         typeTestsStatus: CloudFormationClientTypes.TypeTestsStatus? = nil,
@@ -4678,7 +4680,7 @@ public struct DescribeTypeOutput {
 
 enum DescribeTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4723,7 +4725,7 @@ public struct DescribeTypeRegistrationInput {
 
 extension DescribeTypeRegistrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTypeRegistrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTypeRegistrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeTypeRegistrationResult"]
@@ -4762,7 +4764,7 @@ public struct DescribeTypeRegistrationOutput {
 
 enum DescribeTypeRegistrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4840,7 +4842,7 @@ public struct DetectStackDriftInput {
 
 extension DetectStackDriftOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectStackDriftOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectStackDriftOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DetectStackDriftResult"]
@@ -4865,7 +4867,7 @@ public struct DetectStackDriftOutput {
 
 enum DetectStackDriftOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4914,7 +4916,7 @@ public struct DetectStackResourceDriftInput {
 
 extension DetectStackResourceDriftOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectStackResourceDriftOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectStackResourceDriftOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DetectStackResourceDriftResult"]
@@ -4939,7 +4941,7 @@ public struct DetectStackResourceDriftOutput {
 
 enum DetectStackResourceDriftOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5001,7 +5003,7 @@ public struct DetectStackSetDriftInput {
 
 extension DetectStackSetDriftOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectStackSetDriftOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectStackSetDriftOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DetectStackSetDriftResult"]
@@ -5025,7 +5027,7 @@ public struct DetectStackSetDriftOutput {
 
 enum DetectStackSetDriftOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5113,7 +5115,7 @@ public struct EstimateTemplateCostInput {
 
 extension EstimateTemplateCostOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EstimateTemplateCostOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EstimateTemplateCostOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["EstimateTemplateCostResult"]
@@ -5138,7 +5140,7 @@ public struct EstimateTemplateCostOutput {
 
 enum EstimateTemplateCostOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5238,7 +5240,7 @@ public struct ExecuteChangeSetInput {
 
 extension ExecuteChangeSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecuteChangeSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExecuteChangeSetOutput {
         return ExecuteChangeSetOutput()
     }
 }
@@ -5251,7 +5253,7 @@ public struct ExecuteChangeSetOutput {
 
 enum ExecuteChangeSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5561,7 +5563,7 @@ public struct GetGeneratedTemplateInput {
 
 extension GetGeneratedTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGeneratedTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGeneratedTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetGeneratedTemplateResult"]
@@ -5606,7 +5608,7 @@ public struct GetGeneratedTemplateOutput {
 
 enum GetGeneratedTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5651,7 +5653,7 @@ public struct GetStackPolicyInput {
 
 extension GetStackPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetStackPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetStackPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetStackPolicyResult"]
@@ -5676,7 +5678,7 @@ public struct GetStackPolicyOutput {
 
 enum GetStackPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5736,7 +5738,7 @@ public struct GetTemplateInput {
 
 extension GetTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetTemplateResult"]
@@ -5766,7 +5768,7 @@ public struct GetTemplateOutput {
 
 enum GetTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5839,7 +5841,7 @@ public struct GetTemplateSummaryInput {
 
 extension GetTemplateSummaryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTemplateSummaryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTemplateSummaryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetTemplateSummaryResult"]
@@ -5909,7 +5911,7 @@ public struct GetTemplateSummaryOutput {
 
 enum GetTemplateSummaryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6215,7 +6217,7 @@ public struct ImportStacksToStackSetInput {
 
 extension ImportStacksToStackSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportStacksToStackSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportStacksToStackSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ImportStacksToStackSetResult"]
@@ -6239,7 +6241,7 @@ public struct ImportStacksToStackSetOutput {
 
 enum ImportStacksToStackSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6480,7 +6482,7 @@ public struct ListChangeSetsInput {
 
 extension ListChangeSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChangeSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChangeSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListChangeSetsResult"]
@@ -6510,7 +6512,7 @@ public struct ListChangeSetsOutput {
 
 enum ListChangeSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6552,7 +6554,7 @@ public struct ListExportsInput {
 
 extension ListExportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListExportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListExportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListExportsResult"]
@@ -6581,7 +6583,7 @@ public struct ListExportsOutput {
 
 enum ListExportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6628,7 +6630,7 @@ public struct ListGeneratedTemplatesInput {
 
 extension ListGeneratedTemplatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGeneratedTemplatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGeneratedTemplatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListGeneratedTemplatesResult"]
@@ -6657,7 +6659,7 @@ public struct ListGeneratedTemplatesOutput {
 
 enum ListGeneratedTemplatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6705,7 +6707,7 @@ public struct ListImportsInput {
 
 extension ListImportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListImportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListImportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListImportsResult"]
@@ -6734,7 +6736,7 @@ public struct ListImportsOutput {
 
 enum ListImportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6793,7 +6795,7 @@ public struct ListResourceScanRelatedResourcesInput {
 
 extension ListResourceScanRelatedResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourceScanRelatedResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourceScanRelatedResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListResourceScanRelatedResourcesResult"]
@@ -6822,7 +6824,7 @@ public struct ListResourceScanRelatedResourcesOutput {
 
 enum ListResourceScanRelatedResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6897,7 +6899,7 @@ public struct ListResourceScanResourcesInput {
 
 extension ListResourceScanResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourceScanResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourceScanResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListResourceScanResourcesResult"]
@@ -6926,7 +6928,7 @@ public struct ListResourceScanResourcesOutput {
 
 enum ListResourceScanResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6975,7 +6977,7 @@ public struct ListResourceScansInput {
 
 extension ListResourceScansOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourceScansOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourceScansOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListResourceScansResult"]
@@ -7004,7 +7006,7 @@ public struct ListResourceScansOutput {
 
 enum ListResourceScansOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7097,7 +7099,7 @@ public struct ListStackInstanceResourceDriftsInput {
 
 extension ListStackInstanceResourceDriftsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStackInstanceResourceDriftsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStackInstanceResourceDriftsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListStackInstanceResourceDriftsResult"]
@@ -7126,7 +7128,7 @@ public struct ListStackInstanceResourceDriftsOutput {
 
 enum ListStackInstanceResourceDriftsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7206,7 +7208,7 @@ public struct ListStackInstancesInput {
 
 extension ListStackInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStackInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStackInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListStackInstancesResult"]
@@ -7235,7 +7237,7 @@ public struct ListStackInstancesOutput {
 
 enum ListStackInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7292,7 +7294,7 @@ public struct ListStackResourcesInput {
 
 extension ListStackResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStackResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStackResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListStackResourcesResult"]
@@ -7322,7 +7324,7 @@ public struct ListStackResourcesOutput {
 
 enum ListStackResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7384,7 +7386,7 @@ public struct ListStackSetAutoDeploymentTargetsInput {
 
 extension ListStackSetAutoDeploymentTargetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStackSetAutoDeploymentTargetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStackSetAutoDeploymentTargetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListStackSetAutoDeploymentTargetsResult"]
@@ -7413,7 +7415,7 @@ public struct ListStackSetAutoDeploymentTargetsOutput {
 
 enum ListStackSetAutoDeploymentTargetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7487,7 +7489,7 @@ public struct ListStackSetOperationResultsInput {
 
 extension ListStackSetOperationResultsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStackSetOperationResultsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStackSetOperationResultsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListStackSetOperationResultsResult"]
@@ -7516,7 +7518,7 @@ public struct ListStackSetOperationResultsOutput {
 
 enum ListStackSetOperationResultsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7580,7 +7582,7 @@ public struct ListStackSetOperationsInput {
 
 extension ListStackSetOperationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStackSetOperationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStackSetOperationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListStackSetOperationsResult"]
@@ -7609,7 +7611,7 @@ public struct ListStackSetOperationsOutput {
 
 enum ListStackSetOperationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7671,7 +7673,7 @@ public struct ListStackSetsInput {
 
 extension ListStackSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStackSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStackSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListStackSetsResult"]
@@ -7700,7 +7702,7 @@ public struct ListStackSetsOutput {
 
 enum ListStackSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7748,7 +7750,7 @@ public struct ListStacksInput {
 
 extension ListStacksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStacksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStacksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListStacksResult"]
@@ -7778,7 +7780,7 @@ public struct ListStacksOutput {
 
 enum ListStacksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7845,7 +7847,7 @@ public struct ListTypeRegistrationsInput {
 
 extension ListTypeRegistrationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTypeRegistrationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTypeRegistrationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListTypeRegistrationsResult"]
@@ -7874,7 +7876,7 @@ public struct ListTypeRegistrationsOutput {
 
 enum ListTypeRegistrationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7954,7 +7956,7 @@ public struct ListTypeVersionsInput {
 
 extension ListTypeVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTypeVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTypeVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListTypeVersionsResult"]
@@ -7983,7 +7985,7 @@ public struct ListTypeVersionsOutput {
 
 enum ListTypeVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8083,7 +8085,7 @@ public struct ListTypesInput {
 
 extension ListTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListTypesResult"]
@@ -8112,7 +8114,7 @@ public struct ListTypesOutput {
 
 enum ListTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8995,7 +8997,7 @@ public struct PublishTypeInput {
 
 extension PublishTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PublishTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PublishTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["PublishTypeResult"]
@@ -9019,7 +9021,7 @@ public struct PublishTypeOutput {
 
 enum PublishTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9124,7 +9126,7 @@ public struct RecordHandlerProgressInput {
 
 extension RecordHandlerProgressOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RecordHandlerProgressOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RecordHandlerProgressOutput {
         return RecordHandlerProgressOutput()
     }
 }
@@ -9136,7 +9138,7 @@ public struct RecordHandlerProgressOutput {
 
 enum RecordHandlerProgressOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9214,7 +9216,7 @@ public struct RegisterPublisherInput {
 
 extension RegisterPublisherOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterPublisherOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterPublisherOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RegisterPublisherResult"]
@@ -9238,7 +9240,7 @@ public struct RegisterPublisherOutput {
 
 enum RegisterPublisherOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9329,7 +9331,7 @@ public struct RegisterTypeInput {
 
 extension RegisterTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RegisterTypeResult"]
@@ -9353,7 +9355,7 @@ public struct RegisterTypeOutput {
 
 enum RegisterTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10016,23 +10018,23 @@ extension CloudFormationClientTypes {
     /// A summary of the resource scan. This is returned by the ListResourceScan API action.
     public struct ResourceScanSummary {
         /// The time that the resource scan was finished.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The percentage of the resource scan that has been completed.
         public var percentageCompleted: Swift.Double?
         /// The Amazon Resource Name (ARN) of the resource scan.
         public var resourceScanId: Swift.String?
         /// The time that the resource scan was started.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Status of the resource scan. INPROGRESS The resource scan is still in progress. COMPLETE The resource scan is complete. EXPIRED The resource scan has expired. FAILED The resource scan has failed.
         public var status: CloudFormationClientTypes.ResourceScanStatus?
         /// The reason for the resource scan status, providing more information if a failure happened.
         public var statusReason: Swift.String?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             percentageCompleted: Swift.Double? = nil,
             resourceScanId: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: CloudFormationClientTypes.ResourceScanStatus? = nil,
             statusReason: Swift.String? = nil
         )
@@ -10358,7 +10360,7 @@ public struct RollbackStackInput {
 
 extension RollbackStackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RollbackStackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RollbackStackOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RollbackStackResult"]
@@ -10382,7 +10384,7 @@ public struct RollbackStackOutput {
 
 enum RollbackStackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10543,7 +10545,7 @@ public struct SetStackPolicyInput {
 
 extension SetStackPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetStackPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetStackPolicyOutput {
         return SetStackPolicyOutput()
     }
 }
@@ -10555,7 +10557,7 @@ public struct SetStackPolicyOutput {
 
 enum SetStackPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10618,7 +10620,7 @@ public struct SetTypeConfigurationInput {
 
 extension SetTypeConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetTypeConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetTypeConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SetTypeConfigurationResult"]
@@ -10642,7 +10644,7 @@ public struct SetTypeConfigurationOutput {
 
 enum SetTypeConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10701,7 +10703,7 @@ public struct SetTypeDefaultVersionInput {
 
 extension SetTypeDefaultVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetTypeDefaultVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetTypeDefaultVersionOutput {
         return SetTypeDefaultVersionOutput()
     }
 }
@@ -10713,7 +10715,7 @@ public struct SetTypeDefaultVersionOutput {
 
 enum SetTypeDefaultVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10777,7 +10779,7 @@ public struct SignalResourceInput {
 
 extension SignalResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SignalResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SignalResourceOutput {
         return SignalResourceOutput()
     }
 }
@@ -10789,7 +10791,7 @@ public struct SignalResourceOutput {
 
 enum SignalResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10842,9 +10844,9 @@ extension CloudFormationClientTypes {
         public var changeSetId: Swift.String?
         /// The time at which the stack was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time the stack was deleted.
-        public var deletionTime: ClientRuntime.Date?
+        public var deletionTime: Foundation.Date?
         /// A user-defined description associated with the stack.
         public var description: Swift.String?
         /// The detailed status of the resource or stack. If CONFIGURATION_COMPLETE is present, the resource or resource configuration phase has completed and the stabilization of the resources is in progress. The stack sets CONFIGURATION_COMPLETE when all of the resources in the stack have reached that event. For more information, see [CloudFormation stack deployment](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide.
@@ -10860,7 +10862,7 @@ extension CloudFormationClientTypes {
         /// Whether termination protection is enabled for the stack. For [nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html), termination protection is set on the root stack and can't be changed directly on the nested stack. For more information, see [Protecting a Stack From Being Deleted](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html) in the CloudFormation User Guide.
         public var enableTerminationProtection: Swift.Bool?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// Amazon SNS topic Amazon Resource Names (ARNs) to which stack related events are published.
         public var notificationARNs: [Swift.String]?
         /// A list of output structures.
@@ -10895,14 +10897,14 @@ extension CloudFormationClientTypes {
         public init(
             capabilities: [CloudFormationClientTypes.Capability]? = nil,
             changeSetId: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            deletionTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            deletionTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             detailedStatus: CloudFormationClientTypes.DetailedStatus? = nil,
             disableRollback: Swift.Bool? = nil,
             driftInformation: CloudFormationClientTypes.StackDriftInformation? = nil,
             enableTerminationProtection: Swift.Bool? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             notificationARNs: [Swift.String]? = nil,
             outputs: [CloudFormationClientTypes.Output]? = nil,
             parameters: [CloudFormationClientTypes.Parameter]? = nil,
@@ -10995,7 +10997,7 @@ extension CloudFormationClientTypes {
     /// Contains information about whether the stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted.
     public struct StackDriftInformation {
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
-        public var lastCheckTimestamp: ClientRuntime.Date?
+        public var lastCheckTimestamp: Foundation.Date?
         /// Status of the stack's actual configuration compared to its expected template configuration.
         ///
         /// * DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.
@@ -11009,7 +11011,7 @@ extension CloudFormationClientTypes {
         public var stackDriftStatus: CloudFormationClientTypes.StackDriftStatus?
 
         public init(
-            lastCheckTimestamp: ClientRuntime.Date? = nil,
+            lastCheckTimestamp: Foundation.Date? = nil,
             stackDriftStatus: CloudFormationClientTypes.StackDriftStatus? = nil
         )
         {
@@ -11035,7 +11037,7 @@ extension CloudFormationClientTypes {
     /// Contains information about whether the stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted.
     public struct StackDriftInformationSummary {
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
-        public var lastCheckTimestamp: ClientRuntime.Date?
+        public var lastCheckTimestamp: Foundation.Date?
         /// Status of the stack's actual configuration compared to its expected template configuration.
         ///
         /// * DRIFTED: The stack differs from its expected template configuration. A stack is considered to have drifted if one or more of its resources have drifted.
@@ -11049,7 +11051,7 @@ extension CloudFormationClientTypes {
         public var stackDriftStatus: CloudFormationClientTypes.StackDriftStatus?
 
         public init(
-            lastCheckTimestamp: ClientRuntime.Date? = nil,
+            lastCheckTimestamp: Foundation.Date? = nil,
             stackDriftStatus: CloudFormationClientTypes.StackDriftStatus? = nil
         )
         {
@@ -11172,7 +11174,7 @@ extension CloudFormationClientTypes {
         public var stackName: Swift.String?
         /// Time the status was updated.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             clientRequestToken: Swift.String? = nil,
@@ -11191,7 +11193,7 @@ extension CloudFormationClientTypes {
             resourceType: Swift.String? = nil,
             stackId: Swift.String? = nil,
             stackName: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.clientRequestToken = clientRequestToken
@@ -11253,7 +11255,7 @@ extension CloudFormationClientTypes {
         /// * UNKNOWN: This value is reserved for future use.
         public var driftStatus: CloudFormationClientTypes.StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection hasn't yet been performed.
-        public var lastDriftCheckTimestamp: ClientRuntime.Date?
+        public var lastDriftCheckTimestamp: Foundation.Date?
         /// The last unique ID of a StackSet operation performed on a stack instance.
         public var lastOperationId: Swift.String?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for [DeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html).
@@ -11289,7 +11291,7 @@ extension CloudFormationClientTypes {
         public init(
             account: Swift.String? = nil,
             driftStatus: CloudFormationClientTypes.StackDriftStatus? = nil,
-            lastDriftCheckTimestamp: ClientRuntime.Date? = nil,
+            lastDriftCheckTimestamp: Foundation.Date? = nil,
             lastOperationId: Swift.String? = nil,
             organizationalUnitId: Swift.String? = nil,
             parameterOverrides: [CloudFormationClientTypes.Parameter]? = nil,
@@ -11551,7 +11553,7 @@ extension CloudFormationClientTypes {
         public var stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus?
         /// Time at which the stack instance drift detection operation was initiated.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             logicalResourceId: Swift.String? = nil,
@@ -11561,7 +11563,7 @@ extension CloudFormationClientTypes {
             resourceType: Swift.String? = nil,
             stackId: Swift.String? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.logicalResourceId = logicalResourceId
@@ -11645,7 +11647,7 @@ extension CloudFormationClientTypes {
         /// * UNKNOWN: This value is reserved for future use.
         public var driftStatus: CloudFormationClientTypes.StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection hasn't yet been performed.
-        public var lastDriftCheckTimestamp: ClientRuntime.Date?
+        public var lastDriftCheckTimestamp: Foundation.Date?
         /// The last unique ID of a StackSet operation performed on a stack instance.
         public var lastOperationId: Swift.String?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for [DeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html).
@@ -11679,7 +11681,7 @@ extension CloudFormationClientTypes {
         public init(
             account: Swift.String? = nil,
             driftStatus: CloudFormationClientTypes.StackDriftStatus? = nil,
-            lastDriftCheckTimestamp: ClientRuntime.Date? = nil,
+            lastDriftCheckTimestamp: Foundation.Date? = nil,
             lastOperationId: Swift.String? = nil,
             organizationalUnitId: Swift.String? = nil,
             region: Swift.String? = nil,
@@ -11791,7 +11793,7 @@ extension CloudFormationClientTypes {
         public var stackName: Swift.String?
         /// Time the status was updated.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             description: Swift.String? = nil,
@@ -11804,7 +11806,7 @@ extension CloudFormationClientTypes {
             resourceType: Swift.String? = nil,
             stackId: Swift.String? = nil,
             stackName: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.description = description
@@ -11853,7 +11855,7 @@ extension CloudFormationClientTypes {
         public var driftInformation: CloudFormationClientTypes.StackResourceDriftInformation?
         /// Time the status was updated.
         /// This member is required.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The logical name of the resource specified in the template.
         /// This member is required.
         public var logicalResourceId: Swift.String?
@@ -11879,7 +11881,7 @@ extension CloudFormationClientTypes {
         public init(
             description: Swift.String? = nil,
             driftInformation: CloudFormationClientTypes.StackResourceDriftInformation? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             logicalResourceId: Swift.String? = nil,
             metadata: Swift.String? = nil,
             moduleInfo: CloudFormationClientTypes.ModuleInfo? = nil,
@@ -11965,7 +11967,7 @@ extension CloudFormationClientTypes {
         public var stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus?
         /// Time at which CloudFormation performed drift detection on the stack resource.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             actualProperties: Swift.String? = nil,
@@ -11978,7 +11980,7 @@ extension CloudFormationClientTypes {
             resourceType: Swift.String? = nil,
             stackId: Swift.String? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.actualProperties = actualProperties
@@ -12012,7 +12014,7 @@ extension CloudFormationClientTypes {
     /// Contains information about whether the resource's actual configuration differs, or has drifted, from its expected configuration.
     public struct StackResourceDriftInformation {
         /// When CloudFormation last checked if the resource had drifted from its expected configuration.
-        public var lastCheckTimestamp: ClientRuntime.Date?
+        public var lastCheckTimestamp: Foundation.Date?
         /// Status of the resource's actual configuration compared to its expected configuration
         ///
         /// * DELETED: The resource differs from its expected configuration in that it has been deleted.
@@ -12026,7 +12028,7 @@ extension CloudFormationClientTypes {
         public var stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus?
 
         public init(
-            lastCheckTimestamp: ClientRuntime.Date? = nil,
+            lastCheckTimestamp: Foundation.Date? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil
         )
         {
@@ -12052,7 +12054,7 @@ extension CloudFormationClientTypes {
     /// Summarizes information about whether the resource's actual configuration differs, or has drifted, from its expected configuration.
     public struct StackResourceDriftInformationSummary {
         /// When CloudFormation last checked if the resource had drifted from its expected configuration.
-        public var lastCheckTimestamp: ClientRuntime.Date?
+        public var lastCheckTimestamp: Foundation.Date?
         /// Status of the resource's actual configuration compared to its expected configuration.
         ///
         /// * DELETED: The resource differs from its expected configuration in that it has been deleted.
@@ -12066,7 +12068,7 @@ extension CloudFormationClientTypes {
         public var stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus?
 
         public init(
-            lastCheckTimestamp: ClientRuntime.Date? = nil,
+            lastCheckTimestamp: Foundation.Date? = nil,
             stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil
         )
         {
@@ -12136,7 +12138,7 @@ extension CloudFormationClientTypes {
         public var driftInformation: CloudFormationClientTypes.StackResourceDriftInformationSummary?
         /// Time the status was updated.
         /// This member is required.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The logical name of the resource specified in the template.
         /// This member is required.
         public var logicalResourceId: Swift.String?
@@ -12155,7 +12157,7 @@ extension CloudFormationClientTypes {
 
         public init(
             driftInformation: CloudFormationClientTypes.StackResourceDriftInformationSummary? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             logicalResourceId: Swift.String? = nil,
             moduleInfo: CloudFormationClientTypes.ModuleInfo? = nil,
             physicalResourceId: Swift.String? = nil,
@@ -12367,7 +12369,7 @@ extension CloudFormationClientTypes {
         /// The number of stack instances which match the expected template and parameter configuration of the stack set.
         public var inSyncStackInstancesCount: Swift.Int?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection hasn't yet been performed.
-        public var lastDriftCheckTimestamp: ClientRuntime.Date?
+        public var lastDriftCheckTimestamp: Foundation.Date?
         /// The total number of stack instances belonging to this stack set. The total number of stack instances is equal to the total of:
         ///
         /// * Stack instances that match the stack set configuration.
@@ -12386,7 +12388,7 @@ extension CloudFormationClientTypes {
             failedStackInstancesCount: Swift.Int? = nil,
             inProgressStackInstancesCount: Swift.Int? = nil,
             inSyncStackInstancesCount: Swift.Int? = nil,
-            lastDriftCheckTimestamp: ClientRuntime.Date? = nil,
+            lastDriftCheckTimestamp: Foundation.Date? = nil,
             totalStackInstancesCount: Swift.Int? = nil
         )
         {
@@ -12578,11 +12580,11 @@ extension CloudFormationClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role used to perform this stack set operation. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Define Permissions for Multiple Administrators](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html) in the CloudFormation User Guide.
         public var administrationRoleARN: Swift.String?
         /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested Regions, before actually creating the first stacks.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// [Service-managed permissions] The Organizations accounts affected by the stack operation.
         public var deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
         /// The time at which the stack set operation ended, across all accounts and Regions specified. Note that this doesn't necessarily mean that the stack set operation was successful, or even attempted, in each account or Region.
-        public var endTimestamp: ClientRuntime.Date?
+        public var endTimestamp: Foundation.Date?
         /// The name of the IAM execution role used to create or update the stack set. Use customized execution roles to control which stack resources users and groups can include in their stack sets.
         public var executionRoleName: Swift.String?
         /// The unique ID of a stack set operation.
@@ -12617,9 +12619,9 @@ extension CloudFormationClientTypes {
         public init(
             action: CloudFormationClientTypes.StackSetOperationAction? = nil,
             administrationRoleARN: Swift.String? = nil,
-            creationTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
             deploymentTargets: CloudFormationClientTypes.DeploymentTargets? = nil,
-            endTimestamp: ClientRuntime.Date? = nil,
+            endTimestamp: Foundation.Date? = nil,
             executionRoleName: Swift.String? = nil,
             operationId: Swift.String? = nil,
             operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences? = nil,
@@ -12945,9 +12947,9 @@ extension CloudFormationClientTypes {
         /// The type of operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack instances that are associated with the specified stack set. Update operations affect both the stack set itself and all associated stack set instances.
         public var action: CloudFormationClientTypes.StackSetOperationAction?
         /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested Regions, before actually creating the first stacks.
-        public var creationTimestamp: ClientRuntime.Date?
+        public var creationTimestamp: Foundation.Date?
         /// The time at which the stack set operation ended, across all accounts and Regions specified. Note that this doesn't necessarily mean that the stack set operation was successful, or even attempted, in each account or Region.
-        public var endTimestamp: ClientRuntime.Date?
+        public var endTimestamp: Foundation.Date?
         /// The unique ID of the stack set operation.
         public var operationId: Swift.String?
         /// The user-specified preferences for how CloudFormation performs a stack set operation. For more information about maximum concurrent accounts and failure tolerance, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options).
@@ -12973,8 +12975,8 @@ extension CloudFormationClientTypes {
 
         public init(
             action: CloudFormationClientTypes.StackSetOperationAction? = nil,
-            creationTimestamp: ClientRuntime.Date? = nil,
-            endTimestamp: ClientRuntime.Date? = nil,
+            creationTimestamp: Foundation.Date? = nil,
+            endTimestamp: Foundation.Date? = nil,
             operationId: Swift.String? = nil,
             operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences? = nil,
             status: CloudFormationClientTypes.StackSetOperationStatus? = nil,
@@ -13060,7 +13062,7 @@ extension CloudFormationClientTypes {
         /// * UNKNOWN: This value is reserved for future use.
         public var driftStatus: CloudFormationClientTypes.StackDriftStatus?
         /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection hasn't yet been performed.
-        public var lastDriftCheckTimestamp: ClientRuntime.Date?
+        public var lastDriftCheckTimestamp: Foundation.Date?
         /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
         public var managedExecution: CloudFormationClientTypes.ManagedExecution?
         /// Describes how the IAM roles required for stack set operations are created.
@@ -13080,7 +13082,7 @@ extension CloudFormationClientTypes {
             autoDeployment: CloudFormationClientTypes.AutoDeployment? = nil,
             description: Swift.String? = nil,
             driftStatus: CloudFormationClientTypes.StackDriftStatus? = nil,
-            lastDriftCheckTimestamp: ClientRuntime.Date? = nil,
+            lastDriftCheckTimestamp: Foundation.Date? = nil,
             managedExecution: CloudFormationClientTypes.ManagedExecution? = nil,
             permissionModel: CloudFormationClientTypes.PermissionModels? = nil,
             stackSetId: Swift.String? = nil,
@@ -13219,13 +13221,13 @@ extension CloudFormationClientTypes {
     public struct StackSummary {
         /// The time the stack was created.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time the stack was deleted.
-        public var deletionTime: ClientRuntime.Date?
+        public var deletionTime: Foundation.Date?
         /// Summarizes information about whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see [Detecting Unregulated Configuration Changes to Stacks and Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
         public var driftInformation: CloudFormationClientTypes.StackDriftInformationSummary?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see [Working with Nested Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
         public var parentId: Swift.String?
         /// For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see [Working with Nested Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
@@ -13244,10 +13246,10 @@ extension CloudFormationClientTypes {
         public var templateDescription: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            deletionTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            deletionTime: Foundation.Date? = nil,
             driftInformation: CloudFormationClientTypes.StackDriftInformationSummary? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             parentId: Swift.String? = nil,
             rootId: Swift.String? = nil,
             stackId: Swift.String? = nil,
@@ -13341,7 +13343,7 @@ public struct StartResourceScanInput {
 
 extension StartResourceScanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartResourceScanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartResourceScanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StartResourceScanResult"]
@@ -13365,7 +13367,7 @@ public struct StartResourceScanOutput {
 
 enum StartResourceScanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13425,7 +13427,7 @@ public struct StopStackSetOperationInput {
 
 extension StopStackSetOperationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopStackSetOperationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopStackSetOperationOutput {
         return StopStackSetOperationOutput()
     }
 }
@@ -13437,7 +13439,7 @@ public struct StopStackSetOperationOutput {
 
 enum StopStackSetOperationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13701,13 +13703,13 @@ extension CloudFormationClientTypes {
     /// The summary of a generated template.
     public struct TemplateSummary {
         /// The time the generated template was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}. For example, arn:aws:cloudformation:us-east-1:123456789012:generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc .
         public var generatedTemplateId: Swift.String?
         /// The name of the generated template.
         public var generatedTemplateName: Swift.String?
         /// The time the generated template was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The number of resources in the generated template. This is a total of resources in pending, in-progress, completed, and failed states.
         public var numberOfResources: Swift.Int?
         /// The status of the template generation. Supported values are:
@@ -13732,10 +13734,10 @@ extension CloudFormationClientTypes {
         public var statusReason: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             generatedTemplateId: Swift.String? = nil,
             generatedTemplateName: Swift.String? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             numberOfResources: Swift.Int? = nil,
             status: CloudFormationClientTypes.GeneratedTemplateStatus? = nil,
             statusReason: Swift.String? = nil
@@ -13835,7 +13837,7 @@ public struct TestTypeInput {
 
 extension TestTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TestTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TestTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["TestTypeResult"]
@@ -13859,7 +13861,7 @@ public struct TestTypeOutput {
 
 enum TestTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13969,7 +13971,7 @@ extension CloudFormationClientTypes {
         /// Whether this configuration data is the default configuration for the extension.
         public var isDefaultConfiguration: Swift.Bool?
         /// When the configuration data was last updated for this extension. If a configuration hasn't been set for a specified extension, CloudFormation returns null.
-        public var lastUpdated: ClientRuntime.Date?
+        public var lastUpdated: Foundation.Date?
         /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region.
         public var typeArn: Swift.String?
         /// The name of the extension.
@@ -13980,7 +13982,7 @@ extension CloudFormationClientTypes {
             arn: Swift.String? = nil,
             configuration: Swift.String? = nil,
             isDefaultConfiguration: Swift.Bool? = nil,
-            lastUpdated: ClientRuntime.Date? = nil,
+            lastUpdated: Foundation.Date? = nil,
             typeArn: Swift.String? = nil,
             typeName: Swift.String? = nil
         )
@@ -14216,7 +14218,7 @@ extension CloudFormationClientTypes {
         ///
         ///
         /// For all other extension types, CloudFormation returns null.
-        public var lastUpdated: ClientRuntime.Date?
+        public var lastUpdated: Foundation.Date?
         /// For public extensions that have been activated for this account and Region, the latest version of the public extension that is available. For any extensions other than activated third-arty extensions, CloudFormation returns null. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extension in this account and Region when a new version is released. For more information, see [Setting CloudFormation to automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
         public var latestPublicVersion: Swift.String?
         /// For public extensions that have been activated for this account and Region, the type name of the public extension. If you specified a TypeNameAlias when enabling the extension in this account and Region, CloudFormation treats that alias as the extension's type name within the account and Region, not the type name of the public extension. For more information, see [Specifying aliases to refer to extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias) in the CloudFormation User Guide.
@@ -14240,7 +14242,7 @@ extension CloudFormationClientTypes {
             defaultVersionId: Swift.String? = nil,
             description: Swift.String? = nil,
             isActivated: Swift.Bool? = nil,
-            lastUpdated: ClientRuntime.Date? = nil,
+            lastUpdated: Foundation.Date? = nil,
             latestPublicVersion: Swift.String? = nil,
             originalTypeName: Swift.String? = nil,
             publicVersionNumber: Swift.String? = nil,
@@ -14334,7 +14336,7 @@ extension CloudFormationClientTypes {
         /// For public extensions that have been activated for this account and Region, the version of the public extension to be used for CloudFormation operations in this account and Region. For any extensions other than activated third-arty extensions, CloudFormation returns null. How you specified AutoUpdate when enabling the extension affects whether CloudFormation automatically updates the extension in this account and Region when a new version is released. For more information, see [Setting CloudFormation to automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
         public var publicVersionNumber: Swift.String?
         /// When the version was registered.
-        public var timeCreated: ClientRuntime.Date?
+        public var timeCreated: Foundation.Date?
         /// The kind of extension.
         public var type: CloudFormationClientTypes.RegistryType?
         /// The name of the extension.
@@ -14347,7 +14349,7 @@ extension CloudFormationClientTypes {
             description: Swift.String? = nil,
             isDefaultVersion: Swift.Bool? = nil,
             publicVersionNumber: Swift.String? = nil,
-            timeCreated: ClientRuntime.Date? = nil,
+            timeCreated: Foundation.Date? = nil,
             type: CloudFormationClientTypes.RegistryType? = nil,
             typeName: Swift.String? = nil,
             versionId: Swift.String? = nil
@@ -14423,7 +14425,7 @@ public struct UpdateGeneratedTemplateInput {
 
 extension UpdateGeneratedTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateGeneratedTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateGeneratedTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateGeneratedTemplateResult"]
@@ -14447,7 +14449,7 @@ public struct UpdateGeneratedTemplateOutput {
 
 enum UpdateGeneratedTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14693,7 +14695,7 @@ public struct UpdateStackInstancesInput {
 
 extension UpdateStackInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateStackInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateStackInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateStackInstancesResult"]
@@ -14717,7 +14719,7 @@ public struct UpdateStackInstancesOutput {
 
 enum UpdateStackInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14736,7 +14738,7 @@ enum UpdateStackInstancesOutputError {
 
 extension UpdateStackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateStackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateStackOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateStackResult"]
@@ -14761,7 +14763,7 @@ public struct UpdateStackOutput {
 
 enum UpdateStackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14943,7 +14945,7 @@ public struct UpdateStackSetInput {
 
 extension UpdateStackSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateStackSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateStackSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateStackSetResult"]
@@ -14967,7 +14969,7 @@ public struct UpdateStackSetOutput {
 
 enum UpdateStackSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15022,7 +15024,7 @@ public struct UpdateTerminationProtectionInput {
 
 extension UpdateTerminationProtectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTerminationProtectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTerminationProtectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateTerminationProtectionResult"]
@@ -15046,7 +15048,7 @@ public struct UpdateTerminationProtectionOutput {
 
 enum UpdateTerminationProtectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15094,7 +15096,7 @@ public struct ValidateTemplateInput {
 
 extension ValidateTemplateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ValidateTemplateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ValidateTemplateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ValidateTemplateResult"]
@@ -15139,7 +15141,7 @@ public struct ValidateTemplateOutput {
 
 enum ValidateTemplateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

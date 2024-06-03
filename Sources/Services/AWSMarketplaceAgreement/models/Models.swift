@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -209,7 +211,7 @@ extension MarketplaceAgreementClientTypes {
     /// A summary of the agreement, including top-level attributes (for example, the agreement ID, version, proposer, and acceptor).
     public struct AgreementViewSummary {
         /// The date and time that the agreement was accepted.
-        public var acceptanceTime: ClientRuntime.Date?
+        public var acceptanceTime: Foundation.Date?
         /// Details of the party accepting the agreement terms. This is commonly the buyer for PurchaseAgreement.
         public var acceptor: MarketplaceAgreementClientTypes.Acceptor?
         /// The unique identifier of the agreement.
@@ -217,25 +219,25 @@ extension MarketplaceAgreementClientTypes {
         /// The type of agreement. Values are PurchaseAgreement or VendorInsightsAgreement.
         public var agreementType: Swift.String?
         /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// A summary of the proposal
         public var proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary?
         /// Details of the party proposing the agreement terms, most commonly the seller for PurchaseAgreement.
         public var proposer: MarketplaceAgreementClientTypes.Proposer?
         /// The date and time when the agreement starts.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The current status of the agreement.
         public var status: MarketplaceAgreementClientTypes.AgreementStatus?
 
         public init(
-            acceptanceTime: ClientRuntime.Date? = nil,
+            acceptanceTime: Foundation.Date? = nil,
             acceptor: MarketplaceAgreementClientTypes.Acceptor? = nil,
             agreementId: Swift.String? = nil,
             agreementType: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
             proposer: MarketplaceAgreementClientTypes.Proposer? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: MarketplaceAgreementClientTypes.AgreementStatus? = nil
         )
         {
@@ -450,7 +452,7 @@ public struct DescribeAgreementInput {
 
 extension DescribeAgreementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAgreementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAgreementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -471,7 +473,7 @@ extension DescribeAgreementOutput {
 
 public struct DescribeAgreementOutput {
     /// The date and time the offer was accepted or the agreement was created. AcceptanceTime and StartTime can differ for future dated agreements (FDAs).
-    public var acceptanceTime: ClientRuntime.Date?
+    public var acceptanceTime: Foundation.Date?
     /// The details of the party accepting the agreement terms. This is commonly the buyer for PurchaseAgreement.
     public var acceptor: MarketplaceAgreementClientTypes.Acceptor?
     /// The unique identifier of the agreement.
@@ -479,7 +481,7 @@ public struct DescribeAgreementOutput {
     /// The type of agreement. Values are PurchaseAgreement or VendorInsightsAgreement.
     public var agreementType: Swift.String?
     /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The estimated cost of the agreement.
     public var estimatedCharges: MarketplaceAgreementClientTypes.EstimatedCharges?
     /// A summary of the proposal received from the proposer.
@@ -487,7 +489,7 @@ public struct DescribeAgreementOutput {
     /// The details of the party proposing the agreement terms. This is commonly the seller for PurchaseAgreement.
     public var proposer: MarketplaceAgreementClientTypes.Proposer?
     /// The date and time when the agreement starts.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The current status of the agreement. Statuses include:
     ///
     /// * ACTIVE – The terms of the agreement are active.
@@ -510,15 +512,15 @@ public struct DescribeAgreementOutput {
     public var status: MarketplaceAgreementClientTypes.AgreementStatus?
 
     public init(
-        acceptanceTime: ClientRuntime.Date? = nil,
+        acceptanceTime: Foundation.Date? = nil,
         acceptor: MarketplaceAgreementClientTypes.Acceptor? = nil,
         agreementId: Swift.String? = nil,
         agreementType: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         estimatedCharges: MarketplaceAgreementClientTypes.EstimatedCharges? = nil,
         proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
         proposer: MarketplaceAgreementClientTypes.Proposer? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: MarketplaceAgreementClientTypes.AgreementStatus? = nil
     )
     {
@@ -537,7 +539,7 @@ public struct DescribeAgreementOutput {
 
 enum DescribeAgreementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -812,7 +814,7 @@ public struct GetAgreementTermsInput {
 
 extension GetAgreementTermsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAgreementTermsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAgreementTermsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -841,7 +843,7 @@ public struct GetAgreementTermsOutput {
 
 enum GetAgreementTermsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1312,11 +1314,11 @@ extension MarketplaceAgreementClientTypes {
         /// The price that the customer would pay on the scheduled date (chargeDate).
         public var chargeAmount: Swift.String?
         /// The date that the customer would pay the price defined in this payment schedule term. Invoices are generated on the date provided.
-        public var chargeDate: ClientRuntime.Date?
+        public var chargeDate: Foundation.Date?
 
         public init(
             chargeAmount: Swift.String? = nil,
-            chargeDate: ClientRuntime.Date? = nil
+            chargeDate: Foundation.Date? = nil
         )
         {
             self.chargeAmount = chargeAmount
@@ -1393,7 +1395,7 @@ public struct SearchAgreementsInput {
 
 extension SearchAgreementsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchAgreementsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchAgreementsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1422,7 +1424,7 @@ public struct SearchAgreementsOutput {
 
 enum SearchAgreementsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1821,16 +1823,16 @@ extension MarketplaceAgreementClientTypes {
         /// Defines the duration that the agreement remains active. If AgreementStartDate isn’t provided, the agreement duration is relative to the agreement signature time. The duration is represented in the ISO_8601 format.
         public var agreementDuration: Swift.String?
         /// Defines the date when the agreement ends. The agreement ends at 23:59:59.999 UTC on the date provided. If AgreementEndDate isn’t provided, the agreement end date is determined by the validity of individual terms.
-        public var agreementEndDate: ClientRuntime.Date?
+        public var agreementEndDate: Foundation.Date?
         /// Defines the date when agreement starts. The agreement starts at 00:00:00.000 UTC on the date provided. If AgreementStartDate isn’t provided, the agreement start date is determined based on agreement signature time.
-        public var agreementStartDate: ClientRuntime.Date?
+        public var agreementStartDate: Foundation.Date?
         /// Category of the term being updated.
         public var type: Swift.String?
 
         public init(
             agreementDuration: Swift.String? = nil,
-            agreementEndDate: ClientRuntime.Date? = nil,
-            agreementStartDate: ClientRuntime.Date? = nil,
+            agreementEndDate: Foundation.Date? = nil,
+            agreementStartDate: Foundation.Date? = nil,
             type: Swift.String? = nil
         )
         {

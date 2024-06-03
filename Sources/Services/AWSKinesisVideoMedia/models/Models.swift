@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -119,7 +122,7 @@ public struct GetMediaInput {
 
 extension GetMediaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMediaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMediaOutput {
         var value = GetMediaOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -180,11 +183,11 @@ public struct GetMediaOutput {
     /// * 4506 - Unable to find the KMS key specified in the stream
     ///
     /// * 5000 - Internal error
-    public var payload: ClientRuntime.ByteStream?
+    public var payload: Smithy.ByteStream?
 
     public init(
         contentType: Swift.String? = nil,
-        payload: ClientRuntime.ByteStream? = nil
+        payload: Smithy.ByteStream? = nil
     )
     {
         self.contentType = contentType
@@ -194,7 +197,7 @@ public struct GetMediaOutput {
 
 enum GetMediaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -402,13 +405,13 @@ extension KinesisVideoMediaClientTypes {
         /// This member is required.
         public var startSelectorType: KinesisVideoMediaClientTypes.StartSelectorType?
         /// A timestamp value. This value is required if you choose the PRODUCER_TIMESTAMP or the SERVER_TIMESTAMP as the startSelectorType. The GetMedia API then starts with the chunk containing the fragment that has the specified timestamp.
-        public var startTimestamp: ClientRuntime.Date?
+        public var startTimestamp: Foundation.Date?
 
         public init(
             afterFragmentNumber: Swift.String? = nil,
             continuationToken: Swift.String? = nil,
             startSelectorType: KinesisVideoMediaClientTypes.StartSelectorType? = nil,
-            startTimestamp: ClientRuntime.Date? = nil
+            startTimestamp: Foundation.Date? = nil
         )
         {
             self.afterFragmentNumber = afterFragmentNumber

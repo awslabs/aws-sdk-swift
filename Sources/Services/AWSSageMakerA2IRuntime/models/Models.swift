@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -96,7 +99,7 @@ public struct DeleteHumanLoopInput {
 
 extension DeleteHumanLoopOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteHumanLoopOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteHumanLoopOutput {
         return DeleteHumanLoopOutput()
     }
 }
@@ -108,7 +111,7 @@ public struct DeleteHumanLoopOutput {
 
 enum DeleteHumanLoopOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -148,7 +151,7 @@ public struct DescribeHumanLoopInput {
 
 extension DescribeHumanLoopOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeHumanLoopOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeHumanLoopOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -168,7 +171,7 @@ extension DescribeHumanLoopOutput {
 public struct DescribeHumanLoopOutput {
     /// The creation time when Amazon Augmented AI created the human loop.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// A failure code that identifies the type of failure. Possible values: ValidationError, Expired, InternalError
     public var failureCode: Swift.String?
     /// The reason why a human loop failed. The failure reason is returned when the status of the human loop is Failed.
@@ -189,7 +192,7 @@ public struct DescribeHumanLoopOutput {
     public var humanLoopStatus: SageMakerA2IRuntimeClientTypes.HumanLoopStatus?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         failureCode: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         flowDefinitionArn: Swift.String? = nil,
@@ -212,7 +215,7 @@ public struct DescribeHumanLoopOutput {
 
 enum DescribeHumanLoopOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -360,7 +363,7 @@ extension SageMakerA2IRuntimeClientTypes {
     /// Summary information about the human loop.
     public struct HumanLoopSummary {
         /// When Amazon Augmented AI created the human loop.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The reason why the human loop failed. A failure reason is returned when the status of the human loop is Failed.
         public var failureReason: Swift.String?
         /// The Amazon Resource Name (ARN) of the flow definition used to configure the human loop.
@@ -371,7 +374,7 @@ extension SageMakerA2IRuntimeClientTypes {
         public var humanLoopStatus: SageMakerA2IRuntimeClientTypes.HumanLoopStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
             flowDefinitionArn: Swift.String? = nil,
             humanLoopName: Swift.String? = nil,
@@ -427,32 +430,32 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListHumanLoopsInput {
 
-    static func queryItemProvider(_ value: ListHumanLoopsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListHumanLoopsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let flowDefinitionArn = value.flowDefinitionArn else {
             let message = "Creating a URL Query Item failed. flowDefinitionArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let flowDefinitionArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "FlowDefinitionArn".urlPercentEncoding(), value: Swift.String(flowDefinitionArn).urlPercentEncoding())
+        let flowDefinitionArnQueryItem = Smithy.URIQueryItem(name: "FlowDefinitionArn".urlPercentEncoding(), value: Swift.String(flowDefinitionArn).urlPercentEncoding())
         items.append(flowDefinitionArnQueryItem)
         if let creationTimeBefore = value.creationTimeBefore {
-            let creationTimeBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "CreationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
+            let creationTimeBeforeQueryItem = Smithy.URIQueryItem(name: "CreationTimeBefore".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeBefore)).urlPercentEncoding())
             items.append(creationTimeBeforeQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let sortOrder = value.sortOrder {
-            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "SortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "SortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
         }
         if let creationTimeAfter = value.creationTimeAfter {
-            let creationTimeAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "CreationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
+            let creationTimeAfterQueryItem = Smithy.URIQueryItem(name: "CreationTimeAfter".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: creationTimeAfter)).urlPercentEncoding())
             items.append(creationTimeAfterQueryItem)
         }
         return items
@@ -468,9 +471,9 @@ extension ListHumanLoopsInput {
 
 public struct ListHumanLoopsInput {
     /// (Optional) The timestamp of the date when you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
-    public var creationTimeAfter: ClientRuntime.Date?
+    public var creationTimeAfter: Foundation.Date?
     /// (Optional) The timestamp of the date before which you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
-    public var creationTimeBefore: ClientRuntime.Date?
+    public var creationTimeBefore: Foundation.Date?
     /// The Amazon Resource Name (ARN) of a flow definition.
     /// This member is required.
     public var flowDefinitionArn: Swift.String?
@@ -482,8 +485,8 @@ public struct ListHumanLoopsInput {
     public var sortOrder: SageMakerA2IRuntimeClientTypes.SortOrder?
 
     public init(
-        creationTimeAfter: ClientRuntime.Date? = nil,
-        creationTimeBefore: ClientRuntime.Date? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
         flowDefinitionArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -501,7 +504,7 @@ public struct ListHumanLoopsInput {
 
 extension ListHumanLoopsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListHumanLoopsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListHumanLoopsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -531,7 +534,7 @@ public struct ListHumanLoopsOutput {
 
 enum ListHumanLoopsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -698,7 +701,7 @@ public struct StartHumanLoopInput {
 
 extension StartHumanLoopOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartHumanLoopOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartHumanLoopOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -722,7 +725,7 @@ public struct StartHumanLoopOutput {
 
 enum StartHumanLoopOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -768,7 +771,7 @@ public struct StopHumanLoopInput {
 
 extension StopHumanLoopOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopHumanLoopOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopHumanLoopOutput {
         return StopHumanLoopOutput()
     }
 }
@@ -780,7 +783,7 @@ public struct StopHumanLoopOutput {
 
 enum StopHumanLoopOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

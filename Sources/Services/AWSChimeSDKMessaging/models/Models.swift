@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -53,14 +56,14 @@ extension ChimeSDKMessagingClientTypes {
     /// Summary of the membership details of an AppInstanceUser.
     public struct AppInstanceUserMembershipSummary {
         /// The time at which an AppInstanceUser last marked a channel as read.
-        public var readMarkerTimestamp: ClientRuntime.Date?
+        public var readMarkerTimestamp: Foundation.Date?
         /// The ID of the SubChannel that the AppInstanceUser is a member of.
         public var subChannelId: Swift.String?
         /// The type of ChannelMembership.
         public var type: ChimeSDKMessagingClientTypes.ChannelMembershipType?
 
         public init(
-            readMarkerTimestamp: ClientRuntime.Date? = nil,
+            readMarkerTimestamp: Foundation.Date? = nil,
             subChannelId: Swift.String? = nil,
             type: ChimeSDKMessagingClientTypes.ChannelMembershipType? = nil
         )
@@ -75,8 +78,8 @@ extension ChimeSDKMessagingClientTypes {
 
 extension AssociateChannelFlowInput {
 
-    static func headerProvider(_ value: AssociateChannelFlowInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AssociateChannelFlowInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -127,7 +130,7 @@ public struct AssociateChannelFlowInput {
 
 extension AssociateChannelFlowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateChannelFlowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateChannelFlowOutput {
         return AssociateChannelFlowOutput()
     }
 }
@@ -139,7 +142,7 @@ public struct AssociateChannelFlowOutput {
 
 enum AssociateChannelFlowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -283,8 +286,8 @@ extension ChimeSDKMessagingClientTypes {
 
 extension BatchCreateChannelMembershipInput {
 
-    static func headerProvider(_ value: BatchCreateChannelMembershipInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: BatchCreateChannelMembershipInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -294,9 +297,9 @@ extension BatchCreateChannelMembershipInput {
 
 extension BatchCreateChannelMembershipInput {
 
-    static func queryItemProvider(_ value: BatchCreateChannelMembershipInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "batch-create"))
+    static func queryItemProvider(_ value: BatchCreateChannelMembershipInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "batch-create"))
         return items
     }
 }
@@ -354,7 +357,7 @@ public struct BatchCreateChannelMembershipInput {
 
 extension BatchCreateChannelMembershipOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchCreateChannelMembershipOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchCreateChannelMembershipOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -383,7 +386,7 @@ public struct BatchCreateChannelMembershipOutput {
 
 enum BatchCreateChannelMembershipOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -438,15 +441,15 @@ extension ChimeSDKMessagingClientTypes {
         /// The AppInstanceUser who created the channel.
         public var createdBy: ChimeSDKMessagingClientTypes.Identity?
         /// The time at which the AppInstanceUser created the channel.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The attributes required to configure and create an elastic channel. An elastic channel can support a maximum of 1-million members.
         public var elasticChannelConfiguration: ChimeSDKMessagingClientTypes.ElasticChannelConfiguration?
         /// Settings that control when a channel expires.
         public var expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings?
         /// The time at which a member sent the last message in the channel.
-        public var lastMessageTimestamp: ClientRuntime.Date?
+        public var lastMessageTimestamp: Foundation.Date?
         /// The time at which a channel was last updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The channel's metadata.
         public var metadata: Swift.String?
         /// The mode of the channel.
@@ -460,11 +463,11 @@ extension ChimeSDKMessagingClientTypes {
             channelArn: Swift.String? = nil,
             channelFlowArn: Swift.String? = nil,
             createdBy: ChimeSDKMessagingClientTypes.Identity? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             elasticChannelConfiguration: ChimeSDKMessagingClientTypes.ElasticChannelConfiguration? = nil,
             expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings? = nil,
-            lastMessageTimestamp: ClientRuntime.Date? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            lastMessageTimestamp: Foundation.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             metadata: Swift.String? = nil,
             mode: ChimeSDKMessagingClientTypes.ChannelMode? = nil,
             name: Swift.String? = nil,
@@ -560,14 +563,14 @@ extension ChimeSDKMessagingClientTypes {
         /// The AppInstanceUser who created the ban.
         public var createdBy: ChimeSDKMessagingClientTypes.Identity?
         /// The time at which the ban was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The member being banned from the channel.
         public var member: ChimeSDKMessagingClientTypes.Identity?
 
         public init(
             channelArn: Swift.String? = nil,
             createdBy: ChimeSDKMessagingClientTypes.Identity? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             member: ChimeSDKMessagingClientTypes.Identity? = nil
         )
         {
@@ -631,9 +634,9 @@ extension ChimeSDKMessagingClientTypes {
         /// The ARN of the channel flow.
         public var channelFlowArn: Swift.String?
         /// The time at which the channel flow was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The time at which a channel flow was updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The name of the channel flow.
         public var name: Swift.String?
         /// Information about the processor Lambda functions.
@@ -641,8 +644,8 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             channelFlowArn: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             processors: [ChimeSDKMessagingClientTypes.Processor]? = nil
         )
@@ -659,9 +662,9 @@ extension ChimeSDKMessagingClientTypes {
 
 extension ChannelFlowCallbackInput {
 
-    static func queryItemProvider(_ value: ChannelFlowCallbackInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "channel-flow-callback"))
+    static func queryItemProvider(_ value: ChannelFlowCallbackInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "channel-flow-callback"))
         return items
     }
 }
@@ -715,7 +718,7 @@ public struct ChannelFlowCallbackInput {
 
 extension ChannelFlowCallbackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChannelFlowCallbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ChannelFlowCallbackOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -744,7 +747,7 @@ public struct ChannelFlowCallbackOutput {
 
 enum ChannelFlowCallbackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -825,11 +828,11 @@ extension ChimeSDKMessagingClientTypes {
         /// The ARN of the member's channel.
         public var channelArn: Swift.String?
         /// The time at which the channel membership was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The identifier of the member who invited another member.
         public var invitedBy: ChimeSDKMessagingClientTypes.Identity?
         /// The time at which a channel membership was last updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The data of the channel member.
         public var member: ChimeSDKMessagingClientTypes.Identity?
         /// The ID of the SubChannel that a user belongs to.
@@ -839,9 +842,9 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             channelArn: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             invitedBy: ChimeSDKMessagingClientTypes.Identity? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             member: ChimeSDKMessagingClientTypes.Identity? = nil,
             subChannelId: Swift.String? = nil,
             type: ChimeSDKMessagingClientTypes.ChannelMembershipType? = nil
@@ -1016,11 +1019,11 @@ extension ChimeSDKMessagingClientTypes {
         /// The content type of the channel message. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and application/amz-chime-lex-error for failure responses. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var contentType: Swift.String?
         /// The time at which the message was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The time at which a message was edited.
-        public var lastEditedTimestamp: ClientRuntime.Date?
+        public var lastEditedTimestamp: Foundation.Date?
         /// The time at which a message was updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]?
         /// The ID of a message.
@@ -1046,9 +1049,9 @@ extension ChimeSDKMessagingClientTypes {
             channelArn: Swift.String? = nil,
             content: Swift.String? = nil,
             contentType: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
-            lastEditedTimestamp: ClientRuntime.Date? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            lastEditedTimestamp: Foundation.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]? = nil,
             messageId: Swift.String? = nil,
             metadata: Swift.String? = nil,
@@ -1272,11 +1275,11 @@ extension ChimeSDKMessagingClientTypes {
         /// The content type of the channel message listed in the summary. For Amazon Lex V2 bot responses, the content type is application/amz-chime-lex-msgs for success responses and application/amz-chime-lex-error for failure responses. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var contentType: Swift.String?
         /// The time at which the message summary was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The time at which a message was last edited.
-        public var lastEditedTimestamp: ClientRuntime.Date?
+        public var lastEditedTimestamp: Foundation.Date?
         /// The time at which a message was last updated.
-        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        public var lastUpdatedTimestamp: Foundation.Date?
         /// The attributes for the channel message. For Amazon Lex V2 bot responses, the attributes are mapped to specific fields from the bot. For more information, refer to [Processing responses from an AppInstanceBot](https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html) in the Amazon Chime SDK Messaging Developer Guide.
         public var messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]?
         /// The ID of the message.
@@ -1297,9 +1300,9 @@ extension ChimeSDKMessagingClientTypes {
         public init(
             content: Swift.String? = nil,
             contentType: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
-            lastEditedTimestamp: ClientRuntime.Date? = nil,
-            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            lastEditedTimestamp: Foundation.Date? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
             messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]? = nil,
             messageId: Swift.String? = nil,
             metadata: Swift.String? = nil,
@@ -1433,14 +1436,14 @@ extension ChimeSDKMessagingClientTypes {
         /// The AppInstanceUser who created the moderator.
         public var createdBy: ChimeSDKMessagingClientTypes.Identity?
         /// The time at which the moderator was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The moderator's data.
         public var moderator: ChimeSDKMessagingClientTypes.Identity?
 
         public init(
             channelArn: Swift.String? = nil,
             createdBy: ChimeSDKMessagingClientTypes.Identity? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             moderator: ChimeSDKMessagingClientTypes.Identity? = nil
         )
         {
@@ -1534,7 +1537,7 @@ extension ChimeSDKMessagingClientTypes {
         /// The ARN of the channel.
         public var channelArn: Swift.String?
         /// The time at which the last persistent message visible to the caller in a channel was sent.
-        public var lastMessageTimestamp: ClientRuntime.Date?
+        public var lastMessageTimestamp: Foundation.Date?
         /// The metadata of the channel.
         public var metadata: Swift.String?
         /// The mode of the channel.
@@ -1546,7 +1549,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init(
             channelArn: Swift.String? = nil,
-            lastMessageTimestamp: ClientRuntime.Date? = nil,
+            lastMessageTimestamp: Foundation.Date? = nil,
             metadata: Swift.String? = nil,
             mode: ChimeSDKMessagingClientTypes.ChannelMode? = nil,
             name: Swift.String? = nil,
@@ -1609,8 +1612,8 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension CreateChannelBanInput {
 
-    static func headerProvider(_ value: CreateChannelBanInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateChannelBanInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -1661,7 +1664,7 @@ public struct CreateChannelBanInput {
 
 extension CreateChannelBanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChannelBanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChannelBanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1690,7 +1693,7 @@ public struct CreateChannelBanOutput {
 
 enum CreateChannelBanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1767,7 +1770,7 @@ public struct CreateChannelFlowInput {
 
 extension CreateChannelFlowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChannelFlowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChannelFlowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1791,7 +1794,7 @@ public struct CreateChannelFlowOutput {
 
 enum CreateChannelFlowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1817,8 +1820,8 @@ extension CreateChannelInput: Swift.CustomDebugStringConvertible {
 
 extension CreateChannelInput {
 
-    static func headerProvider(_ value: CreateChannelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateChannelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -1918,8 +1921,8 @@ public struct CreateChannelInput {
 
 extension CreateChannelMembershipInput {
 
-    static func headerProvider(_ value: CreateChannelMembershipInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateChannelMembershipInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -1981,7 +1984,7 @@ public struct CreateChannelMembershipInput {
 
 extension CreateChannelMembershipOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChannelMembershipOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChannelMembershipOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2015,7 +2018,7 @@ public struct CreateChannelMembershipOutput {
 
 enum CreateChannelMembershipOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2037,8 +2040,8 @@ enum CreateChannelMembershipOutputError {
 
 extension CreateChannelModeratorInput {
 
-    static func headerProvider(_ value: CreateChannelModeratorInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateChannelModeratorInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -2089,7 +2092,7 @@ public struct CreateChannelModeratorInput {
 
 extension CreateChannelModeratorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChannelModeratorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChannelModeratorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2118,7 +2121,7 @@ public struct CreateChannelModeratorOutput {
 
 enum CreateChannelModeratorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2139,7 +2142,7 @@ enum CreateChannelModeratorOutputError {
 
 extension CreateChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2163,7 +2166,7 @@ public struct CreateChannelOutput {
 
 enum CreateChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2184,8 +2187,8 @@ enum CreateChannelOutputError {
 
 extension DeleteChannelBanInput {
 
-    static func headerProvider(_ value: DeleteChannelBanInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteChannelBanInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -2231,7 +2234,7 @@ public struct DeleteChannelBanInput {
 
 extension DeleteChannelBanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelBanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelBanOutput {
         return DeleteChannelBanOutput()
     }
 }
@@ -2243,7 +2246,7 @@ public struct DeleteChannelBanOutput {
 
 enum DeleteChannelBanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2285,7 +2288,7 @@ public struct DeleteChannelFlowInput {
 
 extension DeleteChannelFlowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelFlowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelFlowOutput {
         return DeleteChannelFlowOutput()
     }
 }
@@ -2297,7 +2300,7 @@ public struct DeleteChannelFlowOutput {
 
 enum DeleteChannelFlowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2317,8 +2320,8 @@ enum DeleteChannelFlowOutputError {
 
 extension DeleteChannelInput {
 
-    static func headerProvider(_ value: DeleteChannelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteChannelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -2356,8 +2359,8 @@ public struct DeleteChannelInput {
 
 extension DeleteChannelMembershipInput {
 
-    static func headerProvider(_ value: DeleteChannelMembershipInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteChannelMembershipInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -2367,10 +2370,10 @@ extension DeleteChannelMembershipInput {
 
 extension DeleteChannelMembershipInput {
 
-    static func queryItemProvider(_ value: DeleteChannelMembershipInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteChannelMembershipInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let subChannelId = value.subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+            let subChannelIdQueryItem = Smithy.URIQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
             items.append(subChannelIdQueryItem)
         }
         return items
@@ -2419,7 +2422,7 @@ public struct DeleteChannelMembershipInput {
 
 extension DeleteChannelMembershipOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelMembershipOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelMembershipOutput {
         return DeleteChannelMembershipOutput()
     }
 }
@@ -2431,7 +2434,7 @@ public struct DeleteChannelMembershipOutput {
 
 enum DeleteChannelMembershipOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2451,8 +2454,8 @@ enum DeleteChannelMembershipOutputError {
 
 extension DeleteChannelMessageInput {
 
-    static func headerProvider(_ value: DeleteChannelMessageInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteChannelMessageInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -2462,10 +2465,10 @@ extension DeleteChannelMessageInput {
 
 extension DeleteChannelMessageInput {
 
-    static func queryItemProvider(_ value: DeleteChannelMessageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteChannelMessageInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let subChannelId = value.subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+            let subChannelIdQueryItem = Smithy.URIQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
             items.append(subChannelIdQueryItem)
         }
         return items
@@ -2514,7 +2517,7 @@ public struct DeleteChannelMessageInput {
 
 extension DeleteChannelMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelMessageOutput {
         return DeleteChannelMessageOutput()
     }
 }
@@ -2526,7 +2529,7 @@ public struct DeleteChannelMessageOutput {
 
 enum DeleteChannelMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2545,8 +2548,8 @@ enum DeleteChannelMessageOutputError {
 
 extension DeleteChannelModeratorInput {
 
-    static func headerProvider(_ value: DeleteChannelModeratorInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteChannelModeratorInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -2592,7 +2595,7 @@ public struct DeleteChannelModeratorInput {
 
 extension DeleteChannelModeratorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelModeratorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelModeratorOutput {
         return DeleteChannelModeratorOutput()
     }
 }
@@ -2604,7 +2607,7 @@ public struct DeleteChannelModeratorOutput {
 
 enum DeleteChannelModeratorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2623,7 +2626,7 @@ enum DeleteChannelModeratorOutputError {
 
 extension DeleteChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelOutput {
         return DeleteChannelOutput()
     }
 }
@@ -2635,7 +2638,7 @@ public struct DeleteChannelOutput {
 
 enum DeleteChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2678,7 +2681,7 @@ public struct DeleteMessagingStreamingConfigurationsInput {
 
 extension DeleteMessagingStreamingConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMessagingStreamingConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMessagingStreamingConfigurationsOutput {
         return DeleteMessagingStreamingConfigurationsOutput()
     }
 }
@@ -2690,7 +2693,7 @@ public struct DeleteMessagingStreamingConfigurationsOutput {
 
 enum DeleteMessagingStreamingConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2709,8 +2712,8 @@ enum DeleteMessagingStreamingConfigurationsOutputError {
 
 extension DescribeChannelBanInput {
 
-    static func headerProvider(_ value: DescribeChannelBanInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeChannelBanInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -2756,7 +2759,7 @@ public struct DescribeChannelBanInput {
 
 extension DescribeChannelBanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChannelBanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChannelBanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2780,7 +2783,7 @@ public struct DescribeChannelBanOutput {
 
 enum DescribeChannelBanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2823,7 +2826,7 @@ public struct DescribeChannelFlowInput {
 
 extension DescribeChannelFlowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChannelFlowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChannelFlowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2847,7 +2850,7 @@ public struct DescribeChannelFlowOutput {
 
 enum DescribeChannelFlowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2866,8 +2869,8 @@ enum DescribeChannelFlowOutputError {
 
 extension DescribeChannelInput {
 
-    static func headerProvider(_ value: DescribeChannelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeChannelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -2905,8 +2908,8 @@ public struct DescribeChannelInput {
 
 extension DescribeChannelMembershipForAppInstanceUserInput {
 
-    static func headerProvider(_ value: DescribeChannelMembershipForAppInstanceUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeChannelMembershipForAppInstanceUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -2916,14 +2919,14 @@ extension DescribeChannelMembershipForAppInstanceUserInput {
 
 extension DescribeChannelMembershipForAppInstanceUserInput {
 
-    static func queryItemProvider(_ value: DescribeChannelMembershipForAppInstanceUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "app-instance-user-membership"))
+    static func queryItemProvider(_ value: DescribeChannelMembershipForAppInstanceUserInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "scope", value: "app-instance-user-membership"))
         guard let appInstanceUserArn = value.appInstanceUserArn else {
             let message = "Creating a URL Query Item failed. appInstanceUserArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let appInstanceUserArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+        let appInstanceUserArnQueryItem = Smithy.URIQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
         items.append(appInstanceUserArnQueryItem)
         return items
     }
@@ -2964,7 +2967,7 @@ public struct DescribeChannelMembershipForAppInstanceUserInput {
 
 extension DescribeChannelMembershipForAppInstanceUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChannelMembershipForAppInstanceUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChannelMembershipForAppInstanceUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2988,7 +2991,7 @@ public struct DescribeChannelMembershipForAppInstanceUserOutput {
 
 enum DescribeChannelMembershipForAppInstanceUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3007,8 +3010,8 @@ enum DescribeChannelMembershipForAppInstanceUserOutputError {
 
 extension DescribeChannelMembershipInput {
 
-    static func headerProvider(_ value: DescribeChannelMembershipInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeChannelMembershipInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -3018,10 +3021,10 @@ extension DescribeChannelMembershipInput {
 
 extension DescribeChannelMembershipInput {
 
-    static func queryItemProvider(_ value: DescribeChannelMembershipInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeChannelMembershipInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let subChannelId = value.subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+            let subChannelIdQueryItem = Smithy.URIQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
             items.append(subChannelIdQueryItem)
         }
         return items
@@ -3070,7 +3073,7 @@ public struct DescribeChannelMembershipInput {
 
 extension DescribeChannelMembershipOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChannelMembershipOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChannelMembershipOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3094,7 +3097,7 @@ public struct DescribeChannelMembershipOutput {
 
 enum DescribeChannelMembershipOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3114,8 +3117,8 @@ enum DescribeChannelMembershipOutputError {
 
 extension DescribeChannelModeratedByAppInstanceUserInput {
 
-    static func headerProvider(_ value: DescribeChannelModeratedByAppInstanceUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeChannelModeratedByAppInstanceUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -3125,14 +3128,14 @@ extension DescribeChannelModeratedByAppInstanceUserInput {
 
 extension DescribeChannelModeratedByAppInstanceUserInput {
 
-    static func queryItemProvider(_ value: DescribeChannelModeratedByAppInstanceUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "app-instance-user-moderated-channel"))
+    static func queryItemProvider(_ value: DescribeChannelModeratedByAppInstanceUserInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "scope", value: "app-instance-user-moderated-channel"))
         guard let appInstanceUserArn = value.appInstanceUserArn else {
             let message = "Creating a URL Query Item failed. appInstanceUserArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let appInstanceUserArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+        let appInstanceUserArnQueryItem = Smithy.URIQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
         items.append(appInstanceUserArnQueryItem)
         return items
     }
@@ -3173,7 +3176,7 @@ public struct DescribeChannelModeratedByAppInstanceUserInput {
 
 extension DescribeChannelModeratedByAppInstanceUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChannelModeratedByAppInstanceUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChannelModeratedByAppInstanceUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3197,7 +3200,7 @@ public struct DescribeChannelModeratedByAppInstanceUserOutput {
 
 enum DescribeChannelModeratedByAppInstanceUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3216,8 +3219,8 @@ enum DescribeChannelModeratedByAppInstanceUserOutputError {
 
 extension DescribeChannelModeratorInput {
 
-    static func headerProvider(_ value: DescribeChannelModeratorInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeChannelModeratorInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -3263,7 +3266,7 @@ public struct DescribeChannelModeratorInput {
 
 extension DescribeChannelModeratorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChannelModeratorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChannelModeratorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3287,7 +3290,7 @@ public struct DescribeChannelModeratorOutput {
 
 enum DescribeChannelModeratorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3307,7 +3310,7 @@ enum DescribeChannelModeratorOutputError {
 
 extension DescribeChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3331,7 +3334,7 @@ public struct DescribeChannelOutput {
 
 enum DescribeChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3350,8 +3353,8 @@ enum DescribeChannelOutputError {
 
 extension DisassociateChannelFlowInput {
 
-    static func headerProvider(_ value: DisassociateChannelFlowInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DisassociateChannelFlowInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -3397,7 +3400,7 @@ public struct DisassociateChannelFlowInput {
 
 extension DisassociateChannelFlowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateChannelFlowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateChannelFlowOutput {
         return DisassociateChannelFlowOutput()
     }
 }
@@ -3409,7 +3412,7 @@ public struct DisassociateChannelFlowOutput {
 
 enum DisassociateChannelFlowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3682,8 +3685,8 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension GetChannelMembershipPreferencesInput {
 
-    static func headerProvider(_ value: GetChannelMembershipPreferencesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetChannelMembershipPreferencesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -3729,7 +3732,7 @@ public struct GetChannelMembershipPreferencesInput {
 
 extension GetChannelMembershipPreferencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChannelMembershipPreferencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChannelMembershipPreferencesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3763,7 +3766,7 @@ public struct GetChannelMembershipPreferencesOutput {
 
 enum GetChannelMembershipPreferencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3782,8 +3785,8 @@ enum GetChannelMembershipPreferencesOutputError {
 
 extension GetChannelMessageInput {
 
-    static func headerProvider(_ value: GetChannelMessageInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetChannelMessageInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -3793,10 +3796,10 @@ extension GetChannelMessageInput {
 
 extension GetChannelMessageInput {
 
-    static func queryItemProvider(_ value: GetChannelMessageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetChannelMessageInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let subChannelId = value.subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+            let subChannelIdQueryItem = Smithy.URIQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
             items.append(subChannelIdQueryItem)
         }
         return items
@@ -3845,7 +3848,7 @@ public struct GetChannelMessageInput {
 
 extension GetChannelMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChannelMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChannelMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3869,7 +3872,7 @@ public struct GetChannelMessageOutput {
 
 enum GetChannelMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3889,8 +3892,8 @@ enum GetChannelMessageOutputError {
 
 extension GetChannelMessageStatusInput {
 
-    static func headerProvider(_ value: GetChannelMessageStatusInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetChannelMessageStatusInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -3900,11 +3903,11 @@ extension GetChannelMessageStatusInput {
 
 extension GetChannelMessageStatusInput {
 
-    static func queryItemProvider(_ value: GetChannelMessageStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "message-status"))
+    static func queryItemProvider(_ value: GetChannelMessageStatusInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "scope", value: "message-status"))
         if let subChannelId = value.subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+            let subChannelIdQueryItem = Smithy.URIQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
             items.append(subChannelIdQueryItem)
         }
         return items
@@ -3953,7 +3956,7 @@ public struct GetChannelMessageStatusInput {
 
 extension GetChannelMessageStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChannelMessageStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChannelMessageStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3977,7 +3980,7 @@ public struct GetChannelMessageStatusOutput {
 
 enum GetChannelMessageStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4008,7 +4011,7 @@ public struct GetMessagingSessionEndpointInput {
 
 extension GetMessagingSessionEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMessagingSessionEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMessagingSessionEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4032,7 +4035,7 @@ public struct GetMessagingSessionEndpointOutput {
 
 enum GetMessagingSessionEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4073,7 +4076,7 @@ public struct GetMessagingStreamingConfigurationsInput {
 
 extension GetMessagingStreamingConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMessagingStreamingConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMessagingStreamingConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4097,7 +4100,7 @@ public struct GetMessagingStreamingConfigurationsOutput {
 
 enum GetMessagingStreamingConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4223,8 +4226,8 @@ extension ListChannelBansInput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelBansInput {
 
-    static func headerProvider(_ value: ListChannelBansInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListChannelBansInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -4234,14 +4237,14 @@ extension ListChannelBansInput {
 
 extension ListChannelBansInput {
 
-    static func queryItemProvider(_ value: ListChannelBansInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChannelBansInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4291,7 +4294,7 @@ extension ListChannelBansOutput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelBansOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelBansOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelBansOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4325,7 +4328,7 @@ public struct ListChannelBansOutput {
 
 enum ListChannelBansOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4349,21 +4352,21 @@ extension ListChannelFlowsInput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelFlowsInput {
 
-    static func queryItemProvider(_ value: ListChannelFlowsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChannelFlowsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         guard let appInstanceArn = value.appInstanceArn else {
             let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let appInstanceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
+        let appInstanceArnQueryItem = Smithy.URIQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
         items.append(appInstanceArnQueryItem)
         return items
     }
@@ -4404,7 +4407,7 @@ extension ListChannelFlowsOutput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelFlowsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelFlowsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelFlowsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4433,7 +4436,7 @@ public struct ListChannelFlowsOutput {
 
 enum ListChannelFlowsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4457,8 +4460,8 @@ extension ListChannelMembershipsForAppInstanceUserInput: Swift.CustomDebugString
 
 extension ListChannelMembershipsForAppInstanceUserInput {
 
-    static func headerProvider(_ value: ListChannelMembershipsForAppInstanceUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListChannelMembershipsForAppInstanceUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -4468,19 +4471,19 @@ extension ListChannelMembershipsForAppInstanceUserInput {
 
 extension ListChannelMembershipsForAppInstanceUserInput {
 
-    static func queryItemProvider(_ value: ListChannelMembershipsForAppInstanceUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "app-instance-user-memberships"))
+    static func queryItemProvider(_ value: ListChannelMembershipsForAppInstanceUserInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "scope", value: "app-instance-user-memberships"))
         if let appInstanceUserArn = value.appInstanceUserArn {
-            let appInstanceUserArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+            let appInstanceUserArnQueryItem = Smithy.URIQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
             items.append(appInstanceUserArnQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4526,7 +4529,7 @@ extension ListChannelMembershipsForAppInstanceUserOutput: Swift.CustomDebugStrin
 
 extension ListChannelMembershipsForAppInstanceUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelMembershipsForAppInstanceUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelMembershipsForAppInstanceUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4555,7 +4558,7 @@ public struct ListChannelMembershipsForAppInstanceUserOutput {
 
 enum ListChannelMembershipsForAppInstanceUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4579,8 +4582,8 @@ extension ListChannelMembershipsInput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelMembershipsInput {
 
-    static func headerProvider(_ value: ListChannelMembershipsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListChannelMembershipsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -4590,22 +4593,22 @@ extension ListChannelMembershipsInput {
 
 extension ListChannelMembershipsInput {
 
-    static func queryItemProvider(_ value: ListChannelMembershipsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChannelMembershipsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let subChannelId = value.subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+            let subChannelIdQueryItem = Smithy.URIQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
             items.append(subChannelIdQueryItem)
         }
         if let type = value.type {
-            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4663,7 +4666,7 @@ extension ListChannelMembershipsOutput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelMembershipsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelMembershipsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelMembershipsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4697,7 +4700,7 @@ public struct ListChannelMembershipsOutput {
 
 enum ListChannelMembershipsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4721,8 +4724,8 @@ extension ListChannelMessagesInput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelMessagesInput {
 
-    static func headerProvider(_ value: ListChannelMessagesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListChannelMessagesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -4732,30 +4735,30 @@ extension ListChannelMessagesInput {
 
 extension ListChannelMessagesInput {
 
-    static func queryItemProvider(_ value: ListChannelMessagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChannelMessagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let subChannelId = value.subChannelId {
-            let subChannelIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
+            let subChannelIdQueryItem = Smithy.URIQueryItem(name: "sub-channel-id".urlPercentEncoding(), value: Swift.String(subChannelId).urlPercentEncoding())
             items.append(subChannelIdQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let sortOrder = value.sortOrder {
-            let sortOrderQueryItem = ClientRuntime.SDKURLQueryItem(name: "sort-order".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sort-order".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
         }
         if let notBefore = value.notBefore {
-            let notBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "not-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notBefore)).urlPercentEncoding())
+            let notBeforeQueryItem = Smithy.URIQueryItem(name: "not-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notBefore)).urlPercentEncoding())
             items.append(notBeforeQueryItem)
         }
         if let notAfter = value.notAfter {
-            let notAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "not-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notAfter)).urlPercentEncoding())
+            let notAfterQueryItem = Smithy.URIQueryItem(name: "not-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: notAfter)).urlPercentEncoding())
             items.append(notAfterQueryItem)
         }
         return items
@@ -4784,9 +4787,9 @@ public struct ListChannelMessagesInput {
     /// The token passed by previous API calls until all requested messages are returned.
     public var nextToken: Swift.String?
     /// The final or ending time stamp for your requested messages.
-    public var notAfter: ClientRuntime.Date?
+    public var notAfter: Foundation.Date?
     /// The initial or starting time stamp for your requested messages.
-    public var notBefore: ClientRuntime.Date?
+    public var notBefore: Foundation.Date?
     /// The order in which you want messages sorted. Default is Descending, based on time created.
     public var sortOrder: ChimeSDKMessagingClientTypes.SortOrder?
     /// The ID of the SubChannel in the request. Only required when listing the messages in a SubChannel that the user belongs to.
@@ -4797,8 +4800,8 @@ public struct ListChannelMessagesInput {
         chimeBearer: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        notAfter: ClientRuntime.Date? = nil,
-        notBefore: ClientRuntime.Date? = nil,
+        notAfter: Foundation.Date? = nil,
+        notBefore: Foundation.Date? = nil,
         sortOrder: ChimeSDKMessagingClientTypes.SortOrder? = nil,
         subChannelId: Swift.String? = nil
     )
@@ -4821,7 +4824,7 @@ extension ListChannelMessagesOutput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelMessagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelMessagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelMessagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4860,7 +4863,7 @@ public struct ListChannelMessagesOutput {
 
 enum ListChannelMessagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4884,8 +4887,8 @@ extension ListChannelModeratorsInput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelModeratorsInput {
 
-    static func headerProvider(_ value: ListChannelModeratorsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListChannelModeratorsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -4895,14 +4898,14 @@ extension ListChannelModeratorsInput {
 
 extension ListChannelModeratorsInput {
 
-    static func queryItemProvider(_ value: ListChannelModeratorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChannelModeratorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -4952,7 +4955,7 @@ extension ListChannelModeratorsOutput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelModeratorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelModeratorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelModeratorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4986,7 +4989,7 @@ public struct ListChannelModeratorsOutput {
 
 enum ListChannelModeratorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5010,21 +5013,21 @@ extension ListChannelsAssociatedWithChannelFlowInput: Swift.CustomDebugStringCon
 
 extension ListChannelsAssociatedWithChannelFlowInput {
 
-    static func queryItemProvider(_ value: ListChannelsAssociatedWithChannelFlowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "channel-flow-associations"))
+    static func queryItemProvider(_ value: ListChannelsAssociatedWithChannelFlowInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "scope", value: "channel-flow-associations"))
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         guard let channelFlowArn = value.channelFlowArn else {
             let message = "Creating a URL Query Item failed. channelFlowArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let channelFlowArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "channel-flow-arn".urlPercentEncoding(), value: Swift.String(channelFlowArn).urlPercentEncoding())
+        let channelFlowArnQueryItem = Smithy.URIQueryItem(name: "channel-flow-arn".urlPercentEncoding(), value: Swift.String(channelFlowArn).urlPercentEncoding())
         items.append(channelFlowArnQueryItem)
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -5066,7 +5069,7 @@ extension ListChannelsAssociatedWithChannelFlowOutput: Swift.CustomDebugStringCo
 
 extension ListChannelsAssociatedWithChannelFlowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelsAssociatedWithChannelFlowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelsAssociatedWithChannelFlowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5095,7 +5098,7 @@ public struct ListChannelsAssociatedWithChannelFlowOutput {
 
 enum ListChannelsAssociatedWithChannelFlowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5119,8 +5122,8 @@ extension ListChannelsInput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelsInput {
 
-    static func headerProvider(_ value: ListChannelsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListChannelsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -5130,25 +5133,25 @@ extension ListChannelsInput {
 
 extension ListChannelsInput {
 
-    static func queryItemProvider(_ value: ListChannelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChannelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let privacy = value.privacy {
-            let privacyQueryItem = ClientRuntime.SDKURLQueryItem(name: "privacy".urlPercentEncoding(), value: Swift.String(privacy.rawValue).urlPercentEncoding())
+            let privacyQueryItem = Smithy.URIQueryItem(name: "privacy".urlPercentEncoding(), value: Swift.String(privacy.rawValue).urlPercentEncoding())
             items.append(privacyQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         guard let appInstanceArn = value.appInstanceArn else {
             let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let appInstanceArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
+        let appInstanceArnQueryItem = Smithy.URIQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
         items.append(appInstanceArnQueryItem)
         return items
     }
@@ -5198,8 +5201,8 @@ extension ListChannelsModeratedByAppInstanceUserInput: Swift.CustomDebugStringCo
 
 extension ListChannelsModeratedByAppInstanceUserInput {
 
-    static func headerProvider(_ value: ListChannelsModeratedByAppInstanceUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListChannelsModeratedByAppInstanceUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -5209,19 +5212,19 @@ extension ListChannelsModeratedByAppInstanceUserInput {
 
 extension ListChannelsModeratedByAppInstanceUserInput {
 
-    static func queryItemProvider(_ value: ListChannelsModeratedByAppInstanceUserInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "scope", value: "app-instance-user-moderated-channels"))
+    static func queryItemProvider(_ value: ListChannelsModeratedByAppInstanceUserInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "scope", value: "app-instance-user-moderated-channels"))
         if let appInstanceUserArn = value.appInstanceUserArn {
-            let appInstanceUserArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
+            let appInstanceUserArnQueryItem = Smithy.URIQueryItem(name: "app-instance-user-arn".urlPercentEncoding(), value: Swift.String(appInstanceUserArn).urlPercentEncoding())
             items.append(appInstanceUserArnQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -5267,7 +5270,7 @@ extension ListChannelsModeratedByAppInstanceUserOutput: Swift.CustomDebugStringC
 
 extension ListChannelsModeratedByAppInstanceUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelsModeratedByAppInstanceUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelsModeratedByAppInstanceUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5296,7 +5299,7 @@ public struct ListChannelsModeratedByAppInstanceUserOutput {
 
 enum ListChannelsModeratedByAppInstanceUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5320,7 +5323,7 @@ extension ListChannelsOutput: Swift.CustomDebugStringConvertible {
 
 extension ListChannelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5349,7 +5352,7 @@ public struct ListChannelsOutput {
 
 enum ListChannelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5373,8 +5376,8 @@ extension ListSubChannelsInput: Swift.CustomDebugStringConvertible {
 
 extension ListSubChannelsInput {
 
-    static func headerProvider(_ value: ListSubChannelsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListSubChannelsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -5384,14 +5387,14 @@ extension ListSubChannelsInput {
 
 extension ListSubChannelsInput {
 
-    static func queryItemProvider(_ value: ListSubChannelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSubChannelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -5441,7 +5444,7 @@ extension ListSubChannelsOutput: Swift.CustomDebugStringConvertible {
 
 extension ListSubChannelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSubChannelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSubChannelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5475,7 +5478,7 @@ public struct ListSubChannelsOutput {
 
 enum ListSubChannelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5494,13 +5497,13 @@ enum ListSubChannelsOutputError {
 
 extension ListTagsForResourceInput {
 
-    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceARN = value.resourceARN else {
             let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceARNQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+        let resourceARNQueryItem = Smithy.URIQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
         items.append(resourceARNQueryItem)
         return items
     }
@@ -5528,7 +5531,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5552,7 +5555,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5899,8 +5902,8 @@ extension ChimeSDKMessagingClientTypes {
 
 extension PutChannelExpirationSettingsInput {
 
-    static func headerProvider(_ value: PutChannelExpirationSettingsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutChannelExpirationSettingsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -5949,7 +5952,7 @@ public struct PutChannelExpirationSettingsInput {
 
 extension PutChannelExpirationSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutChannelExpirationSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutChannelExpirationSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5978,7 +5981,7 @@ public struct PutChannelExpirationSettingsOutput {
 
 enum PutChannelExpirationSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5998,8 +6001,8 @@ enum PutChannelExpirationSettingsOutputError {
 
 extension PutChannelMembershipPreferencesInput {
 
-    static func headerProvider(_ value: PutChannelMembershipPreferencesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutChannelMembershipPreferencesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -6058,7 +6061,7 @@ public struct PutChannelMembershipPreferencesInput {
 
 extension PutChannelMembershipPreferencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutChannelMembershipPreferencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutChannelMembershipPreferencesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6092,7 +6095,7 @@ public struct PutChannelMembershipPreferencesOutput {
 
 enum PutChannelMembershipPreferencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6148,7 +6151,7 @@ public struct PutMessagingStreamingConfigurationsInput {
 
 extension PutMessagingStreamingConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutMessagingStreamingConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutMessagingStreamingConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6172,7 +6175,7 @@ public struct PutMessagingStreamingConfigurationsOutput {
 
 enum PutMessagingStreamingConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6193,8 +6196,8 @@ enum PutMessagingStreamingConfigurationsOutputError {
 
 extension RedactChannelMessageInput {
 
-    static func headerProvider(_ value: RedactChannelMessageInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: RedactChannelMessageInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -6204,9 +6207,9 @@ extension RedactChannelMessageInput {
 
 extension RedactChannelMessageInput {
 
-    static func queryItemProvider(_ value: RedactChannelMessageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "redact"))
+    static func queryItemProvider(_ value: RedactChannelMessageInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "redact"))
         return items
     }
 }
@@ -6261,7 +6264,7 @@ public struct RedactChannelMessageInput {
 
 extension RedactChannelMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RedactChannelMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RedactChannelMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6295,7 +6298,7 @@ public struct RedactChannelMessageOutput {
 
 enum RedactChannelMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6361,8 +6364,8 @@ extension SearchChannelsInput: Swift.CustomDebugStringConvertible {
 
 extension SearchChannelsInput {
 
-    static func headerProvider(_ value: SearchChannelsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: SearchChannelsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -6372,15 +6375,15 @@ extension SearchChannelsInput {
 
 extension SearchChannelsInput {
 
-    static func queryItemProvider(_ value: SearchChannelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "search"))
+    static func queryItemProvider(_ value: SearchChannelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "search"))
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6434,7 +6437,7 @@ extension SearchChannelsOutput: Swift.CustomDebugStringConvertible {
 
 extension SearchChannelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchChannelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchChannelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6463,7 +6466,7 @@ public struct SearchChannelsOutput {
 
 enum SearchChannelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6579,8 +6582,8 @@ extension SendChannelMessageInput: Swift.CustomDebugStringConvertible {
 
 extension SendChannelMessageInput {
 
-    static func headerProvider(_ value: SendChannelMessageInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: SendChannelMessageInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -6679,7 +6682,7 @@ public struct SendChannelMessageInput {
 
 extension SendChannelMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendChannelMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendChannelMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6718,7 +6721,7 @@ public struct SendChannelMessageOutput {
 
 enum SendChannelMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6963,9 +6966,9 @@ extension ChimeSDKMessagingClientTypes {
 
 extension TagResourceInput {
 
-    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "tag-resource"))
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "tag-resource"))
         return items
     }
 }
@@ -7006,7 +7009,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7018,7 +7021,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7151,9 +7154,9 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "untag-resource"))
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "untag-resource"))
         return items
     }
 }
@@ -7194,7 +7197,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7206,7 +7209,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7272,7 +7275,7 @@ public struct UpdateChannelFlowInput {
 
 extension UpdateChannelFlowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateChannelFlowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChannelFlowOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7296,7 +7299,7 @@ public struct UpdateChannelFlowOutput {
 
 enum UpdateChannelFlowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7321,8 +7324,8 @@ extension UpdateChannelInput: Swift.CustomDebugStringConvertible {
 
 extension UpdateChannelInput {
 
-    static func headerProvider(_ value: UpdateChannelInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateChannelInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -7387,8 +7390,8 @@ extension UpdateChannelMessageInput: Swift.CustomDebugStringConvertible {
 
 extension UpdateChannelMessageInput {
 
-    static func headerProvider(_ value: UpdateChannelMessageInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateChannelMessageInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -7462,7 +7465,7 @@ public struct UpdateChannelMessageInput {
 
 extension UpdateChannelMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateChannelMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChannelMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7501,7 +7504,7 @@ public struct UpdateChannelMessageOutput {
 
 enum UpdateChannelMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7521,7 +7524,7 @@ enum UpdateChannelMessageOutputError {
 
 extension UpdateChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7545,7 +7548,7 @@ public struct UpdateChannelOutput {
 
 enum UpdateChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7565,8 +7568,8 @@ enum UpdateChannelOutputError {
 
 extension UpdateChannelReadMarkerInput {
 
-    static func headerProvider(_ value: UpdateChannelReadMarkerInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateChannelReadMarkerInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let chimeBearer = value.chimeBearer {
             items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
         }
@@ -7604,7 +7607,7 @@ public struct UpdateChannelReadMarkerInput {
 
 extension UpdateChannelReadMarkerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateChannelReadMarkerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChannelReadMarkerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7628,7 +7631,7 @@ public struct UpdateChannelReadMarkerOutput {
 
 enum UpdateChannelReadMarkerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -85,7 +87,7 @@ public struct BatchGetSecretValueInput {
 
 extension BatchGetSecretValueOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchGetSecretValueOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchGetSecretValueOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -119,7 +121,7 @@ public struct BatchGetSecretValueOutput {
 
 enum BatchGetSecretValueOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -166,7 +168,7 @@ public struct CancelRotateSecretInput {
 
 extension CancelRotateSecretOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelRotateSecretOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelRotateSecretOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -200,7 +202,7 @@ public struct CancelRotateSecretOutput {
 
 enum CancelRotateSecretOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -267,7 +269,7 @@ public struct CreateSecretInput {
     /// This member is required.
     public var name: Swift.String?
     /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter. Either SecretString or SecretBinary must have a value, but not both. This parameter is not available in the Secrets Manager console.
-    public var secretBinary: ClientRuntime.Data?
+    public var secretBinary: Foundation.Data?
     /// The text data to encrypt and store in this new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value. Either SecretString or SecretBinary must have a value, but not both. If you create a secret by using the Secrets Manager console then Secrets Manager puts the protected secret text in only the SecretString parameter. The Secrets Manager console stores the information as a JSON structure of key/value pairs that a Lambda rotation function can parse.
     public var secretString: Swift.String?
     /// A list of tags to attach to the secret. Each tag is a key and value pair of strings in a JSON text string, for example: [{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}] Secrets Manager tag key names are case sensitive. A tag with the key "ABC" is a different tag from one with key "abc". If you check tags in permissions policies as part of your security strategy, then adding or removing a tag can change permissions. If the completion of this operation would result in you losing your permissions for this secret, then Secrets Manager blocks the operation and returns an Access Denied error. For more information, see [Control access to secrets using tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#tag-secrets-abac) and [Limit access to identities with tags that match secrets' tags](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_tags2). For information about how to format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json). If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. For tag quotas and naming restrictions, see [Service quotas for Tagging](https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas) in the Amazon Web Services General Reference guide.
@@ -280,7 +282,7 @@ public struct CreateSecretInput {
         forceOverwriteReplicaSecret: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
-        secretBinary: ClientRuntime.Data? = nil,
+        secretBinary: Foundation.Data? = nil,
         secretString: Swift.String? = nil,
         tags: [SecretsManagerClientTypes.Tag]? = nil
     )
@@ -299,7 +301,7 @@ public struct CreateSecretInput {
 
 extension CreateSecretOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSecretOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSecretOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -344,7 +346,7 @@ public struct CreateSecretOutput {
 
 enum CreateSecretOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -432,7 +434,7 @@ public struct DeleteResourcePolicyInput {
 
 extension DeleteResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -461,7 +463,7 @@ public struct DeleteResourcePolicyOutput {
 
 enum DeleteResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -516,7 +518,7 @@ public struct DeleteSecretInput {
 
 extension DeleteSecretOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSecretOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSecretOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -532,13 +534,13 @@ public struct DeleteSecretOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The date and time after which this secret Secrets Manager can permanently delete this secret, and it can no longer be restored. This value is the date and time of the delete request plus the number of days in RecoveryWindowInDays.
-    public var deletionDate: ClientRuntime.Date?
+    public var deletionDate: Foundation.Date?
     /// The name of the secret.
     public var name: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        deletionDate: ClientRuntime.Date? = nil,
+        deletionDate: Foundation.Date? = nil,
         name: Swift.String? = nil
     )
     {
@@ -550,7 +552,7 @@ public struct DeleteSecretOutput {
 
 enum DeleteSecretOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -595,7 +597,7 @@ public struct DescribeSecretInput {
 
 extension DescribeSecretOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSecretOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSecretOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -626,23 +628,23 @@ public struct DescribeSecretOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The date the secret was created.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The date the secret is scheduled for deletion. If it is not scheduled for deletion, this field is omitted. When you delete a secret, Secrets Manager requires a recovery window of at least 7 days before deleting the secret. Some time after the deleted date, Secrets Manager deletes the secret, including all of its versions. If a secret is scheduled for deletion, then its details, including the encrypted secret value, is not accessible. To cancel a scheduled deletion and restore access to the secret, use [RestoreSecret].
-    public var deletedDate: ClientRuntime.Date?
+    public var deletedDate: Foundation.Date?
     /// The description of the secret.
     public var description: Swift.String?
     /// The key ID or alias ARN of the KMS key that Secrets Manager uses to encrypt the secret value. If the secret is encrypted with the Amazon Web Services managed key aws/secretsmanager, this field is omitted. Secrets created using the console use an KMS key ID.
     public var kmsKeyId: Swift.String?
     /// The date that the secret was last accessed in the Region. This field is omitted if the secret has never been retrieved in the Region.
-    public var lastAccessedDate: ClientRuntime.Date?
+    public var lastAccessedDate: Foundation.Date?
     /// The last date and time that this secret was modified in any way.
-    public var lastChangedDate: ClientRuntime.Date?
+    public var lastChangedDate: Foundation.Date?
     /// The last date and time that Secrets Manager rotated the secret. If the secret isn't configured for rotation or rotation has been disabled, Secrets Manager returns null.
-    public var lastRotatedDate: ClientRuntime.Date?
+    public var lastRotatedDate: Foundation.Date?
     /// The name of the secret.
     public var name: Swift.String?
     /// The next rotation is scheduled to occur on or before this date. If the secret isn't configured for rotation or rotation has been disabled, Secrets Manager returns null. If rotation fails, Secrets Manager retries the entire rotation process multiple times. If rotation is unsuccessful, this date may be in the past. This date represents the latest date that rotation will occur, but it is not an approximate rotation date. In some cases, for example if you turn off automatic rotation and then turn it back on, the next rotation may occur much sooner than this date.
-    public var nextRotationDate: ClientRuntime.Date?
+    public var nextRotationDate: Foundation.Date?
     /// The ID of the service that created this secret. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     public var owningService: Swift.String?
     /// The Region the secret is in. If a secret is replicated to other Regions, the replicas are listed in ReplicationStatus.
@@ -677,15 +679,15 @@ public struct DescribeSecretOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdDate: ClientRuntime.Date? = nil,
-        deletedDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
+        deletedDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
-        lastAccessedDate: ClientRuntime.Date? = nil,
-        lastChangedDate: ClientRuntime.Date? = nil,
-        lastRotatedDate: ClientRuntime.Date? = nil,
+        lastAccessedDate: Foundation.Date? = nil,
+        lastChangedDate: Foundation.Date? = nil,
+        lastRotatedDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
-        nextRotationDate: ClientRuntime.Date? = nil,
+        nextRotationDate: Foundation.Date? = nil,
         owningService: Swift.String? = nil,
         primaryRegion: Swift.String? = nil,
         replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]? = nil,
@@ -719,7 +721,7 @@ public struct DescribeSecretOutput {
 
 enum DescribeSecretOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -926,7 +928,7 @@ extension GetRandomPasswordOutput: Swift.CustomDebugStringConvertible {
 
 extension GetRandomPasswordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRandomPasswordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRandomPasswordOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -950,7 +952,7 @@ public struct GetRandomPasswordOutput {
 
 enum GetRandomPasswordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -994,7 +996,7 @@ public struct GetResourcePolicyInput {
 
 extension GetResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1028,7 +1030,7 @@ public struct GetResourcePolicyOutput {
 
 enum GetResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1088,7 +1090,7 @@ extension GetSecretValueOutput: Swift.CustomDebugStringConvertible {
 
 extension GetSecretValueOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSecretValueOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSecretValueOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1108,11 +1110,11 @@ public struct GetSecretValueOutput {
     /// The ARN of the secret.
     public var arn: Swift.String?
     /// The date and time that this version of the secret was created. If you don't specify which version in VersionId or VersionStage, then Secrets Manager uses the AWSCURRENT version.
-    public var createdDate: ClientRuntime.Date?
+    public var createdDate: Foundation.Date?
     /// The friendly name of the secret.
     public var name: Swift.String?
     /// The decrypted secret value, if the secret value was originally provided as binary data in the form of a byte array. When you retrieve a SecretBinary using the HTTP API, the Python SDK, or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not encoded. If the secret was created by using the Secrets Manager console, or if the secret value was originally provided as a string, then this field is omitted. The secret value appears in SecretString instead.
-    public var secretBinary: ClientRuntime.Data?
+    public var secretBinary: Foundation.Data?
     /// The decrypted secret value, if the secret value was originally provided as a string or through the Secrets Manager console. If this secret was created by using the console, then Secrets Manager stores the information as a JSON structure of key/value pairs.
     public var secretString: Swift.String?
     /// The unique identifier of this version of the secret.
@@ -1122,9 +1124,9 @@ public struct GetSecretValueOutput {
 
     public init(
         arn: Swift.String? = nil,
-        createdDate: ClientRuntime.Date? = nil,
+        createdDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
-        secretBinary: ClientRuntime.Data? = nil,
+        secretBinary: Foundation.Data? = nil,
         secretString: Swift.String? = nil,
         versionId: Swift.String? = nil,
         versionStages: [Swift.String]? = nil
@@ -1142,7 +1144,7 @@ public struct GetSecretValueOutput {
 
 enum GetSecretValueOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1394,7 +1396,7 @@ public struct ListSecretVersionIdsInput {
 
 extension ListSecretVersionIdsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSecretVersionIdsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSecretVersionIdsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1433,7 +1435,7 @@ public struct ListSecretVersionIdsOutput {
 
 enum ListSecretVersionIdsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1497,7 +1499,7 @@ public struct ListSecretsInput {
 
 extension ListSecretsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSecretsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSecretsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1526,7 +1528,7 @@ public struct ListSecretsOutput {
 
 enum ListSecretsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1700,7 +1702,7 @@ public struct PutResourcePolicyInput {
 
 extension PutResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1729,7 +1731,7 @@ public struct PutResourcePolicyOutput {
 
 enum PutResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1783,7 +1785,7 @@ public struct PutSecretValueInput {
     /// This value becomes the VersionId of the new version.
     public var clientRequestToken: Swift.String?
     /// The binary data to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then pass the contents of the file as a parameter. You must include SecretBinary or SecretString, but not both. You can't access this value from the Secrets Manager console.
-    public var secretBinary: ClientRuntime.Data?
+    public var secretBinary: Foundation.Data?
     /// The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen). If the secret doesn't already exist, use CreateSecret instead.
     /// This member is required.
     public var secretId: Swift.String?
@@ -1794,7 +1796,7 @@ public struct PutSecretValueInput {
 
     public init(
         clientRequestToken: Swift.String? = nil,
-        secretBinary: ClientRuntime.Data? = nil,
+        secretBinary: Foundation.Data? = nil,
         secretId: Swift.String? = nil,
         secretString: Swift.String? = nil,
         versionStages: [Swift.String]? = nil
@@ -1810,7 +1812,7 @@ public struct PutSecretValueInput {
 
 extension PutSecretValueOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSecretValueOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSecretValueOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1849,7 +1851,7 @@ public struct PutSecretValueOutput {
 
 enum PutSecretValueOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1904,7 +1906,7 @@ public struct RemoveRegionsFromReplicationInput {
 
 extension RemoveRegionsFromReplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveRegionsFromReplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveRegionsFromReplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1933,7 +1935,7 @@ public struct RemoveRegionsFromReplicationOutput {
 
 enum RemoveRegionsFromReplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2018,7 +2020,7 @@ public struct ReplicateSecretToRegionsInput {
 
 extension ReplicateSecretToRegionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ReplicateSecretToRegionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ReplicateSecretToRegionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2047,7 +2049,7 @@ public struct ReplicateSecretToRegionsOutput {
 
 enum ReplicateSecretToRegionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2082,7 +2084,7 @@ extension SecretsManagerClientTypes {
         /// Can be an ARN, Key ID, or Alias.
         public var kmsKeyId: Swift.String?
         /// The date that the secret was last accessed in the Region. This field is omitted if the secret has never been retrieved in the Region.
-        public var lastAccessedDate: ClientRuntime.Date?
+        public var lastAccessedDate: Foundation.Date?
         /// The Region where replication occurs.
         public var region: Swift.String?
         /// The status can be InProgress, Failed, or InSync.
@@ -2092,7 +2094,7 @@ extension SecretsManagerClientTypes {
 
         public init(
             kmsKeyId: Swift.String? = nil,
-            lastAccessedDate: ClientRuntime.Date? = nil,
+            lastAccessedDate: Foundation.Date? = nil,
             region: Swift.String? = nil,
             status: SecretsManagerClientTypes.StatusType? = nil,
             statusMessage: Swift.String? = nil
@@ -2212,7 +2214,7 @@ public struct RestoreSecretInput {
 
 extension RestoreSecretOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreSecretOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreSecretOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2241,7 +2243,7 @@ public struct RestoreSecretOutput {
 
 enum RestoreSecretOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2306,7 +2308,7 @@ public struct RotateSecretInput {
 
 extension RotateSecretOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RotateSecretOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RotateSecretOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2340,7 +2342,7 @@ public struct RotateSecretOutput {
 
 enum RotateSecretOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2430,23 +2432,23 @@ extension SecretsManagerClientTypes {
         /// The Amazon Resource Name (ARN) of the secret.
         public var arn: Swift.String?
         /// The date and time when a secret was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// The date and time the deletion of the secret occurred. Not present on active secrets. The secret can be recovered until the number of days in the recovery window has passed, as specified in the RecoveryWindowInDays parameter of the [DeleteSecret](https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_DeleteSecret.html) operation.
-        public var deletedDate: ClientRuntime.Date?
+        public var deletedDate: Foundation.Date?
         /// The user-provided description of the secret.
         public var description: Swift.String?
         /// The ARN of the KMS key that Secrets Manager uses to encrypt the secret value. If the secret is encrypted with the Amazon Web Services managed key aws/secretsmanager, this field is omitted.
         public var kmsKeyId: Swift.String?
         /// The date that the secret was last accessed in the Region. This field is omitted if the secret has never been retrieved in the Region.
-        public var lastAccessedDate: ClientRuntime.Date?
+        public var lastAccessedDate: Foundation.Date?
         /// The last date and time that this secret was modified in any way.
-        public var lastChangedDate: ClientRuntime.Date?
+        public var lastChangedDate: Foundation.Date?
         /// The most recent date and time that the Secrets Manager rotation process was successfully completed. This value is null if the secret hasn't ever rotated.
-        public var lastRotatedDate: ClientRuntime.Date?
+        public var lastRotatedDate: Foundation.Date?
         /// The friendly name of the secret.
         public var name: Swift.String?
         /// The next rotation is scheduled to occur on or before this date. If the secret isn't configured for rotation or rotation has been disabled, Secrets Manager returns null.
-        public var nextRotationDate: ClientRuntime.Date?
+        public var nextRotationDate: Foundation.Date?
         /// Returns the name of the service that created the secret.
         public var owningService: Swift.String?
         /// The Region where Secrets Manager originated the secret.
@@ -2464,15 +2466,15 @@ extension SecretsManagerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdDate: ClientRuntime.Date? = nil,
-            deletedDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
+            deletedDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
-            lastAccessedDate: ClientRuntime.Date? = nil,
-            lastChangedDate: ClientRuntime.Date? = nil,
-            lastRotatedDate: ClientRuntime.Date? = nil,
+            lastAccessedDate: Foundation.Date? = nil,
+            lastChangedDate: Foundation.Date? = nil,
+            lastRotatedDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
-            nextRotationDate: ClientRuntime.Date? = nil,
+            nextRotationDate: Foundation.Date? = nil,
             owningService: Swift.String? = nil,
             primaryRegion: Swift.String? = nil,
             rotationEnabled: Swift.Bool? = nil,
@@ -2531,11 +2533,11 @@ extension SecretsManagerClientTypes {
         /// The Amazon Resource Name (ARN) of the secret.
         public var arn: Swift.String?
         /// The date the secret was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// The friendly name of the secret.
         public var name: Swift.String?
         /// The decrypted secret value, if the secret value was originally provided as binary data in the form of a byte array. The parameter represents the binary data as a [base64-encoded](https://tools.ietf.org/html/rfc4648#section-4) string.
-        public var secretBinary: ClientRuntime.Data?
+        public var secretBinary: Foundation.Data?
         /// The decrypted secret value, if the secret value was originally provided as a string or through the Secrets Manager console.
         public var secretString: Swift.String?
         /// The unique version identifier of this version of the secret.
@@ -2545,9 +2547,9 @@ extension SecretsManagerClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
-            secretBinary: ClientRuntime.Data? = nil,
+            secretBinary: Foundation.Data? = nil,
             secretString: Swift.String? = nil,
             versionId: Swift.String? = nil,
             versionStages: [Swift.String]? = nil
@@ -2583,20 +2585,20 @@ extension SecretsManagerClientTypes {
     /// A structure that contains information about one version of a secret.
     public struct SecretVersionsListEntry {
         /// The date and time this version of the secret was created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// The KMS keys used to encrypt the secret version.
         public var kmsKeyIds: [Swift.String]?
         /// The date that this version of the secret was last accessed. Note that the resolution of this field is at the date level and does not include the time.
-        public var lastAccessedDate: ClientRuntime.Date?
+        public var lastAccessedDate: Foundation.Date?
         /// The unique version identifier of this version of the secret.
         public var versionId: Swift.String?
         /// An array of staging labels that are currently associated with this version of the secret.
         public var versionStages: [Swift.String]?
 
         public init(
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             kmsKeyIds: [Swift.String]? = nil,
-            lastAccessedDate: ClientRuntime.Date? = nil,
+            lastAccessedDate: Foundation.Date? = nil,
             versionId: Swift.String? = nil,
             versionStages: [Swift.String]? = nil
         )
@@ -2704,7 +2706,7 @@ public struct StopReplicationToReplicaInput {
 
 extension StopReplicationToReplicaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopReplicationToReplicaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopReplicationToReplicaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2728,7 +2730,7 @@ public struct StopReplicationToReplicaOutput {
 
 enum StopReplicationToReplicaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2816,7 +2818,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2828,7 +2830,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2879,7 +2881,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -2891,7 +2893,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2939,7 +2941,7 @@ public struct UpdateSecretInput {
     /// The ARN, key ID, or alias of the KMS key that Secrets Manager uses to encrypt new secret versions as well as any existing versions with the staging labels AWSCURRENT, AWSPENDING, or AWSPREVIOUS. If you don't have kms:Encrypt permission to the new key, Secrets Manager does not re-ecrypt existing secret versions with the new key. For more information about versions and staging labels, see [Concepts: Version](https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version). A key alias is always prefixed by alias/, for example alias/aws/secretsmanager. For more information, see [About aliases](https://docs.aws.amazon.com/kms/latest/developerguide/alias-about.html). If you set this to an empty string, Secrets Manager uses the Amazon Web Services managed key aws/secretsmanager. If this key doesn't already exist in your account, then Secrets Manager creates it for you automatically. All users and roles in the Amazon Web Services account automatically have access to use aws/secretsmanager. Creating aws/secretsmanager can result in a one-time significant delay in returning the result. You can only use the Amazon Web Services managed key aws/secretsmanager if you call this operation using credentials from the same Amazon Web Services account that owns the secret. If the secret is in a different account, then you must use a customer managed key and provide the ARN of that KMS key in this field. The user making the call must have permissions to both the secret and the KMS key in their respective accounts.
     public var kmsKeyId: Swift.String?
     /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter. Either SecretBinary or SecretString must have a value, but not both. You can't access this parameter in the Secrets Manager console.
-    public var secretBinary: ClientRuntime.Data?
+    public var secretBinary: Foundation.Data?
     /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
@@ -2950,7 +2952,7 @@ public struct UpdateSecretInput {
         clientRequestToken: Swift.String? = nil,
         description: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
-        secretBinary: ClientRuntime.Data? = nil,
+        secretBinary: Foundation.Data? = nil,
         secretId: Swift.String? = nil,
         secretString: Swift.String? = nil
     )
@@ -2966,7 +2968,7 @@ public struct UpdateSecretInput {
 
 extension UpdateSecretOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSecretOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSecretOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3000,7 +3002,7 @@ public struct UpdateSecretOutput {
 
 enum UpdateSecretOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3067,7 +3069,7 @@ public struct UpdateSecretVersionStageInput {
 
 extension UpdateSecretVersionStageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSecretVersionStageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSecretVersionStageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3096,7 +3098,7 @@ public struct UpdateSecretVersionStageOutput {
 
 enum UpdateSecretVersionStageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3147,7 +3149,7 @@ public struct ValidateResourcePolicyInput {
 
 extension ValidateResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ValidateResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ValidateResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3176,7 +3178,7 @@ public struct ValidateResourcePolicyOutput {
 
 enum ValidateResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

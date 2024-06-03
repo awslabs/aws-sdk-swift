@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -80,7 +82,7 @@ public struct BatchPutMetricsInput {
 
 extension BatchPutMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchPutMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchPutMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -104,7 +106,7 @@ public struct BatchPutMetricsOutput {
 
 enum BatchPutMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -171,7 +173,7 @@ extension SageMakerMetricsClientTypes {
         public var step: Swift.Int?
         /// The time that the metric was recorded.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// The metric value.
         /// This member is required.
         public var value: Swift.Double?
@@ -179,7 +181,7 @@ extension SageMakerMetricsClientTypes {
         public init(
             metricName: Swift.String? = nil,
             step: Swift.Int? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             value: Swift.Double? = nil
         )
         {

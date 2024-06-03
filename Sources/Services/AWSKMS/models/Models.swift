@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -65,17 +67,17 @@ extension KMSClientTypes {
         /// String that contains the alias. This value begins with alias/.
         public var aliasName: Swift.String?
         /// Date and time that the alias was most recently created in the account and Region. Formatted as Unix time.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// Date and time that the alias was most recently associated with a KMS key in the account and Region. Formatted as Unix time.
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// String that contains the key identifier of the KMS key associated with the alias.
         public var targetKeyId: Swift.String?
 
         public init(
             aliasArn: Swift.String? = nil,
             aliasName: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             targetKeyId: Swift.String? = nil
         )
         {
@@ -163,7 +165,7 @@ public struct CancelKeyDeletionInput {
 
 extension CancelKeyDeletionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelKeyDeletionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelKeyDeletionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -187,7 +189,7 @@ public struct CancelKeyDeletionOutput {
 
 enum CancelKeyDeletionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -464,7 +466,7 @@ public struct ConnectCustomKeyStoreInput {
 
 extension ConnectCustomKeyStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ConnectCustomKeyStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ConnectCustomKeyStoreOutput {
         return ConnectCustomKeyStoreOutput()
     }
 }
@@ -476,7 +478,7 @@ public struct ConnectCustomKeyStoreOutput {
 
 enum ConnectCustomKeyStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -650,7 +652,7 @@ public struct CreateAliasInput {
 
 extension CreateAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAliasOutput {
         return CreateAliasOutput()
     }
 }
@@ -662,7 +664,7 @@ public struct CreateAliasOutput {
 
 enum CreateAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -770,7 +772,7 @@ public struct CreateCustomKeyStoreInput {
 
 extension CreateCustomKeyStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCustomKeyStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCustomKeyStoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -794,7 +796,7 @@ public struct CreateCustomKeyStoreOutput {
 
 enum CreateCustomKeyStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -896,7 +898,7 @@ public struct CreateGrantInput {
 
 extension CreateGrantOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGrantOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGrantOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -925,7 +927,7 @@ public struct CreateGrantOutput {
 
 enum CreateGrantOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1095,7 +1097,7 @@ public struct CreateKeyInput {
 
 extension CreateKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1119,7 +1121,7 @@ public struct CreateKeyOutput {
 
 enum CreateKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1419,7 +1421,7 @@ extension KMSClientTypes {
         /// Indicates whether the custom key store is connected to its backing key store. For an CloudHSM key store, the ConnectionState indicates whether it is connected to its CloudHSM cluster. For an external key store, the ConnectionState indicates whether it is connected to the external key store proxy that communicates with your external key manager. You can create and use KMS keys in your custom key stores only when its ConnectionState is CONNECTED. The ConnectionState value is DISCONNECTED only if the key store has never been connected or you use the [DisconnectCustomKeyStore] operation to disconnect it. If the value is CONNECTED but you are having trouble using the custom key store, make sure that the backing key store is reachable and active. For an CloudHSM key store, verify that its associated CloudHSM cluster is active and contains at least one active HSM. For an external key store, verify that the external key store proxy and external key manager are connected and enabled. A value of FAILED indicates that an attempt to connect was unsuccessful. The ConnectionErrorCode field in the response indicates the cause of the failure. For help resolving a connection failure, see [Troubleshooting a custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/fix-keystore.html) in the Key Management Service Developer Guide.
         public var connectionState: KMSClientTypes.ConnectionStateType?
         /// The date and time when the custom key store was created.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// A unique identifier for the custom key store.
         public var customKeyStoreId: Swift.String?
         /// The user-specified friendly name for the custom key store.
@@ -1435,7 +1437,7 @@ extension KMSClientTypes {
             cloudHsmClusterId: Swift.String? = nil,
             connectionErrorCode: KMSClientTypes.ConnectionErrorCodeType? = nil,
             connectionState: KMSClientTypes.ConnectionStateType? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             customKeyStoreId: Swift.String? = nil,
             customKeyStoreName: Swift.String? = nil,
             customKeyStoreType: KMSClientTypes.CustomKeyStoreType? = nil,
@@ -1620,7 +1622,7 @@ extension DecryptInput {
 public struct DecryptInput {
     /// Ciphertext to be decrypted. The blob includes metadata.
     /// This member is required.
-    public var ciphertextBlob: ClientRuntime.Data?
+    public var ciphertextBlob: Foundation.Data?
     /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your KMS API calls](https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html) in the Key Management Service Developer Guide.
     public var dryRun: Swift.Bool?
     /// Specifies the encryption algorithm that will be used to decrypt the ciphertext. Specify the same algorithm that was used to encrypt the data. If you specify a different algorithm, the Decrypt operation fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. The default value, SYMMETRIC_DEFAULT, represents the only supported algorithm that is valid for symmetric encryption KMS keys.
@@ -1646,7 +1648,7 @@ public struct DecryptInput {
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
-        ciphertextBlob: ClientRuntime.Data? = nil,
+        ciphertextBlob: Foundation.Data? = nil,
         dryRun: Swift.Bool? = nil,
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         encryptionContext: [Swift.String:Swift.String]? = nil,
@@ -1672,7 +1674,7 @@ extension DecryptOutput: Swift.CustomDebugStringConvertible {
 
 extension DecryptOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DecryptOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DecryptOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1687,19 +1689,19 @@ extension DecryptOutput {
 
 public struct DecryptOutput {
     /// The plaintext data encrypted with the public key in the attestation document. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
-    public var ciphertextForRecipient: ClientRuntime.Data?
+    public var ciphertextForRecipient: Foundation.Data?
     /// The encryption algorithm that was used to decrypt the ciphertext.
     public var encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that was used to decrypt the ciphertext.
     public var keyId: Swift.String?
     /// Decrypted plaintext data. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
-    public var plaintext: ClientRuntime.Data?
+    public var plaintext: Foundation.Data?
 
     public init(
-        ciphertextForRecipient: ClientRuntime.Data? = nil,
+        ciphertextForRecipient: Foundation.Data? = nil,
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         keyId: Swift.String? = nil,
-        plaintext: ClientRuntime.Data? = nil
+        plaintext: Foundation.Data? = nil
     )
     {
         self.ciphertextForRecipient = ciphertextForRecipient
@@ -1711,7 +1713,7 @@ public struct DecryptOutput {
 
 enum DecryptOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1763,7 +1765,7 @@ public struct DeleteAliasInput {
 
 extension DeleteAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAliasOutput {
         return DeleteAliasOutput()
     }
 }
@@ -1775,7 +1777,7 @@ public struct DeleteAliasOutput {
 
 enum DeleteAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1820,7 +1822,7 @@ public struct DeleteCustomKeyStoreInput {
 
 extension DeleteCustomKeyStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCustomKeyStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCustomKeyStoreOutput {
         return DeleteCustomKeyStoreOutput()
     }
 }
@@ -1832,7 +1834,7 @@ public struct DeleteCustomKeyStoreOutput {
 
 enum DeleteCustomKeyStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1884,7 +1886,7 @@ public struct DeleteImportedKeyMaterialInput {
 
 extension DeleteImportedKeyMaterialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteImportedKeyMaterialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteImportedKeyMaterialOutput {
         return DeleteImportedKeyMaterialOutput()
     }
 }
@@ -1896,7 +1898,7 @@ public struct DeleteImportedKeyMaterialOutput {
 
 enum DeleteImportedKeyMaterialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1994,7 +1996,7 @@ public struct DescribeCustomKeyStoresInput {
 
 extension DescribeCustomKeyStoresOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCustomKeyStoresOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCustomKeyStoresOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2028,7 +2030,7 @@ public struct DescribeCustomKeyStoresOutput {
 
 enum DescribeCustomKeyStoresOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2088,7 +2090,7 @@ public struct DescribeKeyInput {
 
 extension DescribeKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2112,7 +2114,7 @@ public struct DescribeKeyOutput {
 
 enum DescribeKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2164,7 +2166,7 @@ public struct DisableKeyInput {
 
 extension DisableKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableKeyOutput {
         return DisableKeyOutput()
     }
 }
@@ -2176,7 +2178,7 @@ public struct DisableKeyOutput {
 
 enum DisableKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2229,7 +2231,7 @@ public struct DisableKeyRotationInput {
 
 extension DisableKeyRotationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableKeyRotationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableKeyRotationOutput {
         return DisableKeyRotationOutput()
     }
 }
@@ -2241,7 +2243,7 @@ public struct DisableKeyRotationOutput {
 
 enum DisableKeyRotationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2326,7 +2328,7 @@ public struct DisconnectCustomKeyStoreInput {
 
 extension DisconnectCustomKeyStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisconnectCustomKeyStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisconnectCustomKeyStoreOutput {
         return DisconnectCustomKeyStoreOutput()
     }
 }
@@ -2338,7 +2340,7 @@ public struct DisconnectCustomKeyStoreOutput {
 
 enum DisconnectCustomKeyStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2426,7 +2428,7 @@ public struct EnableKeyInput {
 
 extension EnableKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableKeyOutput {
         return EnableKeyOutput()
     }
 }
@@ -2438,7 +2440,7 @@ public struct EnableKeyOutput {
 
 enum EnableKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2497,7 +2499,7 @@ public struct EnableKeyRotationInput {
 
 extension EnableKeyRotationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableKeyRotationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableKeyRotationOutput {
         return EnableKeyRotationOutput()
     }
 }
@@ -2509,7 +2511,7 @@ public struct EnableKeyRotationOutput {
 
 enum EnableKeyRotationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2577,7 +2579,7 @@ public struct EncryptInput {
     public var keyId: Swift.String?
     /// Data to be encrypted.
     /// This member is required.
-    public var plaintext: ClientRuntime.Data?
+    public var plaintext: Foundation.Data?
 
     public init(
         dryRun: Swift.Bool? = nil,
@@ -2585,7 +2587,7 @@ public struct EncryptInput {
         encryptionContext: [Swift.String:Swift.String]? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
-        plaintext: ClientRuntime.Data? = nil
+        plaintext: Foundation.Data? = nil
     )
     {
         self.dryRun = dryRun
@@ -2599,7 +2601,7 @@ public struct EncryptInput {
 
 extension EncryptOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EncryptOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EncryptOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2613,14 +2615,14 @@ extension EncryptOutput {
 
 public struct EncryptOutput {
     /// The encrypted plaintext. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var ciphertextBlob: ClientRuntime.Data?
+    public var ciphertextBlob: Foundation.Data?
     /// The encryption algorithm that was used to encrypt the plaintext.
     public var encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that was used to encrypt the plaintext.
     public var keyId: Swift.String?
 
     public init(
-        ciphertextBlob: ClientRuntime.Data? = nil,
+        ciphertextBlob: Foundation.Data? = nil,
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         keyId: Swift.String? = nil
     )
@@ -2633,7 +2635,7 @@ public struct EncryptOutput {
 
 enum EncryptOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2830,7 +2832,7 @@ extension GenerateDataKeyOutput: Swift.CustomDebugStringConvertible {
 
 extension GenerateDataKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateDataKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateDataKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2845,19 +2847,19 @@ extension GenerateDataKeyOutput {
 
 public struct GenerateDataKeyOutput {
     /// The encrypted copy of the data key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var ciphertextBlob: ClientRuntime.Data?
+    public var ciphertextBlob: Foundation.Data?
     /// The plaintext data key encrypted with the public key from the Nitro enclave. This ciphertext can be decrypted only by using a private key in the Nitro enclave. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
-    public var ciphertextForRecipient: ClientRuntime.Data?
+    public var ciphertextForRecipient: Foundation.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the data key.
     public var keyId: Swift.String?
     /// The plaintext data key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. Use this data key to encrypt your data outside of KMS. Then, remove it from memory as soon as possible. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
-    public var plaintext: ClientRuntime.Data?
+    public var plaintext: Foundation.Data?
 
     public init(
-        ciphertextBlob: ClientRuntime.Data? = nil,
-        ciphertextForRecipient: ClientRuntime.Data? = nil,
+        ciphertextBlob: Foundation.Data? = nil,
+        ciphertextForRecipient: Foundation.Data? = nil,
         keyId: Swift.String? = nil,
-        plaintext: ClientRuntime.Data? = nil
+        plaintext: Foundation.Data? = nil
     )
     {
         self.ciphertextBlob = ciphertextBlob
@@ -2869,7 +2871,7 @@ public struct GenerateDataKeyOutput {
 
 enum GenerateDataKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2961,7 +2963,7 @@ extension GenerateDataKeyPairOutput: Swift.CustomDebugStringConvertible {
 
 extension GenerateDataKeyPairOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateDataKeyPairOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateDataKeyPairOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2978,25 +2980,25 @@ extension GenerateDataKeyPairOutput {
 
 public struct GenerateDataKeyPairOutput {
     /// The plaintext private data key encrypted with the public key from the Nitro enclave. This ciphertext can be decrypted only by using a private key in the Nitro enclave. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
-    public var ciphertextForRecipient: ClientRuntime.Data?
+    public var ciphertextForRecipient: Foundation.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the private key.
     public var keyId: Swift.String?
     /// The type of data key pair that was generated.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
     /// The encrypted copy of the private key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var privateKeyCiphertextBlob: ClientRuntime.Data?
+    public var privateKeyCiphertextBlob: Foundation.Data?
     /// The plaintext copy of the private key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. If the response includes the CiphertextForRecipient field, the PrivateKeyPlaintext field is null or empty.
-    public var privateKeyPlaintext: ClientRuntime.Data?
+    public var privateKeyPlaintext: Foundation.Data?
     /// The public key (in plaintext). When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var publicKey: ClientRuntime.Data?
+    public var publicKey: Foundation.Data?
 
     public init(
-        ciphertextForRecipient: ClientRuntime.Data? = nil,
+        ciphertextForRecipient: Foundation.Data? = nil,
         keyId: Swift.String? = nil,
         keyPairSpec: KMSClientTypes.DataKeyPairSpec? = nil,
-        privateKeyCiphertextBlob: ClientRuntime.Data? = nil,
-        privateKeyPlaintext: ClientRuntime.Data? = nil,
-        publicKey: ClientRuntime.Data? = nil
+        privateKeyCiphertextBlob: Foundation.Data? = nil,
+        privateKeyPlaintext: Foundation.Data? = nil,
+        publicKey: Foundation.Data? = nil
     )
     {
         self.ciphertextForRecipient = ciphertextForRecipient
@@ -3010,7 +3012,7 @@ public struct GenerateDataKeyPairOutput {
 
 enum GenerateDataKeyPairOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3093,7 +3095,7 @@ public struct GenerateDataKeyPairWithoutPlaintextInput {
 
 extension GenerateDataKeyPairWithoutPlaintextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateDataKeyPairWithoutPlaintextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateDataKeyPairWithoutPlaintextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3112,15 +3114,15 @@ public struct GenerateDataKeyPairWithoutPlaintextOutput {
     /// The type of data key pair that was generated.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
     /// The encrypted copy of the private key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var privateKeyCiphertextBlob: ClientRuntime.Data?
+    public var privateKeyCiphertextBlob: Foundation.Data?
     /// The public key (in plaintext). When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var publicKey: ClientRuntime.Data?
+    public var publicKey: Foundation.Data?
 
     public init(
         keyId: Swift.String? = nil,
         keyPairSpec: KMSClientTypes.DataKeyPairSpec? = nil,
-        privateKeyCiphertextBlob: ClientRuntime.Data? = nil,
-        publicKey: ClientRuntime.Data? = nil
+        privateKeyCiphertextBlob: Foundation.Data? = nil,
+        publicKey: Foundation.Data? = nil
     )
     {
         self.keyId = keyId
@@ -3132,7 +3134,7 @@ public struct GenerateDataKeyPairWithoutPlaintextOutput {
 
 enum GenerateDataKeyPairWithoutPlaintextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3219,7 +3221,7 @@ public struct GenerateDataKeyWithoutPlaintextInput {
 
 extension GenerateDataKeyWithoutPlaintextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateDataKeyWithoutPlaintextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateDataKeyWithoutPlaintextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3232,12 +3234,12 @@ extension GenerateDataKeyWithoutPlaintextOutput {
 
 public struct GenerateDataKeyWithoutPlaintextOutput {
     /// The encrypted data key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var ciphertextBlob: ClientRuntime.Data?
+    public var ciphertextBlob: Foundation.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the data key.
     public var keyId: Swift.String?
 
     public init(
-        ciphertextBlob: ClientRuntime.Data? = nil,
+        ciphertextBlob: Foundation.Data? = nil,
         keyId: Swift.String? = nil
     )
     {
@@ -3248,7 +3250,7 @@ public struct GenerateDataKeyWithoutPlaintextOutput {
 
 enum GenerateDataKeyWithoutPlaintextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3305,14 +3307,14 @@ public struct GenerateMacInput {
     public var macAlgorithm: KMSClientTypes.MacAlgorithmSpec?
     /// The message to be hashed. Specify a message of up to 4,096 bytes. GenerateMac and [VerifyMac] do not provide special handling for message digests. If you generate an HMAC for a hash digest of a message, you must verify the HMAC of the same hash digest.
     /// This member is required.
-    public var message: ClientRuntime.Data?
+    public var message: Foundation.Data?
 
     public init(
         dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil,
-        message: ClientRuntime.Data? = nil
+        message: Foundation.Data? = nil
     )
     {
         self.dryRun = dryRun
@@ -3325,7 +3327,7 @@ public struct GenerateMacInput {
 
 extension GenerateMacOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateMacOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateMacOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3341,13 +3343,13 @@ public struct GenerateMacOutput {
     /// The HMAC KMS key used in the operation.
     public var keyId: Swift.String?
     /// The hash-based message authentication code (HMAC) that was generated for the specified message, HMAC KMS key, and MAC algorithm. This is the standard, raw HMAC defined in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104).
-    public var mac: ClientRuntime.Data?
+    public var mac: Foundation.Data?
     /// The MAC algorithm that was used to generate the HMAC.
     public var macAlgorithm: KMSClientTypes.MacAlgorithmSpec?
 
     public init(
         keyId: Swift.String? = nil,
-        mac: ClientRuntime.Data? = nil,
+        mac: Foundation.Data? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil
     )
     {
@@ -3359,7 +3361,7 @@ public struct GenerateMacOutput {
 
 enum GenerateMacOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3422,7 +3424,7 @@ extension GenerateRandomOutput: Swift.CustomDebugStringConvertible {
 
 extension GenerateRandomOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GenerateRandomOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GenerateRandomOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3435,13 +3437,13 @@ extension GenerateRandomOutput {
 
 public struct GenerateRandomOutput {
     /// The plaintext random bytes encrypted with the public key from the Nitro enclave. This ciphertext can be decrypted only by using a private key in the Nitro enclave. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
-    public var ciphertextForRecipient: ClientRuntime.Data?
+    public var ciphertextForRecipient: Foundation.Data?
     /// The random byte string. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
-    public var plaintext: ClientRuntime.Data?
+    public var plaintext: Foundation.Data?
 
     public init(
-        ciphertextForRecipient: ClientRuntime.Data? = nil,
-        plaintext: ClientRuntime.Data? = nil
+        ciphertextForRecipient: Foundation.Data? = nil,
+        plaintext: Foundation.Data? = nil
     )
     {
         self.ciphertextForRecipient = ciphertextForRecipient
@@ -3451,7 +3453,7 @@ public struct GenerateRandomOutput {
 
 enum GenerateRandomOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3509,7 +3511,7 @@ public struct GetKeyPolicyInput {
 
 extension GetKeyPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKeyPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKeyPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3538,7 +3540,7 @@ public struct GetKeyPolicyOutput {
 
 enum GetKeyPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3591,7 +3593,7 @@ public struct GetKeyRotationStatusInput {
 
 extension GetKeyRotationStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKeyRotationStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKeyRotationStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3611,17 +3613,17 @@ public struct GetKeyRotationStatusOutput {
     /// A Boolean value that specifies whether key rotation is enabled.
     public var keyRotationEnabled: Swift.Bool
     /// The next date that KMS will automatically rotate the key material.
-    public var nextRotationDate: ClientRuntime.Date?
+    public var nextRotationDate: Foundation.Date?
     /// Identifies the date and time that an in progress on-demand rotation was initiated. The KMS API follows an [eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html) model due to the distributed nature of the system. As a result, there might be a slight delay between initiating on-demand key rotation and the rotation's completion. Once the on-demand rotation is complete, use [ListKeyRotations] to view the details of the on-demand rotation.
-    public var onDemandRotationStartDate: ClientRuntime.Date?
+    public var onDemandRotationStartDate: Foundation.Date?
     /// The number of days between each automatic rotation. The default value is 365 days.
     public var rotationPeriodInDays: Swift.Int?
 
     public init(
         keyId: Swift.String? = nil,
         keyRotationEnabled: Swift.Bool = false,
-        nextRotationDate: ClientRuntime.Date? = nil,
-        onDemandRotationStartDate: ClientRuntime.Date? = nil,
+        nextRotationDate: Foundation.Date? = nil,
+        onDemandRotationStartDate: Foundation.Date? = nil,
         rotationPeriodInDays: Swift.Int? = nil
     )
     {
@@ -3635,7 +3637,7 @@ public struct GetKeyRotationStatusOutput {
 
 enum GetKeyRotationStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3716,7 +3718,7 @@ extension GetParametersForImportOutput: Swift.CustomDebugStringConvertible {
 
 extension GetParametersForImportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetParametersForImportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetParametersForImportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3731,19 +3733,19 @@ extension GetParametersForImportOutput {
 
 public struct GetParametersForImportOutput {
     /// The import token to send in a subsequent [ImportKeyMaterial] request.
-    public var importToken: ClientRuntime.Data?
+    public var importToken: Foundation.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key to use in a subsequent [ImportKeyMaterial] request. This is the same KMS key specified in the GetParametersForImport request.
     public var keyId: Swift.String?
     /// The time at which the import token and public key are no longer valid. After this time, you cannot use them to make an [ImportKeyMaterial] request and you must send another GetParametersForImport request to get new ones.
-    public var parametersValidTo: ClientRuntime.Date?
+    public var parametersValidTo: Foundation.Date?
     /// The public key to use to encrypt the key material before importing it with [ImportKeyMaterial].
-    public var publicKey: ClientRuntime.Data?
+    public var publicKey: Foundation.Data?
 
     public init(
-        importToken: ClientRuntime.Data? = nil,
+        importToken: Foundation.Data? = nil,
         keyId: Swift.String? = nil,
-        parametersValidTo: ClientRuntime.Date? = nil,
-        publicKey: ClientRuntime.Data? = nil
+        parametersValidTo: Foundation.Date? = nil,
+        publicKey: Foundation.Data? = nil
     )
     {
         self.importToken = importToken
@@ -3755,7 +3757,7 @@ public struct GetParametersForImportOutput {
 
 enum GetParametersForImportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3818,7 +3820,7 @@ public struct GetPublicKeyInput {
 
 extension GetPublicKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPublicKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPublicKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3847,7 +3849,7 @@ public struct GetPublicKeyOutput {
     /// The permitted use of the public key. Valid values are ENCRYPT_DECRYPT or SIGN_VERIFY. This information is critical. If a public key with SIGN_VERIFY key usage encrypts data outside of KMS, the ciphertext cannot be decrypted.
     public var keyUsage: KMSClientTypes.KeyUsageType?
     /// The exported public key. The value is a DER-encoded X.509 public key, also known as SubjectPublicKeyInfo (SPKI), as defined in [RFC 5280](https://tools.ietf.org/html/rfc5280). When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var publicKey: ClientRuntime.Data?
+    public var publicKey: Foundation.Data?
     /// The signing algorithms that KMS supports for this key. This field appears in the response only when the KeyUsage of the public key is SIGN_VERIFY.
     public var signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]?
 
@@ -3857,7 +3859,7 @@ public struct GetPublicKeyOutput {
         keyId: Swift.String? = nil,
         keySpec: KMSClientTypes.KeySpec? = nil,
         keyUsage: KMSClientTypes.KeyUsageType? = nil,
-        publicKey: ClientRuntime.Data? = nil,
+        publicKey: Foundation.Data? = nil,
         signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]? = nil
     )
     {
@@ -3873,7 +3875,7 @@ public struct GetPublicKeyOutput {
 
 enum GetPublicKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3955,7 +3957,7 @@ extension KMSClientTypes {
         /// A list of key-value pairs that must be present in the encryption context of certain subsequent operations that the grant allows.
         public var constraints: KMSClientTypes.GrantConstraints?
         /// The date and time when the grant was created.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// The unique identifier for the grant.
         public var grantId: Swift.String?
         /// The identity that gets the permissions in the grant. The GranteePrincipal field in the ListGrants response usually contains the user or role designated as the grantee principal in the grant. However, when the grantee principal in the grant is an Amazon Web Services service, the GranteePrincipal field contains the [service principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#principal-services), which might represent several different grantee principals.
@@ -3973,7 +3975,7 @@ extension KMSClientTypes {
 
         public init(
             constraints: KMSClientTypes.GrantConstraints? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             grantId: Swift.String? = nil,
             granteePrincipal: Swift.String? = nil,
             issuingAccount: Swift.String? = nil,
@@ -4090,12 +4092,12 @@ extension ImportKeyMaterialInput {
 public struct ImportKeyMaterialInput {
     /// The encrypted key material to import. The key material must be encrypted under the public wrapping key that [GetParametersForImport] returned, using the wrapping algorithm that you specified in the same GetParametersForImport request.
     /// This member is required.
-    public var encryptedKeyMaterial: ClientRuntime.Data?
+    public var encryptedKeyMaterial: Foundation.Data?
     /// Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES. For help with this choice, see [Setting an expiration time](https://docs.aws.amazon.com/en_us/kms/latest/developerguide/importing-keys.html#importing-keys-expiration) in the Key Management Service Developer Guide. When the value of ExpirationModel is KEY_MATERIAL_EXPIRES, you must specify a value for the ValidTo parameter. When value is KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter. You cannot change the ExpirationModel or ValidTo values for the current import after the request completes. To change either value, you must reimport the key material.
     public var expirationModel: KMSClientTypes.ExpirationModelType?
     /// The import token that you received in the response to a previous [GetParametersForImport] request. It must be from the same response that contained the public key that you used to encrypt the key material.
     /// This member is required.
-    public var importToken: ClientRuntime.Data?
+    public var importToken: Foundation.Data?
     /// The identifier of the KMS key that will be associated with the imported key material. This must be the same KMS key specified in the KeyID parameter of the corresponding [GetParametersForImport] request. The Origin of the KMS key must be EXTERNAL and its KeyState must be PendingImport. The KMS key can be a symmetric encryption KMS key, HMAC KMS key, asymmetric encryption KMS key, or asymmetric signing KMS key, including a [multi-Region key] of any supported type. You cannot perform this operation on a KMS key in a custom key store, or on a KMS key in a different Amazon Web Services account. Specify the key ID or key ARN of the KMS key. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
@@ -4107,14 +4109,14 @@ public struct ImportKeyMaterialInput {
     /// This member is required.
     public var keyId: Swift.String?
     /// The date and time when the imported key material expires. This parameter is required when the value of the ExpirationModel parameter is KEY_MATERIAL_EXPIRES. Otherwise it is not valid. The value of this parameter must be a future date and time. The maximum value is 365 days from the request date. When the key material expires, KMS deletes the key material from the KMS key. Without its key material, the KMS key is unusable. To use the KMS key in cryptographic operations, you must reimport the same key material. You cannot change the ExpirationModel or ValidTo values for the current import after the request completes. To change either value, you must delete ([DeleteImportedKeyMaterial]) and reimport the key material.
-    public var validTo: ClientRuntime.Date?
+    public var validTo: Foundation.Date?
 
     public init(
-        encryptedKeyMaterial: ClientRuntime.Data? = nil,
+        encryptedKeyMaterial: Foundation.Data? = nil,
         expirationModel: KMSClientTypes.ExpirationModelType? = nil,
-        importToken: ClientRuntime.Data? = nil,
+        importToken: Foundation.Data? = nil,
         keyId: Swift.String? = nil,
-        validTo: ClientRuntime.Date? = nil
+        validTo: Foundation.Date? = nil
     )
     {
         self.encryptedKeyMaterial = encryptedKeyMaterial
@@ -4127,7 +4129,7 @@ public struct ImportKeyMaterialInput {
 
 extension ImportKeyMaterialOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportKeyMaterialOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportKeyMaterialOutput {
         return ImportKeyMaterialOutput()
     }
 }
@@ -4139,7 +4141,7 @@ public struct ImportKeyMaterialOutput {
 
 enum ImportKeyMaterialOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4857,14 +4859,14 @@ extension KMSClientTypes {
         /// The cluster ID of the CloudHSM cluster that contains the key material for the KMS key. When you create a KMS key in an CloudHSM [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html), KMS creates the key material for the KMS key in the associated CloudHSM cluster. This field is present only when the KMS key is created in an CloudHSM key store.
         public var cloudHsmClusterId: Swift.String?
         /// The date and time when the KMS key was created.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// A unique identifier for the [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html) that contains the KMS key. This field is present only when the KMS key is created in a custom key store.
         public var customKeyStoreId: Swift.String?
         /// Instead, use the KeySpec field. The KeySpec and CustomerMasterKeySpec fields have the same value. We recommend that you use the KeySpec field in your code. However, to avoid breaking changes, KMS supports both fields.
         @available(*, deprecated, message: "This field has been deprecated. Instead, use the KeySpec field.")
         public var customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec?
         /// The date and time after which KMS deletes this KMS key. This value is present only when the KMS key is scheduled for deletion, that is, when its KeyState is PendingDeletion. When the primary key in a multi-Region key is scheduled for deletion but still has replica keys, its key state is PendingReplicaDeletion and the length of its waiting period is displayed in the PendingDeletionWindowInDays field.
-        public var deletionDate: ClientRuntime.Date?
+        public var deletionDate: Foundation.Date?
         /// The description of the KMS key.
         public var description: Swift.String?
         /// Specifies whether the KMS key is enabled. When KeyState is Enabled this value is true, otherwise it is false.
@@ -4903,7 +4905,7 @@ extension KMSClientTypes {
         /// The signing algorithms that the KMS key supports. You cannot use the KMS key with other signing algorithms within KMS. This field appears only when the KeyUsage of the KMS key is SIGN_VERIFY.
         public var signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]?
         /// The time at which the imported key material expires. When the key material expires, KMS deletes the key material and the KMS key becomes unusable. This value is present only for KMS keys whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
-        public var validTo: ClientRuntime.Date?
+        public var validTo: Foundation.Date?
         /// Information about the external key that is associated with a KMS key in an external key store. For more information, see [External key](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key) in the Key Management Service Developer Guide.
         public var xksKeyConfiguration: KMSClientTypes.XksKeyConfigurationType?
 
@@ -4911,10 +4913,10 @@ extension KMSClientTypes {
             arn: Swift.String? = nil,
             awsAccountId: Swift.String? = nil,
             cloudHsmClusterId: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             customKeyStoreId: Swift.String? = nil,
             customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec? = nil,
-            deletionDate: ClientRuntime.Date? = nil,
+            deletionDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             enabled: Swift.Bool = false,
             encryptionAlgorithms: [KMSClientTypes.EncryptionAlgorithmSpec]? = nil,
@@ -4930,7 +4932,7 @@ extension KMSClientTypes {
             origin: KMSClientTypes.OriginType? = nil,
             pendingDeletionWindowInDays: Swift.Int? = nil,
             signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]? = nil,
-            validTo: ClientRuntime.Date? = nil,
+            validTo: Foundation.Date? = nil,
             xksKeyConfiguration: KMSClientTypes.XksKeyConfigurationType? = nil
         )
         {
@@ -5224,7 +5226,7 @@ public struct ListAliasesInput {
 
 extension ListAliasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAliasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAliasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5258,7 +5260,7 @@ public struct ListAliasesOutput {
 
 enum ListAliasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5331,7 +5333,7 @@ public struct ListGrantsInput {
 
 extension ListGrantsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGrantsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGrantsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5365,7 +5367,7 @@ public struct ListGrantsOutput {
 
 enum ListGrantsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5430,7 +5432,7 @@ public struct ListKeyPoliciesInput {
 
 extension ListKeyPoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKeyPoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKeyPoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5464,7 +5466,7 @@ public struct ListKeyPoliciesOutput {
 
 enum ListKeyPoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5527,7 +5529,7 @@ public struct ListKeyRotationsInput {
 
 extension ListKeyRotationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKeyRotationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKeyRotationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5561,7 +5563,7 @@ public struct ListKeyRotationsOutput {
 
 enum ListKeyRotationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5612,7 +5614,7 @@ public struct ListKeysInput {
 
 extension ListKeysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKeysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKeysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5646,7 +5648,7 @@ public struct ListKeysOutput {
 
 enum ListKeysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5707,7 +5709,7 @@ public struct ListResourceTagsInput {
 
 extension ListResourceTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourceTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourceTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5741,7 +5743,7 @@ public struct ListResourceTagsOutput {
 
 enum ListResourceTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5796,7 +5798,7 @@ public struct ListRetirableGrantsInput {
 
 extension ListRetirableGrantsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRetirableGrantsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRetirableGrantsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5830,7 +5832,7 @@ public struct ListRetirableGrantsOutput {
 
 enum ListRetirableGrantsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6184,7 +6186,7 @@ public struct PutKeyPolicyInput {
 
 extension PutKeyPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutKeyPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutKeyPolicyOutput {
         return PutKeyPolicyOutput()
     }
 }
@@ -6196,7 +6198,7 @@ public struct PutKeyPolicyOutput {
 
 enum PutKeyPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6241,7 +6243,7 @@ extension ReEncryptInput {
 public struct ReEncryptInput {
     /// Ciphertext of the data to reencrypt.
     /// This member is required.
-    public var ciphertextBlob: ClientRuntime.Data?
+    public var ciphertextBlob: Foundation.Data?
     /// Specifies the encryption algorithm that KMS will use to reecrypt the data after it has decrypted it. The default value, SYMMETRIC_DEFAULT, represents the encryption algorithm used for symmetric encryption KMS keys. This parameter is required only when the destination KMS key is an asymmetric KMS key.
     public var destinationEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// Specifies that encryption context to use when the reencrypting the data. Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. A destination encryption context is valid only when the destination KMS key is a symmetric encryption KMS key. The standard ciphertext format for asymmetric KMS keys does not include fields for metadata. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Key Management Service Developer Guide.
@@ -6283,7 +6285,7 @@ public struct ReEncryptInput {
     public var sourceKeyId: Swift.String?
 
     public init(
-        ciphertextBlob: ClientRuntime.Data? = nil,
+        ciphertextBlob: Foundation.Data? = nil,
         destinationEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         destinationEncryptionContext: [Swift.String:Swift.String]? = nil,
         destinationKeyId: Swift.String? = nil,
@@ -6308,7 +6310,7 @@ public struct ReEncryptInput {
 
 extension ReEncryptOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ReEncryptOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ReEncryptOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6324,7 +6326,7 @@ extension ReEncryptOutput {
 
 public struct ReEncryptOutput {
     /// The reencrypted data. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var ciphertextBlob: ClientRuntime.Data?
+    public var ciphertextBlob: Foundation.Data?
     /// The encryption algorithm that was used to reencrypt the data.
     public var destinationEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that was used to reencrypt the data.
@@ -6335,7 +6337,7 @@ public struct ReEncryptOutput {
     public var sourceKeyId: Swift.String?
 
     public init(
-        ciphertextBlob: ClientRuntime.Data? = nil,
+        ciphertextBlob: Foundation.Data? = nil,
         destinationEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         keyId: Swift.String? = nil,
         sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
@@ -6352,7 +6354,7 @@ public struct ReEncryptOutput {
 
 enum ReEncryptOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6387,12 +6389,12 @@ extension KMSClientTypes {
     /// Contains information about the party that receives the response from the API operation. This data type is designed to support Amazon Web Services Nitro Enclaves, which lets you create an isolated compute environment in Amazon EC2. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
     public struct RecipientInfo {
         /// The attestation document for an Amazon Web Services Nitro Enclave. This document includes the enclave's public key.
-        public var attestationDocument: ClientRuntime.Data?
+        public var attestationDocument: Foundation.Data?
         /// The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave to encrypt plaintext values for the response. The only valid value is RSAES_OAEP_SHA_256.
         public var keyEncryptionAlgorithm: KMSClientTypes.KeyEncryptionMechanism?
 
         public init(
-            attestationDocument: ClientRuntime.Data? = nil,
+            attestationDocument: Foundation.Data? = nil,
             keyEncryptionAlgorithm: KMSClientTypes.KeyEncryptionMechanism? = nil
         )
         {
@@ -6482,7 +6484,7 @@ public struct ReplicateKeyInput {
 
 extension ReplicateKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ReplicateKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ReplicateKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6516,7 +6518,7 @@ public struct ReplicateKeyOutput {
 
 enum ReplicateKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6583,7 +6585,7 @@ public struct RetireGrantInput {
 
 extension RetireGrantOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RetireGrantOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RetireGrantOutput {
         return RetireGrantOutput()
     }
 }
@@ -6595,7 +6597,7 @@ public struct RetireGrantOutput {
 
 enum RetireGrantOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6662,7 +6664,7 @@ public struct RevokeGrantInput {
 
 extension RevokeGrantOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RevokeGrantOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RevokeGrantOutput {
         return RevokeGrantOutput()
     }
 }
@@ -6674,7 +6676,7 @@ public struct RevokeGrantOutput {
 
 enum RevokeGrantOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6729,7 +6731,7 @@ public struct RotateKeyOnDemandInput {
 
 extension RotateKeyOnDemandOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RotateKeyOnDemandOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RotateKeyOnDemandOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6753,7 +6755,7 @@ public struct RotateKeyOnDemandOutput {
 
 enum RotateKeyOnDemandOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6820,13 +6822,13 @@ extension KMSClientTypes {
         /// Unique identifier of the key.
         public var keyId: Swift.String?
         /// Date and time that the key material rotation completed. Formatted as Unix time.
-        public var rotationDate: ClientRuntime.Date?
+        public var rotationDate: Foundation.Date?
         /// Identifies whether the key material rotation was a scheduled [automatic rotation](https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-enable-disable) or an [on-demand rotation](https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-on-demand).
         public var rotationType: KMSClientTypes.RotationType?
 
         public init(
             keyId: Swift.String? = nil,
-            rotationDate: ClientRuntime.Date? = nil,
+            rotationDate: Foundation.Date? = nil,
             rotationType: KMSClientTypes.RotationType? = nil
         )
         {
@@ -6880,7 +6882,7 @@ public struct ScheduleKeyDeletionInput {
 
 extension ScheduleKeyDeletionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ScheduleKeyDeletionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ScheduleKeyDeletionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6895,7 +6897,7 @@ extension ScheduleKeyDeletionOutput {
 
 public struct ScheduleKeyDeletionOutput {
     /// The date and time after which KMS deletes the KMS key. If the KMS key is a multi-Region primary key with replica keys, this field does not appear. The deletion date for the primary key isn't known until its last replica key is deleted.
-    public var deletionDate: ClientRuntime.Date?
+    public var deletionDate: Foundation.Date?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key whose deletion is scheduled.
     public var keyId: Swift.String?
     /// The current status of the KMS key. For more information about how key state affects the use of a KMS key, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
@@ -6904,7 +6906,7 @@ public struct ScheduleKeyDeletionOutput {
     public var pendingWindowInDays: Swift.Int?
 
     public init(
-        deletionDate: ClientRuntime.Date? = nil,
+        deletionDate: Foundation.Date? = nil,
         keyId: Swift.String? = nil,
         keyState: KMSClientTypes.KeyState? = nil,
         pendingWindowInDays: Swift.Int? = nil
@@ -6919,7 +6921,7 @@ public struct ScheduleKeyDeletionOutput {
 
 enum ScheduleKeyDeletionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6981,7 +6983,7 @@ public struct SignInput {
     public var keyId: Swift.String?
     /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing.
     /// This member is required.
-    public var message: ClientRuntime.Data?
+    public var message: Foundation.Data?
     /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm in that Sign uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
@@ -7000,7 +7002,7 @@ public struct SignInput {
         dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
-        message: ClientRuntime.Data? = nil,
+        message: Foundation.Data? = nil,
         messageType: KMSClientTypes.MessageType? = nil,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
     )
@@ -7016,7 +7018,7 @@ public struct SignInput {
 
 extension SignOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SignOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SignOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7039,13 +7041,13 @@ public struct SignOutput {
     ///
     ///
     /// When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
-    public var signature: ClientRuntime.Data?
+    public var signature: Foundation.Data?
     /// The signing algorithm that was used to sign the message.
     public var signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec?
 
     public init(
         keyId: Swift.String? = nil,
-        signature: ClientRuntime.Data? = nil,
+        signature: Foundation.Data? = nil,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
     )
     {
@@ -7057,7 +7059,7 @@ public struct SignOutput {
 
 enum SignOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7249,7 +7251,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7261,7 +7263,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7358,7 +7360,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7370,7 +7372,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7429,7 +7431,7 @@ public struct UpdateAliasInput {
 
 extension UpdateAliasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAliasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAliasOutput {
         return UpdateAliasOutput()
     }
 }
@@ -7441,7 +7443,7 @@ public struct UpdateAliasOutput {
 
 enum UpdateAliasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7532,7 +7534,7 @@ public struct UpdateCustomKeyStoreInput {
 
 extension UpdateCustomKeyStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateCustomKeyStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateCustomKeyStoreOutput {
         return UpdateCustomKeyStoreOutput()
     }
 }
@@ -7544,7 +7546,7 @@ public struct UpdateCustomKeyStoreOutput {
 
 enum UpdateCustomKeyStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7615,7 +7617,7 @@ public struct UpdateKeyDescriptionInput {
 
 extension UpdateKeyDescriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKeyDescriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKeyDescriptionOutput {
         return UpdateKeyDescriptionOutput()
     }
 }
@@ -7627,7 +7629,7 @@ public struct UpdateKeyDescriptionOutput {
 
 enum UpdateKeyDescriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7686,7 +7688,7 @@ public struct UpdatePrimaryRegionInput {
 
 extension UpdatePrimaryRegionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePrimaryRegionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePrimaryRegionOutput {
         return UpdatePrimaryRegionOutput()
     }
 }
@@ -7698,7 +7700,7 @@ public struct UpdatePrimaryRegionOutput {
 
 enum UpdatePrimaryRegionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7762,7 +7764,7 @@ public struct VerifyInput {
     public var keyId: Swift.String?
     /// Specifies the message that was signed. You can submit a raw message of up to 4096 bytes, or a hash digest of the message. If you submit a digest, use the MessageType parameter with a value of DIGEST. If the message specified here is different from the message that was signed, the signature verification fails. A message and its hash digest are considered to be the same message.
     /// This member is required.
-    public var message: ClientRuntime.Data?
+    public var message: Foundation.Data?
     /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. Use the DIGEST value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the verification operation can be compromised. When the value of MessageTypeis DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm in that Verify uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
@@ -7775,7 +7777,7 @@ public struct VerifyInput {
     public var messageType: KMSClientTypes.MessageType?
     /// The signature that the Sign operation generated.
     /// This member is required.
-    public var signature: ClientRuntime.Data?
+    public var signature: Foundation.Data?
     /// The signing algorithm that was used to sign the message. If you submit a different algorithm, the signature verification fails.
     /// This member is required.
     public var signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec?
@@ -7784,9 +7786,9 @@ public struct VerifyInput {
         dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
-        message: ClientRuntime.Data? = nil,
+        message: Foundation.Data? = nil,
         messageType: KMSClientTypes.MessageType? = nil,
-        signature: ClientRuntime.Data? = nil,
+        signature: Foundation.Data? = nil,
         signingAlgorithm: KMSClientTypes.SigningAlgorithmSpec? = nil
     )
     {
@@ -7835,21 +7837,21 @@ public struct VerifyMacInput {
     public var keyId: Swift.String?
     /// The HMAC to verify. Enter the HMAC that was generated by the [GenerateMac] operation when you specified the same message, HMAC KMS key, and MAC algorithm as the values specified in this request.
     /// This member is required.
-    public var mac: ClientRuntime.Data?
+    public var mac: Foundation.Data?
     /// The MAC algorithm that will be used in the verification. Enter the same MAC algorithm that was used to compute the HMAC. This algorithm must be supported by the HMAC KMS key identified by the KeyId parameter.
     /// This member is required.
     public var macAlgorithm: KMSClientTypes.MacAlgorithmSpec?
     /// The message that will be used in the verification. Enter the same message that was used to generate the HMAC. [GenerateMac] and VerifyMac do not provide special handling for message digests. If you generated an HMAC for a hash digest of a message, you must verify the HMAC for the same hash digest.
     /// This member is required.
-    public var message: ClientRuntime.Data?
+    public var message: Foundation.Data?
 
     public init(
         dryRun: Swift.Bool? = nil,
         grantTokens: [Swift.String]? = nil,
         keyId: Swift.String? = nil,
-        mac: ClientRuntime.Data? = nil,
+        mac: Foundation.Data? = nil,
         macAlgorithm: KMSClientTypes.MacAlgorithmSpec? = nil,
-        message: ClientRuntime.Data? = nil
+        message: Foundation.Data? = nil
     )
     {
         self.dryRun = dryRun
@@ -7863,7 +7865,7 @@ public struct VerifyMacInput {
 
 extension VerifyMacOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> VerifyMacOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> VerifyMacOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7897,7 +7899,7 @@ public struct VerifyMacOutput {
 
 enum VerifyMacOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7919,7 +7921,7 @@ enum VerifyMacOutputError {
 
 extension VerifyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> VerifyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> VerifyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7953,7 +7955,7 @@ public struct VerifyOutput {
 
 enum VerifyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

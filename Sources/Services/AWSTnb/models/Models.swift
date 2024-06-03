@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -68,7 +71,7 @@ public struct CancelSolNetworkOperationInput {
 
 extension CancelSolNetworkOperationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelSolNetworkOperationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelSolNetworkOperationOutput {
         return CancelSolNetworkOperationOutput()
     }
 }
@@ -80,7 +83,7 @@ public struct CancelSolNetworkOperationOutput {
 
 enum CancelSolNetworkOperationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -135,7 +138,7 @@ extension CreateSolFunctionPackageOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateSolFunctionPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSolFunctionPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSolFunctionPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -189,7 +192,7 @@ public struct CreateSolFunctionPackageOutput {
 
 enum CreateSolFunctionPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -261,7 +264,7 @@ extension CreateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateSolNetworkInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSolNetworkInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSolNetworkInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -309,7 +312,7 @@ public struct CreateSolNetworkInstanceOutput {
 
 enum CreateSolNetworkInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -365,7 +368,7 @@ extension CreateSolNetworkPackageOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateSolNetworkPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSolNetworkPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSolNetworkPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -419,7 +422,7 @@ public struct CreateSolNetworkPackageOutput {
 
 enum CreateSolNetworkPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -460,7 +463,7 @@ public struct DeleteSolFunctionPackageInput {
 
 extension DeleteSolFunctionPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSolFunctionPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSolFunctionPackageOutput {
         return DeleteSolFunctionPackageOutput()
     }
 }
@@ -472,7 +475,7 @@ public struct DeleteSolFunctionPackageOutput {
 
 enum DeleteSolFunctionPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -513,7 +516,7 @@ public struct DeleteSolNetworkInstanceInput {
 
 extension DeleteSolNetworkInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSolNetworkInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSolNetworkInstanceOutput {
         return DeleteSolNetworkInstanceOutput()
     }
 }
@@ -525,7 +528,7 @@ public struct DeleteSolNetworkInstanceOutput {
 
 enum DeleteSolNetworkInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -566,7 +569,7 @@ public struct DeleteSolNetworkPackageInput {
 
 extension DeleteSolNetworkPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSolNetworkPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSolNetworkPackageOutput {
         return DeleteSolNetworkPackageOutput()
     }
 }
@@ -578,7 +581,7 @@ public struct DeleteSolNetworkPackageOutput {
 
 enum DeleteSolNetworkPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -716,14 +719,14 @@ extension TnbClientTypes {
     public struct GetSolFunctionInstanceMetadata {
         /// The date that the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date that the resource was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -740,7 +743,7 @@ extension GetSolFunctionInstanceOutput: Swift.CustomDebugStringConvertible {
 
 extension GetSolFunctionInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolFunctionInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSolFunctionInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -826,7 +829,7 @@ public struct GetSolFunctionInstanceOutput {
 
 enum GetSolFunctionInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -844,8 +847,8 @@ enum GetSolFunctionInstanceOutputError {
 
 extension GetSolFunctionPackageContentInput {
 
-    static func headerProvider(_ value: GetSolFunctionPackageContentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetSolFunctionPackageContentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept.rawValue)))
         }
@@ -883,7 +886,7 @@ public struct GetSolFunctionPackageContentInput {
 
 extension GetSolFunctionPackageContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolFunctionPackageContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSolFunctionPackageContentOutput {
         var value = GetSolFunctionPackageContentOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = TnbClientTypes.PackageContentType(rawValue: contentTypeHeaderValue)
@@ -904,11 +907,11 @@ public struct GetSolFunctionPackageContentOutput {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Contents of the function package.
-    public var packageContent: ClientRuntime.Data?
+    public var packageContent: Foundation.Data?
 
     public init(
         contentType: TnbClientTypes.PackageContentType? = nil,
-        packageContent: ClientRuntime.Data? = nil
+        packageContent: Foundation.Data? = nil
     )
     {
         self.contentType = contentType
@@ -918,7 +921,7 @@ public struct GetSolFunctionPackageContentOutput {
 
 enum GetSolFunctionPackageContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -936,8 +939,8 @@ enum GetSolFunctionPackageContentOutputError {
 
 extension GetSolFunctionPackageDescriptorInput {
 
-    static func headerProvider(_ value: GetSolFunctionPackageDescriptorInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetSolFunctionPackageDescriptorInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept.rawValue)))
         }
@@ -975,7 +978,7 @@ public struct GetSolFunctionPackageDescriptorInput {
 
 extension GetSolFunctionPackageDescriptorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolFunctionPackageDescriptorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSolFunctionPackageDescriptorOutput {
         var value = GetSolFunctionPackageDescriptorOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = TnbClientTypes.DescriptorContentType(rawValue: contentTypeHeaderValue)
@@ -996,11 +999,11 @@ public struct GetSolFunctionPackageDescriptorOutput {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.DescriptorContentType?
     /// Contents of the function package descriptor.
-    public var vnfd: ClientRuntime.Data?
+    public var vnfd: Foundation.Data?
 
     public init(
         contentType: TnbClientTypes.DescriptorContentType? = nil,
-        vnfd: ClientRuntime.Data? = nil
+        vnfd: Foundation.Data? = nil
     )
     {
         self.contentType = contentType
@@ -1010,7 +1013,7 @@ public struct GetSolFunctionPackageDescriptorOutput {
 
 enum GetSolFunctionPackageDescriptorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1066,16 +1069,16 @@ extension TnbClientTypes {
     public struct GetSolFunctionPackageMetadata {
         /// The date that the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date that the resource was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
         /// Metadata related to the function package descriptor of the function package.
         public var vnfd: TnbClientTypes.FunctionArtifactMeta?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil,
             vnfd: TnbClientTypes.FunctionArtifactMeta? = nil
         )
         {
@@ -1094,7 +1097,7 @@ extension GetSolFunctionPackageOutput: Swift.CustomDebugStringConvertible {
 
 extension GetSolFunctionPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolFunctionPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSolFunctionPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1173,7 +1176,7 @@ public struct GetSolFunctionPackageOutput {
 
 enum GetSolFunctionPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1254,14 +1257,14 @@ extension TnbClientTypes {
     public struct GetSolNetworkInstanceMetadata {
         /// The date that the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date that the resource was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -1278,7 +1281,7 @@ extension GetSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
 
 extension GetSolNetworkInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolNetworkInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSolNetworkInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1354,7 +1357,7 @@ public struct GetSolNetworkInstanceOutput {
 
 enum GetSolNetworkInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1409,14 +1412,14 @@ extension TnbClientTypes {
     public struct GetSolNetworkOperationMetadata {
         /// The date that the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date that the resource was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -1433,7 +1436,7 @@ extension GetSolNetworkOperationOutput: Swift.CustomDebugStringConvertible {
 
 extension GetSolNetworkOperationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolNetworkOperationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSolNetworkOperationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1498,7 +1501,7 @@ public struct GetSolNetworkOperationOutput {
 
 enum GetSolNetworkOperationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1535,22 +1538,22 @@ extension TnbClientTypes {
         /// Context for the network operation task.
         public var taskContext: [Swift.String:Swift.String]?
         /// Task end time.
-        public var taskEndTime: ClientRuntime.Date?
+        public var taskEndTime: Foundation.Date?
         /// Task error details.
         public var taskErrorDetails: TnbClientTypes.ErrorInfo?
         /// Task name.
         public var taskName: Swift.String?
         /// Task start time.
-        public var taskStartTime: ClientRuntime.Date?
+        public var taskStartTime: Foundation.Date?
         /// Task status.
         public var taskStatus: TnbClientTypes.TaskStatus?
 
         public init(
             taskContext: [Swift.String:Swift.String]? = nil,
-            taskEndTime: ClientRuntime.Date? = nil,
+            taskEndTime: Foundation.Date? = nil,
             taskErrorDetails: TnbClientTypes.ErrorInfo? = nil,
             taskName: Swift.String? = nil,
-            taskStartTime: ClientRuntime.Date? = nil,
+            taskStartTime: Foundation.Date? = nil,
             taskStatus: TnbClientTypes.TaskStatus? = nil
         )
         {
@@ -1567,8 +1570,8 @@ extension TnbClientTypes {
 
 extension GetSolNetworkPackageContentInput {
 
-    static func headerProvider(_ value: GetSolNetworkPackageContentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetSolNetworkPackageContentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept.rawValue)))
         }
@@ -1606,7 +1609,7 @@ public struct GetSolNetworkPackageContentInput {
 
 extension GetSolNetworkPackageContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolNetworkPackageContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSolNetworkPackageContentOutput {
         var value = GetSolNetworkPackageContentOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = TnbClientTypes.PackageContentType(rawValue: contentTypeHeaderValue)
@@ -1627,11 +1630,11 @@ public struct GetSolNetworkPackageContentOutput {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.PackageContentType?
     /// Content of the network service descriptor in the network package.
-    public var nsdContent: ClientRuntime.Data?
+    public var nsdContent: Foundation.Data?
 
     public init(
         contentType: TnbClientTypes.PackageContentType? = nil,
-        nsdContent: ClientRuntime.Data? = nil
+        nsdContent: Foundation.Data? = nil
     )
     {
         self.contentType = contentType
@@ -1641,7 +1644,7 @@ public struct GetSolNetworkPackageContentOutput {
 
 enum GetSolNetworkPackageContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1682,7 +1685,7 @@ public struct GetSolNetworkPackageDescriptorInput {
 
 extension GetSolNetworkPackageDescriptorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolNetworkPackageDescriptorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSolNetworkPackageDescriptorOutput {
         var value = GetSolNetworkPackageDescriptorOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = TnbClientTypes.DescriptorContentType(rawValue: contentTypeHeaderValue)
@@ -1703,11 +1706,11 @@ public struct GetSolNetworkPackageDescriptorOutput {
     /// Indicates the media type of the resource.
     public var contentType: TnbClientTypes.DescriptorContentType?
     /// Contents of the network service descriptor in the network package.
-    public var nsd: ClientRuntime.Data?
+    public var nsd: Foundation.Data?
 
     public init(
         contentType: TnbClientTypes.DescriptorContentType? = nil,
-        nsd: ClientRuntime.Data? = nil
+        nsd: Foundation.Data? = nil
     )
     {
         self.contentType = contentType
@@ -1717,7 +1720,7 @@ public struct GetSolNetworkPackageDescriptorOutput {
 
 enum GetSolNetworkPackageDescriptorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1773,16 +1776,16 @@ extension TnbClientTypes {
     public struct GetSolNetworkPackageMetadata {
         /// The date that the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date that the resource was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
         /// Metadata related to the onboarded network service descriptor in the network package.
         public var nsd: TnbClientTypes.NetworkArtifactMeta?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil,
             nsd: TnbClientTypes.NetworkArtifactMeta? = nil
         )
         {
@@ -1801,7 +1804,7 @@ extension GetSolNetworkPackageOutput: Swift.CustomDebugStringConvertible {
 
 extension GetSolNetworkPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSolNetworkPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSolNetworkPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1885,7 +1888,7 @@ public struct GetSolNetworkPackageOutput {
 
 enum GetSolNetworkPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2001,10 +2004,10 @@ extension InstantiateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible
 
 extension InstantiateSolNetworkInstanceInput {
 
-    static func queryItemProvider(_ value: InstantiateSolNetworkInstanceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: InstantiateSolNetworkInstanceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let dryRun = value.dryRun {
-            let dryRunQueryItem = ClientRuntime.SDKURLQueryItem(name: "dry_run".urlPercentEncoding(), value: Swift.String(dryRun).urlPercentEncoding())
+            let dryRunQueryItem = Smithy.URIQueryItem(name: "dry_run".urlPercentEncoding(), value: Swift.String(dryRun).urlPercentEncoding())
             items.append(dryRunQueryItem)
         }
         return items
@@ -2062,7 +2065,7 @@ extension InstantiateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertibl
 
 extension InstantiateSolNetworkInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InstantiateSolNetworkInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InstantiateSolNetworkInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2092,7 +2095,7 @@ public struct InstantiateSolNetworkInstanceOutput {
 
 enum InstantiateSolNetworkInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2289,14 +2292,14 @@ extension TnbClientTypes {
     public struct ListSolFunctionInstanceMetadata {
         /// When the network function instance was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// When the network function instance was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -2308,14 +2311,14 @@ extension TnbClientTypes {
 
 extension ListSolFunctionInstancesInput {
 
-    static func queryItemProvider(_ value: ListSolFunctionInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSolFunctionInstancesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -2347,7 +2350,7 @@ public struct ListSolFunctionInstancesInput {
 
 extension ListSolFunctionInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSolFunctionInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSolFunctionInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2376,7 +2379,7 @@ public struct ListSolFunctionInstancesOutput {
 
 enum ListSolFunctionInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2483,14 +2486,14 @@ extension TnbClientTypes {
     public struct ListSolFunctionPackageMetadata {
         /// The date that the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date that the resource was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -2502,14 +2505,14 @@ extension TnbClientTypes {
 
 extension ListSolFunctionPackagesInput {
 
-    static func queryItemProvider(_ value: ListSolFunctionPackagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSolFunctionPackagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -2541,7 +2544,7 @@ public struct ListSolFunctionPackagesInput {
 
 extension ListSolFunctionPackagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSolFunctionPackagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSolFunctionPackagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2571,7 +2574,7 @@ public struct ListSolFunctionPackagesOutput {
 
 enum ListSolFunctionPackagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2671,14 +2674,14 @@ extension TnbClientTypes {
     public struct ListSolNetworkInstanceMetadata {
         /// The date that the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date that the resource was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -2690,14 +2693,14 @@ extension TnbClientTypes {
 
 extension ListSolNetworkInstancesInput {
 
-    static func queryItemProvider(_ value: ListSolNetworkInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSolNetworkInstancesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -2729,7 +2732,7 @@ public struct ListSolNetworkInstancesInput {
 
 extension ListSolNetworkInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSolNetworkInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSolNetworkInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2758,7 +2761,7 @@ public struct ListSolNetworkInstancesOutput {
 
 enum ListSolNetworkInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2836,14 +2839,14 @@ extension TnbClientTypes {
 
 extension ListSolNetworkOperationsInput {
 
-    static func queryItemProvider(_ value: ListSolNetworkOperationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSolNetworkOperationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -2889,14 +2892,14 @@ extension TnbClientTypes {
     public struct ListSolNetworkOperationsMetadata {
         /// The date that the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date that the resource was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -2908,7 +2911,7 @@ extension TnbClientTypes {
 
 extension ListSolNetworkOperationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSolNetworkOperationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSolNetworkOperationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2937,7 +2940,7 @@ public struct ListSolNetworkOperationsOutput {
 
 enum ListSolNetworkOperationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3055,14 +3058,14 @@ extension TnbClientTypes {
     public struct ListSolNetworkPackageMetadata {
         /// The date that the resource was created.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The date that the resource was last modified.
         /// This member is required.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            lastModified: ClientRuntime.Date? = nil
+            createdAt: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -3074,14 +3077,14 @@ extension TnbClientTypes {
 
 extension ListSolNetworkPackagesInput {
 
-    static func queryItemProvider(_ value: ListSolNetworkPackagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSolNetworkPackagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextpage_opaque_marker".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -3113,7 +3116,7 @@ public struct ListSolNetworkPackagesInput {
 
 extension ListSolNetworkPackagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSolNetworkPackagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSolNetworkPackagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3143,7 +3146,7 @@ public struct ListSolNetworkPackagesOutput {
 
 enum ListSolNetworkPackagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3188,7 +3191,7 @@ extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3213,7 +3216,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3551,8 +3554,8 @@ extension TnbClientTypes {
 
 extension PutSolFunctionPackageContentInput {
 
-    static func headerProvider(_ value: PutSolFunctionPackageContentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutSolFunctionPackageContentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
@@ -3583,14 +3586,14 @@ public struct PutSolFunctionPackageContentInput {
     public var contentType: TnbClientTypes.PackageContentType?
     /// Function package file.
     /// This member is required.
-    public var file: ClientRuntime.Data?
+    public var file: Foundation.Data?
     /// Function package ID.
     /// This member is required.
     public var vnfPkgId: Swift.String?
 
     public init(
         contentType: TnbClientTypes.PackageContentType? = nil,
-        file: ClientRuntime.Data? = nil,
+        file: Foundation.Data? = nil,
         vnfPkgId: Swift.String? = nil
     )
     {
@@ -3628,7 +3631,7 @@ extension TnbClientTypes {
 
 extension PutSolFunctionPackageContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSolFunctionPackageContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSolFunctionPackageContentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3683,7 +3686,7 @@ public struct PutSolFunctionPackageContentOutput {
 
 enum PutSolFunctionPackageContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3701,8 +3704,8 @@ enum PutSolFunctionPackageContentOutputError {
 
 extension PutSolNetworkPackageContentInput {
 
-    static func headerProvider(_ value: PutSolNetworkPackageContentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutSolNetworkPackageContentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
@@ -3733,14 +3736,14 @@ public struct PutSolNetworkPackageContentInput {
     public var contentType: TnbClientTypes.PackageContentType?
     /// Network package file.
     /// This member is required.
-    public var file: ClientRuntime.Data?
+    public var file: Foundation.Data?
     /// Network service descriptor info ID.
     /// This member is required.
     public var nsdInfoId: Swift.String?
 
     public init(
         contentType: TnbClientTypes.PackageContentType? = nil,
-        file: ClientRuntime.Data? = nil,
+        file: Foundation.Data? = nil,
         nsdInfoId: Swift.String? = nil
     )
     {
@@ -3778,7 +3781,7 @@ extension TnbClientTypes {
 
 extension PutSolNetworkPackageContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSolNetworkPackageContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSolNetworkPackageContentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3839,7 +3842,7 @@ public struct PutSolNetworkPackageContentOutput {
 
 enum PutSolNetworkPackageContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3974,7 +3977,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3986,7 +3989,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4093,7 +4096,7 @@ extension TerminateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible 
 
 extension TerminateSolNetworkInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TerminateSolNetworkInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TerminateSolNetworkInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4122,7 +4125,7 @@ public struct TerminateSolNetworkInstanceOutput {
 
 enum TerminateSolNetworkInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4212,14 +4215,14 @@ extension TnbClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -4256,7 +4259,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -4268,7 +4271,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4322,7 +4325,7 @@ public struct UpdateSolFunctionPackageInput {
 
 extension UpdateSolFunctionPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSolFunctionPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSolFunctionPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4347,7 +4350,7 @@ public struct UpdateSolFunctionPackageOutput {
 
 enum UpdateSolFunctionPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4421,7 +4424,7 @@ extension UpdateSolNetworkInstanceOutput: Swift.CustomDebugStringConvertible {
 
 extension UpdateSolNetworkInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSolNetworkInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSolNetworkInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4450,7 +4453,7 @@ public struct UpdateSolNetworkInstanceOutput {
 
 enum UpdateSolNetworkInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4536,7 +4539,7 @@ public struct UpdateSolNetworkPackageInput {
 
 extension UpdateSolNetworkPackageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSolNetworkPackageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSolNetworkPackageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4561,7 +4564,7 @@ public struct UpdateSolNetworkPackageOutput {
 
 enum UpdateSolNetworkPackageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4634,8 +4637,8 @@ extension TnbClientTypes {
 
 extension ValidateSolFunctionPackageContentInput {
 
-    static func headerProvider(_ value: ValidateSolFunctionPackageContentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ValidateSolFunctionPackageContentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
@@ -4666,14 +4669,14 @@ public struct ValidateSolFunctionPackageContentInput {
     public var contentType: TnbClientTypes.PackageContentType?
     /// Function package file.
     /// This member is required.
-    public var file: ClientRuntime.Data?
+    public var file: Foundation.Data?
     /// Function package ID.
     /// This member is required.
     public var vnfPkgId: Swift.String?
 
     public init(
         contentType: TnbClientTypes.PackageContentType? = nil,
-        file: ClientRuntime.Data? = nil,
+        file: Foundation.Data? = nil,
         vnfPkgId: Swift.String? = nil
     )
     {
@@ -4711,7 +4714,7 @@ extension TnbClientTypes {
 
 extension ValidateSolFunctionPackageContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ValidateSolFunctionPackageContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ValidateSolFunctionPackageContentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4766,7 +4769,7 @@ public struct ValidateSolFunctionPackageContentOutput {
 
 enum ValidateSolFunctionPackageContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4784,8 +4787,8 @@ enum ValidateSolFunctionPackageContentOutputError {
 
 extension ValidateSolNetworkPackageContentInput {
 
-    static func headerProvider(_ value: ValidateSolNetworkPackageContentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ValidateSolNetworkPackageContentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType.rawValue)))
         }
@@ -4816,14 +4819,14 @@ public struct ValidateSolNetworkPackageContentInput {
     public var contentType: TnbClientTypes.PackageContentType?
     /// Network package file.
     /// This member is required.
-    public var file: ClientRuntime.Data?
+    public var file: Foundation.Data?
     /// Network service descriptor file.
     /// This member is required.
     public var nsdInfoId: Swift.String?
 
     public init(
         contentType: TnbClientTypes.PackageContentType? = nil,
-        file: ClientRuntime.Data? = nil,
+        file: Foundation.Data? = nil,
         nsdInfoId: Swift.String? = nil
     )
     {
@@ -4861,7 +4864,7 @@ extension TnbClientTypes {
 
 extension ValidateSolNetworkPackageContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ValidateSolNetworkPackageContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ValidateSolNetworkPackageContentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4922,7 +4925,7 @@ public struct ValidateSolNetworkPackageContentOutput {
 
 enum ValidateSolNetworkPackageContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,8 +2,14 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyEventStreams
+import SmithyEventStreamsAPI
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import struct Foundation.Data
 
 extension QBusinessClientTypes.APISchema {
 
@@ -528,20 +534,20 @@ extension QBusinessClientTypes {
         /// The identifier for the Amazon Q Business application.
         public var applicationId: Swift.String?
         /// The Unix timestamp when the Amazon Q Business application was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The name of the Amazon Q Business application.
         public var displayName: Swift.String?
         /// The status of the Amazon Q Business application. The application is ready to use when the status is ACTIVE.
         public var status: QBusinessClientTypes.ApplicationStatus?
         /// The Unix timestamp when the Amazon Q Business application was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             applicationId: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
             status: QBusinessClientTypes.ApplicationStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.applicationId = applicationId
@@ -659,13 +665,13 @@ extension QBusinessClientTypes {
     public struct AttachmentInput {
         /// The data contained within the uploaded file.
         /// This member is required.
-        public var data: ClientRuntime.Data?
+        public var data: Foundation.Data?
         /// The name of the file.
         /// This member is required.
         public var name: Swift.String?
 
         public init(
-            data: ClientRuntime.Data? = nil,
+            data: Foundation.Data? = nil,
             name: Swift.String? = nil
         )
         {
@@ -1143,7 +1149,7 @@ public struct BatchDeleteDocumentInput {
 
 extension BatchDeleteDocumentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchDeleteDocumentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchDeleteDocumentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1167,7 +1173,7 @@ public struct BatchDeleteDocumentOutput {
 
 enum BatchDeleteDocumentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1240,7 +1246,7 @@ public struct BatchPutDocumentInput {
 
 extension BatchPutDocumentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchPutDocumentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchPutDocumentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1264,7 +1270,7 @@ public struct BatchPutDocumentOutput {
 
 enum BatchPutDocumentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1349,28 +1355,28 @@ extension QBusinessClientTypes {
 
 extension ChatInput {
 
-    static func queryItemProvider(_ value: ChatInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ChatInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let userGroups = value.userGroups {
             userGroups.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "userGroups".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "userGroups".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let conversationId = value.conversationId {
-            let conversationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "conversationId".urlPercentEncoding(), value: Swift.String(conversationId).urlPercentEncoding())
+            let conversationIdQueryItem = Smithy.URIQueryItem(name: "conversationId".urlPercentEncoding(), value: Swift.String(conversationId).urlPercentEncoding())
             items.append(conversationIdQueryItem)
         }
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
             items.append(clientTokenQueryItem)
         }
         if let parentMessageId = value.parentMessageId {
-            let parentMessageIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "parentMessageId".urlPercentEncoding(), value: Swift.String(parentMessageId).urlPercentEncoding())
+            let parentMessageIdQueryItem = Smithy.URIQueryItem(name: "parentMessageId".urlPercentEncoding(), value: Swift.String(parentMessageId).urlPercentEncoding())
             items.append(parentMessageIdQueryItem)
         }
         if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
         }
         return items
@@ -1425,10 +1431,10 @@ public struct ChatInput {
 }
 
 extension QBusinessClientTypes.ChatInputStream {
-    static var marshal: ClientRuntime.MarshalClosure<QBusinessClientTypes.ChatInputStream> {
+    static var marshal: SmithyEventStreamsAPI.MarshalClosure<QBusinessClientTypes.ChatInputStream> {
         { (self) in
-            var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
-            var payload: ClientRuntime.Data? = nil
+            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: Foundation.Data? = nil
             switch self {
             case .configurationevent(let value):
                 headers.append(.init(name: ":event-type", value: .string("configurationEvent")))
@@ -1467,9 +1473,9 @@ extension QBusinessClientTypes.ChatInputStream {
                 try writer["responseMap"].write(value.responseMap, with: mapWritingClosure(valueWritingClosure: Swift.String.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
                 payload = try writer.data()
             case .sdkUnknown(_):
-                throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
+                throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
             }
-            return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
+            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
         }
     }
 }
@@ -1551,11 +1557,11 @@ extension QBusinessClientTypes {
 
 extension ChatOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChatOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ChatOutput {
         var value = ChatOutput()
         if case .stream(let stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: QBusinessClientTypes.ChatOutputStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: QBusinessClientTypes.ChatOutputStream.unmarshal)
             value.outputStream = decoderStream.toAsyncStream()
         }
         return value
@@ -1576,7 +1582,7 @@ public struct ChatOutput {
 
 enum ChatOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1595,7 +1601,7 @@ enum ChatOutputError {
 }
 
 extension QBusinessClientTypes.ChatOutputStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<QBusinessClientTypes.ChatOutputStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<QBusinessClientTypes.ChatOutputStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -1619,20 +1625,20 @@ extension QBusinessClientTypes.ChatOutputStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }
@@ -1658,16 +1664,16 @@ extension QBusinessClientTypes {
 
 extension ChatSyncInput {
 
-    static func queryItemProvider(_ value: ChatSyncInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "sync", value: nil))
+    static func queryItemProvider(_ value: ChatSyncInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "sync", value: nil))
         if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
         }
         if let userGroups = value.userGroups {
             userGroups.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "userGroups".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "userGroups".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -1774,7 +1780,7 @@ public struct ChatSyncInput {
 
 extension ChatSyncOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ChatSyncOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ChatSyncOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1833,7 +1839,7 @@ public struct ChatSyncOutput {
 
 enum ChatSyncOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2084,13 +2090,13 @@ extension QBusinessClientTypes {
         /// The identifier of the Amazon Q Business conversation.
         public var conversationId: Swift.String?
         /// The start time of the conversation.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The title of the conversation.
         public var title: Swift.String?
 
         public init(
             conversationId: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             title: Swift.String? = nil
         )
         {
@@ -2167,7 +2173,7 @@ public struct CreateApplicationInput {
 
 extension CreateApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2196,7 +2202,7 @@ public struct CreateApplicationOutput {
 
 enum CreateApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2301,7 +2307,7 @@ public struct CreateDataSourceInput {
 
 extension CreateDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2330,7 +2336,7 @@ public struct CreateDataSourceOutput {
 
 enum CreateDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2411,7 +2417,7 @@ public struct CreateIndexInput {
 
 extension CreateIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2440,7 +2446,7 @@ public struct CreateIndexOutput {
 
 enum CreateIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2528,7 +2534,7 @@ public struct CreatePluginInput {
 
 extension CreatePluginOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePluginOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2562,7 +2568,7 @@ public struct CreatePluginOutput {
 
 enum CreatePluginOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2645,7 +2651,7 @@ public struct CreateRetrieverInput {
 
 extension CreateRetrieverOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRetrieverOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRetrieverOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2674,7 +2680,7 @@ public struct CreateRetrieverOutput {
 
 enum CreateRetrieverOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2740,7 +2746,7 @@ public struct CreateUserInput {
 
 extension CreateUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateUserOutput {
         return CreateUserOutput()
     }
 }
@@ -2752,7 +2758,7 @@ public struct CreateUserOutput {
 
 enum CreateUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2837,7 +2843,7 @@ public struct CreateWebExperienceInput {
 
 extension CreateWebExperienceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWebExperienceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWebExperienceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2866,7 +2872,7 @@ public struct CreateWebExperienceOutput {
 
 enum CreateWebExperienceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3003,7 +3009,7 @@ extension QBusinessClientTypes {
     /// A data source in an Amazon Q Business application.
     public struct DataSource {
         /// The Unix timestamp when the Amazon Q Business data source was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the Amazon Q Business data source.
         public var dataSourceId: Swift.String?
         /// The name of the Amazon Q Business data source.
@@ -3013,15 +3019,15 @@ extension QBusinessClientTypes {
         /// The type of the Amazon Q Business data source.
         public var type: Swift.String?
         /// The Unix timestamp when the Amazon Q Business data source was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             dataSourceId: Swift.String? = nil,
             displayName: Swift.String? = nil,
             status: QBusinessClientTypes.DataSourceStatus? = nil,
             type: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -3098,7 +3104,7 @@ extension QBusinessClientTypes {
         /// If the reason that the synchronization failed is due to an error with the underlying data source, this field contains a code that identifies the error.
         public var dataSourceErrorCode: Swift.String?
         /// The Unix timestamp when the synchronization job completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// If the Status field is set to FAILED, the ErrorCode field indicates the reason the synchronization failed.
         public var error: QBusinessClientTypes.ErrorDetail?
         /// The identifier of a data source synchronization job.
@@ -3106,17 +3112,17 @@ extension QBusinessClientTypes {
         /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a data source connector.
         public var metrics: QBusinessClientTypes.DataSourceSyncJobMetrics?
         /// The Unix time stamp when the data source synchronization job started.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The status of the synchronization job. When the Status field is set to SUCCEEDED, the synchronization job is done. If the status code is FAILED, the ErrorCode and ErrorMessage fields give you the reason for the failure.
         public var status: QBusinessClientTypes.DataSourceSyncJobStatus?
 
         public init(
             dataSourceErrorCode: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             error: QBusinessClientTypes.ErrorDetail? = nil,
             executionId: Swift.String? = nil,
             metrics: QBusinessClientTypes.DataSourceSyncJobMetrics? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: QBusinessClientTypes.DataSourceSyncJobStatus? = nil
         )
         {
@@ -3324,7 +3330,7 @@ public struct DeleteApplicationInput {
 
 extension DeleteApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApplicationOutput {
         return DeleteApplicationOutput()
     }
 }
@@ -3336,7 +3342,7 @@ public struct DeleteApplicationOutput {
 
 enum DeleteApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3378,7 +3384,7 @@ public struct DeleteChatControlsConfigurationInput {
 
 extension DeleteChatControlsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChatControlsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChatControlsConfigurationOutput {
         return DeleteChatControlsConfigurationOutput()
     }
 }
@@ -3390,7 +3396,7 @@ public struct DeleteChatControlsConfigurationOutput {
 
 enum DeleteChatControlsConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3408,10 +3414,10 @@ enum DeleteChatControlsConfigurationOutputError {
 
 extension DeleteConversationInput {
 
-    static func queryItemProvider(_ value: DeleteConversationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteConversationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
         }
         return items
@@ -3455,7 +3461,7 @@ public struct DeleteConversationInput {
 
 extension DeleteConversationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConversationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConversationOutput {
         return DeleteConversationOutput()
     }
 }
@@ -3467,7 +3473,7 @@ public struct DeleteConversationOutput {
 
 enum DeleteConversationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3525,7 +3531,7 @@ public struct DeleteDataSourceInput {
 
 extension DeleteDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDataSourceOutput {
         return DeleteDataSourceOutput()
     }
 }
@@ -3537,7 +3543,7 @@ public struct DeleteDataSourceOutput {
 
 enum DeleteDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3581,10 +3587,10 @@ extension QBusinessClientTypes {
 
 extension DeleteGroupInput {
 
-    static func queryItemProvider(_ value: DeleteGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let dataSourceId = value.dataSourceId {
-            let dataSourceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
             items.append(dataSourceIdQueryItem)
         }
         return items
@@ -3636,7 +3642,7 @@ public struct DeleteGroupInput {
 
 extension DeleteGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGroupOutput {
         return DeleteGroupOutput()
     }
 }
@@ -3648,7 +3654,7 @@ public struct DeleteGroupOutput {
 
 enum DeleteGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3698,7 +3704,7 @@ public struct DeleteIndexInput {
 
 extension DeleteIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteIndexOutput {
         return DeleteIndexOutput()
     }
 }
@@ -3710,7 +3716,7 @@ public struct DeleteIndexOutput {
 
 enum DeleteIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3760,7 +3766,7 @@ public struct DeletePluginInput {
 
 extension DeletePluginOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePluginOutput {
         return DeletePluginOutput()
     }
 }
@@ -3772,7 +3778,7 @@ public struct DeletePluginOutput {
 
 enum DeletePluginOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3822,7 +3828,7 @@ public struct DeleteRetrieverInput {
 
 extension DeleteRetrieverOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRetrieverOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRetrieverOutput {
         return DeleteRetrieverOutput()
     }
 }
@@ -3834,7 +3840,7 @@ public struct DeleteRetrieverOutput {
 
 enum DeleteRetrieverOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3884,7 +3890,7 @@ public struct DeleteUserInput {
 
 extension DeleteUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUserOutput {
         return DeleteUserOutput()
     }
 }
@@ -3896,7 +3902,7 @@ public struct DeleteUserOutput {
 
 enum DeleteUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3946,7 +3952,7 @@ public struct DeleteWebExperienceInput {
 
 extension DeleteWebExperienceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWebExperienceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWebExperienceOutput {
         return DeleteWebExperienceOutput()
     }
 }
@@ -3958,7 +3964,7 @@ public struct DeleteWebExperienceOutput {
 
 enum DeleteWebExperienceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4329,7 +4335,7 @@ extension QBusinessClientTypes {
         /// A long integer value.
         case longvalue(Swift.Int)
         /// A date expressed as an ISO 8601 string. It's important for the time zone to be included in the ISO 8601 date-time format. For example, 2012-03-25T12:30:10+01:00 is the ISO 8601 date-time format for March 25th 2012 at 12:30PM (plus 10 seconds) in Central European Time.
-        case datevalue(ClientRuntime.Date)
+        case datevalue(Foundation.Date)
         case sdkUnknown(Swift.String)
     }
 
@@ -4354,7 +4360,7 @@ extension QBusinessClientTypes {
     /// The contents of a document.
     public enum DocumentContent {
         /// The contents of the document. Documents passed to the blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an Amazon Web Services SDK to call Amazon Q Business APIs. If you are calling the Amazon Q Business endpoint directly using REST, you must base64 encode the contents before sending.
-        case blob(ClientRuntime.Data)
+        case blob(Foundation.Data)
         /// The path to the document in an Amazon S3 bucket.
         case s3(QBusinessClientTypes.S3)
         case sdkUnknown(Swift.String)
@@ -4406,7 +4412,7 @@ extension QBusinessClientTypes {
     /// The details of a document within an Amazon Q Business index.
     public struct DocumentDetails {
         /// The timestamp for when the document was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The identifier of the document.
         public var documentId: Swift.String?
         /// An error message associated with the document.
@@ -4414,14 +4420,14 @@ extension QBusinessClientTypes {
         /// The current status of the document.
         public var status: QBusinessClientTypes.DocumentStatus?
         /// The timestamp for when the document was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             documentId: Swift.String? = nil,
             error: QBusinessClientTypes.ErrorDetail? = nil,
             status: QBusinessClientTypes.DocumentStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -4838,7 +4844,7 @@ public struct GetApplicationInput {
 
 extension GetApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4867,7 +4873,7 @@ public struct GetApplicationOutput {
     /// Settings for whether end users can upload files directly during chat.
     public var attachmentsConfiguration: QBusinessClientTypes.AppliedAttachmentsConfiguration?
     /// The Unix timestamp when the Amazon Q Business application was last updated.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// A description for the Amazon Q Business application.
     public var description: Swift.String?
     /// The name of the Amazon Q Business application.
@@ -4883,13 +4889,13 @@ public struct GetApplicationOutput {
     /// The status of the Amazon Q Business application.
     public var status: QBusinessClientTypes.ApplicationStatus?
     /// The Unix timestamp when the Amazon Q Business application was last updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         applicationArn: Swift.String? = nil,
         applicationId: Swift.String? = nil,
         attachmentsConfiguration: QBusinessClientTypes.AppliedAttachmentsConfiguration? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         encryptionConfiguration: QBusinessClientTypes.EncryptionConfiguration? = nil,
@@ -4897,7 +4903,7 @@ public struct GetApplicationOutput {
         identityCenterApplicationArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         status: QBusinessClientTypes.ApplicationStatus? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.applicationArn = applicationArn
@@ -4917,7 +4923,7 @@ public struct GetApplicationOutput {
 
 enum GetApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4935,14 +4941,14 @@ enum GetApplicationOutputError {
 
 extension GetChatControlsConfigurationInput {
 
-    static func queryItemProvider(_ value: GetChatControlsConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetChatControlsConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -4982,7 +4988,7 @@ public struct GetChatControlsConfigurationInput {
 
 extension GetChatControlsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChatControlsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChatControlsConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5026,7 +5032,7 @@ public struct GetChatControlsConfigurationOutput {
 
 enum GetChatControlsConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5083,7 +5089,7 @@ public struct GetDataSourceInput {
 
 extension GetDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDataSourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5114,7 +5120,7 @@ public struct GetDataSourceOutput {
     /// The details of how the data source connector is configured.
     public var configuration: SmithyReadWrite.Document?
     /// The Unix timestamp when the data source connector was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the data source.
     public var dataSourceArn: Swift.String?
     /// The identifier of the data source connector.
@@ -5138,14 +5144,14 @@ public struct GetDataSourceOutput {
     /// The type of the data source connector. For example, S3.
     public var type: Swift.String?
     /// The Unix timestamp when the data source connector was last updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
     /// Configuration information for an Amazon VPC (Virtual Private Cloud) to connect to your data source.
     public var vpcConfiguration: QBusinessClientTypes.DataSourceVpcConfiguration?
 
     public init(
         applicationId: Swift.String? = nil,
         configuration: SmithyReadWrite.Document? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataSourceArn: Swift.String? = nil,
         dataSourceId: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -5157,7 +5163,7 @@ public struct GetDataSourceOutput {
         status: QBusinessClientTypes.DataSourceStatus? = nil,
         syncSchedule: Swift.String? = nil,
         type: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil,
+        updatedAt: Foundation.Date? = nil,
         vpcConfiguration: QBusinessClientTypes.DataSourceVpcConfiguration? = nil
     )
     {
@@ -5182,7 +5188,7 @@ public struct GetDataSourceOutput {
 
 enum GetDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5200,10 +5206,10 @@ enum GetDataSourceOutputError {
 
 extension GetGroupInput {
 
-    static func queryItemProvider(_ value: GetGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let dataSourceId = value.dataSourceId {
-            let dataSourceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
             items.append(dataSourceIdQueryItem)
         }
         return items
@@ -5255,7 +5261,7 @@ public struct GetGroupInput {
 
 extension GetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5284,7 +5290,7 @@ public struct GetGroupOutput {
 
 enum GetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5334,7 +5340,7 @@ public struct GetIndexInput {
 
 extension GetIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetIndexOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5362,7 +5368,7 @@ public struct GetIndexOutput {
     /// The storage capacity units chosen for your Amazon Q Business index.
     public var capacityConfiguration: QBusinessClientTypes.IndexCapacityConfiguration?
     /// The Unix timestamp when the Amazon Q Business index was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The description for the Amazon Q Business index.
     public var description: Swift.String?
     /// The name of the Amazon Q Business index.
@@ -5382,12 +5388,12 @@ public struct GetIndexOutput {
     /// The type of index attached to your Amazon Q Business application.
     public var type: QBusinessClientTypes.IndexType?
     /// The Unix timestamp when the Amazon Q Business index was last updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         applicationId: Swift.String? = nil,
         capacityConfiguration: QBusinessClientTypes.IndexCapacityConfiguration? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         documentAttributeConfigurations: [QBusinessClientTypes.DocumentAttributeConfiguration]? = nil,
@@ -5397,7 +5403,7 @@ public struct GetIndexOutput {
         indexStatistics: QBusinessClientTypes.IndexStatistics? = nil,
         status: QBusinessClientTypes.IndexStatus? = nil,
         type: QBusinessClientTypes.IndexType? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.applicationId = applicationId
@@ -5418,7 +5424,7 @@ public struct GetIndexOutput {
 
 enum GetIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5467,7 +5473,7 @@ public struct GetPluginInput {
 
 extension GetPluginOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPluginOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5496,7 +5502,7 @@ public struct GetPluginOutput {
     /// The current status of a plugin. A plugin is modified asynchronously.
     public var buildStatus: QBusinessClientTypes.PluginBuildStatus?
     /// The timestamp for when the plugin was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Configuration information required to create a custom plugin.
     public var customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration?
     /// The name of the plugin.
@@ -5512,13 +5518,13 @@ public struct GetPluginOutput {
     /// The type of the plugin.
     public var type: QBusinessClientTypes.PluginType?
     /// The timestamp for when the plugin was last updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         applicationId: Swift.String? = nil,
         authConfiguration: QBusinessClientTypes.PluginAuthConfiguration? = nil,
         buildStatus: QBusinessClientTypes.PluginBuildStatus? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         customPluginConfiguration: QBusinessClientTypes.CustomPluginConfiguration? = nil,
         displayName: Swift.String? = nil,
         pluginArn: Swift.String? = nil,
@@ -5526,7 +5532,7 @@ public struct GetPluginOutput {
         serverUrl: Swift.String? = nil,
         state: QBusinessClientTypes.PluginState? = nil,
         type: QBusinessClientTypes.PluginType? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.applicationId = applicationId
@@ -5546,7 +5552,7 @@ public struct GetPluginOutput {
 
 enum GetPluginOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5595,7 +5601,7 @@ public struct GetRetrieverInput {
 
 extension GetRetrieverOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRetrieverOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRetrieverOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5620,7 +5626,7 @@ public struct GetRetrieverOutput {
     /// Provides information on how the retriever used for your Amazon Q Business application is configured.
     public var configuration: QBusinessClientTypes.RetrieverConfiguration?
     /// The Unix timestamp when the retriever was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The name of the retriever.
     public var displayName: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role associated with the retriever.
@@ -5634,19 +5640,19 @@ public struct GetRetrieverOutput {
     /// The type of the retriever.
     public var type: QBusinessClientTypes.RetrieverType?
     /// The Unix timestamp when the retriever was last updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
         applicationId: Swift.String? = nil,
         configuration: QBusinessClientTypes.RetrieverConfiguration? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         displayName: Swift.String? = nil,
         retrieverArn: Swift.String? = nil,
         retrieverId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         status: QBusinessClientTypes.RetrieverStatus? = nil,
         type: QBusinessClientTypes.RetrieverType? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.applicationId = applicationId
@@ -5664,7 +5670,7 @@ public struct GetRetrieverOutput {
 
 enum GetRetrieverOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5713,7 +5719,7 @@ public struct GetUserInput {
 
 extension GetUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5737,7 +5743,7 @@ public struct GetUserOutput {
 
 enum GetUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5787,7 +5793,7 @@ public struct GetWebExperienceInput {
 
 extension GetWebExperienceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetWebExperienceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetWebExperienceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5817,7 +5823,7 @@ public struct GetWebExperienceOutput {
     @available(*, deprecated, message: "Property associated with legacy SAML IdP flow. Deprecated in favor of using AWS IAM Identity Center for user management.")
     public var authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration?
     /// The Unix timestamp when the Amazon Q Business web experience was last created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The endpoint of your Amazon Q Business web experience.
     public var defaultEndpoint: Swift.String?
     /// When the Status field value is FAILED, the ErrorMessage field contains a description of the error that caused the data source connector to fail.
@@ -5833,7 +5839,7 @@ public struct GetWebExperienceOutput {
     /// The title for your Amazon Q Business web experience.
     public var title: Swift.String?
     /// The Unix timestamp when the Amazon Q Business web experience was last updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the role with the permission to access the Amazon Q Business web experience and required resources.
     public var webExperienceArn: Swift.String?
     /// The identifier of the Amazon Q Business web experience.
@@ -5844,7 +5850,7 @@ public struct GetWebExperienceOutput {
     public init(
         applicationId: Swift.String? = nil,
         authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         defaultEndpoint: Swift.String? = nil,
         error: QBusinessClientTypes.ErrorDetail? = nil,
         roleArn: Swift.String? = nil,
@@ -5852,7 +5858,7 @@ public struct GetWebExperienceOutput {
         status: QBusinessClientTypes.WebExperienceStatus? = nil,
         subtitle: Swift.String? = nil,
         title: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil,
+        updatedAt: Foundation.Date? = nil,
         webExperienceArn: Swift.String? = nil,
         webExperienceId: Swift.String? = nil,
         welcomeMessage: Swift.String? = nil
@@ -5877,7 +5883,7 @@ public struct GetWebExperienceOutput {
 
 enum GetWebExperienceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5978,13 +5984,13 @@ extension QBusinessClientTypes {
         /// The details of an error associated a group status.
         public var errorDetail: QBusinessClientTypes.ErrorDetail?
         /// The Unix timestamp when the Amazon Q Business application was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The status of a group.
         public var status: QBusinessClientTypes.GroupStatus?
 
         public init(
             errorDetail: QBusinessClientTypes.ErrorDetail? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             status: QBusinessClientTypes.GroupStatus? = nil
         )
         {
@@ -6089,7 +6095,7 @@ extension QBusinessClientTypes {
     /// Summary information for your Amazon Q Business index.
     public struct Index {
         /// The Unix timestamp when the index was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The name of the index.
         public var displayName: Swift.String?
         /// The identifier for the index.
@@ -6097,14 +6103,14 @@ extension QBusinessClientTypes {
         /// The current status of the index. When the status is ACTIVE, the index is ready.
         public var status: QBusinessClientTypes.IndexStatus?
         /// The Unix timestamp when the index was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
             indexId: Swift.String? = nil,
             status: QBusinessClientTypes.IndexStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -6394,14 +6400,14 @@ public struct LicenseNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 
 extension ListApplicationsInput {
 
-    static func queryItemProvider(_ value: ListApplicationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListApplicationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6433,7 +6439,7 @@ public struct ListApplicationsInput {
 
 extension ListApplicationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6462,7 +6468,7 @@ public struct ListApplicationsOutput {
 
 enum ListApplicationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6479,18 +6485,18 @@ enum ListApplicationsOutputError {
 
 extension ListConversationsInput {
 
-    static func queryItemProvider(_ value: ListConversationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListConversationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
         }
         return items
@@ -6534,7 +6540,7 @@ public struct ListConversationsInput {
 
 extension ListConversationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListConversationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListConversationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6563,7 +6569,7 @@ public struct ListConversationsOutput {
 
 enum ListConversationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6582,26 +6588,26 @@ enum ListConversationsOutputError {
 
 extension ListDataSourceSyncJobsInput {
 
-    static func queryItemProvider(_ value: ListDataSourceSyncJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDataSourceSyncJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let statusFilter = value.statusFilter {
-            let statusFilterQueryItem = ClientRuntime.SDKURLQueryItem(name: "syncStatus".urlPercentEncoding(), value: Swift.String(statusFilter.rawValue).urlPercentEncoding())
+            let statusFilterQueryItem = Smithy.URIQueryItem(name: "syncStatus".urlPercentEncoding(), value: Swift.String(statusFilter.rawValue).urlPercentEncoding())
             items.append(statusFilterQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let startTime = value.startTime {
-            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
             items.append(startTimeQueryItem)
         }
         if let endTime = value.endTime {
-            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
         }
         return items
@@ -6632,7 +6638,7 @@ public struct ListDataSourceSyncJobsInput {
     /// This member is required.
     public var dataSourceId: Swift.String?
     /// The end time of the data source connector sync.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The identifier of the index used with the Amazon Q Business data source connector.
     /// This member is required.
     public var indexId: Swift.String?
@@ -6641,18 +6647,18 @@ public struct ListDataSourceSyncJobsInput {
     /// If the maxResults response was incpmplete because there is more data to retriever, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of responses.
     public var nextToken: Swift.String?
     /// The start time of the data source connector sync.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// Only returns synchronization jobs with the Status field equal to the specified status.
     public var statusFilter: QBusinessClientTypes.DataSourceSyncJobStatus?
 
     public init(
         applicationId: Swift.String? = nil,
         dataSourceId: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         statusFilter: QBusinessClientTypes.DataSourceSyncJobStatus? = nil
     )
     {
@@ -6669,7 +6675,7 @@ public struct ListDataSourceSyncJobsInput {
 
 extension ListDataSourceSyncJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDataSourceSyncJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDataSourceSyncJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6698,7 +6704,7 @@ public struct ListDataSourceSyncJobsOutput {
 
 enum ListDataSourceSyncJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6716,14 +6722,14 @@ enum ListDataSourceSyncJobsOutputError {
 
 extension ListDataSourcesInput {
 
-    static func queryItemProvider(_ value: ListDataSourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDataSourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6771,7 +6777,7 @@ public struct ListDataSourcesInput {
 
 extension ListDataSourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDataSourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDataSourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6800,7 +6806,7 @@ public struct ListDataSourcesOutput {
 
 enum ListDataSourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6818,19 +6824,19 @@ enum ListDataSourcesOutputError {
 
 extension ListDocumentsInput {
 
-    static func queryItemProvider(_ value: ListDocumentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListDocumentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let dataSourceIds = value.dataSourceIds {
             dataSourceIds.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "dataSourceIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "dataSourceIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -6883,7 +6889,7 @@ public struct ListDocumentsInput {
 
 extension ListDocumentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDocumentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDocumentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6912,7 +6918,7 @@ public struct ListDocumentsOutput {
 
 enum ListDocumentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6930,24 +6936,24 @@ enum ListDocumentsOutputError {
 
 extension ListGroupsInput {
 
-    static func queryItemProvider(_ value: ListGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let updatedEarlierThan = value.updatedEarlierThan else {
             let message = "Creating a URL Query Item failed. updatedEarlierThan is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let updatedEarlierThanQueryItem = ClientRuntime.SDKURLQueryItem(name: "updatedEarlierThan".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: updatedEarlierThan)).urlPercentEncoding())
+        let updatedEarlierThanQueryItem = Smithy.URIQueryItem(name: "updatedEarlierThan".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: updatedEarlierThan)).urlPercentEncoding())
         items.append(updatedEarlierThanQueryItem)
         if let dataSourceId = value.dataSourceId {
-            let dataSourceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
             items.append(dataSourceIdQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6982,7 +6988,7 @@ public struct ListGroupsInput {
     public var nextToken: Swift.String?
     /// The timestamp identifier used for the latest PUT or DELETE action for mapping users to their groups.
     /// This member is required.
-    public var updatedEarlierThan: ClientRuntime.Date?
+    public var updatedEarlierThan: Foundation.Date?
 
     public init(
         applicationId: Swift.String? = nil,
@@ -6990,7 +6996,7 @@ public struct ListGroupsInput {
         indexId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        updatedEarlierThan: ClientRuntime.Date? = nil
+        updatedEarlierThan: Foundation.Date? = nil
     )
     {
         self.applicationId = applicationId
@@ -7004,7 +7010,7 @@ public struct ListGroupsInput {
 
 extension ListGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7033,7 +7039,7 @@ public struct ListGroupsOutput {
 
 enum ListGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7052,14 +7058,14 @@ enum ListGroupsOutputError {
 
 extension ListIndicesInput {
 
-    static func queryItemProvider(_ value: ListIndicesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListIndicesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7099,7 +7105,7 @@ public struct ListIndicesInput {
 
 extension ListIndicesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListIndicesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListIndicesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7128,7 +7134,7 @@ public struct ListIndicesOutput {
 
 enum ListIndicesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7146,18 +7152,18 @@ enum ListIndicesOutputError {
 
 extension ListMessagesInput {
 
-    static func queryItemProvider(_ value: ListMessagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMessagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
         }
         return items
@@ -7209,7 +7215,7 @@ public struct ListMessagesInput {
 
 extension ListMessagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMessagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMessagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7238,7 +7244,7 @@ public struct ListMessagesOutput {
 
 enum ListMessagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7257,14 +7263,14 @@ enum ListMessagesOutputError {
 
 extension ListPluginsInput {
 
-    static func queryItemProvider(_ value: ListPluginsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPluginsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7304,7 +7310,7 @@ public struct ListPluginsInput {
 
 extension ListPluginsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPluginsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPluginsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7333,7 +7339,7 @@ public struct ListPluginsOutput {
 
 enum ListPluginsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7351,14 +7357,14 @@ enum ListPluginsOutputError {
 
 extension ListRetrieversInput {
 
-    static func queryItemProvider(_ value: ListRetrieversInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRetrieversInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7398,7 +7404,7 @@ public struct ListRetrieversInput {
 
 extension ListRetrieversOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRetrieversOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRetrieversOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7427,7 +7433,7 @@ public struct ListRetrieversOutput {
 
 enum ListRetrieversOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7468,7 +7474,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7492,7 +7498,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7510,14 +7516,14 @@ enum ListTagsForResourceOutputError {
 
 extension ListWebExperiencesInput {
 
-    static func queryItemProvider(_ value: ListWebExperiencesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListWebExperiencesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7557,7 +7563,7 @@ public struct ListWebExperiencesInput {
 
 extension ListWebExperiencesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWebExperiencesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWebExperiencesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7586,7 +7592,7 @@ public struct ListWebExperiencesOutput {
 
 enum ListWebExperiencesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7753,7 +7759,7 @@ extension QBusinessClientTypes {
         /// The source documents used to generate Amazon Q Business web experience message.
         public var sourceAttribution: [QBusinessClientTypes.SourceAttribution?]?
         /// The timestamp of the first Amazon Q Business web experience message.
-        public var time: ClientRuntime.Date?
+        public var time: Foundation.Date?
         /// The type of Amazon Q Business message, whether HUMAN or AI generated.
         public var type: QBusinessClientTypes.MessageType?
 
@@ -7764,7 +7770,7 @@ extension QBusinessClientTypes {
             body: Swift.String? = nil,
             messageId: Swift.String? = nil,
             sourceAttribution: [QBusinessClientTypes.SourceAttribution?]? = nil,
-            time: ClientRuntime.Date? = nil,
+            time: Foundation.Date? = nil,
             type: QBusinessClientTypes.MessageType? = nil
         )
         {
@@ -7859,7 +7865,7 @@ extension QBusinessClientTypes {
         public var reason: QBusinessClientTypes.MessageUsefulnessReason?
         /// The timestamp for when the feedback was submitted.
         /// This member is required.
-        public var submittedAt: ClientRuntime.Date?
+        public var submittedAt: Foundation.Date?
         /// The usefulness value assigned by an end user to a message.
         /// This member is required.
         public var usefulness: QBusinessClientTypes.MessageUsefulness?
@@ -7867,7 +7873,7 @@ extension QBusinessClientTypes {
         public init(
             comment: Swift.String? = nil,
             reason: QBusinessClientTypes.MessageUsefulnessReason? = nil,
-            submittedAt: ClientRuntime.Date? = nil,
+            submittedAt: Foundation.Date? = nil,
             usefulness: QBusinessClientTypes.MessageUsefulness? = nil
         )
         {
@@ -8174,7 +8180,7 @@ extension QBusinessClientTypes {
         /// The status of the plugin.
         public var buildStatus: QBusinessClientTypes.PluginBuildStatus?
         /// The timestamp for when the plugin was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The name of the plugin.
         public var displayName: Swift.String?
         /// The identifier of the plugin.
@@ -8186,17 +8192,17 @@ extension QBusinessClientTypes {
         /// The type of the plugin.
         public var type: QBusinessClientTypes.PluginType?
         /// The timestamp for when the plugin was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             buildStatus: QBusinessClientTypes.PluginBuildStatus? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             displayName: Swift.String? = nil,
             pluginId: Swift.String? = nil,
             serverUrl: Swift.String? = nil,
             state: QBusinessClientTypes.PluginState? = nil,
             type: QBusinessClientTypes.PluginType? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.buildStatus = buildStatus
@@ -8493,10 +8499,10 @@ extension QBusinessClientTypes {
 
 extension PutFeedbackInput {
 
-    static func queryItemProvider(_ value: PutFeedbackInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PutFeedbackInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
         }
         return items
@@ -8536,7 +8542,7 @@ public struct PutFeedbackInput {
     /// This member is required.
     public var conversationId: Swift.String?
     /// The timestamp for when the feedback was recorded.
-    public var messageCopiedAt: ClientRuntime.Date?
+    public var messageCopiedAt: Foundation.Date?
     /// The identifier of the chat message that the feedback was given for.
     /// This member is required.
     public var messageId: Swift.String?
@@ -8548,7 +8554,7 @@ public struct PutFeedbackInput {
     public init(
         applicationId: Swift.String? = nil,
         conversationId: Swift.String? = nil,
-        messageCopiedAt: ClientRuntime.Date? = nil,
+        messageCopiedAt: Foundation.Date? = nil,
         messageId: Swift.String? = nil,
         messageUsefulness: QBusinessClientTypes.MessageUsefulnessFeedback? = nil,
         userId: Swift.String? = nil
@@ -8565,7 +8571,7 @@ public struct PutFeedbackInput {
 
 extension PutFeedbackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutFeedbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutFeedbackOutput {
         return PutFeedbackOutput()
     }
 }
@@ -8577,7 +8583,7 @@ public struct PutFeedbackOutput {
 
 enum PutFeedbackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8656,7 +8662,7 @@ public struct PutGroupInput {
 
 extension PutGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutGroupOutput {
         return PutGroupOutput()
     }
 }
@@ -8668,7 +8674,7 @@ public struct PutGroupOutput {
 
 enum PutGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9258,7 +9264,7 @@ extension QBusinessClientTypes {
         /// The title of the document which is the source for the Amazon Q Business generated response.
         public var title: Swift.String?
         /// The Unix timestamp when the Amazon Q Business application was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// The URL of the document which is the source for the Amazon Q Business generated response.
         public var url: Swift.String?
 
@@ -9267,7 +9273,7 @@ extension QBusinessClientTypes {
             snippet: Swift.String? = nil,
             textMessageSegments: [QBusinessClientTypes.TextSegment]? = nil,
             title: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             url: Swift.String? = nil
         )
         {
@@ -9323,7 +9329,7 @@ public struct StartDataSourceSyncJobInput {
 
 extension StartDataSourceSyncJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDataSourceSyncJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDataSourceSyncJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9347,7 +9353,7 @@ public struct StartDataSourceSyncJobOutput {
 
 enum StartDataSourceSyncJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9435,7 +9441,7 @@ public struct StopDataSourceSyncJobInput {
 
 extension StopDataSourceSyncJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopDataSourceSyncJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopDataSourceSyncJobOutput {
         return StopDataSourceSyncJobOutput()
     }
 }
@@ -9447,7 +9453,7 @@ public struct StopDataSourceSyncJobOutput {
 
 enum StopDataSourceSyncJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9645,7 +9651,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -9657,7 +9663,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9898,14 +9904,14 @@ extension QBusinessClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -9942,7 +9948,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -9954,7 +9960,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10027,7 +10033,7 @@ public struct UpdateApplicationInput {
 
 extension UpdateApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationOutput {
         return UpdateApplicationOutput()
     }
 }
@@ -10039,7 +10045,7 @@ public struct UpdateApplicationOutput {
 
 enum UpdateApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10118,7 +10124,7 @@ public struct UpdateChatControlsConfigurationInput {
 
 extension UpdateChatControlsConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateChatControlsConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChatControlsConfigurationOutput {
         return UpdateChatControlsConfigurationOutput()
     }
 }
@@ -10130,7 +10136,7 @@ public struct UpdateChatControlsConfigurationOutput {
 
 enum UpdateChatControlsConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10231,7 +10237,7 @@ public struct UpdateDataSourceInput {
 
 extension UpdateDataSourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDataSourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDataSourceOutput {
         return UpdateDataSourceOutput()
     }
 }
@@ -10243,7 +10249,7 @@ public struct UpdateDataSourceOutput {
 
 enum UpdateDataSourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10320,7 +10326,7 @@ public struct UpdateIndexInput {
 
 extension UpdateIndexOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateIndexOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateIndexOutput {
         return UpdateIndexOutput()
     }
 }
@@ -10332,7 +10338,7 @@ public struct UpdateIndexOutput {
 
 enum UpdateIndexOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10415,7 +10421,7 @@ public struct UpdatePluginInput {
 
 extension UpdatePluginOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePluginOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePluginOutput {
         return UpdatePluginOutput()
     }
 }
@@ -10427,7 +10433,7 @@ public struct UpdatePluginOutput {
 
 enum UpdatePluginOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10500,7 +10506,7 @@ public struct UpdateRetrieverInput {
 
 extension UpdateRetrieverOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRetrieverOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRetrieverOutput {
         return UpdateRetrieverOutput()
     }
 }
@@ -10512,7 +10518,7 @@ public struct UpdateRetrieverOutput {
 
 enum UpdateRetrieverOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10580,7 +10586,7 @@ public struct UpdateUserInput {
 
 extension UpdateUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10614,7 +10620,7 @@ public struct UpdateUserOutput {
 
 enum UpdateUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10702,7 +10708,7 @@ public struct UpdateWebExperienceInput {
 
 extension UpdateWebExperienceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWebExperienceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWebExperienceOutput {
         return UpdateWebExperienceOutput()
     }
 }
@@ -10714,7 +10720,7 @@ public struct UpdateWebExperienceOutput {
 
 enum UpdateWebExperienceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10945,21 +10951,21 @@ extension QBusinessClientTypes {
     /// Provides information for an Amazon Q Business web experience.
     public struct WebExperience {
         /// The Unix timestamp when the Amazon Q Business application was last updated.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The endpoint URLs for your Amazon Q Business web experience. The URLs are unique and fully hosted by Amazon Web Services.
         public var defaultEndpoint: Swift.String?
         /// The status of your Amazon Q Business web experience.
         public var status: QBusinessClientTypes.WebExperienceStatus?
         /// The Unix timestamp when your Amazon Q Business web experience was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
         /// The identifier of your Amazon Q Business web experience.
         public var webExperienceId: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             defaultEndpoint: Swift.String? = nil,
             status: QBusinessClientTypes.WebExperienceStatus? = nil,
-            updatedAt: ClientRuntime.Date? = nil,
+            updatedAt: Foundation.Date? = nil,
             webExperienceId: Swift.String? = nil
         )
         {

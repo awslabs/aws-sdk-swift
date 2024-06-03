@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -116,14 +119,14 @@ extension KinesisVideoArchivedMediaClientTypes {
     public struct ClipTimestampRange {
         /// The end of the timestamp range for the requested media. This value must be within 24 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
         /// This member is required.
-        public var endTimestamp: ClientRuntime.Date?
+        public var endTimestamp: Foundation.Date?
         /// The starting timestamp in the range of timestamps for which to return fragments. Only fragments that start exactly at or after StartTimestamp are included in the session. Fragments that start before StartTimestamp and continue past it aren't included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
         /// This member is required.
-        public var startTimestamp: ClientRuntime.Date?
+        public var startTimestamp: Foundation.Date?
 
         public init(
-            endTimestamp: ClientRuntime.Date? = nil,
-            startTimestamp: ClientRuntime.Date? = nil
+            endTimestamp: Foundation.Date? = nil,
+            startTimestamp: Foundation.Date? = nil
         )
         {
             self.endTimestamp = endTimestamp
@@ -323,13 +326,13 @@ extension KinesisVideoArchivedMediaClientTypes {
     /// The start and end of the timestamp range for the requested media. This value should not be present if PlaybackType is LIVE. The values in DASHimestampRange are inclusive. Fragments that start exactly at or after the start time are included in the session. Fragments that start before the start time and continue past it are not included in the session.
     public struct DASHTimestampRange {
         /// The end of the timestamp range for the requested media. This value must be within 24 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires. This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
-        public var endTimestamp: ClientRuntime.Date?
+        public var endTimestamp: Foundation.Date?
         /// The start of the timestamp range for the requested media. If the DASHTimestampRange value is specified, the StartTimestamp value is required. Only fragments that start exactly at or after StartTimestamp are included in the session. Fragments that start before StartTimestamp and continue past it aren't included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
-        public var startTimestamp: ClientRuntime.Date?
+        public var startTimestamp: Foundation.Date?
 
         public init(
-            endTimestamp: ClientRuntime.Date? = nil,
-            startTimestamp: ClientRuntime.Date? = nil
+            endTimestamp: Foundation.Date? = nil,
+            startTimestamp: Foundation.Date? = nil
         )
         {
             self.endTimestamp = endTimestamp
@@ -418,16 +421,16 @@ extension KinesisVideoArchivedMediaClientTypes {
         /// The total fragment size, including information about the fragment and contained media data.
         public var fragmentSizeInBytes: Swift.Int
         /// The timestamp from the producer corresponding to the fragment.
-        public var producerTimestamp: ClientRuntime.Date?
+        public var producerTimestamp: Foundation.Date?
         /// The timestamp from the Amazon Web Services server corresponding to the fragment.
-        public var serverTimestamp: ClientRuntime.Date?
+        public var serverTimestamp: Foundation.Date?
 
         public init(
             fragmentLengthInMilliseconds: Swift.Int = 0,
             fragmentNumber: Swift.String? = nil,
             fragmentSizeInBytes: Swift.Int = 0,
-            producerTimestamp: ClientRuntime.Date? = nil,
-            serverTimestamp: ClientRuntime.Date? = nil
+            producerTimestamp: Foundation.Date? = nil,
+            serverTimestamp: Foundation.Date? = nil
         )
         {
             self.fragmentLengthInMilliseconds = fragmentLengthInMilliseconds
@@ -551,7 +554,7 @@ public struct GetClipInput {
 
 extension GetClipOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetClipOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetClipOutput {
         var value = GetClipOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -572,11 +575,11 @@ public struct GetClipOutput {
     /// The content type of the media in the requested clip.
     public var contentType: Swift.String?
     /// Traditional MP4 file that contains the media clip from the specified video stream. The output will contain the first 100 MB or the first 200 fragments from the specified start timestamp. For more information, see [Kinesis Video Streams Limits](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html).
-    public var payload: ClientRuntime.ByteStream?
+    public var payload: Smithy.ByteStream?
 
     public init(
         contentType: Swift.String? = nil,
-        payload: ClientRuntime.ByteStream? = nil
+        payload: Smithy.ByteStream? = nil
     )
     {
         self.contentType = contentType
@@ -586,7 +589,7 @@ public struct GetClipOutput {
 
 enum GetClipOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -679,7 +682,7 @@ public struct GetDASHStreamingSessionURLInput {
 
 extension GetDASHStreamingSessionURLOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDASHStreamingSessionURLOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDASHStreamingSessionURLOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -703,7 +706,7 @@ public struct GetDASHStreamingSessionURLOutput {
 
 enum GetDASHStreamingSessionURLOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -809,7 +812,7 @@ public struct GetHLSStreamingSessionURLInput {
 
 extension GetHLSStreamingSessionURLOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetHLSStreamingSessionURLOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetHLSStreamingSessionURLOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -833,7 +836,7 @@ public struct GetHLSStreamingSessionURLOutput {
 
 enum GetHLSStreamingSessionURLOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -881,7 +884,7 @@ extension GetImagesInput {
 public struct GetImagesInput {
     /// The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp, you will receive an IllegalArgumentException.
     /// This member is required.
-    public var endTimestamp: ClientRuntime.Date?
+    public var endTimestamp: Foundation.Date?
     /// The format that will be used to encode the image.
     /// This member is required.
     public var format: KinesisVideoArchivedMediaClientTypes.Format?
@@ -900,7 +903,7 @@ public struct GetImagesInput {
     public var samplingInterval: Swift.Int?
     /// The starting point from which the images should be generated. This StartTimestamp must be within an inclusive range of timestamps for an image to be returned.
     /// This member is required.
-    public var startTimestamp: ClientRuntime.Date?
+    public var startTimestamp: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN.
     public var streamARN: Swift.String?
     /// The name of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN.
@@ -909,7 +912,7 @@ public struct GetImagesInput {
     public var widthPixels: Swift.Int?
 
     public init(
-        endTimestamp: ClientRuntime.Date? = nil,
+        endTimestamp: Foundation.Date? = nil,
         format: KinesisVideoArchivedMediaClientTypes.Format? = nil,
         formatConfig: [Swift.String:Swift.String]? = nil,
         heightPixels: Swift.Int? = nil,
@@ -917,7 +920,7 @@ public struct GetImagesInput {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         samplingInterval: Swift.Int? = nil,
-        startTimestamp: ClientRuntime.Date? = nil,
+        startTimestamp: Foundation.Date? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
         widthPixels: Swift.Int? = nil
@@ -940,7 +943,7 @@ public struct GetImagesInput {
 
 extension GetImagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetImagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetImagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -969,7 +972,7 @@ public struct GetImagesOutput {
 
 enum GetImagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1025,7 +1028,7 @@ public struct GetMediaForFragmentListInput {
 
 extension GetMediaForFragmentListOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMediaForFragmentListOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMediaForFragmentListOutput {
         var value = GetMediaForFragmentListOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
@@ -1061,11 +1064,11 @@ public struct GetMediaForFragmentListOutput {
     /// * AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the
     ///
     /// * AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception
-    public var payload: ClientRuntime.ByteStream?
+    public var payload: Smithy.ByteStream?
 
     public init(
         contentType: Swift.String? = nil,
-        payload: ClientRuntime.ByteStream? = nil
+        payload: Smithy.ByteStream? = nil
     )
     {
         self.contentType = contentType
@@ -1075,7 +1078,7 @@ public struct GetMediaForFragmentListOutput {
 
 enum GetMediaForFragmentListOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1254,13 +1257,13 @@ extension KinesisVideoArchivedMediaClientTypes {
     /// The start and end of the timestamp range for the requested media. This value should not be present if PlaybackType is LIVE.
     public struct HLSTimestampRange {
         /// The end of the timestamp range for the requested media. This value must be within 24 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires. This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
-        public var endTimestamp: ClientRuntime.Date?
+        public var endTimestamp: Foundation.Date?
         /// The start of the timestamp range for the requested media. If the HLSTimestampRange value is specified, the StartTimestamp value is required. Only fragments that start exactly at or after StartTimestamp are included in the session. Fragments that start before StartTimestamp and continue past it aren't included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
-        public var startTimestamp: ClientRuntime.Date?
+        public var startTimestamp: Foundation.Date?
 
         public init(
-            endTimestamp: ClientRuntime.Date? = nil,
-            startTimestamp: ClientRuntime.Date? = nil
+            endTimestamp: Foundation.Date? = nil,
+            startTimestamp: Foundation.Date? = nil
         )
         {
             self.endTimestamp = endTimestamp
@@ -1297,12 +1300,12 @@ extension KinesisVideoArchivedMediaClientTypes {
         /// An attribute of the Image object that is Base64 encoded.
         public var imageContent: Swift.String?
         /// An attribute of the Image object that is used to extract an image from the video stream. This field is used to manage gaps on images or to better understand the pagination window.
-        public var timeStamp: ClientRuntime.Date?
+        public var timeStamp: Foundation.Date?
 
         public init(
             error: KinesisVideoArchivedMediaClientTypes.ImageError? = nil,
             imageContent: Swift.String? = nil,
-            timeStamp: ClientRuntime.Date? = nil
+            timeStamp: Foundation.Date? = nil
         )
         {
             self.error = error
@@ -1533,7 +1536,7 @@ public struct ListFragmentsInput {
 
 extension ListFragmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFragmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFragmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1562,7 +1565,7 @@ public struct ListFragmentsOutput {
 
 enum ListFragmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1739,14 +1742,14 @@ extension KinesisVideoArchivedMediaClientTypes {
     public struct TimestampRange {
         /// The ending timestamp in the range of timestamps for which to return fragments.
         /// This member is required.
-        public var endTimestamp: ClientRuntime.Date?
+        public var endTimestamp: Foundation.Date?
         /// The starting timestamp in the range of timestamps for which to return fragments.
         /// This member is required.
-        public var startTimestamp: ClientRuntime.Date?
+        public var startTimestamp: Foundation.Date?
 
         public init(
-            endTimestamp: ClientRuntime.Date? = nil,
-            startTimestamp: ClientRuntime.Date? = nil
+            endTimestamp: Foundation.Date? = nil,
+            startTimestamp: Foundation.Date? = nil
         )
         {
             self.endTimestamp = endTimestamp

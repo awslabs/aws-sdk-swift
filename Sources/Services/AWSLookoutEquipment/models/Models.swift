@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -235,7 +237,7 @@ public struct CreateDatasetInput {
 
 extension CreateDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -269,7 +271,7 @@ public struct CreateDatasetOutput {
 
 enum CreateDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -367,7 +369,7 @@ public struct CreateInferenceSchedulerInput {
 
 extension CreateInferenceSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateInferenceSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateInferenceSchedulerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -406,7 +408,7 @@ public struct CreateInferenceSchedulerOutput {
 
 enum CreateInferenceSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -470,7 +472,7 @@ public struct CreateLabelGroupInput {
 
 extension CreateLabelGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLabelGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLabelGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -499,7 +501,7 @@ public struct CreateLabelGroupOutput {
 
 enum CreateLabelGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -544,7 +546,7 @@ public struct CreateLabelInput {
     public var clientToken: Swift.String?
     /// The end time of the labeled event.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Indicates that a label pertains to a particular piece of equipment. Data in this field will be retained for service usage. Follow best practices for the security of your data.
     public var equipment: Swift.String?
     /// Provides additional information about the label. The fault code must be defined in the FaultCodes attribute of the label group. Data in this field will be retained for service usage. Follow best practices for the security of your data.
@@ -559,17 +561,17 @@ public struct CreateLabelInput {
     public var rating: LookoutEquipmentClientTypes.LabelRating?
     /// The start time of the labeled event.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         clientToken: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         equipment: Swift.String? = nil,
         faultCode: Swift.String? = nil,
         labelGroupName: Swift.String? = nil,
         notes: Swift.String? = nil,
         rating: LookoutEquipmentClientTypes.LabelRating? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.clientToken = clientToken
@@ -585,7 +587,7 @@ public struct CreateLabelInput {
 
 extension CreateLabelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLabelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLabelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -609,7 +611,7 @@ public struct CreateLabelOutput {
 
 enum CreateLabelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -668,9 +670,9 @@ public struct CreateModelInput {
     /// The data schema for the machine learning model being created.
     public var datasetSchema: LookoutEquipmentClientTypes.DatasetSchema?
     /// Indicates the time reference in the dataset that should be used to end the subset of evaluation data for the machine learning model.
-    public var evaluationDataEndTime: ClientRuntime.Date?
+    public var evaluationDataEndTime: Foundation.Date?
     /// Indicates the time reference in the dataset that should be used to begin the subset of evaluation data for the machine learning model.
-    public var evaluationDataStartTime: ClientRuntime.Date?
+    public var evaluationDataStartTime: Foundation.Date?
     /// The input configuration for the labels being used for the machine learning model that's being created.
     public var labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
     /// The Amazon S3 location where you want Amazon Lookout for Equipment to save the pointwise model diagnostics. You must also specify the RoleArn request parameter.
@@ -687,17 +689,17 @@ public struct CreateModelInput {
     /// Any tags associated with the machine learning model being created.
     public var tags: [LookoutEquipmentClientTypes.Tag]?
     /// Indicates the time reference in the dataset that should be used to end the subset of training data for the machine learning model.
-    public var trainingDataEndTime: ClientRuntime.Date?
+    public var trainingDataEndTime: Foundation.Date?
     /// Indicates the time reference in the dataset that should be used to begin the subset of training data for the machine learning model.
-    public var trainingDataStartTime: ClientRuntime.Date?
+    public var trainingDataStartTime: Foundation.Date?
 
     public init(
         clientToken: Swift.String? = nil,
         dataPreProcessingConfiguration: LookoutEquipmentClientTypes.DataPreProcessingConfiguration? = nil,
         datasetName: Swift.String? = nil,
         datasetSchema: LookoutEquipmentClientTypes.DatasetSchema? = nil,
-        evaluationDataEndTime: ClientRuntime.Date? = nil,
-        evaluationDataStartTime: ClientRuntime.Date? = nil,
+        evaluationDataEndTime: Foundation.Date? = nil,
+        evaluationDataStartTime: Foundation.Date? = nil,
         labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration? = nil,
         modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
         modelName: Swift.String? = nil,
@@ -705,8 +707,8 @@ public struct CreateModelInput {
         roleArn: Swift.String? = nil,
         serverSideKmsKeyId: Swift.String? = nil,
         tags: [LookoutEquipmentClientTypes.Tag]? = nil,
-        trainingDataEndTime: ClientRuntime.Date? = nil,
-        trainingDataStartTime: ClientRuntime.Date? = nil
+        trainingDataEndTime: Foundation.Date? = nil,
+        trainingDataStartTime: Foundation.Date? = nil
     )
     {
         self.clientToken = clientToken
@@ -729,7 +731,7 @@ public struct CreateModelInput {
 
 extension CreateModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -758,7 +760,7 @@ public struct CreateModelOutput {
 
 enum CreateModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -818,7 +820,7 @@ public struct CreateRetrainingSchedulerInput {
     /// This member is required.
     public var retrainingFrequency: Swift.String?
     /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
-    public var retrainingStartDate: ClientRuntime.Date?
+    public var retrainingStartDate: Foundation.Date?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -826,7 +828,7 @@ public struct CreateRetrainingSchedulerInput {
         modelName: Swift.String? = nil,
         promoteMode: LookoutEquipmentClientTypes.ModelPromoteMode? = nil,
         retrainingFrequency: Swift.String? = nil,
-        retrainingStartDate: ClientRuntime.Date? = nil
+        retrainingStartDate: Foundation.Date? = nil
     )
     {
         self.clientToken = clientToken
@@ -840,7 +842,7 @@ public struct CreateRetrainingSchedulerInput {
 
 extension CreateRetrainingSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRetrainingSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRetrainingSchedulerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -874,7 +876,7 @@ public struct CreateRetrainingSchedulerOutput {
 
 enum CreateRetrainingSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1133,7 +1135,7 @@ extension LookoutEquipmentClientTypes {
     /// Contains information about the specific data set, including name, ARN, and status.
     public struct DatasetSummary {
         /// The time at which the dataset was created in Amazon Lookout for Equipment.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the specified dataset.
         public var datasetArn: Swift.String?
         /// The name of the dataset.
@@ -1142,7 +1144,7 @@ extension LookoutEquipmentClientTypes {
         public var status: LookoutEquipmentClientTypes.DatasetStatus?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             datasetArn: Swift.String? = nil,
             datasetName: Swift.String? = nil,
             status: LookoutEquipmentClientTypes.DatasetStatus? = nil
@@ -1187,7 +1189,7 @@ public struct DeleteDatasetInput {
 
 extension DeleteDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDatasetOutput {
         return DeleteDatasetOutput()
     }
 }
@@ -1199,7 +1201,7 @@ public struct DeleteDatasetOutput {
 
 enum DeleteDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1246,7 +1248,7 @@ public struct DeleteInferenceSchedulerInput {
 
 extension DeleteInferenceSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteInferenceSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteInferenceSchedulerOutput {
         return DeleteInferenceSchedulerOutput()
     }
 }
@@ -1258,7 +1260,7 @@ public struct DeleteInferenceSchedulerOutput {
 
 enum DeleteInferenceSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1305,7 +1307,7 @@ public struct DeleteLabelGroupInput {
 
 extension DeleteLabelGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLabelGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLabelGroupOutput {
         return DeleteLabelGroupOutput()
     }
 }
@@ -1317,7 +1319,7 @@ public struct DeleteLabelGroupOutput {
 
 enum DeleteLabelGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1370,7 +1372,7 @@ public struct DeleteLabelInput {
 
 extension DeleteLabelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLabelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLabelOutput {
         return DeleteLabelOutput()
     }
 }
@@ -1382,7 +1384,7 @@ public struct DeleteLabelOutput {
 
 enum DeleteLabelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1429,7 +1431,7 @@ public struct DeleteModelInput {
 
 extension DeleteModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteModelOutput {
         return DeleteModelOutput()
     }
 }
@@ -1441,7 +1443,7 @@ public struct DeleteModelOutput {
 
 enum DeleteModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1488,7 +1490,7 @@ public struct DeleteResourcePolicyInput {
 
 extension DeleteResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourcePolicyOutput {
         return DeleteResourcePolicyOutput()
     }
 }
@@ -1500,7 +1502,7 @@ public struct DeleteResourcePolicyOutput {
 
 enum DeleteResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1547,7 +1549,7 @@ public struct DeleteRetrainingSchedulerInput {
 
 extension DeleteRetrainingSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRetrainingSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRetrainingSchedulerOutput {
         return DeleteRetrainingSchedulerOutput()
     }
 }
@@ -1559,7 +1561,7 @@ public struct DeleteRetrainingSchedulerOutput {
 
 enum DeleteRetrainingSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1606,7 +1608,7 @@ public struct DescribeDataIngestionJobInput {
 
 extension DescribeDataIngestionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDataIngestionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDataIngestionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1631,13 +1633,13 @@ extension DescribeDataIngestionJobOutput {
 
 public struct DescribeDataIngestionJobOutput {
     /// The time at which the data ingestion job was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Indicates the latest timestamp corresponding to data that was successfully ingested during this specific ingestion job.
-    public var dataEndTime: ClientRuntime.Date?
+    public var dataEndTime: Foundation.Date?
     /// Gives statistics about a completed ingestion job. These statistics primarily relate to quantifying incorrect data such as MissingCompleteSensorData, MissingSensorData, UnsupportedDateFormats, InsufficientSensorData, and DuplicateTimeStamps.
     public var dataQualitySummary: LookoutEquipmentClientTypes.DataQualitySummary?
     /// Indicates the earliest timestamp corresponding to data that was successfully ingested during this specific ingestion job.
-    public var dataStartTime: ClientRuntime.Date?
+    public var dataStartTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the dataset being used in the data ingestion job.
     public var datasetArn: Swift.String?
     /// Specifies the reason for failure when a data ingestion job has failed.
@@ -1660,10 +1662,10 @@ public struct DescribeDataIngestionJobOutput {
     public var statusDetail: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
-        dataEndTime: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataEndTime: Foundation.Date? = nil,
         dataQualitySummary: LookoutEquipmentClientTypes.DataQualitySummary? = nil,
-        dataStartTime: ClientRuntime.Date? = nil,
+        dataStartTime: Foundation.Date? = nil,
         datasetArn: Swift.String? = nil,
         failedReason: Swift.String? = nil,
         ingestedDataSize: Swift.Int? = nil,
@@ -1695,7 +1697,7 @@ public struct DescribeDataIngestionJobOutput {
 
 enum DescribeDataIngestionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1741,7 +1743,7 @@ public struct DescribeDatasetInput {
 
 extension DescribeDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1766,13 +1768,13 @@ extension DescribeDatasetOutput {
 
 public struct DescribeDatasetOutput {
     /// Specifies the time the dataset was created in Lookout for Equipment.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Indicates the latest timestamp corresponding to data that was successfully ingested during the most recent ingestion of this particular dataset.
-    public var dataEndTime: ClientRuntime.Date?
+    public var dataEndTime: Foundation.Date?
     /// Gives statistics associated with the given dataset for the latest successful associated ingestion job id. These statistics primarily relate to quantifying incorrect data such as MissingCompleteSensorData, MissingSensorData, UnsupportedDateFormats, InsufficientSensorData, and DuplicateTimeStamps.
     public var dataQualitySummary: LookoutEquipmentClientTypes.DataQualitySummary?
     /// Indicates the earliest timestamp corresponding to data that was successfully ingested during the most recent ingestion of this particular dataset.
-    public var dataStartTime: ClientRuntime.Date?
+    public var dataStartTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the dataset being described.
     public var datasetArn: Swift.String?
     /// The name of the dataset being described.
@@ -1782,7 +1784,7 @@ public struct DescribeDatasetOutput {
     /// Specifies the S3 location configuration for the data input for the data ingestion job.
     public var ingestionInputConfiguration: LookoutEquipmentClientTypes.IngestionInputConfiguration?
     /// Specifies the time the dataset was last updated, if it was.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the IAM role that you are using for this the data ingestion job.
     public var roleArn: Swift.String?
     /// A JSON description of the data that is in each time series dataset, including names, column names, and data types.
@@ -1795,15 +1797,15 @@ public struct DescribeDatasetOutput {
     public var status: LookoutEquipmentClientTypes.DatasetStatus?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
-        dataEndTime: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataEndTime: Foundation.Date? = nil,
         dataQualitySummary: LookoutEquipmentClientTypes.DataQualitySummary? = nil,
-        dataStartTime: ClientRuntime.Date? = nil,
+        dataStartTime: Foundation.Date? = nil,
         datasetArn: Swift.String? = nil,
         datasetName: Swift.String? = nil,
         ingestedFilesSummary: LookoutEquipmentClientTypes.IngestedFilesSummary? = nil,
         ingestionInputConfiguration: LookoutEquipmentClientTypes.IngestionInputConfiguration? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         roleArn: Swift.String? = nil,
         schema: Swift.String? = nil,
         serverSideKmsKeyId: Swift.String? = nil,
@@ -1830,7 +1832,7 @@ public struct DescribeDatasetOutput {
 
 enum DescribeDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1876,7 +1878,7 @@ public struct DescribeInferenceSchedulerInput {
 
 extension DescribeInferenceSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeInferenceSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInferenceSchedulerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1901,7 +1903,7 @@ extension DescribeInferenceSchedulerOutput {
 
 public struct DescribeInferenceSchedulerOutput {
     /// Specifies the time at which the inference scheduler was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// A period of time (in minutes) by which inference on the data is delayed after the data starts. For instance, if you select an offset delay time of five minutes, inference will not begin on the data until the first data measurement after the five minute mark. For example, if five minutes is selected, the inference scheduler will wake up at the configured frequency with the additional five minute delay time to check the customer S3 bucket. The customer can upload data at the same frequency and they don't need to stop and restart the scheduler when uploading new data.
     public var dataDelayOffsetInMinutes: Swift.Int?
     /// Specifies configuration information for the input data for the inference scheduler, including delimiter, format, and dataset location.
@@ -1927,10 +1929,10 @@ public struct DescribeInferenceSchedulerOutput {
     /// Indicates the status of the inference scheduler.
     public var status: LookoutEquipmentClientTypes.InferenceSchedulerStatus?
     /// Specifies the time at which the inference scheduler was last updated, if it was.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataDelayOffsetInMinutes: Swift.Int? = nil,
         dataInputConfiguration: LookoutEquipmentClientTypes.InferenceInputConfiguration? = nil,
         dataOutputConfiguration: LookoutEquipmentClientTypes.InferenceOutputConfiguration? = nil,
@@ -1943,7 +1945,7 @@ public struct DescribeInferenceSchedulerOutput {
         roleArn: Swift.String? = nil,
         serverSideKmsKeyId: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.InferenceSchedulerStatus? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.createdAt = createdAt
@@ -1965,7 +1967,7 @@ public struct DescribeInferenceSchedulerOutput {
 
 enum DescribeInferenceSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2011,7 +2013,7 @@ public struct DescribeLabelGroupInput {
 
 extension DescribeLabelGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLabelGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLabelGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2027,7 +2029,7 @@ extension DescribeLabelGroupOutput {
 
 public struct DescribeLabelGroupOutput {
     /// The time at which the label group was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Codes indicating the type of anomaly associated with the labels in the lagbel group.
     public var faultCodes: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the label group.
@@ -2035,14 +2037,14 @@ public struct DescribeLabelGroupOutput {
     /// The name of the label group.
     public var labelGroupName: Swift.String?
     /// The time at which the label group was updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         faultCodes: [Swift.String]? = nil,
         labelGroupArn: Swift.String? = nil,
         labelGroupName: Swift.String? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.createdAt = createdAt
@@ -2055,7 +2057,7 @@ public struct DescribeLabelGroupOutput {
 
 enum DescribeLabelGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2107,7 +2109,7 @@ public struct DescribeLabelInput {
 
 extension DescribeLabelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLabelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLabelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2128,9 +2130,9 @@ extension DescribeLabelOutput {
 
 public struct DescribeLabelOutput {
     /// The time at which the label was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The end time of the requested label.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Indicates that a label pertains to a particular piece of equipment.
     public var equipment: Swift.String?
     /// Indicates the type of anomaly associated with the label. Data in this field will be retained for service usage. Follow best practices for the security of your data.
@@ -2146,11 +2148,11 @@ public struct DescribeLabelOutput {
     /// Indicates whether a labeled event represents an anomaly.
     public var rating: LookoutEquipmentClientTypes.LabelRating?
     /// The start time of the requested label.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        endTime: Foundation.Date? = nil,
         equipment: Swift.String? = nil,
         faultCode: Swift.String? = nil,
         labelGroupArn: Swift.String? = nil,
@@ -2158,7 +2160,7 @@ public struct DescribeLabelOutput {
         labelId: Swift.String? = nil,
         notes: Swift.String? = nil,
         rating: LookoutEquipmentClientTypes.LabelRating? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.createdAt = createdAt
@@ -2176,7 +2178,7 @@ public struct DescribeLabelOutput {
 
 enum DescribeLabelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2222,7 +2224,7 @@ public struct DescribeModelInput {
 
 extension DescribeModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2275,15 +2277,15 @@ extension DescribeModelOutput {
 
 public struct DescribeModelOutput {
     /// Indicates the end time of the inference data that has been accumulated.
-    public var accumulatedInferenceDataEndTime: ClientRuntime.Date?
+    public var accumulatedInferenceDataEndTime: Foundation.Date?
     /// Indicates the start time of the inference data that has been accumulated.
-    public var accumulatedInferenceDataStartTime: ClientRuntime.Date?
+    public var accumulatedInferenceDataStartTime: Foundation.Date?
     /// The name of the model version used by the inference schedular when running a scheduled inference execution.
     public var activeModelVersion: Swift.Int?
     /// The Amazon Resource Name (ARN) of the model version used by the inference scheduler when running a scheduled inference execution.
     public var activeModelVersionArn: Swift.String?
     /// Indicates the time and date at which the machine learning model was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
     public var dataPreProcessingConfiguration: LookoutEquipmentClientTypes.DataPreProcessingConfiguration?
     /// The Amazon Resouce Name (ARN) of the dataset used to create the machine learning model being described.
@@ -2291,19 +2293,19 @@ public struct DescribeModelOutput {
     /// The name of the dataset being used by the machine learning being described.
     public var datasetName: Swift.String?
     /// Indicates the time reference in the dataset that was used to end the subset of evaluation data for the machine learning model.
-    public var evaluationDataEndTime: ClientRuntime.Date?
+    public var evaluationDataEndTime: Foundation.Date?
     /// Indicates the time reference in the dataset that was used to begin the subset of evaluation data for the machine learning model.
-    public var evaluationDataStartTime: ClientRuntime.Date?
+    public var evaluationDataStartTime: Foundation.Date?
     /// If the training of the machine learning model failed, this indicates the reason for that failure.
     public var failedReason: Swift.String?
     /// The date and time when the import job was completed. This field appears if the active model version was imported.
-    public var importJobEndTime: ClientRuntime.Date?
+    public var importJobEndTime: Foundation.Date?
     /// The date and time when the import job was started. This field appears if the active model version was imported.
-    public var importJobStartTime: ClientRuntime.Date?
+    public var importJobStartTime: Foundation.Date?
     /// Specifies configuration information about the labels input, including its S3 location.
     public var labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
     /// Indicates the last time the machine learning model was updated. The type of update is not specified.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// Indicates the number of days of data used in the most recent scheduled retraining run.
     public var latestScheduledRetrainingAvailableDataInDays: Swift.Int?
     /// If the model version was generated by retraining and the training failed, this indicates the reason for that failure.
@@ -2311,7 +2313,7 @@ public struct DescribeModelOutput {
     /// Indicates the most recent model version that was generated by retraining.
     public var latestScheduledRetrainingModelVersion: Swift.Int?
     /// Indicates the start time of the most recent scheduled retraining run.
-    public var latestScheduledRetrainingStartTime: ClientRuntime.Date?
+    public var latestScheduledRetrainingStartTime: Foundation.Date?
     /// Indicates the status of the most recent scheduled retraining run.
     public var latestScheduledRetrainingStatus: LookoutEquipmentClientTypes.ModelVersionStatus?
     /// The Amazon Resource Name (ARN) of the machine learning model being described.
@@ -2325,9 +2327,9 @@ public struct DescribeModelOutput {
     /// Provides a quality assessment for a model that uses labels. If Lookout for Equipment determines that the model quality is poor based on training metrics, the value is POOR_QUALITY_DETECTED. Otherwise, the value is QUALITY_THRESHOLD_MET. If the model is unlabeled, the model quality can't be assessed and the value of ModelQuality is CANNOT_DETERMINE_QUALITY. In this situation, you can get a model quality assessment by adding labels to the input dataset and retraining the model. For information about using labels with your models, see [Understanding labeling](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-labeling.html). For information about improving the quality of a model, see [Best practices with Amazon Lookout for Equipment](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/best-practices.html).
     public var modelQuality: LookoutEquipmentClientTypes.ModelQuality?
     /// The date the active model version was activated.
-    public var modelVersionActivatedAt: ClientRuntime.Date?
+    public var modelVersionActivatedAt: Foundation.Date?
     /// Indicates the date and time that the next scheduled retraining run will start on. Lookout for Equipment truncates the time you provide to the nearest UTC day.
-    public var nextScheduledRetrainingStartDate: ClientRuntime.Date?
+    public var nextScheduledRetrainingStartDate: Foundation.Date?
     /// Indicates that the asset associated with this sensor has been shut off. As long as this condition is met, Lookout for Equipment will not use data from this asset for training, evaluation, or inference.
     public var offCondition: Swift.String?
     /// The model version that was set as the active model version prior to the current active model version.
@@ -2335,7 +2337,7 @@ public struct DescribeModelOutput {
     /// The ARN of the model version that was set as the active model version prior to the current active model version.
     public var previousActiveModelVersionArn: Swift.String?
     /// The date and time when the previous active model version was activated.
-    public var previousModelVersionActivatedAt: ClientRuntime.Date?
+    public var previousModelVersionActivatedAt: Foundation.Date?
     /// If the model version was retrained, this field shows a summary of the performance of the prior model on the new training range. You can use the information in this JSON-formatted object to compare the new model version and the prior model version.
     public var priorModelMetrics: Swift.String?
     /// Indicates the status of the retraining scheduler.
@@ -2351,46 +2353,46 @@ public struct DescribeModelOutput {
     /// Specifies the current status of the model being described. Status describes the status of the most recent action of the model.
     public var status: LookoutEquipmentClientTypes.ModelStatus?
     /// Indicates the time reference in the dataset that was used to end the subset of training data for the machine learning model.
-    public var trainingDataEndTime: ClientRuntime.Date?
+    public var trainingDataEndTime: Foundation.Date?
     /// Indicates the time reference in the dataset that was used to begin the subset of training data for the machine learning model.
-    public var trainingDataStartTime: ClientRuntime.Date?
+    public var trainingDataStartTime: Foundation.Date?
     /// Indicates the time at which the training of the machine learning model was completed.
-    public var trainingExecutionEndTime: ClientRuntime.Date?
+    public var trainingExecutionEndTime: Foundation.Date?
     /// Indicates the time at which the training of the machine learning model began.
-    public var trainingExecutionStartTime: ClientRuntime.Date?
+    public var trainingExecutionStartTime: Foundation.Date?
 
     public init(
-        accumulatedInferenceDataEndTime: ClientRuntime.Date? = nil,
-        accumulatedInferenceDataStartTime: ClientRuntime.Date? = nil,
+        accumulatedInferenceDataEndTime: Foundation.Date? = nil,
+        accumulatedInferenceDataStartTime: Foundation.Date? = nil,
         activeModelVersion: Swift.Int? = nil,
         activeModelVersionArn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataPreProcessingConfiguration: LookoutEquipmentClientTypes.DataPreProcessingConfiguration? = nil,
         datasetArn: Swift.String? = nil,
         datasetName: Swift.String? = nil,
-        evaluationDataEndTime: ClientRuntime.Date? = nil,
-        evaluationDataStartTime: ClientRuntime.Date? = nil,
+        evaluationDataEndTime: Foundation.Date? = nil,
+        evaluationDataStartTime: Foundation.Date? = nil,
         failedReason: Swift.String? = nil,
-        importJobEndTime: ClientRuntime.Date? = nil,
-        importJobStartTime: ClientRuntime.Date? = nil,
+        importJobEndTime: Foundation.Date? = nil,
+        importJobStartTime: Foundation.Date? = nil,
         labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         latestScheduledRetrainingAvailableDataInDays: Swift.Int? = nil,
         latestScheduledRetrainingFailedReason: Swift.String? = nil,
         latestScheduledRetrainingModelVersion: Swift.Int? = nil,
-        latestScheduledRetrainingStartTime: ClientRuntime.Date? = nil,
+        latestScheduledRetrainingStartTime: Foundation.Date? = nil,
         latestScheduledRetrainingStatus: LookoutEquipmentClientTypes.ModelVersionStatus? = nil,
         modelArn: Swift.String? = nil,
         modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
         modelMetrics: Swift.String? = nil,
         modelName: Swift.String? = nil,
         modelQuality: LookoutEquipmentClientTypes.ModelQuality? = nil,
-        modelVersionActivatedAt: ClientRuntime.Date? = nil,
-        nextScheduledRetrainingStartDate: ClientRuntime.Date? = nil,
+        modelVersionActivatedAt: Foundation.Date? = nil,
+        nextScheduledRetrainingStartDate: Foundation.Date? = nil,
         offCondition: Swift.String? = nil,
         previousActiveModelVersion: Swift.Int? = nil,
         previousActiveModelVersionArn: Swift.String? = nil,
-        previousModelVersionActivatedAt: ClientRuntime.Date? = nil,
+        previousModelVersionActivatedAt: Foundation.Date? = nil,
         priorModelMetrics: Swift.String? = nil,
         retrainingSchedulerStatus: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil,
         roleArn: Swift.String? = nil,
@@ -2398,10 +2400,10 @@ public struct DescribeModelOutput {
         serverSideKmsKeyId: Swift.String? = nil,
         sourceModelVersionArn: Swift.String? = nil,
         status: LookoutEquipmentClientTypes.ModelStatus? = nil,
-        trainingDataEndTime: ClientRuntime.Date? = nil,
-        trainingDataStartTime: ClientRuntime.Date? = nil,
-        trainingExecutionEndTime: ClientRuntime.Date? = nil,
-        trainingExecutionStartTime: ClientRuntime.Date? = nil
+        trainingDataEndTime: Foundation.Date? = nil,
+        trainingDataStartTime: Foundation.Date? = nil,
+        trainingExecutionEndTime: Foundation.Date? = nil,
+        trainingExecutionStartTime: Foundation.Date? = nil
     )
     {
         self.accumulatedInferenceDataEndTime = accumulatedInferenceDataEndTime
@@ -2451,7 +2453,7 @@ public struct DescribeModelOutput {
 
 enum DescribeModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2503,7 +2505,7 @@ public struct DescribeModelVersionInput {
 
 extension DescribeModelVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeModelVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeModelVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2553,7 +2555,7 @@ public struct DescribeModelVersionOutput {
     /// Indicates the reason for the AutoPromotionResult. For example, a model might not be promoted if its performance was worse than the active version, if there was an error during training, or if the retraining scheduler was using MANUAL promote mode. The model will be promoted in MANAGED promote mode if the performance is better than the previous model.
     public var autoPromotionResultReason: Swift.String?
     /// Indicates the time and date at which the machine learning model version was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The configuration is the TargetSamplingRate, which is the sampling rate of the data after post processing by Amazon Lookout for Equipment. For example, if you provide data that has been collected at a 1 second level and you want the system to resample the data at a 1 minute rate before training, the TargetSamplingRate is 1 minute. When providing a value for the TargetSamplingRate, you must attach the prefix "PT" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
     public var dataPreProcessingConfiguration: LookoutEquipmentClientTypes.DataPreProcessingConfiguration?
     /// The Amazon Resource Name (ARN) of the dataset used to train the model version.
@@ -2561,21 +2563,21 @@ public struct DescribeModelVersionOutput {
     /// The name of the dataset used to train the model version.
     public var datasetName: Swift.String?
     /// The date on which the data in the evaluation set began being gathered. If you imported the version, this is the date that the evaluation set data in the source version finished being gathered.
-    public var evaluationDataEndTime: ClientRuntime.Date?
+    public var evaluationDataEndTime: Foundation.Date?
     /// The date on which the data in the evaluation set began being gathered. If you imported the version, this is the date that the evaluation set data in the source version began being gathered.
-    public var evaluationDataStartTime: ClientRuntime.Date?
+    public var evaluationDataStartTime: Foundation.Date?
     /// The failure message if the training of the model version failed.
     public var failedReason: Swift.String?
     /// The date and time when the import job completed. This field appears if the model version was imported.
-    public var importJobEndTime: ClientRuntime.Date?
+    public var importJobEndTime: Foundation.Date?
     /// The date and time when the import job began. This field appears if the model version was imported.
-    public var importJobStartTime: ClientRuntime.Date?
+    public var importJobStartTime: Foundation.Date?
     /// The size in bytes of the imported data. This field appears if the model version was imported.
     public var importedDataSizeInBytes: Swift.Int?
     /// Contains the configuration information for the S3 location being used to hold label data.
     public var labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
     /// Indicates the last time the machine learning model version was updated.
-    public var lastUpdatedTime: ClientRuntime.Date?
+    public var lastUpdatedTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the parent machine learning model that this version belong to.
     public var modelArn: Swift.String?
     /// The Amazon S3 location where Amazon Lookout for Equipment saves the pointwise model diagnostics for the model version.
@@ -2611,29 +2613,29 @@ public struct DescribeModelVersionOutput {
     /// The current status of the model version.
     public var status: LookoutEquipmentClientTypes.ModelVersionStatus?
     /// The date on which the training data finished being gathered. If you imported the version, this is the date that the training data in the source version finished being gathered.
-    public var trainingDataEndTime: ClientRuntime.Date?
+    public var trainingDataEndTime: Foundation.Date?
     /// The date on which the training data began being gathered. If you imported the version, this is the date that the training data in the source version began being gathered.
-    public var trainingDataStartTime: ClientRuntime.Date?
+    public var trainingDataStartTime: Foundation.Date?
     /// The time when the training of the version completed.
-    public var trainingExecutionEndTime: ClientRuntime.Date?
+    public var trainingExecutionEndTime: Foundation.Date?
     /// The time when the training of the version began.
-    public var trainingExecutionStartTime: ClientRuntime.Date?
+    public var trainingExecutionStartTime: Foundation.Date?
 
     public init(
         autoPromotionResult: LookoutEquipmentClientTypes.AutoPromotionResult? = nil,
         autoPromotionResultReason: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         dataPreProcessingConfiguration: LookoutEquipmentClientTypes.DataPreProcessingConfiguration? = nil,
         datasetArn: Swift.String? = nil,
         datasetName: Swift.String? = nil,
-        evaluationDataEndTime: ClientRuntime.Date? = nil,
-        evaluationDataStartTime: ClientRuntime.Date? = nil,
+        evaluationDataEndTime: Foundation.Date? = nil,
+        evaluationDataStartTime: Foundation.Date? = nil,
         failedReason: Swift.String? = nil,
-        importJobEndTime: ClientRuntime.Date? = nil,
-        importJobStartTime: ClientRuntime.Date? = nil,
+        importJobEndTime: Foundation.Date? = nil,
+        importJobStartTime: Foundation.Date? = nil,
         importedDataSizeInBytes: Swift.Int? = nil,
         labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration? = nil,
-        lastUpdatedTime: ClientRuntime.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
         modelArn: Swift.String? = nil,
         modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
         modelDiagnosticsResultsObject: LookoutEquipmentClientTypes.S3Object? = nil,
@@ -2651,10 +2653,10 @@ public struct DescribeModelVersionOutput {
         sourceModelVersionArn: Swift.String? = nil,
         sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType? = nil,
         status: LookoutEquipmentClientTypes.ModelVersionStatus? = nil,
-        trainingDataEndTime: ClientRuntime.Date? = nil,
-        trainingDataStartTime: ClientRuntime.Date? = nil,
-        trainingExecutionEndTime: ClientRuntime.Date? = nil,
-        trainingExecutionStartTime: ClientRuntime.Date? = nil
+        trainingDataEndTime: Foundation.Date? = nil,
+        trainingDataStartTime: Foundation.Date? = nil,
+        trainingExecutionEndTime: Foundation.Date? = nil,
+        trainingExecutionStartTime: Foundation.Date? = nil
     )
     {
         self.autoPromotionResult = autoPromotionResult
@@ -2697,7 +2699,7 @@ public struct DescribeModelVersionOutput {
 
 enum DescribeModelVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2743,7 +2745,7 @@ public struct DescribeResourcePolicyInput {
 
 extension DescribeResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2758,17 +2760,17 @@ extension DescribeResourcePolicyOutput {
 
 public struct DescribeResourcePolicyOutput {
     /// The time when the resource policy was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The time when the resource policy was last modified.
-    public var lastModifiedTime: ClientRuntime.Date?
+    public var lastModifiedTime: Foundation.Date?
     /// A unique identifier for a revision of the resource policy.
     public var policyRevisionId: Swift.String?
     /// The resource policy in a JSON-formatted string.
     public var resourcePolicy: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
-        lastModifiedTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         policyRevisionId: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
     )
@@ -2782,7 +2784,7 @@ public struct DescribeResourcePolicyOutput {
 
 enum DescribeResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2828,7 +2830,7 @@ public struct DescribeRetrainingSchedulerInput {
 
 extension DescribeRetrainingSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRetrainingSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRetrainingSchedulerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2848,7 +2850,7 @@ extension DescribeRetrainingSchedulerOutput {
 
 public struct DescribeRetrainingSchedulerOutput {
     /// Indicates the time and date at which the retraining scheduler was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The number of past days of data used for retraining.
     public var lookbackWindow: Swift.String?
     /// The ARN of the model that the retraining scheduler is attached to.
@@ -2860,22 +2862,22 @@ public struct DescribeRetrainingSchedulerOutput {
     /// The frequency at which the model retraining is set. This follows the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Durations) guidelines.
     public var retrainingFrequency: Swift.String?
     /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
-    public var retrainingStartDate: ClientRuntime.Date?
+    public var retrainingStartDate: Foundation.Date?
     /// The status of the retraining scheduler.
     public var status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus?
     /// Indicates the time and date at which the retraining scheduler was updated.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         lookbackWindow: Swift.String? = nil,
         modelArn: Swift.String? = nil,
         modelName: Swift.String? = nil,
         promoteMode: LookoutEquipmentClientTypes.ModelPromoteMode? = nil,
         retrainingFrequency: Swift.String? = nil,
-        retrainingStartDate: ClientRuntime.Date? = nil,
+        retrainingStartDate: Foundation.Date? = nil,
         status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil,
-        updatedAt: ClientRuntime.Date? = nil
+        updatedAt: Foundation.Date? = nil
     )
     {
         self.createdAt = createdAt
@@ -2892,7 +2894,7 @@ public struct DescribeRetrainingSchedulerOutput {
 
 enum DescribeRetrainingSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2986,7 +2988,7 @@ public struct ImportDatasetInput {
 
 extension ImportDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3025,7 +3027,7 @@ public struct ImportDatasetOutput {
 
 enum ImportDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3121,7 +3123,7 @@ public struct ImportModelVersionInput {
 
 extension ImportModelVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportModelVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportModelVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3165,7 +3167,7 @@ public struct ImportModelVersionOutput {
 
 enum ImportModelVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3238,9 +3240,9 @@ extension LookoutEquipmentClientTypes {
         /// Indicates the size of an inference event in seconds.
         public var eventDurationInSeconds: Swift.Int?
         /// Indicates the ending time of an inference event.
-        public var eventEndTime: ClientRuntime.Date?
+        public var eventEndTime: Foundation.Date?
         /// Indicates the starting time of an inference event.
-        public var eventStartTime: ClientRuntime.Date?
+        public var eventStartTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the inference scheduler being used for the inference event.
         public var inferenceSchedulerArn: Swift.String?
         /// The name of the inference scheduler being used for the inference events.
@@ -3249,8 +3251,8 @@ extension LookoutEquipmentClientTypes {
         public init(
             diagnostics: Swift.String? = nil,
             eventDurationInSeconds: Swift.Int? = nil,
-            eventEndTime: ClientRuntime.Date? = nil,
-            eventStartTime: ClientRuntime.Date? = nil,
+            eventEndTime: Foundation.Date? = nil,
+            eventStartTime: Foundation.Date? = nil,
             inferenceSchedulerArn: Swift.String? = nil,
             inferenceSchedulerName: Swift.String? = nil
         )
@@ -3327,13 +3329,13 @@ extension LookoutEquipmentClientTypes {
         /// The S3 object that the inference execution results were uploaded to.
         public var customerResultObject: LookoutEquipmentClientTypes.S3Object?
         /// Indicates the time reference in the dataset at which the inference execution stopped.
-        public var dataEndTime: ClientRuntime.Date?
+        public var dataEndTime: Foundation.Date?
         /// Specifies configuration information for the input data for the inference scheduler, including delimiter, format, and dataset location.
         public var dataInputConfiguration: LookoutEquipmentClientTypes.InferenceInputConfiguration?
         /// Specifies configuration information for the output results from for the inference execution, including the output Amazon S3 location.
         public var dataOutputConfiguration: LookoutEquipmentClientTypes.InferenceOutputConfiguration?
         /// Indicates the time reference in the dataset at which the inference execution began.
-        public var dataStartTime: ClientRuntime.Date?
+        public var dataStartTime: Foundation.Date?
         /// Specifies the reason for failure when an inference execution has failed.
         public var failedReason: Swift.String?
         /// The Amazon Resource Name (ARN) of the inference scheduler being used for the inference execution.
@@ -3349,16 +3351,16 @@ extension LookoutEquipmentClientTypes {
         /// The Amazon Resource Number (ARN) of the model version used for the inference execution.
         public var modelVersionArn: Swift.String?
         /// Indicates the start time at which the inference scheduler began the specific inference execution.
-        public var scheduledStartTime: ClientRuntime.Date?
+        public var scheduledStartTime: Foundation.Date?
         /// Indicates the status of the inference execution.
         public var status: LookoutEquipmentClientTypes.InferenceExecutionStatus?
 
         public init(
             customerResultObject: LookoutEquipmentClientTypes.S3Object? = nil,
-            dataEndTime: ClientRuntime.Date? = nil,
+            dataEndTime: Foundation.Date? = nil,
             dataInputConfiguration: LookoutEquipmentClientTypes.InferenceInputConfiguration? = nil,
             dataOutputConfiguration: LookoutEquipmentClientTypes.InferenceOutputConfiguration? = nil,
-            dataStartTime: ClientRuntime.Date? = nil,
+            dataStartTime: Foundation.Date? = nil,
             failedReason: Swift.String? = nil,
             inferenceSchedulerArn: Swift.String? = nil,
             inferenceSchedulerName: Swift.String? = nil,
@@ -3366,7 +3368,7 @@ extension LookoutEquipmentClientTypes {
             modelName: Swift.String? = nil,
             modelVersion: Swift.Int? = nil,
             modelVersionArn: Swift.String? = nil,
-            scheduledStartTime: ClientRuntime.Date? = nil,
+            scheduledStartTime: Foundation.Date? = nil,
             status: LookoutEquipmentClientTypes.InferenceExecutionStatus? = nil
         )
         {
@@ -3949,19 +3951,19 @@ extension LookoutEquipmentClientTypes {
     /// Contains information about the label group.
     public struct LabelGroupSummary {
         /// The time at which the label group was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the label group.
         public var labelGroupArn: Swift.String?
         /// The name of the label group.
         public var labelGroupName: Swift.String?
         /// The time at which the label group was updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             labelGroupArn: Swift.String? = nil,
             labelGroupName: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -4027,9 +4029,9 @@ extension LookoutEquipmentClientTypes {
     /// Information about the label.
     public struct LabelSummary {
         /// The time at which the label was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The timestamp indicating the end of the label.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// Indicates that a label pertains to a particular piece of equipment.
         public var equipment: Swift.String?
         /// Indicates the type of anomaly associated with the label. Data in this field will be retained for service usage. Follow best practices for the security of your data.
@@ -4043,18 +4045,18 @@ extension LookoutEquipmentClientTypes {
         /// Indicates whether a labeled event represents an anomaly.
         public var rating: LookoutEquipmentClientTypes.LabelRating?
         /// The timestamp indicating the start of the label.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
             equipment: Swift.String? = nil,
             faultCode: Swift.String? = nil,
             labelGroupArn: Swift.String? = nil,
             labelGroupName: Swift.String? = nil,
             labelId: Swift.String? = nil,
             rating: LookoutEquipmentClientTypes.LabelRating? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -4256,7 +4258,7 @@ public struct ListDataIngestionJobsInput {
 
 extension ListDataIngestionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDataIngestionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDataIngestionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4285,7 +4287,7 @@ public struct ListDataIngestionJobsOutput {
 
 enum ListDataIngestionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4339,7 +4341,7 @@ public struct ListDatasetsInput {
 
 extension ListDatasetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDatasetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDatasetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4368,7 +4370,7 @@ public struct ListDatasetsOutput {
 
 enum ListDatasetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4408,10 +4410,10 @@ public struct ListInferenceEventsInput {
     public var inferenceSchedulerName: Swift.String?
     /// Returns all the inference events with an end start time equal to or greater than less than the end time given.
     /// This member is required.
-    public var intervalEndTime: ClientRuntime.Date?
+    public var intervalEndTime: Foundation.Date?
     /// Lookout for Equipment will return all the inference events with an end time equal to or greater than the start time given.
     /// This member is required.
-    public var intervalStartTime: ClientRuntime.Date?
+    public var intervalStartTime: Foundation.Date?
     /// Specifies the maximum number of inference events to list.
     public var maxResults: Swift.Int?
     /// An opaque pagination token indicating where to continue the listing of inference events.
@@ -4419,8 +4421,8 @@ public struct ListInferenceEventsInput {
 
     public init(
         inferenceSchedulerName: Swift.String? = nil,
-        intervalEndTime: ClientRuntime.Date? = nil,
-        intervalStartTime: ClientRuntime.Date? = nil,
+        intervalEndTime: Foundation.Date? = nil,
+        intervalStartTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4435,7 +4437,7 @@ public struct ListInferenceEventsInput {
 
 extension ListInferenceEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInferenceEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInferenceEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4464,7 +4466,7 @@ public struct ListInferenceEventsOutput {
 
 enum ListInferenceEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4502,9 +4504,9 @@ extension ListInferenceExecutionsInput {
 
 public struct ListInferenceExecutionsInput {
     /// The time reference in the inferenced dataset before which Amazon Lookout for Equipment stopped the inference execution.
-    public var dataEndTimeBefore: ClientRuntime.Date?
+    public var dataEndTimeBefore: Foundation.Date?
     /// The time reference in the inferenced dataset after which Amazon Lookout for Equipment started the inference execution.
-    public var dataStartTimeAfter: ClientRuntime.Date?
+    public var dataStartTimeAfter: Foundation.Date?
     /// The name of the inference scheduler for the inference execution listed.
     /// This member is required.
     public var inferenceSchedulerName: Swift.String?
@@ -4516,8 +4518,8 @@ public struct ListInferenceExecutionsInput {
     public var status: LookoutEquipmentClientTypes.InferenceExecutionStatus?
 
     public init(
-        dataEndTimeBefore: ClientRuntime.Date? = nil,
-        dataStartTimeAfter: ClientRuntime.Date? = nil,
+        dataEndTimeBefore: Foundation.Date? = nil,
+        dataStartTimeAfter: Foundation.Date? = nil,
         inferenceSchedulerName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -4535,7 +4537,7 @@ public struct ListInferenceExecutionsInput {
 
 extension ListInferenceExecutionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInferenceExecutionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInferenceExecutionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4564,7 +4566,7 @@ public struct ListInferenceExecutionsOutput {
 
 enum ListInferenceExecutionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4629,7 +4631,7 @@ public struct ListInferenceSchedulersInput {
 
 extension ListInferenceSchedulersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInferenceSchedulersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInferenceSchedulersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4658,7 +4660,7 @@ public struct ListInferenceSchedulersOutput {
 
 enum ListInferenceSchedulersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4712,7 +4714,7 @@ public struct ListLabelGroupsInput {
 
 extension ListLabelGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLabelGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLabelGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4741,7 +4743,7 @@ public struct ListLabelGroupsOutput {
 
 enum ListLabelGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4783,9 +4785,9 @@ public struct ListLabelsInput {
     /// Returns labels with a particular fault code.
     public var faultCode: Swift.String?
     /// Returns all labels with a start time earlier than the end time given.
-    public var intervalEndTime: ClientRuntime.Date?
+    public var intervalEndTime: Foundation.Date?
     /// Returns all the labels with a end time equal to or later than the start time given.
-    public var intervalStartTime: ClientRuntime.Date?
+    public var intervalStartTime: Foundation.Date?
     /// Returns the name of the label group.
     /// This member is required.
     public var labelGroupName: Swift.String?
@@ -4797,8 +4799,8 @@ public struct ListLabelsInput {
     public init(
         equipment: Swift.String? = nil,
         faultCode: Swift.String? = nil,
-        intervalEndTime: ClientRuntime.Date? = nil,
-        intervalStartTime: ClientRuntime.Date? = nil,
+        intervalEndTime: Foundation.Date? = nil,
+        intervalStartTime: Foundation.Date? = nil,
         labelGroupName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -4816,7 +4818,7 @@ public struct ListLabelsInput {
 
 extension ListLabelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLabelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLabelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4845,7 +4847,7 @@ public struct ListLabelsOutput {
 
 enum ListLabelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4885,9 +4887,9 @@ extension ListModelVersionsInput {
 
 public struct ListModelVersionsInput {
     /// Filter results to return all the model versions created before this time.
-    public var createdAtEndTime: ClientRuntime.Date?
+    public var createdAtEndTime: Foundation.Date?
     /// Filter results to return all the model versions created after this time.
-    public var createdAtStartTime: ClientRuntime.Date?
+    public var createdAtStartTime: Foundation.Date?
     /// Specifies the highest version of the model to return in the list.
     public var maxModelVersion: Swift.Int?
     /// Specifies the maximum number of machine learning model versions to list.
@@ -4905,8 +4907,8 @@ public struct ListModelVersionsInput {
     public var status: LookoutEquipmentClientTypes.ModelVersionStatus?
 
     public init(
-        createdAtEndTime: ClientRuntime.Date? = nil,
-        createdAtStartTime: ClientRuntime.Date? = nil,
+        createdAtEndTime: Foundation.Date? = nil,
+        createdAtStartTime: Foundation.Date? = nil,
         maxModelVersion: Swift.Int? = nil,
         maxResults: Swift.Int? = nil,
         minModelVersion: Swift.Int? = nil,
@@ -4930,7 +4932,7 @@ public struct ListModelVersionsInput {
 
 extension ListModelVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4959,7 +4961,7 @@ public struct ListModelVersionsOutput {
 
 enum ListModelVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5024,7 +5026,7 @@ public struct ListModelsInput {
 
 extension ListModelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListModelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListModelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5053,7 +5055,7 @@ public struct ListModelsOutput {
 
 enum ListModelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5112,7 +5114,7 @@ public struct ListRetrainingSchedulersInput {
 
 extension ListRetrainingSchedulersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRetrainingSchedulersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRetrainingSchedulersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5141,7 +5143,7 @@ public struct ListRetrainingSchedulersOutput {
 
 enum ListRetrainingSchedulersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5201,7 +5203,7 @@ public struct ListSensorStatisticsInput {
 
 extension ListSensorStatisticsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSensorStatisticsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSensorStatisticsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5230,7 +5232,7 @@ public struct ListSensorStatisticsOutput {
 
 enum ListSensorStatisticsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5276,7 +5278,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5300,7 +5302,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5582,7 +5584,7 @@ extension LookoutEquipmentClientTypes {
         /// The Amazon Resource Name (ARN) of the model version that is set as active. The active model version is the model version that the inference scheduler uses to run an inference execution.
         public var activeModelVersionArn: Swift.String?
         /// The time at which the specific model was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the dataset used to create the model.
         public var datasetArn: Swift.String?
         /// The name of the dataset being used for the machine learning model.
@@ -5590,7 +5592,7 @@ extension LookoutEquipmentClientTypes {
         /// Indicates the most recent model version that was generated by retraining.
         public var latestScheduledRetrainingModelVersion: Swift.Int?
         /// Indicates the start time of the most recent scheduled retraining run.
-        public var latestScheduledRetrainingStartTime: ClientRuntime.Date?
+        public var latestScheduledRetrainingStartTime: Foundation.Date?
         /// Indicates the status of the most recent scheduled retraining run.
         public var latestScheduledRetrainingStatus: LookoutEquipmentClientTypes.ModelVersionStatus?
         /// The Amazon Resource Name (ARN) of the machine learning model.
@@ -5602,7 +5604,7 @@ extension LookoutEquipmentClientTypes {
         /// Provides a quality assessment for a model that uses labels. If Lookout for Equipment determines that the model quality is poor based on training metrics, the value is POOR_QUALITY_DETECTED. Otherwise, the value is QUALITY_THRESHOLD_MET. If the model is unlabeled, the model quality can't be assessed and the value of ModelQuality is CANNOT_DETERMINE_QUALITY. In this situation, you can get a model quality assessment by adding labels to the input dataset and retraining the model. For information about using labels with your models, see [Understanding labeling](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-labeling.html). For information about improving the quality of a model, see [Best practices with Amazon Lookout for Equipment](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/best-practices.html).
         public var modelQuality: LookoutEquipmentClientTypes.ModelQuality?
         /// Indicates the date that the next scheduled retraining run will start on. Lookout for Equipment truncates the time you provide to [the nearest UTC day](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp).
-        public var nextScheduledRetrainingStartDate: ClientRuntime.Date?
+        public var nextScheduledRetrainingStartDate: Foundation.Date?
         /// Indicates the status of the retraining scheduler.
         public var retrainingSchedulerStatus: LookoutEquipmentClientTypes.RetrainingSchedulerStatus?
         /// Indicates the status of the machine learning model.
@@ -5611,17 +5613,17 @@ extension LookoutEquipmentClientTypes {
         public init(
             activeModelVersion: Swift.Int? = nil,
             activeModelVersionArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             datasetArn: Swift.String? = nil,
             datasetName: Swift.String? = nil,
             latestScheduledRetrainingModelVersion: Swift.Int? = nil,
-            latestScheduledRetrainingStartTime: ClientRuntime.Date? = nil,
+            latestScheduledRetrainingStartTime: Foundation.Date? = nil,
             latestScheduledRetrainingStatus: LookoutEquipmentClientTypes.ModelVersionStatus? = nil,
             modelArn: Swift.String? = nil,
             modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
             modelName: Swift.String? = nil,
             modelQuality: LookoutEquipmentClientTypes.ModelQuality? = nil,
-            nextScheduledRetrainingStartDate: ClientRuntime.Date? = nil,
+            nextScheduledRetrainingStartDate: Foundation.Date? = nil,
             retrainingSchedulerStatus: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil,
             status: LookoutEquipmentClientTypes.ModelStatus? = nil
         )
@@ -5737,7 +5739,7 @@ extension LookoutEquipmentClientTypes {
     /// Contains information about the specific model version.
     public struct ModelVersionSummary {
         /// The time when this model version was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the model that this model version is a version of.
         public var modelArn: Swift.String?
         /// The name of the model that this model version is a version of.
@@ -5754,7 +5756,7 @@ extension LookoutEquipmentClientTypes {
         public var status: LookoutEquipmentClientTypes.ModelVersionStatus?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil,
             modelQuality: LookoutEquipmentClientTypes.ModelQuality? = nil,
@@ -5915,7 +5917,7 @@ public struct PutResourcePolicyInput {
 
 extension PutResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5944,7 +5946,7 @@ public struct PutResourcePolicyOutput {
 
 enum PutResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6062,7 +6064,7 @@ extension LookoutEquipmentClientTypes {
         /// The frequency at which the model retraining is set. This follows the [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Durations) guidelines.
         public var retrainingFrequency: Swift.String?
         /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
-        public var retrainingStartDate: ClientRuntime.Date?
+        public var retrainingStartDate: Foundation.Date?
         /// The status of the retraining scheduler.
         public var status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus?
 
@@ -6071,7 +6073,7 @@ extension LookoutEquipmentClientTypes {
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil,
             retrainingFrequency: Swift.String? = nil,
-            retrainingStartDate: ClientRuntime.Date? = nil,
+            retrainingStartDate: Foundation.Date? = nil,
             status: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil
         )
         {
@@ -6149,11 +6151,11 @@ extension LookoutEquipmentClientTypes {
         /// Name of the component to which the particular sensor belongs for which the statistics belong to.
         public var componentName: Swift.String?
         /// Indicates the time reference to indicate the end of valid data associated with the sensor that the statistics belong to.
-        public var dataEndTime: ClientRuntime.Date?
+        public var dataEndTime: Foundation.Date?
         /// Parameter that indicates whether data exists for the sensor that the statistics belong to.
         public var dataExists: Swift.Bool
         /// Indicates the time reference to indicate the beginning of valid data associated with the sensor that the statistics belong to.
-        public var dataStartTime: ClientRuntime.Date?
+        public var dataStartTime: Foundation.Date?
         /// Parameter that describes the total number of duplicate timestamp records associated with the sensor that the statistics belong to.
         public var duplicateTimestamps: LookoutEquipmentClientTypes.CountPercent?
         /// Parameter that describes the total number of invalid date entries associated with the sensor that the statistics belong to.
@@ -6174,9 +6176,9 @@ extension LookoutEquipmentClientTypes {
         public init(
             categoricalValues: LookoutEquipmentClientTypes.CategoricalValues? = nil,
             componentName: Swift.String? = nil,
-            dataEndTime: ClientRuntime.Date? = nil,
+            dataEndTime: Foundation.Date? = nil,
             dataExists: Swift.Bool = false,
-            dataStartTime: ClientRuntime.Date? = nil,
+            dataStartTime: Foundation.Date? = nil,
             duplicateTimestamps: LookoutEquipmentClientTypes.CountPercent? = nil,
             invalidDateEntries: LookoutEquipmentClientTypes.CountPercent? = nil,
             invalidValues: LookoutEquipmentClientTypes.CountPercent? = nil,
@@ -6318,7 +6320,7 @@ public struct StartDataIngestionJobInput {
 
 extension StartDataIngestionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDataIngestionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDataIngestionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6347,7 +6349,7 @@ public struct StartDataIngestionJobOutput {
 
 enum StartDataIngestionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6395,7 +6397,7 @@ public struct StartInferenceSchedulerInput {
 
 extension StartInferenceSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartInferenceSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartInferenceSchedulerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6439,7 +6441,7 @@ public struct StartInferenceSchedulerOutput {
 
 enum StartInferenceSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6486,7 +6488,7 @@ public struct StartRetrainingSchedulerInput {
 
 extension StartRetrainingSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartRetrainingSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartRetrainingSchedulerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6520,7 +6522,7 @@ public struct StartRetrainingSchedulerOutput {
 
 enum StartRetrainingSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6596,7 +6598,7 @@ public struct StopInferenceSchedulerInput {
 
 extension StopInferenceSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopInferenceSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopInferenceSchedulerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6640,7 +6642,7 @@ public struct StopInferenceSchedulerOutput {
 
 enum StopInferenceSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6687,7 +6689,7 @@ public struct StopRetrainingSchedulerInput {
 
 extension StopRetrainingSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopRetrainingSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopRetrainingSchedulerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6721,7 +6723,7 @@ public struct StopRetrainingSchedulerOutput {
 
 enum StopRetrainingSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6813,7 +6815,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -6825,7 +6827,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6999,7 +7001,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7011,7 +7013,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7063,7 +7065,7 @@ public struct UpdateActiveModelVersionInput {
 
 extension UpdateActiveModelVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateActiveModelVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateActiveModelVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7112,7 +7114,7 @@ public struct UpdateActiveModelVersionOutput {
 
 enum UpdateActiveModelVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7184,7 +7186,7 @@ public struct UpdateInferenceSchedulerInput {
 
 extension UpdateInferenceSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateInferenceSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateInferenceSchedulerOutput {
         return UpdateInferenceSchedulerOutput()
     }
 }
@@ -7196,7 +7198,7 @@ public struct UpdateInferenceSchedulerOutput {
 
 enum UpdateInferenceSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7248,7 +7250,7 @@ public struct UpdateLabelGroupInput {
 
 extension UpdateLabelGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLabelGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLabelGroupOutput {
         return UpdateLabelGroupOutput()
     }
 }
@@ -7260,7 +7262,7 @@ public struct UpdateLabelGroupOutput {
 
 enum UpdateLabelGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7322,7 +7324,7 @@ public struct UpdateModelInput {
 
 extension UpdateModelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateModelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateModelOutput {
         return UpdateModelOutput()
     }
 }
@@ -7334,7 +7336,7 @@ public struct UpdateModelOutput {
 
 enum UpdateModelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7387,14 +7389,14 @@ public struct UpdateRetrainingSchedulerInput {
     /// * P150D – Every 150 days
     public var retrainingFrequency: Swift.String?
     /// The start date for the retraining scheduler. Lookout for Equipment truncates the time you provide to the nearest UTC day.
-    public var retrainingStartDate: ClientRuntime.Date?
+    public var retrainingStartDate: Foundation.Date?
 
     public init(
         lookbackWindow: Swift.String? = nil,
         modelName: Swift.String? = nil,
         promoteMode: LookoutEquipmentClientTypes.ModelPromoteMode? = nil,
         retrainingFrequency: Swift.String? = nil,
-        retrainingStartDate: ClientRuntime.Date? = nil
+        retrainingStartDate: Foundation.Date? = nil
     )
     {
         self.lookbackWindow = lookbackWindow
@@ -7407,7 +7409,7 @@ public struct UpdateRetrainingSchedulerInput {
 
 extension UpdateRetrainingSchedulerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRetrainingSchedulerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRetrainingSchedulerOutput {
         return UpdateRetrainingSchedulerOutput()
     }
 }
@@ -7419,7 +7421,7 @@ public struct UpdateRetrainingSchedulerOutput {
 
 enum UpdateRetrainingSchedulerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

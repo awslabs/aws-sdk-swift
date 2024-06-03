@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -157,7 +159,7 @@ public struct BatchExecuteStatementInput {
 
 extension BatchExecuteStatementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchExecuteStatementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchExecuteStatementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -177,7 +179,7 @@ public struct BatchExecuteStatementOutput {
     /// The cluster identifier. This element is not returned when connecting to a serverless workgroup.
     public var clusterIdentifier: Swift.String?
     /// The date and time (UTC) the statement was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The name of the database.
     public var database: Swift.String?
     /// The database user name.
@@ -191,7 +193,7 @@ public struct BatchExecuteStatementOutput {
 
     public init(
         clusterIdentifier: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -211,7 +213,7 @@ public struct BatchExecuteStatementOutput {
 
 enum BatchExecuteStatementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -255,7 +257,7 @@ public struct CancelStatementInput {
 
 extension CancelStatementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelStatementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelStatementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -279,7 +281,7 @@ public struct CancelStatementOutput {
 
 enum CancelStatementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -448,7 +450,7 @@ public struct DescribeStatementInput {
 
 extension DescribeStatementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStatementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStatementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -480,7 +482,7 @@ public struct DescribeStatementOutput {
     /// The cluster identifier.
     public var clusterIdentifier: Swift.String?
     /// The date and time (UTC) when the SQL statement was submitted to run.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The name of the database.
     public var database: Swift.String?
     /// The database user name.
@@ -527,13 +529,13 @@ public struct DescribeStatementOutput {
     /// The SQL statements from a multiple statement run.
     public var subStatements: [RedshiftDataClientTypes.SubStatementData]?
     /// The date and time (UTC) that the metadata for the SQL statement was last updated. An example is the time the status last changed.
-    public var updatedAt: ClientRuntime.Date?
+    public var updatedAt: Foundation.Date?
     /// The serverless workgroup name or Amazon Resource Name (ARN).
     public var workgroupName: Swift.String?
 
     public init(
         clusterIdentifier: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
         duration: Swift.Int = 0,
@@ -549,7 +551,7 @@ public struct DescribeStatementOutput {
         secretArn: Swift.String? = nil,
         status: RedshiftDataClientTypes.StatusString? = nil,
         subStatements: [RedshiftDataClientTypes.SubStatementData]? = nil,
-        updatedAt: ClientRuntime.Date? = nil,
+        updatedAt: Foundation.Date? = nil,
         workgroupName: Swift.String? = nil
     )
     {
@@ -577,7 +579,7 @@ public struct DescribeStatementOutput {
 
 enum DescribeStatementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -666,7 +668,7 @@ public struct DescribeTableInput {
 
 extension DescribeTableOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTableOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTableOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -700,7 +702,7 @@ public struct DescribeTableOutput {
 
 enum DescribeTableOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -835,7 +837,7 @@ public struct ExecuteStatementInput {
 
 extension ExecuteStatementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecuteStatementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExecuteStatementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -855,7 +857,7 @@ public struct ExecuteStatementOutput {
     /// The cluster identifier. This element is not returned when connecting to a serverless workgroup.
     public var clusterIdentifier: Swift.String?
     /// The date and time (UTC) the statement was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The name of the database.
     public var database: Swift.String?
     /// The database user name.
@@ -869,7 +871,7 @@ public struct ExecuteStatementOutput {
 
     public init(
         clusterIdentifier: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         database: Swift.String? = nil,
         dbUser: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -889,7 +891,7 @@ public struct ExecuteStatementOutput {
 
 enum ExecuteStatementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -941,7 +943,7 @@ extension RedshiftDataClientTypes {
         /// A value of the string data type.
         case stringvalue(Swift.String)
         /// A value of the BLOB data type.
-        case blobvalue(ClientRuntime.Data)
+        case blobvalue(Foundation.Data)
         case sdkUnknown(Swift.String)
     }
 
@@ -982,7 +984,7 @@ public struct GetStatementResultInput {
 
 extension GetStatementResultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetStatementResultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetStatementResultOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1022,7 +1024,7 @@ public struct GetStatementResultOutput {
 
 enum GetStatementResultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1135,7 +1137,7 @@ public struct ListDatabasesInput {
 
 extension ListDatabasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDatabasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDatabasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1164,7 +1166,7 @@ public struct ListDatabasesOutput {
 
 enum ListDatabasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1248,7 +1250,7 @@ public struct ListSchemasInput {
 
 extension ListSchemasOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSchemasOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSchemasOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1277,7 +1279,7 @@ public struct ListSchemasOutput {
 
 enum ListSchemasOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1354,7 +1356,7 @@ public struct ListStatementsInput {
 
 extension ListStatementsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStatementsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStatementsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1384,7 +1386,7 @@ public struct ListStatementsOutput {
 
 enum ListStatementsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1472,7 +1474,7 @@ public struct ListTablesInput {
 
 extension ListTablesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTablesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTablesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1501,7 +1503,7 @@ public struct ListTablesOutput {
 
 enum ListTablesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1624,7 +1626,7 @@ extension RedshiftDataClientTypes {
     /// The SQL statement to run.
     public struct StatementData {
         /// The date and time (UTC) the statement was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The SQL statement identifier. This value is a universally unique identifier (UUID) generated by Amazon Redshift Data API.
         /// This member is required.
         public var id: Swift.String?
@@ -1643,10 +1645,10 @@ extension RedshiftDataClientTypes {
         /// The status of the SQL statement. An example is the that the SQL statement finished.
         public var status: RedshiftDataClientTypes.StatusString?
         /// The date and time (UTC) that the statement metadata was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             isBatchStatement: Swift.Bool? = nil,
             queryParameters: [RedshiftDataClientTypes.SqlParameter]? = nil,
@@ -1655,7 +1657,7 @@ extension RedshiftDataClientTypes {
             secretArn: Swift.String? = nil,
             statementName: Swift.String? = nil,
             status: RedshiftDataClientTypes.StatusString? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt
@@ -1782,7 +1784,7 @@ extension RedshiftDataClientTypes {
     /// Information about an SQL statement.
     public struct SubStatementData {
         /// The date and time (UTC) the statement was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The amount of time in nanoseconds that the statement ran.
         public var duration: Swift.Int
         /// The error message from the cluster if the SQL statement encountered an error while running.
@@ -1803,10 +1805,10 @@ extension RedshiftDataClientTypes {
         /// The status of the SQL statement. An example is the that the SQL statement finished.
         public var status: RedshiftDataClientTypes.StatementStatusString?
         /// The date and time (UTC) that the statement metadata was last updated.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             duration: Swift.Int = 0,
             error: Swift.String? = nil,
             hasResultSet: Swift.Bool? = nil,
@@ -1816,7 +1818,7 @@ extension RedshiftDataClientTypes {
             resultRows: Swift.Int = 0,
             resultSize: Swift.Int = 0,
             status: RedshiftDataClientTypes.StatementStatusString? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.createdAt = createdAt

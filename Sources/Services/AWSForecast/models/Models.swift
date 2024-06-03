@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -662,7 +664,7 @@ public struct CreateAutoPredictorInput {
 
 extension CreateAutoPredictorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAutoPredictorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAutoPredictorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -686,7 +688,7 @@ public struct CreateAutoPredictorOutput {
 
 enum CreateAutoPredictorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -762,7 +764,7 @@ public struct CreateDatasetGroupInput {
 
 extension CreateDatasetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDatasetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDatasetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -786,7 +788,7 @@ public struct CreateDatasetGroupOutput {
 
 enum CreateDatasetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -904,7 +906,7 @@ public struct CreateDatasetImportJobInput {
 
 extension CreateDatasetImportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDatasetImportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDatasetImportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -928,7 +930,7 @@ public struct CreateDatasetImportJobOutput {
 
 enum CreateDatasetImportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1036,7 +1038,7 @@ public struct CreateDatasetInput {
 
 extension CreateDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1060,7 +1062,7 @@ public struct CreateDatasetOutput {
 
 enum CreateDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1138,7 +1140,7 @@ public struct CreateExplainabilityExportInput {
 
 extension CreateExplainabilityExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateExplainabilityExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateExplainabilityExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1162,7 +1164,7 @@ public struct CreateExplainabilityExportOutput {
 
 enum CreateExplainabilityExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1262,7 +1264,7 @@ public struct CreateExplainabilityInput {
 
 extension CreateExplainabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateExplainabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateExplainabilityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1286,7 +1288,7 @@ public struct CreateExplainabilityOutput {
 
 enum CreateExplainabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1368,7 +1370,7 @@ public struct CreateForecastExportJobInput {
 
 extension CreateForecastExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateForecastExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateForecastExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1392,7 +1394,7 @@ public struct CreateForecastExportJobOutput {
 
 enum CreateForecastExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1479,7 +1481,7 @@ public struct CreateForecastInput {
 
 extension CreateForecastOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateForecastOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateForecastOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1503,7 +1505,7 @@ public struct CreateForecastOutput {
 
 enum CreateForecastOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1560,7 +1562,7 @@ public struct CreateMonitorInput {
 
 extension CreateMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMonitorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1584,7 +1586,7 @@ public struct CreateMonitorOutput {
 
 enum CreateMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1664,7 +1666,7 @@ public struct CreatePredictorBacktestExportJobInput {
 
 extension CreatePredictorBacktestExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePredictorBacktestExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePredictorBacktestExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1688,7 +1690,7 @@ public struct CreatePredictorBacktestExportJobOutput {
 
 enum CreatePredictorBacktestExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1837,7 +1839,7 @@ public struct CreatePredictorInput {
 
 extension CreatePredictorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePredictorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePredictorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1861,7 +1863,7 @@ public struct CreatePredictorOutput {
 
 enum CreatePredictorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1929,7 +1931,7 @@ public struct CreateWhatIfAnalysisInput {
 
 extension CreateWhatIfAnalysisOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWhatIfAnalysisOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWhatIfAnalysisOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1953,7 +1955,7 @@ public struct CreateWhatIfAnalysisOutput {
 
 enum CreateWhatIfAnalysisOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2021,7 +2023,7 @@ public struct CreateWhatIfForecastExportInput {
 
 extension CreateWhatIfForecastExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWhatIfForecastExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWhatIfForecastExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2045,7 +2047,7 @@ public struct CreateWhatIfForecastExportOutput {
 
 enum CreateWhatIfForecastExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2112,7 +2114,7 @@ public struct CreateWhatIfForecastInput {
 
 extension CreateWhatIfForecastOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWhatIfForecastOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWhatIfForecastOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2136,7 +2138,7 @@ public struct CreateWhatIfForecastOutput {
 
 enum CreateWhatIfForecastOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2277,19 +2279,19 @@ extension ForecastClientTypes {
     /// Provides a summary of the dataset group properties used in the [ListDatasetGroups](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html) operation. To get the complete set of properties, call the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation, and provide the DatasetGroupArn.
     public struct DatasetGroupSummary {
         /// When the dataset group was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the dataset group.
         public var datasetGroupArn: Swift.String?
         /// The name of the dataset group.
         public var datasetGroupName: Swift.String?
         /// When the dataset group was created or last updated from a call to the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation. While the dataset group is being updated, LastModificationTime is the current time of the ListDatasetGroups call.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             datasetGroupArn: Swift.String? = nil,
             datasetGroupName: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil
+            lastModificationTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -2322,7 +2324,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the dataset import job properties used in the [ListDatasetImportJobs](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html) operation. To get the complete set of properties, call the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation, and provide the DatasetImportJobArn.
     public struct DatasetImportJobSummary {
         /// When the dataset import job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The location of the training data to import and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource includes an Key Management Service (KMS) key.
         public var dataSource: ForecastClientTypes.DataSource?
         /// The Amazon Resource Name (ARN) of the dataset import job.
@@ -2342,7 +2344,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// If an error occurred, an informational message about the error.
         public var message: Swift.String?
         /// The status of the dataset import job. States include:
@@ -2357,12 +2359,12 @@ extension ForecastClientTypes {
         public var status: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             dataSource: ForecastClientTypes.DataSource? = nil,
             datasetImportJobArn: Swift.String? = nil,
             datasetImportJobName: Swift.String? = nil,
             importMode: ForecastClientTypes.ImportMode? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -2399,7 +2401,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the dataset properties used in the [ListDatasets](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html) operation. To get the complete set of properties, call the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation, and provide the DatasetArn.
     public struct DatasetSummary {
         /// When the dataset was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the dataset.
         public var datasetArn: Swift.String?
         /// The name of the dataset.
@@ -2409,15 +2411,15 @@ extension ForecastClientTypes {
         /// The domain associated with the dataset.
         public var domain: ForecastClientTypes.Domain?
         /// When you create a dataset, LastModificationTime is the same as CreationTime. While data is being imported to the dataset, LastModificationTime is the current time of the ListDatasets call. After a [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation has finished, LastModificationTime is when the import job completed or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             datasetArn: Swift.String? = nil,
             datasetName: Swift.String? = nil,
             datasetType: ForecastClientTypes.DatasetType? = nil,
             domain: ForecastClientTypes.Domain? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil
+            lastModificationTime: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -2537,7 +2539,7 @@ public struct DeleteDatasetGroupInput {
 
 extension DeleteDatasetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDatasetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDatasetGroupOutput {
         return DeleteDatasetGroupOutput()
     }
 }
@@ -2549,7 +2551,7 @@ public struct DeleteDatasetGroupOutput {
 
 enum DeleteDatasetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2593,7 +2595,7 @@ public struct DeleteDatasetImportJobInput {
 
 extension DeleteDatasetImportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDatasetImportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDatasetImportJobOutput {
         return DeleteDatasetImportJobOutput()
     }
 }
@@ -2605,7 +2607,7 @@ public struct DeleteDatasetImportJobOutput {
 
 enum DeleteDatasetImportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2649,7 +2651,7 @@ public struct DeleteDatasetInput {
 
 extension DeleteDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDatasetOutput {
         return DeleteDatasetOutput()
     }
 }
@@ -2661,7 +2663,7 @@ public struct DeleteDatasetOutput {
 
 enum DeleteDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2705,7 +2707,7 @@ public struct DeleteExplainabilityExportInput {
 
 extension DeleteExplainabilityExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteExplainabilityExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteExplainabilityExportOutput {
         return DeleteExplainabilityExportOutput()
     }
 }
@@ -2717,7 +2719,7 @@ public struct DeleteExplainabilityExportOutput {
 
 enum DeleteExplainabilityExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2761,7 +2763,7 @@ public struct DeleteExplainabilityInput {
 
 extension DeleteExplainabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteExplainabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteExplainabilityOutput {
         return DeleteExplainabilityOutput()
     }
 }
@@ -2773,7 +2775,7 @@ public struct DeleteExplainabilityOutput {
 
 enum DeleteExplainabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2817,7 +2819,7 @@ public struct DeleteForecastExportJobInput {
 
 extension DeleteForecastExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteForecastExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteForecastExportJobOutput {
         return DeleteForecastExportJobOutput()
     }
 }
@@ -2829,7 +2831,7 @@ public struct DeleteForecastExportJobOutput {
 
 enum DeleteForecastExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2873,7 +2875,7 @@ public struct DeleteForecastInput {
 
 extension DeleteForecastOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteForecastOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteForecastOutput {
         return DeleteForecastOutput()
     }
 }
@@ -2885,7 +2887,7 @@ public struct DeleteForecastOutput {
 
 enum DeleteForecastOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2929,7 +2931,7 @@ public struct DeleteMonitorInput {
 
 extension DeleteMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMonitorOutput {
         return DeleteMonitorOutput()
     }
 }
@@ -2941,7 +2943,7 @@ public struct DeleteMonitorOutput {
 
 enum DeleteMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2985,7 +2987,7 @@ public struct DeletePredictorBacktestExportJobInput {
 
 extension DeletePredictorBacktestExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePredictorBacktestExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePredictorBacktestExportJobOutput {
         return DeletePredictorBacktestExportJobOutput()
     }
 }
@@ -2997,7 +2999,7 @@ public struct DeletePredictorBacktestExportJobOutput {
 
 enum DeletePredictorBacktestExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3041,7 +3043,7 @@ public struct DeletePredictorInput {
 
 extension DeletePredictorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePredictorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePredictorOutput {
         return DeletePredictorOutput()
     }
 }
@@ -3053,7 +3055,7 @@ public struct DeletePredictorOutput {
 
 enum DeletePredictorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3097,7 +3099,7 @@ public struct DeleteResourceTreeInput {
 
 extension DeleteResourceTreeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourceTreeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourceTreeOutput {
         return DeleteResourceTreeOutput()
     }
 }
@@ -3109,7 +3111,7 @@ public struct DeleteResourceTreeOutput {
 
 enum DeleteResourceTreeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3153,7 +3155,7 @@ public struct DeleteWhatIfAnalysisInput {
 
 extension DeleteWhatIfAnalysisOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWhatIfAnalysisOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWhatIfAnalysisOutput {
         return DeleteWhatIfAnalysisOutput()
     }
 }
@@ -3165,7 +3167,7 @@ public struct DeleteWhatIfAnalysisOutput {
 
 enum DeleteWhatIfAnalysisOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3209,7 +3211,7 @@ public struct DeleteWhatIfForecastExportInput {
 
 extension DeleteWhatIfForecastExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWhatIfForecastExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWhatIfForecastExportOutput {
         return DeleteWhatIfForecastExportOutput()
     }
 }
@@ -3221,7 +3223,7 @@ public struct DeleteWhatIfForecastExportOutput {
 
 enum DeleteWhatIfForecastExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3265,7 +3267,7 @@ public struct DeleteWhatIfForecastInput {
 
 extension DeleteWhatIfForecastOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWhatIfForecastOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWhatIfForecastOutput {
         return DeleteWhatIfForecastOutput()
     }
 }
@@ -3277,7 +3279,7 @@ public struct DeleteWhatIfForecastOutput {
 
 enum DeleteWhatIfForecastOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3321,7 +3323,7 @@ public struct DescribeAutoPredictorInput {
 
 extension DescribeAutoPredictorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAutoPredictorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAutoPredictorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3351,7 +3353,7 @@ extension DescribeAutoPredictorOutput {
 
 public struct DescribeAutoPredictorOutput {
     /// The timestamp of the CreateAutoPredictor request.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The data configuration for your dataset group and any additional datasets.
     public var dataConfig: ForecastClientTypes.DataConfig?
     /// An array of the ARNs of the dataset import jobs used to import training data for the predictor.
@@ -3381,7 +3383,7 @@ public struct DescribeAutoPredictorOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// In the event of an error, a message detailing the cause of the error.
     public var message: Swift.String?
     /// A object with the Amazon Resource Name (ARN) and status of the monitor resource.
@@ -3408,7 +3410,7 @@ public struct DescribeAutoPredictorOutput {
     public var timeAlignmentBoundary: ForecastClientTypes.TimeAlignmentBoundary?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataConfig: ForecastClientTypes.DataConfig? = nil,
         datasetImportJobArns: [Swift.String]? = nil,
         encryptionConfig: ForecastClientTypes.EncryptionConfig? = nil,
@@ -3418,7 +3420,7 @@ public struct DescribeAutoPredictorOutput {
         forecastFrequency: Swift.String? = nil,
         forecastHorizon: Swift.Int? = nil,
         forecastTypes: [Swift.String]? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         monitorInfo: ForecastClientTypes.MonitorInfo? = nil,
         optimizationMetric: ForecastClientTypes.OptimizationMetric? = nil,
@@ -3453,7 +3455,7 @@ public struct DescribeAutoPredictorOutput {
 
 enum DescribeAutoPredictorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3496,7 +3498,7 @@ public struct DescribeDatasetGroupInput {
 
 extension DescribeDatasetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDatasetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDatasetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3514,7 +3516,7 @@ extension DescribeDatasetGroupOutput {
 
 public struct DescribeDatasetGroupOutput {
     /// When the dataset group was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// An array of Amazon Resource Names (ARNs) of the datasets contained in the dataset group.
     public var datasetArns: [Swift.String]?
     /// The ARN of the dataset group.
@@ -3524,7 +3526,7 @@ public struct DescribeDatasetGroupOutput {
     /// The domain associated with the dataset group.
     public var domain: ForecastClientTypes.Domain?
     /// When the dataset group was created or last updated from a call to the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation. While the dataset group is being updated, LastModificationTime is the current time of the DescribeDatasetGroup call.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// The status of the dataset group. States include:
     ///
     /// * ACTIVE
@@ -3540,12 +3542,12 @@ public struct DescribeDatasetGroupOutput {
     public var status: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         datasetArns: [Swift.String]? = nil,
         datasetGroupArn: Swift.String? = nil,
         datasetGroupName: Swift.String? = nil,
         domain: ForecastClientTypes.Domain? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         status: Swift.String? = nil
     )
     {
@@ -3561,7 +3563,7 @@ public struct DescribeDatasetGroupOutput {
 
 enum DescribeDatasetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3604,7 +3606,7 @@ public struct DescribeDatasetImportJobInput {
 
 extension DescribeDatasetImportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDatasetImportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDatasetImportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3632,7 +3634,7 @@ extension DescribeDatasetImportJobOutput {
 
 public struct DescribeDatasetImportJobOutput {
     /// When the dataset import job was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The size of the dataset in gigabytes (GB) after the import job has finished.
     public var dataSize: Swift.Double?
     /// The location of the training data to import and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. If encryption is used, DataSource includes an Key Management Service (KMS) key.
@@ -3664,7 +3666,7 @@ public struct DescribeDatasetImportJobOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// If an error occurred, an informational message about the error.
     public var message: Swift.String?
     /// The status of the dataset import job. States include:
@@ -3689,7 +3691,7 @@ public struct DescribeDatasetImportJobOutput {
     public var useGeolocationForTimeZone: Swift.Bool
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataSize: Swift.Double? = nil,
         dataSource: ForecastClientTypes.DataSource? = nil,
         datasetArn: Swift.String? = nil,
@@ -3700,7 +3702,7 @@ public struct DescribeDatasetImportJobOutput {
         format: Swift.String? = nil,
         geolocationFormat: Swift.String? = nil,
         importMode: ForecastClientTypes.ImportMode? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: Swift.String? = nil,
         timeZone: Swift.String? = nil,
@@ -3730,7 +3732,7 @@ public struct DescribeDatasetImportJobOutput {
 
 enum DescribeDatasetImportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3773,7 +3775,7 @@ public struct DescribeDatasetInput {
 
 extension DescribeDatasetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDatasetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDatasetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3794,7 +3796,7 @@ extension DescribeDatasetOutput {
 
 public struct DescribeDatasetOutput {
     /// When the dataset was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The frequency of data collection. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "M" indicates every month and "30min" indicates every 30 minutes.
     public var dataFrequency: Swift.String?
     /// The Amazon Resource Name (ARN) of the dataset.
@@ -3808,7 +3810,7 @@ public struct DescribeDatasetOutput {
     /// The Key Management Service (KMS) key and the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
     public var encryptionConfig: ForecastClientTypes.EncryptionConfig?
     /// When you create a dataset, LastModificationTime is the same as CreationTime. While data is being imported to the dataset, LastModificationTime is the current time of the DescribeDataset call. After a [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation has finished, LastModificationTime is when the import job completed or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// An array of SchemaAttribute objects that specify the dataset fields. Each SchemaAttribute specifies the name and data type of a field.
     public var schema: ForecastClientTypes.Schema?
     /// The status of the dataset. States include:
@@ -3826,14 +3828,14 @@ public struct DescribeDatasetOutput {
     public var status: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataFrequency: Swift.String? = nil,
         datasetArn: Swift.String? = nil,
         datasetName: Swift.String? = nil,
         datasetType: ForecastClientTypes.DatasetType? = nil,
         domain: ForecastClientTypes.Domain? = nil,
         encryptionConfig: ForecastClientTypes.EncryptionConfig? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         schema: ForecastClientTypes.Schema? = nil,
         status: Swift.String? = nil
     )
@@ -3853,7 +3855,7 @@ public struct DescribeDatasetOutput {
 
 enum DescribeDatasetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3896,7 +3898,7 @@ public struct DescribeExplainabilityExportInput {
 
 extension DescribeExplainabilityExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeExplainabilityExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeExplainabilityExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3916,7 +3918,7 @@ extension DescribeExplainabilityExportOutput {
 
 public struct DescribeExplainabilityExportOutput {
     /// When the Explainability export was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     public var destination: ForecastClientTypes.DataDestination?
     /// The Amazon Resource Name (ARN) of the Explainability export.
@@ -3938,7 +3940,7 @@ public struct DescribeExplainabilityExportOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// Information about any errors that occurred during the export.
     public var message: Swift.String?
     /// The status of the Explainability export. States include:
@@ -3953,13 +3955,13 @@ public struct DescribeExplainabilityExportOutput {
     public var status: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         destination: ForecastClientTypes.DataDestination? = nil,
         explainabilityArn: Swift.String? = nil,
         explainabilityExportArn: Swift.String? = nil,
         explainabilityExportName: Swift.String? = nil,
         format: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: Swift.String? = nil
     )
@@ -3978,7 +3980,7 @@ public struct DescribeExplainabilityExportOutput {
 
 enum DescribeExplainabilityExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4021,7 +4023,7 @@ public struct DescribeExplainabilityInput {
 
 extension DescribeExplainabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeExplainabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeExplainabilityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4046,7 +4048,7 @@ extension DescribeExplainabilityOutput {
 
 public struct DescribeExplainabilityOutput {
     /// When the Explainability resource was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key.
     public var dataSource: ForecastClientTypes.DataSource?
     /// Whether the visualization was enabled for the Explainability resource.
@@ -4072,7 +4074,7 @@ public struct DescribeExplainabilityOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// If an error occurred, a message about the error.
     public var message: Swift.String?
     /// The Amazon Resource Name (ARN) of the Predictor or Forecast used to create the Explainability resource.
@@ -4093,7 +4095,7 @@ public struct DescribeExplainabilityOutput {
     public var status: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dataSource: ForecastClientTypes.DataSource? = nil,
         enableVisualization: Swift.Bool? = nil,
         endDateTime: Swift.String? = nil,
@@ -4101,7 +4103,7 @@ public struct DescribeExplainabilityOutput {
         explainabilityArn: Swift.String? = nil,
         explainabilityConfig: ForecastClientTypes.ExplainabilityConfig? = nil,
         explainabilityName: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         schema: ForecastClientTypes.Schema? = nil,
@@ -4128,7 +4130,7 @@ public struct DescribeExplainabilityOutput {
 
 enum DescribeExplainabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4171,7 +4173,7 @@ public struct DescribeForecastExportJobInput {
 
 extension DescribeForecastExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeForecastExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeForecastExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4191,7 +4193,7 @@ extension DescribeForecastExportJobOutput {
 
 public struct DescribeForecastExportJobOutput {
     /// When the forecast export job was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
     public var destination: ForecastClientTypes.DataDestination?
     /// The Amazon Resource Name (ARN) of the exported forecast.
@@ -4213,7 +4215,7 @@ public struct DescribeForecastExportJobOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// If an error occurred, an informational message about the error.
     public var message: Swift.String?
     /// The status of the forecast export job. States include:
@@ -4231,13 +4233,13 @@ public struct DescribeForecastExportJobOutput {
     public var status: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         destination: ForecastClientTypes.DataDestination? = nil,
         forecastArn: Swift.String? = nil,
         forecastExportJobArn: Swift.String? = nil,
         forecastExportJobName: Swift.String? = nil,
         format: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: Swift.String? = nil
     )
@@ -4256,7 +4258,7 @@ public struct DescribeForecastExportJobOutput {
 
 enum DescribeForecastExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4299,7 +4301,7 @@ public struct DescribeForecastInput {
 
 extension DescribeForecastOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeForecastOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeForecastOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4321,7 +4323,7 @@ extension DescribeForecastOutput {
 
 public struct DescribeForecastOutput {
     /// When the forecast creation task was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The ARN of the dataset group that provided the data used to train the predictor.
     public var datasetGroupArn: Swift.String?
     /// The estimated time remaining in minutes for the forecast job to complete.
@@ -4343,7 +4345,7 @@ public struct DescribeForecastOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// If an error occurred, an informational message about the error.
     public var message: Swift.String?
     /// The ARN of the predictor used to generate the forecast.
@@ -4365,13 +4367,13 @@ public struct DescribeForecastOutput {
     public var timeSeriesSelector: ForecastClientTypes.TimeSeriesSelector?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         datasetGroupArn: Swift.String? = nil,
         estimatedTimeRemainingInMinutes: Swift.Int? = nil,
         forecastArn: Swift.String? = nil,
         forecastName: Swift.String? = nil,
         forecastTypes: [Swift.String]? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         predictorArn: Swift.String? = nil,
         status: Swift.String? = nil,
@@ -4394,7 +4396,7 @@ public struct DescribeForecastOutput {
 
 enum DescribeForecastOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4437,7 +4439,7 @@ public struct DescribeMonitorInput {
 
 extension DescribeMonitorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMonitorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMonitorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4461,15 +4463,15 @@ public struct DescribeMonitorOutput {
     /// Metrics you can use as a baseline for comparison purposes. Use these values you interpret monitoring results for an auto predictor.
     public var baseline: ForecastClientTypes.Baseline?
     /// The timestamp for when the monitor resource was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The estimated number of minutes remaining before the monitor resource finishes its current evaluation.
     public var estimatedEvaluationTimeRemainingInMinutes: Swift.Int?
     /// The state of the monitor's latest evaluation.
     public var lastEvaluationState: Swift.String?
     /// The timestamp of the latest evaluation completed by the monitor.
-    public var lastEvaluationTime: ClientRuntime.Date?
+    public var lastEvaluationTime: Foundation.Date?
     /// The timestamp of the latest modification to the monitor.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// An error message, if any, for the monitor.
     public var message: Swift.String?
     /// The Amazon Resource Name (ARN) of the monitor resource described.
@@ -4483,11 +4485,11 @@ public struct DescribeMonitorOutput {
 
     public init(
         baseline: ForecastClientTypes.Baseline? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         estimatedEvaluationTimeRemainingInMinutes: Swift.Int? = nil,
         lastEvaluationState: Swift.String? = nil,
-        lastEvaluationTime: ClientRuntime.Date? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastEvaluationTime: Foundation.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         monitorArn: Swift.String? = nil,
         monitorName: Swift.String? = nil,
@@ -4511,7 +4513,7 @@ public struct DescribeMonitorOutput {
 
 enum DescribeMonitorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4554,7 +4556,7 @@ public struct DescribePredictorBacktestExportJobInput {
 
 extension DescribePredictorBacktestExportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePredictorBacktestExportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePredictorBacktestExportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4574,7 +4576,7 @@ extension DescribePredictorBacktestExportJobOutput {
 
 public struct DescribePredictorBacktestExportJobOutput {
     /// When the predictor backtest export job was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     public var destination: ForecastClientTypes.DataDestination?
     /// The format of the exported data, CSV or PARQUET.
@@ -4590,7 +4592,7 @@ public struct DescribePredictorBacktestExportJobOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// Information about any errors that may have occurred during the backtest export.
     public var message: Swift.String?
     /// The Amazon Resource Name (ARN) of the predictor.
@@ -4611,10 +4613,10 @@ public struct DescribePredictorBacktestExportJobOutput {
     public var status: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         destination: ForecastClientTypes.DataDestination? = nil,
         format: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         predictorArn: Swift.String? = nil,
         predictorBacktestExportJobArn: Swift.String? = nil,
@@ -4636,7 +4638,7 @@ public struct DescribePredictorBacktestExportJobOutput {
 
 enum DescribePredictorBacktestExportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4679,7 +4681,7 @@ public struct DescribePredictorInput {
 
 extension DescribePredictorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePredictorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePredictorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4720,7 +4722,7 @@ public struct DescribePredictorOutput {
     /// The LatencyOptimized AutoML override strategy is only available in private beta. Contact Amazon Web Services Support or your account manager to learn more about access privileges. The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
     public var autoMLOverrideStrategy: ForecastClientTypes.AutoMLOverrideStrategy?
     /// When the model training task was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// An array of the ARNs of the dataset import jobs used to import training data for the predictor.
     public var datasetImportJobArns: [Swift.String]?
     /// An Key Management Service (KMS) key and the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
@@ -4752,7 +4754,7 @@ public struct DescribePredictorOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// If an error occurred, an informational message about the error.
     public var message: Swift.String?
     /// The accuracy metric used to optimize the predictor.
@@ -4787,7 +4789,7 @@ public struct DescribePredictorOutput {
         algorithmArn: Swift.String? = nil,
         autoMLAlgorithmArns: [Swift.String]? = nil,
         autoMLOverrideStrategy: ForecastClientTypes.AutoMLOverrideStrategy? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         datasetImportJobArns: [Swift.String]? = nil,
         encryptionConfig: ForecastClientTypes.EncryptionConfig? = nil,
         estimatedTimeRemainingInMinutes: Swift.Int? = nil,
@@ -4798,7 +4800,7 @@ public struct DescribePredictorOutput {
         hpoConfig: ForecastClientTypes.HyperParameterTuningJobConfig? = nil,
         inputDataConfig: ForecastClientTypes.InputDataConfig? = nil,
         isAutoPredictor: Swift.Bool? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         optimizationMetric: ForecastClientTypes.OptimizationMetric? = nil,
         performAutoML: Swift.Bool? = nil,
@@ -4839,7 +4841,7 @@ public struct DescribePredictorOutput {
 
 enum DescribePredictorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4882,7 +4884,7 @@ public struct DescribeWhatIfAnalysisInput {
 
 extension DescribeWhatIfAnalysisOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWhatIfAnalysisOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWhatIfAnalysisOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4902,7 +4904,7 @@ extension DescribeWhatIfAnalysisOutput {
 
 public struct DescribeWhatIfAnalysisOutput {
     /// When the what-if analysis was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The approximate time remaining to complete the what-if analysis, in minutes.
     public var estimatedTimeRemainingInMinutes: Swift.Int?
     /// The Amazon Resource Name (ARN) of the what-if forecast.
@@ -4918,7 +4920,7 @@ public struct DescribeWhatIfAnalysisOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// If an error occurred, an informational message about the error.
     public var message: Swift.String?
     /// The status of the what-if analysis. States include:
@@ -4948,10 +4950,10 @@ public struct DescribeWhatIfAnalysisOutput {
     public var whatIfAnalysisName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         estimatedTimeRemainingInMinutes: Swift.Int? = nil,
         forecastArn: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: Swift.String? = nil,
         timeSeriesSelector: ForecastClientTypes.TimeSeriesSelector? = nil,
@@ -4973,7 +4975,7 @@ public struct DescribeWhatIfAnalysisOutput {
 
 enum DescribeWhatIfAnalysisOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5016,7 +5018,7 @@ public struct DescribeWhatIfForecastExportInput {
 
 extension DescribeWhatIfForecastExportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWhatIfForecastExportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWhatIfForecastExportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5037,7 +5039,7 @@ extension DescribeWhatIfForecastExportOutput {
 
 public struct DescribeWhatIfForecastExportOutput {
     /// When the what-if forecast export was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     public var destination: ForecastClientTypes.DataDestination?
     /// The approximate time remaining to complete the what-if forecast export, in minutes.
@@ -5055,7 +5057,7 @@ public struct DescribeWhatIfForecastExportOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// If an error occurred, an informational message about the error.
     public var message: Swift.String?
     /// The status of the what-if forecast. States include:
@@ -5079,11 +5081,11 @@ public struct DescribeWhatIfForecastExportOutput {
     public var whatIfForecastExportName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         destination: ForecastClientTypes.DataDestination? = nil,
         estimatedTimeRemainingInMinutes: Swift.Int? = nil,
         format: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: Swift.String? = nil,
         whatIfForecastArns: [Swift.String]? = nil,
@@ -5106,7 +5108,7 @@ public struct DescribeWhatIfForecastExportOutput {
 
 enum DescribeWhatIfForecastExportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5149,7 +5151,7 @@ public struct DescribeWhatIfForecastInput {
 
 extension DescribeWhatIfForecastOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWhatIfForecastOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWhatIfForecastOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5171,7 +5173,7 @@ extension DescribeWhatIfForecastOutput {
 
 public struct DescribeWhatIfForecastOutput {
     /// When the what-if forecast was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The approximate time remaining to complete the what-if forecast, in minutes.
     public var estimatedTimeRemainingInMinutes: Swift.Int?
     /// The quantiles at which probabilistic forecasts are generated. You can specify up to five quantiles per what-if forecast in the [CreateWhatIfForecast] operation. If you didn't specify quantiles, the default values are ["0.1", "0.5", "0.9"].
@@ -5187,7 +5189,7 @@ public struct DescribeWhatIfForecastOutput {
     /// * CREATE_STOPPED - When the job stopped.
     ///
     /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// If an error occurred, an informational message about the error.
     public var message: Swift.String?
     /// The status of the what-if forecast. States include:
@@ -5215,10 +5217,10 @@ public struct DescribeWhatIfForecastOutput {
     public var whatIfForecastName: Swift.String?
 
     public init(
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         estimatedTimeRemainingInMinutes: Swift.Int? = nil,
         forecastTypes: [Swift.String]? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         message: Swift.String? = nil,
         status: Swift.String? = nil,
         timeSeriesReplacementsDataSource: ForecastClientTypes.TimeSeriesReplacementsDataSource? = nil,
@@ -5244,7 +5246,7 @@ public struct DescribeWhatIfForecastOutput {
 
 enum DescribeWhatIfForecastOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5542,7 +5544,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the Explainability export properties used in the [ListExplainabilityExports] operation. To get a complete set of properties, call the [DescribeExplainabilityExport] operation, and provide the ExplainabilityExportArn.
     public struct ExplainabilityExportSummary {
         /// When the Explainability was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
         public var destination: ForecastClientTypes.DataDestination?
         /// The Amazon Resource Name (ARN) of the Explainability export.
@@ -5560,7 +5562,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// Information about any errors that may have occurred during the Explainability export.
         public var message: Swift.String?
         /// The status of the Explainability export. States include:
@@ -5575,11 +5577,11 @@ extension ForecastClientTypes {
         public var status: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             destination: ForecastClientTypes.DataDestination? = nil,
             explainabilityExportArn: Swift.String? = nil,
             explainabilityExportName: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -5656,7 +5658,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the Explainability properties used in the [ListExplainabilities] operation. To get a complete set of properties, call the [DescribeExplainability] operation, and provide the listed ExplainabilityArn.
     public struct ExplainabilitySummary {
         /// When the Explainability was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the Explainability.
         public var explainabilityArn: Swift.String?
         /// The configuration settings that define the granularity of time series and time points for the Explainability.
@@ -5674,7 +5676,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// Information about any errors that may have occurred during the Explainability creation process.
         public var message: Swift.String?
         /// The Amazon Resource Name (ARN) of the Predictor or Forecast used to create the Explainability.
@@ -5691,11 +5693,11 @@ extension ForecastClientTypes {
         public var status: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             explainabilityArn: Swift.String? = nil,
             explainabilityConfig: ForecastClientTypes.ExplainabilityConfig? = nil,
             explainabilityName: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
             status: Swift.String? = nil
@@ -6006,7 +6008,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the forecast export job properties used in the [ListForecastExportJobs] operation. To get the complete set of properties, call the [DescribeForecastExportJob] operation, and provide the listed ForecastExportJobArn.
     public struct ForecastExportJobSummary {
         /// When the forecast export job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
         public var destination: ForecastClientTypes.DataDestination?
         /// The Amazon Resource Name (ARN) of the forecast export job.
@@ -6024,7 +6026,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// If an error occurred, an informational message about the error.
         public var message: Swift.String?
         /// The status of the forecast export job. States include:
@@ -6042,11 +6044,11 @@ extension ForecastClientTypes {
         public var status: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             destination: ForecastClientTypes.DataDestination? = nil,
             forecastExportJobArn: Swift.String? = nil,
             forecastExportJobName: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -6087,7 +6089,7 @@ extension ForecastClientTypes {
         /// Whether the Forecast was created from an AutoPredictor.
         public var createdUsingAutoPredictor: Swift.Bool?
         /// When the forecast creation task was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the dataset group that provided the data used to train the predictor.
         public var datasetGroupArn: Swift.String?
         /// The ARN of the forecast.
@@ -6105,7 +6107,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// If an error occurred, an informational message about the error.
         public var message: Swift.String?
         /// The ARN of the predictor used to generate the forecast.
@@ -6126,11 +6128,11 @@ extension ForecastClientTypes {
 
         public init(
             createdUsingAutoPredictor: Swift.Bool? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             datasetGroupArn: Swift.String? = nil,
             forecastArn: Swift.String? = nil,
             forecastName: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             predictorArn: Swift.String? = nil,
             status: Swift.String? = nil
@@ -6180,7 +6182,7 @@ public struct GetAccuracyMetricsInput {
 
 extension GetAccuracyMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccuracyMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccuracyMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6219,7 +6221,7 @@ public struct GetAccuracyMetricsOutput {
 
 enum GetAccuracyMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6528,7 +6530,7 @@ public struct ListDatasetGroupsInput {
 
 extension ListDatasetGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDatasetGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDatasetGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6557,7 +6559,7 @@ public struct ListDatasetGroupsOutput {
 
 enum ListDatasetGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6617,7 +6619,7 @@ public struct ListDatasetImportJobsInput {
 
 extension ListDatasetImportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDatasetImportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDatasetImportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6646,7 +6648,7 @@ public struct ListDatasetImportJobsOutput {
 
 enum ListDatasetImportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6693,7 +6695,7 @@ public struct ListDatasetsInput {
 
 extension ListDatasetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDatasetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDatasetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6722,7 +6724,7 @@ public struct ListDatasetsOutput {
 
 enum ListDatasetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6779,7 +6781,7 @@ public struct ListExplainabilitiesInput {
 
 extension ListExplainabilitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListExplainabilitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListExplainabilitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6808,7 +6810,7 @@ public struct ListExplainabilitiesOutput {
 
 enum ListExplainabilitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6866,7 +6868,7 @@ public struct ListExplainabilityExportsInput {
 
 extension ListExplainabilityExportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListExplainabilityExportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListExplainabilityExportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6895,7 +6897,7 @@ public struct ListExplainabilityExportsOutput {
 
 enum ListExplainabilityExportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6956,7 +6958,7 @@ public struct ListForecastExportJobsInput {
 
 extension ListForecastExportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListForecastExportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListForecastExportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6985,7 +6987,7 @@ public struct ListForecastExportJobsOutput {
 
 enum ListForecastExportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7046,7 +7048,7 @@ public struct ListForecastsInput {
 
 extension ListForecastsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListForecastsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListForecastsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7075,7 +7077,7 @@ public struct ListForecastsOutput {
 
 enum ListForecastsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7142,7 +7144,7 @@ public struct ListMonitorEvaluationsInput {
 
 extension ListMonitorEvaluationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMonitorEvaluationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMonitorEvaluationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7171,7 +7173,7 @@ public struct ListMonitorEvaluationsOutput {
 
 enum ListMonitorEvaluationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7233,7 +7235,7 @@ public struct ListMonitorsInput {
 
 extension ListMonitorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMonitorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMonitorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7262,7 +7264,7 @@ public struct ListMonitorsOutput {
 
 enum ListMonitorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7320,7 +7322,7 @@ public struct ListPredictorBacktestExportJobsInput {
 
 extension ListPredictorBacktestExportJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPredictorBacktestExportJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPredictorBacktestExportJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7349,7 +7351,7 @@ public struct ListPredictorBacktestExportJobsOutput {
 
 enum ListPredictorBacktestExportJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7410,7 +7412,7 @@ public struct ListPredictorsInput {
 
 extension ListPredictorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPredictorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPredictorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7439,7 +7441,7 @@ public struct ListPredictorsOutput {
 
 enum ListPredictorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7482,7 +7484,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7506,7 +7508,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7567,7 +7569,7 @@ public struct ListWhatIfAnalysesInput {
 
 extension ListWhatIfAnalysesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWhatIfAnalysesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWhatIfAnalysesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7596,7 +7598,7 @@ public struct ListWhatIfAnalysesOutput {
 
 enum ListWhatIfAnalysesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7657,7 +7659,7 @@ public struct ListWhatIfForecastExportsInput {
 
 extension ListWhatIfForecastExportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWhatIfForecastExportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWhatIfForecastExportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7686,7 +7688,7 @@ public struct ListWhatIfForecastExportsOutput {
 
 enum ListWhatIfForecastExportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7747,7 +7749,7 @@ public struct ListWhatIfForecastsInput {
 
 extension ListWhatIfForecastsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWhatIfForecastsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWhatIfForecastsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7776,7 +7778,7 @@ public struct ListWhatIfForecastsOutput {
 
 enum ListWhatIfForecastsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7983,7 +7985,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the monitor properties used in the [ListMonitors] operation. To get a complete set of properties, call the [DescribeMonitor] operation, and provide the listed MonitorArn.
     public struct MonitorSummary {
         /// When the monitor resource was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The last time the monitor resource was modified. The timestamp depends on the status of the job:
         ///
         /// * CREATE_PENDING - The CreationTime.
@@ -7993,7 +7995,7 @@ extension ForecastClientTypes {
         /// * STOPPED - When the resource stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the monitor creation finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the monitor resource.
         public var monitorArn: Swift.String?
         /// The name of the monitor resource.
@@ -8014,8 +8016,8 @@ extension ForecastClientTypes {
         public var status: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             monitorArn: Swift.String? = nil,
             monitorName: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
@@ -8228,7 +8230,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the predictor backtest export job properties used in the [ListPredictorBacktestExportJobs] operation. To get a complete set of properties, call the [DescribePredictorBacktestExportJob] operation, and provide the listed PredictorBacktestExportJobArn.
     public struct PredictorBacktestExportJobSummary {
         /// When the predictor backtest export job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
         public var destination: ForecastClientTypes.DataDestination?
         /// The last time the resource was modified. The timestamp depends on the status of the job:
@@ -8242,7 +8244,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// Information about any errors that may have occurred during the backtest export.
         public var message: Swift.String?
         /// The Amazon Resource Name (ARN) of the predictor backtest export job.
@@ -8261,9 +8263,9 @@ extension ForecastClientTypes {
         public var status: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             destination: ForecastClientTypes.DataDestination? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             predictorBacktestExportJobArn: Swift.String? = nil,
             predictorBacktestExportJobName: Swift.String? = nil,
@@ -8323,12 +8325,12 @@ extension ForecastClientTypes {
     /// Provides details about a predictor event, such as a retraining.
     public struct PredictorEvent {
         /// The timestamp for when the event occurred.
-        public var datetime: ClientRuntime.Date?
+        public var datetime: Foundation.Date?
         /// The type of event. For example, Retrain. A retraining event denotes the timepoint when a predictor was retrained. Any monitor results from before the Datetime are from the previous predictor. Any new metrics are for the newly retrained predictor.
         public var detail: Swift.String?
 
         public init(
-            datetime: ClientRuntime.Date? = nil,
+            datetime: Foundation.Date? = nil,
             detail: Swift.String? = nil
         )
         {
@@ -8422,7 +8424,7 @@ extension ForecastClientTypes {
         /// The status of the monitor evaluation. The state can be SUCCESS or FAILURE.
         public var evaluationState: Swift.String?
         /// The timestamp that indicates when the monitor evaluation was started.
-        public var evaluationTime: ClientRuntime.Date?
+        public var evaluationTime: Foundation.Date?
         /// Information about any errors that may have occurred during the monitor evaluation.
         public var message: Swift.String?
         /// A list of metrics Forecast calculated when monitoring a predictor. You can compare the value for each metric in the list to the metric's value in the [Baseline] to see how your predictor's performance is changing.
@@ -8438,13 +8440,13 @@ extension ForecastClientTypes {
         /// The Amazon Resource Name (ARN) of the resource to monitor.
         public var resourceArn: Swift.String?
         /// The timestamp that indicates the end of the window that is used for monitor evaluation.
-        public var windowEndDatetime: ClientRuntime.Date?
+        public var windowEndDatetime: Foundation.Date?
         /// The timestamp that indicates the start of the window that is used for monitor evaluation.
-        public var windowStartDatetime: ClientRuntime.Date?
+        public var windowStartDatetime: Foundation.Date?
 
         public init(
             evaluationState: Swift.String? = nil,
-            evaluationTime: ClientRuntime.Date? = nil,
+            evaluationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             metricResults: [ForecastClientTypes.MetricResult]? = nil,
             monitorArn: Swift.String? = nil,
@@ -8452,8 +8454,8 @@ extension ForecastClientTypes {
             numItemsEvaluated: Swift.Int? = nil,
             predictorEvent: ForecastClientTypes.PredictorEvent? = nil,
             resourceArn: Swift.String? = nil,
-            windowEndDatetime: ClientRuntime.Date? = nil,
-            windowStartDatetime: ClientRuntime.Date? = nil
+            windowEndDatetime: Foundation.Date? = nil,
+            windowStartDatetime: Foundation.Date? = nil
         )
         {
             self.evaluationState = evaluationState
@@ -8494,7 +8496,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the predictor properties that are used in the [ListPredictors] operation. To get the complete set of properties, call the [DescribePredictor] operation, and provide the listed PredictorArn.
     public struct PredictorSummary {
         /// When the model training task was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the dataset group that contains the data used to train the predictor.
         public var datasetGroupArn: Swift.String?
         /// Whether AutoPredictor was used to create the predictor.
@@ -8510,7 +8512,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// If an error occurred, an informational message about the error.
         public var message: Swift.String?
         /// The ARN of the predictor.
@@ -8534,10 +8536,10 @@ extension ForecastClientTypes {
         public var status: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             datasetGroupArn: Swift.String? = nil,
             isAutoPredictor: Swift.Bool? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             predictorArn: Swift.String? = nil,
             predictorName: Swift.String? = nil,
@@ -8731,7 +8733,7 @@ public struct ResumeResourceInput {
 
 extension ResumeResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResumeResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResumeResourceOutput {
         return ResumeResourceOutput()
     }
 }
@@ -8743,7 +8745,7 @@ public struct ResumeResourceOutput {
 
 enum ResumeResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9046,7 +9048,7 @@ public struct StopResourceInput {
 
 extension StopResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopResourceOutput {
         return StopResourceOutput()
     }
 }
@@ -9058,7 +9060,7 @@ public struct StopResourceOutput {
 
 enum StopResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9351,7 +9353,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -9363,7 +9365,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9404,15 +9406,15 @@ extension ForecastClientTypes {
         /// * CREATE_FAILED
         public var status: Swift.String?
         /// The time at which the test ended.
-        public var testWindowEnd: ClientRuntime.Date?
+        public var testWindowEnd: Foundation.Date?
         /// The time at which the test began.
-        public var testWindowStart: ClientRuntime.Date?
+        public var testWindowStart: Foundation.Date?
 
         public init(
             message: Swift.String? = nil,
             status: Swift.String? = nil,
-            testWindowEnd: ClientRuntime.Date? = nil,
-            testWindowStart: ClientRuntime.Date? = nil
+            testWindowEnd: Foundation.Date? = nil,
+            testWindowStart: Foundation.Date? = nil
         )
         {
             self.message = message
@@ -9781,7 +9783,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -9793,7 +9795,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9842,7 +9844,7 @@ public struct UpdateDatasetGroupInput {
 
 extension UpdateDatasetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDatasetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDatasetGroupOutput {
         return UpdateDatasetGroupOutput()
     }
 }
@@ -9854,7 +9856,7 @@ public struct UpdateDatasetGroupOutput {
 
 enum UpdateDatasetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9919,7 +9921,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the what-if analysis properties used in the [ListWhatIfAnalyses] operation. To get the complete set of properties, call the [DescribeWhatIfAnalysis] operation, and provide the WhatIfAnalysisArn that is listed in the summary.
     public struct WhatIfAnalysisSummary {
         /// When the what-if analysis was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the baseline forecast that is being used in this what-if analysis.
         public var forecastArn: Swift.String?
         /// The last time the resource was modified. The timestamp depends on the status of the job:
@@ -9933,7 +9935,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// If an error occurred, an informational message about the error.
         public var message: Swift.String?
         /// The status of the what-if analysis. States include:
@@ -9955,9 +9957,9 @@ extension ForecastClientTypes {
         public var whatIfAnalysisName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             forecastArn: Swift.String? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil,
             whatIfAnalysisArn: Swift.String? = nil,
@@ -9997,7 +9999,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the what-if forecast export properties used in the [ListWhatIfForecastExports] operation. To get the complete set of properties, call the [DescribeWhatIfForecastExport] operation, and provide the WhatIfForecastExportArn that is listed in the summary.
     public struct WhatIfForecastExportSummary {
         /// When the what-if forecast export was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
         public var destination: ForecastClientTypes.DataDestination?
         /// The last time the resource was modified. The timestamp depends on the status of the job:
@@ -10011,7 +10013,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// If an error occurred, an informational message about the error.
         public var message: Swift.String?
         /// The status of the what-if forecast export. States include:
@@ -10035,9 +10037,9 @@ extension ForecastClientTypes {
         public var whatIfForecastExportName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             destination: ForecastClientTypes.DataDestination? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil,
             whatIfForecastArns: [Swift.String]? = nil,
@@ -10078,7 +10080,7 @@ extension ForecastClientTypes {
     /// Provides a summary of the what-if forecast properties used in the [ListWhatIfForecasts] operation. To get the complete set of properties, call the [DescribeWhatIfForecast] operation, and provide the WhatIfForecastArn that is listed in the summary.
     public struct WhatIfForecastSummary {
         /// When the what-if forecast was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The last time the resource was modified. The timestamp depends on the status of the job:
         ///
         /// * CREATE_PENDING - The CreationTime.
@@ -10090,7 +10092,7 @@ extension ForecastClientTypes {
         /// * CREATE_STOPPED - When the job stopped.
         ///
         /// * ACTIVE or CREATE_FAILED - When the job finished or failed.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// If an error occurred, an informational message about the error.
         public var message: Swift.String?
         /// The status of the what-if forecast. States include:
@@ -10114,8 +10116,8 @@ extension ForecastClientTypes {
         public var whatIfForecastName: Swift.String?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil,
             whatIfAnalysisArn: Swift.String? = nil,
@@ -10163,16 +10165,16 @@ extension ForecastClientTypes {
         /// Provides metrics used to evaluate the performance of a predictor.
         public var metrics: ForecastClientTypes.Metrics?
         /// The timestamp that defines the end of the window.
-        public var testWindowEnd: ClientRuntime.Date?
+        public var testWindowEnd: Foundation.Date?
         /// The timestamp that defines the start of the window.
-        public var testWindowStart: ClientRuntime.Date?
+        public var testWindowStart: Foundation.Date?
 
         public init(
             evaluationType: ForecastClientTypes.EvaluationType? = nil,
             itemCount: Swift.Int? = nil,
             metrics: ForecastClientTypes.Metrics? = nil,
-            testWindowEnd: ClientRuntime.Date? = nil,
-            testWindowStart: ClientRuntime.Date? = nil
+            testWindowEnd: Foundation.Date? = nil,
+            testWindowStart: Foundation.Date? = nil
         )
         {
             self.evaluationType = evaluationType

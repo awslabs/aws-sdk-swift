@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -227,7 +229,7 @@ extension ManagedBlockchainQueryClientTypes {
 
 extension BatchGetTokenBalanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchGetTokenBalanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchGetTokenBalanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -258,7 +260,7 @@ public struct BatchGetTokenBalanceOutput {
 
 enum BatchGetTokenBalanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -342,10 +344,10 @@ extension ManagedBlockchainQueryClientTypes {
     /// The container for time.
     public struct BlockchainInstant {
         /// The container of the Timestamp of the blockchain instant. This timestamp will only be recorded up to the second.
-        public var time: ClientRuntime.Date?
+        public var time: Foundation.Date?
 
         public init(
-            time: ClientRuntime.Date? = nil
+            time: Foundation.Date? = nil
         )
         {
             self.time = time
@@ -610,7 +612,7 @@ public struct GetAssetContractInput {
 
 extension GetAssetContractOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAssetContractOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAssetContractOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -652,7 +654,7 @@ public struct GetAssetContractOutput {
 
 enum GetAssetContractOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -710,7 +712,7 @@ public struct GetTokenBalanceInput {
 
 extension GetTokenBalanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTokenBalanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTokenBalanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -756,7 +758,7 @@ public struct GetTokenBalanceOutput {
 
 enum GetTokenBalanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -813,7 +815,7 @@ public struct GetTransactionInput {
 
 extension GetTransactionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTransactionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTransactionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -838,7 +840,7 @@ public struct GetTransactionOutput {
 
 enum GetTransactionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -942,7 +944,7 @@ public struct ListAssetContractsInput {
 
 extension ListAssetContractsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAssetContractsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAssetContractsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -972,7 +974,7 @@ public struct ListAssetContractsOutput {
 
 enum ListAssetContractsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1054,7 +1056,7 @@ public struct ListFilteredTransactionEventsInput {
 
 extension ListFilteredTransactionEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFilteredTransactionEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFilteredTransactionEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1084,7 +1086,7 @@ public struct ListFilteredTransactionEventsOutput {
 
 enum ListFilteredTransactionEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1201,7 +1203,7 @@ public struct ListTokenBalancesInput {
 
 extension ListTokenBalancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTokenBalancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTokenBalancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1231,7 +1233,7 @@ public struct ListTokenBalancesOutput {
 
 enum ListTokenBalancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1297,7 +1299,7 @@ public struct ListTransactionEventsInput {
 
 extension ListTransactionEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTransactionEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTransactionEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1327,7 +1329,7 @@ public struct ListTransactionEventsOutput {
 
 enum ListTransactionEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1409,7 +1411,7 @@ public struct ListTransactionsInput {
 
 extension ListTransactionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTransactionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTransactionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1439,7 +1441,7 @@ public struct ListTransactionsOutput {
 
 enum ListTransactionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2175,7 +2177,7 @@ extension ManagedBlockchainQueryClientTypes {
         public var transactionIndex: Swift.Int?
         /// The Timestamp of the transaction.
         /// This member is required.
-        public var transactionTimestamp: ClientRuntime.Date?
+        public var transactionTimestamp: Foundation.Date?
 
         public init(
             blockHash: Swift.String? = nil,
@@ -2197,7 +2199,7 @@ extension ManagedBlockchainQueryClientTypes {
             transactionHash: Swift.String? = nil,
             transactionId: Swift.String? = nil,
             transactionIndex: Swift.Int? = nil,
-            transactionTimestamp: ClientRuntime.Date? = nil
+            transactionTimestamp: Foundation.Date? = nil
         )
         {
             self.blockHash = blockHash
@@ -2358,14 +2360,14 @@ extension ManagedBlockchainQueryClientTypes {
         public var transactionId: Swift.String?
         /// The time when the transaction occurred.
         /// This member is required.
-        public var transactionTimestamp: ClientRuntime.Date?
+        public var transactionTimestamp: Foundation.Date?
 
         public init(
             confirmationStatus: ManagedBlockchainQueryClientTypes.ConfirmationStatus? = nil,
             network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
             transactionHash: Swift.String? = nil,
             transactionId: Swift.String? = nil,
-            transactionTimestamp: ClientRuntime.Date? = nil
+            transactionTimestamp: Foundation.Date? = nil
         )
         {
             self.confirmationStatus = confirmationStatus

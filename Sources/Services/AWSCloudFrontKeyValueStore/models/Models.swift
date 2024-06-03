@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -83,8 +86,8 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension DeleteKeyInput {
 
-    static func headerProvider(_ value: DeleteKeyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteKeyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
@@ -130,7 +133,7 @@ public struct DeleteKeyInput {
 
 extension DeleteKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -170,7 +173,7 @@ public struct DeleteKeyOutput {
 
 enum DeleteKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -237,7 +240,7 @@ public struct DescribeKeyValueStoreInput {
 
 extension DescribeKeyValueStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeKeyValueStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeKeyValueStoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -260,7 +263,7 @@ extension DescribeKeyValueStoreOutput {
 public struct DescribeKeyValueStoreOutput {
     /// Date and time when the Key Value Store was created.
     /// This member is required.
-    public var created: ClientRuntime.Date?
+    public var created: Foundation.Date?
     /// The version identifier for the current version of the Key Value Store.
     /// This member is required.
     public var eTag: Swift.String?
@@ -273,7 +276,7 @@ public struct DescribeKeyValueStoreOutput {
     /// This member is required.
     public var kvsARN: Swift.String?
     /// Date and time when the key value pairs in the Key Value Store was last modified.
-    public var lastModified: ClientRuntime.Date?
+    public var lastModified: Foundation.Date?
     /// The current status of the Key Value Store.
     public var status: Swift.String?
     /// Total size of the Key Value Store in bytes.
@@ -281,12 +284,12 @@ public struct DescribeKeyValueStoreOutput {
     public var totalSizeInBytes: Swift.Int?
 
     public init(
-        created: ClientRuntime.Date? = nil,
+        created: Foundation.Date? = nil,
         eTag: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         itemCount: Swift.Int? = nil,
         kvsARN: Swift.String? = nil,
-        lastModified: ClientRuntime.Date? = nil,
+        lastModified: Foundation.Date? = nil,
         status: Swift.String? = nil,
         totalSizeInBytes: Swift.Int? = nil
     )
@@ -304,7 +307,7 @@ public struct DescribeKeyValueStoreOutput {
 
 enum DescribeKeyValueStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -357,7 +360,7 @@ extension GetKeyOutput: Swift.CustomDebugStringConvertible {
 
 extension GetKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -401,7 +404,7 @@ public struct GetKeyOutput {
 
 enum GetKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -455,14 +458,14 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListKeysInput {
 
-    static func queryItemProvider(_ value: ListKeysInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListKeysInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -502,7 +505,7 @@ public struct ListKeysInput {
 
 extension ListKeysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListKeysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListKeysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -531,7 +534,7 @@ public struct ListKeysOutput {
 
 enum ListKeysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -592,8 +595,8 @@ extension PutKeyInput: Swift.CustomDebugStringConvertible {
 
 extension PutKeyInput {
 
-    static func headerProvider(_ value: PutKeyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutKeyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
@@ -653,7 +656,7 @@ public struct PutKeyInput {
 
 extension PutKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -693,7 +696,7 @@ public struct PutKeyOutput {
 
 enum PutKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -822,8 +825,8 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension UpdateKeysInput {
 
-    static func headerProvider(_ value: UpdateKeysInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateKeysInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let ifMatch = value.ifMatch {
             items.add(Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
@@ -878,7 +881,7 @@ public struct UpdateKeysInput {
 
 extension UpdateKeysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateKeysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateKeysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -918,7 +921,7 @@ public struct UpdateKeysOutput {
 
 enum UpdateKeysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

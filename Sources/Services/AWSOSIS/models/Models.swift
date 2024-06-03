@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -93,7 +96,7 @@ extension OSISClientTypes {
         /// A description of the stage.
         public var description: Swift.String?
         /// The most recent updated timestamp of the stage.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The name of the stage.
         public var name: Swift.String?
         /// The current status of the stage that the change is in.
@@ -101,7 +104,7 @@ extension OSISClientTypes {
 
         public init(
             description: Swift.String? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: OSISClientTypes.ChangeProgressStageStatuses? = nil
         )
@@ -169,7 +172,7 @@ extension OSISClientTypes {
         /// Information about the stages that the pipeline is going through to perform the configuration change.
         public var changeProgressStages: [OSISClientTypes.ChangeProgressStage]?
         /// The time at which the configuration change is made on the pipeline.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The overall status of the pipeline configuration change.
         public var status: OSISClientTypes.ChangeProgressStatuses?
         /// The total number of stages required for the pipeline configuration change.
@@ -177,7 +180,7 @@ extension OSISClientTypes {
 
         public init(
             changeProgressStages: [OSISClientTypes.ChangeProgressStage]? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: OSISClientTypes.ChangeProgressStatuses? = nil,
             totalNumberOfStages: Swift.Int = 0
         )
@@ -368,7 +371,7 @@ public struct CreatePipelineInput {
 
 extension CreatePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -392,7 +395,7 @@ public struct CreatePipelineOutput {
 
 enum CreatePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -435,7 +438,7 @@ public struct DeletePipelineInput {
 
 extension DeletePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePipelineOutput {
         return DeletePipelineOutput()
     }
 }
@@ -447,7 +450,7 @@ public struct DeletePipelineOutput {
 
 enum DeletePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -535,10 +538,10 @@ extension OSISClientTypes {
 
 extension GetPipelineBlueprintInput {
 
-    static func queryItemProvider(_ value: GetPipelineBlueprintInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetPipelineBlueprintInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let format = value.format {
-            let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format).urlPercentEncoding())
+            let formatQueryItem = Smithy.URIQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format).urlPercentEncoding())
             items.append(formatQueryItem)
         }
         return items
@@ -574,7 +577,7 @@ public struct GetPipelineBlueprintInput {
 
 extension GetPipelineBlueprintOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPipelineBlueprintOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPipelineBlueprintOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -603,7 +606,7 @@ public struct GetPipelineBlueprintOutput {
 
 enum GetPipelineBlueprintOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -644,7 +647,7 @@ public struct GetPipelineChangeProgressInput {
 
 extension GetPipelineChangeProgressOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPipelineChangeProgressOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPipelineChangeProgressOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -668,7 +671,7 @@ public struct GetPipelineChangeProgressOutput {
 
 enum GetPipelineChangeProgressOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -709,7 +712,7 @@ public struct GetPipelineInput {
 
 extension GetPipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -733,7 +736,7 @@ public struct GetPipelineOutput {
 
 enum GetPipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -874,7 +877,7 @@ public struct ListPipelineBlueprintsInput {
 
 extension ListPipelineBlueprintsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPipelineBlueprintsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPipelineBlueprintsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -898,7 +901,7 @@ public struct ListPipelineBlueprintsOutput {
 
 enum ListPipelineBlueprintsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -916,14 +919,14 @@ enum ListPipelineBlueprintsOutputError {
 
 extension ListPipelinesInput {
 
-    static func queryItemProvider(_ value: ListPipelinesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPipelinesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -955,7 +958,7 @@ public struct ListPipelinesInput {
 
 extension ListPipelinesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPipelinesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPipelinesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -984,7 +987,7 @@ public struct ListPipelinesOutput {
 
 enum ListPipelinesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1002,13 +1005,13 @@ enum ListPipelinesOutputError {
 
 extension ListTagsForResourceInput {
 
-    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let arn = value.arn else {
             let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        let arnQueryItem = Smithy.URIQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
         items.append(arnQueryItem)
         return items
     }
@@ -1036,7 +1039,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1060,7 +1063,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1147,7 +1150,7 @@ extension OSISClientTypes {
         /// Options that specify the configuration of a persistent buffer. To configure how OpenSearch Ingestion encrypts this data, set the EncryptionAtRestOptions. For more information, see [Persistent buffering](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/osis-features-overview.html#persistent-buffering).
         public var bufferOptions: OSISClientTypes.BufferOptions?
         /// The date and time when the pipeline was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Destinations to which the pipeline writes data.
         public var destinations: [OSISClientTypes.PipelineDestination]?
         /// Options to control how OpenSearch encrypts buffer data.
@@ -1155,7 +1158,7 @@ extension OSISClientTypes {
         /// The ingestion endpoints for the pipeline, which you can send data to.
         public var ingestEndpointUrls: [Swift.String]?
         /// The date and time when the pipeline was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// Key-value pairs that represent log publishing settings.
         public var logPublishingOptions: OSISClientTypes.LogPublishingOptions?
         /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
@@ -1181,11 +1184,11 @@ extension OSISClientTypes {
 
         public init(
             bufferOptions: OSISClientTypes.BufferOptions? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             destinations: [OSISClientTypes.PipelineDestination]? = nil,
             encryptionAtRestOptions: OSISClientTypes.EncryptionAtRestOptions? = nil,
             ingestEndpointUrls: [Swift.String]? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             logPublishingOptions: OSISClientTypes.LogPublishingOptions? = nil,
             maxUnits: Swift.Int = 0,
             minUnits: Swift.Int = 0,
@@ -1451,11 +1454,11 @@ extension OSISClientTypes {
     /// Summary information for an OpenSearch Ingestion pipeline.
     public struct PipelineSummary {
         /// The date and time when the pipeline was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// A list of destinations to which the pipeline writes data.
         public var destinations: [OSISClientTypes.PipelineDestination]?
         /// The date and time when the pipeline was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The maximum pipeline capacity, in Ingestion Compute Units (ICUs).
         public var maxUnits: Swift.Int?
         /// The minimum pipeline capacity, in Ingestion Compute Units (ICUs).
@@ -1472,9 +1475,9 @@ extension OSISClientTypes {
         public var tags: [OSISClientTypes.Tag]?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             destinations: [OSISClientTypes.PipelineDestination]? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             maxUnits: Swift.Int? = nil,
             minUnits: Swift.Int? = nil,
             pipelineArn: Swift.String? = nil,
@@ -1629,7 +1632,7 @@ public struct StartPipelineInput {
 
 extension StartPipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartPipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartPipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1653,7 +1656,7 @@ public struct StartPipelineOutput {
 
 enum StartPipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1695,7 +1698,7 @@ public struct StopPipelineInput {
 
 extension StopPipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopPipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopPipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1719,7 +1722,7 @@ public struct StopPipelineOutput {
 
 enum StopPipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1777,13 +1780,13 @@ extension OSISClientTypes {
 
 extension TagResourceInput {
 
-    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let arn = value.arn else {
             let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        let arnQueryItem = Smithy.URIQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
         items.append(arnQueryItem)
         return items
     }
@@ -1824,7 +1827,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -1836,7 +1839,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1855,13 +1858,13 @@ enum TagResourceOutputError {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let arn = value.arn else {
             let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        let arnQueryItem = Smithy.URIQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
         items.append(arnQueryItem)
         return items
     }
@@ -1902,7 +1905,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -1914,7 +1917,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1992,7 +1995,7 @@ public struct UpdatePipelineInput {
 
 extension UpdatePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2016,7 +2019,7 @@ public struct UpdatePipelineOutput {
 
 enum UpdatePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2063,7 +2066,7 @@ public struct ValidatePipelineInput {
 
 extension ValidatePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ValidatePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ValidatePipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2092,7 +2095,7 @@ public struct ValidatePipelineOutput {
 
 enum ValidatePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

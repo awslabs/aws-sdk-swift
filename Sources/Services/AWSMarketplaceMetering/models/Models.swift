@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -42,7 +44,7 @@ public struct BatchMeterUsageInput {
 
 extension BatchMeterUsageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchMeterUsageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchMeterUsageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -72,7 +74,7 @@ public struct BatchMeterUsageOutput {
 
 enum BatchMeterUsageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -640,7 +642,7 @@ public struct MeterUsageInput {
     public var productCode: Swift.String?
     /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
     /// This member is required.
-    public var timestamp: ClientRuntime.Date?
+    public var timestamp: Foundation.Date?
     /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the UsageQuantity of the MeterUsage request, and each UsageAllocation must have a unique set of tags (include no tags).
     public var usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]?
     /// It will be one of the fcp dimension name provided during the publishing of the product.
@@ -652,7 +654,7 @@ public struct MeterUsageInput {
     public init(
         dryRun: Swift.Bool? = nil,
         productCode: Swift.String? = nil,
-        timestamp: ClientRuntime.Date? = nil,
+        timestamp: Foundation.Date? = nil,
         usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil,
         usageDimension: Swift.String? = nil,
         usageQuantity: Swift.Int? = nil
@@ -669,7 +671,7 @@ public struct MeterUsageInput {
 
 extension MeterUsageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> MeterUsageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> MeterUsageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -693,7 +695,7 @@ public struct MeterUsageOutput {
 
 enum MeterUsageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -792,7 +794,7 @@ public struct RegisterUsageInput {
 
 extension RegisterUsageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterUsageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterUsageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -805,12 +807,12 @@ extension RegisterUsageOutput {
 
 public struct RegisterUsageOutput {
     /// (Optional) Only included when public key version has expired
-    public var publicKeyRotationTimestamp: ClientRuntime.Date?
+    public var publicKeyRotationTimestamp: Foundation.Date?
     /// JWT Token
     public var signature: Swift.String?
 
     public init(
-        publicKeyRotationTimestamp: ClientRuntime.Date? = nil,
+        publicKeyRotationTimestamp: Foundation.Date? = nil,
         signature: Swift.String? = nil
     )
     {
@@ -821,7 +823,7 @@ public struct RegisterUsageOutput {
 
 enum RegisterUsageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -871,7 +873,7 @@ public struct ResolveCustomerInput {
 
 extension ResolveCustomerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResolveCustomerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResolveCustomerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -906,7 +908,7 @@ public struct ResolveCustomerOutput {
 
 enum ResolveCustomerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1109,7 +1111,7 @@ extension MarketplaceMeteringClientTypes {
         public var quantity: Swift.Int?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.
         public var usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]?
 
@@ -1117,7 +1119,7 @@ extension MarketplaceMeteringClientTypes {
             customerIdentifier: Swift.String? = nil,
             dimension: Swift.String? = nil,
             quantity: Swift.Int? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil
         )
         {

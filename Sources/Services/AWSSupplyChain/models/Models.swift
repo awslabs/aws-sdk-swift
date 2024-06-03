@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -212,7 +214,7 @@ public struct CreateBillOfMaterialsImportJobInput {
 
 extension CreateBillOfMaterialsImportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBillOfMaterialsImportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBillOfMaterialsImportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -238,7 +240,7 @@ public struct CreateBillOfMaterialsImportJobOutput {
 
 enum CreateBillOfMaterialsImportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -371,7 +373,7 @@ public struct GetBillOfMaterialsImportJobInput {
 
 extension GetBillOfMaterialsImportJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBillOfMaterialsImportJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBillOfMaterialsImportJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -397,7 +399,7 @@ public struct GetBillOfMaterialsImportJobOutput {
 
 enum GetBillOfMaterialsImportJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -526,7 +528,7 @@ public struct SendDataIntegrationEventInput {
     /// This member is required.
     public var eventGroupId: Swift.String?
     /// The event timestamp (in epoch seconds).
-    public var eventTimestamp: ClientRuntime.Date?
+    public var eventTimestamp: Foundation.Date?
     /// The data event type.
     /// This member is required.
     public var eventType: SupplyChainClientTypes.DataIntegrationEventType?
@@ -538,7 +540,7 @@ public struct SendDataIntegrationEventInput {
         clientToken: Swift.String? = nil,
         data: Swift.String? = nil,
         eventGroupId: Swift.String? = nil,
-        eventTimestamp: ClientRuntime.Date? = nil,
+        eventTimestamp: Foundation.Date? = nil,
         eventType: SupplyChainClientTypes.DataIntegrationEventType? = nil,
         instanceId: Swift.String? = nil
     )
@@ -554,7 +556,7 @@ public struct SendDataIntegrationEventInput {
 
 extension SendDataIntegrationEventOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendDataIntegrationEventOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendDataIntegrationEventOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -580,7 +582,7 @@ public struct SendDataIntegrationEventOutput {
 
 enum SendDataIntegrationEventOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

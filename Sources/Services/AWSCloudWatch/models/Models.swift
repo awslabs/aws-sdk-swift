@@ -2,7 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
 import SmithyFormURL
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
 
@@ -67,7 +69,7 @@ extension CloudWatchClientTypes {
         /// A summary of the alarm history, in text format.
         public var historySummary: Swift.String?
         /// The time stamp for the alarm history item.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             alarmName: Swift.String? = nil,
@@ -75,7 +77,7 @@ extension CloudWatchClientTypes {
             historyData: Swift.String? = nil,
             historyItemType: CloudWatchClientTypes.HistoryItemType? = nil,
             historySummary: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.alarmName = alarmName
@@ -380,7 +382,7 @@ extension CloudWatchClientTypes {
         /// The Amazon Resource Name (ARN) of the alarm.
         public var alarmArn: Swift.String?
         /// The time stamp of the last update to the alarm configuration.
-        public var alarmConfigurationUpdatedTimestamp: ClientRuntime.Date?
+        public var alarmConfigurationUpdatedTimestamp: Foundation.Date?
         /// The description of the alarm.
         public var alarmDescription: Swift.String?
         /// The name of the alarm.
@@ -396,9 +398,9 @@ extension CloudWatchClientTypes {
         /// An explanation for the alarm state, in JSON format.
         public var stateReasonData: Swift.String?
         /// The timestamp of the last change to the alarm's StateValue.
-        public var stateTransitionedTimestamp: ClientRuntime.Date?
+        public var stateTransitionedTimestamp: Foundation.Date?
         /// Tracks the timestamp of any state update, even if StateValue doesn't change.
-        public var stateUpdatedTimestamp: ClientRuntime.Date?
+        public var stateUpdatedTimestamp: Foundation.Date?
         /// The state value for the alarm.
         public var stateValue: CloudWatchClientTypes.StateValue?
 
@@ -411,7 +413,7 @@ extension CloudWatchClientTypes {
             actionsSuppressorWaitPeriod: Swift.Int? = nil,
             alarmActions: [Swift.String]? = nil,
             alarmArn: Swift.String? = nil,
-            alarmConfigurationUpdatedTimestamp: ClientRuntime.Date? = nil,
+            alarmConfigurationUpdatedTimestamp: Foundation.Date? = nil,
             alarmDescription: Swift.String? = nil,
             alarmName: Swift.String? = nil,
             alarmRule: Swift.String? = nil,
@@ -419,8 +421,8 @@ extension CloudWatchClientTypes {
             okActions: [Swift.String]? = nil,
             stateReason: Swift.String? = nil,
             stateReasonData: Swift.String? = nil,
-            stateTransitionedTimestamp: ClientRuntime.Date? = nil,
-            stateUpdatedTimestamp: ClientRuntime.Date? = nil,
+            stateTransitionedTimestamp: Foundation.Date? = nil,
+            stateUpdatedTimestamp: Foundation.Date? = nil,
             stateValue: CloudWatchClientTypes.StateValue? = nil
         )
         {
@@ -506,14 +508,14 @@ extension CloudWatchClientTypes {
         /// The name of the dashboard.
         public var dashboardName: Swift.String?
         /// The time stamp of when the dashboard was last modified, either by an API call or through the console. This number is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var lastModified: ClientRuntime.Date?
+        public var lastModified: Foundation.Date?
         /// The size of the dashboard, in bytes.
         public var size: Swift.Int?
 
         public init(
             dashboardArn: Swift.String? = nil,
             dashboardName: Swift.String? = nil,
-            lastModified: ClientRuntime.Date? = nil,
+            lastModified: Foundation.Date? = nil,
             size: Swift.Int? = nil
         )
         {
@@ -668,7 +670,7 @@ extension CloudWatchClientTypes {
         /// The sum of the metric values for the data point.
         public var sum: Swift.Double?
         /// The time stamp used for the data point.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// The standard unit for the data point.
         public var unit: CloudWatchClientTypes.StandardUnit?
 
@@ -679,7 +681,7 @@ extension CloudWatchClientTypes {
             minimum: Swift.Double? = nil,
             sampleCount: Swift.Double? = nil,
             sum: Swift.Double? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             unit: CloudWatchClientTypes.StandardUnit? = nil
         )
         {
@@ -728,7 +730,7 @@ public struct DeleteAlarmsInput {
 
 extension DeleteAlarmsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAlarmsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAlarmsOutput {
         return DeleteAlarmsOutput()
     }
 }
@@ -740,7 +742,7 @@ public struct DeleteAlarmsOutput {
 
 enum DeleteAlarmsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -838,7 +840,7 @@ public struct DeleteAnomalyDetectorInput {
 
 extension DeleteAnomalyDetectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAnomalyDetectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAnomalyDetectorOutput {
         return DeleteAnomalyDetectorOutput()
     }
 }
@@ -850,7 +852,7 @@ public struct DeleteAnomalyDetectorOutput {
 
 enum DeleteAnomalyDetectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -898,7 +900,7 @@ public struct DeleteDashboardsInput {
 
 extension DeleteDashboardsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDashboardsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDashboardsOutput {
         return DeleteDashboardsOutput()
     }
 }
@@ -910,7 +912,7 @@ public struct DeleteDashboardsOutput {
 
 enum DeleteDashboardsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -956,7 +958,7 @@ public struct DeleteInsightRulesInput {
 
 extension DeleteInsightRulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteInsightRulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteInsightRulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteInsightRulesResult"]
@@ -980,7 +982,7 @@ public struct DeleteInsightRulesOutput {
 
 enum DeleteInsightRulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1025,7 +1027,7 @@ public struct DeleteMetricStreamInput {
 
 extension DeleteMetricStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMetricStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMetricStreamOutput {
         return DeleteMetricStreamOutput()
     }
 }
@@ -1037,7 +1039,7 @@ public struct DeleteMetricStreamOutput {
 
 enum DeleteMetricStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1081,7 +1083,7 @@ public struct DescribeAlarmHistoryInput {
     /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
     public var alarmTypes: [CloudWatchClientTypes.AlarmType]?
     /// The ending date to retrieve alarm history.
-    public var endDate: ClientRuntime.Date?
+    public var endDate: Foundation.Date?
     /// The type of alarm histories to retrieve.
     public var historyItemType: CloudWatchClientTypes.HistoryItemType?
     /// The maximum number of alarm history records to retrieve.
@@ -1091,17 +1093,17 @@ public struct DescribeAlarmHistoryInput {
     /// Specified whether to return the newest or oldest alarm history first. Specify TimestampDescending to have the newest event history returned first, and specify TimestampAscending to have the oldest history returned first.
     public var scanBy: CloudWatchClientTypes.ScanBy?
     /// The starting date to retrieve alarm history.
-    public var startDate: ClientRuntime.Date?
+    public var startDate: Foundation.Date?
 
     public init(
         alarmName: Swift.String? = nil,
         alarmTypes: [CloudWatchClientTypes.AlarmType]? = nil,
-        endDate: ClientRuntime.Date? = nil,
+        endDate: Foundation.Date? = nil,
         historyItemType: CloudWatchClientTypes.HistoryItemType? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scanBy: CloudWatchClientTypes.ScanBy? = nil,
-        startDate: ClientRuntime.Date? = nil
+        startDate: Foundation.Date? = nil
     )
     {
         self.alarmName = alarmName
@@ -1117,7 +1119,7 @@ public struct DescribeAlarmHistoryInput {
 
 extension DescribeAlarmHistoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAlarmHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAlarmHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAlarmHistoryResult"]
@@ -1146,7 +1148,7 @@ public struct DescribeAlarmHistoryOutput {
 
 enum DescribeAlarmHistoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1221,7 +1223,7 @@ public struct DescribeAlarmsForMetricInput {
 
 extension DescribeAlarmsForMetricOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAlarmsForMetricOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAlarmsForMetricOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAlarmsForMetricResult"]
@@ -1245,7 +1247,7 @@ public struct DescribeAlarmsForMetricOutput {
 
 enum DescribeAlarmsForMetricOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1327,7 +1329,7 @@ public struct DescribeAlarmsInput {
 
 extension DescribeAlarmsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAlarmsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAlarmsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAlarmsResult"]
@@ -1361,7 +1363,7 @@ public struct DescribeAlarmsOutput {
 
 enum DescribeAlarmsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1429,7 +1431,7 @@ public struct DescribeAnomalyDetectorsInput {
 
 extension DescribeAnomalyDetectorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAnomalyDetectorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAnomalyDetectorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAnomalyDetectorsResult"]
@@ -1458,7 +1460,7 @@ public struct DescribeAnomalyDetectorsOutput {
 
 enum DescribeAnomalyDetectorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1509,7 +1511,7 @@ public struct DescribeInsightRulesInput {
 
 extension DescribeInsightRulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeInsightRulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInsightRulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeInsightRulesResult"]
@@ -1538,7 +1540,7 @@ public struct DescribeInsightRulesOutput {
 
 enum DescribeInsightRulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1651,7 +1653,7 @@ public struct DisableAlarmActionsInput {
 
 extension DisableAlarmActionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableAlarmActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableAlarmActionsOutput {
         return DisableAlarmActionsOutput()
     }
 }
@@ -1663,7 +1665,7 @@ public struct DisableAlarmActionsOutput {
 
 enum DisableAlarmActionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1706,7 +1708,7 @@ public struct DisableInsightRulesInput {
 
 extension DisableInsightRulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableInsightRulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableInsightRulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DisableInsightRulesResult"]
@@ -1730,7 +1732,7 @@ public struct DisableInsightRulesOutput {
 
 enum DisableInsightRulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1775,7 +1777,7 @@ public struct EnableAlarmActionsInput {
 
 extension EnableAlarmActionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableAlarmActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableAlarmActionsOutput {
         return EnableAlarmActionsOutput()
     }
 }
@@ -1787,7 +1789,7 @@ public struct EnableAlarmActionsOutput {
 
 enum EnableAlarmActionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1830,7 +1832,7 @@ public struct EnableInsightRulesInput {
 
 extension EnableInsightRulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableInsightRulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableInsightRulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["EnableInsightRulesResult"]
@@ -1854,7 +1856,7 @@ public struct EnableInsightRulesOutput {
 
 enum EnableInsightRulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1926,7 +1928,7 @@ public struct GetDashboardInput {
 
 extension GetDashboardOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDashboardOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDashboardOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetDashboardResult"]
@@ -1960,7 +1962,7 @@ public struct GetDashboardOutput {
 
 enum GetDashboardOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2000,7 +2002,7 @@ extension GetInsightRuleReportInput {
 public struct GetInsightRuleReportInput {
     /// The end time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum number of contributors to include in the report. The range is 1 to 100. If you omit this, the default of 10 is used.
     public var maxContributorCount: Swift.Int?
     /// Specifies which metrics to use for aggregation of contributor values for the report. You can specify one or more of the following metrics:
@@ -2029,16 +2031,16 @@ public struct GetInsightRuleReportInput {
     public var ruleName: Swift.String?
     /// The start time of the data to use in the report. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxContributorCount: Swift.Int? = nil,
         metrics: [Swift.String]? = nil,
         orderBy: Swift.String? = nil,
         period: Swift.Int? = nil,
         ruleName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -2053,7 +2055,7 @@ public struct GetInsightRuleReportInput {
 
 extension GetInsightRuleReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetInsightRuleReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetInsightRuleReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetInsightRuleReportResult"]
@@ -2102,7 +2104,7 @@ public struct GetInsightRuleReportOutput {
 
 enum GetInsightRuleReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2142,7 +2144,7 @@ extension GetMetricDataInput {
 public struct GetMetricDataInput {
     /// The time stamp indicating the latest data to be returned. The value specified is exclusive; results include data points up to the specified time stamp. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the EndTime.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// This structure includes the Timezone parameter, which you can use to specify your time zone so that the labels of returned data display the correct time for your time zone.
     public var labelOptions: CloudWatchClientTypes.LabelOptions?
     /// The maximum number of data points the request should return before paginating. If you omit this, the default of 100,800 is used.
@@ -2165,16 +2167,16 @@ public struct GetMetricDataInput {
     ///
     /// If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as StartTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the StartTime.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         labelOptions: CloudWatchClientTypes.LabelOptions? = nil,
         maxDatapoints: Swift.Int? = nil,
         metricDataQueries: [CloudWatchClientTypes.MetricDataQuery]? = nil,
         nextToken: Swift.String? = nil,
         scanBy: CloudWatchClientTypes.ScanBy? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -2189,7 +2191,7 @@ public struct GetMetricDataInput {
 
 extension GetMetricDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMetricDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMetricDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetMetricDataResult"]
@@ -2223,7 +2225,7 @@ public struct GetMetricDataOutput {
 
 enum GetMetricDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2265,7 +2267,7 @@ public struct GetMetricStatisticsInput {
     public var dimensions: [CloudWatchClientTypes.Dimension]?
     /// The time stamp that determines the last data point to return. The value specified is exclusive; results include data points up to the specified time stamp. In a raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The percentile statistics. Specify values between p0.0 and p100. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both. Percentile statistics are not available for metrics when any of the metric values are negative numbers.
     public var extendedStatistics: [Swift.String]?
     /// The name of the metric, with or without spaces.
@@ -2294,7 +2296,7 @@ public struct GetMetricStatisticsInput {
     ///
     /// If you set Period to 5, 10, or 30, the start time of your request is rounded down to the nearest time that corresponds to even 5-, 10-, or 30-second divisions of a minute. For example, if you make a query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time of your request is rounded down and you receive data from 01:05:10 to 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of data, using a period of 5 seconds, you receive data timestamped between 15:02:15 and 15:07:15.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistics. When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics, but not both.
     public var statistics: [CloudWatchClientTypes.Statistic]?
     /// The unit for a given metric. If you omit Unit, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
@@ -2302,12 +2304,12 @@ public struct GetMetricStatisticsInput {
 
     public init(
         dimensions: [CloudWatchClientTypes.Dimension]? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         extendedStatistics: [Swift.String]? = nil,
         metricName: Swift.String? = nil,
         namespace: Swift.String? = nil,
         period: Swift.Int? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         statistics: [CloudWatchClientTypes.Statistic]? = nil,
         unit: CloudWatchClientTypes.StandardUnit? = nil
     )
@@ -2326,7 +2328,7 @@ public struct GetMetricStatisticsInput {
 
 extension GetMetricStatisticsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMetricStatisticsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMetricStatisticsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetMetricStatisticsResult"]
@@ -2355,7 +2357,7 @@ public struct GetMetricStatisticsOutput {
 
 enum GetMetricStatisticsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2402,7 +2404,7 @@ public struct GetMetricStreamInput {
 
 extension GetMetricStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMetricStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMetricStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetMetricStreamResult"]
@@ -2427,7 +2429,7 @@ public struct GetMetricStreamOutput {
     /// The ARN of the metric stream.
     public var arn: Swift.String?
     /// The date that the metric stream was created.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// If this array of metric namespaces is present, then these namespaces are the only metric namespaces that are not streamed by this metric stream. In this case, all other metric namespaces in the account are streamed by this metric stream.
     public var excludeFilters: [CloudWatchClientTypes.MetricStreamFilter]?
     /// The ARN of the Amazon Kinesis Data Firehose delivery stream that is used by this metric stream.
@@ -2437,7 +2439,7 @@ public struct GetMetricStreamOutput {
     /// If this is true and this metric stream is in a monitoring account, then the stream includes metrics from source accounts that the monitoring account is linked to.
     public var includeLinkedAccountsMetrics: Swift.Bool?
     /// The date of the most recent update to the metric stream's configuration.
-    public var lastUpdateDate: ClientRuntime.Date?
+    public var lastUpdateDate: Foundation.Date?
     /// The name of the metric stream.
     public var name: Swift.String?
     /// The output format for the stream. Valid values are json, opentelemetry1.0, and opentelemetry0.7. For more information about metric stream output formats, see [Metric streams output formats](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html).
@@ -2451,12 +2453,12 @@ public struct GetMetricStreamOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         excludeFilters: [CloudWatchClientTypes.MetricStreamFilter]? = nil,
         firehoseArn: Swift.String? = nil,
         includeFilters: [CloudWatchClientTypes.MetricStreamFilter]? = nil,
         includeLinkedAccountsMetrics: Swift.Bool? = nil,
-        lastUpdateDate: ClientRuntime.Date? = nil,
+        lastUpdateDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat? = nil,
         roleArn: Swift.String? = nil,
@@ -2481,7 +2483,7 @@ public struct GetMetricStreamOutput {
 
 enum GetMetricStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2558,7 +2560,7 @@ public struct GetMetricWidgetImageInput {
 
 extension GetMetricWidgetImageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMetricWidgetImageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMetricWidgetImageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetMetricWidgetImageResult"]
@@ -2570,10 +2572,10 @@ extension GetMetricWidgetImageOutput {
 
 public struct GetMetricWidgetImageOutput {
     /// The image of the graph, in the output format specified. The output is base64-encoded.
-    public var metricWidgetImage: ClientRuntime.Data?
+    public var metricWidgetImage: Foundation.Data?
 
     public init(
-        metricWidgetImage: ClientRuntime.Data? = nil
+        metricWidgetImage: Foundation.Data? = nil
     )
     {
         self.metricWidgetImage = metricWidgetImage
@@ -2582,7 +2584,7 @@ public struct GetMetricWidgetImageOutput {
 
 enum GetMetricWidgetImageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2733,11 +2735,11 @@ extension CloudWatchClientTypes {
         public var approximateValue: Swift.Double?
         /// The timestamp of the data point.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             approximateValue: Swift.Double? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.approximateValue = approximateValue
@@ -2781,7 +2783,7 @@ extension CloudWatchClientTypes {
         public var sum: Swift.Double?
         /// The timestamp of the data point.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// The number of unique contributors who published data during this timestamp. This statistic is returned only if you included it in the Metrics array in your request.
         public var uniqueContributors: Swift.Double?
 
@@ -2792,7 +2794,7 @@ extension CloudWatchClientTypes {
             minimum: Swift.Double? = nil,
             sampleCount: Swift.Double? = nil,
             sum: Swift.Double? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             uniqueContributors: Swift.Double? = nil
         )
         {
@@ -3134,7 +3136,7 @@ public struct ListDashboardsInput {
 
 extension ListDashboardsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDashboardsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDashboardsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListDashboardsResult"]
@@ -3163,7 +3165,7 @@ public struct ListDashboardsOutput {
 
 enum ListDashboardsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3218,7 +3220,7 @@ public struct ListManagedInsightRulesInput {
 
 extension ListManagedInsightRulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListManagedInsightRulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListManagedInsightRulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListManagedInsightRulesResult"]
@@ -3247,7 +3249,7 @@ public struct ListManagedInsightRulesOutput {
 
 enum ListManagedInsightRulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3297,7 +3299,7 @@ public struct ListMetricStreamsInput {
 
 extension ListMetricStreamsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMetricStreamsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMetricStreamsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListMetricStreamsResult"]
@@ -3326,7 +3328,7 @@ public struct ListMetricStreamsOutput {
 
 enum ListMetricStreamsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3402,7 +3404,7 @@ public struct ListMetricsInput {
 
 extension ListMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListMetricsResult"]
@@ -3436,7 +3438,7 @@ public struct ListMetricsOutput {
 
 enum ListMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3481,7 +3483,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListTagsForResourceResult"]
@@ -3505,7 +3507,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3746,7 +3748,7 @@ extension CloudWatchClientTypes {
         /// The Amazon Resource Name (ARN) of the alarm.
         public var alarmArn: Swift.String?
         /// The time stamp of the last update to the alarm configuration.
-        public var alarmConfigurationUpdatedTimestamp: ClientRuntime.Date?
+        public var alarmConfigurationUpdatedTimestamp: Foundation.Date?
         /// The description of the alarm.
         public var alarmDescription: Swift.String?
         /// The name of the alarm.
@@ -3782,9 +3784,9 @@ extension CloudWatchClientTypes {
         /// An explanation for the alarm state, in JSON format.
         public var stateReasonData: Swift.String?
         /// The date and time that the alarm's StateValue most recently changed.
-        public var stateTransitionedTimestamp: ClientRuntime.Date?
+        public var stateTransitionedTimestamp: Foundation.Date?
         /// The time stamp of the last update to the value of either the StateValue or EvaluationState parameters.
-        public var stateUpdatedTimestamp: ClientRuntime.Date?
+        public var stateUpdatedTimestamp: Foundation.Date?
         /// The state value for the alarm.
         public var stateValue: CloudWatchClientTypes.StateValue?
         /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic.
@@ -3802,7 +3804,7 @@ extension CloudWatchClientTypes {
             actionsEnabled: Swift.Bool? = nil,
             alarmActions: [Swift.String]? = nil,
             alarmArn: Swift.String? = nil,
-            alarmConfigurationUpdatedTimestamp: ClientRuntime.Date? = nil,
+            alarmConfigurationUpdatedTimestamp: Foundation.Date? = nil,
             alarmDescription: Swift.String? = nil,
             alarmName: Swift.String? = nil,
             comparisonOperator: CloudWatchClientTypes.ComparisonOperator? = nil,
@@ -3820,8 +3822,8 @@ extension CloudWatchClientTypes {
             period: Swift.Int? = nil,
             stateReason: Swift.String? = nil,
             stateReasonData: Swift.String? = nil,
-            stateTransitionedTimestamp: ClientRuntime.Date? = nil,
-            stateUpdatedTimestamp: ClientRuntime.Date? = nil,
+            stateTransitionedTimestamp: Foundation.Date? = nil,
+            stateUpdatedTimestamp: Foundation.Date? = nil,
             stateValue: CloudWatchClientTypes.StateValue? = nil,
             statistic: CloudWatchClientTypes.Statistic? = nil,
             threshold: Swift.Double? = nil,
@@ -3990,7 +3992,7 @@ extension CloudWatchClientTypes {
         /// The status of the returned data. Complete indicates that all data points in the requested time range were returned. PartialData means that an incomplete set of data points were returned. You can use the NextToken value that was returned and repeat your request to get more data points. NextToken is not returned if you are performing a math expression. InternalError indicates that an error occurred. Retry your request using NextToken, if present.
         public var statusCode: CloudWatchClientTypes.StatusCode?
         /// The timestamps for the data points, formatted in Unix timestamp format. The number of timestamps always matches the number of values and the value for Timestamps[x] is Values[x].
-        public var timestamps: [ClientRuntime.Date]?
+        public var timestamps: [Foundation.Date]?
         /// The data points for the metric corresponding to Timestamps. The number of values always matches the number of timestamps and the timestamp for Values[x] is Timestamps[x].
         public var values: [Swift.Double]?
 
@@ -3999,7 +4001,7 @@ extension CloudWatchClientTypes {
             label: Swift.String? = nil,
             messages: [CloudWatchClientTypes.MessageData]? = nil,
             statusCode: CloudWatchClientTypes.StatusCode? = nil,
-            timestamps: [ClientRuntime.Date]? = nil,
+            timestamps: [Foundation.Date]? = nil,
             values: [Swift.Double]? = nil
         )
         {
@@ -4045,7 +4047,7 @@ extension CloudWatchClientTypes {
         /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a high-resolution metric, so that CloudWatch stores the metric with sub-minute resolution down to one second. Setting this to 60 specifies this metric as a regular-resolution metric, which CloudWatch stores at 1-minute resolution. Currently, high resolution is available only for custom metrics. For more information about high-resolution metrics, see [High-Resolution Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics) in the Amazon CloudWatch User Guide. This field is optional, if you do not specify it the default of 60 is used.
         public var storageResolution: Swift.Int?
         /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric.
         public var unit: CloudWatchClientTypes.StandardUnit?
         /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
@@ -4059,7 +4061,7 @@ extension CloudWatchClientTypes {
             metricName: Swift.String? = nil,
             statisticValues: CloudWatchClientTypes.StatisticSet? = nil,
             storageResolution: Swift.Int? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             unit: CloudWatchClientTypes.StandardUnit? = nil,
             value: Swift.Double? = nil,
             values: [Swift.Double]? = nil
@@ -4190,11 +4192,11 @@ extension CloudWatchClientTypes {
         /// The ARN of the metric stream.
         public var arn: Swift.String?
         /// The date that the metric stream was originally created.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// The ARN of the Kinesis Firehose devlivery stream that is used for this metric stream.
         public var firehoseArn: Swift.String?
         /// The date that the configuration of this metric stream was most recently updated.
-        public var lastUpdateDate: ClientRuntime.Date?
+        public var lastUpdateDate: Foundation.Date?
         /// The name of the metric stream.
         public var name: Swift.String?
         /// The output format of this metric stream. Valid values are json, opentelemetry1.0, and opentelemetry0.7.
@@ -4204,9 +4206,9 @@ extension CloudWatchClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             firehoseArn: Swift.String? = nil,
-            lastUpdateDate: ClientRuntime.Date? = nil,
+            lastUpdateDate: Foundation.Date? = nil,
             name: Swift.String? = nil,
             outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat? = nil,
             state: Swift.String? = nil
@@ -4546,7 +4548,7 @@ public struct PutAnomalyDetectorInput {
 
 extension PutAnomalyDetectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAnomalyDetectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutAnomalyDetectorOutput {
         return PutAnomalyDetectorOutput()
     }
 }
@@ -4558,7 +4560,7 @@ public struct PutAnomalyDetectorOutput {
 
 enum PutAnomalyDetectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4700,7 +4702,7 @@ public struct PutCompositeAlarmInput {
 
 extension PutCompositeAlarmOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutCompositeAlarmOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutCompositeAlarmOutput {
         return PutCompositeAlarmOutput()
     }
 }
@@ -4712,7 +4714,7 @@ public struct PutCompositeAlarmOutput {
 
 enum PutCompositeAlarmOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4762,7 +4764,7 @@ public struct PutDashboardInput {
 
 extension PutDashboardOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutDashboardOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutDashboardOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["PutDashboardResult"]
@@ -4786,7 +4788,7 @@ public struct PutDashboardOutput {
 
 enum PutDashboardOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4847,7 +4849,7 @@ public struct PutInsightRuleInput {
 
 extension PutInsightRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutInsightRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutInsightRuleOutput {
         return PutInsightRuleOutput()
     }
 }
@@ -4859,7 +4861,7 @@ public struct PutInsightRuleOutput {
 
 enum PutInsightRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4905,7 +4907,7 @@ public struct PutManagedInsightRulesInput {
 
 extension PutManagedInsightRulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutManagedInsightRulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutManagedInsightRulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["PutManagedInsightRulesResult"]
@@ -4929,7 +4931,7 @@ public struct PutManagedInsightRulesOutput {
 
 enum PutManagedInsightRulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5232,7 +5234,7 @@ public struct PutMetricAlarmInput {
 
 extension PutMetricAlarmOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutMetricAlarmOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutMetricAlarmOutput {
         return PutMetricAlarmOutput()
     }
 }
@@ -5244,7 +5246,7 @@ public struct PutMetricAlarmOutput {
 
 enum PutMetricAlarmOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5294,7 +5296,7 @@ public struct PutMetricDataInput {
 
 extension PutMetricDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutMetricDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutMetricDataOutput {
         return PutMetricDataOutput()
     }
 }
@@ -5306,7 +5308,7 @@ public struct PutMetricDataOutput {
 
 enum PutMetricDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5400,7 +5402,7 @@ public struct PutMetricStreamInput {
 
 extension PutMetricStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutMetricStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutMetricStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["PutMetricStreamResult"]
@@ -5424,7 +5426,7 @@ public struct PutMetricStreamOutput {
 
 enum PutMetricStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5462,14 +5464,14 @@ extension CloudWatchClientTypes {
     public struct Range {
         /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The start time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
         )
         {
             self.endTime = endTime
@@ -5666,7 +5668,7 @@ public struct SetAlarmStateInput {
 
 extension SetAlarmStateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetAlarmStateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetAlarmStateOutput {
         return SetAlarmStateOutput()
     }
 }
@@ -5678,7 +5680,7 @@ public struct SetAlarmStateOutput {
 
 enum SetAlarmStateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5882,7 +5884,7 @@ public struct StartMetricStreamsInput {
 
 extension StartMetricStreamsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartMetricStreamsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartMetricStreamsOutput {
         return StartMetricStreamsOutput()
     }
 }
@@ -5894,7 +5896,7 @@ public struct StartMetricStreamsOutput {
 
 enum StartMetricStreamsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6088,7 +6090,7 @@ public struct StopMetricStreamsInput {
 
 extension StopMetricStreamsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopMetricStreamsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopMetricStreamsOutput {
         return StopMetricStreamsOutput()
     }
 }
@@ -6100,7 +6102,7 @@ public struct StopMetricStreamsOutput {
 
 enum StopMetricStreamsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6191,7 +6193,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -6203,7 +6205,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6256,7 +6258,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -6268,7 +6270,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

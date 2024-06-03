@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -107,7 +110,7 @@ public struct CreateSuiteDefinitionInput {
 
 extension CreateSuiteDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSuiteDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSuiteDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -122,7 +125,7 @@ extension CreateSuiteDefinitionOutput {
 
 public struct CreateSuiteDefinitionOutput {
     /// The timestamp of when the test suite was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the test suite.
     public var suiteDefinitionArn: Swift.String?
     /// The UUID of the test suite created.
@@ -131,7 +134,7 @@ public struct CreateSuiteDefinitionOutput {
     public var suiteDefinitionName: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         suiteDefinitionArn: Swift.String? = nil,
         suiteDefinitionId: Swift.String? = nil,
         suiteDefinitionName: Swift.String? = nil
@@ -146,7 +149,7 @@ public struct CreateSuiteDefinitionOutput {
 
 enum CreateSuiteDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -184,7 +187,7 @@ public struct DeleteSuiteDefinitionInput {
 
 extension DeleteSuiteDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSuiteDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSuiteDefinitionOutput {
         return DeleteSuiteDefinitionOutput()
     }
 }
@@ -196,7 +199,7 @@ public struct DeleteSuiteDefinitionOutput {
 
 enum DeleteSuiteDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -254,22 +257,22 @@ extension IotDeviceAdvisorClientTypes {
 
 extension GetEndpointInput {
 
-    static func queryItemProvider(_ value: GetEndpointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetEndpointInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let thingArn = value.thingArn {
-            let thingArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "thingArn".urlPercentEncoding(), value: Swift.String(thingArn).urlPercentEncoding())
+            let thingArnQueryItem = Smithy.URIQueryItem(name: "thingArn".urlPercentEncoding(), value: Swift.String(thingArn).urlPercentEncoding())
             items.append(thingArnQueryItem)
         }
         if let certificateArn = value.certificateArn {
-            let certificateArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "certificateArn".urlPercentEncoding(), value: Swift.String(certificateArn).urlPercentEncoding())
+            let certificateArnQueryItem = Smithy.URIQueryItem(name: "certificateArn".urlPercentEncoding(), value: Swift.String(certificateArn).urlPercentEncoding())
             items.append(certificateArnQueryItem)
         }
         if let deviceRoleArn = value.deviceRoleArn {
-            let deviceRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "deviceRoleArn".urlPercentEncoding(), value: Swift.String(deviceRoleArn).urlPercentEncoding())
+            let deviceRoleArnQueryItem = Smithy.URIQueryItem(name: "deviceRoleArn".urlPercentEncoding(), value: Swift.String(deviceRoleArn).urlPercentEncoding())
             items.append(deviceRoleArnQueryItem)
         }
         if let authenticationMethod = value.authenticationMethod {
-            let authenticationMethodQueryItem = ClientRuntime.SDKURLQueryItem(name: "authenticationMethod".urlPercentEncoding(), value: Swift.String(authenticationMethod.rawValue).urlPercentEncoding())
+            let authenticationMethodQueryItem = Smithy.URIQueryItem(name: "authenticationMethod".urlPercentEncoding(), value: Swift.String(authenticationMethod.rawValue).urlPercentEncoding())
             items.append(authenticationMethodQueryItem)
         }
         return items
@@ -309,7 +312,7 @@ public struct GetEndpointInput {
 
 extension GetEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -333,7 +336,7 @@ public struct GetEndpointOutput {
 
 enum GetEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -349,10 +352,10 @@ enum GetEndpointOutputError {
 
 extension GetSuiteDefinitionInput {
 
-    static func queryItemProvider(_ value: GetSuiteDefinitionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetSuiteDefinitionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let suiteDefinitionVersion = value.suiteDefinitionVersion {
-            let suiteDefinitionVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "suiteDefinitionVersion".urlPercentEncoding(), value: Swift.String(suiteDefinitionVersion).urlPercentEncoding())
+            let suiteDefinitionVersionQueryItem = Smithy.URIQueryItem(name: "suiteDefinitionVersion".urlPercentEncoding(), value: Swift.String(suiteDefinitionVersion).urlPercentEncoding())
             items.append(suiteDefinitionVersionQueryItem)
         }
         return items
@@ -388,7 +391,7 @@ public struct GetSuiteDefinitionInput {
 
 extension GetSuiteDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSuiteDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSuiteDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -407,9 +410,9 @@ extension GetSuiteDefinitionOutput {
 
 public struct GetSuiteDefinitionOutput {
     /// Date (in Unix epoch time) when the suite definition was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Date (in Unix epoch time) when the suite definition was last modified.
-    public var lastModifiedAt: ClientRuntime.Date?
+    public var lastModifiedAt: Foundation.Date?
     /// Latest suite definition version of the suite definition.
     public var latestVersion: Swift.String?
     /// The ARN of the suite definition.
@@ -424,8 +427,8 @@ public struct GetSuiteDefinitionOutput {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
-        lastModifiedAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
         latestVersion: Swift.String? = nil,
         suiteDefinitionArn: Swift.String? = nil,
         suiteDefinitionConfiguration: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration? = nil,
@@ -447,7 +450,7 @@ public struct GetSuiteDefinitionOutput {
 
 enum GetSuiteDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -494,7 +497,7 @@ public struct GetSuiteRunInput {
 
 extension GetSuiteRunOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSuiteRunOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSuiteRunOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -516,11 +519,11 @@ extension GetSuiteRunOutput {
 
 public struct GetSuiteRunOutput {
     /// Date (in Unix epoch time) when the test suite run ended.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Error reason for any test suite run failure.
     public var errorReason: Swift.String?
     /// Date (in Unix epoch time) when the test suite run started.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// Status for the test suite run.
     public var status: IotDeviceAdvisorClientTypes.SuiteRunStatus?
     /// Suite definition ID for the test suite run.
@@ -539,9 +542,9 @@ public struct GetSuiteRunOutput {
     public var testResult: IotDeviceAdvisorClientTypes.TestResult?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         errorReason: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: IotDeviceAdvisorClientTypes.SuiteRunStatus? = nil,
         suiteDefinitionId: Swift.String? = nil,
         suiteDefinitionVersion: Swift.String? = nil,
@@ -568,7 +571,7 @@ public struct GetSuiteRunOutput {
 
 enum GetSuiteRunOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -615,7 +618,7 @@ public struct GetSuiteRunReportInput {
 
 extension GetSuiteRunReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSuiteRunReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSuiteRunReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -639,7 +642,7 @@ public struct GetSuiteRunReportOutput {
 
 enum GetSuiteRunReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -731,14 +734,14 @@ public enum IotDeviceAdvisorClientTypes {}
 
 extension ListSuiteDefinitionsInput {
 
-    static func queryItemProvider(_ value: ListSuiteDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSuiteDefinitionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -770,7 +773,7 @@ public struct ListSuiteDefinitionsInput {
 
 extension ListSuiteDefinitionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSuiteDefinitionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSuiteDefinitionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -799,7 +802,7 @@ public struct ListSuiteDefinitionsOutput {
 
 enum ListSuiteDefinitionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -814,22 +817,22 @@ enum ListSuiteDefinitionsOutputError {
 
 extension ListSuiteRunsInput {
 
-    static func queryItemProvider(_ value: ListSuiteRunsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListSuiteRunsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let suiteDefinitionId = value.suiteDefinitionId {
-            let suiteDefinitionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "suiteDefinitionId".urlPercentEncoding(), value: Swift.String(suiteDefinitionId).urlPercentEncoding())
+            let suiteDefinitionIdQueryItem = Smithy.URIQueryItem(name: "suiteDefinitionId".urlPercentEncoding(), value: Swift.String(suiteDefinitionId).urlPercentEncoding())
             items.append(suiteDefinitionIdQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let suiteDefinitionVersion = value.suiteDefinitionVersion {
-            let suiteDefinitionVersionQueryItem = ClientRuntime.SDKURLQueryItem(name: "suiteDefinitionVersion".urlPercentEncoding(), value: Swift.String(suiteDefinitionVersion).urlPercentEncoding())
+            let suiteDefinitionVersionQueryItem = Smithy.URIQueryItem(name: "suiteDefinitionVersion".urlPercentEncoding(), value: Swift.String(suiteDefinitionVersion).urlPercentEncoding())
             items.append(suiteDefinitionVersionQueryItem)
         }
         return items
@@ -869,7 +872,7 @@ public struct ListSuiteRunsInput {
 
 extension ListSuiteRunsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSuiteRunsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSuiteRunsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -898,7 +901,7 @@ public struct ListSuiteRunsOutput {
 
 enum ListSuiteRunsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -936,7 +939,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -960,7 +963,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1095,7 +1098,7 @@ public struct StartSuiteRunInput {
 
 extension StartSuiteRunOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSuiteRunOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSuiteRunOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1110,7 +1113,7 @@ extension StartSuiteRunOutput {
 
 public struct StartSuiteRunOutput {
     /// Starts a Device Advisor test suite run based on suite create time.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The response of an Device Advisor test endpoint.
     public var endpoint: Swift.String?
     /// Amazon Resource Name (ARN) of the started suite run.
@@ -1119,7 +1122,7 @@ public struct StartSuiteRunOutput {
     public var suiteRunId: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         endpoint: Swift.String? = nil,
         suiteRunArn: Swift.String? = nil,
         suiteRunId: Swift.String? = nil
@@ -1134,7 +1137,7 @@ public struct StartSuiteRunOutput {
 
 enum StartSuiteRunOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1231,7 +1234,7 @@ public struct StopSuiteRunInput {
 
 extension StopSuiteRunOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopSuiteRunOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopSuiteRunOutput {
         return StopSuiteRunOutput()
     }
 }
@@ -1243,7 +1246,7 @@ public struct StopSuiteRunOutput {
 
 enum StopSuiteRunOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1347,7 +1350,7 @@ extension IotDeviceAdvisorClientTypes {
     /// Information about the suite definition.
     public struct SuiteDefinitionInformation {
         /// Date (in Unix epoch time) when the test suite was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Specifies the devices that are under test for the test suite.
         public var defaultDevices: [IotDeviceAdvisorClientTypes.DeviceUnderTest]?
         /// Specifies if the test suite is intended for qualification.
@@ -1362,7 +1365,7 @@ extension IotDeviceAdvisorClientTypes {
         public var suiteDefinitionName: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             defaultDevices: [IotDeviceAdvisorClientTypes.DeviceUnderTest]? = nil,
             intendedForQualification: Swift.Bool? = nil,
             isLongDurationTest: Swift.Bool? = nil,
@@ -1450,15 +1453,15 @@ extension IotDeviceAdvisorClientTypes {
     /// Information about the suite run. Requires permission to access the [SuiteRunInformation](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     public struct SuiteRunInformation {
         /// Date (in Unix epoch time) when the suite run was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Date (in Unix epoch time) when the suite run ended.
-        public var endAt: ClientRuntime.Date?
+        public var endAt: Foundation.Date?
         /// Number of test cases that failed in the suite run.
         public var failed: Swift.Int?
         /// Number of test cases that passed in the suite run.
         public var passed: Swift.Int?
         /// Date (in Unix epoch time) when the suite run was started.
-        public var startedAt: ClientRuntime.Date?
+        public var startedAt: Foundation.Date?
         /// Status of the suite run.
         public var status: IotDeviceAdvisorClientTypes.SuiteRunStatus?
         /// Suite definition ID of the suite run.
@@ -1471,11 +1474,11 @@ extension IotDeviceAdvisorClientTypes {
         public var suiteRunId: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            endAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            endAt: Foundation.Date? = nil,
             failed: Swift.Int? = nil,
             passed: Swift.Int? = nil,
-            startedAt: ClientRuntime.Date? = nil,
+            startedAt: Foundation.Date? = nil,
             status: IotDeviceAdvisorClientTypes.SuiteRunStatus? = nil,
             suiteDefinitionId: Swift.String? = nil,
             suiteDefinitionName: Swift.String? = nil,
@@ -1586,7 +1589,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -1598,7 +1601,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1635,13 +1638,13 @@ extension IotDeviceAdvisorClientTypes {
     /// Provides the test case run.
     public struct TestCaseRun {
         /// Provides test case run end time.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// Provides test case run failure result.
         public var failure: Swift.String?
         /// Provides test case run log URL.
         public var logUrl: Swift.String?
         /// Provides test case run start time.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Provides the test case run status. Status is one of the following:
         ///
         /// * PASS: Test passed.
@@ -1672,10 +1675,10 @@ extension IotDeviceAdvisorClientTypes {
         public var warnings: Swift.String?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             failure: Swift.String? = nil,
             logUrl: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: IotDeviceAdvisorClientTypes.Status? = nil,
             testCaseDefinitionId: Swift.String? = nil,
             testCaseDefinitionName: Swift.String? = nil,
@@ -1872,14 +1875,14 @@ extension IotDeviceAdvisorClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -1916,7 +1919,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -1928,7 +1931,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1980,7 +1983,7 @@ public struct UpdateSuiteDefinitionInput {
 
 extension UpdateSuiteDefinitionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSuiteDefinitionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSuiteDefinitionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1997,9 +2000,9 @@ extension UpdateSuiteDefinitionOutput {
 
 public struct UpdateSuiteDefinitionOutput {
     /// Timestamp of when the test suite was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Timestamp of when the test suite was updated.
-    public var lastUpdatedAt: ClientRuntime.Date?
+    public var lastUpdatedAt: Foundation.Date?
     /// Amazon Resource Name (ARN) of the updated test suite.
     public var suiteDefinitionArn: Swift.String?
     /// Suite definition ID of the updated test suite.
@@ -2010,8 +2013,8 @@ public struct UpdateSuiteDefinitionOutput {
     public var suiteDefinitionVersion: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
-        lastUpdatedAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
         suiteDefinitionArn: Swift.String? = nil,
         suiteDefinitionId: Swift.String? = nil,
         suiteDefinitionName: Swift.String? = nil,
@@ -2029,7 +2032,7 @@ public struct UpdateSuiteDefinitionOutput {
 
 enum UpdateSuiteDefinitionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

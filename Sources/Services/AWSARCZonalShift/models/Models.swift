@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -154,12 +157,12 @@ extension ARCZonalShiftClientTypes {
         public var awayFrom: Swift.String?
         /// The time (UTC) when the autoshift started.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
             appliedStatus: ARCZonalShiftClientTypes.AutoshiftAppliedStatus? = nil,
             awayFrom: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.appliedStatus = appliedStatus
@@ -191,18 +194,18 @@ extension ARCZonalShiftClientTypes {
         public var awayFrom: Swift.String?
         /// The time (in UTC) when the autoshift ended.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The time (in UTC) when the autoshift started.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The status for an autoshift.
         /// This member is required.
         public var status: ARCZonalShiftClientTypes.AutoshiftExecutionStatus?
 
         public init(
             awayFrom: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: ARCZonalShiftClientTypes.AutoshiftExecutionStatus? = nil
         )
         {
@@ -240,7 +243,7 @@ public struct CancelZonalShiftInput {
 
 extension CancelZonalShiftOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelZonalShiftOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelZonalShiftOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -265,13 +268,13 @@ public struct CancelZonalShiftOutput {
     public var comment: Swift.String?
     /// The expiry time (expiration time) for a customer-started zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
     /// This member is required.
-    public var expiryTime: ClientRuntime.Date?
+    public var expiryTime: Foundation.Date?
     /// The identifier for the resource to shift away traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
     /// The time (UTC) when the zonal shift starts.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// A status for a zonal shift. The Status for a zonal shift can have one of the following values:
     ///
     /// * ACTIVE: The zonal shift has been started and active.
@@ -288,9 +291,9 @@ public struct CancelZonalShiftOutput {
     public init(
         awayFrom: Swift.String? = nil,
         comment: Swift.String? = nil,
-        expiryTime: ClientRuntime.Date? = nil,
+        expiryTime: Foundation.Date? = nil,
         resourceIdentifier: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil,
         zonalShiftId: Swift.String? = nil
     )
@@ -307,7 +310,7 @@ public struct CancelZonalShiftOutput {
 
 enum CancelZonalShiftOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -530,7 +533,7 @@ public struct CreatePracticeRunConfigurationInput {
 
 extension CreatePracticeRunConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePracticeRunConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePracticeRunConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -573,7 +576,7 @@ public struct CreatePracticeRunConfigurationOutput {
 
 enum CreatePracticeRunConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -615,7 +618,7 @@ public struct DeletePracticeRunConfigurationInput {
 
 extension DeletePracticeRunConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePracticeRunConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePracticeRunConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -652,7 +655,7 @@ public struct DeletePracticeRunConfigurationOutput {
 
 enum DeletePracticeRunConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -694,7 +697,7 @@ public struct GetManagedResourceInput {
 
 extension GetManagedResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetManagedResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetManagedResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -750,7 +753,7 @@ public struct GetManagedResourceOutput {
 
 enum GetManagedResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -805,18 +808,18 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListAutoshiftsInput {
 
-    static func queryItemProvider(_ value: ListAutoshiftsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAutoshiftsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         return items
@@ -852,7 +855,7 @@ public struct ListAutoshiftsInput {
 
 extension ListAutoshiftsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAutoshiftsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAutoshiftsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -881,7 +884,7 @@ public struct ListAutoshiftsOutput {
 
 enum ListAutoshiftsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -898,14 +901,14 @@ enum ListAutoshiftsOutputError {
 
 extension ListManagedResourcesInput {
 
-    static func queryItemProvider(_ value: ListManagedResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListManagedResourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -937,7 +940,7 @@ public struct ListManagedResourcesInput {
 
 extension ListManagedResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListManagedResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListManagedResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -967,7 +970,7 @@ public struct ListManagedResourcesOutput {
 
 enum ListManagedResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -984,22 +987,22 @@ enum ListManagedResourcesOutputError {
 
 extension ListZonalShiftsInput {
 
-    static func queryItemProvider(_ value: ListZonalShiftsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListZonalShiftsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let resourceIdentifier = value.resourceIdentifier {
-            let resourceIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceIdentifier".urlPercentEncoding(), value: Swift.String(resourceIdentifier).urlPercentEncoding())
+            let resourceIdentifierQueryItem = Smithy.URIQueryItem(name: "resourceIdentifier".urlPercentEncoding(), value: Swift.String(resourceIdentifier).urlPercentEncoding())
             items.append(resourceIdentifierQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let status = value.status {
-            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
         }
         return items
@@ -1045,7 +1048,7 @@ public struct ListZonalShiftsInput {
 
 extension ListZonalShiftsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListZonalShiftsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListZonalShiftsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1074,7 +1077,7 @@ public struct ListZonalShiftsOutput {
 
 enum ListZonalShiftsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1321,7 +1324,7 @@ public struct StartZonalShiftInput {
 
 extension StartZonalShiftOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartZonalShiftOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartZonalShiftOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1346,13 +1349,13 @@ public struct StartZonalShiftOutput {
     public var comment: Swift.String?
     /// The expiry time (expiration time) for a customer-started zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
     /// This member is required.
-    public var expiryTime: ClientRuntime.Date?
+    public var expiryTime: Foundation.Date?
     /// The identifier for the resource to shift away traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
     /// The time (UTC) when the zonal shift starts.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// A status for a zonal shift. The Status for a zonal shift can have one of the following values:
     ///
     /// * ACTIVE: The zonal shift has been started and active.
@@ -1369,9 +1372,9 @@ public struct StartZonalShiftOutput {
     public init(
         awayFrom: Swift.String? = nil,
         comment: Swift.String? = nil,
-        expiryTime: ClientRuntime.Date? = nil,
+        expiryTime: Foundation.Date? = nil,
         resourceIdentifier: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil,
         zonalShiftId: Swift.String? = nil
     )
@@ -1388,7 +1391,7 @@ public struct StartZonalShiftOutput {
 
 enum StartZonalShiftOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1494,7 +1497,7 @@ public struct UpdatePracticeRunConfigurationInput {
 
 extension UpdatePracticeRunConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePracticeRunConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePracticeRunConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1537,7 +1540,7 @@ public struct UpdatePracticeRunConfigurationOutput {
 
 enum UpdatePracticeRunConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1592,7 +1595,7 @@ public struct UpdateZonalAutoshiftConfigurationInput {
 
 extension UpdateZonalAutoshiftConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateZonalAutoshiftConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateZonalAutoshiftConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1623,7 +1626,7 @@ public struct UpdateZonalAutoshiftConfigurationOutput {
 
 enum UpdateZonalAutoshiftConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1689,7 +1692,7 @@ public struct UpdateZonalShiftInput {
 
 extension UpdateZonalShiftOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateZonalShiftOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateZonalShiftOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1714,13 +1717,13 @@ public struct UpdateZonalShiftOutput {
     public var comment: Swift.String?
     /// The expiry time (expiration time) for a customer-started zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
     /// This member is required.
-    public var expiryTime: ClientRuntime.Date?
+    public var expiryTime: Foundation.Date?
     /// The identifier for the resource to shift away traffic for. The identifier is the Amazon Resource Name (ARN) for the resource. At this time, supported resources are Network Load Balancers and Application Load Balancers with cross-zone load balancing turned off.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
     /// The time (UTC) when the zonal shift starts.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// A status for a zonal shift. The Status for a zonal shift can have one of the following values:
     ///
     /// * ACTIVE: The zonal shift has been started and active.
@@ -1737,9 +1740,9 @@ public struct UpdateZonalShiftOutput {
     public init(
         awayFrom: Swift.String? = nil,
         comment: Swift.String? = nil,
-        expiryTime: ClientRuntime.Date? = nil,
+        expiryTime: Foundation.Date? = nil,
         resourceIdentifier: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil,
         zonalShiftId: Swift.String? = nil
     )
@@ -1756,7 +1759,7 @@ public struct UpdateZonalShiftOutput {
 
 enum UpdateZonalShiftOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1930,7 +1933,7 @@ extension ARCZonalShiftClientTypes {
         public var comment: Swift.String?
         /// The expiry time (expiration time) for a customer-started zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
         /// This member is required.
-        public var expiryTime: ClientRuntime.Date?
+        public var expiryTime: Foundation.Date?
         /// The outcome, or end state, returned for a practice run. The following values can be returned:
         ///
         /// * PENDING: Outcome value when a practice run is in progress.
@@ -1949,7 +1952,7 @@ extension ARCZonalShiftClientTypes {
         public var resourceIdentifier: Swift.String?
         /// The time (UTC) when the zonal shift starts.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The identifier of a zonal shift.
         /// This member is required.
         public var zonalShiftId: Swift.String?
@@ -1958,10 +1961,10 @@ extension ARCZonalShiftClientTypes {
             appliedStatus: ARCZonalShiftClientTypes.AppliedStatus? = nil,
             awayFrom: Swift.String? = nil,
             comment: Swift.String? = nil,
-            expiryTime: ClientRuntime.Date? = nil,
+            expiryTime: Foundation.Date? = nil,
             practiceRunOutcome: ARCZonalShiftClientTypes.PracticeRunOutcome? = nil,
             resourceIdentifier: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             zonalShiftId: Swift.String? = nil
         )
         {
@@ -2038,7 +2041,7 @@ extension ARCZonalShiftClientTypes {
         public var comment: Swift.String?
         /// The expiry time (expiration time) for a customer-started zonal shift. A zonal shift is temporary and must be set to expire when you start the zonal shift. You can initially set a zonal shift to expire in a maximum of three days (72 hours). However, you can update a zonal shift to set a new expiration at any time. When you start a zonal shift, you specify how long you want it to be active, which Route 53 ARC converts to an expiry time (expiration time). You can cancel a zonal shift when you're ready to restore traffic to the Availability Zone, or just wait for it to expire. Or you can update the zonal shift to specify another length of time to expire in.
         /// This member is required.
-        public var expiryTime: ClientRuntime.Date?
+        public var expiryTime: Foundation.Date?
         /// The outcome, or end state, of a practice run. The following values can be returned:
         ///
         /// * PENDING: Outcome value when the practice run is in progress.
@@ -2057,7 +2060,7 @@ extension ARCZonalShiftClientTypes {
         public var resourceIdentifier: Swift.String?
         /// The time (UTC) when the zonal shift starts.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// A status for a zonal shift. The Status for a zonal shift can have one of the following values:
         ///
         /// * ACTIVE: The zonal shift has been started and active.
@@ -2074,10 +2077,10 @@ extension ARCZonalShiftClientTypes {
         public init(
             awayFrom: Swift.String? = nil,
             comment: Swift.String? = nil,
-            expiryTime: ClientRuntime.Date? = nil,
+            expiryTime: Foundation.Date? = nil,
             practiceRunOutcome: ARCZonalShiftClientTypes.PracticeRunOutcome? = nil,
             resourceIdentifier: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: ARCZonalShiftClientTypes.ZonalShiftStatus? = nil,
             zonalShiftId: Swift.String? = nil
         )

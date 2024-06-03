@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -193,7 +195,7 @@ public struct CreateParallelDataInput {
 
 extension CreateParallelDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateParallelDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateParallelDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -222,7 +224,7 @@ public struct CreateParallelDataOutput {
 
 enum CreateParallelDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -271,7 +273,7 @@ public struct DeleteParallelDataInput {
 
 extension DeleteParallelDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteParallelDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteParallelDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -300,7 +302,7 @@ public struct DeleteParallelDataOutput {
 
 enum DeleteParallelDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -345,7 +347,7 @@ public struct DeleteTerminologyInput {
 
 extension DeleteTerminologyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTerminologyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTerminologyOutput {
         return DeleteTerminologyOutput()
     }
 }
@@ -357,7 +359,7 @@ public struct DeleteTerminologyOutput {
 
 enum DeleteTerminologyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -402,7 +404,7 @@ public struct DescribeTextTranslationJobInput {
 
 extension DescribeTextTranslationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTextTranslationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTextTranslationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -426,7 +428,7 @@ public struct DescribeTextTranslationJobOutput {
 
 enum DescribeTextTranslationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -583,7 +585,7 @@ extension TranslateClientTypes {
     public struct Document {
         /// The Contentfield type is Binary large object (blob). This object contains the document content converted into base64-encoded binary data. If you use one of the AWS SDKs, the SDK performs the Base64-encoding on this field before sending the request.
         /// This member is required.
-        public var content: ClientRuntime.Data?
+        public var content: Foundation.Data?
         /// Describes the format of the document. You can specify one of the following:
         ///
         /// * text/html - The input data consists of HTML content. Amazon Translate translates only the text in the HTML element.
@@ -595,7 +597,7 @@ extension TranslateClientTypes {
         public var contentType: Swift.String?
 
         public init(
-            content: ClientRuntime.Data? = nil,
+            content: Foundation.Data? = nil,
             contentType: Swift.String? = nil
         )
         {
@@ -730,7 +732,7 @@ public struct GetParallelDataInput {
 
 extension GetParallelDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetParallelDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetParallelDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -769,7 +771,7 @@ public struct GetParallelDataOutput {
 
 enum GetParallelDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -819,7 +821,7 @@ public struct GetTerminologyInput {
 
 extension GetTerminologyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTerminologyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTerminologyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -853,7 +855,7 @@ public struct GetTerminologyOutput {
 
 enum GetTerminologyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -925,7 +927,7 @@ public struct ImportTerminologyInput {
 
 extension ImportTerminologyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportTerminologyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportTerminologyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -954,7 +956,7 @@ public struct ImportTerminologyOutput {
 
 enum ImportTerminologyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1362,7 +1364,7 @@ public struct ListLanguagesInput {
 
 extension ListLanguagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLanguagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLanguagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1396,7 +1398,7 @@ public struct ListLanguagesOutput {
 
 enum ListLanguagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1445,7 +1447,7 @@ public struct ListParallelDataInput {
 
 extension ListParallelDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListParallelDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListParallelDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1474,7 +1476,7 @@ public struct ListParallelDataOutput {
 
 enum ListParallelDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1518,7 +1520,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1542,7 +1544,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1590,7 +1592,7 @@ public struct ListTerminologiesInput {
 
 extension ListTerminologiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTerminologiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTerminologiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1619,7 +1621,7 @@ public struct ListTerminologiesOutput {
 
 enum ListTerminologiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1672,7 +1674,7 @@ public struct ListTextTranslationJobsInput {
 
 extension ListTextTranslationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTextTranslationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTextTranslationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1701,7 +1703,7 @@ public struct ListTextTranslationJobsOutput {
 
 enum ListTextTranslationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1914,7 +1916,7 @@ extension TranslateClientTypes {
         /// The Amazon Resource Name (ARN) of the parallel data resource.
         public var arn: Swift.String?
         /// The time at which the parallel data resource was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description assigned to the parallel data resource.
         public var description: Swift.String?
         /// The encryption key used to encrypt this object.
@@ -1926,9 +1928,9 @@ extension TranslateClientTypes {
         /// The number of records successfully imported from the parallel data input file.
         public var importedRecordCount: Swift.Int?
         /// The time at which the parallel data resource was last updated.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// The time that the most recent update was attempted.
-        public var latestUpdateAttemptAt: ClientRuntime.Date?
+        public var latestUpdateAttemptAt: Foundation.Date?
         /// The status of the most recent update attempt for the parallel data resource.
         public var latestUpdateAttemptStatus: TranslateClientTypes.ParallelDataStatus?
         /// Additional information from Amazon Translate about the parallel data resource.
@@ -1948,14 +1950,14 @@ extension TranslateClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             encryptionKey: TranslateClientTypes.EncryptionKey? = nil,
             failedRecordCount: Swift.Int? = nil,
             importedDataSize: Swift.Int? = nil,
             importedRecordCount: Swift.Int? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
-            latestUpdateAttemptAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            latestUpdateAttemptAt: Foundation.Date? = nil,
             latestUpdateAttemptStatus: TranslateClientTypes.ParallelDataStatus? = nil,
             message: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -2212,7 +2214,7 @@ public struct StartTextTranslationJobInput {
 
 extension StartTextTranslationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartTextTranslationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartTextTranslationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2255,7 +2257,7 @@ public struct StartTextTranslationJobOutput {
 
 enum StartTextTranslationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2302,7 +2304,7 @@ public struct StopTextTranslationJobInput {
 
 extension StopTextTranslationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopTextTranslationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopTextTranslationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2331,7 +2333,7 @@ public struct StopTextTranslationJobOutput {
 
 enum StopTextTranslationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2420,7 +2422,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2432,7 +2434,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2501,14 +2503,14 @@ extension TranslateClientTypes {
         public var directionality: TranslateClientTypes.Directionality?
         /// The file containing the custom terminology data. Your version of the AWS SDK performs a Base64-encoding on this field before sending a request to the AWS service. Users of the SDK should not perform Base64-encoding themselves.
         /// This member is required.
-        public var file: ClientRuntime.Data?
+        public var file: Foundation.Data?
         /// The data format of the custom terminology.
         /// This member is required.
         public var format: TranslateClientTypes.TerminologyDataFormat?
 
         public init(
             directionality: TranslateClientTypes.Directionality? = nil,
-            file: ClientRuntime.Data? = nil,
+            file: Foundation.Data? = nil,
             format: TranslateClientTypes.TerminologyDataFormat? = nil
         )
         {
@@ -2614,7 +2616,7 @@ extension TranslateClientTypes {
         /// The Amazon Resource Name (ARN) of the custom terminology.
         public var arn: Swift.String?
         /// The time at which the custom terminology was created, based on the timestamp.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The description of the custom terminology properties.
         public var description: Swift.String?
         /// The directionality of your terminology resource indicates whether it has one source language (uni-directional) or multiple (multi-directional). UNI The terminology resource has one source language (the first column in a CSV file), and all of its other languages are target languages. MULTI Any language in the terminology resource can be the source language.
@@ -2624,7 +2626,7 @@ extension TranslateClientTypes {
         /// The format of the custom terminology input file.
         public var format: TranslateClientTypes.TerminologyDataFormat?
         /// The time at which the custom terminology was last update, based on the timestamp.
-        public var lastUpdatedAt: ClientRuntime.Date?
+        public var lastUpdatedAt: Foundation.Date?
         /// Additional information from Amazon Translate about the terminology resource.
         public var message: Swift.String?
         /// The name of the custom terminology.
@@ -2642,12 +2644,12 @@ extension TranslateClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             directionality: TranslateClientTypes.Directionality? = nil,
             encryptionKey: TranslateClientTypes.EncryptionKey? = nil,
             format: TranslateClientTypes.TerminologyDataFormat? = nil,
-            lastUpdatedAt: ClientRuntime.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
             message: Swift.String? = nil,
             name: Swift.String? = nil,
             sizeBytes: Swift.Int? = nil,
@@ -2732,15 +2734,15 @@ extension TranslateClientTypes {
         /// Filters the list of jobs based by job status.
         public var jobStatus: TranslateClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing and returns only the jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submittedAfterTime: ClientRuntime.Date?
+        public var submittedAfterTime: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing and returns only the jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submittedBeforeTime: ClientRuntime.Date?
+        public var submittedBeforeTime: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: TranslateClientTypes.JobStatus? = nil,
-            submittedAfterTime: ClientRuntime.Date? = nil,
-            submittedBeforeTime: ClientRuntime.Date? = nil
+            submittedAfterTime: Foundation.Date? = nil,
+            submittedBeforeTime: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -2782,7 +2784,7 @@ extension TranslateClientTypes {
         /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management (IAM) role that granted Amazon Translate read access to the job's input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time at which the translation job ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The input configuration properties that were specified when the job was requested.
         public var inputDataConfig: TranslateClientTypes.InputDataConfig?
         /// The number of documents successfully and unsuccessfully processed during the translation job.
@@ -2804,7 +2806,7 @@ extension TranslateClientTypes {
         /// The language code of the language of the source text. The language must be a language supported by Amazon Translate.
         public var sourceLanguageCode: Swift.String?
         /// The time at which the translation job was submitted.
-        public var submittedTime: ClientRuntime.Date?
+        public var submittedTime: Foundation.Date?
         /// The language code of the language of the target text. The language must be a language supported by Amazon Translate.
         public var targetLanguageCodes: [Swift.String]?
         /// A list containing the names of the terminologies applied to a translation job. Only one terminology can be applied per [StartTextTranslationJob] request at this time.
@@ -2812,7 +2814,7 @@ extension TranslateClientTypes {
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             inputDataConfig: TranslateClientTypes.InputDataConfig? = nil,
             jobDetails: TranslateClientTypes.JobDetails? = nil,
             jobId: Swift.String? = nil,
@@ -2823,7 +2825,7 @@ extension TranslateClientTypes {
             parallelDataNames: [Swift.String]? = nil,
             settings: TranslateClientTypes.TranslationSettings? = nil,
             sourceLanguageCode: Swift.String? = nil,
-            submittedTime: ClientRuntime.Date? = nil,
+            submittedTime: Foundation.Date? = nil,
             targetLanguageCodes: [Swift.String]? = nil,
             terminologyNames: [Swift.String]? = nil
         )
@@ -2986,7 +2988,7 @@ public struct TranslateDocumentInput {
 
 extension TranslateDocumentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TranslateDocumentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TranslateDocumentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3039,7 +3041,7 @@ public struct TranslateDocumentOutput {
 
 enum TranslateDocumentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3115,7 +3117,7 @@ public struct TranslateTextInput {
 
 extension TranslateTextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TranslateTextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TranslateTextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3162,7 +3164,7 @@ public struct TranslateTextOutput {
 
 enum TranslateTextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3201,10 +3203,10 @@ extension TranslateClientTypes {
     public struct TranslatedDocument {
         /// The document containing the translated content.
         /// This member is required.
-        public var content: ClientRuntime.Data?
+        public var content: Foundation.Data?
 
         public init(
-            content: ClientRuntime.Data? = nil
+            content: Foundation.Data? = nil
         )
         {
             self.content = content
@@ -3387,7 +3389,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3399,7 +3401,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3461,7 +3463,7 @@ public struct UpdateParallelDataInput {
 
 extension UpdateParallelDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateParallelDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateParallelDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3476,7 +3478,7 @@ extension UpdateParallelDataOutput {
 
 public struct UpdateParallelDataOutput {
     /// The time that the most recent update was attempted.
-    public var latestUpdateAttemptAt: ClientRuntime.Date?
+    public var latestUpdateAttemptAt: Foundation.Date?
     /// The status of the parallel data update attempt. When the updated parallel data resource is ready for you to use, the status is ACTIVE.
     public var latestUpdateAttemptStatus: TranslateClientTypes.ParallelDataStatus?
     /// The name of the parallel data resource being updated.
@@ -3485,7 +3487,7 @@ public struct UpdateParallelDataOutput {
     public var status: TranslateClientTypes.ParallelDataStatus?
 
     public init(
-        latestUpdateAttemptAt: ClientRuntime.Date? = nil,
+        latestUpdateAttemptAt: Foundation.Date? = nil,
         latestUpdateAttemptStatus: TranslateClientTypes.ParallelDataStatus? = nil,
         name: Swift.String? = nil,
         status: TranslateClientTypes.ParallelDataStatus? = nil
@@ -3500,7 +3502,7 @@ public struct UpdateParallelDataOutput {
 
 enum UpdateParallelDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

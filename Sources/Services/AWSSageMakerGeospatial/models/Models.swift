@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -599,7 +602,7 @@ public struct DeleteEarthObservationJobInput {
 
 extension DeleteEarthObservationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEarthObservationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEarthObservationJobOutput {
         return DeleteEarthObservationJobOutput()
     }
 }
@@ -611,7 +614,7 @@ public struct DeleteEarthObservationJobOutput {
 
 enum DeleteEarthObservationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -653,7 +656,7 @@ public struct DeleteVectorEnrichmentJobInput {
 
 extension DeleteVectorEnrichmentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVectorEnrichmentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVectorEnrichmentJobOutput {
         return DeleteVectorEnrichmentJobOutput()
     }
 }
@@ -665,7 +668,7 @@ public struct DeleteVectorEnrichmentJobOutput {
 
 enum DeleteVectorEnrichmentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -925,7 +928,7 @@ public struct ExportEarthObservationJobInput {
 
 extension ExportEarthObservationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportEarthObservationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportEarthObservationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -946,7 +949,7 @@ public struct ExportEarthObservationJobOutput {
     public var arn: Swift.String?
     /// The creation time.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the IAM role that you specified for the job.
     /// This member is required.
     public var executionRoleArn: Swift.String?
@@ -961,7 +964,7 @@ public struct ExportEarthObservationJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         executionRoleArn: Swift.String? = nil,
         exportSourceImages: Swift.Bool? = nil,
         exportStatus: SageMakerGeospatialClientTypes.EarthObservationJobExportStatus? = nil,
@@ -979,7 +982,7 @@ public struct ExportEarthObservationJobOutput {
 
 enum ExportEarthObservationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1175,7 +1178,7 @@ public struct ExportVectorEnrichmentJobInput {
 
 extension ExportVectorEnrichmentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExportVectorEnrichmentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExportVectorEnrichmentJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1195,7 +1198,7 @@ public struct ExportVectorEnrichmentJobOutput {
     public var arn: Swift.String?
     /// The creation time.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the IAM role with permission to upload to the location in OutputConfig.
     /// This member is required.
     public var executionRoleArn: Swift.String?
@@ -1208,7 +1211,7 @@ public struct ExportVectorEnrichmentJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         executionRoleArn: Swift.String? = nil,
         exportStatus: SageMakerGeospatialClientTypes.VectorEnrichmentJobExportStatus? = nil,
         outputConfig: SageMakerGeospatialClientTypes.ExportVectorEnrichmentJobOutputConfig? = nil
@@ -1256,7 +1259,7 @@ extension SageMakerGeospatialClientTypes {
 
 enum ExportVectorEnrichmentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1412,7 +1415,7 @@ public struct GetEarthObservationJobInput {
 
 extension GetEarthObservationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEarthObservationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEarthObservationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1441,7 +1444,7 @@ public struct GetEarthObservationJobOutput {
     public var arn: Swift.String?
     /// The creation time of the initiated Earth Observation job.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The duration of Earth Observation job, in seconds.
     /// This member is required.
     public var durationInSeconds: Swift.Int?
@@ -1474,7 +1477,7 @@ public struct GetEarthObservationJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         durationInSeconds: Swift.Int? = nil,
         errorDetails: SageMakerGeospatialClientTypes.EarthObservationJobErrorDetails? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -1508,7 +1511,7 @@ public struct GetEarthObservationJobOutput {
 
 enum GetEarthObservationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1549,7 +1552,7 @@ public struct GetRasterDataCollectionInput {
 
 extension GetRasterDataCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRasterDataCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRasterDataCollectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1615,7 +1618,7 @@ public struct GetRasterDataCollectionOutput {
 
 enum GetRasterDataCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1633,51 +1636,51 @@ enum GetRasterDataCollectionOutputError {
 
 extension GetTileInput {
 
-    static func queryItemProvider(_ value: GetTileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetTileInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let imageAssets = value.imageAssets else {
             let message = "Creating a URL Query Item failed. imageAssets is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         imageAssets.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "ImageAssets".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "ImageAssets".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         if let imageMask = value.imageMask {
-            let imageMaskQueryItem = ClientRuntime.SDKURLQueryItem(name: "ImageMask".urlPercentEncoding(), value: Swift.String(imageMask).urlPercentEncoding())
+            let imageMaskQueryItem = Smithy.URIQueryItem(name: "ImageMask".urlPercentEncoding(), value: Swift.String(imageMask).urlPercentEncoding())
             items.append(imageMaskQueryItem)
         }
         if let executionRoleArn = value.executionRoleArn {
-            let executionRoleArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "ExecutionRoleArn".urlPercentEncoding(), value: Swift.String(executionRoleArn).urlPercentEncoding())
+            let executionRoleArnQueryItem = Smithy.URIQueryItem(name: "ExecutionRoleArn".urlPercentEncoding(), value: Swift.String(executionRoleArn).urlPercentEncoding())
             items.append(executionRoleArnQueryItem)
         }
         guard let target = value.target else {
             let message = "Creating a URL Query Item failed. target is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let targetQueryItem = ClientRuntime.SDKURLQueryItem(name: "Target".urlPercentEncoding(), value: Swift.String(target.rawValue).urlPercentEncoding())
+        let targetQueryItem = Smithy.URIQueryItem(name: "Target".urlPercentEncoding(), value: Swift.String(target.rawValue).urlPercentEncoding())
         items.append(targetQueryItem)
         if let propertyFilters = value.propertyFilters {
-            let propertyFiltersQueryItem = ClientRuntime.SDKURLQueryItem(name: "PropertyFilters".urlPercentEncoding(), value: Swift.String(propertyFilters).urlPercentEncoding())
+            let propertyFiltersQueryItem = Smithy.URIQueryItem(name: "PropertyFilters".urlPercentEncoding(), value: Swift.String(propertyFilters).urlPercentEncoding())
             items.append(propertyFiltersQueryItem)
         }
         if let outputDataType = value.outputDataType {
-            let outputDataTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "OutputDataType".urlPercentEncoding(), value: Swift.String(outputDataType.rawValue).urlPercentEncoding())
+            let outputDataTypeQueryItem = Smithy.URIQueryItem(name: "OutputDataType".urlPercentEncoding(), value: Swift.String(outputDataType.rawValue).urlPercentEncoding())
             items.append(outputDataTypeQueryItem)
         }
         if let timeRangeFilter = value.timeRangeFilter {
-            let timeRangeFilterQueryItem = ClientRuntime.SDKURLQueryItem(name: "TimeRangeFilter".urlPercentEncoding(), value: Swift.String(timeRangeFilter).urlPercentEncoding())
+            let timeRangeFilterQueryItem = Smithy.URIQueryItem(name: "TimeRangeFilter".urlPercentEncoding(), value: Swift.String(timeRangeFilter).urlPercentEncoding())
             items.append(timeRangeFilterQueryItem)
         }
         if let outputFormat = value.outputFormat {
-            let outputFormatQueryItem = ClientRuntime.SDKURLQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat).urlPercentEncoding())
+            let outputFormatQueryItem = Smithy.URIQueryItem(name: "OutputFormat".urlPercentEncoding(), value: Swift.String(outputFormat).urlPercentEncoding())
             items.append(outputFormatQueryItem)
         }
         guard let arn = value.arn else {
             let message = "Creating a URL Query Item failed. arn is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let arnQueryItem = ClientRuntime.SDKURLQueryItem(name: "Arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
+        let arnQueryItem = Smithy.URIQueryItem(name: "Arn".urlPercentEncoding(), value: Swift.String(arn).urlPercentEncoding())
         items.append(arnQueryItem)
         return items
     }
@@ -1763,7 +1766,7 @@ public struct GetTileInput {
 
 extension GetTileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTileOutput {
         var value = GetTileOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -1779,10 +1782,10 @@ extension GetTileOutput {
 
 public struct GetTileOutput {
     /// The output binary file.
-    public var binaryFile: ClientRuntime.ByteStream?
+    public var binaryFile: Smithy.ByteStream?
 
     public init(
-        binaryFile: ClientRuntime.ByteStream? = nil
+        binaryFile: Smithy.ByteStream? = nil
     )
     {
         self.binaryFile = binaryFile
@@ -1791,7 +1794,7 @@ public struct GetTileOutput {
 
 enum GetTileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1832,7 +1835,7 @@ public struct GetVectorEnrichmentJobInput {
 
 extension GetVectorEnrichmentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVectorEnrichmentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVectorEnrichmentJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1861,7 +1864,7 @@ public struct GetVectorEnrichmentJobOutput {
     public var arn: Swift.String?
     /// The creation time.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The duration of the Vector Enrichment job, in seconds.
     /// This member is required.
     public var durationInSeconds: Swift.Int?
@@ -1896,7 +1899,7 @@ public struct GetVectorEnrichmentJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         durationInSeconds: Swift.Int? = nil,
         errorDetails: SageMakerGeospatialClientTypes.VectorEnrichmentJobErrorDetails? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -1930,7 +1933,7 @@ public struct GetVectorEnrichmentJobOutput {
 
 enum GetVectorEnrichmentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2101,7 +2104,7 @@ extension SageMakerGeospatialClientTypes {
         public var assets: [Swift.String:SageMakerGeospatialClientTypes.AssetValue]?
         /// The searchable date and time of the item, in UTC.
         /// This member is required.
-        public var dateTime: ClientRuntime.Date?
+        public var dateTime: Foundation.Date?
         /// The item Geometry in GeoJson format.
         /// This member is required.
         public var geometry: SageMakerGeospatialClientTypes.Geometry?
@@ -2113,7 +2116,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             assets: [Swift.String:SageMakerGeospatialClientTypes.AssetValue]? = nil,
-            dateTime: ClientRuntime.Date? = nil,
+            dateTime: Foundation.Date? = nil,
             geometry: SageMakerGeospatialClientTypes.Geometry? = nil,
             id: Swift.String? = nil,
             properties: SageMakerGeospatialClientTypes.Properties? = nil
@@ -2296,7 +2299,7 @@ extension SageMakerGeospatialClientTypes {
         public var arn: Swift.String?
         /// The creation time.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The duration of the session, in seconds.
         /// This member is required.
         public var durationInSeconds: Swift.Int?
@@ -2314,7 +2317,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             durationInSeconds: Swift.Int? = nil,
             name: Swift.String? = nil,
             operationType: Swift.String? = nil,
@@ -2393,7 +2396,7 @@ extension ListEarthObservationJobsOutput: Swift.CustomDebugStringConvertible {
 
 extension ListEarthObservationJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEarthObservationJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEarthObservationJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2423,7 +2426,7 @@ public struct ListEarthObservationJobsOutput {
 
 enum ListEarthObservationJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2446,14 +2449,14 @@ extension ListRasterDataCollectionsInput: Swift.CustomDebugStringConvertible {
 
 extension ListRasterDataCollectionsInput {
 
-    static func queryItemProvider(_ value: ListRasterDataCollectionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRasterDataCollectionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -2490,7 +2493,7 @@ extension ListRasterDataCollectionsOutput: Swift.CustomDebugStringConvertible {
 
 extension ListRasterDataCollectionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRasterDataCollectionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRasterDataCollectionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2520,7 +2523,7 @@ public struct ListRasterDataCollectionsOutput {
 
 enum ListRasterDataCollectionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2561,7 +2564,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2585,7 +2588,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2625,7 +2628,7 @@ extension SageMakerGeospatialClientTypes {
         public var arn: Swift.String?
         /// The creation time.
         /// This member is required.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The duration of the session, in seconds.
         /// This member is required.
         public var durationInSeconds: Swift.Int?
@@ -2643,7 +2646,7 @@ extension SageMakerGeospatialClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             durationInSeconds: Swift.Int? = nil,
             name: Swift.String? = nil,
             status: SageMakerGeospatialClientTypes.VectorEnrichmentJobStatus? = nil,
@@ -2722,7 +2725,7 @@ extension ListVectorEnrichmentJobsOutput: Swift.CustomDebugStringConvertible {
 
 extension ListVectorEnrichmentJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVectorEnrichmentJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVectorEnrichmentJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2752,7 +2755,7 @@ public struct ListVectorEnrichmentJobsOutput {
 
 enum ListVectorEnrichmentJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3776,7 +3779,7 @@ extension SearchRasterDataCollectionOutput: Swift.CustomDebugStringConvertible {
 
 extension SearchRasterDataCollectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchRasterDataCollectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchRasterDataCollectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3811,7 +3814,7 @@ public struct SearchRasterDataCollectionOutput {
 
 enum SearchRasterDataCollectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4001,7 +4004,7 @@ public struct StartEarthObservationJobInput {
 
 extension StartEarthObservationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartEarthObservationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartEarthObservationJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4026,7 +4029,7 @@ public struct StartEarthObservationJobOutput {
     public var arn: Swift.String?
     /// The creation time.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The duration of the session, in seconds.
     /// This member is required.
     public var durationInSeconds: Swift.Int?
@@ -4051,7 +4054,7 @@ public struct StartEarthObservationJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         durationInSeconds: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         inputConfig: SageMakerGeospatialClientTypes.InputConfigOutput? = nil,
@@ -4077,7 +4080,7 @@ public struct StartEarthObservationJobOutput {
 
 enum StartEarthObservationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4158,7 +4161,7 @@ public struct StartVectorEnrichmentJobInput {
 
 extension StartVectorEnrichmentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartVectorEnrichmentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartVectorEnrichmentJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4184,7 +4187,7 @@ public struct StartVectorEnrichmentJobOutput {
     public var arn: Swift.String?
     /// The creation time.
     /// This member is required.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The duration of the Vector Enrichment job, in seconds.
     /// This member is required.
     public var durationInSeconds: Swift.Int?
@@ -4213,7 +4216,7 @@ public struct StartVectorEnrichmentJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         durationInSeconds: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         inputConfig: SageMakerGeospatialClientTypes.VectorEnrichmentJobInputConfig? = nil,
@@ -4241,7 +4244,7 @@ public struct StartVectorEnrichmentJobOutput {
 
 enum StartVectorEnrichmentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4289,7 +4292,7 @@ public struct StopEarthObservationJobInput {
 
 extension StopEarthObservationJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopEarthObservationJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopEarthObservationJobOutput {
         return StopEarthObservationJobOutput()
     }
 }
@@ -4301,7 +4304,7 @@ public struct StopEarthObservationJobOutput {
 
 enum StopEarthObservationJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4348,7 +4351,7 @@ public struct StopVectorEnrichmentJobInput {
 
 extension StopVectorEnrichmentJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopVectorEnrichmentJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopVectorEnrichmentJobOutput {
         return StopVectorEnrichmentJobOutput()
     }
 }
@@ -4360,7 +4363,7 @@ public struct StopVectorEnrichmentJobOutput {
 
 enum StopVectorEnrichmentJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4415,7 +4418,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -4427,7 +4430,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4616,14 +4619,14 @@ extension SageMakerGeospatialClientTypes {
     public struct TimeRangeFilterInput {
         /// The end time for the time-range filter.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The start time for the time-range filter.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
         )
         {
             self.endTime = endTime
@@ -4655,14 +4658,14 @@ extension SageMakerGeospatialClientTypes {
     public struct TimeRangeFilterOutput {
         /// The ending time for the time range filter.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The starting time for the time range filter.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
         )
         {
             self.endTime = endTime
@@ -4701,14 +4704,14 @@ extension SageMakerGeospatialClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -4745,7 +4748,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -4757,7 +4760,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

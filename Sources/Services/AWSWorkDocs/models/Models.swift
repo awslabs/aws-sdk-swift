@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -12,8 +15,8 @@ extension AbortDocumentVersionUploadInput: Swift.CustomDebugStringConvertible {
 
 extension AbortDocumentVersionUploadInput {
 
-    static func headerProvider(_ value: AbortDocumentVersionUploadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AbortDocumentVersionUploadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -58,7 +61,7 @@ public struct AbortDocumentVersionUploadInput {
 
 extension AbortDocumentVersionUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AbortDocumentVersionUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AbortDocumentVersionUploadOutput {
         return AbortDocumentVersionUploadOutput()
     }
 }
@@ -70,7 +73,7 @@ public struct AbortDocumentVersionUploadOutput {
 
 enum AbortDocumentVersionUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -95,8 +98,8 @@ extension ActivateUserInput: Swift.CustomDebugStringConvertible {
 
 extension ActivateUserInput {
 
-    static func headerProvider(_ value: ActivateUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ActivateUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -133,7 +136,7 @@ public struct ActivateUserInput {
 
 extension ActivateUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ActivateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ActivateUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -157,7 +160,7 @@ public struct ActivateUserOutput {
 
 enum ActivateUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -209,7 +212,7 @@ extension WorkDocsClientTypes {
         /// The metadata of the resource involved in the user action.
         public var resourceMetadata: WorkDocsClientTypes.ResourceMetadata?
         /// The timestamp when the action was performed.
-        public var timeStamp: ClientRuntime.Date?
+        public var timeStamp: Foundation.Date?
         /// The activity type.
         public var type: WorkDocsClientTypes.ActivityType?
 
@@ -221,7 +224,7 @@ extension WorkDocsClientTypes {
             originalParent: WorkDocsClientTypes.ResourceMetadata? = nil,
             participants: WorkDocsClientTypes.Participants? = nil,
             resourceMetadata: WorkDocsClientTypes.ResourceMetadata? = nil,
-            timeStamp: ClientRuntime.Date? = nil,
+            timeStamp: Foundation.Date? = nil,
             type: WorkDocsClientTypes.ActivityType? = nil
         )
         {
@@ -368,8 +371,8 @@ extension AddResourcePermissionsInput: Swift.CustomDebugStringConvertible {
 
 extension AddResourcePermissionsInput {
 
-    static func headerProvider(_ value: AddResourcePermissionsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AddResourcePermissionsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -424,7 +427,7 @@ public struct AddResourcePermissionsInput {
 
 extension AddResourcePermissionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddResourcePermissionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddResourcePermissionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -448,7 +451,7 @@ public struct AddResourcePermissionsOutput {
 
 enum AddResourcePermissionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -551,7 +554,7 @@ extension WorkDocsClientTypes {
         /// The details of the user who made the comment.
         public var contributor: WorkDocsClientTypes.User?
         /// The time that the comment was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ID of the parent comment.
         public var parentId: Swift.String?
         /// If the comment is a reply to another user's comment, this field contains the user ID of the user being replied to.
@@ -568,7 +571,7 @@ extension WorkDocsClientTypes {
         public init(
             commentId: Swift.String? = nil,
             contributor: WorkDocsClientTypes.User? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             parentId: Swift.String? = nil,
             recipientId: Swift.String? = nil,
             status: WorkDocsClientTypes.CommentStatusType? = nil,
@@ -618,7 +621,7 @@ extension WorkDocsClientTypes {
         /// The ID of the user who made the comment.
         public var contributorId: Swift.String?
         /// The timestamp that the comment was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ID of the user being replied to.
         public var recipientId: Swift.String?
 
@@ -627,7 +630,7 @@ extension WorkDocsClientTypes {
             commentStatus: WorkDocsClientTypes.CommentStatusType? = nil,
             contributor: WorkDocsClientTypes.User? = nil,
             contributorId: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             recipientId: Swift.String? = nil
         )
         {
@@ -834,8 +837,8 @@ extension CreateCommentInput: Swift.CustomDebugStringConvertible {
 
 extension CreateCommentInput {
 
-    static func headerProvider(_ value: CreateCommentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateCommentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -913,7 +916,7 @@ public struct CreateCommentInput {
 
 extension CreateCommentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCommentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCommentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -937,7 +940,7 @@ public struct CreateCommentOutput {
 
 enum CreateCommentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -963,8 +966,8 @@ extension CreateCustomMetadataInput: Swift.CustomDebugStringConvertible {
 
 extension CreateCustomMetadataInput {
 
-    static func headerProvider(_ value: CreateCustomMetadataInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateCustomMetadataInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -974,10 +977,10 @@ extension CreateCustomMetadataInput {
 
 extension CreateCustomMetadataInput {
 
-    static func queryItemProvider(_ value: CreateCustomMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateCustomMetadataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionid".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionid".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         return items
@@ -1030,7 +1033,7 @@ public struct CreateCustomMetadataInput {
 
 extension CreateCustomMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCustomMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCustomMetadataOutput {
         return CreateCustomMetadataOutput()
     }
 }
@@ -1042,7 +1045,7 @@ public struct CreateCustomMetadataOutput {
 
 enum CreateCustomMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1067,8 +1070,8 @@ extension CreateFolderInput: Swift.CustomDebugStringConvertible {
 
 extension CreateFolderInput {
 
-    static func headerProvider(_ value: CreateFolderInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateFolderInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -1115,7 +1118,7 @@ public struct CreateFolderInput {
 
 extension CreateFolderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateFolderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateFolderOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1139,7 +1142,7 @@ public struct CreateFolderOutput {
 
 enum CreateFolderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1167,8 +1170,8 @@ extension CreateLabelsInput: Swift.CustomDebugStringConvertible {
 
 extension CreateLabelsInput {
 
-    static func headerProvider(_ value: CreateLabelsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateLabelsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -1218,7 +1221,7 @@ public struct CreateLabelsInput {
 
 extension CreateLabelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLabelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLabelsOutput {
         return CreateLabelsOutput()
     }
 }
@@ -1230,7 +1233,7 @@ public struct CreateLabelsOutput {
 
 enum CreateLabelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1297,7 +1300,7 @@ public struct CreateNotificationSubscriptionInput {
 
 extension CreateNotificationSubscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateNotificationSubscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateNotificationSubscriptionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1321,7 +1324,7 @@ public struct CreateNotificationSubscriptionOutput {
 
 enum CreateNotificationSubscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1343,8 +1346,8 @@ extension CreateUserInput: Swift.CustomDebugStringConvertible {
 
 extension CreateUserInput {
 
-    static func headerProvider(_ value: CreateUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -1424,7 +1427,7 @@ public struct CreateUserInput {
 
 extension CreateUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1448,7 +1451,7 @@ public struct CreateUserOutput {
 
 enum CreateUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1514,13 +1517,13 @@ extension WorkDocsClientTypes {
     /// Filters results based on timestamp range (in epochs).
     public struct DateRangeType {
         /// Timestamp range end value (in epochs).
-        public var endValue: ClientRuntime.Date?
+        public var endValue: Foundation.Date?
         /// Timestamp range start value (in epochs)
-        public var startValue: ClientRuntime.Date?
+        public var startValue: Foundation.Date?
 
         public init(
-            endValue: ClientRuntime.Date? = nil,
-            startValue: ClientRuntime.Date? = nil
+            endValue: Foundation.Date? = nil,
+            startValue: Foundation.Date? = nil
         )
         {
             self.endValue = endValue
@@ -1537,8 +1540,8 @@ extension DeactivateUserInput: Swift.CustomDebugStringConvertible {
 
 extension DeactivateUserInput {
 
-    static func headerProvider(_ value: DeactivateUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeactivateUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -1575,7 +1578,7 @@ public struct DeactivateUserInput {
 
 extension DeactivateUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeactivateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeactivateUserOutput {
         return DeactivateUserOutput()
     }
 }
@@ -1587,7 +1590,7 @@ public struct DeactivateUserOutput {
 
 enum DeactivateUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1651,8 +1654,8 @@ extension DeleteCommentInput: Swift.CustomDebugStringConvertible {
 
 extension DeleteCommentInput {
 
-    static func headerProvider(_ value: DeleteCommentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteCommentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -1705,7 +1708,7 @@ public struct DeleteCommentInput {
 
 extension DeleteCommentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCommentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCommentOutput {
         return DeleteCommentOutput()
     }
 }
@@ -1717,7 +1720,7 @@ public struct DeleteCommentOutput {
 
 enum DeleteCommentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1742,8 +1745,8 @@ extension DeleteCustomMetadataInput: Swift.CustomDebugStringConvertible {
 
 extension DeleteCustomMetadataInput {
 
-    static func headerProvider(_ value: DeleteCustomMetadataInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteCustomMetadataInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -1753,19 +1756,19 @@ extension DeleteCustomMetadataInput {
 
 extension DeleteCustomMetadataInput {
 
-    static func queryItemProvider(_ value: DeleteCustomMetadataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteCustomMetadataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let versionId = value.versionId {
-            let versionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
         if let deleteAll = value.deleteAll {
-            let deleteAllQueryItem = ClientRuntime.SDKURLQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
+            let deleteAllQueryItem = Smithy.URIQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
             items.append(deleteAllQueryItem)
         }
         if let keys = value.keys {
             keys.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "keys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "keys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -1814,7 +1817,7 @@ public struct DeleteCustomMetadataInput {
 
 extension DeleteCustomMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCustomMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCustomMetadataOutput {
         return DeleteCustomMetadataOutput()
     }
 }
@@ -1826,7 +1829,7 @@ public struct DeleteCustomMetadataOutput {
 
 enum DeleteCustomMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1850,8 +1853,8 @@ extension DeleteDocumentInput: Swift.CustomDebugStringConvertible {
 
 extension DeleteDocumentInput {
 
-    static func headerProvider(_ value: DeleteDocumentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteDocumentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -1888,7 +1891,7 @@ public struct DeleteDocumentInput {
 
 extension DeleteDocumentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDocumentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDocumentOutput {
         return DeleteDocumentOutput()
     }
 }
@@ -1900,7 +1903,7 @@ public struct DeleteDocumentOutput {
 
 enum DeleteDocumentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1927,8 +1930,8 @@ extension DeleteDocumentVersionInput: Swift.CustomDebugStringConvertible {
 
 extension DeleteDocumentVersionInput {
 
-    static func headerProvider(_ value: DeleteDocumentVersionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteDocumentVersionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -1938,13 +1941,13 @@ extension DeleteDocumentVersionInput {
 
 extension DeleteDocumentVersionInput {
 
-    static func queryItemProvider(_ value: DeleteDocumentVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteDocumentVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let deletePriorVersions = value.deletePriorVersions else {
             let message = "Creating a URL Query Item failed. deletePriorVersions is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let deletePriorVersionsQueryItem = ClientRuntime.SDKURLQueryItem(name: "deletePriorVersions".urlPercentEncoding(), value: Swift.String(deletePriorVersions).urlPercentEncoding())
+        let deletePriorVersionsQueryItem = Smithy.URIQueryItem(name: "deletePriorVersions".urlPercentEncoding(), value: Swift.String(deletePriorVersions).urlPercentEncoding())
         items.append(deletePriorVersionsQueryItem)
         return items
     }
@@ -1992,7 +1995,7 @@ public struct DeleteDocumentVersionInput {
 
 extension DeleteDocumentVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDocumentVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDocumentVersionOutput {
         return DeleteDocumentVersionOutput()
     }
 }
@@ -2004,7 +2007,7 @@ public struct DeleteDocumentVersionOutput {
 
 enum DeleteDocumentVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2030,8 +2033,8 @@ extension DeleteFolderContentsInput: Swift.CustomDebugStringConvertible {
 
 extension DeleteFolderContentsInput {
 
-    static func headerProvider(_ value: DeleteFolderContentsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteFolderContentsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -2068,7 +2071,7 @@ public struct DeleteFolderContentsInput {
 
 extension DeleteFolderContentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFolderContentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFolderContentsOutput {
         return DeleteFolderContentsOutput()
     }
 }
@@ -2080,7 +2083,7 @@ public struct DeleteFolderContentsOutput {
 
 enum DeleteFolderContentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2105,8 +2108,8 @@ extension DeleteFolderInput: Swift.CustomDebugStringConvertible {
 
 extension DeleteFolderInput {
 
-    static func headerProvider(_ value: DeleteFolderInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteFolderInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -2143,7 +2146,7 @@ public struct DeleteFolderInput {
 
 extension DeleteFolderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteFolderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteFolderOutput {
         return DeleteFolderOutput()
     }
 }
@@ -2155,7 +2158,7 @@ public struct DeleteFolderOutput {
 
 enum DeleteFolderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2182,8 +2185,8 @@ extension DeleteLabelsInput: Swift.CustomDebugStringConvertible {
 
 extension DeleteLabelsInput {
 
-    static func headerProvider(_ value: DeleteLabelsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteLabelsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -2193,15 +2196,15 @@ extension DeleteLabelsInput {
 
 extension DeleteLabelsInput {
 
-    static func queryItemProvider(_ value: DeleteLabelsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteLabelsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let deleteAll = value.deleteAll {
-            let deleteAllQueryItem = ClientRuntime.SDKURLQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
+            let deleteAllQueryItem = Smithy.URIQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
             items.append(deleteAllQueryItem)
         }
         if let labels = value.labels {
             labels.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "labels".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "labels".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
@@ -2246,7 +2249,7 @@ public struct DeleteLabelsInput {
 
 extension DeleteLabelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLabelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLabelsOutput {
         return DeleteLabelsOutput()
     }
 }
@@ -2258,7 +2261,7 @@ public struct DeleteLabelsOutput {
 
 enum DeleteLabelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2308,7 +2311,7 @@ public struct DeleteNotificationSubscriptionInput {
 
 extension DeleteNotificationSubscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteNotificationSubscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteNotificationSubscriptionOutput {
         return DeleteNotificationSubscriptionOutput()
     }
 }
@@ -2320,7 +2323,7 @@ public struct DeleteNotificationSubscriptionOutput {
 
 enum DeleteNotificationSubscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2342,8 +2345,8 @@ extension DeleteUserInput: Swift.CustomDebugStringConvertible {
 
 extension DeleteUserInput {
 
-    static func headerProvider(_ value: DeleteUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -2380,7 +2383,7 @@ public struct DeleteUserInput {
 
 extension DeleteUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteUserOutput {
         return DeleteUserOutput()
     }
 }
@@ -2392,7 +2395,7 @@ public struct DeleteUserOutput {
 
 enum DeleteUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2415,8 +2418,8 @@ extension DescribeActivitiesInput: Swift.CustomDebugStringConvertible {
 
 extension DescribeActivitiesInput {
 
-    static func headerProvider(_ value: DescribeActivitiesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeActivitiesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -2426,42 +2429,42 @@ extension DescribeActivitiesInput {
 
 extension DescribeActivitiesInput {
 
-    static func queryItemProvider(_ value: DescribeActivitiesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeActivitiesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let endTime = value.endTime {
-            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
         }
         if let resourceId = value.resourceId {
-            let resourceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceId".urlPercentEncoding(), value: Swift.String(resourceId).urlPercentEncoding())
+            let resourceIdQueryItem = Smithy.URIQueryItem(name: "resourceId".urlPercentEncoding(), value: Swift.String(resourceId).urlPercentEncoding())
             items.append(resourceIdQueryItem)
         }
         if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
         }
         if let startTime = value.startTime {
-            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
             items.append(startTimeQueryItem)
         }
         if let includeIndirectActivities = value.includeIndirectActivities {
-            let includeIndirectActivitiesQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeIndirectActivities".urlPercentEncoding(), value: Swift.String(includeIndirectActivities).urlPercentEncoding())
+            let includeIndirectActivitiesQueryItem = Smithy.URIQueryItem(name: "includeIndirectActivities".urlPercentEncoding(), value: Swift.String(includeIndirectActivities).urlPercentEncoding())
             items.append(includeIndirectActivitiesQueryItem)
         }
         if let organizationId = value.organizationId {
-            let organizationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
+            let organizationIdQueryItem = Smithy.URIQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
             items.append(organizationIdQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let activityTypes = value.activityTypes {
-            let activityTypesQueryItem = ClientRuntime.SDKURLQueryItem(name: "activityTypes".urlPercentEncoding(), value: Swift.String(activityTypes).urlPercentEncoding())
+            let activityTypesQueryItem = Smithy.URIQueryItem(name: "activityTypes".urlPercentEncoding(), value: Swift.String(activityTypes).urlPercentEncoding())
             items.append(activityTypesQueryItem)
         }
         return items
@@ -2481,7 +2484,7 @@ public struct DescribeActivitiesInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The timestamp that determines the end time of the activities. The response includes the activities performed before the specified timestamp.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Includes indirect activities. An indirect activity results from a direct activity performed on a parent resource. For example, sharing a parent folder (the direct activity) shares all of the subfolders and documents within the parent folder (the indirect activity).
     public var includeIndirectActivities: Swift.Bool?
     /// The maximum number of items to return.
@@ -2493,20 +2496,20 @@ public struct DescribeActivitiesInput {
     /// The document or folder ID for which to describe activity types.
     public var resourceId: Swift.String?
     /// The timestamp that determines the starting time of the activities. The response includes the activities performed after the specified timestamp.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests.
     public var userId: Swift.String?
 
     public init(
         activityTypes: Swift.String? = nil,
         authenticationToken: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         includeIndirectActivities: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         userId: Swift.String? = nil
     )
     {
@@ -2525,7 +2528,7 @@ public struct DescribeActivitiesInput {
 
 extension DescribeActivitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeActivitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeActivitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2554,7 +2557,7 @@ public struct DescribeActivitiesOutput {
 
 enum DescribeActivitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2577,8 +2580,8 @@ extension DescribeCommentsInput: Swift.CustomDebugStringConvertible {
 
 extension DescribeCommentsInput {
 
-    static func headerProvider(_ value: DescribeCommentsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeCommentsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -2588,14 +2591,14 @@ extension DescribeCommentsInput {
 
 extension DescribeCommentsInput {
 
-    static func queryItemProvider(_ value: DescribeCommentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeCommentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         return items
@@ -2647,7 +2650,7 @@ public struct DescribeCommentsInput {
 
 extension DescribeCommentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCommentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCommentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2676,7 +2679,7 @@ public struct DescribeCommentsOutput {
 
 enum DescribeCommentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2700,8 +2703,8 @@ extension DescribeDocumentVersionsInput: Swift.CustomDebugStringConvertible {
 
 extension DescribeDocumentVersionsInput {
 
-    static func headerProvider(_ value: DescribeDocumentVersionsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeDocumentVersionsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -2711,22 +2714,22 @@ extension DescribeDocumentVersionsInput {
 
 extension DescribeDocumentVersionsInput {
 
-    static func queryItemProvider(_ value: DescribeDocumentVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeDocumentVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let fields = value.fields {
-            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            let fieldsQueryItem = Smithy.URIQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
             items.append(fieldsQueryItem)
         }
         if let include = value.include {
-            let includeQueryItem = ClientRuntime.SDKURLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include).urlPercentEncoding())
+            let includeQueryItem = Smithy.URIQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include).urlPercentEncoding())
             items.append(includeQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         return items
@@ -2778,7 +2781,7 @@ public struct DescribeDocumentVersionsInput {
 
 extension DescribeDocumentVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDocumentVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDocumentVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2807,7 +2810,7 @@ public struct DescribeDocumentVersionsOutput {
 
 enum DescribeDocumentVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2833,8 +2836,8 @@ extension DescribeFolderContentsInput: Swift.CustomDebugStringConvertible {
 
 extension DescribeFolderContentsInput {
 
-    static func headerProvider(_ value: DescribeFolderContentsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeFolderContentsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -2844,30 +2847,30 @@ extension DescribeFolderContentsInput {
 
 extension DescribeFolderContentsInput {
 
-    static func queryItemProvider(_ value: DescribeFolderContentsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeFolderContentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let order = value.order {
-            let orderQueryItem = ClientRuntime.SDKURLQueryItem(name: "order".urlPercentEncoding(), value: Swift.String(order.rawValue).urlPercentEncoding())
+            let orderQueryItem = Smithy.URIQueryItem(name: "order".urlPercentEncoding(), value: Swift.String(order.rawValue).urlPercentEncoding())
             items.append(orderQueryItem)
         }
         if let type = value.type {
-            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
         }
         if let sort = value.sort {
-            let sortQueryItem = ClientRuntime.SDKURLQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort.rawValue).urlPercentEncoding())
+            let sortQueryItem = Smithy.URIQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort.rawValue).urlPercentEncoding())
             items.append(sortQueryItem)
         }
         if let include = value.include {
-            let includeQueryItem = ClientRuntime.SDKURLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include).urlPercentEncoding())
+            let includeQueryItem = Smithy.URIQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include).urlPercentEncoding())
             items.append(includeQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         return items
@@ -2927,7 +2930,7 @@ public struct DescribeFolderContentsInput {
 
 extension DescribeFolderContentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeFolderContentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeFolderContentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2961,7 +2964,7 @@ public struct DescribeFolderContentsOutput {
 
 enum DescribeFolderContentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2985,8 +2988,8 @@ extension DescribeGroupsInput: Swift.CustomDebugStringConvertible {
 
 extension DescribeGroupsInput {
 
-    static func headerProvider(_ value: DescribeGroupsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeGroupsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -2996,24 +2999,24 @@ extension DescribeGroupsInput {
 
 extension DescribeGroupsInput {
 
-    static func queryItemProvider(_ value: DescribeGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let searchQuery = value.searchQuery else {
             let message = "Creating a URL Query Item failed. searchQuery is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let searchQueryQueryItem = ClientRuntime.SDKURLQueryItem(name: "searchQuery".urlPercentEncoding(), value: Swift.String(searchQuery).urlPercentEncoding())
+        let searchQueryQueryItem = Smithy.URIQueryItem(name: "searchQuery".urlPercentEncoding(), value: Swift.String(searchQuery).urlPercentEncoding())
         items.append(searchQueryQueryItem)
         if let organizationId = value.organizationId {
-            let organizationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
+            let organizationIdQueryItem = Smithy.URIQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
             items.append(organizationIdQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         return items
@@ -3058,7 +3061,7 @@ public struct DescribeGroupsInput {
 
 extension DescribeGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3087,7 +3090,7 @@ public struct DescribeGroupsOutput {
 
 enum DescribeGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3104,14 +3107,14 @@ enum DescribeGroupsOutputError {
 
 extension DescribeNotificationSubscriptionsInput {
 
-    static func queryItemProvider(_ value: DescribeNotificationSubscriptionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeNotificationSubscriptionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         return items
@@ -3151,7 +3154,7 @@ public struct DescribeNotificationSubscriptionsInput {
 
 extension DescribeNotificationSubscriptionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeNotificationSubscriptionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeNotificationSubscriptionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3180,7 +3183,7 @@ public struct DescribeNotificationSubscriptionsOutput {
 
 enum DescribeNotificationSubscriptionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3201,8 +3204,8 @@ extension DescribeResourcePermissionsInput: Swift.CustomDebugStringConvertible {
 
 extension DescribeResourcePermissionsInput {
 
-    static func headerProvider(_ value: DescribeResourcePermissionsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeResourcePermissionsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -3212,18 +3215,18 @@ extension DescribeResourcePermissionsInput {
 
 extension DescribeResourcePermissionsInput {
 
-    static func queryItemProvider(_ value: DescribeResourcePermissionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeResourcePermissionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let principalId = value.principalId {
-            let principalIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "principalId".urlPercentEncoding(), value: Swift.String(principalId).urlPercentEncoding())
+            let principalIdQueryItem = Smithy.URIQueryItem(name: "principalId".urlPercentEncoding(), value: Swift.String(principalId).urlPercentEncoding())
             items.append(principalIdQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         return items
@@ -3271,7 +3274,7 @@ public struct DescribeResourcePermissionsInput {
 
 extension DescribeResourcePermissionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeResourcePermissionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeResourcePermissionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3300,7 +3303,7 @@ public struct DescribeResourcePermissionsOutput {
 
 enum DescribeResourcePermissionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3323,8 +3326,8 @@ extension DescribeRootFoldersInput: Swift.CustomDebugStringConvertible {
 
 extension DescribeRootFoldersInput {
 
-    static func headerProvider(_ value: DescribeRootFoldersInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeRootFoldersInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -3334,14 +3337,14 @@ extension DescribeRootFoldersInput {
 
 extension DescribeRootFoldersInput {
 
-    static func queryItemProvider(_ value: DescribeRootFoldersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeRootFoldersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         return items
@@ -3378,7 +3381,7 @@ public struct DescribeRootFoldersInput {
 
 extension DescribeRootFoldersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRootFoldersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRootFoldersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3407,7 +3410,7 @@ public struct DescribeRootFoldersOutput {
 
 enum DescribeRootFoldersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3430,8 +3433,8 @@ extension DescribeUsersInput: Swift.CustomDebugStringConvertible {
 
 extension DescribeUsersInput {
 
-    static func headerProvider(_ value: DescribeUsersInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeUsersInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -3441,42 +3444,42 @@ extension DescribeUsersInput {
 
 extension DescribeUsersInput {
 
-    static func queryItemProvider(_ value: DescribeUsersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DescribeUsersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let order = value.order {
-            let orderQueryItem = ClientRuntime.SDKURLQueryItem(name: "order".urlPercentEncoding(), value: Swift.String(order.rawValue).urlPercentEncoding())
+            let orderQueryItem = Smithy.URIQueryItem(name: "order".urlPercentEncoding(), value: Swift.String(order.rawValue).urlPercentEncoding())
             items.append(orderQueryItem)
         }
         if let fields = value.fields {
-            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            let fieldsQueryItem = Smithy.URIQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
             items.append(fieldsQueryItem)
         }
         if let query = value.query {
-            let queryQueryItem = ClientRuntime.SDKURLQueryItem(name: "query".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
+            let queryQueryItem = Smithy.URIQueryItem(name: "query".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
             items.append(queryQueryItem)
         }
         if let include = value.include {
-            let includeQueryItem = ClientRuntime.SDKURLQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include.rawValue).urlPercentEncoding())
+            let includeQueryItem = Smithy.URIQueryItem(name: "include".urlPercentEncoding(), value: Swift.String(include.rawValue).urlPercentEncoding())
             items.append(includeQueryItem)
         }
         if let sort = value.sort {
-            let sortQueryItem = ClientRuntime.SDKURLQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort.rawValue).urlPercentEncoding())
+            let sortQueryItem = Smithy.URIQueryItem(name: "sort".urlPercentEncoding(), value: Swift.String(sort.rawValue).urlPercentEncoding())
             items.append(sortQueryItem)
         }
         if let organizationId = value.organizationId {
-            let organizationIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
+            let organizationIdQueryItem = Smithy.URIQueryItem(name: "organizationId".urlPercentEncoding(), value: Swift.String(organizationId).urlPercentEncoding())
             items.append(organizationIdQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let userIds = value.userIds {
-            let userIdsQueryItem = ClientRuntime.SDKURLQueryItem(name: "userIds".urlPercentEncoding(), value: Swift.String(userIds).urlPercentEncoding())
+            let userIdsQueryItem = Smithy.URIQueryItem(name: "userIds".urlPercentEncoding(), value: Swift.String(userIds).urlPercentEncoding())
             items.append(userIdsQueryItem)
         }
         return items
@@ -3548,7 +3551,7 @@ public struct DescribeUsersInput {
 
 extension DescribeUsersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeUsersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeUsersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3583,7 +3586,7 @@ public struct DescribeUsersOutput {
 
 enum DescribeUsersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3659,7 +3662,7 @@ extension WorkDocsClientTypes {
     /// Describes the document.
     public struct DocumentMetadata {
         /// The time when the document was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ID of the creator.
         public var creatorId: Swift.String?
         /// The ID of the document.
@@ -3669,19 +3672,19 @@ extension WorkDocsClientTypes {
         /// The latest version of the document.
         public var latestVersionMetadata: WorkDocsClientTypes.DocumentVersionMetadata?
         /// The time when the document was updated.
-        public var modifiedTimestamp: ClientRuntime.Date?
+        public var modifiedTimestamp: Foundation.Date?
         /// The ID of the parent folder.
         public var parentFolderId: Swift.String?
         /// The resource state.
         public var resourceState: WorkDocsClientTypes.ResourceStateType?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             creatorId: Swift.String? = nil,
             id: Swift.String? = nil,
             labels: [Swift.String]? = nil,
             latestVersionMetadata: WorkDocsClientTypes.DocumentVersionMetadata? = nil,
-            modifiedTimestamp: ClientRuntime.Date? = nil,
+            modifiedTimestamp: Foundation.Date? = nil,
             parentFolderId: Swift.String? = nil,
             resourceState: WorkDocsClientTypes.ResourceStateType? = nil
         )
@@ -3820,19 +3823,19 @@ extension WorkDocsClientTypes {
     /// Describes a version of a document.
     public struct DocumentVersionMetadata {
         /// The timestamp when the content of the document was originally created.
-        public var contentCreatedTimestamp: ClientRuntime.Date?
+        public var contentCreatedTimestamp: Foundation.Date?
         /// The timestamp when the content of the document was modified.
-        public var contentModifiedTimestamp: ClientRuntime.Date?
+        public var contentModifiedTimestamp: Foundation.Date?
         /// The content type of the document.
         public var contentType: Swift.String?
         /// The timestamp when the document was first uploaded.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ID of the creator.
         public var creatorId: Swift.String?
         /// The ID of the version.
         public var id: Swift.String?
         /// The timestamp when the document was last uploaded.
-        public var modifiedTimestamp: ClientRuntime.Date?
+        public var modifiedTimestamp: Foundation.Date?
         /// The name of the version.
         public var name: Swift.String?
         /// The signature of the document.
@@ -3847,13 +3850,13 @@ extension WorkDocsClientTypes {
         public var thumbnail: [Swift.String:Swift.String]?
 
         public init(
-            contentCreatedTimestamp: ClientRuntime.Date? = nil,
-            contentModifiedTimestamp: ClientRuntime.Date? = nil,
+            contentCreatedTimestamp: Foundation.Date? = nil,
+            contentModifiedTimestamp: Foundation.Date? = nil,
             contentType: Swift.String? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             creatorId: Swift.String? = nil,
             id: Swift.String? = nil,
-            modifiedTimestamp: ClientRuntime.Date? = nil,
+            modifiedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             signature: Swift.String? = nil,
             size: Swift.Int? = nil,
@@ -4189,7 +4192,7 @@ extension WorkDocsClientTypes {
     /// Describes a folder.
     public struct FolderMetadata {
         /// The time when the folder was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ID of the creator.
         public var creatorId: Swift.String?
         /// The ID of the folder.
@@ -4199,7 +4202,7 @@ extension WorkDocsClientTypes {
         /// The size of the latest version of the folder metadata.
         public var latestVersionSize: Swift.Int?
         /// The time when the folder was updated.
-        public var modifiedTimestamp: ClientRuntime.Date?
+        public var modifiedTimestamp: Foundation.Date?
         /// The name of the folder.
         public var name: Swift.String?
         /// The ID of the parent folder.
@@ -4212,12 +4215,12 @@ extension WorkDocsClientTypes {
         public var size: Swift.Int?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             creatorId: Swift.String? = nil,
             id: Swift.String? = nil,
             labels: [Swift.String]? = nil,
             latestVersionSize: Swift.Int? = nil,
-            modifiedTimestamp: ClientRuntime.Date? = nil,
+            modifiedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
             parentFolderId: Swift.String? = nil,
             resourceState: WorkDocsClientTypes.ResourceStateType? = nil,
@@ -4248,8 +4251,8 @@ extension GetCurrentUserInput: Swift.CustomDebugStringConvertible {
 
 extension GetCurrentUserInput {
 
-    static func headerProvider(_ value: GetCurrentUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetCurrentUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -4279,7 +4282,7 @@ public struct GetCurrentUserInput {
 
 extension GetCurrentUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCurrentUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCurrentUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4303,7 +4306,7 @@ public struct GetCurrentUserOutput {
 
 enum GetCurrentUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4326,8 +4329,8 @@ extension GetDocumentInput: Swift.CustomDebugStringConvertible {
 
 extension GetDocumentInput {
 
-    static func headerProvider(_ value: GetDocumentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetDocumentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -4337,10 +4340,10 @@ extension GetDocumentInput {
 
 extension GetDocumentInput {
 
-    static func queryItemProvider(_ value: GetDocumentInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetDocumentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let includeCustomMetadata = value.includeCustomMetadata {
-            let includeCustomMetadataQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
+            let includeCustomMetadataQueryItem = Smithy.URIQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
             items.append(includeCustomMetadataQueryItem)
         }
         return items
@@ -4380,7 +4383,7 @@ public struct GetDocumentInput {
 
 extension GetDocumentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDocumentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDocumentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4409,7 +4412,7 @@ public struct GetDocumentOutput {
 
 enum GetDocumentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4434,8 +4437,8 @@ extension GetDocumentPathInput: Swift.CustomDebugStringConvertible {
 
 extension GetDocumentPathInput {
 
-    static func headerProvider(_ value: GetDocumentPathInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetDocumentPathInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -4445,18 +4448,18 @@ extension GetDocumentPathInput {
 
 extension GetDocumentPathInput {
 
-    static func queryItemProvider(_ value: GetDocumentPathInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetDocumentPathInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let fields = value.fields {
-            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            let fieldsQueryItem = Smithy.URIQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
             items.append(fieldsQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         return items
@@ -4504,7 +4507,7 @@ public struct GetDocumentPathInput {
 
 extension GetDocumentPathOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDocumentPathOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDocumentPathOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4528,7 +4531,7 @@ public struct GetDocumentPathOutput {
 
 enum GetDocumentPathOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4551,8 +4554,8 @@ extension GetDocumentVersionInput: Swift.CustomDebugStringConvertible {
 
 extension GetDocumentVersionInput {
 
-    static func headerProvider(_ value: GetDocumentVersionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetDocumentVersionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -4562,14 +4565,14 @@ extension GetDocumentVersionInput {
 
 extension GetDocumentVersionInput {
 
-    static func queryItemProvider(_ value: GetDocumentVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetDocumentVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let fields = value.fields {
-            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            let fieldsQueryItem = Smithy.URIQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
             items.append(fieldsQueryItem)
         }
         if let includeCustomMetadata = value.includeCustomMetadata {
-            let includeCustomMetadataQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
+            let includeCustomMetadataQueryItem = Smithy.URIQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
             items.append(includeCustomMetadataQueryItem)
         }
         return items
@@ -4621,7 +4624,7 @@ public struct GetDocumentVersionInput {
 
 extension GetDocumentVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDocumentVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDocumentVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4650,7 +4653,7 @@ public struct GetDocumentVersionOutput {
 
 enum GetDocumentVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4675,8 +4678,8 @@ extension GetFolderInput: Swift.CustomDebugStringConvertible {
 
 extension GetFolderInput {
 
-    static func headerProvider(_ value: GetFolderInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetFolderInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -4686,10 +4689,10 @@ extension GetFolderInput {
 
 extension GetFolderInput {
 
-    static func queryItemProvider(_ value: GetFolderInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetFolderInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let includeCustomMetadata = value.includeCustomMetadata {
-            let includeCustomMetadataQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
+            let includeCustomMetadataQueryItem = Smithy.URIQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
             items.append(includeCustomMetadataQueryItem)
         }
         return items
@@ -4729,7 +4732,7 @@ public struct GetFolderInput {
 
 extension GetFolderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetFolderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetFolderOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4758,7 +4761,7 @@ public struct GetFolderOutput {
 
 enum GetFolderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4783,8 +4786,8 @@ extension GetFolderPathInput: Swift.CustomDebugStringConvertible {
 
 extension GetFolderPathInput {
 
-    static func headerProvider(_ value: GetFolderPathInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetFolderPathInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -4794,18 +4797,18 @@ extension GetFolderPathInput {
 
 extension GetFolderPathInput {
 
-    static func queryItemProvider(_ value: GetFolderPathInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetFolderPathInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let fields = value.fields {
-            let fieldsQueryItem = ClientRuntime.SDKURLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
+            let fieldsQueryItem = Smithy.URIQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
             items.append(fieldsQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         return items
@@ -4853,7 +4856,7 @@ public struct GetFolderPathInput {
 
 extension GetFolderPathOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetFolderPathOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetFolderPathOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4877,7 +4880,7 @@ public struct GetFolderPathOutput {
 
 enum GetFolderPathOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4900,8 +4903,8 @@ extension GetResourcesInput: Swift.CustomDebugStringConvertible {
 
 extension GetResourcesInput {
 
-    static func headerProvider(_ value: GetResourcesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetResourcesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -4911,22 +4914,22 @@ extension GetResourcesInput {
 
 extension GetResourcesInput {
 
-    static func queryItemProvider(_ value: GetResourcesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetResourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let userId = value.userId {
-            let userIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
         }
         if let collectionType = value.collectionType {
-            let collectionTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "collectionType".urlPercentEncoding(), value: Swift.String(collectionType.rawValue).urlPercentEncoding())
+            let collectionTypeQueryItem = Smithy.URIQueryItem(name: "collectionType".urlPercentEncoding(), value: Swift.String(collectionType.rawValue).urlPercentEncoding())
             items.append(collectionTypeQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         return items
@@ -4970,7 +4973,7 @@ public struct GetResourcesInput {
 
 extension GetResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5004,7 +5007,7 @@ public struct GetResourcesOutput {
 
 enum GetResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5095,8 +5098,8 @@ extension InitiateDocumentVersionUploadInput: Swift.CustomDebugStringConvertible
 
 extension InitiateDocumentVersionUploadInput {
 
-    static func headerProvider(_ value: InitiateDocumentVersionUploadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: InitiateDocumentVersionUploadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -5129,9 +5132,9 @@ public struct InitiateDocumentVersionUploadInput {
     /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The timestamp when the content of the document was originally created.
-    public var contentCreatedTimestamp: ClientRuntime.Date?
+    public var contentCreatedTimestamp: Foundation.Date?
     /// The timestamp when the content of the document was modified.
-    public var contentModifiedTimestamp: ClientRuntime.Date?
+    public var contentModifiedTimestamp: Foundation.Date?
     /// The content type of the document.
     public var contentType: Swift.String?
     /// The size of the document, in bytes.
@@ -5145,8 +5148,8 @@ public struct InitiateDocumentVersionUploadInput {
 
     public init(
         authenticationToken: Swift.String? = nil,
-        contentCreatedTimestamp: ClientRuntime.Date? = nil,
-        contentModifiedTimestamp: ClientRuntime.Date? = nil,
+        contentCreatedTimestamp: Foundation.Date? = nil,
+        contentModifiedTimestamp: Foundation.Date? = nil,
         contentType: Swift.String? = nil,
         documentSizeInBytes: Swift.Int? = nil,
         id: Swift.String? = nil,
@@ -5167,7 +5170,7 @@ public struct InitiateDocumentVersionUploadInput {
 
 extension InitiateDocumentVersionUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InitiateDocumentVersionUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InitiateDocumentVersionUploadOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5196,7 +5199,7 @@ public struct InitiateDocumentVersionUploadOutput {
 
 enum InitiateDocumentVersionUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5923,8 +5926,8 @@ extension RemoveAllResourcePermissionsInput: Swift.CustomDebugStringConvertible 
 
 extension RemoveAllResourcePermissionsInput {
 
-    static func headerProvider(_ value: RemoveAllResourcePermissionsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: RemoveAllResourcePermissionsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -5961,7 +5964,7 @@ public struct RemoveAllResourcePermissionsInput {
 
 extension RemoveAllResourcePermissionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveAllResourcePermissionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveAllResourcePermissionsOutput {
         return RemoveAllResourcePermissionsOutput()
     }
 }
@@ -5973,7 +5976,7 @@ public struct RemoveAllResourcePermissionsOutput {
 
 enum RemoveAllResourcePermissionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5995,8 +5998,8 @@ extension RemoveResourcePermissionInput: Swift.CustomDebugStringConvertible {
 
 extension RemoveResourcePermissionInput {
 
-    static func headerProvider(_ value: RemoveResourcePermissionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: RemoveResourcePermissionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -6006,10 +6009,10 @@ extension RemoveResourcePermissionInput {
 
 extension RemoveResourcePermissionInput {
 
-    static func queryItemProvider(_ value: RemoveResourcePermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: RemoveResourcePermissionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let principalType = value.principalType {
-            let principalTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(principalType.rawValue).urlPercentEncoding())
+            let principalTypeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(principalType.rawValue).urlPercentEncoding())
             items.append(principalTypeQueryItem)
         }
         return items
@@ -6057,7 +6060,7 @@ public struct RemoveResourcePermissionInput {
 
 extension RemoveResourcePermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveResourcePermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveResourcePermissionOutput {
         return RemoveResourcePermissionOutput()
     }
 }
@@ -6069,7 +6072,7 @@ public struct RemoveResourcePermissionOutput {
 
 enum RemoveResourcePermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6498,8 +6501,8 @@ extension RestoreDocumentVersionsInput: Swift.CustomDebugStringConvertible {
 
 extension RestoreDocumentVersionsInput {
 
-    static func headerProvider(_ value: RestoreDocumentVersionsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: RestoreDocumentVersionsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -6536,7 +6539,7 @@ public struct RestoreDocumentVersionsInput {
 
 extension RestoreDocumentVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreDocumentVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreDocumentVersionsOutput {
         return RestoreDocumentVersionsOutput()
     }
 }
@@ -6548,7 +6551,7 @@ public struct RestoreDocumentVersionsOutput {
 
 enum RestoreDocumentVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6761,8 +6764,8 @@ extension SearchResourcesInput: Swift.CustomDebugStringConvertible {
 
 extension SearchResourcesInput {
 
-    static func headerProvider(_ value: SearchResourcesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: SearchResourcesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -6838,7 +6841,7 @@ public struct SearchResourcesInput {
 
 extension SearchResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SearchResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SearchResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6867,7 +6870,7 @@ public struct SearchResourcesOutput {
 
 enum SearchResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7489,8 +7492,8 @@ extension UpdateDocumentInput: Swift.CustomDebugStringConvertible {
 
 extension UpdateDocumentInput {
 
-    static func headerProvider(_ value: UpdateDocumentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateDocumentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -7549,7 +7552,7 @@ public struct UpdateDocumentInput {
 
 extension UpdateDocumentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDocumentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDocumentOutput {
         return UpdateDocumentOutput()
     }
 }
@@ -7561,7 +7564,7 @@ public struct UpdateDocumentOutput {
 
 enum UpdateDocumentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7589,8 +7592,8 @@ extension UpdateDocumentVersionInput: Swift.CustomDebugStringConvertible {
 
 extension UpdateDocumentVersionInput {
 
-    static func headerProvider(_ value: UpdateDocumentVersionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateDocumentVersionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -7647,7 +7650,7 @@ public struct UpdateDocumentVersionInput {
 
 extension UpdateDocumentVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDocumentVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDocumentVersionOutput {
         return UpdateDocumentVersionOutput()
     }
 }
@@ -7659,7 +7662,7 @@ public struct UpdateDocumentVersionOutput {
 
 enum UpdateDocumentVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7685,8 +7688,8 @@ extension UpdateFolderInput: Swift.CustomDebugStringConvertible {
 
 extension UpdateFolderInput {
 
-    static func headerProvider(_ value: UpdateFolderInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateFolderInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -7745,7 +7748,7 @@ public struct UpdateFolderInput {
 
 extension UpdateFolderOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateFolderOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateFolderOutput {
         return UpdateFolderOutput()
     }
 }
@@ -7757,7 +7760,7 @@ public struct UpdateFolderOutput {
 
 enum UpdateFolderOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7785,8 +7788,8 @@ extension UpdateUserInput: Swift.CustomDebugStringConvertible {
 
 extension UpdateUserInput {
 
-    static func headerProvider(_ value: UpdateUserInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let authenticationToken = value.authenticationToken {
             items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
         }
@@ -7865,7 +7868,7 @@ public struct UpdateUserInput {
 
 extension UpdateUserOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateUserOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateUserOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7889,7 +7892,7 @@ public struct UpdateUserOutput {
 
 enum UpdateUserOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7978,7 +7981,7 @@ extension WorkDocsClientTypes {
     /// Describes a user.
     public struct User {
         /// The time when the user was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The email address of the user.
         public var emailAddress: Swift.String?
         /// The given name of the user.
@@ -7988,7 +7991,7 @@ extension WorkDocsClientTypes {
         /// The locale of the user.
         public var locale: WorkDocsClientTypes.LocaleType?
         /// The time when the user was modified.
-        public var modifiedTimestamp: ClientRuntime.Date?
+        public var modifiedTimestamp: Foundation.Date?
         /// The ID of the organization.
         public var organizationId: Swift.String?
         /// The ID of the recycle bin folder.
@@ -8009,12 +8012,12 @@ extension WorkDocsClientTypes {
         public var username: Swift.String?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             emailAddress: Swift.String? = nil,
             givenName: Swift.String? = nil,
             id: Swift.String? = nil,
             locale: WorkDocsClientTypes.LocaleType? = nil,
-            modifiedTimestamp: ClientRuntime.Date? = nil,
+            modifiedTimestamp: Foundation.Date? = nil,
             organizationId: Swift.String? = nil,
             recycleBinFolderId: Swift.String? = nil,
             rootFolderId: Swift.String? = nil,

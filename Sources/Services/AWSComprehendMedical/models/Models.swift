@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -171,15 +173,15 @@ extension ComprehendMedicalClientTypes {
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
         public var jobStatus: ComprehendMedicalClientTypes.JobStatus?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
-        public var submitTimeAfter: ClientRuntime.Date?
+        public var submitTimeAfter: Foundation.Date?
         /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
-        public var submitTimeBefore: ClientRuntime.Date?
+        public var submitTimeBefore: Foundation.Date?
 
         public init(
             jobName: Swift.String? = nil,
             jobStatus: ComprehendMedicalClientTypes.JobStatus? = nil,
-            submitTimeAfter: ClientRuntime.Date? = nil,
-            submitTimeBefore: ClientRuntime.Date? = nil
+            submitTimeAfter: Foundation.Date? = nil,
+            submitTimeBefore: Foundation.Date? = nil
         )
         {
             self.jobName = jobName
@@ -220,9 +222,9 @@ extension ComprehendMedicalClientTypes {
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the detection job completed.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The date and time that job metadata is deleted from the server. Output files in your S3 bucket will not be deleted. After the metadata is deleted, the job will no longer appear in the results of the ListEntitiesDetectionV2Job or the ListPHIDetectionJobs operation.
-        public var expirationTime: ClientRuntime.Date?
+        public var expirationTime: Foundation.Date?
         /// The input data configuration that you supplied when you created the detection job.
         public var inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig?
         /// The identifier assigned to the detection job.
@@ -244,12 +246,12 @@ extension ComprehendMedicalClientTypes {
         /// The output data configuration that you supplied when you created the detection job.
         public var outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
         /// The time that the detection job was submitted for processing.
-        public var submitTime: ClientRuntime.Date?
+        public var submitTime: Foundation.Date?
 
         public init(
             dataAccessRoleArn: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
-            expirationTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            expirationTime: Foundation.Date? = nil,
             inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
@@ -260,7 +262,7 @@ extension ComprehendMedicalClientTypes {
             message: Swift.String? = nil,
             modelVersion: Swift.String? = nil,
             outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig? = nil,
-            submitTime: ClientRuntime.Date? = nil
+            submitTime: Foundation.Date? = nil
         )
         {
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -314,7 +316,7 @@ public struct DescribeEntitiesDetectionV2JobInput {
 
 extension DescribeEntitiesDetectionV2JobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEntitiesDetectionV2JobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEntitiesDetectionV2JobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -338,7 +340,7 @@ public struct DescribeEntitiesDetectionV2JobOutput {
 
 enum DescribeEntitiesDetectionV2JobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -383,7 +385,7 @@ public struct DescribeICD10CMInferenceJobInput {
 
 extension DescribeICD10CMInferenceJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeICD10CMInferenceJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeICD10CMInferenceJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -407,7 +409,7 @@ public struct DescribeICD10CMInferenceJobOutput {
 
 enum DescribeICD10CMInferenceJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -452,7 +454,7 @@ public struct DescribePHIDetectionJobInput {
 
 extension DescribePHIDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePHIDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePHIDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -476,7 +478,7 @@ public struct DescribePHIDetectionJobOutput {
 
 enum DescribePHIDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -521,7 +523,7 @@ public struct DescribeRxNormInferenceJobInput {
 
 extension DescribeRxNormInferenceJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRxNormInferenceJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRxNormInferenceJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -545,7 +547,7 @@ public struct DescribeRxNormInferenceJobOutput {
 
 enum DescribeRxNormInferenceJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -590,7 +592,7 @@ public struct DescribeSNOMEDCTInferenceJobInput {
 
 extension DescribeSNOMEDCTInferenceJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSNOMEDCTInferenceJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSNOMEDCTInferenceJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -614,7 +616,7 @@ public struct DescribeSNOMEDCTInferenceJobOutput {
 
 enum DescribeSNOMEDCTInferenceJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -659,7 +661,7 @@ public struct DetectEntitiesInput {
 
 extension DetectEntitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectEntitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectEntitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -700,7 +702,7 @@ public struct DetectEntitiesOutput {
 
 enum DetectEntitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -747,7 +749,7 @@ public struct DetectEntitiesV2Input {
 
 extension DetectEntitiesV2Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectEntitiesV2Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectEntitiesV2Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -788,7 +790,7 @@ public struct DetectEntitiesV2Output {
 
 enum DetectEntitiesV2OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -835,7 +837,7 @@ public struct DetectPHIInput {
 
 extension DetectPHIOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectPHIOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectPHIOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -871,7 +873,7 @@ public struct DetectPHIOutput {
 
 enum DetectPHIOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1570,7 +1572,7 @@ public struct InferICD10CMInput {
 
 extension InferICD10CMOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InferICD10CMOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InferICD10CMOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1605,7 +1607,7 @@ public struct InferICD10CMOutput {
 
 enum InferICD10CMOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1652,7 +1654,7 @@ public struct InferRxNormInput {
 
 extension InferRxNormOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InferRxNormOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InferRxNormOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1687,7 +1689,7 @@ public struct InferRxNormOutput {
 
 enum InferRxNormOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1734,7 +1736,7 @@ public struct InferSNOMEDCTInput {
 
 extension InferSNOMEDCTOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InferSNOMEDCTOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InferSNOMEDCTOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1779,7 +1781,7 @@ public struct InferSNOMEDCTOutput {
 
 enum InferSNOMEDCTOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2054,7 +2056,7 @@ public struct ListEntitiesDetectionV2JobsInput {
 
 extension ListEntitiesDetectionV2JobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEntitiesDetectionV2JobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEntitiesDetectionV2JobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2083,7 +2085,7 @@ public struct ListEntitiesDetectionV2JobsOutput {
 
 enum ListEntitiesDetectionV2JobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2137,7 +2139,7 @@ public struct ListICD10CMInferenceJobsInput {
 
 extension ListICD10CMInferenceJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListICD10CMInferenceJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListICD10CMInferenceJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2166,7 +2168,7 @@ public struct ListICD10CMInferenceJobsOutput {
 
 enum ListICD10CMInferenceJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2220,7 +2222,7 @@ public struct ListPHIDetectionJobsInput {
 
 extension ListPHIDetectionJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPHIDetectionJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPHIDetectionJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2249,7 +2251,7 @@ public struct ListPHIDetectionJobsOutput {
 
 enum ListPHIDetectionJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2303,7 +2305,7 @@ public struct ListRxNormInferenceJobsInput {
 
 extension ListRxNormInferenceJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRxNormInferenceJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRxNormInferenceJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2332,7 +2334,7 @@ public struct ListRxNormInferenceJobsOutput {
 
 enum ListRxNormInferenceJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2386,7 +2388,7 @@ public struct ListSNOMEDCTInferenceJobsInput {
 
 extension ListSNOMEDCTInferenceJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSNOMEDCTInferenceJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSNOMEDCTInferenceJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2415,7 +2417,7 @@ public struct ListSNOMEDCTInferenceJobsOutput {
 
 enum ListSNOMEDCTInferenceJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3473,7 +3475,7 @@ public struct StartEntitiesDetectionV2JobInput {
 
 extension StartEntitiesDetectionV2JobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartEntitiesDetectionV2JobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartEntitiesDetectionV2JobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3497,7 +3499,7 @@ public struct StartEntitiesDetectionV2JobOutput {
 
 enum StartEntitiesDetectionV2JobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3575,7 +3577,7 @@ public struct StartICD10CMInferenceJobInput {
 
 extension StartICD10CMInferenceJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartICD10CMInferenceJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartICD10CMInferenceJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3599,7 +3601,7 @@ public struct StartICD10CMInferenceJobOutput {
 
 enum StartICD10CMInferenceJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3677,7 +3679,7 @@ public struct StartPHIDetectionJobInput {
 
 extension StartPHIDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartPHIDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartPHIDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3701,7 +3703,7 @@ public struct StartPHIDetectionJobOutput {
 
 enum StartPHIDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3779,7 +3781,7 @@ public struct StartRxNormInferenceJobInput {
 
 extension StartRxNormInferenceJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartRxNormInferenceJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartRxNormInferenceJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3803,7 +3805,7 @@ public struct StartRxNormInferenceJobOutput {
 
 enum StartRxNormInferenceJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3881,7 +3883,7 @@ public struct StartSNOMEDCTInferenceJobInput {
 
 extension StartSNOMEDCTInferenceJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSNOMEDCTInferenceJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSNOMEDCTInferenceJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3905,7 +3907,7 @@ public struct StartSNOMEDCTInferenceJobOutput {
 
 enum StartSNOMEDCTInferenceJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3950,7 +3952,7 @@ public struct StopEntitiesDetectionV2JobInput {
 
 extension StopEntitiesDetectionV2JobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopEntitiesDetectionV2JobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopEntitiesDetectionV2JobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3974,7 +3976,7 @@ public struct StopEntitiesDetectionV2JobOutput {
 
 enum StopEntitiesDetectionV2JobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4018,7 +4020,7 @@ public struct StopICD10CMInferenceJobInput {
 
 extension StopICD10CMInferenceJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopICD10CMInferenceJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopICD10CMInferenceJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4042,7 +4044,7 @@ public struct StopICD10CMInferenceJobOutput {
 
 enum StopICD10CMInferenceJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4086,7 +4088,7 @@ public struct StopPHIDetectionJobInput {
 
 extension StopPHIDetectionJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopPHIDetectionJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopPHIDetectionJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4110,7 +4112,7 @@ public struct StopPHIDetectionJobOutput {
 
 enum StopPHIDetectionJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4154,7 +4156,7 @@ public struct StopRxNormInferenceJobInput {
 
 extension StopRxNormInferenceJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopRxNormInferenceJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopRxNormInferenceJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4178,7 +4180,7 @@ public struct StopRxNormInferenceJobOutput {
 
 enum StopRxNormInferenceJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4222,7 +4224,7 @@ public struct StopSNOMEDCTInferenceJobInput {
 
 extension StopSNOMEDCTInferenceJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopSNOMEDCTInferenceJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopSNOMEDCTInferenceJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4246,7 +4248,7 @@ public struct StopSNOMEDCTInferenceJobOutput {
 
 enum StopSNOMEDCTInferenceJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -84,7 +86,7 @@ public struct AddWorkloadInput {
 
 extension AddWorkloadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddWorkloadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddWorkloadOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -113,7 +115,7 @@ public struct AddWorkloadOutput {
 
 enum AddWorkloadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -364,7 +366,7 @@ extension ApplicationInsightsClientTypes {
         /// The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
         public var eventStatus: ApplicationInsightsClientTypes.ConfigurationEventStatus?
         /// The timestamp of the event.
-        public var eventTime: ClientRuntime.Date?
+        public var eventTime: Foundation.Date?
         /// The resource monitored by Application Insights.
         public var monitoredResourceARN: Swift.String?
         /// The name of the resource group of the application to which the configuration event belongs.
@@ -376,7 +378,7 @@ extension ApplicationInsightsClientTypes {
             eventResourceName: Swift.String? = nil,
             eventResourceType: ApplicationInsightsClientTypes.ConfigurationEventResourceType? = nil,
             eventStatus: ApplicationInsightsClientTypes.ConfigurationEventStatus? = nil,
-            eventTime: ClientRuntime.Date? = nil,
+            eventTime: Foundation.Date? = nil,
             monitoredResourceARN: Swift.String? = nil,
             resourceGroupName: Swift.String? = nil
         )
@@ -530,7 +532,7 @@ public struct CreateApplicationInput {
 
 extension CreateApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -554,7 +556,7 @@ public struct CreateApplicationOutput {
 
 enum CreateApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -613,7 +615,7 @@ public struct CreateComponentInput {
 
 extension CreateComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateComponentOutput {
         return CreateComponentOutput()
     }
 }
@@ -625,7 +627,7 @@ public struct CreateComponentOutput {
 
 enum CreateComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -694,7 +696,7 @@ public struct CreateLogPatternInput {
 
 extension CreateLogPatternOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLogPatternOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLogPatternOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -723,7 +725,7 @@ public struct CreateLogPatternOutput {
 
 enum CreateLogPatternOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -768,7 +770,7 @@ public struct DeleteApplicationInput {
 
 extension DeleteApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteApplicationOutput {
         return DeleteApplicationOutput()
     }
 }
@@ -780,7 +782,7 @@ public struct DeleteApplicationOutput {
 
 enum DeleteApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -831,7 +833,7 @@ public struct DeleteComponentInput {
 
 extension DeleteComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteComponentOutput {
         return DeleteComponentOutput()
     }
 }
@@ -843,7 +845,7 @@ public struct DeleteComponentOutput {
 
 enum DeleteComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -899,7 +901,7 @@ public struct DeleteLogPatternInput {
 
 extension DeleteLogPatternOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLogPatternOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLogPatternOutput {
         return DeleteLogPatternOutput()
     }
 }
@@ -911,7 +913,7 @@ public struct DeleteLogPatternOutput {
 
 enum DeleteLogPatternOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -961,7 +963,7 @@ public struct DescribeApplicationInput {
 
 extension DescribeApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -985,7 +987,7 @@ public struct DescribeApplicationOutput {
 
 enum DescribeApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1040,7 +1042,7 @@ public struct DescribeComponentConfigurationInput {
 
 extension DescribeComponentConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeComponentConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeComponentConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1074,7 +1076,7 @@ public struct DescribeComponentConfigurationOutput {
 
 enum DescribeComponentConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1140,7 +1142,7 @@ public struct DescribeComponentConfigurationRecommendationInput {
 
 extension DescribeComponentConfigurationRecommendationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeComponentConfigurationRecommendationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeComponentConfigurationRecommendationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1164,7 +1166,7 @@ public struct DescribeComponentConfigurationRecommendationOutput {
 
 enum DescribeComponentConfigurationRecommendationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1219,7 +1221,7 @@ public struct DescribeComponentInput {
 
 extension DescribeComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeComponentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1248,7 +1250,7 @@ public struct DescribeComponentOutput {
 
 enum DescribeComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1309,7 +1311,7 @@ public struct DescribeLogPatternInput {
 
 extension DescribeLogPatternOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLogPatternOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLogPatternOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1343,7 +1345,7 @@ public struct DescribeLogPatternOutput {
 
 enum DescribeLogPatternOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1392,7 +1394,7 @@ public struct DescribeObservationInput {
 
 extension DescribeObservationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeObservationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeObservationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1416,7 +1418,7 @@ public struct DescribeObservationOutput {
 
 enum DescribeObservationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1498,7 +1500,7 @@ public struct DescribeProblemObservationsInput {
 
 extension DescribeProblemObservationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProblemObservationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProblemObservationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1522,7 +1524,7 @@ public struct DescribeProblemObservationsOutput {
 
 enum DescribeProblemObservationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1538,7 +1540,7 @@ enum DescribeProblemObservationsOutputError {
 
 extension DescribeProblemOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProblemOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProblemOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1562,7 +1564,7 @@ public struct DescribeProblemOutput {
 
 enum DescribeProblemOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1623,7 +1625,7 @@ public struct DescribeWorkloadInput {
 
 extension DescribeWorkloadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeWorkloadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeWorkloadOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1657,7 +1659,7 @@ public struct DescribeWorkloadOutput {
 
 enum DescribeWorkloadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1860,7 +1862,7 @@ public struct ListApplicationsInput {
 
 extension ListApplicationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListApplicationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListApplicationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1889,7 +1891,7 @@ public struct ListApplicationsOutput {
 
 enum ListApplicationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1947,7 +1949,7 @@ public struct ListComponentsInput {
 
 extension ListComponentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListComponentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListComponentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1976,7 +1978,7 @@ public struct ListComponentsOutput {
 
 enum ListComponentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2015,7 +2017,7 @@ public struct ListConfigurationHistoryInput {
     /// The AWS account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The end time of the event.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The status of the configuration update event. Possible values include INFO, WARN, and ERROR.
     public var eventStatus: ApplicationInsightsClientTypes.ConfigurationEventStatus?
     /// The maximum number of results returned by ListConfigurationHistory in paginated output. When this parameter is used, ListConfigurationHistory returns only MaxResults in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another ListConfigurationHistory request with the returned NextToken value. If this parameter is not used, then ListConfigurationHistory returns all results.
@@ -2025,16 +2027,16 @@ public struct ListConfigurationHistoryInput {
     /// Resource group to which the application belongs.
     public var resourceGroupName: Swift.String?
     /// The start time of the event.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         accountId: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         eventStatus: ApplicationInsightsClientTypes.ConfigurationEventStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.accountId = accountId
@@ -2049,7 +2051,7 @@ public struct ListConfigurationHistoryInput {
 
 extension ListConfigurationHistoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListConfigurationHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListConfigurationHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2078,7 +2080,7 @@ public struct ListConfigurationHistoryOutput {
 
 enum ListConfigurationHistoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2137,7 +2139,7 @@ public struct ListLogPatternSetsInput {
 
 extension ListLogPatternSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLogPatternSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLogPatternSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2176,7 +2178,7 @@ public struct ListLogPatternSetsOutput {
 
 enum ListLogPatternSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2240,7 +2242,7 @@ public struct ListLogPatternsInput {
 
 extension ListLogPatternsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListLogPatternsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListLogPatternsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2279,7 +2281,7 @@ public struct ListLogPatternsOutput {
 
 enum ListLogPatternsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2321,7 +2323,7 @@ public struct ListProblemsInput {
     /// The name of the component.
     public var componentName: Swift.String?
     /// The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token to request the next page of results.
@@ -2329,18 +2331,18 @@ public struct ListProblemsInput {
     /// The name of the resource group.
     public var resourceGroupName: Swift.String?
     /// The time when the problem was detected, in epoch seconds. If you don't specify a time frame for the request, problems within the past seven days are returned.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// Specifies whether or not you can view the problem. If not specified, visible and ignored problems are returned.
     public var visibility: ApplicationInsightsClientTypes.Visibility?
 
     public init(
         accountId: Swift.String? = nil,
         componentName: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         visibility: ApplicationInsightsClientTypes.Visibility? = nil
     )
     {
@@ -2357,7 +2359,7 @@ public struct ListProblemsInput {
 
 extension ListProblemsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProblemsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProblemsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2396,7 +2398,7 @@ public struct ListProblemsOutput {
 
 enum ListProblemsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2440,7 +2442,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2464,7 +2466,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2528,7 +2530,7 @@ public struct ListWorkloadsInput {
 
 extension ListWorkloadsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkloadsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorkloadsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2557,7 +2559,7 @@ public struct ListWorkloadsOutput {
 
 enum ListWorkloadsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2728,7 +2730,7 @@ extension ApplicationInsightsClientTypes {
         /// The state of the instance, such as STOPPING or TERMINATING.
         public var ec2State: Swift.String?
         /// The time when the observation ended, in epoch seconds.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the AWS Health Event-based observation.
         public var healthEventArn: Swift.String?
         /// The description of the AWS Health event provided by the service, such as Amazon EC2.
@@ -2742,7 +2744,7 @@ extension ApplicationInsightsClientTypes {
         /// The ID of the observation type.
         public var id: Swift.String?
         /// The timestamp in the CloudWatch Logs that specifies when the matched line occurred.
-        public var lineTime: ClientRuntime.Date?
+        public var lineTime: Foundation.Date?
         /// The log filter of the observation.
         public var logFilter: ApplicationInsightsClientTypes.LogFilter?
         /// The log group name.
@@ -2764,7 +2766,7 @@ extension ApplicationInsightsClientTypes {
         /// The source type of the observation.
         public var sourceType: Swift.String?
         /// The time when the observation was first detected, in epoch seconds.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the step function-based observation.
         public var statesArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the step function execution-based observation.
@@ -2806,14 +2808,14 @@ extension ApplicationInsightsClientTypes {
             ebsRequestId: Swift.String? = nil,
             ebsResult: Swift.String? = nil,
             ec2State: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             healthEventArn: Swift.String? = nil,
             healthEventDescription: Swift.String? = nil,
             healthEventTypeCategory: Swift.String? = nil,
             healthEventTypeCode: Swift.String? = nil,
             healthService: Swift.String? = nil,
             id: Swift.String? = nil,
-            lineTime: ClientRuntime.Date? = nil,
+            lineTime: Foundation.Date? = nil,
             logFilter: ApplicationInsightsClientTypes.LogFilter? = nil,
             logGroup: Swift.String? = nil,
             logText: Swift.String? = nil,
@@ -2824,7 +2826,7 @@ extension ApplicationInsightsClientTypes {
             s3EventName: Swift.String? = nil,
             sourceARN: Swift.String? = nil,
             sourceType: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             statesArn: Swift.String? = nil,
             statesExecutionArn: Swift.String? = nil,
             statesInput: Swift.String? = nil,
@@ -2951,7 +2953,7 @@ extension ApplicationInsightsClientTypes {
         /// The resource affected by the problem.
         public var affectedResource: Swift.String?
         /// The time when the problem ended, in epoch seconds.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// Feedback provided by the user about the problem.
         public var feedback: [Swift.String:ApplicationInsightsClientTypes.FeedbackValue]?
         /// The ID of the problem.
@@ -2959,7 +2961,7 @@ extension ApplicationInsightsClientTypes {
         /// A detailed analysis of the problem using machine learning.
         public var insights: Swift.String?
         /// The last time that the problem reoccurred after its last resolution.
-        public var lastRecurrenceTime: ClientRuntime.Date?
+        public var lastRecurrenceTime: Foundation.Date?
         /// The number of times that the same problem reoccurred after the first time it was resolved.
         public var recurringCount: Swift.Int?
         /// Specifies how the problem was resolved. If the value is AUTOMATIC, the system resolved the problem. If the value is MANUAL, the user resolved the problem. If the value is UNRESOLVED, then the problem is not resolved.
@@ -2969,7 +2971,7 @@ extension ApplicationInsightsClientTypes {
         /// A measure of the level of impact of the problem.
         public var severityLevel: ApplicationInsightsClientTypes.SeverityLevel?
         /// The time when the problem started, in epoch seconds.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The status of the problem.
         public var status: ApplicationInsightsClientTypes.Status?
         /// The name of the problem.
@@ -2980,16 +2982,16 @@ extension ApplicationInsightsClientTypes {
         public init(
             accountId: Swift.String? = nil,
             affectedResource: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             feedback: [Swift.String:ApplicationInsightsClientTypes.FeedbackValue]? = nil,
             id: Swift.String? = nil,
             insights: Swift.String? = nil,
-            lastRecurrenceTime: ClientRuntime.Date? = nil,
+            lastRecurrenceTime: Foundation.Date? = nil,
             recurringCount: Swift.Int? = nil,
             resolutionMethod: ApplicationInsightsClientTypes.ResolutionMethod? = nil,
             resourceGroupName: Swift.String? = nil,
             severityLevel: ApplicationInsightsClientTypes.SeverityLevel? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: ApplicationInsightsClientTypes.Status? = nil,
             title: Swift.String? = nil,
             visibility: ApplicationInsightsClientTypes.Visibility? = nil
@@ -3115,7 +3117,7 @@ public struct RemoveWorkloadInput {
 
 extension RemoveWorkloadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveWorkloadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveWorkloadOutput {
         return RemoveWorkloadOutput()
     }
 }
@@ -3127,7 +3129,7 @@ public struct RemoveWorkloadOutput {
 
 enum RemoveWorkloadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3401,7 +3403,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3413,7 +3415,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3628,7 +3630,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3640,7 +3642,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3713,7 +3715,7 @@ public struct UpdateApplicationInput {
 
 extension UpdateApplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateApplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateApplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3737,7 +3739,7 @@ public struct UpdateApplicationOutput {
 
 enum UpdateApplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3807,7 +3809,7 @@ public struct UpdateComponentConfigurationInput {
 
 extension UpdateComponentConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateComponentConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateComponentConfigurationOutput {
         return UpdateComponentConfigurationOutput()
     }
 }
@@ -3819,7 +3821,7 @@ public struct UpdateComponentConfigurationOutput {
 
 enum UpdateComponentConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3880,7 +3882,7 @@ public struct UpdateComponentInput {
 
 extension UpdateComponentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateComponentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateComponentOutput {
         return UpdateComponentOutput()
     }
 }
@@ -3892,7 +3894,7 @@ public struct UpdateComponentOutput {
 
 enum UpdateComponentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3959,7 +3961,7 @@ public struct UpdateLogPatternInput {
 
 extension UpdateLogPatternOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLogPatternOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLogPatternOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3988,7 +3990,7 @@ public struct UpdateLogPatternOutput {
 
 enum UpdateLogPatternOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4043,7 +4045,7 @@ public struct UpdateProblemInput {
 
 extension UpdateProblemOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProblemOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProblemOutput {
         return UpdateProblemOutput()
     }
 }
@@ -4055,7 +4057,7 @@ public struct UpdateProblemOutput {
 
 enum UpdateProblemOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4142,7 +4144,7 @@ public struct UpdateWorkloadInput {
 
 extension UpdateWorkloadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWorkloadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWorkloadOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4171,7 +4173,7 @@ public struct UpdateWorkloadOutput {
 
 enum UpdateWorkloadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

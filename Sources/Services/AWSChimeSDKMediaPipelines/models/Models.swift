@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -1474,7 +1477,7 @@ public struct CreateMediaCapturePipelineInput {
 
 extension CreateMediaCapturePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMediaCapturePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMediaCapturePipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1498,7 +1501,7 @@ public struct CreateMediaCapturePipelineOutput {
 
 enum CreateMediaCapturePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1567,7 +1570,7 @@ public struct CreateMediaConcatenationPipelineInput {
 
 extension CreateMediaConcatenationPipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMediaConcatenationPipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMediaConcatenationPipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1591,7 +1594,7 @@ public struct CreateMediaConcatenationPipelineOutput {
 
 enum CreateMediaConcatenationPipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1671,7 +1674,7 @@ public struct CreateMediaInsightsPipelineConfigurationInput {
 
 extension CreateMediaInsightsPipelineConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMediaInsightsPipelineConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMediaInsightsPipelineConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1695,7 +1698,7 @@ public struct CreateMediaInsightsPipelineConfigurationOutput {
 
 enum CreateMediaInsightsPipelineConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1779,7 +1782,7 @@ public struct CreateMediaInsightsPipelineInput {
 
 extension CreateMediaInsightsPipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMediaInsightsPipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMediaInsightsPipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1804,7 +1807,7 @@ public struct CreateMediaInsightsPipelineOutput {
 
 enum CreateMediaInsightsPipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1874,7 +1877,7 @@ public struct CreateMediaLiveConnectorPipelineInput {
 
 extension CreateMediaLiveConnectorPipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMediaLiveConnectorPipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMediaLiveConnectorPipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1898,7 +1901,7 @@ public struct CreateMediaLiveConnectorPipelineOutput {
 
 enum CreateMediaLiveConnectorPipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1967,7 +1970,7 @@ public struct CreateMediaPipelineKinesisVideoStreamPoolInput {
 
 extension CreateMediaPipelineKinesisVideoStreamPoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMediaPipelineKinesisVideoStreamPoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMediaPipelineKinesisVideoStreamPoolOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1991,7 +1994,7 @@ public struct CreateMediaPipelineKinesisVideoStreamPoolOutput {
 
 enum CreateMediaPipelineKinesisVideoStreamPoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2061,7 +2064,7 @@ public struct CreateMediaStreamPipelineInput {
 
 extension CreateMediaStreamPipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMediaStreamPipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMediaStreamPipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2085,7 +2088,7 @@ public struct CreateMediaStreamPipelineOutput {
 
 enum CreateMediaStreamPipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2161,7 +2164,7 @@ public struct DeleteMediaCapturePipelineInput {
 
 extension DeleteMediaCapturePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMediaCapturePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMediaCapturePipelineOutput {
         return DeleteMediaCapturePipelineOutput()
     }
 }
@@ -2173,7 +2176,7 @@ public struct DeleteMediaCapturePipelineOutput {
 
 enum DeleteMediaCapturePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2216,7 +2219,7 @@ public struct DeleteMediaInsightsPipelineConfigurationInput {
 
 extension DeleteMediaInsightsPipelineConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMediaInsightsPipelineConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMediaInsightsPipelineConfigurationOutput {
         return DeleteMediaInsightsPipelineConfigurationOutput()
     }
 }
@@ -2228,7 +2231,7 @@ public struct DeleteMediaInsightsPipelineConfigurationOutput {
 
 enum DeleteMediaInsightsPipelineConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2295,7 +2298,7 @@ public struct DeleteMediaPipelineKinesisVideoStreamPoolInput {
 
 extension DeleteMediaPipelineKinesisVideoStreamPoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMediaPipelineKinesisVideoStreamPoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMediaPipelineKinesisVideoStreamPoolOutput {
         return DeleteMediaPipelineKinesisVideoStreamPoolOutput()
     }
 }
@@ -2307,7 +2310,7 @@ public struct DeleteMediaPipelineKinesisVideoStreamPoolOutput {
 
 enum DeleteMediaPipelineKinesisVideoStreamPoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2328,7 +2331,7 @@ enum DeleteMediaPipelineKinesisVideoStreamPoolOutputError {
 
 extension DeleteMediaPipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMediaPipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMediaPipelineOutput {
         return DeleteMediaPipelineOutput()
     }
 }
@@ -2340,7 +2343,7 @@ public struct DeleteMediaPipelineOutput {
 
 enum DeleteMediaPipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2553,7 +2556,7 @@ public struct GetMediaCapturePipelineInput {
 
 extension GetMediaCapturePipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMediaCapturePipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMediaCapturePipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2577,7 +2580,7 @@ public struct GetMediaCapturePipelineOutput {
 
 enum GetMediaCapturePipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2620,7 +2623,7 @@ public struct GetMediaInsightsPipelineConfigurationInput {
 
 extension GetMediaInsightsPipelineConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMediaInsightsPipelineConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMediaInsightsPipelineConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2644,7 +2647,7 @@ public struct GetMediaInsightsPipelineConfigurationOutput {
 
 enum GetMediaInsightsPipelineConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2710,7 +2713,7 @@ public struct GetMediaPipelineKinesisVideoStreamPoolInput {
 
 extension GetMediaPipelineKinesisVideoStreamPoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMediaPipelineKinesisVideoStreamPoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMediaPipelineKinesisVideoStreamPoolOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2734,7 +2737,7 @@ public struct GetMediaPipelineKinesisVideoStreamPoolOutput {
 
 enum GetMediaPipelineKinesisVideoStreamPoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2754,7 +2757,7 @@ enum GetMediaPipelineKinesisVideoStreamPoolOutputError {
 
 extension GetMediaPipelineOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMediaPipelineOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMediaPipelineOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2778,7 +2781,7 @@ public struct GetMediaPipelineOutput {
 
 enum GetMediaPipelineOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2829,7 +2832,7 @@ public struct GetSpeakerSearchTaskInput {
 
 extension GetSpeakerSearchTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSpeakerSearchTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSpeakerSearchTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2853,7 +2856,7 @@ public struct GetSpeakerSearchTaskOutput {
 
 enum GetSpeakerSearchTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2904,7 +2907,7 @@ public struct GetVoiceToneAnalysisTaskInput {
 
 extension GetVoiceToneAnalysisTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVoiceToneAnalysisTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVoiceToneAnalysisTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2928,7 +2931,7 @@ public struct GetVoiceToneAnalysisTaskOutput {
 
 enum GetVoiceToneAnalysisTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3334,7 +3337,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
     /// The video stream pool configuration object.
     public struct KinesisVideoStreamPoolConfiguration {
         /// The time at which the configuration was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ARN of the video stream pool configuration.
         public var poolArn: Swift.String?
         /// The ID of the video stream pool in the configuration.
@@ -3348,17 +3351,17 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The Kinesis video stream pool configuration object.
         public var streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration?
         /// The time at which the configuration was updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             poolArn: Swift.String? = nil,
             poolId: Swift.String? = nil,
             poolName: Swift.String? = nil,
             poolSize: Swift.Int? = nil,
             poolStatus: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolStatus? = nil,
             streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -3638,14 +3641,14 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
 extension ListMediaCapturePipelinesInput {
 
-    static func queryItemProvider(_ value: ListMediaCapturePipelinesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMediaCapturePipelinesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3677,7 +3680,7 @@ public struct ListMediaCapturePipelinesInput {
 
 extension ListMediaCapturePipelinesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMediaCapturePipelinesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMediaCapturePipelinesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3706,7 +3709,7 @@ public struct ListMediaCapturePipelinesOutput {
 
 enum ListMediaCapturePipelinesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3726,14 +3729,14 @@ enum ListMediaCapturePipelinesOutputError {
 
 extension ListMediaInsightsPipelineConfigurationsInput {
 
-    static func queryItemProvider(_ value: ListMediaInsightsPipelineConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMediaInsightsPipelineConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3765,7 +3768,7 @@ public struct ListMediaInsightsPipelineConfigurationsInput {
 
 extension ListMediaInsightsPipelineConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMediaInsightsPipelineConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMediaInsightsPipelineConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3794,7 +3797,7 @@ public struct ListMediaInsightsPipelineConfigurationsOutput {
 
 enum ListMediaInsightsPipelineConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3814,14 +3817,14 @@ enum ListMediaInsightsPipelineConfigurationsOutputError {
 
 extension ListMediaPipelineKinesisVideoStreamPoolsInput {
 
-    static func queryItemProvider(_ value: ListMediaPipelineKinesisVideoStreamPoolsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMediaPipelineKinesisVideoStreamPoolsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3853,7 +3856,7 @@ public struct ListMediaPipelineKinesisVideoStreamPoolsInput {
 
 extension ListMediaPipelineKinesisVideoStreamPoolsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMediaPipelineKinesisVideoStreamPoolsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMediaPipelineKinesisVideoStreamPoolsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3882,7 +3885,7 @@ public struct ListMediaPipelineKinesisVideoStreamPoolsOutput {
 
 enum ListMediaPipelineKinesisVideoStreamPoolsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3902,14 +3905,14 @@ enum ListMediaPipelineKinesisVideoStreamPoolsOutputError {
 
 extension ListMediaPipelinesInput {
 
-    static func queryItemProvider(_ value: ListMediaPipelinesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMediaPipelinesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -3941,7 +3944,7 @@ public struct ListMediaPipelinesInput {
 
 extension ListMediaPipelinesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMediaPipelinesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMediaPipelinesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3970,7 +3973,7 @@ public struct ListMediaPipelinesOutput {
 
 enum ListMediaPipelinesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3990,13 +3993,13 @@ enum ListMediaPipelinesOutputError {
 
 extension ListTagsForResourceInput {
 
-    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let resourceARN = value.resourceARN else {
             let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceARNQueryItem = ClientRuntime.SDKURLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+        let resourceARNQueryItem = Smithy.URIQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
         items.append(resourceARNQueryItem)
         return items
     }
@@ -4024,7 +4027,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4048,7 +4051,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4304,7 +4307,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The configuration for a specified media pipeline. SourceType must be ChimeSdkMeeting.
         public var chimeSdkMeetingConfiguration: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConfiguration?
         /// The time at which the pipeline was created, in ISO 8601 format.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ARN of the media capture pipeline
         public var mediaPipelineArn: Swift.String?
         /// The ID of a media pipeline.
@@ -4320,11 +4323,11 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The status of the media pipeline.
         public var status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus?
         /// The time at which the pipeline was updated, in ISO 8601 format.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
             chimeSdkMeetingConfiguration: ChimeSDKMediaPipelinesClientTypes.ChimeSdkMeetingConfiguration? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil,
             sinkArn: Swift.String? = nil,
@@ -4332,7 +4335,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
             sourceArn: Swift.String? = nil,
             sourceType: ChimeSDKMediaPipelinesClientTypes.MediaPipelineSourceType? = nil,
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.chimeSdkMeetingConfiguration = chimeSdkMeetingConfiguration
@@ -4445,7 +4448,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
     /// Concatenates audio and video data from one or more data streams.
     public struct MediaConcatenationPipeline {
         /// The time at which the concatenation pipeline was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ARN of the media pipeline that you specify in the SourceConfiguration object.
         public var mediaPipelineArn: Swift.String?
         /// The ID of the media pipeline being concatenated.
@@ -4457,16 +4460,16 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The status of the concatenation pipeline.
         public var status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus?
         /// The time at which the concatenation pipeline was last updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil,
             sinks: [ChimeSDKMediaPipelinesClientTypes.ConcatenationSink]? = nil,
             sources: [ChimeSDKMediaPipelinesClientTypes.ConcatenationSource]? = nil,
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -4535,7 +4538,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
     /// A media pipeline that streams call analytics data.
     public struct MediaInsightsPipeline {
         /// The time at which the media insights pipeline was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The statuses that the elements in a media insights pipeline can have during data processing.
         public var elementStatuses: [ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineElementStatus]?
         /// The runtime configuration settings for a Kinesis recording video stream in a media insights pipeline.
@@ -4556,7 +4559,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public var status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             elementStatuses: [ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineElementStatus]? = nil,
             kinesisVideoStreamRecordingSourceRuntimeConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamRecordingSourceRuntimeConfiguration? = nil,
             kinesisVideoStreamSourceRuntimeConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamSourceRuntimeConfiguration? = nil,
@@ -4609,7 +4612,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
     /// A structure that contains the configuration settings for a media insights pipeline.
     public struct MediaInsightsPipelineConfiguration {
         /// The time at which the configuration was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The elements in the configuration.
         public var elements: [ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElement]?
         /// The ARN of the configuration.
@@ -4623,17 +4626,17 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The ARN of the role used by the service to access Amazon Web Services resources.
         public var resourceAccessRoleArn: Swift.String?
         /// The time at which the configuration was last updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             elements: [ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipelineConfigurationElement]? = nil,
             mediaInsightsPipelineConfigurationArn: Swift.String? = nil,
             mediaInsightsPipelineConfigurationId: Swift.String? = nil,
             mediaInsightsPipelineConfigurationName: Swift.String? = nil,
             realTimeAlertConfiguration: ChimeSDKMediaPipelinesClientTypes.RealTimeAlertConfiguration? = nil,
             resourceAccessRoleArn: Swift.String? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -4877,7 +4880,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
     /// The connector pipeline.
     public struct MediaLiveConnectorPipeline {
         /// The time at which the connector pipeline was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The connector pipeline's ARN.
         public var mediaPipelineArn: Swift.String?
         /// The connector pipeline's ID.
@@ -4889,16 +4892,16 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The connector pipeline's status.
         public var status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus?
         /// The time at which the connector pipeline was last updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil,
             sinks: [ChimeSDKMediaPipelinesClientTypes.LiveConnectorSinkConfiguration]? = nil,
             sources: [ChimeSDKMediaPipelinesClientTypes.LiveConnectorSourceConfiguration]? = nil,
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -5223,7 +5226,7 @@ extension ChimeSDKMediaPipelinesClientTypes {
     /// Structure that contains the settings for a media stream pipeline.
     public struct MediaStreamPipeline {
         /// The time at which the media stream pipeline was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ARN of the media stream pipeline.
         public var mediaPipelineArn: Swift.String?
         /// The ID of the media stream pipeline
@@ -5235,16 +5238,16 @@ extension ChimeSDKMediaPipelinesClientTypes {
         /// The status of the media stream pipeline.
         public var status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus?
         /// The time at which the media stream pipeline was updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             mediaPipelineArn: Swift.String? = nil,
             mediaPipelineId: Swift.String? = nil,
             sinks: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]? = nil,
             sources: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]? = nil,
             status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -6334,19 +6337,19 @@ extension ChimeSDKMediaPipelinesClientTypes {
     /// A representation of an asynchronous request to perform speaker search analysis on a media insights pipeline.
     public struct SpeakerSearchTask {
         /// The time at which a speaker search task was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The speaker search task ID.
         public var speakerSearchTaskId: Swift.String?
         /// The status of the speaker search task.
         public var speakerSearchTaskStatus: ChimeSDKMediaPipelinesClientTypes.MediaPipelineTaskStatus?
         /// The time at which a speaker search task was updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             speakerSearchTaskId: Swift.String? = nil,
             speakerSearchTaskStatus: ChimeSDKMediaPipelinesClientTypes.MediaPipelineTaskStatus? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -6401,9 +6404,9 @@ extension StartSpeakerSearchTaskInput: Swift.CustomDebugStringConvertible {
 
 extension StartSpeakerSearchTaskInput {
 
-    static func queryItemProvider(_ value: StartSpeakerSearchTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "start"))
+    static func queryItemProvider(_ value: StartSpeakerSearchTaskInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "start"))
         return items
     }
 }
@@ -6456,7 +6459,7 @@ public struct StartSpeakerSearchTaskInput {
 
 extension StartSpeakerSearchTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartSpeakerSearchTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartSpeakerSearchTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6480,7 +6483,7 @@ public struct StartSpeakerSearchTaskOutput {
 
 enum StartSpeakerSearchTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6506,9 +6509,9 @@ extension StartVoiceToneAnalysisTaskInput: Swift.CustomDebugStringConvertible {
 
 extension StartVoiceToneAnalysisTaskInput {
 
-    static func queryItemProvider(_ value: StartVoiceToneAnalysisTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "start"))
+    static func queryItemProvider(_ value: StartVoiceToneAnalysisTaskInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "start"))
         return items
     }
 }
@@ -6561,7 +6564,7 @@ public struct StartVoiceToneAnalysisTaskInput {
 
 extension StartVoiceToneAnalysisTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartVoiceToneAnalysisTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartVoiceToneAnalysisTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6585,7 +6588,7 @@ public struct StartVoiceToneAnalysisTaskOutput {
 
 enum StartVoiceToneAnalysisTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6606,9 +6609,9 @@ enum StartVoiceToneAnalysisTaskOutputError {
 
 extension StopSpeakerSearchTaskInput {
 
-    static func queryItemProvider(_ value: StopSpeakerSearchTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "stop"))
+    static func queryItemProvider(_ value: StopSpeakerSearchTaskInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "stop"))
         return items
     }
 }
@@ -6646,7 +6649,7 @@ public struct StopSpeakerSearchTaskInput {
 
 extension StopSpeakerSearchTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopSpeakerSearchTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopSpeakerSearchTaskOutput {
         return StopSpeakerSearchTaskOutput()
     }
 }
@@ -6658,7 +6661,7 @@ public struct StopSpeakerSearchTaskOutput {
 
 enum StopSpeakerSearchTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6679,9 +6682,9 @@ enum StopSpeakerSearchTaskOutputError {
 
 extension StopVoiceToneAnalysisTaskInput {
 
-    static func queryItemProvider(_ value: StopVoiceToneAnalysisTaskInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "stop"))
+    static func queryItemProvider(_ value: StopVoiceToneAnalysisTaskInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "stop"))
         return items
     }
 }
@@ -6719,7 +6722,7 @@ public struct StopVoiceToneAnalysisTaskInput {
 
 extension StopVoiceToneAnalysisTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopVoiceToneAnalysisTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopVoiceToneAnalysisTaskOutput {
         return StopVoiceToneAnalysisTaskOutput()
     }
 }
@@ -6731,7 +6734,7 @@ public struct StopVoiceToneAnalysisTaskOutput {
 
 enum StopVoiceToneAnalysisTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6874,9 +6877,9 @@ extension ChimeSDKMediaPipelinesClientTypes {
 
 extension TagResourceInput {
 
-    static func queryItemProvider(_ value: TagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "tag-resource"))
+    static func queryItemProvider(_ value: TagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "tag-resource"))
         return items
     }
 }
@@ -6917,7 +6920,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -6929,7 +6932,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7044,14 +7047,14 @@ extension ChimeSDKMediaPipelinesClientTypes {
     public struct TimestampRange {
         /// The ending timestamp for the specified range.
         /// This member is required.
-        public var endTimestamp: ClientRuntime.Date?
+        public var endTimestamp: Foundation.Date?
         /// The starting timestamp for the specified range.
         /// This member is required.
-        public var startTimestamp: ClientRuntime.Date?
+        public var startTimestamp: Foundation.Date?
 
         public init(
-            endTimestamp: ClientRuntime.Date? = nil,
-            startTimestamp: ClientRuntime.Date? = nil
+            endTimestamp: Foundation.Date? = nil,
+            startTimestamp: Foundation.Date? = nil
         )
         {
             self.endTimestamp = endTimestamp
@@ -7141,9 +7144,9 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "untag-resource"))
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "untag-resource"))
         return items
     }
 }
@@ -7184,7 +7187,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7196,7 +7199,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7268,7 +7271,7 @@ public struct UpdateMediaInsightsPipelineConfigurationInput {
 
 extension UpdateMediaInsightsPipelineConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMediaInsightsPipelineConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMediaInsightsPipelineConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7292,7 +7295,7 @@ public struct UpdateMediaInsightsPipelineConfigurationOutput {
 
 enum UpdateMediaInsightsPipelineConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7349,7 +7352,7 @@ public struct UpdateMediaInsightsPipelineStatusInput {
 
 extension UpdateMediaInsightsPipelineStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMediaInsightsPipelineStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMediaInsightsPipelineStatusOutput {
         return UpdateMediaInsightsPipelineStatusOutput()
     }
 }
@@ -7361,7 +7364,7 @@ public struct UpdateMediaInsightsPipelineStatusOutput {
 
 enum UpdateMediaInsightsPipelineStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7417,7 +7420,7 @@ public struct UpdateMediaPipelineKinesisVideoStreamPoolInput {
 
 extension UpdateMediaPipelineKinesisVideoStreamPoolOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMediaPipelineKinesisVideoStreamPoolOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMediaPipelineKinesisVideoStreamPoolOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7441,7 +7444,7 @@ public struct UpdateMediaPipelineKinesisVideoStreamPoolOutput {
 
 enum UpdateMediaPipelineKinesisVideoStreamPoolOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7855,17 +7858,17 @@ extension ChimeSDKMediaPipelinesClientTypes {
     /// A representation of an asynchronous request to perform voice tone analysis on a media insights pipeline.
     public struct VoiceToneAnalysisTask {
         /// The time at which a voice tone analysis task was created.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The time at which a voice tone analysis task was updated.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
         /// The ID of the voice tone analysis task.
         public var voiceToneAnalysisTaskId: Swift.String?
         /// The status of a voice tone analysis task.
         public var voiceToneAnalysisTaskStatus: ChimeSDKMediaPipelinesClientTypes.MediaPipelineTaskStatus?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            updatedTimestamp: Foundation.Date? = nil,
             voiceToneAnalysisTaskId: Swift.String? = nil,
             voiceToneAnalysisTaskStatus: ChimeSDKMediaPipelinesClientTypes.MediaPipelineTaskStatus? = nil
         )

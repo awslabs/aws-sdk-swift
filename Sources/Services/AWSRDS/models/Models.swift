@@ -2,7 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
 import SmithyFormURL
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
 
@@ -223,7 +225,7 @@ public struct AddRoleToDBClusterInput {
 
 extension AddRoleToDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddRoleToDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddRoleToDBClusterOutput {
         return AddRoleToDBClusterOutput()
     }
 }
@@ -235,7 +237,7 @@ public struct AddRoleToDBClusterOutput {
 
 enum AddRoleToDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -294,7 +296,7 @@ public struct AddRoleToDBInstanceInput {
 
 extension AddRoleToDBInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddRoleToDBInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddRoleToDBInstanceOutput {
         return AddRoleToDBInstanceOutput()
     }
 }
@@ -306,7 +308,7 @@ public struct AddRoleToDBInstanceOutput {
 
 enum AddRoleToDBInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -374,7 +376,7 @@ public struct AddSourceIdentifierToSubscriptionInput {
 
 extension AddSourceIdentifierToSubscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddSourceIdentifierToSubscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddSourceIdentifierToSubscriptionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["AddSourceIdentifierToSubscriptionResult"]
@@ -398,7 +400,7 @@ public struct AddSourceIdentifierToSubscriptionOutput {
 
 enum AddSourceIdentifierToSubscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -450,7 +452,7 @@ public struct AddTagsToResourceInput {
 
 extension AddTagsToResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddTagsToResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddTagsToResourceOutput {
         return AddTagsToResourceOutput()
     }
 }
@@ -462,7 +464,7 @@ public struct AddTagsToResourceOutput {
 
 enum AddTagsToResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -562,7 +564,7 @@ public struct ApplyPendingMaintenanceActionInput {
 
 extension ApplyPendingMaintenanceActionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ApplyPendingMaintenanceActionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ApplyPendingMaintenanceActionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ApplyPendingMaintenanceActionResult"]
@@ -586,7 +588,7 @@ public struct ApplyPendingMaintenanceActionOutput {
 
 enum ApplyPendingMaintenanceActionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -819,7 +821,7 @@ public struct AuthorizeDBSecurityGroupIngressInput {
 
 extension AuthorizeDBSecurityGroupIngressOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AuthorizeDBSecurityGroupIngressOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AuthorizeDBSecurityGroupIngressOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["AuthorizeDBSecurityGroupIngressResult"]
@@ -843,7 +845,7 @@ public struct AuthorizeDBSecurityGroupIngressOutput {
 
 enum AuthorizeDBSecurityGroupIngressOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -980,7 +982,7 @@ public struct BacktrackDBClusterInput {
     ///
     /// Example: 2017-07-08T18:00Z
     /// This member is required.
-    public var backtrackTo: ClientRuntime.Date?
+    public var backtrackTo: Foundation.Date?
     /// The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints:
     ///
     /// * Must contain from 1 to 63 alphanumeric characters or hyphens.
@@ -999,7 +1001,7 @@ public struct BacktrackDBClusterInput {
     public var useEarliestTimeOnPointInTimeUnavailable: Swift.Bool?
 
     public init(
-        backtrackTo: ClientRuntime.Date? = nil,
+        backtrackTo: Foundation.Date? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         force: Swift.Bool? = nil,
         useEarliestTimeOnPointInTimeUnavailable: Swift.Bool? = nil
@@ -1014,7 +1016,7 @@ public struct BacktrackDBClusterInput {
 
 extension BacktrackDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BacktrackDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BacktrackDBClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["BacktrackDBClusterResult"]
@@ -1034,11 +1036,11 @@ public struct BacktrackDBClusterOutput {
     /// Contains the backtrack identifier.
     public var backtrackIdentifier: Swift.String?
     /// The timestamp of the time at which the backtrack was requested.
-    public var backtrackRequestCreationTime: ClientRuntime.Date?
+    public var backtrackRequestCreationTime: Foundation.Date?
     /// The timestamp of the time to which the DB cluster was backtracked.
-    public var backtrackTo: ClientRuntime.Date?
+    public var backtrackTo: Foundation.Date?
     /// The timestamp of the time from which the DB cluster was backtracked.
-    public var backtrackedFrom: ClientRuntime.Date?
+    public var backtrackedFrom: Foundation.Date?
     /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
     public var dbClusterIdentifier: Swift.String?
     /// The status of the backtrack. This property returns one of the following values:
@@ -1054,9 +1056,9 @@ public struct BacktrackDBClusterOutput {
 
     public init(
         backtrackIdentifier: Swift.String? = nil,
-        backtrackRequestCreationTime: ClientRuntime.Date? = nil,
-        backtrackTo: ClientRuntime.Date? = nil,
-        backtrackedFrom: ClientRuntime.Date? = nil,
+        backtrackRequestCreationTime: Foundation.Date? = nil,
+        backtrackTo: Foundation.Date? = nil,
+        backtrackedFrom: Foundation.Date? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         status: Swift.String? = nil
     )
@@ -1072,7 +1074,7 @@ public struct BacktrackDBClusterOutput {
 
 enum BacktrackDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1150,9 +1152,9 @@ extension RDSClientTypes {
         /// The user-supplied name of the blue/green deployment.
         public var blueGreenDeploymentName: Swift.String?
         /// The time when the blue/green deployment was created, in Universal Coordinated Time (UTC).
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The time when the blue/green deployment was deleted, in Universal Coordinated Time (UTC).
-        public var deleteTime: ClientRuntime.Date?
+        public var deleteTime: Foundation.Date?
         /// The source database for the blue/green deployment. Before switchover, the source database is the production database in the blue environment.
         public var source: Swift.String?
         /// The status of the blue/green deployment. Valid Values:
@@ -1185,8 +1187,8 @@ extension RDSClientTypes {
         public init(
             blueGreenDeploymentIdentifier: Swift.String? = nil,
             blueGreenDeploymentName: Swift.String? = nil,
-            createTime: ClientRuntime.Date? = nil,
-            deleteTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
+            deleteTime: Foundation.Date? = nil,
             source: Swift.String? = nil,
             status: Swift.String? = nil,
             statusDetails: Swift.String? = nil,
@@ -1357,7 +1359,7 @@ public struct CancelExportTaskInput {
 
 extension CancelExportTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelExportTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelExportTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CancelExportTaskResult"]
@@ -1409,7 +1411,7 @@ public struct CancelExportTaskOutput {
     /// The Amazon S3 bucket prefix that is the file name and path of the exported data.
     public var s3Prefix: Swift.String?
     /// The time when the snapshot was created.
-    public var snapshotTime: ClientRuntime.Date?
+    public var snapshotTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the snapshot or cluster exported to Amazon S3.
     public var sourceArn: Swift.String?
     /// The type of source for the export.
@@ -1429,9 +1431,9 @@ public struct CancelExportTaskOutput {
     /// * STARTING
     public var status: Swift.String?
     /// The time when the snapshot or cluster export task ended.
-    public var taskEndTime: ClientRuntime.Date?
+    public var taskEndTime: Foundation.Date?
     /// The time when the snapshot or cluster export task started.
-    public var taskStartTime: ClientRuntime.Date?
+    public var taskStartTime: Foundation.Date?
     /// The total amount of data exported, in gigabytes.
     public var totalExtractedDataInGB: Swift.Int?
     /// A warning about the snapshot or cluster export task.
@@ -1446,12 +1448,12 @@ public struct CancelExportTaskOutput {
         percentProgress: Swift.Int? = nil,
         s3Bucket: Swift.String? = nil,
         s3Prefix: Swift.String? = nil,
-        snapshotTime: ClientRuntime.Date? = nil,
+        snapshotTime: Foundation.Date? = nil,
         sourceArn: Swift.String? = nil,
         sourceType: RDSClientTypes.ExportSourceType? = nil,
         status: Swift.String? = nil,
-        taskEndTime: ClientRuntime.Date? = nil,
-        taskStartTime: ClientRuntime.Date? = nil,
+        taskEndTime: Foundation.Date? = nil,
+        taskStartTime: Foundation.Date? = nil,
         totalExtractedDataInGB: Swift.Int? = nil,
         warningMessage: Swift.String? = nil
     )
@@ -1477,7 +1479,7 @@ public struct CancelExportTaskOutput {
 
 enum CancelExportTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1519,23 +1521,23 @@ extension RDSClientTypes {
         /// Indicates whether there is an override for the default certificate identifier.
         public var customerOverride: Swift.Bool?
         /// If there is an override for the default certificate identifier, when the override expires.
-        public var customerOverrideValidTill: ClientRuntime.Date?
+        public var customerOverrideValidTill: Foundation.Date?
         /// The thumbprint of the certificate.
         public var thumbprint: Swift.String?
         /// The starting date from which the certificate is valid.
-        public var validFrom: ClientRuntime.Date?
+        public var validFrom: Foundation.Date?
         /// The final date that the certificate continues to be valid.
-        public var validTill: ClientRuntime.Date?
+        public var validTill: Foundation.Date?
 
         public init(
             certificateArn: Swift.String? = nil,
             certificateIdentifier: Swift.String? = nil,
             certificateType: Swift.String? = nil,
             customerOverride: Swift.Bool? = nil,
-            customerOverrideValidTill: ClientRuntime.Date? = nil,
+            customerOverrideValidTill: Foundation.Date? = nil,
             thumbprint: Swift.String? = nil,
-            validFrom: ClientRuntime.Date? = nil,
-            validTill: ClientRuntime.Date? = nil
+            validFrom: Foundation.Date? = nil,
+            validTill: Foundation.Date? = nil
         )
         {
             self.certificateArn = certificateArn
@@ -1568,11 +1570,11 @@ extension RDSClientTypes {
         /// The CA identifier of the CA certificate used for the DB instance's server certificate.
         public var caIdentifier: Swift.String?
         /// The expiration date of the DB instance’s server certificate.
-        public var validTill: ClientRuntime.Date?
+        public var validTill: Foundation.Date?
 
         public init(
             caIdentifier: Swift.String? = nil,
-            validTill: ClientRuntime.Date? = nil
+            validTill: Foundation.Date? = nil
         )
         {
             self.caIdentifier = caIdentifier
@@ -1979,7 +1981,7 @@ public struct CopyDBClusterParameterGroupInput {
 
 extension CopyDBClusterParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CopyDBClusterParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopyDBClusterParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CopyDBClusterParameterGroupResult"]
@@ -2003,7 +2005,7 @@ public struct CopyDBClusterParameterGroupOutput {
 
 enum CopyDBClusterParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2103,7 +2105,7 @@ public struct CopyDBClusterSnapshotInput {
 
 extension CopyDBClusterSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CopyDBClusterSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopyDBClusterSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CopyDBClusterSnapshotResult"]
@@ -2127,7 +2129,7 @@ public struct CopyDBClusterSnapshotOutput {
 
 enum CopyDBClusterSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2207,7 +2209,7 @@ public struct CopyDBParameterGroupInput {
 
 extension CopyDBParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CopyDBParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopyDBParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CopyDBParameterGroupResult"]
@@ -2231,7 +2233,7 @@ public struct CopyDBParameterGroupOutput {
 
 enum CopyDBParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2344,7 +2346,7 @@ public struct CopyDBSnapshotInput {
 
 extension CopyDBSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CopyDBSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopyDBSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CopyDBSnapshotResult"]
@@ -2368,7 +2370,7 @@ public struct CopyDBSnapshotOutput {
 
 enum CopyDBSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2448,7 +2450,7 @@ public struct CopyOptionGroupInput {
 
 extension CopyOptionGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CopyOptionGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CopyOptionGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CopyOptionGroupResult"]
@@ -2472,7 +2474,7 @@ public struct CopyOptionGroupOutput {
 
 enum CopyOptionGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2556,7 +2558,7 @@ public struct CreateBlueGreenDeploymentInput {
 
 extension CreateBlueGreenDeploymentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBlueGreenDeploymentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBlueGreenDeploymentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateBlueGreenDeploymentResult"]
@@ -2580,7 +2582,7 @@ public struct CreateBlueGreenDeploymentOutput {
 
 enum CreateBlueGreenDeploymentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2730,7 +2732,7 @@ public struct CreateCustomDBEngineVersionInput {
 
 extension CreateCustomDBEngineVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCustomDBEngineVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCustomDBEngineVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateCustomDBEngineVersionResult"]
@@ -2776,7 +2778,7 @@ extension CreateCustomDBEngineVersionOutput {
 /// This data type is used as a response element in the action DescribeDBEngineVersions.
 public struct CreateCustomDBEngineVersionOutput {
     /// The creation time of the DB engine version.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
     /// The name of the Amazon S3 bucket that contains your database installation files.
@@ -2845,7 +2847,7 @@ public struct CreateCustomDBEngineVersionOutput {
     public var validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         customDBEngineVersionManifest: Swift.String? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
@@ -2920,7 +2922,7 @@ public struct CreateCustomDBEngineVersionOutput {
 
 enum CreateCustomDBEngineVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2995,7 +2997,7 @@ public struct CreateDBClusterEndpointInput {
 
 extension CreateDBClusterEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBClusterEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBClusterEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBClusterEndpointResult"]
@@ -3076,7 +3078,7 @@ public struct CreateDBClusterEndpointOutput {
 
 enum CreateDBClusterEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3555,7 +3557,7 @@ public struct CreateDBClusterInput {
 
 extension CreateDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBClusterResult"]
@@ -3579,7 +3581,7 @@ public struct CreateDBClusterOutput {
 
 enum CreateDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3674,7 +3676,7 @@ public struct CreateDBClusterParameterGroupInput {
 
 extension CreateDBClusterParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBClusterParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBClusterParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBClusterParameterGroupResult"]
@@ -3698,7 +3700,7 @@ public struct CreateDBClusterParameterGroupOutput {
 
 enum CreateDBClusterParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3769,7 +3771,7 @@ public struct CreateDBClusterSnapshotInput {
 
 extension CreateDBClusterSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBClusterSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBClusterSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBClusterSnapshotResult"]
@@ -3793,7 +3795,7 @@ public struct CreateDBClusterSnapshotOutput {
 
 enum CreateDBClusterSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4551,7 +4553,7 @@ public struct CreateDBInstanceInput {
 
 extension CreateDBInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBInstanceResult"]
@@ -4575,7 +4577,7 @@ public struct CreateDBInstanceOutput {
 
 enum CreateDBInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4955,7 +4957,7 @@ public struct CreateDBInstanceReadReplicaInput {
 
 extension CreateDBInstanceReadReplicaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBInstanceReadReplicaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBInstanceReadReplicaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBInstanceReadReplicaResult"]
@@ -4979,7 +4981,7 @@ public struct CreateDBInstanceReadReplicaOutput {
 
 enum CreateDBInstanceReadReplicaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5101,7 +5103,7 @@ public struct CreateDBParameterGroupInput {
 
 extension CreateDBParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBParameterGroupResult"]
@@ -5125,7 +5127,7 @@ public struct CreateDBParameterGroupOutput {
 
 enum CreateDBParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5197,7 +5199,7 @@ public struct CreateDBProxyEndpointInput {
 
 extension CreateDBProxyEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBProxyEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBProxyEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBProxyEndpointResult"]
@@ -5221,7 +5223,7 @@ public struct CreateDBProxyEndpointOutput {
 
 enum CreateDBProxyEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5318,7 +5320,7 @@ public struct CreateDBProxyInput {
 
 extension CreateDBProxyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBProxyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBProxyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBProxyResult"]
@@ -5342,7 +5344,7 @@ public struct CreateDBProxyOutput {
 
 enum CreateDBProxyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5411,7 +5413,7 @@ public struct CreateDBSecurityGroupInput {
 
 extension CreateDBSecurityGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBSecurityGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBSecurityGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBSecurityGroupResult"]
@@ -5435,7 +5437,7 @@ public struct CreateDBSecurityGroupOutput {
 
 enum CreateDBSecurityGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5520,7 +5522,7 @@ public struct CreateDBShardGroupInput {
 
 extension CreateDBShardGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBShardGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBShardGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBShardGroupResult"]
@@ -5585,7 +5587,7 @@ public struct CreateDBShardGroupOutput {
 
 enum CreateDBShardGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5660,7 +5662,7 @@ public struct CreateDBSnapshotInput {
 
 extension CreateDBSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBSnapshotResult"]
@@ -5684,7 +5686,7 @@ public struct CreateDBSnapshotOutput {
 
 enum CreateDBSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5758,7 +5760,7 @@ public struct CreateDBSubnetGroupInput {
 
 extension CreateDBSubnetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDBSubnetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDBSubnetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateDBSubnetGroupResult"]
@@ -5782,7 +5784,7 @@ public struct CreateDBSubnetGroupOutput {
 
 enum CreateDBSubnetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5878,7 +5880,7 @@ public struct CreateEventSubscriptionInput {
 
 extension CreateEventSubscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEventSubscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEventSubscriptionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateEventSubscriptionResult"]
@@ -5902,7 +5904,7 @@ public struct CreateEventSubscriptionOutput {
 
 enum CreateEventSubscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6002,7 +6004,7 @@ public struct CreateGlobalClusterInput {
 
 extension CreateGlobalClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGlobalClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGlobalClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateGlobalClusterResult"]
@@ -6026,7 +6028,7 @@ public struct CreateGlobalClusterOutput {
 
 enum CreateGlobalClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6110,7 +6112,7 @@ public struct CreateIntegrationInput {
 
 extension CreateIntegrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateIntegrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateIntegrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateIntegrationResult"]
@@ -6136,7 +6138,7 @@ public struct CreateIntegrationOutput {
     /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// The time when the integration was created, in Universal Coordinated Time (UTC).
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// Data filters for the integration. These filters determine which tables from the source database are sent to the target Amazon Redshift data warehouse.
     public var dataFilter: Swift.String?
     /// A description of the integration.
@@ -6160,7 +6162,7 @@ public struct CreateIntegrationOutput {
 
     public init(
         additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         dataFilter: Swift.String? = nil,
         description: Swift.String? = nil,
         errors: [RDSClientTypes.IntegrationError]? = nil,
@@ -6190,7 +6192,7 @@ public struct CreateIntegrationOutput {
 
 enum CreateIntegrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6298,7 +6300,7 @@ public struct CreateOptionGroupInput {
 
 extension CreateOptionGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateOptionGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateOptionGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateOptionGroupResult"]
@@ -6322,7 +6324,7 @@ public struct CreateOptionGroupOutput {
 
 enum CreateOptionGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6415,7 +6417,7 @@ public struct CreateTenantDatabaseInput {
 
 extension CreateTenantDatabaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTenantDatabaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTenantDatabaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateTenantDatabaseResult"]
@@ -6439,7 +6441,7 @@ public struct CreateTenantDatabaseOutput {
 
 enum CreateTenantDatabaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6772,7 +6774,7 @@ extension RDSClientTypes {
         /// Indicates whether minor version patches are applied automatically. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB cluster is restarted automatically.
-        public var automaticRestartTime: ClientRuntime.Date?
+        public var automaticRestartTime: Foundation.Date?
         /// The list of Availability Zones (AZs) where instances in the DB cluster can be created.
         public var availabilityZones: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
@@ -6792,7 +6794,7 @@ extension RDSClientTypes {
         /// The ID of the clone group with which the DB cluster is associated.
         public var cloneGroupId: Swift.String?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        public var clusterCreateTime: ClientRuntime.Date?
+        public var clusterCreateTime: Foundation.Date?
         /// Indicates whether tags are copied from the DB cluster to snapshots of the DB cluster.
         public var copyTagsToSnapshot: Swift.Bool?
         /// Indicates whether the DB cluster is a clone of a DB cluster owned by a different Amazon Web Services account.
@@ -6824,9 +6826,9 @@ extension RDSClientTypes {
         /// The Active Directory Domain membership records associated with the DB cluster.
         public var domainMemberships: [RDSClientTypes.DomainMembership]?
         /// The earliest time to which a DB cluster can be backtracked.
-        public var earliestBacktrackTime: ClientRuntime.Date?
+        public var earliestBacktrackTime: Foundation.Date?
         /// The earliest time to which a database can be restored with point-in-time restore.
-        public var earliestRestorableTime: ClientRuntime.Date?
+        public var earliestRestorableTime: Foundation.Date?
         /// A list of log types that this DB cluster is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see [Amazon RDS Database Log Files](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html) in the Amazon Aurora User Guide.
         public var enabledCloudwatchLogsExports: [Swift.String]?
         /// The connection endpoint for the primary instance of the DB cluster.
@@ -6850,13 +6852,13 @@ extension RDSClientTypes {
         /// Indicates whether the mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The next time you can modify the DB cluster to use the aurora-iopt1 storage type. This setting is only for Aurora DB clusters.
-        public var ioOptimizedNextAllowedModificationTime: ClientRuntime.Date?
+        public var ioOptimizedNextAllowedModificationTime: Foundation.Date?
         /// The Provisioned IOPS (I/O operations per second) value. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var iops: Swift.Int?
         /// If StorageEncrypted is enabled, the Amazon Web Services KMS key identifier for the encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
         public var kmsKeyId: Swift.String?
         /// The latest time to which a database can be restored with point-in-time restore.
-        public var latestRestorableTime: ClientRuntime.Date?
+        public var latestRestorableTime: Foundation.Date?
         /// The details for Aurora Limitless Database.
         public var limitlessDatabase: RDSClientTypes.LimitlessDatabase?
         /// Indicates whether an Aurora DB cluster has in-cluster write forwarding enabled, not enabled, requested, or is in the process of enabling it.
@@ -6935,7 +6937,7 @@ extension RDSClientTypes {
             allocatedStorage: Swift.Int? = nil,
             associatedRoles: [RDSClientTypes.DBClusterRole]? = nil,
             autoMinorVersionUpgrade: Swift.Bool? = nil,
-            automaticRestartTime: ClientRuntime.Date? = nil,
+            automaticRestartTime: Foundation.Date? = nil,
             availabilityZones: [Swift.String]? = nil,
             awsBackupRecoveryPointArn: Swift.String? = nil,
             backtrackConsumedChangeRecords: Swift.Int? = nil,
@@ -6945,7 +6947,7 @@ extension RDSClientTypes {
             certificateDetails: RDSClientTypes.CertificateDetails? = nil,
             characterSetName: Swift.String? = nil,
             cloneGroupId: Swift.String? = nil,
-            clusterCreateTime: ClientRuntime.Date? = nil,
+            clusterCreateTime: Foundation.Date? = nil,
             copyTagsToSnapshot: Swift.Bool? = nil,
             crossAccountClone: Swift.Bool? = nil,
             customEndpoints: [Swift.String]? = nil,
@@ -6961,8 +6963,8 @@ extension RDSClientTypes {
             dbSystemId: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
             domainMemberships: [RDSClientTypes.DomainMembership]? = nil,
-            earliestBacktrackTime: ClientRuntime.Date? = nil,
-            earliestRestorableTime: ClientRuntime.Date? = nil,
+            earliestBacktrackTime: Foundation.Date? = nil,
+            earliestRestorableTime: Foundation.Date? = nil,
             enabledCloudwatchLogsExports: [Swift.String]? = nil,
             endpoint: Swift.String? = nil,
             engine: Swift.String? = nil,
@@ -6974,10 +6976,10 @@ extension RDSClientTypes {
             hostedZoneId: Swift.String? = nil,
             httpEndpointEnabled: Swift.Bool? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
-            ioOptimizedNextAllowedModificationTime: ClientRuntime.Date? = nil,
+            ioOptimizedNextAllowedModificationTime: Foundation.Date? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
-            latestRestorableTime: ClientRuntime.Date? = nil,
+            latestRestorableTime: Foundation.Date? = nil,
             limitlessDatabase: RDSClientTypes.LimitlessDatabase? = nil,
             localWriteForwardingStatus: RDSClientTypes.LocalWriteForwardingStatus? = nil,
             masterUserSecret: RDSClientTypes.MasterUserSecret? = nil,
@@ -7178,7 +7180,7 @@ extension RDSClientTypes {
         /// The retention period for the automated backups.
         public var backupRetentionPeriod: Swift.Int?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        public var clusterCreateTime: ClientRuntime.Date?
+        public var clusterCreateTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) for the source DB cluster.
         public var dbClusterArn: Swift.String?
         /// The Amazon Resource Name (ARN) for the automated backups.
@@ -7227,7 +7229,7 @@ extension RDSClientTypes {
             availabilityZones: [Swift.String]? = nil,
             awsBackupRecoveryPointArn: Swift.String? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
-            clusterCreateTime: ClientRuntime.Date? = nil,
+            clusterCreateTime: Foundation.Date? = nil,
             dbClusterArn: Swift.String? = nil,
             dbClusterAutomatedBackupsArn: Swift.String? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -7375,11 +7377,11 @@ extension RDSClientTypes {
         /// Contains the backtrack identifier.
         public var backtrackIdentifier: Swift.String?
         /// The timestamp of the time at which the backtrack was requested.
-        public var backtrackRequestCreationTime: ClientRuntime.Date?
+        public var backtrackRequestCreationTime: Foundation.Date?
         /// The timestamp of the time to which the DB cluster was backtracked.
-        public var backtrackTo: ClientRuntime.Date?
+        public var backtrackTo: Foundation.Date?
         /// The timestamp of the time from which the DB cluster was backtracked.
-        public var backtrackedFrom: ClientRuntime.Date?
+        public var backtrackedFrom: Foundation.Date?
         /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
         public var dbClusterIdentifier: Swift.String?
         /// The status of the backtrack. This property returns one of the following values:
@@ -7395,9 +7397,9 @@ extension RDSClientTypes {
 
         public init(
             backtrackIdentifier: Swift.String? = nil,
-            backtrackRequestCreationTime: ClientRuntime.Date? = nil,
-            backtrackTo: ClientRuntime.Date? = nil,
-            backtrackedFrom: ClientRuntime.Date? = nil,
+            backtrackRequestCreationTime: Foundation.Date? = nil,
+            backtrackTo: Foundation.Date? = nil,
+            backtrackedFrom: Foundation.Date? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             status: Swift.String? = nil
         )
@@ -8063,7 +8065,7 @@ extension RDSClientTypes {
         /// The list of Availability Zones (AZs) where instances in the DB cluster snapshot can be restored.
         public var availabilityZones: [Swift.String]?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
-        public var clusterCreateTime: ClientRuntime.Date?
+        public var clusterCreateTime: Foundation.Date?
         /// The DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
         public var dbClusterIdentifier: Swift.String?
         /// The resource ID of the DB cluster that this DB cluster snapshot was created from.
@@ -8093,7 +8095,7 @@ extension RDSClientTypes {
         /// The port that the DB cluster was listening on at the time of the snapshot.
         public var port: Swift.Int?
         /// The time when the snapshot was taken, in Universal Coordinated Time (UTC).
-        public var snapshotCreateTime: ClientRuntime.Date?
+        public var snapshotCreateTime: Foundation.Date?
         /// The type of the DB cluster snapshot.
         public var snapshotType: Swift.String?
         /// If the DB cluster snapshot was copied from a source DB cluster snapshot, the Amazon Resource Name (ARN) for the source DB cluster snapshot, otherwise, a null value.
@@ -8120,7 +8122,7 @@ extension RDSClientTypes {
         public init(
             allocatedStorage: Swift.Int? = nil,
             availabilityZones: [Swift.String]? = nil,
-            clusterCreateTime: ClientRuntime.Date? = nil,
+            clusterCreateTime: Foundation.Date? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbClusterResourceId: Swift.String? = nil,
             dbClusterSnapshotArn: Swift.String? = nil,
@@ -8135,7 +8137,7 @@ extension RDSClientTypes {
             masterUsername: Swift.String? = nil,
             percentProgress: Swift.Int? = nil,
             port: Swift.Int? = nil,
-            snapshotCreateTime: ClientRuntime.Date? = nil,
+            snapshotCreateTime: Foundation.Date? = nil,
             snapshotType: Swift.String? = nil,
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
@@ -8401,7 +8403,7 @@ extension RDSClientTypes {
     /// This data type is used as a response element in the action DescribeDBEngineVersions.
     public struct DBEngineVersion {
         /// The creation time of the DB engine version.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
         public var customDBEngineVersionManifest: Swift.String?
         /// The name of the Amazon S3 bucket that contains your database installation files.
@@ -8470,7 +8472,7 @@ extension RDSClientTypes {
         public var validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
 
         public init(
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             customDBEngineVersionManifest: Swift.String? = nil,
             databaseInstallationFilesS3BucketName: Swift.String? = nil,
             databaseInstallationFilesS3Prefix: Swift.String? = nil,
@@ -8662,7 +8664,7 @@ extension RDSClientTypes {
         /// Indicates whether minor version patches are applied automatically.
         public var autoMinorVersionUpgrade: Swift.Bool?
         /// The time when a stopped DB instance is restarted automatically.
-        public var automaticRestartTime: ClientRuntime.Date?
+        public var automaticRestartTime: Foundation.Date?
         /// The automation mode of the RDS Custom DB instance: full or all paused. If full, the DB instance automates monitoring and instance recovery. If all paused, the instance pauses automation for the duration set by --resume-full-automation-mode-minutes.
         public var automationMode: RDSClientTypes.AutomationMode?
         /// The name of the Availability Zone where the DB instance is located.
@@ -8741,7 +8743,7 @@ extension RDSClientTypes {
         /// Indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled for the DB instance. For a list of engine versions that support IAM database authentication, see [IAM database authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RDS_Fea_Regions_DB-eng.Feature.IamDatabaseAuthentication.html) in the Amazon RDS User Guide and [IAM database authentication in Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.Aurora_Fea_Regions_DB-eng.Feature.IAMdbauth.html) in the Amazon Aurora User Guide.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The date and time when the DB instance was created.
-        public var instanceCreateTime: ClientRuntime.Date?
+        public var instanceCreateTime: Foundation.Date?
         /// The Provisioned IOPS (I/O operations per second) value for the DB instance.
         public var iops: Swift.Int?
         /// Indicates whether an upgrade is recommended for the storage file system configuration on the DB instance. To migrate to the preferred configuration, you can either create a blue/green deployment, or create a read replica from the DB instance. For more information, see [Upgrading the storage file system for a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.UpgradeFileSystem).
@@ -8749,7 +8751,7 @@ extension RDSClientTypes {
         /// If StorageEncrypted is enabled, the Amazon Web Services KMS key identifier for the encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
         public var kmsKeyId: Swift.String?
         /// The latest time to which a database in this DB instance can be restored with point-in-time restore.
-        public var latestRestorableTime: ClientRuntime.Date?
+        public var latestRestorableTime: Foundation.Date?
         /// The license model information for this DB instance. This setting doesn't apply to RDS Custom DB instances.
         public var licenseModel: Swift.String?
         /// The listener connection endpoint for SQL Server Always On.
@@ -8814,7 +8816,7 @@ extension RDSClientTypes {
         /// The open mode of an Oracle read replica. The default is open-read-only. For more information, see [Working with Oracle Read Replicas for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This attribute is only supported in RDS for Oracle.
         public var replicaMode: RDSClientTypes.ReplicaMode?
         /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. The minimum value is 60 (default). The maximum value is 1,440.
-        public var resumeFullAutomationModeTime: ClientRuntime.Date?
+        public var resumeFullAutomationModeTime: Foundation.Date?
         /// If present, specifies the name of the secondary Availability Zone for a DB instance with multi-AZ support.
         public var secondaryAvailabilityZone: Swift.String?
         /// The status of a read replica. If the DB instance isn't a read replica, the value is blank.
@@ -8844,7 +8846,7 @@ extension RDSClientTypes {
             allocatedStorage: Swift.Int? = nil,
             associatedRoles: [RDSClientTypes.DBInstanceRole]? = nil,
             autoMinorVersionUpgrade: Swift.Bool? = nil,
-            automaticRestartTime: ClientRuntime.Date? = nil,
+            automaticRestartTime: Foundation.Date? = nil,
             automationMode: RDSClientTypes.AutomationMode? = nil,
             availabilityZone: Swift.String? = nil,
             awsBackupRecoveryPointArn: Swift.String? = nil,
@@ -8879,11 +8881,11 @@ extension RDSClientTypes {
             engineVersion: Swift.String? = nil,
             enhancedMonitoringResourceArn: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
-            instanceCreateTime: ClientRuntime.Date? = nil,
+            instanceCreateTime: Foundation.Date? = nil,
             iops: Swift.Int? = nil,
             isStorageConfigUpgradeAvailable: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
-            latestRestorableTime: ClientRuntime.Date? = nil,
+            latestRestorableTime: Foundation.Date? = nil,
             licenseModel: Swift.String? = nil,
             listenerEndpoint: RDSClientTypes.Endpoint? = nil,
             masterUserSecret: RDSClientTypes.MasterUserSecret? = nil,
@@ -8911,7 +8913,7 @@ extension RDSClientTypes {
             readReplicaSourceDBClusterIdentifier: Swift.String? = nil,
             readReplicaSourceDBInstanceIdentifier: Swift.String? = nil,
             replicaMode: RDSClientTypes.ReplicaMode? = nil,
-            resumeFullAutomationModeTime: ClientRuntime.Date? = nil,
+            resumeFullAutomationModeTime: Foundation.Date? = nil,
             secondaryAvailabilityZone: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBInstanceStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
@@ -9125,7 +9127,7 @@ extension RDSClientTypes {
         /// True if mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The date and time when the DB instance was created.
-        public var instanceCreateTime: ClientRuntime.Date?
+        public var instanceCreateTime: Foundation.Date?
         /// The IOPS (I/O operations per second) value for the automated backup.
         public var iops: Swift.Int?
         /// The Amazon Web Services KMS key ID for an automated backup. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
@@ -9179,7 +9181,7 @@ extension RDSClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
-            instanceCreateTime: ClientRuntime.Date? = nil,
+            instanceCreateTime: Foundation.Date? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
@@ -9826,7 +9828,7 @@ extension RDSClientTypes {
         /// One or more data structures specifying the authorization mechanism to connect to the associated RDS DB instance or Aurora DB cluster.
         public var auth: [RDSClientTypes.UserAuthConfigInfo]?
         /// The date and time when the proxy was first created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// The Amazon Resource Name (ARN) for the proxy.
         public var dbProxyArn: Swift.String?
         /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
@@ -9846,7 +9848,7 @@ extension RDSClientTypes {
         /// The current status of this proxy. A status of available means the proxy is ready to handle requests. Other values indicate that you must wait for the proxy to be ready, or take some action to resolve an issue.
         public var status: RDSClientTypes.DBProxyStatus?
         /// The date and time when the proxy was last updated.
-        public var updatedDate: ClientRuntime.Date?
+        public var updatedDate: Foundation.Date?
         /// Provides the VPC ID of the DB proxy.
         public var vpcId: Swift.String?
         /// Provides a list of VPC security groups that the proxy belongs to.
@@ -9856,7 +9858,7 @@ extension RDSClientTypes {
 
         public init(
             auth: [RDSClientTypes.UserAuthConfigInfo]? = nil,
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             dbProxyArn: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             debugLogging: Swift.Bool? = nil,
@@ -9866,7 +9868,7 @@ extension RDSClientTypes {
             requireTLS: Swift.Bool? = nil,
             roleArn: Swift.String? = nil,
             status: RDSClientTypes.DBProxyStatus? = nil,
-            updatedDate: ClientRuntime.Date? = nil,
+            updatedDate: Foundation.Date? = nil,
             vpcId: Swift.String? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil,
             vpcSubnetIds: [Swift.String]? = nil
@@ -9953,7 +9955,7 @@ extension RDSClientTypes {
     /// The data structure representing an endpoint associated with a DB proxy. RDS automatically creates one endpoint for each DB proxy. For Aurora DB clusters, you can associate additional endpoints with the same DB proxy. These endpoints can be read/write or read-only. They can also reside in different VPCs than the associated DB proxy. This data type is used as a response element in the DescribeDBProxyEndpoints operation.
     public struct DBProxyEndpoint {
         /// The date and time when the DB proxy endpoint was first created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// The Amazon Resource Name (ARN) for the DB proxy endpoint.
         public var dbProxyEndpointArn: Swift.String?
         /// The name for the DB proxy endpoint. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
@@ -9976,7 +9978,7 @@ extension RDSClientTypes {
         public var vpcSubnetIds: [Swift.String]?
 
         public init(
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             dbProxyEndpointArn: Swift.String? = nil,
             dbProxyEndpointName: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
@@ -10431,7 +10433,7 @@ extension RDSClientTypes {
         /// The settings that determine the size and behavior of the connection pool for the target group.
         public var connectionPoolConfig: RDSClientTypes.ConnectionPoolConfigurationInfo?
         /// The date and time when the target group was first created.
-        public var createdDate: ClientRuntime.Date?
+        public var createdDate: Foundation.Date?
         /// The identifier for the RDS proxy associated with this target group.
         public var dbProxyName: Swift.String?
         /// Indicates whether this target group is the first one used for connection requests by the associated proxy. Because each proxy is currently associated with a single target group, currently this setting is always true.
@@ -10443,17 +10445,17 @@ extension RDSClientTypes {
         /// The identifier for the target group. This name must be unique for all target groups owned by your Amazon Web Services account in the specified Amazon Web Services Region.
         public var targetGroupName: Swift.String?
         /// The date and time when the target group was last updated.
-        public var updatedDate: ClientRuntime.Date?
+        public var updatedDate: Foundation.Date?
 
         public init(
             connectionPoolConfig: RDSClientTypes.ConnectionPoolConfigurationInfo? = nil,
-            createdDate: ClientRuntime.Date? = nil,
+            createdDate: Foundation.Date? = nil,
             dbProxyName: Swift.String? = nil,
             isDefault: Swift.Bool? = nil,
             status: Swift.String? = nil,
             targetGroupArn: Swift.String? = nil,
             targetGroupName: Swift.String? = nil,
-            updatedDate: ClientRuntime.Date? = nil
+            updatedDate: Foundation.Date? = nil
         )
         {
             self.connectionPoolConfig = connectionPoolConfig
@@ -10592,7 +10594,7 @@ extension RDSClientTypes {
         /// * sustainability
         public var category: Swift.String?
         /// The time when the recommendation was created. For example, 2023-09-28T01:13:53.931000+00:00.
-        public var createdTime: ClientRuntime.Date?
+        public var createdTime: Foundation.Date?
         /// A detailed description of the recommendation. The description might contain markdown.
         public var description: Swift.String?
         /// A short description of the issue identified for this recommendation. The description might contain markdown.
@@ -10642,12 +10644,12 @@ extension RDSClientTypes {
         /// A short description that summarizes the recommendation to fix all the issues of the recommendation type. The description might contain markdown.
         public var typeRecommendation: Swift.String?
         /// The time when the recommendation was last updated.
-        public var updatedTime: ClientRuntime.Date?
+        public var updatedTime: Foundation.Date?
 
         public init(
             additionalInfo: Swift.String? = nil,
             category: Swift.String? = nil,
-            createdTime: ClientRuntime.Date? = nil,
+            createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             detection: Swift.String? = nil,
             impact: Swift.String? = nil,
@@ -10664,7 +10666,7 @@ extension RDSClientTypes {
             typeDetection: Swift.String? = nil,
             typeId: Swift.String? = nil,
             typeRecommendation: Swift.String? = nil,
-            updatedTime: ClientRuntime.Date? = nil
+            updatedTime: Foundation.Date? = nil
         )
         {
             self.additionalInfo = additionalInfo
@@ -11148,7 +11150,7 @@ extension RDSClientTypes {
         /// Indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// Specifies the time in Coordinated Universal Time (UTC) when the DB instance, from which the snapshot was taken, was created.
-        public var instanceCreateTime: ClientRuntime.Date?
+        public var instanceCreateTime: Foundation.Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value of the DB instance at the time of the snapshot.
         public var iops: Swift.Int?
         /// If Encrypted is true, the Amazon Web Services KMS key identifier for the encrypted DB snapshot. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
@@ -11162,7 +11164,7 @@ extension RDSClientTypes {
         /// Provides the option group name for the DB snapshot.
         public var optionGroupName: Swift.String?
         /// Specifies the time of the CreateDBSnapshot operation in Coordinated Universal Time (UTC). Doesn't change when the snapshot is copied.
-        public var originalSnapshotCreateTime: ClientRuntime.Date?
+        public var originalSnapshotCreateTime: Foundation.Date?
         /// The percentage of the estimated data that has been transferred.
         public var percentProgress: Swift.Int?
         /// Specifies the port that the database engine was listening on at the time of the snapshot.
@@ -11170,9 +11172,9 @@ extension RDSClientTypes {
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance when the DB snapshot was created.
         public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
         /// Specifies when the snapshot was taken in Coordinated Universal Time (UTC). Changes for the copy when the snapshot is copied.
-        public var snapshotCreateTime: ClientRuntime.Date?
+        public var snapshotCreateTime: Foundation.Date?
         /// The timestamp of the most recent transaction applied to the database that you're backing up. Thus, if you restore a snapshot, SnapshotDatabaseTime is the most recent transaction in the restored DB instance. In contrast, originalSnapshotCreateTime specifies the system time that the snapshot completed. If you back up a read replica, you can determine the replica lag by comparing SnapshotDatabaseTime with originalSnapshotCreateTime. For example, if originalSnapshotCreateTime is two hours later than SnapshotDatabaseTime, then the replica lag is two hours.
-        public var snapshotDatabaseTime: ClientRuntime.Date?
+        public var snapshotDatabaseTime: Foundation.Date?
         /// Specifies where manual snapshots are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
         public var snapshotTarget: Swift.String?
         /// Provides the type of the DB snapshot.
@@ -11209,19 +11211,19 @@ extension RDSClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
-            instanceCreateTime: ClientRuntime.Date? = nil,
+            instanceCreateTime: Foundation.Date? = nil,
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
             multiTenant: Swift.Bool? = nil,
             optionGroupName: Swift.String? = nil,
-            originalSnapshotCreateTime: ClientRuntime.Date? = nil,
+            originalSnapshotCreateTime: Foundation.Date? = nil,
             percentProgress: Swift.Int? = nil,
             port: Swift.Int? = nil,
             processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
-            snapshotCreateTime: ClientRuntime.Date? = nil,
-            snapshotDatabaseTime: ClientRuntime.Date? = nil,
+            snapshotCreateTime: Foundation.Date? = nil,
+            snapshotDatabaseTime: Foundation.Date? = nil,
             snapshotTarget: Swift.String? = nil,
             snapshotType: Swift.String? = nil,
             sourceDBSnapshotIdentifier: Swift.String? = nil,
@@ -11460,7 +11462,7 @@ extension RDSClientTypes {
         /// The name of the tenant database.
         public var tenantDBName: Swift.String?
         /// The time the DB snapshot was taken, specified in Coordinated Universal Time (UTC). If you copy the snapshot, the creation time changes.
-        public var tenantDatabaseCreateTime: ClientRuntime.Date?
+        public var tenantDatabaseCreateTime: Foundation.Date?
         /// The resource ID of the tenant database.
         public var tenantDatabaseResourceId: Swift.String?
 
@@ -11476,7 +11478,7 @@ extension RDSClientTypes {
             snapshotType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             tenantDBName: Swift.String? = nil,
-            tenantDatabaseCreateTime: ClientRuntime.Date? = nil,
+            tenantDatabaseCreateTime: Foundation.Date? = nil,
             tenantDatabaseResourceId: Swift.String? = nil
         )
         {
@@ -11896,7 +11898,7 @@ public struct DeleteBlueGreenDeploymentInput {
 
 extension DeleteBlueGreenDeploymentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBlueGreenDeploymentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBlueGreenDeploymentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteBlueGreenDeploymentResult"]
@@ -11920,7 +11922,7 @@ public struct DeleteBlueGreenDeploymentOutput {
 
 enum DeleteBlueGreenDeploymentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11979,7 +11981,7 @@ public struct DeleteCustomDBEngineVersionInput {
 
 extension DeleteCustomDBEngineVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCustomDBEngineVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCustomDBEngineVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteCustomDBEngineVersionResult"]
@@ -12025,7 +12027,7 @@ extension DeleteCustomDBEngineVersionOutput {
 /// This data type is used as a response element in the action DescribeDBEngineVersions.
 public struct DeleteCustomDBEngineVersionOutput {
     /// The creation time of the DB engine version.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
     /// The name of the Amazon S3 bucket that contains your database installation files.
@@ -12094,7 +12096,7 @@ public struct DeleteCustomDBEngineVersionOutput {
     public var validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         customDBEngineVersionManifest: Swift.String? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
@@ -12169,7 +12171,7 @@ public struct DeleteCustomDBEngineVersionOutput {
 
 enum DeleteCustomDBEngineVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12214,7 +12216,7 @@ public struct DeleteDBClusterAutomatedBackupInput {
 
 extension DeleteDBClusterAutomatedBackupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBClusterAutomatedBackupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBClusterAutomatedBackupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBClusterAutomatedBackupResult"]
@@ -12238,7 +12240,7 @@ public struct DeleteDBClusterAutomatedBackupOutput {
 
 enum DeleteDBClusterAutomatedBackupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12283,7 +12285,7 @@ public struct DeleteDBClusterEndpointInput {
 
 extension DeleteDBClusterEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBClusterEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBClusterEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBClusterEndpointResult"]
@@ -12364,7 +12366,7 @@ public struct DeleteDBClusterEndpointOutput {
 
 enum DeleteDBClusterEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12434,7 +12436,7 @@ public struct DeleteDBClusterInput {
 
 extension DeleteDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBClusterResult"]
@@ -12458,7 +12460,7 @@ public struct DeleteDBClusterOutput {
 
 enum DeleteDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12514,7 +12516,7 @@ public struct DeleteDBClusterParameterGroupInput {
 
 extension DeleteDBClusterParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBClusterParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBClusterParameterGroupOutput {
         return DeleteDBClusterParameterGroupOutput()
     }
 }
@@ -12526,7 +12528,7 @@ public struct DeleteDBClusterParameterGroupOutput {
 
 enum DeleteDBClusterParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12572,7 +12574,7 @@ public struct DeleteDBClusterSnapshotInput {
 
 extension DeleteDBClusterSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBClusterSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBClusterSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBClusterSnapshotResult"]
@@ -12596,7 +12598,7 @@ public struct DeleteDBClusterSnapshotOutput {
 
 enum DeleteDBClusterSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12646,7 +12648,7 @@ public struct DeleteDBInstanceAutomatedBackupInput {
 
 extension DeleteDBInstanceAutomatedBackupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBInstanceAutomatedBackupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBInstanceAutomatedBackupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBInstanceAutomatedBackupResult"]
@@ -12670,7 +12672,7 @@ public struct DeleteDBInstanceAutomatedBackupOutput {
 
 enum DeleteDBInstanceAutomatedBackupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12741,7 +12743,7 @@ public struct DeleteDBInstanceInput {
 
 extension DeleteDBInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBInstanceResult"]
@@ -12765,7 +12767,7 @@ public struct DeleteDBInstanceOutput {
 
 enum DeleteDBInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12821,7 +12823,7 @@ public struct DeleteDBParameterGroupInput {
 
 extension DeleteDBParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBParameterGroupOutput {
         return DeleteDBParameterGroupOutput()
     }
 }
@@ -12833,7 +12835,7 @@ public struct DeleteDBParameterGroupOutput {
 
 enum DeleteDBParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12878,7 +12880,7 @@ public struct DeleteDBProxyEndpointInput {
 
 extension DeleteDBProxyEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBProxyEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBProxyEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBProxyEndpointResult"]
@@ -12902,7 +12904,7 @@ public struct DeleteDBProxyEndpointOutput {
 
 enum DeleteDBProxyEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -12947,7 +12949,7 @@ public struct DeleteDBProxyInput {
 
 extension DeleteDBProxyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBProxyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBProxyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBProxyResult"]
@@ -12971,7 +12973,7 @@ public struct DeleteDBProxyOutput {
 
 enum DeleteDBProxyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13025,7 +13027,7 @@ public struct DeleteDBSecurityGroupInput {
 
 extension DeleteDBSecurityGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBSecurityGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBSecurityGroupOutput {
         return DeleteDBSecurityGroupOutput()
     }
 }
@@ -13037,7 +13039,7 @@ public struct DeleteDBSecurityGroupOutput {
 
 enum DeleteDBSecurityGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13082,7 +13084,7 @@ public struct DeleteDBShardGroupInput {
 
 extension DeleteDBShardGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBShardGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBShardGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBShardGroupResult"]
@@ -13147,7 +13149,7 @@ public struct DeleteDBShardGroupOutput {
 
 enum DeleteDBShardGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13194,7 +13196,7 @@ public struct DeleteDBSnapshotInput {
 
 extension DeleteDBSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteDBSnapshotResult"]
@@ -13218,7 +13220,7 @@ public struct DeleteDBSnapshotOutput {
 
 enum DeleteDBSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13264,7 +13266,7 @@ public struct DeleteDBSubnetGroupInput {
 
 extension DeleteDBSubnetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDBSubnetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDBSubnetGroupOutput {
         return DeleteDBSubnetGroupOutput()
     }
 }
@@ -13276,7 +13278,7 @@ public struct DeleteDBSubnetGroupOutput {
 
 enum DeleteDBSubnetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13323,7 +13325,7 @@ public struct DeleteEventSubscriptionInput {
 
 extension DeleteEventSubscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEventSubscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEventSubscriptionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteEventSubscriptionResult"]
@@ -13347,7 +13349,7 @@ public struct DeleteEventSubscriptionOutput {
 
 enum DeleteEventSubscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13392,7 +13394,7 @@ public struct DeleteGlobalClusterInput {
 
 extension DeleteGlobalClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGlobalClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGlobalClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteGlobalClusterResult"]
@@ -13416,7 +13418,7 @@ public struct DeleteGlobalClusterOutput {
 
 enum DeleteGlobalClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13461,7 +13463,7 @@ public struct DeleteIntegrationInput {
 
 extension DeleteIntegrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteIntegrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteIntegrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteIntegrationResult"]
@@ -13487,7 +13489,7 @@ public struct DeleteIntegrationOutput {
     /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// The time when the integration was created, in Universal Coordinated Time (UTC).
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// Data filters for the integration. These filters determine which tables from the source database are sent to the target Amazon Redshift data warehouse.
     public var dataFilter: Swift.String?
     /// A description of the integration.
@@ -13511,7 +13513,7 @@ public struct DeleteIntegrationOutput {
 
     public init(
         additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         dataFilter: Swift.String? = nil,
         description: Swift.String? = nil,
         errors: [RDSClientTypes.IntegrationError]? = nil,
@@ -13541,7 +13543,7 @@ public struct DeleteIntegrationOutput {
 
 enum DeleteIntegrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13588,7 +13590,7 @@ public struct DeleteOptionGroupInput {
 
 extension DeleteOptionGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteOptionGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteOptionGroupOutput {
         return DeleteOptionGroupOutput()
     }
 }
@@ -13600,7 +13602,7 @@ public struct DeleteOptionGroupOutput {
 
 enum DeleteOptionGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13661,7 +13663,7 @@ public struct DeleteTenantDatabaseInput {
 
 extension DeleteTenantDatabaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTenantDatabaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTenantDatabaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DeleteTenantDatabaseResult"]
@@ -13685,7 +13687,7 @@ public struct DeleteTenantDatabaseOutput {
 
 enum DeleteTenantDatabaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13746,7 +13748,7 @@ public struct DeregisterDBProxyTargetsInput {
 
 extension DeregisterDBProxyTargetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeregisterDBProxyTargetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeregisterDBProxyTargetsOutput {
         return DeregisterDBProxyTargetsOutput()
     }
 }
@@ -13758,7 +13760,7 @@ public struct DeregisterDBProxyTargetsOutput {
 
 enum DeregisterDBProxyTargetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13798,7 +13800,7 @@ public struct DescribeAccountAttributesInput {
 
 extension DescribeAccountAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAccountAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAccountAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeAccountAttributesResult"]
@@ -13823,7 +13825,7 @@ public struct DescribeAccountAttributesOutput {
 
 enum DescribeAccountAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13894,7 +13896,7 @@ public struct DescribeBlueGreenDeploymentsInput {
 
 extension DescribeBlueGreenDeploymentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeBlueGreenDeploymentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeBlueGreenDeploymentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeBlueGreenDeploymentsResult"]
@@ -13923,7 +13925,7 @@ public struct DescribeBlueGreenDeploymentsOutput {
 
 enum DescribeBlueGreenDeploymentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -13984,7 +13986,7 @@ public struct DescribeCertificatesInput {
 
 extension DescribeCertificatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCertificatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCertificatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeCertificatesResult"]
@@ -14019,7 +14021,7 @@ public struct DescribeCertificatesOutput {
 
 enum DescribeCertificatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14096,7 +14098,7 @@ public struct DescribeDBClusterAutomatedBackupsInput {
 
 extension DescribeDBClusterAutomatedBackupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBClusterAutomatedBackupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBClusterAutomatedBackupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBClusterAutomatedBackupsResult"]
@@ -14125,7 +14127,7 @@ public struct DescribeDBClusterAutomatedBackupsOutput {
 
 enum DescribeDBClusterAutomatedBackupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14219,7 +14221,7 @@ public struct DescribeDBClusterBacktracksInput {
 
 extension DescribeDBClusterBacktracksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBClusterBacktracksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBClusterBacktracksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBClusterBacktracksResult"]
@@ -14249,7 +14251,7 @@ public struct DescribeDBClusterBacktracksOutput {
 
 enum DescribeDBClusterBacktracksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14313,7 +14315,7 @@ public struct DescribeDBClusterEndpointsInput {
 
 extension DescribeDBClusterEndpointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBClusterEndpointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBClusterEndpointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBClusterEndpointsResult"]
@@ -14342,7 +14344,7 @@ public struct DescribeDBClusterEndpointsOutput {
 
 enum DescribeDBClusterEndpointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14403,7 +14405,7 @@ public struct DescribeDBClusterParameterGroupsInput {
 
 extension DescribeDBClusterParameterGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBClusterParameterGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBClusterParameterGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBClusterParameterGroupsResult"]
@@ -14433,7 +14435,7 @@ public struct DescribeDBClusterParameterGroupsOutput {
 
 enum DescribeDBClusterParameterGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14506,7 +14508,7 @@ public struct DescribeDBClusterParametersInput {
 
 extension DescribeDBClusterParametersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBClusterParametersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBClusterParametersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBClusterParametersResult"]
@@ -14536,7 +14538,7 @@ public struct DescribeDBClusterParametersOutput {
 
 enum DescribeDBClusterParametersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14581,7 +14583,7 @@ public struct DescribeDBClusterSnapshotAttributesInput {
 
 extension DescribeDBClusterSnapshotAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBClusterSnapshotAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBClusterSnapshotAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBClusterSnapshotAttributesResult"]
@@ -14605,7 +14607,7 @@ public struct DescribeDBClusterSnapshotAttributesOutput {
 
 enum DescribeDBClusterSnapshotAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14714,7 +14716,7 @@ public struct DescribeDBClusterSnapshotsInput {
 
 extension DescribeDBClusterSnapshotsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBClusterSnapshotsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBClusterSnapshotsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBClusterSnapshotsResult"]
@@ -14744,7 +14746,7 @@ public struct DescribeDBClusterSnapshotsOutput {
 
 enum DescribeDBClusterSnapshotsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14820,7 +14822,7 @@ public struct DescribeDBClustersInput {
 
 extension DescribeDBClustersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBClustersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBClustersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBClustersResult"]
@@ -14850,7 +14852,7 @@ public struct DescribeDBClustersOutput {
 
 enum DescribeDBClustersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15005,7 +15007,7 @@ public struct DescribeDBEngineVersionsInput {
 
 extension DescribeDBEngineVersionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBEngineVersionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBEngineVersionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBEngineVersionsResult"]
@@ -15035,7 +15037,7 @@ public struct DescribeDBEngineVersionsOutput {
 
 enum DescribeDBEngineVersionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15121,7 +15123,7 @@ public struct DescribeDBInstanceAutomatedBackupsInput {
 
 extension DescribeDBInstanceAutomatedBackupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBInstanceAutomatedBackupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBInstanceAutomatedBackupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBInstanceAutomatedBackupsResult"]
@@ -15151,7 +15153,7 @@ public struct DescribeDBInstanceAutomatedBackupsOutput {
 
 enum DescribeDBInstanceAutomatedBackupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15222,7 +15224,7 @@ public struct DescribeDBInstancesInput {
 
 extension DescribeDBInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBInstancesResult"]
@@ -15252,7 +15254,7 @@ public struct DescribeDBInstancesOutput {
 
 enum DescribeDBInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15365,7 +15367,7 @@ public struct DescribeDBLogFilesInput {
 
 extension DescribeDBLogFilesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBLogFilesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBLogFilesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBLogFilesResult"]
@@ -15395,7 +15397,7 @@ public struct DescribeDBLogFilesOutput {
 
 enum DescribeDBLogFilesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15456,7 +15458,7 @@ public struct DescribeDBParameterGroupsInput {
 
 extension DescribeDBParameterGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBParameterGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBParameterGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBParameterGroupsResult"]
@@ -15486,7 +15488,7 @@ public struct DescribeDBParameterGroupsOutput {
 
 enum DescribeDBParameterGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15552,7 +15554,7 @@ public struct DescribeDBParametersInput {
 
 extension DescribeDBParametersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBParametersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBParametersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBParametersResult"]
@@ -15582,7 +15584,7 @@ public struct DescribeDBParametersOutput {
 
 enum DescribeDBParametersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15640,7 +15642,7 @@ public struct DescribeDBProxiesInput {
 
 extension DescribeDBProxiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBProxiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBProxiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBProxiesResult"]
@@ -15669,7 +15671,7 @@ public struct DescribeDBProxiesOutput {
 
 enum DescribeDBProxiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15732,7 +15734,7 @@ public struct DescribeDBProxyEndpointsInput {
 
 extension DescribeDBProxyEndpointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBProxyEndpointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBProxyEndpointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBProxyEndpointsResult"]
@@ -15761,7 +15763,7 @@ public struct DescribeDBProxyEndpointsOutput {
 
 enum DescribeDBProxyEndpointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15826,7 +15828,7 @@ public struct DescribeDBProxyTargetGroupsInput {
 
 extension DescribeDBProxyTargetGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBProxyTargetGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBProxyTargetGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBProxyTargetGroupsResult"]
@@ -15855,7 +15857,7 @@ public struct DescribeDBProxyTargetGroupsOutput {
 
 enum DescribeDBProxyTargetGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15921,7 +15923,7 @@ public struct DescribeDBProxyTargetsInput {
 
 extension DescribeDBProxyTargetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBProxyTargetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBProxyTargetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBProxyTargetsResult"]
@@ -15950,7 +15952,7 @@ public struct DescribeDBProxyTargetsOutput {
 
 enum DescribeDBProxyTargetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16029,9 +16031,9 @@ public struct DescribeDBRecommendationsInput {
     /// * cluster-pg-arn - Accepts a list of cluster parameter group ARNs. The results list only includes the recommendations that generated for the specified cluster parameter groups.
     public var filters: [RDSClientTypes.Filter]?
     /// A filter to include only the recommendations that were updated after this specified time.
-    public var lastUpdatedAfter: ClientRuntime.Date?
+    public var lastUpdatedAfter: Foundation.Date?
     /// A filter to include only the recommendations that were updated before this specified time.
-    public var lastUpdatedBefore: ClientRuntime.Date?
+    public var lastUpdatedBefore: Foundation.Date?
     /// The language that you choose to return the list of recommendations. Valid values:
     ///
     /// * en
@@ -16065,8 +16067,8 @@ public struct DescribeDBRecommendationsInput {
 
     public init(
         filters: [RDSClientTypes.Filter]? = nil,
-        lastUpdatedAfter: ClientRuntime.Date? = nil,
-        lastUpdatedBefore: ClientRuntime.Date? = nil,
+        lastUpdatedAfter: Foundation.Date? = nil,
+        lastUpdatedBefore: Foundation.Date? = nil,
         locale: Swift.String? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil
@@ -16083,7 +16085,7 @@ public struct DescribeDBRecommendationsInput {
 
 extension DescribeDBRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBRecommendationsResult"]
@@ -16112,7 +16114,7 @@ public struct DescribeDBRecommendationsOutput {
 
 enum DescribeDBRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16170,7 +16172,7 @@ public struct DescribeDBSecurityGroupsInput {
 
 extension DescribeDBSecurityGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBSecurityGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBSecurityGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBSecurityGroupsResult"]
@@ -16200,7 +16202,7 @@ public struct DescribeDBSecurityGroupsOutput {
 
 enum DescribeDBSecurityGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16260,7 +16262,7 @@ public struct DescribeDBShardGroupsInput {
 
 extension DescribeDBShardGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBShardGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBShardGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBShardGroupsResult"]
@@ -16289,7 +16291,7 @@ public struct DescribeDBShardGroupsOutput {
 
 enum DescribeDBShardGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16335,7 +16337,7 @@ public struct DescribeDBSnapshotAttributesInput {
 
 extension DescribeDBSnapshotAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBSnapshotAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBSnapshotAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBSnapshotAttributesResult"]
@@ -16359,7 +16361,7 @@ public struct DescribeDBSnapshotAttributesOutput {
 
 enum DescribeDBSnapshotAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16460,7 +16462,7 @@ public struct DescribeDBSnapshotTenantDatabasesInput {
 
 extension DescribeDBSnapshotTenantDatabasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBSnapshotTenantDatabasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBSnapshotTenantDatabasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBSnapshotTenantDatabasesResult"]
@@ -16489,7 +16491,7 @@ public struct DescribeDBSnapshotTenantDatabasesOutput {
 
 enum DescribeDBSnapshotTenantDatabasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16602,7 +16604,7 @@ public struct DescribeDBSnapshotsInput {
 
 extension DescribeDBSnapshotsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBSnapshotsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBSnapshotsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBSnapshotsResult"]
@@ -16632,7 +16634,7 @@ public struct DescribeDBSnapshotsOutput {
 
 enum DescribeDBSnapshotsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16691,7 +16693,7 @@ public struct DescribeDBSubnetGroupsInput {
 
 extension DescribeDBSubnetGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDBSubnetGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDBSubnetGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeDBSubnetGroupsResult"]
@@ -16721,7 +16723,7 @@ public struct DescribeDBSubnetGroupsOutput {
 
 enum DescribeDBSubnetGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16781,7 +16783,7 @@ public struct DescribeEngineDefaultClusterParametersInput {
 
 extension DescribeEngineDefaultClusterParametersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEngineDefaultClusterParametersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEngineDefaultClusterParametersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEngineDefaultClusterParametersResult"]
@@ -16805,7 +16807,7 @@ public struct DescribeEngineDefaultClusterParametersOutput {
 
 enum DescribeEngineDefaultClusterParametersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -16962,7 +16964,7 @@ public struct DescribeEngineDefaultParametersInput {
 
 extension DescribeEngineDefaultParametersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEngineDefaultParametersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEngineDefaultParametersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEngineDefaultParametersResult"]
@@ -16986,7 +16988,7 @@ public struct DescribeEngineDefaultParametersOutput {
 
 enum DescribeEngineDefaultParametersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17034,7 +17036,7 @@ public struct DescribeEventCategoriesInput {
 
 extension DescribeEventCategoriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventCategoriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventCategoriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEventCategoriesResult"]
@@ -17059,7 +17061,7 @@ public struct DescribeEventCategoriesOutput {
 
 enum DescribeEventCategoriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17117,7 +17119,7 @@ public struct DescribeEventSubscriptionsInput {
 
 extension DescribeEventSubscriptionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventSubscriptionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventSubscriptionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEventSubscriptionsResult"]
@@ -17147,7 +17149,7 @@ public struct DescribeEventSubscriptionsOutput {
 
 enum DescribeEventSubscriptionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17189,7 +17191,7 @@ public struct DescribeEventsInput {
     /// The number of minutes to retrieve events for. Default: 60
     public var duration: Swift.Int?
     /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the [ISO8601 Wikipedia page.](http://en.wikipedia.org/wiki/ISO_8601) Example: 2009-07-08T18:00Z
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// A list of event categories that trigger notifications for a event notification subscription.
     public var eventCategories: [Swift.String]?
     /// This parameter isn't currently supported.
@@ -17221,18 +17223,18 @@ public struct DescribeEventsInput {
     /// The event source to retrieve events for. If no value is specified, all events are returned.
     public var sourceType: RDSClientTypes.SourceType?
     /// The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the [ISO8601 Wikipedia page.](http://en.wikipedia.org/wiki/ISO_8601) Example: 2009-07-08T18:00Z
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         duration: Swift.Int? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         eventCategories: [Swift.String]? = nil,
         filters: [RDSClientTypes.Filter]? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         sourceIdentifier: Swift.String? = nil,
         sourceType: RDSClientTypes.SourceType? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.duration = duration
@@ -17249,7 +17251,7 @@ public struct DescribeEventsInput {
 
 extension DescribeEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeEventsResult"]
@@ -17279,7 +17281,7 @@ public struct DescribeEventsOutput {
 
 enum DescribeEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17366,7 +17368,7 @@ public struct DescribeExportTasksInput {
 
 extension DescribeExportTasksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeExportTasksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeExportTasksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeExportTasksResult"]
@@ -17395,7 +17397,7 @@ public struct DescribeExportTasksOutput {
 
 enum DescribeExportTasksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17455,7 +17457,7 @@ public struct DescribeGlobalClustersInput {
 
 extension DescribeGlobalClustersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeGlobalClustersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeGlobalClustersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeGlobalClustersResult"]
@@ -17484,7 +17486,7 @@ public struct DescribeGlobalClustersOutput {
 
 enum DescribeGlobalClustersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17542,7 +17544,7 @@ public struct DescribeIntegrationsInput {
 
 extension DescribeIntegrationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeIntegrationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeIntegrationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeIntegrationsResult"]
@@ -17571,7 +17573,7 @@ public struct DescribeIntegrationsOutput {
 
 enum DescribeIntegrationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17662,7 +17664,7 @@ public struct DescribeOptionGroupOptionsInput {
 
 extension DescribeOptionGroupOptionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeOptionGroupOptionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeOptionGroupOptionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeOptionGroupOptionsResult"]
@@ -17692,7 +17694,7 @@ public struct DescribeOptionGroupOptionsOutput {
 
 enum DescribeOptionGroupOptionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17786,7 +17788,7 @@ public struct DescribeOptionGroupsInput {
 
 extension DescribeOptionGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeOptionGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeOptionGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeOptionGroupsResult"]
@@ -17816,7 +17818,7 @@ public struct DescribeOptionGroupsOutput {
 
 enum DescribeOptionGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -17939,7 +17941,7 @@ public struct DescribeOrderableDBInstanceOptionsInput {
 
 extension DescribeOrderableDBInstanceOptionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeOrderableDBInstanceOptionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeOrderableDBInstanceOptionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeOrderableDBInstanceOptionsResult"]
@@ -17969,7 +17971,7 @@ public struct DescribeOrderableDBInstanceOptionsOutput {
 
 enum DescribeOrderableDBInstanceOptionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18031,7 +18033,7 @@ public struct DescribePendingMaintenanceActionsInput {
 
 extension DescribePendingMaintenanceActionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePendingMaintenanceActionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePendingMaintenanceActionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribePendingMaintenanceActionsResult"]
@@ -18061,7 +18063,7 @@ public struct DescribePendingMaintenanceActionsOutput {
 
 enum DescribePendingMaintenanceActionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18225,7 +18227,7 @@ public struct DescribeReservedDBInstancesOfferingsInput {
 
 extension DescribeReservedDBInstancesOfferingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeReservedDBInstancesOfferingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeReservedDBInstancesOfferingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeReservedDBInstancesOfferingsResult"]
@@ -18255,7 +18257,7 @@ public struct DescribeReservedDBInstancesOfferingsOutput {
 
 enum DescribeReservedDBInstancesOfferingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18269,7 +18271,7 @@ enum DescribeReservedDBInstancesOfferingsOutputError {
 
 extension DescribeReservedDBInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeReservedDBInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeReservedDBInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeReservedDBInstancesResult"]
@@ -18299,7 +18301,7 @@ public struct DescribeReservedDBInstancesOutput {
 
 enum DescribeReservedDBInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18360,7 +18362,7 @@ public struct DescribeSourceRegionsInput {
 
 extension DescribeSourceRegionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeSourceRegionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeSourceRegionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeSourceRegionsResult"]
@@ -18390,7 +18392,7 @@ public struct DescribeSourceRegionsOutput {
 
 enum DescribeSourceRegionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18458,7 +18460,7 @@ public struct DescribeTenantDatabasesInput {
 
 extension DescribeTenantDatabasesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTenantDatabasesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTenantDatabasesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeTenantDatabasesResult"]
@@ -18487,7 +18489,7 @@ public struct DescribeTenantDatabasesOutput {
 
 enum DescribeTenantDatabasesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18532,7 +18534,7 @@ public struct DescribeValidDBInstanceModificationsInput {
 
 extension DescribeValidDBInstanceModificationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeValidDBInstanceModificationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeValidDBInstanceModificationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DescribeValidDBInstanceModificationsResult"]
@@ -18556,7 +18558,7 @@ public struct DescribeValidDBInstanceModificationsOutput {
 
 enum DescribeValidDBInstanceModificationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18601,7 +18603,7 @@ public struct DisableHttpEndpointInput {
 
 extension DisableHttpEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableHttpEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableHttpEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DisableHttpEndpointResult"]
@@ -18630,7 +18632,7 @@ public struct DisableHttpEndpointOutput {
 
 enum DisableHttpEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -18857,7 +18859,7 @@ public struct DownloadDBLogFilePortionInput {
 
 extension DownloadDBLogFilePortionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DownloadDBLogFilePortionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DownloadDBLogFilePortionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DownloadDBLogFilePortionResult"]
@@ -18892,7 +18894,7 @@ public struct DownloadDBLogFilePortionOutput {
 
 enum DownloadDBLogFilePortionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19021,7 +19023,7 @@ public struct EnableHttpEndpointInput {
 
 extension EnableHttpEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableHttpEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableHttpEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["EnableHttpEndpointResult"]
@@ -19050,7 +19052,7 @@ public struct EnableHttpEndpointOutput {
 
 enum EnableHttpEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19195,7 +19197,7 @@ extension RDSClientTypes {
     /// This data type is used as a response element in the [DescribeEvents](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeEvents.html) action.
     public struct Event {
         /// Specifies the date and time of the event.
-        public var date: ClientRuntime.Date?
+        public var date: Foundation.Date?
         /// Specifies the category for the event.
         public var eventCategories: [Swift.String]?
         /// Provides the text of this event.
@@ -19208,7 +19210,7 @@ extension RDSClientTypes {
         public var sourceType: RDSClientTypes.SourceType?
 
         public init(
-            date: ClientRuntime.Date? = nil,
+            date: Foundation.Date? = nil,
             eventCategories: [Swift.String]? = nil,
             message: Swift.String? = nil,
             sourceArn: Swift.String? = nil,
@@ -19448,7 +19450,7 @@ extension RDSClientTypes {
         /// The Amazon S3 bucket prefix that is the file name and path of the exported data.
         public var s3Prefix: Swift.String?
         /// The time when the snapshot was created.
-        public var snapshotTime: ClientRuntime.Date?
+        public var snapshotTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the snapshot or cluster exported to Amazon S3.
         public var sourceArn: Swift.String?
         /// The type of source for the export.
@@ -19468,9 +19470,9 @@ extension RDSClientTypes {
         /// * STARTING
         public var status: Swift.String?
         /// The time when the snapshot or cluster export task ended.
-        public var taskEndTime: ClientRuntime.Date?
+        public var taskEndTime: Foundation.Date?
         /// The time when the snapshot or cluster export task started.
-        public var taskStartTime: ClientRuntime.Date?
+        public var taskStartTime: Foundation.Date?
         /// The total amount of data exported, in gigabytes.
         public var totalExtractedDataInGB: Swift.Int?
         /// A warning about the snapshot or cluster export task.
@@ -19485,12 +19487,12 @@ extension RDSClientTypes {
             percentProgress: Swift.Int? = nil,
             s3Bucket: Swift.String? = nil,
             s3Prefix: Swift.String? = nil,
-            snapshotTime: ClientRuntime.Date? = nil,
+            snapshotTime: Foundation.Date? = nil,
             sourceArn: Swift.String? = nil,
             sourceType: RDSClientTypes.ExportSourceType? = nil,
             status: Swift.String? = nil,
-            taskEndTime: ClientRuntime.Date? = nil,
-            taskStartTime: ClientRuntime.Date? = nil,
+            taskEndTime: Foundation.Date? = nil,
+            taskStartTime: Foundation.Date? = nil,
             totalExtractedDataInGB: Swift.Int? = nil,
             warningMessage: Swift.String? = nil
         )
@@ -19630,7 +19632,7 @@ public struct FailoverDBClusterInput {
 
 extension FailoverDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> FailoverDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> FailoverDBClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["FailoverDBClusterResult"]
@@ -19654,7 +19656,7 @@ public struct FailoverDBClusterOutput {
 
 enum FailoverDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -19722,7 +19724,7 @@ public struct FailoverGlobalClusterInput {
 
 extension FailoverGlobalClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> FailoverGlobalClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> FailoverGlobalClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["FailoverGlobalClusterResult"]
@@ -19746,7 +19748,7 @@ public struct FailoverGlobalClusterOutput {
 
 enum FailoverGlobalClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -20503,7 +20505,7 @@ extension RDSClientTypes {
         /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
         public var additionalEncryptionContext: [Swift.String:Swift.String]?
         /// The time when the integration was created, in Universal Coordinated Time (UTC).
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// Data filters for the integration. These filters determine which tables from the source database are sent to the target Amazon Redshift data warehouse.
         public var dataFilter: Swift.String?
         /// A description of the integration.
@@ -20527,7 +20529,7 @@ extension RDSClientTypes {
 
         public init(
             additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
-            createTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
             dataFilter: Swift.String? = nil,
             description: Swift.String? = nil,
             errors: [RDSClientTypes.IntegrationError]? = nil,
@@ -22107,7 +22109,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListTagsForResourceResult"]
@@ -22132,7 +22134,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22436,7 +22438,7 @@ public struct ModifyActivityStreamInput {
 
 extension ModifyActivityStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyActivityStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyActivityStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyActivityStreamResult"]
@@ -22485,7 +22487,7 @@ public struct ModifyActivityStreamOutput {
 
 enum ModifyActivityStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22535,7 +22537,7 @@ public struct ModifyCertificatesInput {
 
 extension ModifyCertificatesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyCertificatesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyCertificatesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyCertificatesResult"]
@@ -22559,7 +22561,7 @@ public struct ModifyCertificatesOutput {
 
 enum ModifyCertificatesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22624,7 +22626,7 @@ public struct ModifyCurrentDBClusterCapacityInput {
 
 extension ModifyCurrentDBClusterCapacityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyCurrentDBClusterCapacityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyCurrentDBClusterCapacityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyCurrentDBClusterCapacityResult"]
@@ -22668,7 +22670,7 @@ public struct ModifyCurrentDBClusterCapacityOutput {
 
 enum ModifyCurrentDBClusterCapacityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22738,7 +22740,7 @@ public struct ModifyCustomDBEngineVersionInput {
 
 extension ModifyCustomDBEngineVersionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyCustomDBEngineVersionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyCustomDBEngineVersionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyCustomDBEngineVersionResult"]
@@ -22784,7 +22786,7 @@ extension ModifyCustomDBEngineVersionOutput {
 /// This data type is used as a response element in the action DescribeDBEngineVersions.
 public struct ModifyCustomDBEngineVersionOutput {
     /// The creation time of the DB engine version.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
     /// The name of the Amazon S3 bucket that contains your database installation files.
@@ -22853,7 +22855,7 @@ public struct ModifyCustomDBEngineVersionOutput {
     public var validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         customDBEngineVersionManifest: Swift.String? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
@@ -22928,7 +22930,7 @@ public struct ModifyCustomDBEngineVersionOutput {
 
 enum ModifyCustomDBEngineVersionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -22988,7 +22990,7 @@ public struct ModifyDBClusterEndpointInput {
 
 extension ModifyDBClusterEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBClusterEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBClusterEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBClusterEndpointResult"]
@@ -23069,7 +23071,7 @@ public struct ModifyDBClusterEndpointOutput {
 
 enum ModifyDBClusterEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23425,7 +23427,7 @@ public struct ModifyDBClusterInput {
 
 extension ModifyDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBClusterResult"]
@@ -23449,7 +23451,7 @@ public struct ModifyDBClusterOutput {
 
 enum ModifyDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23514,7 +23516,7 @@ public struct ModifyDBClusterParameterGroupInput {
 
 extension ModifyDBClusterParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBClusterParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBClusterParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBClusterParameterGroupResult"]
@@ -23548,7 +23550,7 @@ public struct ModifyDBClusterParameterGroupOutput {
 
 enum ModifyDBClusterParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -23610,7 +23612,7 @@ public struct ModifyDBClusterSnapshotAttributeInput {
 
 extension ModifyDBClusterSnapshotAttributeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBClusterSnapshotAttributeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBClusterSnapshotAttributeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBClusterSnapshotAttributeResult"]
@@ -23634,7 +23636,7 @@ public struct ModifyDBClusterSnapshotAttributeOutput {
 
 enum ModifyDBClusterSnapshotAttributeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24173,7 +24175,7 @@ public struct ModifyDBInstanceInput {
 
 extension ModifyDBInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBInstanceResult"]
@@ -24197,7 +24199,7 @@ public struct ModifyDBInstanceOutput {
 
 enum ModifyDBInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24270,7 +24272,7 @@ public struct ModifyDBParameterGroupInput {
 
 extension ModifyDBParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBParameterGroupResult"]
@@ -24295,7 +24297,7 @@ public struct ModifyDBParameterGroupOutput {
 
 enum ModifyDBParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24350,7 +24352,7 @@ public struct ModifyDBProxyEndpointInput {
 
 extension ModifyDBProxyEndpointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBProxyEndpointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBProxyEndpointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBProxyEndpointResult"]
@@ -24374,7 +24376,7 @@ public struct ModifyDBProxyEndpointOutput {
 
 enum ModifyDBProxyEndpointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24456,7 +24458,7 @@ public struct ModifyDBProxyInput {
 
 extension ModifyDBProxyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBProxyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBProxyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBProxyResult"]
@@ -24480,7 +24482,7 @@ public struct ModifyDBProxyOutput {
 
 enum ModifyDBProxyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24542,7 +24544,7 @@ public struct ModifyDBProxyTargetGroupInput {
 
 extension ModifyDBProxyTargetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBProxyTargetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBProxyTargetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBProxyTargetGroupResult"]
@@ -24566,7 +24568,7 @@ public struct ModifyDBProxyTargetGroupOutput {
 
 enum ModifyDBProxyTargetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24631,7 +24633,7 @@ public struct ModifyDBRecommendationInput {
 
 extension ModifyDBRecommendationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBRecommendationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBRecommendationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBRecommendationResult"]
@@ -24655,7 +24657,7 @@ public struct ModifyDBRecommendationOutput {
 
 enum ModifyDBRecommendationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24703,7 +24705,7 @@ public struct ModifyDBShardGroupInput {
 
 extension ModifyDBShardGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBShardGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBShardGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBShardGroupResult"]
@@ -24768,7 +24770,7 @@ public struct ModifyDBShardGroupOutput {
 
 enum ModifyDBShardGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24832,7 +24834,7 @@ public struct ModifyDBSnapshotAttributeInput {
 
 extension ModifyDBSnapshotAttributeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBSnapshotAttributeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBSnapshotAttributeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBSnapshotAttributeResult"]
@@ -24856,7 +24858,7 @@ public struct ModifyDBSnapshotAttributeOutput {
 
 enum ModifyDBSnapshotAttributeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -24925,7 +24927,7 @@ public struct ModifyDBSnapshotInput {
 
 extension ModifyDBSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBSnapshotResult"]
@@ -24949,7 +24951,7 @@ public struct ModifyDBSnapshotOutput {
 
 enum ModifyDBSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25005,7 +25007,7 @@ public struct ModifyDBSubnetGroupInput {
 
 extension ModifyDBSubnetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyDBSubnetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyDBSubnetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyDBSubnetGroupResult"]
@@ -25029,7 +25031,7 @@ public struct ModifyDBSubnetGroupOutput {
 
 enum ModifyDBSubnetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25098,7 +25100,7 @@ public struct ModifyEventSubscriptionInput {
 
 extension ModifyEventSubscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyEventSubscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyEventSubscriptionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyEventSubscriptionResult"]
@@ -25122,7 +25124,7 @@ public struct ModifyEventSubscriptionOutput {
 
 enum ModifyEventSubscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25201,7 +25203,7 @@ public struct ModifyGlobalClusterInput {
 
 extension ModifyGlobalClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyGlobalClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyGlobalClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyGlobalClusterResult"]
@@ -25225,7 +25227,7 @@ public struct ModifyGlobalClusterOutput {
 
 enum ModifyGlobalClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25287,7 +25289,7 @@ public struct ModifyIntegrationInput {
 
 extension ModifyIntegrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyIntegrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyIntegrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyIntegrationResult"]
@@ -25313,7 +25315,7 @@ public struct ModifyIntegrationOutput {
     /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// The time when the integration was created, in Universal Coordinated Time (UTC).
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// Data filters for the integration. These filters determine which tables from the source database are sent to the target Amazon Redshift data warehouse.
     public var dataFilter: Swift.String?
     /// A description of the integration.
@@ -25337,7 +25339,7 @@ public struct ModifyIntegrationOutput {
 
     public init(
         additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
-        createTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
         dataFilter: Swift.String? = nil,
         description: Swift.String? = nil,
         errors: [RDSClientTypes.IntegrationError]? = nil,
@@ -25367,7 +25369,7 @@ public struct ModifyIntegrationOutput {
 
 enum ModifyIntegrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25429,7 +25431,7 @@ public struct ModifyOptionGroupInput {
 
 extension ModifyOptionGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyOptionGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyOptionGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyOptionGroupResult"]
@@ -25453,7 +25455,7 @@ public struct ModifyOptionGroupOutput {
 
 enum ModifyOptionGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25534,7 +25536,7 @@ public struct ModifyTenantDatabaseInput {
 
 extension ModifyTenantDatabaseOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ModifyTenantDatabaseOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ModifyTenantDatabaseOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ModifyTenantDatabaseResult"]
@@ -25558,7 +25560,7 @@ public struct ModifyTenantDatabaseOutput {
 
 enum ModifyTenantDatabaseOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -25752,7 +25754,7 @@ extension RDSClientTypes {
         /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances.
         public var allowsVpcAndNonVpcInstanceMemberships: Swift.Bool?
         /// Indicates when the option group was copied.
-        public var copyTimestamp: ClientRuntime.Date?
+        public var copyTimestamp: Foundation.Date?
         /// Indicates the name of the engine that this option group can be applied to.
         public var engineName: Swift.String?
         /// Indicates the major engine version associated with this option group.
@@ -25774,7 +25776,7 @@ extension RDSClientTypes {
 
         public init(
             allowsVpcAndNonVpcInstanceMemberships: Swift.Bool? = nil,
-            copyTimestamp: ClientRuntime.Date? = nil,
+            copyTimestamp: Foundation.Date? = nil,
             engineName: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
             optionGroupArn: Swift.String? = nil,
@@ -26591,22 +26593,22 @@ extension RDSClientTypes {
         /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values: system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation
         public var action: Swift.String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
-        public var autoAppliedAfterDate: ClientRuntime.Date?
+        public var autoAppliedAfterDate: Foundation.Date?
         /// The effective date when the pending maintenance action is applied to the resource. This date takes into account opt-in requests received from the ApplyPendingMaintenanceAction API, the AutoAppliedAfterDate, and the ForcedApplyDate. This value is blank if an opt-in request has not been received and nothing has been specified as AutoAppliedAfterDate or ForcedApplyDate.
-        public var currentApplyDate: ClientRuntime.Date?
+        public var currentApplyDate: Foundation.Date?
         /// A description providing more detail about the maintenance action.
         public var description: Swift.String?
         /// The date when the maintenance action is automatically applied. On this date, the maintenance action is applied to the resource as soon as possible, regardless of the maintenance window for the resource. There might be a delay of one or more days from this date before the maintenance action is applied.
-        public var forcedApplyDate: ClientRuntime.Date?
+        public var forcedApplyDate: Foundation.Date?
         /// Indicates the type of opt-in request that has been received for the resource.
         public var optInStatus: Swift.String?
 
         public init(
             action: Swift.String? = nil,
-            autoAppliedAfterDate: ClientRuntime.Date? = nil,
-            currentApplyDate: ClientRuntime.Date? = nil,
+            autoAppliedAfterDate: Foundation.Date? = nil,
+            currentApplyDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
-            forcedApplyDate: ClientRuntime.Date? = nil,
+            forcedApplyDate: Foundation.Date? = nil,
             optInStatus: Swift.String? = nil
         )
         {
@@ -26694,7 +26696,7 @@ extension RDSClientTypes {
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.
         public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
         /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. The minimum value is 60 (default). The maximum value is 1,440.
-        public var resumeFullAutomationModeTime: ClientRuntime.Date?
+        public var resumeFullAutomationModeTime: Foundation.Date?
         /// The storage throughput of the DB instance.
         public var storageThroughput: Swift.Int?
         /// The storage type of the DB instance.
@@ -26720,7 +26722,7 @@ extension RDSClientTypes {
             pendingCloudwatchLogsExports: RDSClientTypes.PendingCloudwatchLogsExports? = nil,
             port: Swift.Int? = nil,
             processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
-            resumeFullAutomationModeTime: ClientRuntime.Date? = nil,
+            resumeFullAutomationModeTime: Foundation.Date? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil
         )
@@ -26860,17 +26862,17 @@ extension RDSClientTypes {
         /// The analysis of the performance issue. The information might contain markdown.
         public var analysis: Swift.String?
         /// The time when the performance issue stopped.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The metrics that are relevant to the performance issue.
         public var metrics: [RDSClientTypes.Metric]?
         /// The time when the performance issue started.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
             analysis: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             metrics: [RDSClientTypes.Metric]? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.analysis = analysis
@@ -27025,7 +27027,7 @@ public struct PromoteReadReplicaDBClusterInput {
 
 extension PromoteReadReplicaDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PromoteReadReplicaDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PromoteReadReplicaDBClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["PromoteReadReplicaDBClusterResult"]
@@ -27049,7 +27051,7 @@ public struct PromoteReadReplicaDBClusterOutput {
 
 enum PromoteReadReplicaDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -27122,7 +27124,7 @@ public struct PromoteReadReplicaInput {
 
 extension PromoteReadReplicaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PromoteReadReplicaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PromoteReadReplicaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["PromoteReadReplicaResult"]
@@ -27146,7 +27148,7 @@ public struct PromoteReadReplicaOutput {
 
 enum PromoteReadReplicaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -27244,7 +27246,7 @@ public struct PurchaseReservedDBInstancesOfferingInput {
 
 extension PurchaseReservedDBInstancesOfferingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PurchaseReservedDBInstancesOfferingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PurchaseReservedDBInstancesOfferingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["PurchaseReservedDBInstancesOfferingResult"]
@@ -27268,7 +27270,7 @@ public struct PurchaseReservedDBInstancesOfferingOutput {
 
 enum PurchaseReservedDBInstancesOfferingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -27397,7 +27399,7 @@ public struct RebootDBClusterInput {
 
 extension RebootDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RebootDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RebootDBClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RebootDBClusterResult"]
@@ -27421,7 +27423,7 @@ public struct RebootDBClusterOutput {
 
 enum RebootDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -27475,7 +27477,7 @@ public struct RebootDBInstanceInput {
 
 extension RebootDBInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RebootDBInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RebootDBInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RebootDBInstanceResult"]
@@ -27499,7 +27501,7 @@ public struct RebootDBInstanceOutput {
 
 enum RebootDBInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -27544,7 +27546,7 @@ public struct RebootDBShardGroupInput {
 
 extension RebootDBShardGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RebootDBShardGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RebootDBShardGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RebootDBShardGroupResult"]
@@ -27609,7 +27611,7 @@ public struct RebootDBShardGroupOutput {
 
 enum RebootDBShardGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -27872,7 +27874,7 @@ public struct RegisterDBProxyTargetsInput {
 
 extension RegisterDBProxyTargetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterDBProxyTargetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterDBProxyTargetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RegisterDBProxyTargetsResult"]
@@ -27896,7 +27898,7 @@ public struct RegisterDBProxyTargetsOutput {
 
 enum RegisterDBProxyTargetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -27952,7 +27954,7 @@ public struct RemoveFromGlobalClusterInput {
 
 extension RemoveFromGlobalClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveFromGlobalClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveFromGlobalClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RemoveFromGlobalClusterResult"]
@@ -27976,7 +27978,7 @@ public struct RemoveFromGlobalClusterOutput {
 
 enum RemoveFromGlobalClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -28033,7 +28035,7 @@ public struct RemoveRoleFromDBClusterInput {
 
 extension RemoveRoleFromDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveRoleFromDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveRoleFromDBClusterOutput {
         return RemoveRoleFromDBClusterOutput()
     }
 }
@@ -28045,7 +28047,7 @@ public struct RemoveRoleFromDBClusterOutput {
 
 enum RemoveRoleFromDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -28103,7 +28105,7 @@ public struct RemoveRoleFromDBInstanceInput {
 
 extension RemoveRoleFromDBInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveRoleFromDBInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveRoleFromDBInstanceOutput {
         return RemoveRoleFromDBInstanceOutput()
     }
 }
@@ -28115,7 +28117,7 @@ public struct RemoveRoleFromDBInstanceOutput {
 
 enum RemoveRoleFromDBInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -28168,7 +28170,7 @@ public struct RemoveSourceIdentifierFromSubscriptionInput {
 
 extension RemoveSourceIdentifierFromSubscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveSourceIdentifierFromSubscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveSourceIdentifierFromSubscriptionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RemoveSourceIdentifierFromSubscriptionResult"]
@@ -28192,7 +28194,7 @@ public struct RemoveSourceIdentifierFromSubscriptionOutput {
 
 enum RemoveSourceIdentifierFromSubscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -28244,7 +28246,7 @@ public struct RemoveTagsFromResourceInput {
 
 extension RemoveTagsFromResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveTagsFromResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveTagsFromResourceOutput {
         return RemoveTagsFromResourceOutput()
     }
 }
@@ -28256,7 +28258,7 @@ public struct RemoveTagsFromResourceOutput {
 
 enum RemoveTagsFromResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -28360,7 +28362,7 @@ extension RDSClientTypes {
         /// The offering identifier.
         public var reservedDBInstancesOfferingId: Swift.String?
         /// The time the reservation started.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The state of the reserved DB instance.
         public var state: Swift.String?
         /// The hourly price charged for this reserved DB instance.
@@ -28380,7 +28382,7 @@ extension RDSClientTypes {
             reservedDBInstanceArn: Swift.String? = nil,
             reservedDBInstanceId: Swift.String? = nil,
             reservedDBInstancesOfferingId: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             state: Swift.String? = nil,
             usagePrice: Swift.Double? = nil
         )
@@ -28668,7 +28670,7 @@ public struct ResetDBClusterParameterGroupInput {
 
 extension ResetDBClusterParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResetDBClusterParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResetDBClusterParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ResetDBClusterParameterGroupResult"]
@@ -28702,7 +28704,7 @@ public struct ResetDBClusterParameterGroupOutput {
 
 enum ResetDBClusterParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -28760,7 +28762,7 @@ public struct ResetDBParameterGroupInput {
 
 extension ResetDBParameterGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResetDBParameterGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResetDBParameterGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ResetDBParameterGroupResult"]
@@ -28785,7 +28787,7 @@ public struct ResetDBParameterGroupOutput {
 
 enum ResetDBParameterGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -29133,7 +29135,7 @@ public struct RestoreDBClusterFromS3Input {
 
 extension RestoreDBClusterFromS3Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreDBClusterFromS3Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreDBClusterFromS3Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RestoreDBClusterFromS3Result"]
@@ -29157,7 +29159,7 @@ public struct RestoreDBClusterFromS3Output {
 
 enum RestoreDBClusterFromS3OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -29428,7 +29430,7 @@ public struct RestoreDBClusterFromSnapshotInput {
 
 extension RestoreDBClusterFromSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreDBClusterFromSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreDBClusterFromSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RestoreDBClusterFromSnapshotResult"]
@@ -29452,7 +29454,7 @@ public struct RestoreDBClusterFromSnapshotOutput {
 
 enum RestoreDBClusterFromSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -29644,7 +29646,7 @@ public struct RestoreDBClusterToPointInTimeInput {
     ///
     ///
     /// Example: 2015-03-07T23:45:00Z Valid for: Aurora DB clusters and Multi-AZ DB clusters
-    public var restoreToTime: ClientRuntime.Date?
+    public var restoreToTime: Foundation.Date?
     /// The type of restore to be performed. You can specify one of the following values:
     ///
     /// * full-copy - The new DB cluster is restored as a full copy of the source DB cluster.
@@ -29697,7 +29699,7 @@ public struct RestoreDBClusterToPointInTimeInput {
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
-        restoreToTime: ClientRuntime.Date? = nil,
+        restoreToTime: Foundation.Date? = nil,
         restoreType: Swift.String? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
@@ -29744,7 +29746,7 @@ public struct RestoreDBClusterToPointInTimeInput {
 
 extension RestoreDBClusterToPointInTimeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreDBClusterToPointInTimeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreDBClusterToPointInTimeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RestoreDBClusterToPointInTimeResult"]
@@ -29768,7 +29770,7 @@ public struct RestoreDBClusterToPointInTimeOutput {
 
 enum RestoreDBClusterToPointInTimeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -30141,7 +30143,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput {
 
 extension RestoreDBInstanceFromDBSnapshotOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreDBInstanceFromDBSnapshotOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreDBInstanceFromDBSnapshotOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RestoreDBInstanceFromDBSnapshotResult"]
@@ -30165,7 +30167,7 @@ public struct RestoreDBInstanceFromDBSnapshotOutput {
 
 enum RestoreDBInstanceFromDBSnapshotOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -30569,7 +30571,7 @@ public struct RestoreDBInstanceFromS3Input {
 
 extension RestoreDBInstanceFromS3Output {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreDBInstanceFromS3Output {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreDBInstanceFromS3Output {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RestoreDBInstanceFromS3Result"]
@@ -30593,7 +30595,7 @@ public struct RestoreDBInstanceFromS3Output {
 
 enum RestoreDBInstanceFromS3OutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -30868,7 +30870,7 @@ public struct RestoreDBInstanceToPointInTimeInput {
     ///
     ///
     /// Example: 2009-09-07T23:45:00Z
-    public var restoreTime: ClientRuntime.Date?
+    public var restoreTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the replicated automated backups from which to restore, for example, arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE. This setting doesn't apply to RDS Custom.
     public var sourceDBInstanceAutomatedBackupsArn: Swift.String?
     /// The identifier of the source DB instance from which to restore. Constraints:
@@ -30941,7 +30943,7 @@ public struct RestoreDBInstanceToPointInTimeInput {
         port: Swift.Int? = nil,
         processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
         publiclyAccessible: Swift.Bool? = nil,
-        restoreTime: ClientRuntime.Date? = nil,
+        restoreTime: Foundation.Date? = nil,
         sourceDBInstanceAutomatedBackupsArn: Swift.String? = nil,
         sourceDBInstanceIdentifier: Swift.String? = nil,
         sourceDbiResourceId: Swift.String? = nil,
@@ -31007,7 +31009,7 @@ public struct RestoreDBInstanceToPointInTimeInput {
 
 extension RestoreDBInstanceToPointInTimeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreDBInstanceToPointInTimeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreDBInstanceToPointInTimeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RestoreDBInstanceToPointInTimeResult"]
@@ -31031,7 +31033,7 @@ public struct RestoreDBInstanceToPointInTimeOutput {
 
 enum RestoreDBInstanceToPointInTimeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31082,13 +31084,13 @@ extension RDSClientTypes {
     /// Earliest and latest time an instance can be restored to:
     public struct RestoreWindow {
         /// The earliest time you can restore an instance to.
-        public var earliestTime: ClientRuntime.Date?
+        public var earliestTime: Foundation.Date?
         /// The latest time you can restore an instance to.
-        public var latestTime: ClientRuntime.Date?
+        public var latestTime: Foundation.Date?
 
         public init(
-            earliestTime: ClientRuntime.Date? = nil,
-            latestTime: ClientRuntime.Date? = nil
+            earliestTime: Foundation.Date? = nil,
+            latestTime: Foundation.Date? = nil
         )
         {
             self.earliestTime = earliestTime
@@ -31151,7 +31153,7 @@ public struct RevokeDBSecurityGroupIngressInput {
 
 extension RevokeDBSecurityGroupIngressOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RevokeDBSecurityGroupIngressOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RevokeDBSecurityGroupIngressOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RevokeDBSecurityGroupIngressResult"]
@@ -31175,7 +31177,7 @@ public struct RevokeDBSecurityGroupIngressOutput {
 
 enum RevokeDBSecurityGroupIngressOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31816,7 +31818,7 @@ public struct StartActivityStreamInput {
 
 extension StartActivityStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartActivityStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartActivityStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StartActivityStreamResult"]
@@ -31865,7 +31867,7 @@ public struct StartActivityStreamOutput {
 
 enum StartActivityStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31914,7 +31916,7 @@ public struct StartDBClusterInput {
 
 extension StartDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDBClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StartDBClusterResult"]
@@ -31938,7 +31940,7 @@ public struct StartDBClusterOutput {
 
 enum StartDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -31999,7 +32001,7 @@ public struct StartDBInstanceAutomatedBackupsReplicationInput {
 
 extension StartDBInstanceAutomatedBackupsReplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDBInstanceAutomatedBackupsReplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDBInstanceAutomatedBackupsReplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StartDBInstanceAutomatedBackupsReplicationResult"]
@@ -32023,7 +32025,7 @@ public struct StartDBInstanceAutomatedBackupsReplicationOutput {
 
 enum StartDBInstanceAutomatedBackupsReplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -32071,7 +32073,7 @@ public struct StartDBInstanceInput {
 
 extension StartDBInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartDBInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartDBInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StartDBInstanceResult"]
@@ -32095,7 +32097,7 @@ public struct StartDBInstanceOutput {
 
 enum StartDBInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -32226,7 +32228,7 @@ public struct StartExportTaskInput {
 
 extension StartExportTaskOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartExportTaskOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartExportTaskOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StartExportTaskResult"]
@@ -32278,7 +32280,7 @@ public struct StartExportTaskOutput {
     /// The Amazon S3 bucket prefix that is the file name and path of the exported data.
     public var s3Prefix: Swift.String?
     /// The time when the snapshot was created.
-    public var snapshotTime: ClientRuntime.Date?
+    public var snapshotTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the snapshot or cluster exported to Amazon S3.
     public var sourceArn: Swift.String?
     /// The type of source for the export.
@@ -32298,9 +32300,9 @@ public struct StartExportTaskOutput {
     /// * STARTING
     public var status: Swift.String?
     /// The time when the snapshot or cluster export task ended.
-    public var taskEndTime: ClientRuntime.Date?
+    public var taskEndTime: Foundation.Date?
     /// The time when the snapshot or cluster export task started.
-    public var taskStartTime: ClientRuntime.Date?
+    public var taskStartTime: Foundation.Date?
     /// The total amount of data exported, in gigabytes.
     public var totalExtractedDataInGB: Swift.Int?
     /// A warning about the snapshot or cluster export task.
@@ -32315,12 +32317,12 @@ public struct StartExportTaskOutput {
         percentProgress: Swift.Int? = nil,
         s3Bucket: Swift.String? = nil,
         s3Prefix: Swift.String? = nil,
-        snapshotTime: ClientRuntime.Date? = nil,
+        snapshotTime: Foundation.Date? = nil,
         sourceArn: Swift.String? = nil,
         sourceType: RDSClientTypes.ExportSourceType? = nil,
         status: Swift.String? = nil,
-        taskEndTime: ClientRuntime.Date? = nil,
-        taskStartTime: ClientRuntime.Date? = nil,
+        taskEndTime: Foundation.Date? = nil,
+        taskStartTime: Foundation.Date? = nil,
         totalExtractedDataInGB: Swift.Int? = nil,
         warningMessage: Swift.String? = nil
     )
@@ -32346,7 +32348,7 @@ public struct StartExportTaskOutput {
 
 enum StartExportTaskOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -32404,7 +32406,7 @@ public struct StopActivityStreamInput {
 
 extension StopActivityStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopActivityStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopActivityStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StopActivityStreamResult"]
@@ -32438,7 +32440,7 @@ public struct StopActivityStreamOutput {
 
 enum StopActivityStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -32486,7 +32488,7 @@ public struct StopDBClusterInput {
 
 extension StopDBClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopDBClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopDBClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StopDBClusterResult"]
@@ -32510,7 +32512,7 @@ public struct StopDBClusterOutput {
 
 enum StopDBClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -32556,7 +32558,7 @@ public struct StopDBInstanceAutomatedBackupsReplicationInput {
 
 extension StopDBInstanceAutomatedBackupsReplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopDBInstanceAutomatedBackupsReplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopDBInstanceAutomatedBackupsReplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StopDBInstanceAutomatedBackupsReplicationResult"]
@@ -32580,7 +32582,7 @@ public struct StopDBInstanceAutomatedBackupsReplicationOutput {
 
 enum StopDBInstanceAutomatedBackupsReplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -32630,7 +32632,7 @@ public struct StopDBInstanceInput {
 
 extension StopDBInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopDBInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopDBInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["StopDBInstanceResult"]
@@ -32654,7 +32656,7 @@ public struct StopDBInstanceOutput {
 
 enum StopDBInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -33009,7 +33011,7 @@ public struct SwitchoverBlueGreenDeploymentInput {
 
 extension SwitchoverBlueGreenDeploymentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SwitchoverBlueGreenDeploymentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SwitchoverBlueGreenDeploymentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SwitchoverBlueGreenDeploymentResult"]
@@ -33033,7 +33035,7 @@ public struct SwitchoverBlueGreenDeploymentOutput {
 
 enum SwitchoverBlueGreenDeploymentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -33136,7 +33138,7 @@ public struct SwitchoverGlobalClusterInput {
 
 extension SwitchoverGlobalClusterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SwitchoverGlobalClusterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SwitchoverGlobalClusterOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SwitchoverGlobalClusterResult"]
@@ -33160,7 +33162,7 @@ public struct SwitchoverGlobalClusterOutput {
 
 enum SwitchoverGlobalClusterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -33209,7 +33211,7 @@ public struct SwitchoverReadReplicaInput {
 
 extension SwitchoverReadReplicaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SwitchoverReadReplicaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SwitchoverReadReplicaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["SwitchoverReadReplicaResult"]
@@ -33233,7 +33235,7 @@ public struct SwitchoverReadReplicaOutput {
 
 enum SwitchoverReadReplicaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -33501,7 +33503,7 @@ extension RDSClientTypes {
         /// The Amazon Resource Name (ARN) for the tenant database.
         public var tenantDatabaseARN: Swift.String?
         /// The creation time of the tenant database.
-        public var tenantDatabaseCreateTime: ClientRuntime.Date?
+        public var tenantDatabaseCreateTime: Foundation.Date?
         /// The Amazon Web Services Region-unique, immutable identifier for the tenant database.
         public var tenantDatabaseResourceId: Swift.String?
 
@@ -33517,7 +33519,7 @@ extension RDSClientTypes {
             tagList: [RDSClientTypes.Tag]? = nil,
             tenantDBName: Swift.String? = nil,
             tenantDatabaseARN: Swift.String? = nil,
-            tenantDatabaseCreateTime: ClientRuntime.Date? = nil,
+            tenantDatabaseCreateTime: Foundation.Date? = nil,
             tenantDatabaseResourceId: Swift.String? = nil
         )
         {

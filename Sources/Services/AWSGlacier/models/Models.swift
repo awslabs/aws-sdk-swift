@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -47,7 +49,7 @@ public struct AbortMultipartUploadInput {
 
 extension AbortMultipartUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AbortMultipartUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AbortMultipartUploadOutput {
         return AbortMultipartUploadOutput()
     }
 }
@@ -59,7 +61,7 @@ public struct AbortMultipartUploadOutput {
 
 enum AbortMultipartUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -108,7 +110,7 @@ public struct AbortVaultLockInput {
 
 extension AbortVaultLockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AbortVaultLockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AbortVaultLockOutput {
         return AbortVaultLockOutput()
     }
 }
@@ -120,7 +122,7 @@ public struct AbortVaultLockOutput {
 
 enum AbortVaultLockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -169,9 +171,9 @@ extension GlacierClientTypes {
 
 extension AddTagsToVaultInput {
 
-    static func queryItemProvider(_ value: AddTagsToVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "add"))
+    static func queryItemProvider(_ value: AddTagsToVaultInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "add"))
         return items
     }
 }
@@ -222,7 +224,7 @@ public struct AddTagsToVaultInput {
 
 extension AddTagsToVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddTagsToVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddTagsToVaultOutput {
         return AddTagsToVaultOutput()
     }
 }
@@ -234,7 +236,7 @@ public struct AddTagsToVaultOutput {
 
 enum AddTagsToVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -412,8 +414,8 @@ extension GlacierClientTypes {
 
 extension CompleteMultipartUploadInput {
 
-    static func headerProvider(_ value: CompleteMultipartUploadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CompleteMultipartUploadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let archiveSize = value.archiveSize {
             items.add(Header(name: "x-amz-archive-size", value: Swift.String(archiveSize)))
         }
@@ -474,7 +476,7 @@ public struct CompleteMultipartUploadInput {
 
 extension CompleteMultipartUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CompleteMultipartUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CompleteMultipartUploadOutput {
         var value = CompleteMultipartUploadOutput()
         if let archiveIdHeaderValue = httpResponse.headers.value(for: "x-amz-archive-id") {
             value.archiveId = archiveIdHeaderValue
@@ -512,7 +514,7 @@ public struct CompleteMultipartUploadOutput {
 
 enum CompleteMultipartUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -569,7 +571,7 @@ public struct CompleteVaultLockInput {
 
 extension CompleteVaultLockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CompleteVaultLockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CompleteVaultLockOutput {
         return CompleteVaultLockOutput()
     }
 }
@@ -581,7 +583,7 @@ public struct CompleteVaultLockOutput {
 
 enum CompleteVaultLockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -630,7 +632,7 @@ public struct CreateVaultInput {
 
 extension CreateVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateVaultOutput {
         var value = CreateVaultOutput()
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             value.location = locationHeaderValue
@@ -654,7 +656,7 @@ public struct CreateVaultOutput {
 
 enum CreateVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -779,7 +781,7 @@ public struct DeleteArchiveInput {
 
 extension DeleteArchiveOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteArchiveOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteArchiveOutput {
         return DeleteArchiveOutput()
     }
 }
@@ -791,7 +793,7 @@ public struct DeleteArchiveOutput {
 
 enum DeleteArchiveOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -840,7 +842,7 @@ public struct DeleteVaultAccessPolicyInput {
 
 extension DeleteVaultAccessPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVaultAccessPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVaultAccessPolicyOutput {
         return DeleteVaultAccessPolicyOutput()
     }
 }
@@ -852,7 +854,7 @@ public struct DeleteVaultAccessPolicyOutput {
 
 enum DeleteVaultAccessPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -933,7 +935,7 @@ public struct DeleteVaultNotificationsInput {
 
 extension DeleteVaultNotificationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVaultNotificationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVaultNotificationsOutput {
         return DeleteVaultNotificationsOutput()
     }
 }
@@ -945,7 +947,7 @@ public struct DeleteVaultNotificationsOutput {
 
 enum DeleteVaultNotificationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -962,7 +964,7 @@ enum DeleteVaultNotificationsOutputError {
 
 extension DeleteVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVaultOutput {
         return DeleteVaultOutput()
     }
 }
@@ -974,7 +976,7 @@ public struct DeleteVaultOutput {
 
 enum DeleteVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1031,7 +1033,7 @@ public struct DescribeJobInput {
 
 extension DescribeJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1170,7 +1172,7 @@ public struct DescribeJobOutput {
 
 enum DescribeJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1219,7 +1221,7 @@ public struct DescribeVaultInput {
 
 extension DescribeVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVaultOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1320,7 +1322,7 @@ extension GlacierClientTypes {
 
 enum DescribeVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1491,7 +1493,7 @@ public struct GetDataRetrievalPolicyInput {
 
 extension GetDataRetrievalPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDataRetrievalPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDataRetrievalPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1516,7 +1518,7 @@ public struct GetDataRetrievalPolicyOutput {
 
 enum GetDataRetrievalPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1532,8 +1534,8 @@ enum GetDataRetrievalPolicyOutputError {
 
 extension GetJobOutputInput {
 
-    static func headerProvider(_ value: GetJobOutputInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetJobOutputInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let range = value.range {
             items.add(Header(name: "Range", value: Swift.String(range)))
         }
@@ -1595,7 +1597,7 @@ public struct GetJobOutputInput {
 
 extension GetJobOutputOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetJobOutputOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetJobOutputOutput {
         var value = GetJobOutputOutput()
         if let acceptRangesHeaderValue = httpResponse.headers.value(for: "Accept-Ranges") {
             value.acceptRanges = acceptRangesHeaderValue
@@ -1632,7 +1634,7 @@ public struct GetJobOutputOutput {
     /// The description of an archive.
     public var archiveDescription: Swift.String?
     /// The job data, either archive data or inventory data.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// The checksum of the data in the response. This header is returned only when retrieving the output for an archive retrieval job. Furthermore, this header appears only under the following conditions:
     ///
     /// * You get the entire range of the archive.
@@ -1651,7 +1653,7 @@ public struct GetJobOutputOutput {
     public init(
         acceptRanges: Swift.String? = nil,
         archiveDescription: Swift.String? = nil,
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         checksum: Swift.String? = nil,
         contentRange: Swift.String? = nil,
         contentType: Swift.String? = nil,
@@ -1670,7 +1672,7 @@ public struct GetJobOutputOutput {
 
 enum GetJobOutputOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1719,7 +1721,7 @@ public struct GetVaultAccessPolicyInput {
 
 extension GetVaultAccessPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVaultAccessPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVaultAccessPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1744,7 +1746,7 @@ public struct GetVaultAccessPolicyOutput {
 
 enum GetVaultAccessPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1793,7 +1795,7 @@ public struct GetVaultLockInput {
 
 extension GetVaultLockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVaultLockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVaultLockOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1833,7 +1835,7 @@ public struct GetVaultLockOutput {
 
 enum GetVaultLockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1882,7 +1884,7 @@ public struct GetVaultNotificationsInput {
 
 extension GetVaultNotificationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetVaultNotificationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetVaultNotificationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1907,7 +1909,7 @@ public struct GetVaultNotificationsOutput {
 
 enum GetVaultNotificationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2203,7 +2205,7 @@ public struct InitiateJobInput {
 
 extension InitiateJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InitiateJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InitiateJobOutput {
         var value = InitiateJobOutput()
         if let jobIdHeaderValue = httpResponse.headers.value(for: "x-amz-job-id") {
             value.jobId = jobIdHeaderValue
@@ -2241,7 +2243,7 @@ public struct InitiateJobOutput {
 
 enum InitiateJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2260,8 +2262,8 @@ enum InitiateJobOutputError {
 
 extension InitiateMultipartUploadInput {
 
-    static func headerProvider(_ value: InitiateMultipartUploadInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: InitiateMultipartUploadInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let archiveDescription = value.archiveDescription {
             items.add(Header(name: "x-amz-archive-description", value: Swift.String(archiveDescription)))
         }
@@ -2314,7 +2316,7 @@ public struct InitiateMultipartUploadInput {
 
 extension InitiateMultipartUploadOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InitiateMultipartUploadOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InitiateMultipartUploadOutput {
         var value = InitiateMultipartUploadOutput()
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             value.location = locationHeaderValue
@@ -2345,7 +2347,7 @@ public struct InitiateMultipartUploadOutput {
 
 enum InitiateMultipartUploadOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2406,7 +2408,7 @@ public struct InitiateVaultLockInput {
 
 extension InitiateVaultLockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> InitiateVaultLockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> InitiateVaultLockOutput {
         var value = InitiateVaultLockOutput()
         if let lockIdHeaderValue = httpResponse.headers.value(for: "x-amz-lock-id") {
             value.lockId = lockIdHeaderValue
@@ -2430,7 +2432,7 @@ public struct InitiateVaultLockOutput {
 
 enum InitiateVaultLockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2773,22 +2775,22 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListJobsInput {
 
-    static func queryItemProvider(_ value: ListJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let statuscode = value.statuscode {
-            let statuscodeQueryItem = ClientRuntime.SDKURLQueryItem(name: "statuscode".urlPercentEncoding(), value: Swift.String(statuscode).urlPercentEncoding())
+            let statuscodeQueryItem = Smithy.URIQueryItem(name: "statuscode".urlPercentEncoding(), value: Swift.String(statuscode).urlPercentEncoding())
             items.append(statuscodeQueryItem)
         }
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         if let completed = value.completed {
-            let completedQueryItem = ClientRuntime.SDKURLQueryItem(name: "completed".urlPercentEncoding(), value: Swift.String(completed).urlPercentEncoding())
+            let completedQueryItem = Smithy.URIQueryItem(name: "completed".urlPercentEncoding(), value: Swift.String(completed).urlPercentEncoding())
             items.append(completedQueryItem)
         }
         return items
@@ -2845,7 +2847,7 @@ public struct ListJobsInput {
 
 extension ListJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2875,7 +2877,7 @@ public struct ListJobsOutput {
 
 enum ListJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2892,14 +2894,14 @@ enum ListJobsOutputError {
 
 extension ListMultipartUploadsInput {
 
-    static func queryItemProvider(_ value: ListMultipartUploadsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMultipartUploadsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         return items
@@ -2948,7 +2950,7 @@ public struct ListMultipartUploadsInput {
 
 extension ListMultipartUploadsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMultipartUploadsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMultipartUploadsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2978,7 +2980,7 @@ public struct ListMultipartUploadsOutput {
 
 enum ListMultipartUploadsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2995,14 +2997,14 @@ enum ListMultipartUploadsOutputError {
 
 extension ListPartsInput {
 
-    static func queryItemProvider(_ value: ListPartsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListPartsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         return items
@@ -3059,7 +3061,7 @@ public struct ListPartsInput {
 
 extension ListPartsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPartsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPartsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3114,7 +3116,7 @@ public struct ListPartsOutput {
 
 enum ListPartsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3154,7 +3156,7 @@ public struct ListProvisionedCapacityInput {
 
 extension ListProvisionedCapacityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProvisionedCapacityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProvisionedCapacityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3178,7 +3180,7 @@ public struct ListProvisionedCapacityOutput {
 
 enum ListProvisionedCapacityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3226,7 +3228,7 @@ public struct ListTagsForVaultInput {
 
 extension ListTagsForVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForVaultOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3251,7 +3253,7 @@ public struct ListTagsForVaultOutput {
 
 enum ListTagsForVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3268,14 +3270,14 @@ enum ListTagsForVaultOutputError {
 
 extension ListVaultsInput {
 
-    static func queryItemProvider(_ value: ListVaultsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListVaultsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
-            let markerQueryItem = ClientRuntime.SDKURLQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            let markerQueryItem = Smithy.URIQueryItem(name: "marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
         }
         if let limit = value.limit {
-            let limitQueryItem = ClientRuntime.SDKURLQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
         return items
@@ -3316,7 +3318,7 @@ public struct ListVaultsInput {
 
 extension ListVaultsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVaultsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVaultsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3346,7 +3348,7 @@ public struct ListVaultsOutput {
 
 enum ListVaultsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3649,7 +3651,7 @@ public struct PurchaseProvisionedCapacityInput {
 
 extension PurchaseProvisionedCapacityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PurchaseProvisionedCapacityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PurchaseProvisionedCapacityOutput {
         var value = PurchaseProvisionedCapacityOutput()
         if let capacityIdHeaderValue = httpResponse.headers.value(for: "x-amz-capacity-id") {
             value.capacityId = capacityIdHeaderValue
@@ -3672,7 +3674,7 @@ public struct PurchaseProvisionedCapacityOutput {
 
 enum PurchaseProvisionedCapacityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3718,9 +3720,9 @@ extension GlacierClientTypes {
 
 extension RemoveTagsFromVaultInput {
 
-    static func queryItemProvider(_ value: RemoveTagsFromVaultInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
-        items.append(ClientRuntime.SDKURLQueryItem(name: "operation", value: "remove"))
+    static func queryItemProvider(_ value: RemoveTagsFromVaultInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "operation", value: "remove"))
         return items
     }
 }
@@ -3771,7 +3773,7 @@ public struct RemoveTagsFromVaultInput {
 
 extension RemoveTagsFromVaultOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveTagsFromVaultOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveTagsFromVaultOutput {
         return RemoveTagsFromVaultOutput()
     }
 }
@@ -3783,7 +3785,7 @@ public struct RemoveTagsFromVaultOutput {
 
 enum RemoveTagsFromVaultOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4102,7 +4104,7 @@ public struct SetDataRetrievalPolicyInput {
 
 extension SetDataRetrievalPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetDataRetrievalPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetDataRetrievalPolicyOutput {
         return SetDataRetrievalPolicyOutput()
     }
 }
@@ -4114,7 +4116,7 @@ public struct SetDataRetrievalPolicyOutput {
 
 enum SetDataRetrievalPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4174,7 +4176,7 @@ public struct SetVaultAccessPolicyInput {
 
 extension SetVaultAccessPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetVaultAccessPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetVaultAccessPolicyOutput {
         return SetVaultAccessPolicyOutput()
     }
 }
@@ -4186,7 +4188,7 @@ public struct SetVaultAccessPolicyOutput {
 
 enum SetVaultAccessPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4247,7 +4249,7 @@ public struct SetVaultNotificationsInput {
 
 extension SetVaultNotificationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SetVaultNotificationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SetVaultNotificationsOutput {
         return SetVaultNotificationsOutput()
     }
 }
@@ -4259,7 +4261,7 @@ public struct SetVaultNotificationsOutput {
 
 enum SetVaultNotificationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4372,8 +4374,8 @@ extension GlacierClientTypes {
 
 extension UploadArchiveInput {
 
-    static func headerProvider(_ value: UploadArchiveInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UploadArchiveInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let archiveDescription = value.archiveDescription {
             items.add(Header(name: "x-amz-archive-description", value: Swift.String(archiveDescription)))
         }
@@ -4413,7 +4415,7 @@ public struct UploadArchiveInput {
     /// The optional description of the archive you are uploading.
     public var archiveDescription: Swift.String?
     /// The data to upload.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// The SHA256 tree hash of the data being uploaded.
     public var checksum: Swift.String?
     /// The name of the vault.
@@ -4423,7 +4425,7 @@ public struct UploadArchiveInput {
     public init(
         accountId: Swift.String? = nil,
         archiveDescription: Swift.String? = nil,
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         checksum: Swift.String? = nil,
         vaultName: Swift.String? = nil
     )
@@ -4438,7 +4440,7 @@ public struct UploadArchiveInput {
 
 extension UploadArchiveOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadArchiveOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UploadArchiveOutput {
         var value = UploadArchiveOutput()
         if let archiveIdHeaderValue = httpResponse.headers.value(for: "x-amz-archive-id") {
             value.archiveId = archiveIdHeaderValue
@@ -4476,7 +4478,7 @@ public struct UploadArchiveOutput {
 
 enum UploadArchiveOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4540,8 +4542,8 @@ extension GlacierClientTypes {
 
 extension UploadMultipartPartInput {
 
-    static func headerProvider(_ value: UploadMultipartPartInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UploadMultipartPartInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let checksum = value.checksum {
             items.add(Header(name: "x-amz-sha256-tree-hash", value: Swift.String(checksum)))
         }
@@ -4582,7 +4584,7 @@ public struct UploadMultipartPartInput {
     /// This member is required.
     public var accountId: Swift.String?
     /// The data to upload.
-    public var body: ClientRuntime.ByteStream?
+    public var body: Smithy.ByteStream?
     /// The SHA256 tree hash of the data being uploaded.
     public var checksum: Swift.String?
     /// Identifies the range of bytes in the assembled archive that will be uploaded in this part. Amazon S3 Glacier uses this information to assemble the archive in the proper sequence. The format of this header follows RFC 2616. An example header is Content-Range:bytes 0-4194303/*.
@@ -4596,7 +4598,7 @@ public struct UploadMultipartPartInput {
 
     public init(
         accountId: Swift.String? = nil,
-        body: ClientRuntime.ByteStream? = nil,
+        body: Smithy.ByteStream? = nil,
         checksum: Swift.String? = nil,
         range: Swift.String? = nil,
         uploadId: Swift.String? = nil,
@@ -4614,7 +4616,7 @@ public struct UploadMultipartPartInput {
 
 extension UploadMultipartPartOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UploadMultipartPartOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UploadMultipartPartOutput {
         var value = UploadMultipartPartOutput()
         if let checksumHeaderValue = httpResponse.headers.value(for: "x-amz-sha256-tree-hash") {
             value.checksum = checksumHeaderValue
@@ -4638,7 +4640,7 @@ public struct UploadMultipartPartOutput {
 
 enum UploadMultipartPartOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

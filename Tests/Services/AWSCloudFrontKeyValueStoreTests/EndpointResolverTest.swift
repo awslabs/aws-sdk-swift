@@ -4,6 +4,7 @@ import AWSClientRuntime
 @testable import AWSCloudFrontKeyValueStore
 import AwsCommonRuntimeKit
 import ClientRuntime
+import SmithyHTTPAPI
 import SmithyTestUtil
 import XCTest
 
@@ -170,8 +171,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.cloudfront-kvs.global.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.cloudfront-kvs.global.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -199,8 +200,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.cloudfront-kvs.global.api.aws", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.cloudfront-kvs.global.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -266,8 +267,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.my-override.example.com", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://123456789012.my-override.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -295,8 +296,8 @@ class EndpointResolverTest: XCTestCase {
                 ] as [AnyHashable]
             ]
 
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "http://123456789012.my-override.example.com/custom-path", headers: headers, properties: properties)
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "http://123456789012.my-override.example.com/custom-path", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

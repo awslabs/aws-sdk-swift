@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -183,7 +185,7 @@ public struct CreateConfigurationSetEventDestinationInput {
 
 extension CreateConfigurationSetEventDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateConfigurationSetEventDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConfigurationSetEventDestinationOutput {
         return CreateConfigurationSetEventDestinationOutput()
     }
 }
@@ -196,7 +198,7 @@ public struct CreateConfigurationSetEventDestinationOutput {
 
 enum CreateConfigurationSetEventDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -243,7 +245,7 @@ public struct CreateConfigurationSetInput {
 
 extension CreateConfigurationSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateConfigurationSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConfigurationSetOutput {
         return CreateConfigurationSetOutput()
     }
 }
@@ -256,7 +258,7 @@ public struct CreateConfigurationSetOutput {
 
 enum CreateConfigurationSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -305,7 +307,7 @@ public struct DeleteConfigurationSetEventDestinationInput {
 
 extension DeleteConfigurationSetEventDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConfigurationSetEventDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConfigurationSetEventDestinationOutput {
         return DeleteConfigurationSetEventDestinationOutput()
     }
 }
@@ -318,7 +320,7 @@ public struct DeleteConfigurationSetEventDestinationOutput {
 
 enum DeleteConfigurationSetEventDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -358,7 +360,7 @@ public struct DeleteConfigurationSetInput {
 
 extension DeleteConfigurationSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConfigurationSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConfigurationSetOutput {
         return DeleteConfigurationSetOutput()
     }
 }
@@ -371,7 +373,7 @@ public struct DeleteConfigurationSetOutput {
 
 enum DeleteConfigurationSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -551,7 +553,7 @@ public struct GetConfigurationSetEventDestinationsInput {
 
 extension GetConfigurationSetEventDestinationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetConfigurationSetEventDestinationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetConfigurationSetEventDestinationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -576,7 +578,7 @@ public struct GetConfigurationSetEventDestinationsOutput {
 
 enum GetConfigurationSetEventDestinationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -704,14 +706,14 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension ListConfigurationSetsInput {
 
-    static func queryItemProvider(_ value: ListConfigurationSetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListConfigurationSetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let pageSize = value.pageSize {
-            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            let pageSizeQueryItem = Smithy.URIQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
             items.append(pageSizeQueryItem)
         }
         return items
@@ -743,7 +745,7 @@ public struct ListConfigurationSetsInput {
 
 extension ListConfigurationSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListConfigurationSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListConfigurationSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -773,7 +775,7 @@ public struct ListConfigurationSetsOutput {
 
 enum ListConfigurationSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -944,7 +946,7 @@ public struct SendVoiceMessageInput {
 
 extension SendVoiceMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendVoiceMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendVoiceMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -969,7 +971,7 @@ public struct SendVoiceMessageOutput {
 
 enum SendVoiceMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1097,7 +1099,7 @@ public struct UpdateConfigurationSetEventDestinationInput {
 
 extension UpdateConfigurationSetEventDestinationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateConfigurationSetEventDestinationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateConfigurationSetEventDestinationOutput {
         return UpdateConfigurationSetEventDestinationOutput()
     }
 }
@@ -1110,7 +1112,7 @@ public struct UpdateConfigurationSetEventDestinationOutput {
 
 enum UpdateConfigurationSetEventDestinationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

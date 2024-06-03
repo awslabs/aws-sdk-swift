@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -72,7 +74,7 @@ public struct CancelQueryInput {
 
 extension CancelQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -96,7 +98,7 @@ public struct CancelQueryOutput {
 
 enum CancelQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -270,7 +272,7 @@ public struct CreateScheduledQueryInput {
 
 extension CreateScheduledQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateScheduledQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateScheduledQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -295,7 +297,7 @@ public struct CreateScheduledQueryOutput {
 
 enum CreateScheduledQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -389,7 +391,7 @@ public struct DeleteScheduledQueryInput {
 
 extension DeleteScheduledQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteScheduledQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteScheduledQueryOutput {
         return DeleteScheduledQueryOutput()
     }
 }
@@ -401,7 +403,7 @@ public struct DeleteScheduledQueryOutput {
 
 enum DeleteScheduledQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -440,7 +442,7 @@ public struct DescribeAccountSettingsInput {
 
 extension DescribeAccountSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAccountSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAccountSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -469,7 +471,7 @@ public struct DescribeAccountSettingsOutput {
 
 enum DescribeAccountSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -506,7 +508,7 @@ public struct DescribeEndpointsInput {
 
 extension DescribeEndpointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEndpointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEndpointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -531,7 +533,7 @@ public struct DescribeEndpointsOutput {
 
 enum DescribeEndpointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -575,7 +577,7 @@ public struct DescribeScheduledQueryInput {
 
 extension DescribeScheduledQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScheduledQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScheduledQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -600,7 +602,7 @@ public struct DescribeScheduledQueryOutput {
 
 enum DescribeScheduledQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -800,14 +802,14 @@ public struct ExecuteScheduledQueryInput {
     public var clientToken: Swift.String?
     /// The timestamp in UTC. Query will be run as if it was invoked at this timestamp.
     /// This member is required.
-    public var invocationTime: ClientRuntime.Date?
+    public var invocationTime: Foundation.Date?
     /// ARN of the scheduled query.
     /// This member is required.
     public var scheduledQueryArn: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
-        invocationTime: ClientRuntime.Date? = nil,
+        invocationTime: Foundation.Date? = nil,
         scheduledQueryArn: Swift.String? = nil
     )
     {
@@ -819,7 +821,7 @@ public struct ExecuteScheduledQueryInput {
 
 extension ExecuteScheduledQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecuteScheduledQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExecuteScheduledQueryOutput {
         return ExecuteScheduledQueryOutput()
     }
 }
@@ -831,7 +833,7 @@ public struct ExecuteScheduledQueryOutput {
 
 enum ExecuteScheduledQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1007,7 +1009,7 @@ public struct ListScheduledQueriesInput {
 
 extension ListScheduledQueriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListScheduledQueriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListScheduledQueriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1037,7 +1039,7 @@ public struct ListScheduledQueriesOutput {
 
 enum ListScheduledQueriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1093,7 +1095,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1123,7 +1125,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1438,7 +1440,7 @@ extension PrepareQueryOutput: Swift.CustomDebugStringConvertible {
 
 extension PrepareQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PrepareQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PrepareQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1475,7 +1477,7 @@ public struct PrepareQueryOutput {
 
 enum PrepareQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1605,7 +1607,7 @@ public struct QueryInput {
 
 extension QueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> QueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> QueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1652,7 +1654,7 @@ public struct QueryOutput {
 
 enum QueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2059,7 +2061,7 @@ extension TimestreamQueryClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// The creation time of the scheduled query.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Configuration for scheduled query error reporting.
         public var errorReportConfiguration: TimestreamQueryClientTypes.ErrorReportConfiguration?
         /// Status of the last scheduled query run.
@@ -2068,9 +2070,9 @@ extension TimestreamQueryClientTypes {
         /// This member is required.
         public var name: Swift.String?
         /// The next time the scheduled query is to be run.
-        public var nextInvocationTime: ClientRuntime.Date?
+        public var nextInvocationTime: Foundation.Date?
         /// The last time the scheduled query was run.
-        public var previousInvocationTime: ClientRuntime.Date?
+        public var previousInvocationTime: Foundation.Date?
         /// State of scheduled query.
         /// This member is required.
         public var state: TimestreamQueryClientTypes.ScheduledQueryState?
@@ -2079,12 +2081,12 @@ extension TimestreamQueryClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             errorReportConfiguration: TimestreamQueryClientTypes.ErrorReportConfiguration? = nil,
             lastRunStatus: TimestreamQueryClientTypes.ScheduledQueryRunStatus? = nil,
             name: Swift.String? = nil,
-            nextInvocationTime: ClientRuntime.Date? = nil,
-            previousInvocationTime: ClientRuntime.Date? = nil,
+            nextInvocationTime: Foundation.Date? = nil,
+            previousInvocationTime: Foundation.Date? = nil,
             state: TimestreamQueryClientTypes.ScheduledQueryState? = nil,
             targetDestination: TimestreamQueryClientTypes.TargetDestination? = nil
         )
@@ -2139,7 +2141,7 @@ extension TimestreamQueryClientTypes {
         /// This member is required.
         public var arn: Swift.String?
         /// Creation time of the scheduled query.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// Error-reporting configuration for the scheduled query.
         public var errorReportConfiguration: TimestreamQueryClientTypes.ErrorReportConfiguration?
         /// A customer provided KMS key used to encrypt the scheduled query resource.
@@ -2150,12 +2152,12 @@ extension TimestreamQueryClientTypes {
         /// This member is required.
         public var name: Swift.String?
         /// The next time the scheduled query is scheduled to run.
-        public var nextInvocationTime: ClientRuntime.Date?
+        public var nextInvocationTime: Foundation.Date?
         /// Notification configuration.
         /// This member is required.
         public var notificationConfiguration: TimestreamQueryClientTypes.NotificationConfiguration?
         /// Last time the query was run.
-        public var previousInvocationTime: ClientRuntime.Date?
+        public var previousInvocationTime: Foundation.Date?
         /// The query to be run.
         /// This member is required.
         public var queryString: Swift.String?
@@ -2174,14 +2176,14 @@ extension TimestreamQueryClientTypes {
 
         public init(
             arn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             errorReportConfiguration: TimestreamQueryClientTypes.ErrorReportConfiguration? = nil,
             kmsKeyId: Swift.String? = nil,
             lastRunSummary: TimestreamQueryClientTypes.ScheduledQueryRunSummary? = nil,
             name: Swift.String? = nil,
-            nextInvocationTime: ClientRuntime.Date? = nil,
+            nextInvocationTime: Foundation.Date? = nil,
             notificationConfiguration: TimestreamQueryClientTypes.NotificationConfiguration? = nil,
-            previousInvocationTime: ClientRuntime.Date? = nil,
+            previousInvocationTime: Foundation.Date? = nil,
             queryString: Swift.String? = nil,
             recentlyFailedRuns: [TimestreamQueryClientTypes.ScheduledQueryRunSummary]? = nil,
             scheduleConfiguration: TimestreamQueryClientTypes.ScheduleConfiguration? = nil,
@@ -2270,19 +2272,19 @@ extension TimestreamQueryClientTypes {
         /// Error message for the scheduled query in case of failure. You might have to look at the error report to get more detailed error reasons.
         public var failureReason: Swift.String?
         /// InvocationTime for this run. This is the time at which the query is scheduled to run. Parameter @scheduled_runtime can be used in the query to get the value.
-        public var invocationTime: ClientRuntime.Date?
+        public var invocationTime: Foundation.Date?
         /// The status of a scheduled query run.
         public var runStatus: TimestreamQueryClientTypes.ScheduledQueryRunStatus?
         /// The actual time when the query was run.
-        public var triggerTime: ClientRuntime.Date?
+        public var triggerTime: Foundation.Date?
 
         public init(
             errorReportLocation: TimestreamQueryClientTypes.ErrorReportLocation? = nil,
             executionStats: TimestreamQueryClientTypes.ExecutionStats? = nil,
             failureReason: Swift.String? = nil,
-            invocationTime: ClientRuntime.Date? = nil,
+            invocationTime: Foundation.Date? = nil,
             runStatus: TimestreamQueryClientTypes.ScheduledQueryRunStatus? = nil,
-            triggerTime: ClientRuntime.Date? = nil
+            triggerTime: Foundation.Date? = nil
         )
         {
             self.errorReportLocation = errorReportLocation
@@ -2515,7 +2517,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2527,7 +2529,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2839,7 +2841,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -2851,7 +2853,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2900,7 +2902,7 @@ public struct UpdateAccountSettingsInput {
 
 extension UpdateAccountSettingsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAccountSettingsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAccountSettingsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2929,7 +2931,7 @@ public struct UpdateAccountSettingsOutput {
 
 enum UpdateAccountSettingsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2981,7 +2983,7 @@ public struct UpdateScheduledQueryInput {
 
 extension UpdateScheduledQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateScheduledQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateScheduledQueryOutput {
         return UpdateScheduledQueryOutput()
     }
 }
@@ -2993,7 +2995,7 @@ public struct UpdateScheduledQueryOutput {
 
 enum UpdateScheduledQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

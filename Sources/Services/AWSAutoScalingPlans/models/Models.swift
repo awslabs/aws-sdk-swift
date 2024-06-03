@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -123,7 +125,7 @@ public struct CreateScalingPlanInput {
 
 extension CreateScalingPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateScalingPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateScalingPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -148,7 +150,7 @@ public struct CreateScalingPlanOutput {
 
 enum CreateScalingPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -301,12 +303,12 @@ extension AutoScalingPlansClientTypes {
     /// Represents a single value in the forecast data used for predictive scaling.
     public struct Datapoint {
         /// The time stamp for the data point in UTC format.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// The value of the data point.
         public var value: Swift.Double?
 
         public init(
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             value: Swift.Double? = nil
         )
         {
@@ -353,7 +355,7 @@ public struct DeleteScalingPlanInput {
 
 extension DeleteScalingPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteScalingPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteScalingPlanOutput {
         return DeleteScalingPlanOutput()
     }
 }
@@ -365,7 +367,7 @@ public struct DeleteScalingPlanOutput {
 
 enum DeleteScalingPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -426,7 +428,7 @@ public struct DescribeScalingPlanResourcesInput {
 
 extension DescribeScalingPlanResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScalingPlanResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScalingPlanResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -455,7 +457,7 @@ public struct DescribeScalingPlanResourcesOutput {
 
 enum DescribeScalingPlanResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -519,7 +521,7 @@ public struct DescribeScalingPlansInput {
 
 extension DescribeScalingPlansOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeScalingPlansOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeScalingPlansOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -548,7 +550,7 @@ public struct DescribeScalingPlansOutput {
 
 enum DescribeScalingPlansOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -623,7 +625,7 @@ extension GetScalingPlanResourceForecastDataInput {
 public struct GetScalingPlanResourceForecastDataInput {
     /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days. Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The type of forecast data to get.
     ///
     /// * LoadForecast: The load metric forecast.
@@ -652,17 +654,17 @@ public struct GetScalingPlanResourceForecastDataInput {
     public var serviceNamespace: AutoScalingPlansClientTypes.ServiceNamespace?
     /// The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         forecastDataType: AutoScalingPlansClientTypes.ForecastDataType? = nil,
         resourceId: Swift.String? = nil,
         scalableDimension: AutoScalingPlansClientTypes.ScalableDimension? = nil,
         scalingPlanName: Swift.String? = nil,
         scalingPlanVersion: Swift.Int? = nil,
         serviceNamespace: AutoScalingPlansClientTypes.ServiceNamespace? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -678,7 +680,7 @@ public struct GetScalingPlanResourceForecastDataInput {
 
 extension GetScalingPlanResourceForecastDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetScalingPlanResourceForecastDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetScalingPlanResourceForecastDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -703,7 +705,7 @@ public struct GetScalingPlanResourceForecastDataOutput {
 
 enum GetScalingPlanResourceForecastDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1438,7 +1440,7 @@ extension AutoScalingPlansClientTypes {
         /// This member is required.
         public var applicationSource: AutoScalingPlansClientTypes.ApplicationSource?
         /// The Unix time stamp when the scaling plan was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The scaling instructions.
         /// This member is required.
         public var scalingInstructions: [AutoScalingPlansClientTypes.ScalingInstruction]?
@@ -1470,17 +1472,17 @@ extension AutoScalingPlansClientTypes {
         /// A simple message about the current status of the scaling plan.
         public var statusMessage: Swift.String?
         /// The Unix time stamp when the scaling plan entered the current status.
-        public var statusStartTime: ClientRuntime.Date?
+        public var statusStartTime: Foundation.Date?
 
         public init(
             applicationSource: AutoScalingPlansClientTypes.ApplicationSource? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             scalingInstructions: [AutoScalingPlansClientTypes.ScalingInstruction]? = nil,
             scalingPlanName: Swift.String? = nil,
             scalingPlanVersion: Swift.Int? = nil,
             statusCode: AutoScalingPlansClientTypes.ScalingPlanStatusCode? = nil,
             statusMessage: Swift.String? = nil,
-            statusStartTime: ClientRuntime.Date? = nil
+            statusStartTime: Foundation.Date? = nil
         )
         {
             self.applicationSource = applicationSource
@@ -1932,7 +1934,7 @@ public struct UpdateScalingPlanInput {
 
 extension UpdateScalingPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateScalingPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateScalingPlanOutput {
         return UpdateScalingPlanOutput()
     }
 }
@@ -1944,7 +1946,7 @@ public struct UpdateScalingPlanOutput {
 
 enum UpdateScalingPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

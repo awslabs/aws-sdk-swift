@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -45,10 +48,10 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension DeleteThingShadowInput {
 
-    static func queryItemProvider(_ value: DeleteThingShadowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteThingShadowInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let shadowName = value.shadowName {
-            let shadowNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
+            let shadowNameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
             items.append(shadowNameQueryItem)
         }
         return items
@@ -85,7 +88,7 @@ public struct DeleteThingShadowInput {
 
 extension DeleteThingShadowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteThingShadowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteThingShadowOutput {
         var value = DeleteThingShadowOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -103,10 +106,10 @@ extension DeleteThingShadowOutput {
 public struct DeleteThingShadowOutput {
     /// The state information, in JSON format.
     /// This member is required.
-    public var payload: ClientRuntime.Data?
+    public var payload: Foundation.Data?
 
     public init(
-        payload: ClientRuntime.Data? = nil
+        payload: Foundation.Data? = nil
     )
     {
         self.payload = payload
@@ -115,7 +118,7 @@ public struct DeleteThingShadowOutput {
 
 enum DeleteThingShadowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -160,7 +163,7 @@ public struct GetRetainedMessageInput {
 
 extension GetRetainedMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRetainedMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRetainedMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -179,20 +182,20 @@ public struct GetRetainedMessageOutput {
     /// The Epoch date and time, in milliseconds, when the retained message was stored by IoT.
     public var lastModifiedTime: Swift.Int
     /// The Base64-encoded message payload of the retained message body.
-    public var payload: ClientRuntime.Data?
+    public var payload: Foundation.Data?
     /// The quality of service (QoS) level used to publish the retained message.
     public var qos: Swift.Int
     /// The topic name to which the retained message was published.
     public var topic: Swift.String?
     /// A base64-encoded JSON string that includes an array of JSON objects, or null if the retained message doesn't include any user properties. The following example userProperties parameter is a JSON string that represents two user properties. Note that it will be base64-encoded: [{"deviceName": "alpha"}, {"deviceCnt": "45"}]
-    public var userProperties: ClientRuntime.Data?
+    public var userProperties: Foundation.Data?
 
     public init(
         lastModifiedTime: Swift.Int = 0,
-        payload: ClientRuntime.Data? = nil,
+        payload: Foundation.Data? = nil,
         qos: Swift.Int = 0,
         topic: Swift.String? = nil,
-        userProperties: ClientRuntime.Data? = nil
+        userProperties: Foundation.Data? = nil
     )
     {
         self.lastModifiedTime = lastModifiedTime
@@ -205,7 +208,7 @@ public struct GetRetainedMessageOutput {
 
 enum GetRetainedMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -225,10 +228,10 @@ enum GetRetainedMessageOutputError {
 
 extension GetThingShadowInput {
 
-    static func queryItemProvider(_ value: GetThingShadowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetThingShadowInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let shadowName = value.shadowName {
-            let shadowNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
+            let shadowNameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
             items.append(shadowNameQueryItem)
         }
         return items
@@ -265,7 +268,7 @@ public struct GetThingShadowInput {
 
 extension GetThingShadowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetThingShadowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetThingShadowOutput {
         var value = GetThingShadowOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -282,10 +285,10 @@ extension GetThingShadowOutput {
 /// The output from the GetThingShadow operation.
 public struct GetThingShadowOutput {
     /// The state information, in JSON format.
-    public var payload: ClientRuntime.Data?
+    public var payload: Foundation.Data?
 
     public init(
-        payload: ClientRuntime.Data? = nil
+        payload: Foundation.Data? = nil
     )
     {
         self.payload = payload
@@ -294,7 +297,7 @@ public struct GetThingShadowOutput {
 
 enum GetThingShadowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -393,14 +396,14 @@ public enum IoTDataPlaneClientTypes {}
 
 extension ListNamedShadowsForThingInput {
 
-    static func queryItemProvider(_ value: ListNamedShadowsForThingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListNamedShadowsForThingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let pageSize = value.pageSize {
-            let pageSizeQueryItem = ClientRuntime.SDKURLQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            let pageSizeQueryItem = Smithy.URIQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
             items.append(pageSizeQueryItem)
         }
         return items
@@ -440,7 +443,7 @@ public struct ListNamedShadowsForThingInput {
 
 extension ListNamedShadowsForThingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListNamedShadowsForThingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListNamedShadowsForThingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -474,7 +477,7 @@ public struct ListNamedShadowsForThingOutput {
 
 enum ListNamedShadowsForThingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -494,14 +497,14 @@ enum ListNamedShadowsForThingOutputError {
 
 extension ListRetainedMessagesInput {
 
-    static func queryItemProvider(_ value: ListRetainedMessagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRetainedMessagesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -533,7 +536,7 @@ public struct ListRetainedMessagesInput {
 
 extension ListRetainedMessagesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRetainedMessagesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRetainedMessagesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -562,7 +565,7 @@ public struct ListRetainedMessagesOutput {
 
 enum ListRetainedMessagesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -648,8 +651,8 @@ extension IoTDataPlaneClientTypes {
 
 extension PublishInput {
 
-    static func headerProvider(_ value: PublishInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PublishInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let correlationData = value.correlationData {
             items.add(Header(name: "x-amz-mqtt5-correlation-data", value: Swift.String(correlationData)))
         }
@@ -669,26 +672,26 @@ extension PublishInput {
 
 extension PublishInput {
 
-    static func queryItemProvider(_ value: PublishInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PublishInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let qos = value.qos {
-            let qosQueryItem = ClientRuntime.SDKURLQueryItem(name: "qos".urlPercentEncoding(), value: Swift.String(qos).urlPercentEncoding())
+            let qosQueryItem = Smithy.URIQueryItem(name: "qos".urlPercentEncoding(), value: Swift.String(qos).urlPercentEncoding())
             items.append(qosQueryItem)
         }
         if let retain = value.retain {
-            let retainQueryItem = ClientRuntime.SDKURLQueryItem(name: "retain".urlPercentEncoding(), value: Swift.String(retain).urlPercentEncoding())
+            let retainQueryItem = Smithy.URIQueryItem(name: "retain".urlPercentEncoding(), value: Swift.String(retain).urlPercentEncoding())
             items.append(retainQueryItem)
         }
         if let responseTopic = value.responseTopic {
-            let responseTopicQueryItem = ClientRuntime.SDKURLQueryItem(name: "responseTopic".urlPercentEncoding(), value: Swift.String(responseTopic).urlPercentEncoding())
+            let responseTopicQueryItem = Smithy.URIQueryItem(name: "responseTopic".urlPercentEncoding(), value: Swift.String(responseTopic).urlPercentEncoding())
             items.append(responseTopicQueryItem)
         }
         if let contentType = value.contentType {
-            let contentTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "contentType".urlPercentEncoding(), value: Swift.String(contentType).urlPercentEncoding())
+            let contentTypeQueryItem = Smithy.URIQueryItem(name: "contentType".urlPercentEncoding(), value: Swift.String(contentType).urlPercentEncoding())
             items.append(contentTypeQueryItem)
         }
         if let messageExpiry = value.messageExpiry {
-            let messageExpiryQueryItem = ClientRuntime.SDKURLQueryItem(name: "messageExpiry".urlPercentEncoding(), value: Swift.String(messageExpiry).urlPercentEncoding())
+            let messageExpiryQueryItem = Smithy.URIQueryItem(name: "messageExpiry".urlPercentEncoding(), value: Swift.String(messageExpiry).urlPercentEncoding())
             items.append(messageExpiryQueryItem)
         }
         return items
@@ -722,7 +725,7 @@ public struct PublishInput {
     /// A user-defined integer value that represents the message expiry interval in seconds. If absent, the message doesn't expire. For more information about the limits of messageExpiry, see [Amazon Web Services IoT Core message broker and protocol limits and quotas ](https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits) from the Amazon Web Services Reference Guide.
     public var messageExpiry: Swift.Int?
     /// The message body. MQTT accepts text, binary, and empty (null) message payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from Amazon Web Services IoT Core.
-    public var payload: ClientRuntime.Data?
+    public var payload: Foundation.Data?
     /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API.
     public var payloadFormatIndicator: IoTDataPlaneClientTypes.PayloadFormatIndicator?
     /// The Quality of Service (QoS) level. The default QoS level is 0.
@@ -741,7 +744,7 @@ public struct PublishInput {
         contentType: Swift.String? = nil,
         correlationData: Swift.String? = nil,
         messageExpiry: Swift.Int? = nil,
-        payload: ClientRuntime.Data? = nil,
+        payload: Foundation.Data? = nil,
         payloadFormatIndicator: IoTDataPlaneClientTypes.PayloadFormatIndicator? = nil,
         qos: Swift.Int? = nil,
         responseTopic: Swift.String? = nil,
@@ -765,7 +768,7 @@ public struct PublishInput {
 
 extension PublishOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PublishOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PublishOutput {
         return PublishOutput()
     }
 }
@@ -777,7 +780,7 @@ public struct PublishOutput {
 
 enum PublishOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1064,10 +1067,10 @@ public struct UnsupportedDocumentEncodingException: ClientRuntime.ModeledError, 
 
 extension UpdateThingShadowInput {
 
-    static func queryItemProvider(_ value: UpdateThingShadowInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateThingShadowInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let shadowName = value.shadowName {
-            let shadowNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
+            let shadowNameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(shadowName).urlPercentEncoding())
             items.append(shadowNameQueryItem)
         }
         return items
@@ -1096,7 +1099,7 @@ extension UpdateThingShadowInput {
 public struct UpdateThingShadowInput {
     /// The state information, in JSON format.
     /// This member is required.
-    public var payload: ClientRuntime.Data?
+    public var payload: Foundation.Data?
     /// The name of the shadow.
     public var shadowName: Swift.String?
     /// The name of the thing.
@@ -1104,7 +1107,7 @@ public struct UpdateThingShadowInput {
     public var thingName: Swift.String?
 
     public init(
-        payload: ClientRuntime.Data? = nil,
+        payload: Foundation.Data? = nil,
         shadowName: Swift.String? = nil,
         thingName: Swift.String? = nil
     )
@@ -1117,7 +1120,7 @@ public struct UpdateThingShadowInput {
 
 extension UpdateThingShadowOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateThingShadowOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateThingShadowOutput {
         var value = UpdateThingShadowOutput()
         switch httpResponse.body {
         case .data(let data):
@@ -1134,10 +1137,10 @@ extension UpdateThingShadowOutput {
 /// The output from the UpdateThingShadow operation.
 public struct UpdateThingShadowOutput {
     /// The state information, in JSON format.
-    public var payload: ClientRuntime.Data?
+    public var payload: Foundation.Data?
 
     public init(
-        payload: ClientRuntime.Data? = nil
+        payload: Foundation.Data? = nil
     )
     {
         self.payload = payload
@@ -1146,7 +1149,7 @@ public struct UpdateThingShadowOutput {
 
 enum UpdateThingShadowOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

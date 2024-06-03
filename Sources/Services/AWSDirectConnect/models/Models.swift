@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -52,7 +54,7 @@ public struct AcceptDirectConnectGatewayAssociationProposalInput {
 
 extension AcceptDirectConnectGatewayAssociationProposalOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AcceptDirectConnectGatewayAssociationProposalOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AcceptDirectConnectGatewayAssociationProposalOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -76,7 +78,7 @@ public struct AcceptDirectConnectGatewayAssociationProposalOutput {
 
 enum AcceptDirectConnectGatewayAssociationProposalOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -172,7 +174,7 @@ public struct AllocateConnectionOnInterconnectInput {
 
 extension AllocateConnectionOnInterconnectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AllocateConnectionOnInterconnectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AllocateConnectionOnInterconnectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -247,7 +249,7 @@ public struct AllocateConnectionOnInterconnectOutput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
     /// The time of the most recent call to [DescribeLoa] for this connection.
-    public var loaIssueTime: ClientRuntime.Date?
+    public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
     /// Indicates whether the connection supports MAC Security (MACsec).
@@ -281,7 +283,7 @@ public struct AllocateConnectionOnInterconnectOutput {
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         jumboFrameCapable: Swift.Bool? = nil,
         lagId: Swift.String? = nil,
-        loaIssueTime: ClientRuntime.Date? = nil,
+        loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
@@ -321,7 +323,7 @@ public struct AllocateConnectionOnInterconnectOutput {
 
 enum AllocateConnectionOnInterconnectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -393,7 +395,7 @@ public struct AllocateHostedConnectionInput {
 
 extension AllocateHostedConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AllocateHostedConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AllocateHostedConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -468,7 +470,7 @@ public struct AllocateHostedConnectionOutput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
     /// The time of the most recent call to [DescribeLoa] for this connection.
-    public var loaIssueTime: ClientRuntime.Date?
+    public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
     /// Indicates whether the connection supports MAC Security (MACsec).
@@ -502,7 +504,7 @@ public struct AllocateHostedConnectionOutput {
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         jumboFrameCapable: Swift.Bool? = nil,
         lagId: Swift.String? = nil,
-        loaIssueTime: ClientRuntime.Date? = nil,
+        loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
@@ -542,7 +544,7 @@ public struct AllocateHostedConnectionOutput {
 
 enum AllocateHostedConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -599,7 +601,7 @@ public struct AllocatePrivateVirtualInterfaceInput {
 
 extension AllocatePrivateVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AllocatePrivateVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AllocatePrivateVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -767,7 +769,7 @@ public struct AllocatePrivateVirtualInterfaceOutput {
 
 enum AllocatePrivateVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -824,7 +826,7 @@ public struct AllocatePublicVirtualInterfaceInput {
 
 extension AllocatePublicVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AllocatePublicVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AllocatePublicVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -992,7 +994,7 @@ public struct AllocatePublicVirtualInterfaceOutput {
 
 enum AllocatePublicVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1049,7 +1051,7 @@ public struct AllocateTransitVirtualInterfaceInput {
 
 extension AllocateTransitVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AllocateTransitVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AllocateTransitVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1073,7 +1075,7 @@ public struct AllocateTransitVirtualInterfaceOutput {
 
 enum AllocateTransitVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1124,7 +1126,7 @@ public struct AssociateConnectionWithLagInput {
 
 extension AssociateConnectionWithLagOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateConnectionWithLagOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateConnectionWithLagOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1199,7 +1201,7 @@ public struct AssociateConnectionWithLagOutput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
     /// The time of the most recent call to [DescribeLoa] for this connection.
-    public var loaIssueTime: ClientRuntime.Date?
+    public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
     /// Indicates whether the connection supports MAC Security (MACsec).
@@ -1233,7 +1235,7 @@ public struct AssociateConnectionWithLagOutput {
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         jumboFrameCapable: Swift.Bool? = nil,
         lagId: Swift.String? = nil,
-        loaIssueTime: ClientRuntime.Date? = nil,
+        loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
@@ -1273,7 +1275,7 @@ public struct AssociateConnectionWithLagOutput {
 
 enum AssociateConnectionWithLagOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1322,7 +1324,7 @@ public struct AssociateHostedConnectionInput {
 
 extension AssociateHostedConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateHostedConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateHostedConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1397,7 +1399,7 @@ public struct AssociateHostedConnectionOutput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
     /// The time of the most recent call to [DescribeLoa] for this connection.
-    public var loaIssueTime: ClientRuntime.Date?
+    public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
     /// Indicates whether the connection supports MAC Security (MACsec).
@@ -1431,7 +1433,7 @@ public struct AssociateHostedConnectionOutput {
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         jumboFrameCapable: Swift.Bool? = nil,
         lagId: Swift.String? = nil,
-        loaIssueTime: ClientRuntime.Date? = nil,
+        loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
@@ -1471,7 +1473,7 @@ public struct AssociateHostedConnectionOutput {
 
 enum AssociateHostedConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1529,7 +1531,7 @@ public struct AssociateMacSecKeyInput {
 
 extension AssociateMacSecKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateMacSecKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateMacSecKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1558,7 +1560,7 @@ public struct AssociateMacSecKeyOutput {
 
 enum AssociateMacSecKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1607,7 +1609,7 @@ public struct AssociateVirtualInterfaceInput {
 
 extension AssociateVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1775,7 +1777,7 @@ public struct AssociateVirtualInterfaceOutput {
 
 enum AssociateVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2016,7 +2018,7 @@ public struct ConfirmConnectionInput {
 
 extension ConfirmConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ConfirmConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ConfirmConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2058,7 +2060,7 @@ public struct ConfirmConnectionOutput {
 
 enum ConfirmConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2100,7 +2102,7 @@ public struct ConfirmCustomerAgreementInput {
 
 extension ConfirmCustomerAgreementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ConfirmCustomerAgreementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ConfirmCustomerAgreementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2124,7 +2126,7 @@ public struct ConfirmCustomerAgreementOutput {
 
 enum ConfirmCustomerAgreementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2177,7 +2179,7 @@ public struct ConfirmPrivateVirtualInterfaceInput {
 
 extension ConfirmPrivateVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ConfirmPrivateVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ConfirmPrivateVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2219,7 +2221,7 @@ public struct ConfirmPrivateVirtualInterfaceOutput {
 
 enum ConfirmPrivateVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2262,7 +2264,7 @@ public struct ConfirmPublicVirtualInterfaceInput {
 
 extension ConfirmPublicVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ConfirmPublicVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ConfirmPublicVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2304,7 +2306,7 @@ public struct ConfirmPublicVirtualInterfaceOutput {
 
 enum ConfirmPublicVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2353,7 +2355,7 @@ public struct ConfirmTransitVirtualInterfaceInput {
 
 extension ConfirmTransitVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ConfirmTransitVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ConfirmTransitVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2395,7 +2397,7 @@ public struct ConfirmTransitVirtualInterfaceOutput {
 
 enum ConfirmTransitVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2484,7 +2486,7 @@ extension DirectConnectClientTypes {
         /// The ID of the LAG.
         public var lagId: Swift.String?
         /// The time of the most recent call to [DescribeLoa] for this connection.
-        public var loaIssueTime: ClientRuntime.Date?
+        public var loaIssueTime: Foundation.Date?
         /// The location of the connection.
         public var location: Swift.String?
         /// Indicates whether the connection supports MAC Security (MACsec).
@@ -2518,7 +2520,7 @@ extension DirectConnectClientTypes {
             hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
             jumboFrameCapable: Swift.Bool? = nil,
             lagId: Swift.String? = nil,
-            loaIssueTime: ClientRuntime.Date? = nil,
+            loaIssueTime: Foundation.Date? = nil,
             location: Swift.String? = nil,
             macSecCapable: Swift.Bool? = nil,
             macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
@@ -2642,7 +2644,7 @@ public struct CreateBGPPeerInput {
 
 extension CreateBGPPeerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBGPPeerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBGPPeerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2666,7 +2668,7 @@ public struct CreateBGPPeerOutput {
 
 enum CreateBGPPeerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2741,7 +2743,7 @@ public struct CreateConnectionInput {
 
 extension CreateConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2816,7 +2818,7 @@ public struct CreateConnectionOutput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
     /// The time of the most recent call to [DescribeLoa] for this connection.
-    public var loaIssueTime: ClientRuntime.Date?
+    public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
     /// Indicates whether the connection supports MAC Security (MACsec).
@@ -2850,7 +2852,7 @@ public struct CreateConnectionOutput {
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         jumboFrameCapable: Swift.Bool? = nil,
         lagId: Swift.String? = nil,
-        loaIssueTime: ClientRuntime.Date? = nil,
+        loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
@@ -2890,7 +2892,7 @@ public struct CreateConnectionOutput {
 
 enum CreateConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2950,7 +2952,7 @@ public struct CreateDirectConnectGatewayAssociationInput {
 
 extension CreateDirectConnectGatewayAssociationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDirectConnectGatewayAssociationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDirectConnectGatewayAssociationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2974,7 +2976,7 @@ public struct CreateDirectConnectGatewayAssociationOutput {
 
 enum CreateDirectConnectGatewayAssociationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3039,7 +3041,7 @@ public struct CreateDirectConnectGatewayAssociationProposalInput {
 
 extension CreateDirectConnectGatewayAssociationProposalOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDirectConnectGatewayAssociationProposalOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDirectConnectGatewayAssociationProposalOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3063,7 +3065,7 @@ public struct CreateDirectConnectGatewayAssociationProposalOutput {
 
 enum CreateDirectConnectGatewayAssociationProposalOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3111,7 +3113,7 @@ public struct CreateDirectConnectGatewayInput {
 
 extension CreateDirectConnectGatewayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateDirectConnectGatewayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateDirectConnectGatewayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3135,7 +3137,7 @@ public struct CreateDirectConnectGatewayOutput {
 
 enum CreateDirectConnectGatewayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3205,7 +3207,7 @@ public struct CreateInterconnectInput {
 
 extension CreateInterconnectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateInterconnectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateInterconnectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3267,7 +3269,7 @@ public struct CreateInterconnectOutput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
     /// The time of the most recent call to [DescribeLoa] for this connection.
-    public var loaIssueTime: ClientRuntime.Date?
+    public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
     /// The name of the service provider associated with the interconnect.
@@ -3288,7 +3290,7 @@ public struct CreateInterconnectOutput {
         interconnectState: DirectConnectClientTypes.InterconnectState? = nil,
         jumboFrameCapable: Swift.Bool? = nil,
         lagId: Swift.String? = nil,
-        loaIssueTime: ClientRuntime.Date? = nil,
+        loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         providerName: Swift.String? = nil,
         region: Swift.String? = nil,
@@ -3315,7 +3317,7 @@ public struct CreateInterconnectOutput {
 
 enum CreateInterconnectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3403,7 +3405,7 @@ public struct CreateLagInput {
 
 extension CreateLagOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateLagOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateLagOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3543,7 +3545,7 @@ public struct CreateLagOutput {
 
 enum CreateLagOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3594,7 +3596,7 @@ public struct CreatePrivateVirtualInterfaceInput {
 
 extension CreatePrivateVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePrivateVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePrivateVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3762,7 +3764,7 @@ public struct CreatePrivateVirtualInterfaceOutput {
 
 enum CreatePrivateVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3813,7 +3815,7 @@ public struct CreatePublicVirtualInterfaceInput {
 
 extension CreatePublicVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePublicVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePublicVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3981,7 +3983,7 @@ public struct CreatePublicVirtualInterfaceOutput {
 
 enum CreatePublicVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4032,7 +4034,7 @@ public struct CreateTransitVirtualInterfaceInput {
 
 extension CreateTransitVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTransitVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTransitVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4056,7 +4058,7 @@ public struct CreateTransitVirtualInterfaceOutput {
 
 enum CreateTransitVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4146,7 +4148,7 @@ public struct DeleteBGPPeerInput {
 
 extension DeleteBGPPeerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBGPPeerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBGPPeerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4170,7 +4172,7 @@ public struct DeleteBGPPeerOutput {
 
 enum DeleteBGPPeerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4213,7 +4215,7 @@ public struct DeleteConnectionInput {
 
 extension DeleteConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4288,7 +4290,7 @@ public struct DeleteConnectionOutput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
     /// The time of the most recent call to [DescribeLoa] for this connection.
-    public var loaIssueTime: ClientRuntime.Date?
+    public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
     /// Indicates whether the connection supports MAC Security (MACsec).
@@ -4322,7 +4324,7 @@ public struct DeleteConnectionOutput {
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         jumboFrameCapable: Swift.Bool? = nil,
         lagId: Swift.String? = nil,
-        loaIssueTime: ClientRuntime.Date? = nil,
+        loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
@@ -4362,7 +4364,7 @@ public struct DeleteConnectionOutput {
 
 enum DeleteConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4414,7 +4416,7 @@ public struct DeleteDirectConnectGatewayAssociationInput {
 
 extension DeleteDirectConnectGatewayAssociationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDirectConnectGatewayAssociationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDirectConnectGatewayAssociationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4438,7 +4440,7 @@ public struct DeleteDirectConnectGatewayAssociationOutput {
 
 enum DeleteDirectConnectGatewayAssociationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4481,7 +4483,7 @@ public struct DeleteDirectConnectGatewayAssociationProposalInput {
 
 extension DeleteDirectConnectGatewayAssociationProposalOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDirectConnectGatewayAssociationProposalOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDirectConnectGatewayAssociationProposalOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4505,7 +4507,7 @@ public struct DeleteDirectConnectGatewayAssociationProposalOutput {
 
 enum DeleteDirectConnectGatewayAssociationProposalOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4548,7 +4550,7 @@ public struct DeleteDirectConnectGatewayInput {
 
 extension DeleteDirectConnectGatewayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDirectConnectGatewayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDirectConnectGatewayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4572,7 +4574,7 @@ public struct DeleteDirectConnectGatewayOutput {
 
 enum DeleteDirectConnectGatewayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4615,7 +4617,7 @@ public struct DeleteInterconnectInput {
 
 extension DeleteInterconnectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteInterconnectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteInterconnectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4653,7 +4655,7 @@ public struct DeleteInterconnectOutput {
 
 enum DeleteInterconnectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4696,7 +4698,7 @@ public struct DeleteLagInput {
 
 extension DeleteLagOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteLagOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteLagOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4836,7 +4838,7 @@ public struct DeleteLagOutput {
 
 enum DeleteLagOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4879,7 +4881,7 @@ public struct DeleteVirtualInterfaceInput {
 
 extension DeleteVirtualInterfaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteVirtualInterfaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteVirtualInterfaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4921,7 +4923,7 @@ public struct DeleteVirtualInterfaceOutput {
 
 enum DeleteVirtualInterfaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4974,7 +4976,7 @@ public struct DescribeConnectionLoaInput {
 
 extension DescribeConnectionLoaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeConnectionLoaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConnectionLoaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4998,7 +5000,7 @@ public struct DescribeConnectionLoaOutput {
 
 enum DescribeConnectionLoaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5068,7 +5070,7 @@ public struct DescribeConnectionsOnInterconnectInput {
 
 extension DescribeConnectionsOnInterconnectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeConnectionsOnInterconnectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConnectionsOnInterconnectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5092,7 +5094,7 @@ public struct DescribeConnectionsOnInterconnectOutput {
 
 enum DescribeConnectionsOnInterconnectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5107,7 +5109,7 @@ enum DescribeConnectionsOnInterconnectOutputError {
 
 extension DescribeConnectionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeConnectionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeConnectionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5131,7 +5133,7 @@ public struct DescribeConnectionsOutput {
 
 enum DescribeConnectionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5166,7 +5168,7 @@ public struct DescribeCustomerMetadataInput {
 
 extension DescribeCustomerMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCustomerMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCustomerMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5201,7 +5203,7 @@ public struct DescribeCustomerMetadataOutput {
 
 enum DescribeCustomerMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5263,7 +5265,7 @@ public struct DescribeDirectConnectGatewayAssociationProposalsInput {
 
 extension DescribeDirectConnectGatewayAssociationProposalsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDirectConnectGatewayAssociationProposalsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDirectConnectGatewayAssociationProposalsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5292,7 +5294,7 @@ public struct DescribeDirectConnectGatewayAssociationProposalsOutput {
 
 enum DescribeDirectConnectGatewayAssociationProposalsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5359,7 +5361,7 @@ public struct DescribeDirectConnectGatewayAssociationsInput {
 
 extension DescribeDirectConnectGatewayAssociationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDirectConnectGatewayAssociationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDirectConnectGatewayAssociationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5388,7 +5390,7 @@ public struct DescribeDirectConnectGatewayAssociationsOutput {
 
 enum DescribeDirectConnectGatewayAssociationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5445,7 +5447,7 @@ public struct DescribeDirectConnectGatewayAttachmentsInput {
 
 extension DescribeDirectConnectGatewayAttachmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDirectConnectGatewayAttachmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDirectConnectGatewayAttachmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5474,7 +5476,7 @@ public struct DescribeDirectConnectGatewayAttachmentsOutput {
 
 enum DescribeDirectConnectGatewayAttachmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5526,7 +5528,7 @@ public struct DescribeDirectConnectGatewaysInput {
 
 extension DescribeDirectConnectGatewaysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDirectConnectGatewaysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDirectConnectGatewaysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5555,7 +5557,7 @@ public struct DescribeDirectConnectGatewaysOutput {
 
 enum DescribeDirectConnectGatewaysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5598,7 +5600,7 @@ public struct DescribeHostedConnectionsInput {
 
 extension DescribeHostedConnectionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeHostedConnectionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeHostedConnectionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5622,7 +5624,7 @@ public struct DescribeHostedConnectionsOutput {
 
 enum DescribeHostedConnectionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5675,7 +5677,7 @@ public struct DescribeInterconnectLoaInput {
 
 extension DescribeInterconnectLoaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeInterconnectLoaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInterconnectLoaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5699,7 +5701,7 @@ public struct DescribeInterconnectLoaOutput {
 
 enum DescribeInterconnectLoaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5741,7 +5743,7 @@ public struct DescribeInterconnectsInput {
 
 extension DescribeInterconnectsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeInterconnectsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeInterconnectsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5765,7 +5767,7 @@ public struct DescribeInterconnectsOutput {
 
 enum DescribeInterconnectsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5807,7 +5809,7 @@ public struct DescribeLagsInput {
 
 extension DescribeLagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5831,7 +5833,7 @@ public struct DescribeLagsOutput {
 
 enum DescribeLagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5884,7 +5886,7 @@ public struct DescribeLoaInput {
 
 extension DescribeLoaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLoaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLoaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5898,12 +5900,12 @@ extension DescribeLoaOutput {
 /// Information about a Letter of Authorization - Connecting Facility Assignment (LOA-CFA) for a connection.
 public struct DescribeLoaOutput {
     /// The binary contents of the LOA-CFA document.
-    public var loaContent: ClientRuntime.Data?
+    public var loaContent: Foundation.Data?
     /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
     public var loaContentType: DirectConnectClientTypes.LoaContentType?
 
     public init(
-        loaContent: ClientRuntime.Data? = nil,
+        loaContent: Foundation.Data? = nil,
         loaContentType: DirectConnectClientTypes.LoaContentType? = nil
     )
     {
@@ -5914,7 +5916,7 @@ public struct DescribeLoaOutput {
 
 enum DescribeLoaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5949,7 +5951,7 @@ public struct DescribeLocationsInput {
 
 extension DescribeLocationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLocationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLocationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5973,7 +5975,7 @@ public struct DescribeLocationsOutput {
 
 enum DescribeLocationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6022,7 +6024,7 @@ public struct DescribeRouterConfigurationInput {
 
 extension DescribeRouterConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeRouterConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeRouterConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6061,7 +6063,7 @@ public struct DescribeRouterConfigurationOutput {
 
 enum DescribeRouterConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6104,7 +6106,7 @@ public struct DescribeTagsInput {
 
 extension DescribeTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6128,7 +6130,7 @@ public struct DescribeTagsOutput {
 
 enum DescribeTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6163,7 +6165,7 @@ public struct DescribeVirtualGatewaysInput {
 
 extension DescribeVirtualGatewaysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVirtualGatewaysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVirtualGatewaysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6187,7 +6189,7 @@ public struct DescribeVirtualGatewaysOutput {
 
 enum DescribeVirtualGatewaysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6234,7 +6236,7 @@ public struct DescribeVirtualInterfacesInput {
 
 extension DescribeVirtualInterfacesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeVirtualInterfacesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeVirtualInterfacesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6258,7 +6260,7 @@ public struct DescribeVirtualInterfacesOutput {
 
 enum DescribeVirtualInterfacesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6819,7 +6821,7 @@ public struct DisassociateConnectionFromLagInput {
 
 extension DisassociateConnectionFromLagOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateConnectionFromLagOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateConnectionFromLagOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6894,7 +6896,7 @@ public struct DisassociateConnectionFromLagOutput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
     /// The time of the most recent call to [DescribeLoa] for this connection.
-    public var loaIssueTime: ClientRuntime.Date?
+    public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
     /// Indicates whether the connection supports MAC Security (MACsec).
@@ -6928,7 +6930,7 @@ public struct DisassociateConnectionFromLagOutput {
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         jumboFrameCapable: Swift.Bool? = nil,
         lagId: Swift.String? = nil,
-        loaIssueTime: ClientRuntime.Date? = nil,
+        loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
@@ -6968,7 +6970,7 @@ public struct DisassociateConnectionFromLagOutput {
 
 enum DisassociateConnectionFromLagOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7017,7 +7019,7 @@ public struct DisassociateMacSecKeyInput {
 
 extension DisassociateMacSecKeyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateMacSecKeyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateMacSecKeyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7046,7 +7048,7 @@ public struct DisassociateMacSecKeyOutput {
 
 enum DisassociateMacSecKeyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7220,7 +7222,7 @@ extension DirectConnectClientTypes {
         /// The ID of the LAG.
         public var lagId: Swift.String?
         /// The time of the most recent call to [DescribeLoa] for this connection.
-        public var loaIssueTime: ClientRuntime.Date?
+        public var loaIssueTime: Foundation.Date?
         /// The location of the connection.
         public var location: Swift.String?
         /// The name of the service provider associated with the interconnect.
@@ -7241,7 +7243,7 @@ extension DirectConnectClientTypes {
             interconnectState: DirectConnectClientTypes.InterconnectState? = nil,
             jumboFrameCapable: Swift.Bool? = nil,
             lagId: Swift.String? = nil,
-            loaIssueTime: ClientRuntime.Date? = nil,
+            loaIssueTime: Foundation.Date? = nil,
             location: Swift.String? = nil,
             providerName: Swift.String? = nil,
             region: Swift.String? = nil,
@@ -7551,7 +7553,7 @@ public struct ListVirtualInterfaceTestHistoryInput {
 
 extension ListVirtualInterfaceTestHistoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListVirtualInterfaceTestHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListVirtualInterfaceTestHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7580,7 +7582,7 @@ public struct ListVirtualInterfaceTestHistoryOutput {
 
 enum ListVirtualInterfaceTestHistoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7608,12 +7610,12 @@ extension DirectConnectClientTypes {
     /// Information about a Letter of Authorization - Connecting Facility Assignment (LOA-CFA) for a connection.
     public struct Loa {
         /// The binary contents of the LOA-CFA document.
-        public var loaContent: ClientRuntime.Data?
+        public var loaContent: Foundation.Data?
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
         public var loaContentType: DirectConnectClientTypes.LoaContentType?
 
         public init(
-            loaContent: ClientRuntime.Data? = nil,
+            loaContent: Foundation.Data? = nil,
             loaContentType: DirectConnectClientTypes.LoaContentType? = nil
         )
         {
@@ -8400,7 +8402,7 @@ public struct StartBgpFailoverTestInput {
 
 extension StartBgpFailoverTestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartBgpFailoverTestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartBgpFailoverTestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8424,7 +8426,7 @@ public struct StartBgpFailoverTestOutput {
 
 enum StartBgpFailoverTestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8467,7 +8469,7 @@ public struct StopBgpFailoverTestInput {
 
 extension StopBgpFailoverTestOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopBgpFailoverTestOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopBgpFailoverTestOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8491,7 +8493,7 @@ public struct StopBgpFailoverTestOutput {
 
 enum StopBgpFailoverTestOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8578,7 +8580,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -8590,7 +8592,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8678,7 +8680,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -8690,7 +8692,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8743,7 +8745,7 @@ public struct UpdateConnectionInput {
 
 extension UpdateConnectionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateConnectionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateConnectionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8818,7 +8820,7 @@ public struct UpdateConnectionOutput {
     /// The ID of the LAG.
     public var lagId: Swift.String?
     /// The time of the most recent call to [DescribeLoa] for this connection.
-    public var loaIssueTime: ClientRuntime.Date?
+    public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
     /// Indicates whether the connection supports MAC Security (MACsec).
@@ -8852,7 +8854,7 @@ public struct UpdateConnectionOutput {
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         jumboFrameCapable: Swift.Bool? = nil,
         lagId: Swift.String? = nil,
-        loaIssueTime: ClientRuntime.Date? = nil,
+        loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
@@ -8892,7 +8894,7 @@ public struct UpdateConnectionOutput {
 
 enum UpdateConnectionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8944,7 +8946,7 @@ public struct UpdateDirectConnectGatewayAssociationInput {
 
 extension UpdateDirectConnectGatewayAssociationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDirectConnectGatewayAssociationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDirectConnectGatewayAssociationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8968,7 +8970,7 @@ public struct UpdateDirectConnectGatewayAssociationOutput {
 
 enum UpdateDirectConnectGatewayAssociationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9017,7 +9019,7 @@ public struct UpdateDirectConnectGatewayInput {
 
 extension UpdateDirectConnectGatewayOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDirectConnectGatewayOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDirectConnectGatewayOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9041,7 +9043,7 @@ public struct UpdateDirectConnectGatewayOutput {
 
 enum UpdateDirectConnectGatewayOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9099,7 +9101,7 @@ public struct UpdateLagInput {
 
 extension UpdateLagOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateLagOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateLagOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9239,7 +9241,7 @@ public struct UpdateLagOutput {
 
 enum UpdateLagOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9297,7 +9299,7 @@ public struct UpdateVirtualInterfaceAttributesInput {
 
 extension UpdateVirtualInterfaceAttributesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateVirtualInterfaceAttributesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateVirtualInterfaceAttributesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9465,7 +9467,7 @@ public struct UpdateVirtualInterfaceAttributesOutput {
 
 enum UpdateVirtualInterfaceAttributesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9759,11 +9761,11 @@ extension DirectConnectClientTypes {
         /// The BGP peers that were put in the DOWN state as part of the virtual interface failover test.
         public var bgpPeers: [Swift.String]?
         /// The time that the virtual interface moves out of the DOWN state.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The owner ID of the tested virtual interface.
         public var ownerAccount: Swift.String?
         /// The time that the virtual interface moves to the DOWN state.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The status of the virtual interface failover test.
         public var status: Swift.String?
         /// The time that the virtual interface failover test ran in minutes.
@@ -9775,9 +9777,9 @@ extension DirectConnectClientTypes {
 
         public init(
             bgpPeers: [Swift.String]? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             ownerAccount: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: Swift.String? = nil,
             testDurationInMinutes: Swift.Int? = nil,
             testId: Swift.String? = nil,

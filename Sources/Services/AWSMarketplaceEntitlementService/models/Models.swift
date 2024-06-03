@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -27,7 +29,7 @@ extension MarketplaceEntitlementClientTypes {
         /// The dimension for which the given entitlement applies. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
         public var dimension: Swift.String?
         /// The expiration date represents the minimum date through which this entitlement is expected to remain valid. For contractual products listed on AWS Marketplace, the expiration date is the date at which the customer will renew or cancel their contract. Customers who are opting to renew their contract will still have entitlements with an expiration date.
-        public var expirationDate: ClientRuntime.Date?
+        public var expirationDate: Foundation.Date?
         /// The product code for which the given entitlement applies. Product codes are provided by AWS Marketplace when the product listing is created.
         public var productCode: Swift.String?
         /// The EntitlementValue represents the amount of capacity that the customer is entitled to for the product.
@@ -36,7 +38,7 @@ extension MarketplaceEntitlementClientTypes {
         public init(
             customerIdentifier: Swift.String? = nil,
             dimension: Swift.String? = nil,
-            expirationDate: ClientRuntime.Date? = nil,
+            expirationDate: Foundation.Date? = nil,
             productCode: Swift.String? = nil,
             value: MarketplaceEntitlementClientTypes.EntitlementValue? = nil
         )
@@ -167,7 +169,7 @@ public struct GetEntitlementsInput {
 
 extension GetEntitlementsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEntitlementsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEntitlementsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -197,7 +199,7 @@ public struct GetEntitlementsOutput {
 
 enum GetEntitlementsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -110,7 +113,7 @@ public struct ActivateAnomalyDetectorInput {
 
 extension ActivateAnomalyDetectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ActivateAnomalyDetectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ActivateAnomalyDetectorOutput {
         return ActivateAnomalyDetectorOutput()
     }
 }
@@ -122,7 +125,7 @@ public struct ActivateAnomalyDetectorOutput {
 
 enum ActivateAnomalyDetectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -210,9 +213,9 @@ extension LookoutMetricsClientTypes {
         /// The ARN of the detector to which the alert is attached.
         public var anomalyDetectorArn: Swift.String?
         /// The time at which the alert was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time at which the alert was last modified.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
 
         public init(
             action: LookoutMetricsClientTypes.Action? = nil,
@@ -224,8 +227,8 @@ extension LookoutMetricsClientTypes {
             alertStatus: LookoutMetricsClientTypes.AlertStatus? = nil,
             alertType: LookoutMetricsClientTypes.AlertType? = nil,
             anomalyDetectorArn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil
+            creationTime: Foundation.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil
         )
         {
             self.action = action
@@ -344,9 +347,9 @@ extension LookoutMetricsClientTypes {
         /// The ARN of the detector to which the alert is attached.
         public var anomalyDetectorArn: Swift.String?
         /// The time at which the alert was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time at which the alert was last modified.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The alert's [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html).
         public var tags: [Swift.String:Swift.String]?
 
@@ -357,8 +360,8 @@ extension LookoutMetricsClientTypes {
             alertStatus: LookoutMetricsClientTypes.AlertStatus? = nil,
             alertType: LookoutMetricsClientTypes.AlertType? = nil,
             anomalyDetectorArn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
         {
@@ -510,11 +513,11 @@ extension LookoutMetricsClientTypes {
         /// An array of DataQualityMetricList objects. Each object in the array contains information about a data quality metric.
         public var metricSetDataQualityMetricList: [LookoutMetricsClientTypes.MetricSetDataQualityMetric]?
         /// The start time for the data quality metrics collection.
-        public var startTimestamp: ClientRuntime.Date?
+        public var startTimestamp: Foundation.Date?
 
         public init(
             metricSetDataQualityMetricList: [LookoutMetricsClientTypes.MetricSetDataQualityMetric]? = nil,
-            startTimestamp: ClientRuntime.Date? = nil
+            startTimestamp: Foundation.Date? = nil
         )
         {
             self.metricSetDataQualityMetricList = metricSetDataQualityMetricList
@@ -641,9 +644,9 @@ extension LookoutMetricsClientTypes {
         /// The name of the detector.
         public var anomalyDetectorName: Swift.String?
         /// The time at which the detector was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time at which the detector was last modified.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The status of detector.
         public var status: LookoutMetricsClientTypes.AnomalyDetectorStatus?
         /// The detector's [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html).
@@ -653,8 +656,8 @@ extension LookoutMetricsClientTypes {
             anomalyDetectorArn: Swift.String? = nil,
             anomalyDetectorDescription: Swift.String? = nil,
             anomalyDetectorName: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             status: LookoutMetricsClientTypes.AnomalyDetectorStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
@@ -1109,7 +1112,7 @@ public struct BackTestAnomalyDetectorInput {
 
 extension BackTestAnomalyDetectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BackTestAnomalyDetectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BackTestAnomalyDetectorOutput {
         return BackTestAnomalyDetectorOutput()
     }
 }
@@ -1121,7 +1124,7 @@ public struct BackTestAnomalyDetectorOutput {
 
 enum BackTestAnomalyDetectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1403,7 +1406,7 @@ public struct CreateAlertInput {
 
 extension CreateAlertOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAlertOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAlertOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1427,7 +1430,7 @@ public struct CreateAlertOutput {
 
 enum CreateAlertOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1496,7 +1499,7 @@ public struct CreateAnomalyDetectorInput {
 
 extension CreateAnomalyDetectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAnomalyDetectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAnomalyDetectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1520,7 +1523,7 @@ public struct CreateAnomalyDetectorOutput {
 
 enum CreateAnomalyDetectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1625,7 +1628,7 @@ public struct CreateMetricSetInput {
 
 extension CreateMetricSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMetricSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMetricSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1649,7 +1652,7 @@ public struct CreateMetricSetOutput {
 
 enum CreateMetricSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1852,7 +1855,7 @@ public struct DeactivateAnomalyDetectorInput {
 
 extension DeactivateAnomalyDetectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeactivateAnomalyDetectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeactivateAnomalyDetectorOutput {
         return DeactivateAnomalyDetectorOutput()
     }
 }
@@ -1864,7 +1867,7 @@ public struct DeactivateAnomalyDetectorOutput {
 
 enum DeactivateAnomalyDetectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1911,7 +1914,7 @@ public struct DeleteAlertInput {
 
 extension DeleteAlertOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAlertOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAlertOutput {
         return DeleteAlertOutput()
     }
 }
@@ -1923,7 +1926,7 @@ public struct DeleteAlertOutput {
 
 enum DeleteAlertOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1969,7 +1972,7 @@ public struct DeleteAnomalyDetectorInput {
 
 extension DeleteAnomalyDetectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAnomalyDetectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAnomalyDetectorOutput {
         return DeleteAnomalyDetectorOutput()
     }
 }
@@ -1981,7 +1984,7 @@ public struct DeleteAnomalyDetectorOutput {
 
 enum DeleteAnomalyDetectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2028,7 +2031,7 @@ public struct DescribeAlertInput {
 
 extension DescribeAlertOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAlertOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAlertOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2052,7 +2055,7 @@ public struct DescribeAlertOutput {
 
 enum DescribeAlertOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2113,7 +2116,7 @@ public struct DescribeAnomalyDetectionExecutionsInput {
 
 extension DescribeAnomalyDetectionExecutionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAnomalyDetectionExecutionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAnomalyDetectionExecutionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2142,7 +2145,7 @@ public struct DescribeAnomalyDetectionExecutionsOutput {
 
 enum DescribeAnomalyDetectionExecutionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2188,7 +2191,7 @@ public struct DescribeAnomalyDetectorInput {
 
 extension DescribeAnomalyDetectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeAnomalyDetectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeAnomalyDetectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2217,7 +2220,7 @@ public struct DescribeAnomalyDetectorOutput {
     /// The name of the detector.
     public var anomalyDetectorName: Swift.String?
     /// The time at which the detector was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The reason that the detector failed.
     public var failureReason: Swift.String?
     /// The process that caused the detector to fail.
@@ -2225,7 +2228,7 @@ public struct DescribeAnomalyDetectorOutput {
     /// The ARN of the KMS key to use to encrypt your data.
     public var kmsKeyArn: Swift.String?
     /// The time at which the detector was last modified.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// The status of the detector.
     public var status: LookoutMetricsClientTypes.AnomalyDetectorStatus?
 
@@ -2234,11 +2237,11 @@ public struct DescribeAnomalyDetectorOutput {
         anomalyDetectorConfig: LookoutMetricsClientTypes.AnomalyDetectorConfigSummary? = nil,
         anomalyDetectorDescription: Swift.String? = nil,
         anomalyDetectorName: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         failureType: LookoutMetricsClientTypes.AnomalyDetectorFailureType? = nil,
         kmsKeyArn: Swift.String? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         status: LookoutMetricsClientTypes.AnomalyDetectorStatus? = nil
     )
     {
@@ -2257,7 +2260,7 @@ public struct DescribeAnomalyDetectorOutput {
 
 enum DescribeAnomalyDetectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2303,7 +2306,7 @@ public struct DescribeMetricSetInput {
 
 extension DescribeMetricSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMetricSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMetricSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2330,13 +2333,13 @@ public struct DescribeMetricSetOutput {
     /// The ARN of the detector that contains the dataset.
     public var anomalyDetectorArn: Swift.String?
     /// The time at which the dataset was created.
-    public var creationTime: ClientRuntime.Date?
+    public var creationTime: Foundation.Date?
     /// The dimensions and their values that were used to filter the dataset.
     public var dimensionFilterList: [LookoutMetricsClientTypes.MetricSetDimensionFilter]?
     /// A list of the dimensions chosen for analysis.
     public var dimensionList: [Swift.String]?
     /// The time at which the dataset was last modified.
-    public var lastModificationTime: ClientRuntime.Date?
+    public var lastModificationTime: Foundation.Date?
     /// A list of the metrics defined by the dataset.
     public var metricList: [LookoutMetricsClientTypes.Metric]?
     /// The ARN of the dataset.
@@ -2358,10 +2361,10 @@ public struct DescribeMetricSetOutput {
 
     public init(
         anomalyDetectorArn: Swift.String? = nil,
-        creationTime: ClientRuntime.Date? = nil,
+        creationTime: Foundation.Date? = nil,
         dimensionFilterList: [LookoutMetricsClientTypes.MetricSetDimensionFilter]? = nil,
         dimensionList: [Swift.String]? = nil,
-        lastModificationTime: ClientRuntime.Date? = nil,
+        lastModificationTime: Foundation.Date? = nil,
         metricList: [LookoutMetricsClientTypes.Metric]? = nil,
         metricSetArn: Swift.String? = nil,
         metricSetDescription: Swift.String? = nil,
@@ -2392,7 +2395,7 @@ public struct DescribeMetricSetOutput {
 
 enum DescribeMetricSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2444,7 +2447,7 @@ public struct DetectMetricSetConfigInput {
 
 extension DetectMetricSetConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DetectMetricSetConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DetectMetricSetConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2468,7 +2471,7 @@ public struct DetectMetricSetConfigOutput {
 
 enum DetectMetricSetConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3060,7 +3063,7 @@ public struct GetAnomalyGroupInput {
 
 extension GetAnomalyGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAnomalyGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAnomalyGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3084,7 +3087,7 @@ public struct GetAnomalyGroupOutput {
 
 enum GetAnomalyGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3135,7 +3138,7 @@ public struct GetDataQualityMetricsInput {
 
 extension GetDataQualityMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDataQualityMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDataQualityMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3159,7 +3162,7 @@ public struct GetDataQualityMetricsOutput {
 
 enum GetDataQualityMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3221,7 +3224,7 @@ public struct GetFeedbackInput {
 
 extension GetFeedbackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetFeedbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetFeedbackOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3250,7 +3253,7 @@ public struct GetFeedbackOutput {
 
 enum GetFeedbackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3295,7 +3298,7 @@ public struct GetSampleDataInput {
 
 extension GetSampleDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSampleDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSampleDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3324,7 +3327,7 @@ public struct GetSampleDataOutput {
 
 enum GetSampleDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3594,7 +3597,7 @@ public struct ListAlertsInput {
 
 extension ListAlertsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAlertsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAlertsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3623,7 +3626,7 @@ public struct ListAlertsOutput {
 
 enum ListAlertsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3673,7 +3676,7 @@ public struct ListAnomalyDetectorsInput {
 
 extension ListAnomalyDetectorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAnomalyDetectorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAnomalyDetectorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3702,7 +3705,7 @@ public struct ListAnomalyDetectorsOutput {
 
 enum ListAnomalyDetectorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3769,7 +3772,7 @@ public struct ListAnomalyGroupRelatedMetricsInput {
 
 extension ListAnomalyGroupRelatedMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAnomalyGroupRelatedMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAnomalyGroupRelatedMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3798,7 +3801,7 @@ public struct ListAnomalyGroupRelatedMetricsOutput {
 
 enum ListAnomalyGroupRelatedMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3860,7 +3863,7 @@ public struct ListAnomalyGroupSummariesInput {
 
 extension ListAnomalyGroupSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAnomalyGroupSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAnomalyGroupSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3894,7 +3897,7 @@ public struct ListAnomalyGroupSummariesOutput {
 
 enum ListAnomalyGroupSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3962,7 +3965,7 @@ public struct ListAnomalyGroupTimeSeriesInput {
 
 extension ListAnomalyGroupTimeSeriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAnomalyGroupTimeSeriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAnomalyGroupTimeSeriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4006,7 +4009,7 @@ public struct ListAnomalyGroupTimeSeriesOutput {
 
 enum ListAnomalyGroupTimeSeriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4061,7 +4064,7 @@ public struct ListMetricSetsInput {
 
 extension ListMetricSetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMetricSetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMetricSetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4090,7 +4093,7 @@ public struct ListMetricSetsOutput {
 
 enum ListMetricSetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4131,7 +4134,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4155,7 +4158,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4342,9 +4345,9 @@ extension LookoutMetricsClientTypes {
         /// The ARN of the detector to which the dataset belongs.
         public var anomalyDetectorArn: Swift.String?
         /// The time at which the dataset was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The time at which the dataset was last modified.
-        public var lastModificationTime: ClientRuntime.Date?
+        public var lastModificationTime: Foundation.Date?
         /// The ARN of the dataset.
         public var metricSetArn: Swift.String?
         /// The description of the dataset.
@@ -4356,8 +4359,8 @@ extension LookoutMetricsClientTypes {
 
         public init(
             anomalyDetectorArn: Swift.String? = nil,
-            creationTime: ClientRuntime.Date? = nil,
-            lastModificationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastModificationTime: Foundation.Date? = nil,
             metricSetArn: Swift.String? = nil,
             metricSetDescription: Swift.String? = nil,
             metricSetName: Swift.String? = nil,
@@ -4473,7 +4476,7 @@ public struct PutFeedbackInput {
 
 extension PutFeedbackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutFeedbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutFeedbackOutput {
         return PutFeedbackOutput()
     }
 }
@@ -4485,7 +4488,7 @@ public struct PutFeedbackOutput {
 
 enum PutFeedbackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4993,7 +4996,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -5005,7 +5008,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5166,14 +5169,14 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -5210,7 +5213,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -5222,7 +5225,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5286,7 +5289,7 @@ public struct UpdateAlertInput {
 
 extension UpdateAlertOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAlertOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAlertOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5310,7 +5313,7 @@ public struct UpdateAlertOutput {
 
 enum UpdateAlertOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5371,7 +5374,7 @@ public struct UpdateAnomalyDetectorInput {
 
 extension UpdateAnomalyDetectorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAnomalyDetectorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAnomalyDetectorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5395,7 +5398,7 @@ public struct UpdateAnomalyDetectorOutput {
 
 enum UpdateAnomalyDetectorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5481,7 +5484,7 @@ public struct UpdateMetricSetInput {
 
 extension UpdateMetricSetOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateMetricSetOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateMetricSetOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5505,7 +5508,7 @@ public struct UpdateMetricSetOutput {
 
 enum UpdateMetricSetOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

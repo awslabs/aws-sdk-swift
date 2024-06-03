@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -146,7 +149,7 @@ public struct BatchPutPropertyValuesInput {
 
 extension BatchPutPropertyValuesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchPutPropertyValuesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchPutPropertyValuesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -171,7 +174,7 @@ public struct BatchPutPropertyValuesOutput {
 
 enum BatchPutPropertyValuesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -243,7 +246,7 @@ public struct CancelMetadataTransferJobInput {
 
 extension CancelMetadataTransferJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelMetadataTransferJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelMetadataTransferJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -271,14 +274,14 @@ public struct CancelMetadataTransferJobOutput {
     public var status: IoTTwinMakerClientTypes.MetadataTransferJobStatus?
     /// Used to update the DateTime property.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
         metadataTransferJobId: Swift.String? = nil,
         progress: IoTTwinMakerClientTypes.MetadataTransferJobProgress? = nil,
         status: IoTTwinMakerClientTypes.MetadataTransferJobStatus? = nil,
-        updateDateTime: ClientRuntime.Date? = nil
+        updateDateTime: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -291,7 +294,7 @@ public struct CancelMetadataTransferJobOutput {
 
 enum CancelMetadataTransferJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -652,23 +655,23 @@ extension IoTTwinMakerClientTypes {
         public var componentTypeName: Swift.String?
         /// The date and time when the component type was created.
         /// This member is required.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The description of the component type.
         public var description: Swift.String?
         /// The current status of the component type.
         public var status: IoTTwinMakerClientTypes.Status?
         /// The date and time when the component type was last updated.
         /// This member is required.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             componentTypeId: Swift.String? = nil,
             componentTypeName: Swift.String? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             status: IoTTwinMakerClientTypes.Status? = nil,
-            updateDateTime: ClientRuntime.Date? = nil
+            updateDateTime: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -1083,7 +1086,7 @@ public struct CreateComponentTypeInput {
 
 extension CreateComponentTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateComponentTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateComponentTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1101,14 +1104,14 @@ public struct CreateComponentTypeOutput {
     public var arn: Swift.String?
     /// The date and time when the entity was created.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The current state of the component type.
     /// This member is required.
     public var state: IoTTwinMakerClientTypes.State?
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         state: IoTTwinMakerClientTypes.State? = nil
     )
     {
@@ -1120,7 +1123,7 @@ public struct CreateComponentTypeOutput {
 
 enum CreateComponentTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1205,7 +1208,7 @@ public struct CreateEntityInput {
 
 extension CreateEntityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEntityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEntityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1224,7 +1227,7 @@ public struct CreateEntityOutput {
     public var arn: Swift.String?
     /// The date and time when the entity was created.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The ID of the entity.
     /// This member is required.
     public var entityId: Swift.String?
@@ -1234,7 +1237,7 @@ public struct CreateEntityOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         entityId: Swift.String? = nil,
         state: IoTTwinMakerClientTypes.State? = nil
     )
@@ -1248,7 +1251,7 @@ public struct CreateEntityOutput {
 
 enum CreateEntityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1311,7 +1314,7 @@ public struct CreateMetadataTransferJobInput {
 
 extension CreateMetadataTransferJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMetadataTransferJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMetadataTransferJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1330,7 +1333,7 @@ public struct CreateMetadataTransferJobOutput {
     public var arn: Swift.String?
     /// The The metadata transfer job creation DateTime property.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The metadata transfer job Id.
     /// This member is required.
     public var metadataTransferJobId: Swift.String?
@@ -1340,7 +1343,7 @@ public struct CreateMetadataTransferJobOutput {
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         metadataTransferJobId: Swift.String? = nil,
         status: IoTTwinMakerClientTypes.MetadataTransferJobStatus? = nil
     )
@@ -1354,7 +1357,7 @@ public struct CreateMetadataTransferJobOutput {
 
 enum CreateMetadataTransferJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1436,7 +1439,7 @@ public struct CreateSceneInput {
 
 extension CreateSceneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSceneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSceneOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1453,11 +1456,11 @@ public struct CreateSceneOutput {
     public var arn: Swift.String?
     /// The date and time when the scene was created.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil
+        creationDateTime: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -1467,7 +1470,7 @@ public struct CreateSceneOutput {
 
 enum CreateSceneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1535,7 +1538,7 @@ public struct CreateSyncJobInput {
 
 extension CreateSyncJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSyncJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSyncJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1553,14 +1556,14 @@ public struct CreateSyncJobOutput {
     public var arn: Swift.String?
     /// The date and time for the SyncJob creation.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The SyncJob response state.
     /// This member is required.
     public var state: IoTTwinMakerClientTypes.SyncJobState?
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         state: IoTTwinMakerClientTypes.SyncJobState? = nil
     )
     {
@@ -1572,7 +1575,7 @@ public struct CreateSyncJobOutput {
 
 enum CreateSyncJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1641,7 +1644,7 @@ public struct CreateWorkspaceInput {
 
 extension CreateWorkspaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateWorkspaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateWorkspaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1658,11 +1661,11 @@ public struct CreateWorkspaceOutput {
     public var arn: Swift.String?
     /// The date and time when the workspace was created.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil
+        creationDateTime: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -1672,7 +1675,7 @@ public struct CreateWorkspaceOutput {
 
 enum CreateWorkspaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1894,7 +1897,7 @@ public struct DeleteComponentTypeInput {
 
 extension DeleteComponentTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteComponentTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteComponentTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1919,7 +1922,7 @@ public struct DeleteComponentTypeOutput {
 
 enum DeleteComponentTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1937,10 +1940,10 @@ enum DeleteComponentTypeOutputError {
 
 extension DeleteEntityInput {
 
-    static func queryItemProvider(_ value: DeleteEntityInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: DeleteEntityInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let isRecursive = value.isRecursive {
-            let isRecursiveQueryItem = ClientRuntime.SDKURLQueryItem(name: "isRecursive".urlPercentEncoding(), value: Swift.String(isRecursive).urlPercentEncoding())
+            let isRecursiveQueryItem = Smithy.URIQueryItem(name: "isRecursive".urlPercentEncoding(), value: Swift.String(isRecursive).urlPercentEncoding())
             items.append(isRecursiveQueryItem)
         }
         return items
@@ -1984,7 +1987,7 @@ public struct DeleteEntityInput {
 
 extension DeleteEntityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEntityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEntityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2009,7 +2012,7 @@ public struct DeleteEntityOutput {
 
 enum DeleteEntityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2058,7 +2061,7 @@ public struct DeleteSceneInput {
 
 extension DeleteSceneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSceneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSceneOutput {
         return DeleteSceneOutput()
     }
 }
@@ -2070,7 +2073,7 @@ public struct DeleteSceneOutput {
 
 enum DeleteSceneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2119,7 +2122,7 @@ public struct DeleteSyncJobInput {
 
 extension DeleteSyncJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSyncJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSyncJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2144,7 +2147,7 @@ public struct DeleteSyncJobOutput {
 
 enum DeleteSyncJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2186,7 +2189,7 @@ public struct DeleteWorkspaceInput {
 
 extension DeleteWorkspaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteWorkspaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteWorkspaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2210,7 +2213,7 @@ public struct DeleteWorkspaceOutput {
 
 enum DeleteWorkspaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2384,7 +2387,7 @@ extension IoTTwinMakerClientTypes {
         public var arn: Swift.String?
         /// The date and time when the entity was created.
         /// This member is required.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The description of the entity.
         public var description: Swift.String?
         /// The ID of the entity.
@@ -2402,18 +2405,18 @@ extension IoTTwinMakerClientTypes {
         public var status: IoTTwinMakerClientTypes.Status?
         /// The last date and time when the entity was updated.
         /// This member is required.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             entityId: Swift.String? = nil,
             entityName: Swift.String? = nil,
             hasChildEntities: Swift.Bool? = nil,
             parentEntityId: Swift.String? = nil,
             status: IoTTwinMakerClientTypes.Status? = nil,
-            updateDateTime: ClientRuntime.Date? = nil
+            updateDateTime: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -2554,7 +2557,7 @@ public struct ExecuteQueryInput {
 
 extension ExecuteQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ExecuteQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ExecuteQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2588,7 +2591,7 @@ public struct ExecuteQueryOutput {
 
 enum ExecuteQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2875,7 +2878,7 @@ public struct GetComponentTypeInput {
 
 extension GetComponentTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetComponentTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetComponentTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2914,7 +2917,7 @@ public struct GetComponentTypeOutput {
     public var compositeComponentTypes: [Swift.String:IoTTwinMakerClientTypes.CompositeComponentTypeResponse]?
     /// The date and time when the component type was created.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description of the component type.
     public var description: Swift.String?
     /// The name of the parent component type that this component type extends.
@@ -2937,7 +2940,7 @@ public struct GetComponentTypeOutput {
     public var syncSource: Swift.String?
     /// The date and time when the component was last updated.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
     /// The ID of the workspace that contains the component type.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -2947,7 +2950,7 @@ public struct GetComponentTypeOutput {
         componentTypeId: Swift.String? = nil,
         componentTypeName: Swift.String? = nil,
         compositeComponentTypes: [Swift.String:IoTTwinMakerClientTypes.CompositeComponentTypeResponse]? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         extendsFrom: [Swift.String]? = nil,
         functions: [Swift.String:IoTTwinMakerClientTypes.FunctionResponse]? = nil,
@@ -2958,7 +2961,7 @@ public struct GetComponentTypeOutput {
         propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]? = nil,
         status: IoTTwinMakerClientTypes.Status? = nil,
         syncSource: Swift.String? = nil,
-        updateDateTime: ClientRuntime.Date? = nil,
+        updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
     )
     {
@@ -2984,7 +2987,7 @@ public struct GetComponentTypeOutput {
 
 enum GetComponentTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3033,7 +3036,7 @@ public struct GetEntityInput {
 
 extension GetEntityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEntityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEntityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3065,7 +3068,7 @@ public struct GetEntityOutput {
     public var components: [Swift.String:IoTTwinMakerClientTypes.ComponentResponse]?
     /// The date and time when the entity was created.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description of the entity.
     public var description: Swift.String?
     /// The ID of the entity.
@@ -3087,7 +3090,7 @@ public struct GetEntityOutput {
     public var syncSource: Swift.String?
     /// The date and time when the entity was last updated.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
     /// The ID of the workspace.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -3096,7 +3099,7 @@ public struct GetEntityOutput {
         areAllComponentsReturned: Swift.Bool? = nil,
         arn: Swift.String? = nil,
         components: [Swift.String:IoTTwinMakerClientTypes.ComponentResponse]? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         entityId: Swift.String? = nil,
         entityName: Swift.String? = nil,
@@ -3104,7 +3107,7 @@ public struct GetEntityOutput {
         parentEntityId: Swift.String? = nil,
         status: IoTTwinMakerClientTypes.Status? = nil,
         syncSource: Swift.String? = nil,
-        updateDateTime: ClientRuntime.Date? = nil,
+        updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
     )
     {
@@ -3126,7 +3129,7 @@ public struct GetEntityOutput {
 
 enum GetEntityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3167,7 +3170,7 @@ public struct GetMetadataTransferJobInput {
 
 extension GetMetadataTransferJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMetadataTransferJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMetadataTransferJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3193,7 +3196,7 @@ public struct GetMetadataTransferJobOutput {
     public var arn: Swift.String?
     /// The metadata transfer job's creation DateTime property.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The metadata transfer job description.
     public var description: Swift.String?
     /// The metadata transfer job's destination.
@@ -3217,11 +3220,11 @@ public struct GetMetadataTransferJobOutput {
     public var status: IoTTwinMakerClientTypes.MetadataTransferJobStatus?
     /// The metadata transfer job's update DateTime property.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         destination: IoTTwinMakerClientTypes.DestinationConfiguration? = nil,
         metadataTransferJobId: Swift.String? = nil,
@@ -3230,7 +3233,7 @@ public struct GetMetadataTransferJobOutput {
         reportUrl: Swift.String? = nil,
         sources: [IoTTwinMakerClientTypes.SourceConfiguration]? = nil,
         status: IoTTwinMakerClientTypes.MetadataTransferJobStatus? = nil,
-        updateDateTime: ClientRuntime.Date? = nil
+        updateDateTime: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -3249,7 +3252,7 @@ public struct GetMetadataTransferJobOutput {
 
 enum GetMetadataTransferJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3279,7 +3282,7 @@ public struct GetPricingPlanInput {
 
 extension GetPricingPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPricingPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPricingPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3309,7 +3312,7 @@ public struct GetPricingPlanOutput {
 
 enum GetPricingPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3364,7 +3367,7 @@ public struct GetPropertyValueHistoryInput {
     public var componentTypeId: Swift.String?
     /// The date and time of the latest property value to return.
     @available(*, deprecated, message: "This field is deprecated and will throw an error in the future. Use endTime instead.")
-    public var endDateTime: ClientRuntime.Date?
+    public var endDateTime: Foundation.Date?
     /// The ISO8601 DateTime of the latest property value to return. For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_PropertyValue.html).
     public var endTime: Swift.String?
     /// The ID of the entity.
@@ -3384,7 +3387,7 @@ public struct GetPropertyValueHistoryInput {
     public var selectedProperties: [Swift.String]?
     /// The date and time of the earliest property value to return.
     @available(*, deprecated, message: "This field is deprecated and will throw an error in the future. Use startTime instead.")
-    public var startDateTime: ClientRuntime.Date?
+    public var startDateTime: Foundation.Date?
     /// The ISO8601 DateTime of the earliest property value to return. For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_PropertyValue.html).
     public var startTime: Swift.String?
     /// The ID of the workspace.
@@ -3395,7 +3398,7 @@ public struct GetPropertyValueHistoryInput {
         componentName: Swift.String? = nil,
         componentPath: Swift.String? = nil,
         componentTypeId: Swift.String? = nil,
-        endDateTime: ClientRuntime.Date? = nil,
+        endDateTime: Foundation.Date? = nil,
         endTime: Swift.String? = nil,
         entityId: Swift.String? = nil,
         interpolation: IoTTwinMakerClientTypes.InterpolationParameters? = nil,
@@ -3404,7 +3407,7 @@ public struct GetPropertyValueHistoryInput {
         orderByTime: IoTTwinMakerClientTypes.OrderByTime? = nil,
         propertyFilters: [IoTTwinMakerClientTypes.PropertyFilter]? = nil,
         selectedProperties: [Swift.String]? = nil,
-        startDateTime: ClientRuntime.Date? = nil,
+        startDateTime: Foundation.Date? = nil,
         startTime: Swift.String? = nil,
         workspaceId: Swift.String? = nil
     )
@@ -3429,7 +3432,7 @@ public struct GetPropertyValueHistoryInput {
 
 extension GetPropertyValueHistoryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPropertyValueHistoryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPropertyValueHistoryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3459,7 +3462,7 @@ public struct GetPropertyValueHistoryOutput {
 
 enum GetPropertyValueHistoryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3555,7 +3558,7 @@ public struct GetPropertyValueInput {
 
 extension GetPropertyValueOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPropertyValueOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPropertyValueOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3589,7 +3592,7 @@ public struct GetPropertyValueOutput {
 
 enum GetPropertyValueOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3640,7 +3643,7 @@ public struct GetSceneInput {
 
 extension GetSceneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSceneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSceneOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3671,7 +3674,7 @@ public struct GetSceneOutput {
     public var contentLocation: Swift.String?
     /// The date and time when the scene was created.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description of the scene.
     public var description: Swift.String?
     /// The SceneResponse error.
@@ -3685,7 +3688,7 @@ public struct GetSceneOutput {
     public var sceneMetadata: [Swift.String:Swift.String]?
     /// The date and time when the scene was last updated.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
     /// The ID of the workspace that contains the scene.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -3694,13 +3697,13 @@ public struct GetSceneOutput {
         arn: Swift.String? = nil,
         capabilities: [Swift.String]? = nil,
         contentLocation: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         error: IoTTwinMakerClientTypes.SceneError? = nil,
         generatedSceneMetadata: [Swift.String:Swift.String]? = nil,
         sceneId: Swift.String? = nil,
         sceneMetadata: [Swift.String:Swift.String]? = nil,
-        updateDateTime: ClientRuntime.Date? = nil,
+        updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
     )
     {
@@ -3720,7 +3723,7 @@ public struct GetSceneOutput {
 
 enum GetSceneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3738,10 +3741,10 @@ enum GetSceneOutputError {
 
 extension GetSyncJobInput {
 
-    static func queryItemProvider(_ value: GetSyncJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetSyncJobInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let workspaceId = value.workspaceId {
-            let workspaceIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "workspace".urlPercentEncoding(), value: Swift.String(workspaceId).urlPercentEncoding())
+            let workspaceIdQueryItem = Smithy.URIQueryItem(name: "workspace".urlPercentEncoding(), value: Swift.String(workspaceId).urlPercentEncoding())
             items.append(workspaceIdQueryItem)
         }
         return items
@@ -3777,7 +3780,7 @@ public struct GetSyncJobInput {
 
 extension GetSyncJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSyncJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSyncJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3799,7 +3802,7 @@ public struct GetSyncJobOutput {
     public var arn: Swift.String?
     /// The creation date and time.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The SyncJob response status.
     /// This member is required.
     public var status: IoTTwinMakerClientTypes.SyncJobStatus?
@@ -3811,18 +3814,18 @@ public struct GetSyncJobOutput {
     public var syncSource: Swift.String?
     /// The update date and time.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
     /// The ID of the workspace that contains the sync job.
     /// This member is required.
     public var workspaceId: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         status: IoTTwinMakerClientTypes.SyncJobStatus? = nil,
         syncRole: Swift.String? = nil,
         syncSource: Swift.String? = nil,
-        updateDateTime: ClientRuntime.Date? = nil,
+        updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
     )
     {
@@ -3838,7 +3841,7 @@ public struct GetSyncJobOutput {
 
 enum GetSyncJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3880,7 +3883,7 @@ public struct GetWorkspaceInput {
 
 extension GetWorkspaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetWorkspaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetWorkspaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3903,7 +3906,7 @@ public struct GetWorkspaceOutput {
     public var arn: Swift.String?
     /// The date and time when the workspace was created.
     /// This member is required.
-    public var creationDateTime: ClientRuntime.Date?
+    public var creationDateTime: Foundation.Date?
     /// The description of the workspace.
     public var description: Swift.String?
     /// A list of services that are linked to the workspace.
@@ -3914,19 +3917,19 @@ public struct GetWorkspaceOutput {
     public var s3Location: Swift.String?
     /// The date and time when the workspace was last updated.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
     /// The ID of the workspace.
     /// This member is required.
     public var workspaceId: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        creationDateTime: ClientRuntime.Date? = nil,
+        creationDateTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         linkedServices: [Swift.String]? = nil,
         role: Swift.String? = nil,
         s3Location: Swift.String? = nil,
-        updateDateTime: ClientRuntime.Date? = nil,
+        updateDateTime: Foundation.Date? = nil,
         workspaceId: Swift.String? = nil
     )
     {
@@ -3943,7 +3946,7 @@ public struct GetWorkspaceOutput {
 
 enum GetWorkspaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4370,7 +4373,7 @@ public struct ListComponentTypesInput {
 
 extension ListComponentTypesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListComponentTypesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListComponentTypesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4411,7 +4414,7 @@ public struct ListComponentTypesOutput {
 
 enum ListComponentTypesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4481,7 +4484,7 @@ public struct ListComponentsInput {
 
 extension ListComponentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListComponentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListComponentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4511,7 +4514,7 @@ public struct ListComponentsOutput {
 
 enum ListComponentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4605,7 +4608,7 @@ public struct ListEntitiesInput {
 
 extension ListEntitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEntitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEntitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4634,7 +4637,7 @@ public struct ListEntitiesOutput {
 
 enum ListEntitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4727,7 +4730,7 @@ public struct ListMetadataTransferJobsInput {
 
 extension ListMetadataTransferJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMetadataTransferJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMetadataTransferJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4757,7 +4760,7 @@ public struct ListMetadataTransferJobsOutput {
 
 enum ListMetadataTransferJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4830,7 +4833,7 @@ public struct ListPropertiesInput {
 
 extension ListPropertiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPropertiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPropertiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4860,7 +4863,7 @@ public struct ListPropertiesOutput {
 
 enum ListPropertiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4918,7 +4921,7 @@ public struct ListScenesInput {
 
 extension ListScenesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListScenesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListScenesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4947,7 +4950,7 @@ public struct ListScenesOutput {
 
 enum ListScenesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5004,7 +5007,7 @@ public struct ListSyncJobsInput {
 
 extension ListSyncJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSyncJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSyncJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5033,7 +5036,7 @@ public struct ListSyncJobsOutput {
 
 enum ListSyncJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5110,7 +5113,7 @@ public struct ListSyncResourcesInput {
 
 extension ListSyncResourcesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListSyncResourcesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListSyncResourcesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5139,7 +5142,7 @@ public struct ListSyncResourcesOutput {
 
 enum ListSyncResourcesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5195,7 +5198,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5224,7 +5227,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5271,7 +5274,7 @@ public struct ListWorkspacesInput {
 
 extension ListWorkspacesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListWorkspacesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListWorkspacesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5300,7 +5303,7 @@ public struct ListWorkspacesOutput {
 
 enum ListWorkspacesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5459,7 +5462,7 @@ extension IoTTwinMakerClientTypes {
         public var arn: Swift.String?
         /// The metadata transfer job summary creation DateTime object.
         /// This member is required.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The metadata transfer job summary Id.
         /// This member is required.
         public var metadataTransferJobId: Swift.String?
@@ -5470,15 +5473,15 @@ extension IoTTwinMakerClientTypes {
         public var status: IoTTwinMakerClientTypes.MetadataTransferJobStatus?
         /// The metadata transfer job summary update DateTime object
         /// This member is required.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             metadataTransferJobId: Swift.String? = nil,
             progress: IoTTwinMakerClientTypes.MetadataTransferJobProgress? = nil,
             status: IoTTwinMakerClientTypes.MetadataTransferJobStatus? = nil,
-            updateDateTime: ClientRuntime.Date? = nil
+            updateDateTime: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -5695,13 +5698,13 @@ extension IoTTwinMakerClientTypes {
         public var bundleInformation: IoTTwinMakerClientTypes.BundleInformation?
         /// The effective date and time of the pricing plan.
         /// This member is required.
-        public var effectiveDateTime: ClientRuntime.Date?
+        public var effectiveDateTime: Foundation.Date?
         /// The pricing mode.
         /// This member is required.
         public var pricingMode: IoTTwinMakerClientTypes.PricingMode?
         /// The set date and time for updating a pricing plan.
         /// This member is required.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
         /// The update reason for changing a pricing plan.
         /// This member is required.
         public var updateReason: IoTTwinMakerClientTypes.UpdateReason?
@@ -5709,9 +5712,9 @@ extension IoTTwinMakerClientTypes {
         public init(
             billableEntityCount: Swift.Int? = nil,
             bundleInformation: IoTTwinMakerClientTypes.BundleInformation? = nil,
-            effectiveDateTime: ClientRuntime.Date? = nil,
+            effectiveDateTime: Foundation.Date? = nil,
             pricingMode: IoTTwinMakerClientTypes.PricingMode? = nil,
-            updateDateTime: ClientRuntime.Date? = nil,
+            updateDateTime: Foundation.Date? = nil,
             updateReason: IoTTwinMakerClientTypes.UpdateReason? = nil
         )
         {
@@ -6261,14 +6264,14 @@ extension IoTTwinMakerClientTypes {
         public var time: Swift.String?
         /// The timestamp of a value for a time series property.
         @available(*, deprecated, message: "This field is deprecated and will throw an error in the future. Use time instead.")
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// An object that specifies a value for a time series property.
         /// This member is required.
         public var value: IoTTwinMakerClientTypes.DataValue?
 
         public init(
             time: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             value: IoTTwinMakerClientTypes.DataValue? = nil
         )
         {
@@ -6671,7 +6674,7 @@ extension IoTTwinMakerClientTypes {
         public var contentLocation: Swift.String?
         /// The date and time when the scene was created.
         /// This member is required.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The scene description.
         public var description: Swift.String?
         /// The ID of the scene.
@@ -6679,15 +6682,15 @@ extension IoTTwinMakerClientTypes {
         public var sceneId: Swift.String?
         /// The date and time when the scene was last updated.
         /// This member is required.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
             contentLocation: Swift.String? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             sceneId: Swift.String? = nil,
-            updateDateTime: ClientRuntime.Date? = nil
+            updateDateTime: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -7008,22 +7011,22 @@ extension IoTTwinMakerClientTypes {
         /// The SyncJob summary ARN.
         public var arn: Swift.String?
         /// The creation date and time.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The SyncJob summaries status.
         public var status: IoTTwinMakerClientTypes.SyncJobStatus?
         /// The sync source.
         public var syncSource: Swift.String?
         /// The update date and time.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
         /// The ID of the workspace that contains the sync job.
         public var workspaceId: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             status: IoTTwinMakerClientTypes.SyncJobStatus? = nil,
             syncSource: Swift.String? = nil,
-            updateDateTime: ClientRuntime.Date? = nil,
+            updateDateTime: Foundation.Date? = nil,
             workspaceId: Swift.String? = nil
         )
         {
@@ -7168,14 +7171,14 @@ extension IoTTwinMakerClientTypes {
         /// The sync resource summary status.
         public var status: IoTTwinMakerClientTypes.SyncResourceStatus?
         /// The update date and time.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
 
         public init(
             externalId: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceType: IoTTwinMakerClientTypes.SyncResourceType? = nil,
             status: IoTTwinMakerClientTypes.SyncResourceStatus? = nil,
-            updateDateTime: ClientRuntime.Date? = nil
+            updateDateTime: Foundation.Date? = nil
         )
         {
             self.externalId = externalId
@@ -7282,7 +7285,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -7294,7 +7297,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7431,21 +7434,21 @@ extension IoTTwinMakerClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         guard let resourceARN = value.resourceARN else {
             let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let resourceARNQueryItem = ClientRuntime.SDKURLQueryItem(name: "resourceARN".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+        let resourceARNQueryItem = Smithy.URIQueryItem(name: "resourceARN".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
         items.append(resourceARNQueryItem)
         return items
     }
@@ -7478,7 +7481,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -7490,7 +7493,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7583,7 +7586,7 @@ public struct UpdateComponentTypeInput {
 
 extension UpdateComponentTypeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateComponentTypeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateComponentTypeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7626,7 +7629,7 @@ public struct UpdateComponentTypeOutput {
 
 enum UpdateComponentTypeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7708,7 +7711,7 @@ public struct UpdateEntityInput {
 
 extension UpdateEntityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEntityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEntityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7725,11 +7728,11 @@ public struct UpdateEntityOutput {
     public var state: IoTTwinMakerClientTypes.State?
     /// The date and time when the entity was last updated.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
 
     public init(
         state: IoTTwinMakerClientTypes.State? = nil,
-        updateDateTime: ClientRuntime.Date? = nil
+        updateDateTime: Foundation.Date? = nil
     )
     {
         self.state = state
@@ -7739,7 +7742,7 @@ public struct UpdateEntityOutput {
 
 enum UpdateEntityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7792,7 +7795,7 @@ public struct UpdatePricingPlanInput {
 
 extension UpdatePricingPlanOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePricingPlanOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePricingPlanOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7822,7 +7825,7 @@ public struct UpdatePricingPlanOutput {
 
 enum UpdatePricingPlanOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7935,7 +7938,7 @@ public struct UpdateSceneInput {
 
 extension UpdateSceneOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSceneOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSceneOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7948,10 +7951,10 @@ extension UpdateSceneOutput {
 public struct UpdateSceneOutput {
     /// The date and time when the scene was last updated.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
 
     public init(
-        updateDateTime: ClientRuntime.Date? = nil
+        updateDateTime: Foundation.Date? = nil
     )
     {
         self.updateDateTime = updateDateTime
@@ -7960,7 +7963,7 @@ public struct UpdateSceneOutput {
 
 enum UpdateSceneOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8023,7 +8026,7 @@ public struct UpdateWorkspaceInput {
 
 extension UpdateWorkspaceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateWorkspaceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateWorkspaceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8036,10 +8039,10 @@ extension UpdateWorkspaceOutput {
 public struct UpdateWorkspaceOutput {
     /// The date and time of the current update.
     /// This member is required.
-    public var updateDateTime: ClientRuntime.Date?
+    public var updateDateTime: Foundation.Date?
 
     public init(
-        updateDateTime: ClientRuntime.Date? = nil
+        updateDateTime: Foundation.Date? = nil
     )
     {
         self.updateDateTime = updateDateTime
@@ -8048,7 +8051,7 @@ public struct UpdateWorkspaceOutput {
 
 enum UpdateWorkspaceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8125,24 +8128,24 @@ extension IoTTwinMakerClientTypes {
         public var arn: Swift.String?
         /// The date and time when the workspace was created.
         /// This member is required.
-        public var creationDateTime: ClientRuntime.Date?
+        public var creationDateTime: Foundation.Date?
         /// The description of the workspace.
         public var description: Swift.String?
         /// A list of services that are linked to the workspace.
         public var linkedServices: [Swift.String]?
         /// The date and time when the workspace was last updated.
         /// This member is required.
-        public var updateDateTime: ClientRuntime.Date?
+        public var updateDateTime: Foundation.Date?
         /// The ID of the workspace.
         /// This member is required.
         public var workspaceId: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            creationDateTime: ClientRuntime.Date? = nil,
+            creationDateTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             linkedServices: [Swift.String]? = nil,
-            updateDateTime: ClientRuntime.Date? = nil,
+            updateDateTime: Foundation.Date? = nil,
             workspaceId: Swift.String? = nil
         )
         {

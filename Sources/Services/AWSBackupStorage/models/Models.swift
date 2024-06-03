@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -255,7 +258,7 @@ public struct DeleteObjectInput {
 
 extension DeleteObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteObjectOutput {
         return DeleteObjectOutput()
     }
 }
@@ -267,7 +270,7 @@ public struct DeleteObjectOutput {
 
 enum DeleteObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -318,7 +321,7 @@ public struct GetChunkInput {
 
 extension GetChunkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChunkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChunkOutput {
         var value = GetChunkOutput()
         if let checksumHeaderValue = httpResponse.headers.value(for: "x-amz-checksum") {
             value.checksum = checksumHeaderValue
@@ -350,7 +353,7 @@ public struct GetChunkOutput {
     public var checksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
     /// Chunk data
     /// This member is required.
-    public var data: ClientRuntime.ByteStream?
+    public var data: Smithy.ByteStream?
     /// Data length
     /// This member is required.
     public var length: Swift.Int
@@ -358,7 +361,7 @@ public struct GetChunkOutput {
     public init(
         checksum: Swift.String? = nil,
         checksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm? = nil,
-        data: ClientRuntime.ByteStream? = nil,
+        data: Smithy.ByteStream? = nil,
         length: Swift.Int = 0
     )
     {
@@ -371,7 +374,7 @@ public struct GetChunkOutput {
 
 enum GetChunkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -422,7 +425,7 @@ public struct GetObjectMetadataInput {
 
 extension GetObjectMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetObjectMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetObjectMetadataOutput {
         var value = GetObjectMetadataOutput()
         if let metadataBlobChecksumHeaderValue = httpResponse.headers.value(for: "x-amz-checksum") {
             value.metadataBlobChecksum = metadataBlobChecksumHeaderValue
@@ -450,7 +453,7 @@ extension GetObjectMetadataOutput {
 
 public struct GetObjectMetadataOutput {
     /// Metadata blob.
-    public var metadataBlob: ClientRuntime.ByteStream?
+    public var metadataBlob: Smithy.ByteStream?
     /// MetadataBlob checksum.
     public var metadataBlobChecksum: Swift.String?
     /// Checksum algorithm.
@@ -461,7 +464,7 @@ public struct GetObjectMetadataOutput {
     public var metadataString: Swift.String?
 
     public init(
-        metadataBlob: ClientRuntime.ByteStream? = nil,
+        metadataBlob: Smithy.ByteStream? = nil,
         metadataBlobChecksum: Swift.String? = nil,
         metadataBlobChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm? = nil,
         metadataBlobLength: Swift.Int = 0,
@@ -478,7 +481,7 @@ public struct GetObjectMetadataOutput {
 
 enum GetObjectMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -573,14 +576,14 @@ public struct KMSInvalidKeyUsageException: ClientRuntime.ModeledError, AWSClient
 
 extension ListChunksInput {
 
-    static func queryItemProvider(_ value: ListChunksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListChunksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -628,7 +631,7 @@ public struct ListChunksInput {
 
 extension ListChunksOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChunksOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChunksOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -658,7 +661,7 @@ public struct ListChunksOutput {
 
 enum ListChunksOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -677,30 +680,30 @@ enum ListChunksOutputError {
 
 extension ListObjectsInput {
 
-    static func queryItemProvider(_ value: ListObjectsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListObjectsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let startingObjectName = value.startingObjectName {
-            let startingObjectNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "starting-object-name".urlPercentEncoding(), value: Swift.String(startingObjectName).urlPercentEncoding())
+            let startingObjectNameQueryItem = Smithy.URIQueryItem(name: "starting-object-name".urlPercentEncoding(), value: Swift.String(startingObjectName).urlPercentEncoding())
             items.append(startingObjectNameQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let createdAfter = value.createdAfter {
-            let createdAfterQueryItem = ClientRuntime.SDKURLQueryItem(name: "created-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            let createdAfterQueryItem = Smithy.URIQueryItem(name: "created-after".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
             items.append(createdAfterQueryItem)
         }
         if let startingObjectPrefix = value.startingObjectPrefix {
-            let startingObjectPrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "starting-object-prefix".urlPercentEncoding(), value: Swift.String(startingObjectPrefix).urlPercentEncoding())
+            let startingObjectPrefixQueryItem = Smithy.URIQueryItem(name: "starting-object-prefix".urlPercentEncoding(), value: Swift.String(startingObjectPrefix).urlPercentEncoding())
             items.append(startingObjectPrefixQueryItem)
         }
         if let createdBefore = value.createdBefore {
-            let createdBeforeQueryItem = ClientRuntime.SDKURLQueryItem(name: "created-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            let createdBeforeQueryItem = Smithy.URIQueryItem(name: "created-before".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
             items.append(createdBeforeQueryItem)
         }
         return items
@@ -719,9 +722,9 @@ extension ListObjectsInput {
 
 public struct ListObjectsInput {
     /// (Optional) Created after filter
-    public var createdAfter: ClientRuntime.Date?
+    public var createdAfter: Foundation.Date?
     /// (Optional) Created before filter
-    public var createdBefore: ClientRuntime.Date?
+    public var createdBefore: Foundation.Date?
     /// Maximum objects count
     public var maxResults: Swift.Int?
     /// Pagination token
@@ -735,8 +738,8 @@ public struct ListObjectsInput {
     public var storageJobId: Swift.String?
 
     public init(
-        createdAfter: ClientRuntime.Date? = nil,
-        createdBefore: ClientRuntime.Date? = nil,
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startingObjectName: Swift.String? = nil,
@@ -756,7 +759,7 @@ public struct ListObjectsInput {
 
 extension ListObjectsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListObjectsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListObjectsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -786,7 +789,7 @@ public struct ListObjectsOutput {
 
 enum ListObjectsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -844,34 +847,34 @@ public struct NotReadableInputStreamException: ClientRuntime.ModeledError, AWSCl
 
 extension NotifyObjectCompleteInput {
 
-    static func queryItemProvider(_ value: NotifyObjectCompleteInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: NotifyObjectCompleteInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let objectChecksum = value.objectChecksum else {
             let message = "Creating a URL Query Item failed. objectChecksum is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let objectChecksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
+        let objectChecksumQueryItem = Smithy.URIQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
         items.append(objectChecksumQueryItem)
         guard let objectChecksumAlgorithm = value.objectChecksumAlgorithm else {
             let message = "Creating a URL Query Item failed. objectChecksumAlgorithm is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let objectChecksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
+        let objectChecksumAlgorithmQueryItem = Smithy.URIQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
         items.append(objectChecksumAlgorithmQueryItem)
         if let metadataBlobLength = value.metadataBlobLength {
-            let metadataBlobLengthQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-blob-length".urlPercentEncoding(), value: Swift.String(metadataBlobLength).urlPercentEncoding())
+            let metadataBlobLengthQueryItem = Smithy.URIQueryItem(name: "metadata-blob-length".urlPercentEncoding(), value: Swift.String(metadataBlobLength).urlPercentEncoding())
             items.append(metadataBlobLengthQueryItem)
         }
         if let metadataBlobChecksum = value.metadataBlobChecksum {
-            let metadataBlobChecksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-checksum".urlPercentEncoding(), value: Swift.String(metadataBlobChecksum).urlPercentEncoding())
+            let metadataBlobChecksumQueryItem = Smithy.URIQueryItem(name: "metadata-checksum".urlPercentEncoding(), value: Swift.String(metadataBlobChecksum).urlPercentEncoding())
             items.append(metadataBlobChecksumQueryItem)
         }
         if let metadataBlobChecksumAlgorithm = value.metadataBlobChecksumAlgorithm {
-            let metadataBlobChecksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-checksum-algorithm".urlPercentEncoding(), value: Swift.String(metadataBlobChecksumAlgorithm.rawValue).urlPercentEncoding())
+            let metadataBlobChecksumAlgorithmQueryItem = Smithy.URIQueryItem(name: "metadata-checksum-algorithm".urlPercentEncoding(), value: Swift.String(metadataBlobChecksumAlgorithm.rawValue).urlPercentEncoding())
             items.append(metadataBlobChecksumAlgorithmQueryItem)
         }
         if let metadataString = value.metadataString {
-            let metadataStringQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
+            let metadataStringQueryItem = Smithy.URIQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
             items.append(metadataStringQueryItem)
         }
         return items
@@ -904,7 +907,7 @@ public struct NotifyObjectCompleteInput {
     /// This member is required.
     public var backupJobId: Swift.String?
     /// Optional metadata associated with an Object. Maximum length is 4MB.
-    public var metadataBlob: ClientRuntime.ByteStream?
+    public var metadataBlob: Smithy.ByteStream?
     /// Checksum of MetadataBlob.
     public var metadataBlobChecksum: Swift.String?
     /// Checksum algorithm.
@@ -925,7 +928,7 @@ public struct NotifyObjectCompleteInput {
 
     public init(
         backupJobId: Swift.String? = nil,
-        metadataBlob: ClientRuntime.ByteStream? = nil,
+        metadataBlob: Smithy.ByteStream? = nil,
         metadataBlobChecksum: Swift.String? = nil,
         metadataBlobChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm? = nil,
         metadataBlobLength: Swift.Int? = nil,
@@ -949,7 +952,7 @@ public struct NotifyObjectCompleteInput {
 
 extension NotifyObjectCompleteOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> NotifyObjectCompleteOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> NotifyObjectCompleteOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -980,7 +983,7 @@ public struct NotifyObjectCompleteOutput {
 
 enum NotifyObjectCompleteOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1001,25 +1004,25 @@ enum NotifyObjectCompleteOutputError {
 
 extension PutChunkInput {
 
-    static func queryItemProvider(_ value: PutChunkInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PutChunkInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let length = value.length else {
             let message = "Creating a URL Query Item failed. length is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let lengthQueryItem = ClientRuntime.SDKURLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(length).urlPercentEncoding())
+        let lengthQueryItem = Smithy.URIQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(length).urlPercentEncoding())
         items.append(lengthQueryItem)
         guard let checksum = value.checksum else {
             let message = "Creating a URL Query Item failed. checksum is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let checksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(checksum).urlPercentEncoding())
+        let checksumQueryItem = Smithy.URIQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(checksum).urlPercentEncoding())
         items.append(checksumQueryItem)
         guard let checksumAlgorithm = value.checksumAlgorithm else {
             let message = "Creating a URL Query Item failed. checksumAlgorithm is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let checksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(checksumAlgorithm.rawValue).urlPercentEncoding())
+        let checksumAlgorithmQueryItem = Smithy.URIQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(checksumAlgorithm.rawValue).urlPercentEncoding())
         items.append(checksumAlgorithmQueryItem)
         return items
     }
@@ -1064,7 +1067,7 @@ public struct PutChunkInput {
     public var chunkIndex: Swift.Int?
     /// Data to be uploaded
     /// This member is required.
-    public var data: ClientRuntime.ByteStream?
+    public var data: Smithy.ByteStream?
     /// Data length
     /// This member is required.
     public var length: Swift.Int?
@@ -1077,7 +1080,7 @@ public struct PutChunkInput {
         checksum: Swift.String? = nil,
         checksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm? = nil,
         chunkIndex: Swift.Int? = nil,
-        data: ClientRuntime.ByteStream? = nil,
+        data: Smithy.ByteStream? = nil,
         length: Swift.Int? = nil,
         uploadId: Swift.String? = nil
     )
@@ -1094,7 +1097,7 @@ public struct PutChunkInput {
 
 extension PutChunkOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutChunkOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutChunkOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1125,7 +1128,7 @@ public struct PutChunkOutput {
 
 enum PutChunkOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1146,34 +1149,34 @@ enum PutChunkOutputError {
 
 extension PutObjectInput {
 
-    static func queryItemProvider(_ value: PutObjectInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PutObjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let inlineChunkChecksum = value.inlineChunkChecksum {
-            let inlineChunkChecksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(inlineChunkChecksum).urlPercentEncoding())
+            let inlineChunkChecksumQueryItem = Smithy.URIQueryItem(name: "checksum".urlPercentEncoding(), value: Swift.String(inlineChunkChecksum).urlPercentEncoding())
             items.append(inlineChunkChecksumQueryItem)
         }
         if let objectChecksum = value.objectChecksum {
-            let objectChecksumQueryItem = ClientRuntime.SDKURLQueryItem(name: "object-checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
+            let objectChecksumQueryItem = Smithy.URIQueryItem(name: "object-checksum".urlPercentEncoding(), value: Swift.String(objectChecksum).urlPercentEncoding())
             items.append(objectChecksumQueryItem)
         }
         if let objectChecksumAlgorithm = value.objectChecksumAlgorithm {
-            let objectChecksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "object-checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
+            let objectChecksumAlgorithmQueryItem = Smithy.URIQueryItem(name: "object-checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
             items.append(objectChecksumAlgorithmQueryItem)
         }
         if let inlineChunkLength = value.inlineChunkLength {
-            let inlineChunkLengthQueryItem = ClientRuntime.SDKURLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(inlineChunkLength).urlPercentEncoding())
+            let inlineChunkLengthQueryItem = Smithy.URIQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(inlineChunkLength).urlPercentEncoding())
             items.append(inlineChunkLengthQueryItem)
         }
         if let inlineChunkChecksumAlgorithm = value.inlineChunkChecksumAlgorithm {
-            let inlineChunkChecksumAlgorithmQueryItem = ClientRuntime.SDKURLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(inlineChunkChecksumAlgorithm).urlPercentEncoding())
+            let inlineChunkChecksumAlgorithmQueryItem = Smithy.URIQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(inlineChunkChecksumAlgorithm).urlPercentEncoding())
             items.append(inlineChunkChecksumAlgorithmQueryItem)
         }
         if let metadataString = value.metadataString {
-            let metadataStringQueryItem = ClientRuntime.SDKURLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
+            let metadataStringQueryItem = Smithy.URIQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
             items.append(metadataStringQueryItem)
         }
         if let throwOnDuplicate = value.throwOnDuplicate {
-            let throwOnDuplicateQueryItem = ClientRuntime.SDKURLQueryItem(name: "throwOnDuplicate".urlPercentEncoding(), value: Swift.String(throwOnDuplicate).urlPercentEncoding())
+            let throwOnDuplicateQueryItem = Smithy.URIQueryItem(name: "throwOnDuplicate".urlPercentEncoding(), value: Swift.String(throwOnDuplicate).urlPercentEncoding())
             items.append(throwOnDuplicateQueryItem)
         }
         return items
@@ -1206,7 +1209,7 @@ public struct PutObjectInput {
     /// This member is required.
     public var backupJobId: Swift.String?
     /// Inline chunk data to be uploaded.
-    public var inlineChunk: ClientRuntime.ByteStream?
+    public var inlineChunk: Smithy.ByteStream?
     /// Inline chunk checksum
     public var inlineChunkChecksum: Swift.String?
     /// Inline chunk checksum algorithm
@@ -1227,7 +1230,7 @@ public struct PutObjectInput {
 
     public init(
         backupJobId: Swift.String? = nil,
-        inlineChunk: ClientRuntime.ByteStream? = nil,
+        inlineChunk: Smithy.ByteStream? = nil,
         inlineChunkChecksum: Swift.String? = nil,
         inlineChunkChecksumAlgorithm: Swift.String? = nil,
         inlineChunkLength: Swift.Int? = nil,
@@ -1253,7 +1256,7 @@ public struct PutObjectInput {
 
 extension PutObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutObjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1296,7 +1299,7 @@ public struct PutObjectOutput {
 
 enum PutObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1508,7 +1511,7 @@ public struct StartObjectInput {
 
 extension StartObjectOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartObjectOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartObjectOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1533,7 +1536,7 @@ public struct StartObjectOutput {
 
 enum StartObjectOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

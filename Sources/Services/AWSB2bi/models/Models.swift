@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -101,9 +104,9 @@ extension B2biClientTypes {
         public var capabilityId: Swift.String?
         /// Returns a timestamp for creation date and time of the capability.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Returns a timestamp that identifies the most recent date and time that the capability was modified.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// The display name of the capability.
         /// This member is required.
         public var name: Swift.String?
@@ -113,8 +116,8 @@ extension B2biClientTypes {
 
         public init(
             capabilityId: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             type: B2biClientTypes.CapabilityType? = nil
         )
@@ -250,7 +253,7 @@ public struct CreateCapabilityInput {
 
 extension CreateCapabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCapabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCapabilityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -278,7 +281,7 @@ public struct CreateCapabilityOutput {
     public var configuration: B2biClientTypes.CapabilityConfiguration?
     /// Returns a timestamp for creation date and time of the capability.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns one or more locations in Amazon S3, each specifying an EDI document that can be used with this capability. Each item contains the name of the bucket and the key, to identify the document's location.
     public var instructionsDocuments: [B2biClientTypes.S3Location]?
     /// Returns the name of the capability used to identify it.
@@ -292,7 +295,7 @@ public struct CreateCapabilityOutput {
         capabilityArn: Swift.String? = nil,
         capabilityId: Swift.String? = nil,
         configuration: B2biClientTypes.CapabilityConfiguration? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         instructionsDocuments: [B2biClientTypes.S3Location]? = nil,
         name: Swift.String? = nil,
         type: B2biClientTypes.CapabilityType? = nil
@@ -310,7 +313,7 @@ public struct CreateCapabilityOutput {
 
 enum CreateCapabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -400,7 +403,7 @@ extension CreatePartnershipOutput: Swift.CustomDebugStringConvertible {
 
 extension CreatePartnershipOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePartnershipOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePartnershipOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -423,7 +426,7 @@ public struct CreatePartnershipOutput {
     public var capabilities: [Swift.String]?
     /// Returns a timestamp for creation date and time of the partnership.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns the email address associated with this trading partner.
     public var email: Swift.String?
     /// Returns a descriptive name for the partnership.
@@ -444,7 +447,7 @@ public struct CreatePartnershipOutput {
 
     public init(
         capabilities: [Swift.String]? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         email: Swift.String? = nil,
         name: Swift.String? = nil,
         partnershipArn: Swift.String? = nil,
@@ -468,7 +471,7 @@ public struct CreatePartnershipOutput {
 
 enum CreatePartnershipOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -559,7 +562,7 @@ extension CreateProfileOutput: Swift.CustomDebugStringConvertible {
 
 extension CreateProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -583,7 +586,7 @@ public struct CreateProfileOutput {
     public var businessName: Swift.String?
     /// Returns a timestamp representing the time the profile was created.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns the email address associated with this customer profile.
     public var email: Swift.String?
     /// Returns the name of the logging group.
@@ -605,7 +608,7 @@ public struct CreateProfileOutput {
 
     public init(
         businessName: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         email: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         logging: B2biClientTypes.Logging? = nil,
@@ -629,7 +632,7 @@ public struct CreateProfileOutput {
 
 enum CreateProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -710,7 +713,7 @@ public struct CreateTransformerInput {
 
 extension CreateTransformerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTransformerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTransformerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -731,7 +734,7 @@ extension CreateTransformerOutput {
 public struct CreateTransformerOutput {
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
     /// This member is required.
     public var ediType: B2biClientTypes.EdiType?
@@ -757,7 +760,7 @@ public struct CreateTransformerOutput {
     public var transformerId: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         ediType: B2biClientTypes.EdiType? = nil,
         fileFormat: B2biClientTypes.FileFormat? = nil,
         mappingTemplate: Swift.String? = nil,
@@ -782,7 +785,7 @@ public struct CreateTransformerOutput {
 
 enum CreateTransformerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -830,7 +833,7 @@ public struct DeleteCapabilityInput {
 
 extension DeleteCapabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCapabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCapabilityOutput {
         return DeleteCapabilityOutput()
     }
 }
@@ -842,7 +845,7 @@ public struct DeleteCapabilityOutput {
 
 enum DeleteCapabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -889,7 +892,7 @@ public struct DeletePartnershipInput {
 
 extension DeletePartnershipOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePartnershipOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePartnershipOutput {
         return DeletePartnershipOutput()
     }
 }
@@ -901,7 +904,7 @@ public struct DeletePartnershipOutput {
 
 enum DeletePartnershipOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -948,7 +951,7 @@ public struct DeleteProfileInput {
 
 extension DeleteProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProfileOutput {
         return DeleteProfileOutput()
     }
 }
@@ -960,7 +963,7 @@ public struct DeleteProfileOutput {
 
 enum DeleteProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1007,7 +1010,7 @@ public struct DeleteTransformerInput {
 
 extension DeleteTransformerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTransformerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTransformerOutput {
         return DeleteTransformerOutput()
     }
 }
@@ -1019,7 +1022,7 @@ public struct DeleteTransformerOutput {
 
 enum DeleteTransformerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1182,7 +1185,7 @@ public struct GetCapabilityInput {
 
 extension GetCapabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCapabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCapabilityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1211,11 +1214,11 @@ public struct GetCapabilityOutput {
     public var configuration: B2biClientTypes.CapabilityConfiguration?
     /// Returns a timestamp for creation date and time of the capability.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns one or more locations in Amazon S3, each specifying an EDI document that can be used with this capability. Each item contains the name of the bucket and the key, to identify the document's location.
     public var instructionsDocuments: [B2biClientTypes.S3Location]?
     /// Returns a timestamp for last time the capability was modified.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// Returns the name of the capability, used to identify it.
     /// This member is required.
     public var name: Swift.String?
@@ -1227,9 +1230,9 @@ public struct GetCapabilityOutput {
         capabilityArn: Swift.String? = nil,
         capabilityId: Swift.String? = nil,
         configuration: B2biClientTypes.CapabilityConfiguration? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         instructionsDocuments: [B2biClientTypes.S3Location]? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         type: B2biClientTypes.CapabilityType? = nil
     )
@@ -1247,7 +1250,7 @@ public struct GetCapabilityOutput {
 
 enum GetCapabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1298,7 +1301,7 @@ extension GetPartnershipOutput: Swift.CustomDebugStringConvertible {
 
 extension GetPartnershipOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPartnershipOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPartnershipOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1322,11 +1325,11 @@ public struct GetPartnershipOutput {
     public var capabilities: [Swift.String]?
     /// Returns a timestamp for creation date and time of the partnership.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns the email address associated with this trading partner.
     public var email: Swift.String?
     /// Returns a timestamp that identifies the most recent date and time that the partnership was modified.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// Returns the display name of the partnership
     public var name: Swift.String?
     /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
@@ -1345,9 +1348,9 @@ public struct GetPartnershipOutput {
 
     public init(
         capabilities: [Swift.String]? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         email: Swift.String? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         partnershipArn: Swift.String? = nil,
         partnershipId: Swift.String? = nil,
@@ -1371,7 +1374,7 @@ public struct GetPartnershipOutput {
 
 enum GetPartnershipOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1422,7 +1425,7 @@ extension GetProfileOutput: Swift.CustomDebugStringConvertible {
 
 extension GetProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1447,7 +1450,7 @@ public struct GetProfileOutput {
     public var businessName: Swift.String?
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns the email address associated with this customer profile.
     public var email: Swift.String?
     /// Returns the name of the logging group.
@@ -1455,7 +1458,7 @@ public struct GetProfileOutput {
     /// Returns whether or not logging is enabled for this profile.
     public var logging: B2biClientTypes.Logging?
     /// Returns a timestamp for last time the profile was modified.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// Returns the name of the profile, used to identify it.
     /// This member is required.
     public var name: Swift.String?
@@ -1471,11 +1474,11 @@ public struct GetProfileOutput {
 
     public init(
         businessName: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         email: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         logging: B2biClientTypes.Logging? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         phone: Swift.String? = nil,
         profileArn: Swift.String? = nil,
@@ -1497,7 +1500,7 @@ public struct GetProfileOutput {
 
 enum GetProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1543,7 +1546,7 @@ public struct GetTransformerInput {
 
 extension GetTransformerJobInput {
 
-    static func queryItemProvider(_ value: GetTransformerJobInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: GetTransformerJobInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -1583,7 +1586,7 @@ public struct GetTransformerJobInput {
 
 extension GetTransformerJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTransformerJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTransformerJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1618,7 +1621,7 @@ public struct GetTransformerJobOutput {
 
 enum GetTransformerJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1636,7 +1639,7 @@ enum GetTransformerJobOutputError {
 
 extension GetTransformerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTransformerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTransformerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1658,7 +1661,7 @@ extension GetTransformerOutput {
 public struct GetTransformerOutput {
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
     /// This member is required.
     public var ediType: B2biClientTypes.EdiType?
@@ -1669,7 +1672,7 @@ public struct GetTransformerOutput {
     /// This member is required.
     public var mappingTemplate: Swift.String?
     /// Returns a timestamp for last time the transformer was modified.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// Returns the name of the transformer, used to identify it.
     /// This member is required.
     public var name: Swift.String?
@@ -1686,11 +1689,11 @@ public struct GetTransformerOutput {
     public var transformerId: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         ediType: B2biClientTypes.EdiType? = nil,
         fileFormat: B2biClientTypes.FileFormat? = nil,
         mappingTemplate: Swift.String? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         sampleDocument: Swift.String? = nil,
         status: B2biClientTypes.TransformerStatus? = nil,
@@ -1713,7 +1716,7 @@ public struct GetTransformerOutput {
 
 enum GetTransformerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1777,7 +1780,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListCapabilitiesInput {
 
-    static func queryItemProvider(_ value: ListCapabilitiesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListCapabilitiesInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -1815,7 +1818,7 @@ public struct ListCapabilitiesInput {
 
 extension ListCapabilitiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCapabilitiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCapabilitiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1845,7 +1848,7 @@ public struct ListCapabilitiesOutput {
 
 enum ListCapabilitiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1858,7 +1861,7 @@ enum ListCapabilitiesOutputError {
 
 extension ListPartnershipsInput {
 
-    static func queryItemProvider(_ value: ListPartnershipsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListPartnershipsInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -1900,7 +1903,7 @@ public struct ListPartnershipsInput {
 
 extension ListPartnershipsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPartnershipsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPartnershipsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1930,7 +1933,7 @@ public struct ListPartnershipsOutput {
 
 enum ListPartnershipsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1948,7 +1951,7 @@ enum ListPartnershipsOutputError {
 
 extension ListProfilesInput {
 
-    static func queryItemProvider(_ value: ListProfilesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListProfilesInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -1986,7 +1989,7 @@ public struct ListProfilesInput {
 
 extension ListProfilesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProfilesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProfilesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2016,7 +2019,7 @@ public struct ListProfilesOutput {
 
 enum ListProfilesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2057,7 +2060,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2081,7 +2084,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2097,7 +2100,7 @@ enum ListTagsForResourceOutputError {
 
 extension ListTransformersInput {
 
-    static func queryItemProvider(_ value: ListTransformersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: ListTransformersInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -2135,7 +2138,7 @@ public struct ListTransformersInput {
 
 extension ListTransformersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTransformersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTransformersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2165,7 +2168,7 @@ public struct ListTransformersOutput {
 
 enum ListTransformersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2228,9 +2231,9 @@ extension B2biClientTypes {
         public var capabilities: [Swift.String]?
         /// Returns a timestamp for creation date and time of the partnership.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Returns a timestamp that identifies the most recent date and time that the partnership was modified.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// Returns the name of the partnership.
         public var name: Swift.String?
         /// Returns the unique, system-generated identifier for a partnership.
@@ -2244,8 +2247,8 @@ extension B2biClientTypes {
 
         public init(
             capabilities: [Swift.String]? = nil,
-            createdAt: ClientRuntime.Date? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             partnershipId: Swift.String? = nil,
             profileId: Swift.String? = nil,
@@ -2288,13 +2291,13 @@ extension B2biClientTypes {
         public var businessName: Swift.String?
         /// Returns the timestamp for creation date and time of the profile.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Returns the name of the logging group.
         public var logGroupName: Swift.String?
         /// Specifies whether or not logging is enabled for this profile.
         public var logging: B2biClientTypes.Logging?
         /// Returns the timestamp that identifies the most recent date and time that the profile was modified.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// Returns the display name for profile.
         /// This member is required.
         public var name: Swift.String?
@@ -2304,10 +2307,10 @@ extension B2biClientTypes {
 
         public init(
             businessName: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             logGroupName: Swift.String? = nil,
             logging: B2biClientTypes.Logging? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             profileId: Swift.String? = nil
         )
@@ -2508,7 +2511,7 @@ public struct StartTransformerJobInput {
 
 extension StartTransformerJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartTransformerJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartTransformerJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2533,7 +2536,7 @@ public struct StartTransformerJobOutput {
 
 enum StartTransformerJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2623,7 +2626,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2635,7 +2638,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2692,7 +2695,7 @@ public struct TestMappingInput {
 
 extension TestMappingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TestMappingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TestMappingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2717,7 +2720,7 @@ public struct TestMappingOutput {
 
 enum TestMappingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2775,7 +2778,7 @@ public struct TestParsingInput {
 
 extension TestParsingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TestParsingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TestParsingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2800,7 +2803,7 @@ public struct TestParsingOutput {
 
 enum TestParsingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2946,7 +2949,7 @@ extension B2biClientTypes {
     public struct TransformerSummary {
         /// Returns a timestamp indicating when the transformer was created. For example, 2023-07-20T19:58:44.624Z.
         /// This member is required.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
         /// This member is required.
         public var ediType: B2biClientTypes.EdiType?
@@ -2957,7 +2960,7 @@ extension B2biClientTypes {
         /// This member is required.
         public var mappingTemplate: Swift.String?
         /// Returns a timestamp representing the date and time for the most recent change for the transformer object.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// Returns the descriptive name for the transformer.
         /// This member is required.
         public var name: Swift.String?
@@ -2971,11 +2974,11 @@ extension B2biClientTypes {
         public var transformerId: Swift.String?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             ediType: B2biClientTypes.EdiType? = nil,
             fileFormat: B2biClientTypes.FileFormat? = nil,
             mappingTemplate: Swift.String? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             sampleDocument: Swift.String? = nil,
             status: B2biClientTypes.TransformerStatus? = nil,
@@ -2998,7 +3001,7 @@ extension B2biClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
         return []
     }
 }
@@ -3038,7 +3041,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3050,7 +3053,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3108,7 +3111,7 @@ public struct UpdateCapabilityInput {
 
 extension UpdateCapabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateCapabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateCapabilityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3137,11 +3140,11 @@ public struct UpdateCapabilityOutput {
     public var configuration: B2biClientTypes.CapabilityConfiguration?
     /// Returns a timestamp for creation date and time of the capability.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns one or more locations in Amazon S3, each specifying an EDI document that can be used with this capability. Each item contains the name of the bucket and the key, to identify the document's location.
     public var instructionsDocuments: [B2biClientTypes.S3Location]?
     /// Returns a timestamp for last time the capability was modified.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// Returns the name of the capability, used to identify it.
     /// This member is required.
     public var name: Swift.String?
@@ -3153,9 +3156,9 @@ public struct UpdateCapabilityOutput {
         capabilityArn: Swift.String? = nil,
         capabilityId: Swift.String? = nil,
         configuration: B2biClientTypes.CapabilityConfiguration? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         instructionsDocuments: [B2biClientTypes.S3Location]? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         type: B2biClientTypes.CapabilityType? = nil
     )
@@ -3173,7 +3176,7 @@ public struct UpdateCapabilityOutput {
 
 enum UpdateCapabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3235,7 +3238,7 @@ extension UpdatePartnershipOutput: Swift.CustomDebugStringConvertible {
 
 extension UpdatePartnershipOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdatePartnershipOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdatePartnershipOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3259,11 +3262,11 @@ public struct UpdatePartnershipOutput {
     public var capabilities: [Swift.String]?
     /// Returns a timestamp that identifies the most recent date and time that the partnership was modified.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns the email address associated with this trading partner.
     public var email: Swift.String?
     /// Returns a timestamp that identifies the most recent date and time that the partnership was modified.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// The name of the partnership, used to identify it.
     public var name: Swift.String?
     /// Returns an Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a capability, partnership, profile, or transformer.
@@ -3282,9 +3285,9 @@ public struct UpdatePartnershipOutput {
 
     public init(
         capabilities: [Swift.String]? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         email: Swift.String? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         partnershipArn: Swift.String? = nil,
         partnershipId: Swift.String? = nil,
@@ -3308,7 +3311,7 @@ public struct UpdatePartnershipOutput {
 
 enum UpdatePartnershipOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3385,7 +3388,7 @@ extension UpdateProfileOutput: Swift.CustomDebugStringConvertible {
 
 extension UpdateProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProfileOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3410,7 +3413,7 @@ public struct UpdateProfileOutput {
     public var businessName: Swift.String?
     /// Returns a timestamp for creation date and time of the profile.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns the email address associated with this customer profile.
     public var email: Swift.String?
     /// Returns the name of the logging group.
@@ -3418,7 +3421,7 @@ public struct UpdateProfileOutput {
     /// Specifies whether or not logging is enabled for this profile.
     public var logging: B2biClientTypes.Logging?
     /// Returns a timestamp for last time the profile was modified.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// Returns the name of the profile.
     /// This member is required.
     public var name: Swift.String?
@@ -3434,11 +3437,11 @@ public struct UpdateProfileOutput {
 
     public init(
         businessName: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         email: Swift.String? = nil,
         logGroupName: Swift.String? = nil,
         logging: B2biClientTypes.Logging? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         phone: Swift.String? = nil,
         profileArn: Swift.String? = nil,
@@ -3460,7 +3463,7 @@ public struct UpdateProfileOutput {
 
 enum UpdateProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3537,7 +3540,7 @@ public struct UpdateTransformerInput {
 
 extension UpdateTransformerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTransformerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTransformerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3559,7 +3562,7 @@ extension UpdateTransformerOutput {
 public struct UpdateTransformerOutput {
     /// Returns a timestamp for creation date and time of the transformer.
     /// This member is required.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Returns the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
     /// This member is required.
     public var ediType: B2biClientTypes.EdiType?
@@ -3571,7 +3574,7 @@ public struct UpdateTransformerOutput {
     public var mappingTemplate: Swift.String?
     /// Returns a timestamp for last time the transformer was modified.
     /// This member is required.
-    public var modifiedAt: ClientRuntime.Date?
+    public var modifiedAt: Foundation.Date?
     /// Returns the name of the transformer.
     /// This member is required.
     public var name: Swift.String?
@@ -3588,11 +3591,11 @@ public struct UpdateTransformerOutput {
     public var transformerId: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         ediType: B2biClientTypes.EdiType? = nil,
         fileFormat: B2biClientTypes.FileFormat? = nil,
         mappingTemplate: Swift.String? = nil,
-        modifiedAt: ClientRuntime.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         sampleDocument: Swift.String? = nil,
         status: B2biClientTypes.TransformerStatus? = nil,
@@ -3615,7 +3618,7 @@ public struct UpdateTransformerOutput {
 
 enum UpdateTransformerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

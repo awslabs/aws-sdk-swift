@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -232,7 +234,7 @@ public struct AddTagsInput {
 
 extension AddTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddTagsOutput {
         return AddTagsOutput()
     }
 }
@@ -245,7 +247,7 @@ public struct AddTagsOutput {
 
 enum AddTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -905,7 +907,7 @@ public struct CancelQueryInput {
 
 extension CancelQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -936,7 +938,7 @@ public struct CancelQueryOutput {
 
 enum CancelQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1493,7 +1495,7 @@ public struct CreateChannelInput {
 
 extension CreateChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1537,7 +1539,7 @@ public struct CreateChannelOutput {
 
 enum CreateChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1650,7 +1652,7 @@ public struct CreateEventDataStoreInput {
 
 extension CreateEventDataStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateEventDataStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateEventDataStoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1678,7 +1680,7 @@ public struct CreateEventDataStoreOutput {
     /// The billing mode for the event data store.
     public var billingMode: CloudTrailClientTypes.BillingMode?
     /// The timestamp that shows when the event data store was created.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The ARN of the event data store.
     public var eventDataStoreArn: Swift.String?
     /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
@@ -1698,12 +1700,12 @@ public struct CreateEventDataStoreOutput {
     /// Indicates whether termination protection is enabled for the event data store.
     public var terminationProtectionEnabled: Swift.Bool?
     /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
-    public var updatedTimestamp: ClientRuntime.Date?
+    public var updatedTimestamp: Foundation.Date?
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         billingMode: CloudTrailClientTypes.BillingMode? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         multiRegionEnabled: Swift.Bool? = nil,
@@ -1713,7 +1715,7 @@ public struct CreateEventDataStoreOutput {
         status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
         tagsList: [CloudTrailClientTypes.Tag]? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil,
-        updatedTimestamp: ClientRuntime.Date? = nil
+        updatedTimestamp: Foundation.Date? = nil
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
@@ -1734,7 +1736,7 @@ public struct CreateEventDataStoreOutput {
 
 enum CreateEventDataStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1868,7 +1870,7 @@ public struct CreateTrailInput {
 
 extension CreateTrailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateTrailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateTrailOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1954,7 +1956,7 @@ public struct CreateTrailOutput {
 
 enum CreateTrailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2141,7 +2143,7 @@ public struct DeleteChannelInput {
 
 extension DeleteChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteChannelOutput {
         return DeleteChannelOutput()
     }
 }
@@ -2153,7 +2155,7 @@ public struct DeleteChannelOutput {
 
 enum DeleteChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2198,7 +2200,7 @@ public struct DeleteEventDataStoreInput {
 
 extension DeleteEventDataStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteEventDataStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteEventDataStoreOutput {
         return DeleteEventDataStoreOutput()
     }
 }
@@ -2210,7 +2212,7 @@ public struct DeleteEventDataStoreOutput {
 
 enum DeleteEventDataStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2265,7 +2267,7 @@ public struct DeleteResourcePolicyInput {
 
 extension DeleteResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourcePolicyOutput {
         return DeleteResourcePolicyOutput()
     }
 }
@@ -2277,7 +2279,7 @@ public struct DeleteResourcePolicyOutput {
 
 enum DeleteResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2325,7 +2327,7 @@ public struct DeleteTrailInput {
 
 extension DeleteTrailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTrailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTrailOutput {
         return DeleteTrailOutput()
     }
 }
@@ -2338,7 +2340,7 @@ public struct DeleteTrailOutput {
 
 enum DeleteTrailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2441,7 +2443,7 @@ public struct DeregisterOrganizationDelegatedAdminInput {
 
 extension DeregisterOrganizationDelegatedAdminOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeregisterOrganizationDelegatedAdminOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeregisterOrganizationDelegatedAdminOutput {
         return DeregisterOrganizationDelegatedAdminOutput()
     }
 }
@@ -2454,7 +2456,7 @@ public struct DeregisterOrganizationDelegatedAdminOutput {
 
 enum DeregisterOrganizationDelegatedAdminOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2516,7 +2518,7 @@ public struct DescribeQueryInput {
 
 extension DescribeQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2570,7 +2572,7 @@ public struct DescribeQueryOutput {
 
 enum DescribeQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2631,7 +2633,7 @@ public struct DescribeTrailsInput {
 
 extension DescribeTrailsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeTrailsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeTrailsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2656,7 +2658,7 @@ public struct DescribeTrailsOutput {
 
 enum DescribeTrailsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2770,7 +2772,7 @@ public struct DisableFederationInput {
 
 extension DisableFederationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableFederationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableFederationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2799,7 +2801,7 @@ public struct DisableFederationOutput {
 
 enum DisableFederationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2860,7 +2862,7 @@ public struct EnableFederationInput {
 
 extension EnableFederationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableFederationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableFederationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2894,7 +2896,7 @@ public struct EnableFederationOutput {
 
 enum EnableFederationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2952,7 +2954,7 @@ extension CloudTrailClientTypes {
         /// The Amazon Web Services service to which the request was made.
         public var eventSource: Swift.String?
         /// The date and time of the event returned.
-        public var eventTime: ClientRuntime.Date?
+        public var eventTime: Foundation.Date?
         /// Information about whether the event is a write event or a read event.
         public var readOnly: Swift.String?
         /// A list of resources referenced by the event returned.
@@ -2966,7 +2968,7 @@ extension CloudTrailClientTypes {
             eventId: Swift.String? = nil,
             eventName: Swift.String? = nil,
             eventSource: Swift.String? = nil,
-            eventTime: ClientRuntime.Date? = nil,
+            eventTime: Foundation.Date? = nil,
             readOnly: Swift.String? = nil,
             resources: [CloudTrailClientTypes.Resource]? = nil,
             username: Swift.String? = nil
@@ -3039,7 +3041,7 @@ extension CloudTrailClientTypes {
         public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
         /// The timestamp of the event data store's creation.
         @available(*, deprecated, message: "CreatedTimestamp is no longer returned by ListEventDataStores")
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ARN of the event data store.
         public var eventDataStoreArn: Swift.String?
         /// Indicates whether the event data store includes events from all Regions, or only from the Region in which it was created.
@@ -3061,11 +3063,11 @@ extension CloudTrailClientTypes {
         public var terminationProtectionEnabled: Swift.Bool?
         /// The timestamp showing when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         @available(*, deprecated, message: "UpdatedTimestamp is no longer returned by ListEventDataStores")
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
             advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             eventDataStoreArn: Swift.String? = nil,
             multiRegionEnabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
@@ -3073,7 +3075,7 @@ extension CloudTrailClientTypes {
             retentionPeriod: Swift.Int? = nil,
             status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
             terminationProtectionEnabled: Swift.Bool? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.advancedEventSelectors = advancedEventSelectors
@@ -3512,7 +3514,7 @@ public struct GetChannelInput {
 
 extension GetChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3561,7 +3563,7 @@ public struct GetChannelOutput {
 
 enum GetChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3606,7 +3608,7 @@ public struct GetEventDataStoreInput {
 
 extension GetEventDataStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEventDataStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEventDataStoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3635,7 +3637,7 @@ public struct GetEventDataStoreOutput {
     /// The billing mode for the event data store.
     public var billingMode: CloudTrailClientTypes.BillingMode?
     /// The timestamp of the event data store's creation.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The event data store Amazon Resource Number (ARN).
     public var eventDataStoreArn: Swift.String?
     /// If Lake query federation is enabled, provides the ARN of the federation role used to access the resources for the federated event data store.
@@ -3657,12 +3659,12 @@ public struct GetEventDataStoreOutput {
     /// Indicates that termination protection is enabled.
     public var terminationProtectionEnabled: Swift.Bool?
     /// Shows the time that an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
-    public var updatedTimestamp: ClientRuntime.Date?
+    public var updatedTimestamp: Foundation.Date?
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         billingMode: CloudTrailClientTypes.BillingMode? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
         federationRoleArn: Swift.String? = nil,
         federationStatus: CloudTrailClientTypes.FederationStatus? = nil,
@@ -3673,7 +3675,7 @@ public struct GetEventDataStoreOutput {
         retentionPeriod: Swift.Int? = nil,
         status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil,
-        updatedTimestamp: ClientRuntime.Date? = nil
+        updatedTimestamp: Foundation.Date? = nil
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
@@ -3695,7 +3697,7 @@ public struct GetEventDataStoreOutput {
 
 enum GetEventDataStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3755,7 +3757,7 @@ public struct GetEventSelectorsInput {
 
 extension GetEventSelectorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEventSelectorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEventSelectorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3789,7 +3791,7 @@ public struct GetEventSelectorsOutput {
 
 enum GetEventSelectorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3836,7 +3838,7 @@ public struct GetImportInput {
 
 extension GetImportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetImportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetImportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3856,11 +3858,11 @@ extension GetImportOutput {
 
 public struct GetImportOutput {
     /// The timestamp of the import's creation.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The ARN of the destination event data store.
     public var destinations: [Swift.String]?
     /// Used with StartEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period.
-    public var endEventTime: ClientRuntime.Date?
+    public var endEventTime: Foundation.Date?
     /// The ID of the import.
     public var importId: Swift.String?
     /// The source S3 bucket.
@@ -3870,20 +3872,20 @@ public struct GetImportOutput {
     /// The status of the import.
     public var importStatus: CloudTrailClientTypes.ImportStatus?
     /// Used with EndEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period.
-    public var startEventTime: ClientRuntime.Date?
+    public var startEventTime: Foundation.Date?
     /// The timestamp of when the import was updated.
-    public var updatedTimestamp: ClientRuntime.Date?
+    public var updatedTimestamp: Foundation.Date?
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         destinations: [Swift.String]? = nil,
-        endEventTime: ClientRuntime.Date? = nil,
+        endEventTime: Foundation.Date? = nil,
         importId: Swift.String? = nil,
         importSource: CloudTrailClientTypes.ImportSource? = nil,
         importStatistics: CloudTrailClientTypes.ImportStatistics? = nil,
         importStatus: CloudTrailClientTypes.ImportStatus? = nil,
-        startEventTime: ClientRuntime.Date? = nil,
-        updatedTimestamp: ClientRuntime.Date? = nil
+        startEventTime: Foundation.Date? = nil,
+        updatedTimestamp: Foundation.Date? = nil
     )
     {
         self.createdTimestamp = createdTimestamp
@@ -3900,7 +3902,7 @@ public struct GetImportOutput {
 
 enum GetImportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3962,7 +3964,7 @@ public struct GetInsightSelectorsInput {
 
 extension GetInsightSelectorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetInsightSelectorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetInsightSelectorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4001,7 +4003,7 @@ public struct GetInsightSelectorsOutput {
 
 enum GetInsightSelectorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4068,7 +4070,7 @@ public struct GetQueryResultsInput {
 
 extension GetQueryResultsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetQueryResultsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetQueryResultsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4112,7 +4114,7 @@ public struct GetQueryResultsOutput {
 
 enum GetQueryResultsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4164,7 +4166,7 @@ public struct GetResourcePolicyInput {
 
 extension GetResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4193,7 +4195,7 @@ public struct GetResourcePolicyOutput {
 
 enum GetResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4240,7 +4242,7 @@ public struct GetTrailInput {
 
 extension GetTrailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTrailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTrailOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4264,7 +4266,7 @@ public struct GetTrailOutput {
 
 enum GetTrailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4311,7 +4313,7 @@ public struct GetTrailStatusInput {
 
 extension GetTrailStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTrailStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTrailStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4344,7 +4346,7 @@ public struct GetTrailStatusOutput {
     /// Displays any CloudWatch Logs error that CloudTrail encountered when attempting to deliver logs to CloudWatch Logs.
     public var latestCloudWatchLogsDeliveryError: Swift.String?
     /// Displays the most recent date and time when CloudTrail delivered logs to CloudWatch Logs.
-    public var latestCloudWatchLogsDeliveryTime: ClientRuntime.Date?
+    public var latestCloudWatchLogsDeliveryTime: Foundation.Date?
     /// This field is no longer in use.
     public var latestDeliveryAttemptSucceeded: Swift.String?
     /// This field is no longer in use.
@@ -4352,11 +4354,11 @@ public struct GetTrailStatusOutput {
     /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver log files to the designated bucket. For more information, see [Error Responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html) in the Amazon S3 API Reference. This error occurs only when there is a problem with the destination S3 bucket, and does not occur for requests that time out. To resolve the issue, create a new bucket, and then call UpdateTrail to specify the new bucket; or fix the existing objects so that CloudTrail can again write to the bucket.
     public var latestDeliveryError: Swift.String?
     /// Specifies the date and time that CloudTrail last delivered log files to an account's Amazon S3 bucket.
-    public var latestDeliveryTime: ClientRuntime.Date?
+    public var latestDeliveryTime: Foundation.Date?
     /// Displays any Amazon S3 error that CloudTrail encountered when attempting to deliver a digest file to the designated bucket. For more information, see [Error Responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html) in the Amazon S3 API Reference. This error occurs only when there is a problem with the destination S3 bucket, and does not occur for requests that time out. To resolve the issue, create a new bucket, and then call UpdateTrail to specify the new bucket; or fix the existing objects so that CloudTrail can again write to the bucket.
     public var latestDigestDeliveryError: Swift.String?
     /// Specifies the date and time that CloudTrail last delivered a digest file to an account's Amazon S3 bucket.
-    public var latestDigestDeliveryTime: ClientRuntime.Date?
+    public var latestDigestDeliveryTime: Foundation.Date?
     /// This field is no longer in use.
     public var latestNotificationAttemptSucceeded: Swift.String?
     /// This field is no longer in use.
@@ -4364,11 +4366,11 @@ public struct GetTrailStatusOutput {
     /// Displays any Amazon SNS error that CloudTrail encountered when attempting to send a notification. For more information about Amazon SNS errors, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/welcome.html).
     public var latestNotificationError: Swift.String?
     /// Specifies the date and time of the most recent Amazon SNS notification that CloudTrail has written a new log file to an account's Amazon S3 bucket.
-    public var latestNotificationTime: ClientRuntime.Date?
+    public var latestNotificationTime: Foundation.Date?
     /// Specifies the most recent date and time when CloudTrail started recording API calls for an Amazon Web Services account.
-    public var startLoggingTime: ClientRuntime.Date?
+    public var startLoggingTime: Foundation.Date?
     /// Specifies the most recent date and time when CloudTrail stopped recording API calls for an Amazon Web Services account.
-    public var stopLoggingTime: ClientRuntime.Date?
+    public var stopLoggingTime: Foundation.Date?
     /// This field is no longer in use.
     public var timeLoggingStarted: Swift.String?
     /// This field is no longer in use.
@@ -4377,19 +4379,19 @@ public struct GetTrailStatusOutput {
     public init(
         isLogging: Swift.Bool? = nil,
         latestCloudWatchLogsDeliveryError: Swift.String? = nil,
-        latestCloudWatchLogsDeliveryTime: ClientRuntime.Date? = nil,
+        latestCloudWatchLogsDeliveryTime: Foundation.Date? = nil,
         latestDeliveryAttemptSucceeded: Swift.String? = nil,
         latestDeliveryAttemptTime: Swift.String? = nil,
         latestDeliveryError: Swift.String? = nil,
-        latestDeliveryTime: ClientRuntime.Date? = nil,
+        latestDeliveryTime: Foundation.Date? = nil,
         latestDigestDeliveryError: Swift.String? = nil,
-        latestDigestDeliveryTime: ClientRuntime.Date? = nil,
+        latestDigestDeliveryTime: Foundation.Date? = nil,
         latestNotificationAttemptSucceeded: Swift.String? = nil,
         latestNotificationAttemptTime: Swift.String? = nil,
         latestNotificationError: Swift.String? = nil,
-        latestNotificationTime: ClientRuntime.Date? = nil,
-        startLoggingTime: ClientRuntime.Date? = nil,
-        stopLoggingTime: ClientRuntime.Date? = nil,
+        latestNotificationTime: Foundation.Date? = nil,
+        startLoggingTime: Foundation.Date? = nil,
+        stopLoggingTime: Foundation.Date? = nil,
         timeLoggingStarted: Swift.String? = nil,
         timeLoggingStopped: Swift.String? = nil
     )
@@ -4416,7 +4418,7 @@ public struct GetTrailStatusOutput {
 
 enum GetTrailStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4454,7 +4456,7 @@ extension CloudTrailClientTypes {
         /// The type of import error.
         public var errorType: Swift.String?
         /// When the import was last updated.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The location of the failure in the S3 bucket.
         public var location: Swift.String?
         /// The status of the import.
@@ -4463,7 +4465,7 @@ extension CloudTrailClientTypes {
         public init(
             errorMessage: Swift.String? = nil,
             errorType: Swift.String? = nil,
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             location: Swift.String? = nil,
             status: CloudTrailClientTypes.ImportFailureStatus? = nil
         )
@@ -4682,7 +4684,7 @@ extension CloudTrailClientTypes {
     /// Contains information about an import that was returned by a lookup request.
     public struct ImportsListItem {
         /// The timestamp of the import's creation.
-        public var createdTimestamp: ClientRuntime.Date?
+        public var createdTimestamp: Foundation.Date?
         /// The ARN of the destination event data store.
         public var destinations: [Swift.String]?
         /// The ID of the import.
@@ -4690,14 +4692,14 @@ extension CloudTrailClientTypes {
         /// The status of the import.
         public var importStatus: CloudTrailClientTypes.ImportStatus?
         /// The timestamp of the import's last update.
-        public var updatedTimestamp: ClientRuntime.Date?
+        public var updatedTimestamp: Foundation.Date?
 
         public init(
-            createdTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: Foundation.Date? = nil,
             destinations: [Swift.String]? = nil,
             importId: Swift.String? = nil,
             importStatus: CloudTrailClientTypes.ImportStatus? = nil,
-            updatedTimestamp: ClientRuntime.Date? = nil
+            updatedTimestamp: Foundation.Date? = nil
         )
         {
             self.createdTimestamp = createdTimestamp
@@ -4806,20 +4808,20 @@ extension CloudTrailClientTypes {
         /// The event ID of the most recent attempt to ingest events.
         public var latestIngestionAttemptEventID: Swift.String?
         /// The time stamp of the most recent attempt to ingest events on the channel.
-        public var latestIngestionAttemptTime: ClientRuntime.Date?
+        public var latestIngestionAttemptTime: Foundation.Date?
         /// The error code for the most recent failure to ingest events.
         public var latestIngestionErrorCode: Swift.String?
         /// The event ID of the most recent successful ingestion of events.
         public var latestIngestionSuccessEventID: Swift.String?
         /// The time stamp of the most recent successful ingestion of events for the channel.
-        public var latestIngestionSuccessTime: ClientRuntime.Date?
+        public var latestIngestionSuccessTime: Foundation.Date?
 
         public init(
             latestIngestionAttemptEventID: Swift.String? = nil,
-            latestIngestionAttemptTime: ClientRuntime.Date? = nil,
+            latestIngestionAttemptTime: Foundation.Date? = nil,
             latestIngestionErrorCode: Swift.String? = nil,
             latestIngestionSuccessEventID: Swift.String? = nil,
-            latestIngestionSuccessTime: ClientRuntime.Date? = nil
+            latestIngestionSuccessTime: Foundation.Date? = nil
         )
         {
             self.latestIngestionAttemptEventID = latestIngestionAttemptEventID
@@ -6266,7 +6268,7 @@ public struct ListChannelsInput {
 
 extension ListChannelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListChannelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListChannelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6295,7 +6297,7 @@ public struct ListChannelsOutput {
 
 enum ListChannelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6343,7 +6345,7 @@ public struct ListEventDataStoresInput {
 
 extension ListEventDataStoresOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEventDataStoresOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEventDataStoresOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6372,7 +6374,7 @@ public struct ListEventDataStoresOutput {
 
 enum ListEventDataStoresOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6428,7 +6430,7 @@ public struct ListImportFailuresInput {
 
 extension ListImportFailuresOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListImportFailuresOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListImportFailuresOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6457,7 +6459,7 @@ public struct ListImportFailuresOutput {
 
 enum ListImportFailuresOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6516,7 +6518,7 @@ public struct ListImportsInput {
 
 extension ListImportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListImportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListImportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6545,7 +6547,7 @@ public struct ListImportsOutput {
 
 enum ListImportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6589,7 +6591,7 @@ public struct ListInsightsMetricDataInput {
     /// Type of datapoints to return. Valid values are NonZeroData and FillWithZeros. The default is NonZeroData.
     public var dataType: CloudTrailClientTypes.InsightsMetricDataType?
     /// Specifies, in UTC, the end time for time-series data. The value specified is exclusive; results include data points up to the specified time stamp. The default is the time of request.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Conditionally required if the InsightType parameter is set to ApiErrorRateInsight. If returning metrics for the ApiErrorRateInsight Insights type, this is the error to retrieve data for. For example, AccessDenied.
     public var errorCode: Swift.String?
     /// The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded.
@@ -6608,11 +6610,11 @@ public struct ListInsightsMetricDataInput {
     /// Granularity of data to retrieve, in seconds. Valid values are 60, 300, and 3600. If you specify any other value, you will get an error. The default is 3600 seconds.
     public var period: Swift.Int?
     /// Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         dataType: CloudTrailClientTypes.InsightsMetricDataType? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         errorCode: Swift.String? = nil,
         eventName: Swift.String? = nil,
         eventSource: Swift.String? = nil,
@@ -6620,7 +6622,7 @@ public struct ListInsightsMetricDataInput {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         period: Swift.Int? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.dataType = dataType
@@ -6638,7 +6640,7 @@ public struct ListInsightsMetricDataInput {
 
 extension ListInsightsMetricDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListInsightsMetricDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListInsightsMetricDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6666,7 +6668,7 @@ public struct ListInsightsMetricDataOutput {
     /// Only returned if the full results could not be returned in a single query. You can set the NextToken parameter in the next request to this value to continue retrieval.
     public var nextToken: Swift.String?
     /// List of timestamps at intervals corresponding to the specified time period.
-    public var timestamps: [ClientRuntime.Date]?
+    public var timestamps: [Foundation.Date]?
     /// List of values representing the API call rate or error rate at each timestamp. The number of values is equal to the number of timestamps.
     public var values: [Swift.Double]?
 
@@ -6676,7 +6678,7 @@ public struct ListInsightsMetricDataOutput {
         eventSource: Swift.String? = nil,
         insightType: CloudTrailClientTypes.InsightType? = nil,
         nextToken: Swift.String? = nil,
-        timestamps: [ClientRuntime.Date]? = nil,
+        timestamps: [Foundation.Date]? = nil,
         values: [Swift.Double]? = nil
     )
     {
@@ -6692,7 +6694,7 @@ public struct ListInsightsMetricDataOutput {
 
 enum ListInsightsMetricDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6726,16 +6728,16 @@ extension ListPublicKeysInput {
 /// Requests the public keys for a specified time range.
 public struct ListPublicKeysInput {
     /// Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Reserved for future use.
     public var nextToken: Swift.String?
     /// Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -6746,7 +6748,7 @@ public struct ListPublicKeysInput {
 
 extension ListPublicKeysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPublicKeysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPublicKeysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6776,7 +6778,7 @@ public struct ListPublicKeysOutput {
 
 enum ListPublicKeysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6813,7 +6815,7 @@ extension ListQueriesInput {
 
 public struct ListQueriesInput {
     /// Use with StartTime to bound a ListQueries request, and limit its results to only those queries run within a specified time period.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The ARN (or the ID suffix of the ARN) of an event data store on which queries were run.
     /// This member is required.
     public var eventDataStore: Swift.String?
@@ -6824,15 +6826,15 @@ public struct ListQueriesInput {
     /// The status of queries that you want to return in results. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
     public var queryStatus: CloudTrailClientTypes.QueryStatus?
     /// Use with EndTime to bound a ListQueries request, and limit its results to only those queries run within a specified time period.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         eventDataStore: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queryStatus: CloudTrailClientTypes.QueryStatus? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -6846,7 +6848,7 @@ public struct ListQueriesInput {
 
 extension ListQueriesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListQueriesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListQueriesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6875,7 +6877,7 @@ public struct ListQueriesOutput {
 
 enum ListQueriesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6933,7 +6935,7 @@ public struct ListTagsInput {
 
 extension ListTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -6963,7 +6965,7 @@ public struct ListTagsOutput {
 
 enum ListTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7015,7 +7017,7 @@ public struct ListTrailsInput {
 
 extension ListTrailsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTrailsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTrailsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7044,7 +7046,7 @@ public struct ListTrailsOutput {
 
 enum ListTrailsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7158,7 +7160,7 @@ extension LookupEventsInput {
 /// Contains a request for LookupEvents.
 public struct LookupEventsInput {
     /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Specifies the event category. If you do not specify an event category, events of the category are not returned in the response. For example, if you do not specify insight as the value of EventCategory, no Insights events are returned.
     public var eventCategory: CloudTrailClientTypes.EventCategory?
     /// Contains a list of lookup attributes. Currently the list can contain only one item.
@@ -7168,15 +7170,15 @@ public struct LookupEventsInput {
     /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
     public var nextToken: Swift.String?
     /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         eventCategory: CloudTrailClientTypes.EventCategory? = nil,
         lookupAttributes: [CloudTrailClientTypes.LookupAttribute]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -7190,7 +7192,7 @@ public struct LookupEventsInput {
 
 extension LookupEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> LookupEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> LookupEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7220,7 +7222,7 @@ public struct LookupEventsOutput {
 
 enum LookupEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7561,17 +7563,17 @@ extension CloudTrailClientTypes {
         /// The fingerprint of the public key.
         public var fingerprint: Swift.String?
         /// The ending time of validity of the public key.
-        public var validityEndTime: ClientRuntime.Date?
+        public var validityEndTime: Foundation.Date?
         /// The starting time of validity of the public key.
-        public var validityStartTime: ClientRuntime.Date?
+        public var validityStartTime: Foundation.Date?
         /// The DER encoded public key value in PKCS#1 format.
-        public var value: ClientRuntime.Data?
+        public var value: Foundation.Data?
 
         public init(
             fingerprint: Swift.String? = nil,
-            validityEndTime: ClientRuntime.Date? = nil,
-            validityStartTime: ClientRuntime.Date? = nil,
-            value: ClientRuntime.Data? = nil
+            validityEndTime: Foundation.Date? = nil,
+            validityStartTime: Foundation.Date? = nil,
+            value: Foundation.Data? = nil
         )
         {
             self.fingerprint = fingerprint
@@ -7636,7 +7638,7 @@ public struct PutEventSelectorsInput {
 
 extension PutEventSelectorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutEventSelectorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutEventSelectorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7670,7 +7672,7 @@ public struct PutEventSelectorsOutput {
 
 enum PutEventSelectorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7738,7 +7740,7 @@ public struct PutInsightSelectorsInput {
 
 extension PutInsightSelectorsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutInsightSelectorsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutInsightSelectorsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7777,7 +7779,7 @@ public struct PutInsightSelectorsOutput {
 
 enum PutInsightSelectorsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7846,7 +7848,7 @@ public struct PutResourcePolicyInput {
 
 extension PutResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -7875,7 +7877,7 @@ public struct PutResourcePolicyOutput {
 
 enum PutResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -7908,14 +7910,14 @@ extension CloudTrailClientTypes {
     /// A SQL string of criteria about events that you want to collect in an event data store.
     public struct Query {
         /// The creation time of a query.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The ID of a query.
         public var queryId: Swift.String?
         /// The status of the query. This can be QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
         public var queryStatus: CloudTrailClientTypes.QueryStatus?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             queryId: Swift.String? = nil,
             queryStatus: CloudTrailClientTypes.QueryStatus? = nil
         )
@@ -8022,7 +8024,7 @@ extension CloudTrailClientTypes {
         /// The total bytes that the query scanned in the event data store. This value matches the number of bytes for which your account is billed for the query, unless the query is still running.
         public var bytesScanned: Swift.Int?
         /// The creation time of the query.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The number of events that matched a query.
         public var eventsMatched: Swift.Int?
         /// The number of events that the query scanned in the event data store.
@@ -8032,7 +8034,7 @@ extension CloudTrailClientTypes {
 
         public init(
             bytesScanned: Swift.Int? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             eventsMatched: Swift.Int? = nil,
             eventsScanned: Swift.Int? = nil,
             executionTimeInMillis: Swift.Int? = nil
@@ -8152,7 +8154,7 @@ public struct RegisterOrganizationDelegatedAdminInput {
 
 extension RegisterOrganizationDelegatedAdminOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterOrganizationDelegatedAdminOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterOrganizationDelegatedAdminOutput {
         return RegisterOrganizationDelegatedAdminOutput()
     }
 }
@@ -8165,7 +8167,7 @@ public struct RegisterOrganizationDelegatedAdminOutput {
 
 enum RegisterOrganizationDelegatedAdminOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8226,7 +8228,7 @@ public struct RemoveTagsInput {
 
 extension RemoveTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveTagsOutput {
         return RemoveTagsOutput()
     }
 }
@@ -8239,7 +8241,7 @@ public struct RemoveTagsOutput {
 
 enum RemoveTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8552,7 +8554,7 @@ public struct RestoreEventDataStoreInput {
 
 extension RestoreEventDataStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreEventDataStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreEventDataStoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8579,7 +8581,7 @@ public struct RestoreEventDataStoreOutput {
     /// The billing mode for the event data store.
     public var billingMode: CloudTrailClientTypes.BillingMode?
     /// The timestamp of an event data store's creation.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The event data store ARN.
     public var eventDataStoreArn: Swift.String?
     /// Specifies the KMS key ID that encrypts the events delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format. arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
@@ -8597,12 +8599,12 @@ public struct RestoreEventDataStoreOutput {
     /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
     public var terminationProtectionEnabled: Swift.Bool?
     /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
-    public var updatedTimestamp: ClientRuntime.Date?
+    public var updatedTimestamp: Foundation.Date?
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         billingMode: CloudTrailClientTypes.BillingMode? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         multiRegionEnabled: Swift.Bool? = nil,
@@ -8611,7 +8613,7 @@ public struct RestoreEventDataStoreOutput {
         retentionPeriod: Swift.Int? = nil,
         status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil,
-        updatedTimestamp: ClientRuntime.Date? = nil
+        updatedTimestamp: Foundation.Date? = nil
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
@@ -8631,7 +8633,7 @@ public struct RestoreEventDataStoreOutput {
 
 enum RestoreEventDataStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8800,7 +8802,7 @@ public struct StartEventDataStoreIngestionInput {
 
 extension StartEventDataStoreIngestionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartEventDataStoreIngestionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartEventDataStoreIngestionOutput {
         return StartEventDataStoreIngestionOutput()
     }
 }
@@ -8812,7 +8814,7 @@ public struct StartEventDataStoreIngestionOutput {
 
 enum StartEventDataStoreIngestionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8856,20 +8858,20 @@ public struct StartImportInput {
     /// The ARN of the destination event data store. Use this parameter for a new import.
     public var destinations: [Swift.String]?
     /// Use with StartEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period. When you specify a time range, CloudTrail checks the prefix and log file names to verify the names contain a date between the specified StartEventTime and EndEventTime before attempting to import events.
-    public var endEventTime: ClientRuntime.Date?
+    public var endEventTime: Foundation.Date?
     /// The ID of the import. Use this parameter when you are retrying an import.
     public var importId: Swift.String?
     /// The source S3 bucket for the import. Use this parameter for a new import.
     public var importSource: CloudTrailClientTypes.ImportSource?
     /// Use with EndEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period. When you specify a time range, CloudTrail checks the prefix and log file names to verify the names contain a date between the specified StartEventTime and EndEventTime before attempting to import events.
-    public var startEventTime: ClientRuntime.Date?
+    public var startEventTime: Foundation.Date?
 
     public init(
         destinations: [Swift.String]? = nil,
-        endEventTime: ClientRuntime.Date? = nil,
+        endEventTime: Foundation.Date? = nil,
         importId: Swift.String? = nil,
         importSource: CloudTrailClientTypes.ImportSource? = nil,
-        startEventTime: ClientRuntime.Date? = nil
+        startEventTime: Foundation.Date? = nil
     )
     {
         self.destinations = destinations
@@ -8882,7 +8884,7 @@ public struct StartImportInput {
 
 extension StartImportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartImportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartImportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -8901,11 +8903,11 @@ extension StartImportOutput {
 
 public struct StartImportOutput {
     /// The timestamp for the import's creation.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The ARN of the destination event data store.
     public var destinations: [Swift.String]?
     /// Used with StartEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period.
-    public var endEventTime: ClientRuntime.Date?
+    public var endEventTime: Foundation.Date?
     /// The ID of the import.
     public var importId: Swift.String?
     /// The source S3 bucket for the import.
@@ -8913,19 +8915,19 @@ public struct StartImportOutput {
     /// Shows the status of the import after a StartImport request. An import finishes with a status of COMPLETED if there were no failures, or FAILED if there were failures.
     public var importStatus: CloudTrailClientTypes.ImportStatus?
     /// Used with EndEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period.
-    public var startEventTime: ClientRuntime.Date?
+    public var startEventTime: Foundation.Date?
     /// The timestamp of the import's last update, if applicable.
-    public var updatedTimestamp: ClientRuntime.Date?
+    public var updatedTimestamp: Foundation.Date?
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         destinations: [Swift.String]? = nil,
-        endEventTime: ClientRuntime.Date? = nil,
+        endEventTime: Foundation.Date? = nil,
         importId: Swift.String? = nil,
         importSource: CloudTrailClientTypes.ImportSource? = nil,
         importStatus: CloudTrailClientTypes.ImportStatus? = nil,
-        startEventTime: ClientRuntime.Date? = nil,
-        updatedTimestamp: ClientRuntime.Date? = nil
+        startEventTime: Foundation.Date? = nil,
+        updatedTimestamp: Foundation.Date? = nil
     )
     {
         self.createdTimestamp = createdTimestamp
@@ -8941,7 +8943,7 @@ public struct StartImportOutput {
 
 enum StartImportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8995,7 +8997,7 @@ public struct StartLoggingInput {
 
 extension StartLoggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartLoggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartLoggingOutput {
         return StartLoggingOutput()
     }
 }
@@ -9008,7 +9010,7 @@ public struct StartLoggingOutput {
 
 enum StartLoggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9074,7 +9076,7 @@ public struct StartQueryInput {
 
 extension StartQueryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartQueryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartQueryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9098,7 +9100,7 @@ public struct StartQueryOutput {
 
 enum StartQueryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9153,7 +9155,7 @@ public struct StopEventDataStoreIngestionInput {
 
 extension StopEventDataStoreIngestionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopEventDataStoreIngestionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopEventDataStoreIngestionOutput {
         return StopEventDataStoreIngestionOutput()
     }
 }
@@ -9165,7 +9167,7 @@ public struct StopEventDataStoreIngestionOutput {
 
 enum StopEventDataStoreIngestionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9216,7 +9218,7 @@ public struct StopImportInput {
 
 extension StopImportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopImportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopImportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9236,11 +9238,11 @@ extension StopImportOutput {
 
 public struct StopImportOutput {
     /// The timestamp of the import's creation.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The ARN of the destination event data store.
     public var destinations: [Swift.String]?
     /// Used with StartEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period.
-    public var endEventTime: ClientRuntime.Date?
+    public var endEventTime: Foundation.Date?
     /// The ID for the import.
     public var importId: Swift.String?
     /// The source S3 bucket for the import.
@@ -9250,20 +9252,20 @@ public struct StopImportOutput {
     /// The status of the import.
     public var importStatus: CloudTrailClientTypes.ImportStatus?
     /// Used with EndEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period.
-    public var startEventTime: ClientRuntime.Date?
+    public var startEventTime: Foundation.Date?
     /// The timestamp of the import's last update.
-    public var updatedTimestamp: ClientRuntime.Date?
+    public var updatedTimestamp: Foundation.Date?
 
     public init(
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         destinations: [Swift.String]? = nil,
-        endEventTime: ClientRuntime.Date? = nil,
+        endEventTime: Foundation.Date? = nil,
         importId: Swift.String? = nil,
         importSource: CloudTrailClientTypes.ImportSource? = nil,
         importStatistics: CloudTrailClientTypes.ImportStatistics? = nil,
         importStatus: CloudTrailClientTypes.ImportStatus? = nil,
-        startEventTime: ClientRuntime.Date? = nil,
-        updatedTimestamp: ClientRuntime.Date? = nil
+        startEventTime: Foundation.Date? = nil,
+        updatedTimestamp: Foundation.Date? = nil
     )
     {
         self.createdTimestamp = createdTimestamp
@@ -9280,7 +9282,7 @@ public struct StopImportOutput {
 
 enum StopImportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9326,7 +9328,7 @@ public struct StopLoggingInput {
 
 extension StopLoggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopLoggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopLoggingOutput {
         return StopLoggingOutput()
     }
 }
@@ -9339,7 +9341,7 @@ public struct StopLoggingOutput {
 
 enum StopLoggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9805,7 +9807,7 @@ public struct UpdateChannelInput {
 
 extension UpdateChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9844,7 +9846,7 @@ public struct UpdateChannelOutput {
 
 enum UpdateChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9950,7 +9952,7 @@ public struct UpdateEventDataStoreInput {
 
 extension UpdateEventDataStoreOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateEventDataStoreOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateEventDataStoreOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -9979,7 +9981,7 @@ public struct UpdateEventDataStoreOutput {
     /// The billing mode for the event data store.
     public var billingMode: CloudTrailClientTypes.BillingMode?
     /// The timestamp that shows when an event data store was first created.
-    public var createdTimestamp: ClientRuntime.Date?
+    public var createdTimestamp: Foundation.Date?
     /// The ARN of the event data store.
     public var eventDataStoreArn: Swift.String?
     /// If Lake query federation is enabled, provides the ARN of the federation role used to access the resources for the federated event data store.
@@ -10001,12 +10003,12 @@ public struct UpdateEventDataStoreOutput {
     /// Indicates whether termination protection is enabled for the event data store.
     public var terminationProtectionEnabled: Swift.Bool?
     /// The timestamp that shows when the event data store was last updated. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
-    public var updatedTimestamp: ClientRuntime.Date?
+    public var updatedTimestamp: Foundation.Date?
 
     public init(
         advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]? = nil,
         billingMode: CloudTrailClientTypes.BillingMode? = nil,
-        createdTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: Foundation.Date? = nil,
         eventDataStoreArn: Swift.String? = nil,
         federationRoleArn: Swift.String? = nil,
         federationStatus: CloudTrailClientTypes.FederationStatus? = nil,
@@ -10017,7 +10019,7 @@ public struct UpdateEventDataStoreOutput {
         retentionPeriod: Swift.Int? = nil,
         status: CloudTrailClientTypes.EventDataStoreStatus? = nil,
         terminationProtectionEnabled: Swift.Bool? = nil,
-        updatedTimestamp: ClientRuntime.Date? = nil
+        updatedTimestamp: Foundation.Date? = nil
     )
     {
         self.advancedEventSelectors = advancedEventSelectors
@@ -10039,7 +10041,7 @@ public struct UpdateEventDataStoreOutput {
 
 enum UpdateEventDataStoreOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10172,7 +10174,7 @@ public struct UpdateTrailInput {
 
 extension UpdateTrailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTrailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTrailOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -10258,7 +10260,7 @@ public struct UpdateTrailOutput {
 
 enum UpdateTrailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

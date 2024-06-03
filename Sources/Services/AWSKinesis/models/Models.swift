@@ -2,6 +2,11 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyEventStreams
+import SmithyEventStreamsAPI
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -83,7 +88,7 @@ public struct AddTagsToStreamInput {
 
 extension AddTagsToStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddTagsToStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddTagsToStreamOutput {
         return AddTagsToStreamOutput()
     }
 }
@@ -95,7 +100,7 @@ public struct AddTagsToStreamOutput {
 
 enum AddTagsToStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -171,7 +176,7 @@ extension KinesisClientTypes {
         public var consumerARN: Swift.String?
         ///
         /// This member is required.
-        public var consumerCreationTimestamp: ClientRuntime.Date?
+        public var consumerCreationTimestamp: Foundation.Date?
         /// The name of the consumer is something you choose when you register the consumer.
         /// This member is required.
         public var consumerName: Swift.String?
@@ -181,7 +186,7 @@ extension KinesisClientTypes {
 
         public init(
             consumerARN: Swift.String? = nil,
-            consumerCreationTimestamp: ClientRuntime.Date? = nil,
+            consumerCreationTimestamp: Foundation.Date? = nil,
             consumerName: Swift.String? = nil,
             consumerStatus: KinesisClientTypes.ConsumerStatus? = nil
         )
@@ -217,7 +222,7 @@ extension KinesisClientTypes {
         public var consumerARN: Swift.String?
         ///
         /// This member is required.
-        public var consumerCreationTimestamp: ClientRuntime.Date?
+        public var consumerCreationTimestamp: Foundation.Date?
         /// The name of the consumer is something you choose when you register the consumer.
         /// This member is required.
         public var consumerName: Swift.String?
@@ -230,7 +235,7 @@ extension KinesisClientTypes {
 
         public init(
             consumerARN: Swift.String? = nil,
-            consumerCreationTimestamp: ClientRuntime.Date? = nil,
+            consumerCreationTimestamp: Foundation.Date? = nil,
             consumerName: Swift.String? = nil,
             consumerStatus: KinesisClientTypes.ConsumerStatus? = nil,
             streamARN: Swift.String? = nil
@@ -319,7 +324,7 @@ public struct CreateStreamInput {
 
 extension CreateStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateStreamOutput {
         return CreateStreamOutput()
     }
 }
@@ -331,7 +336,7 @@ public struct CreateStreamOutput {
 
 enum CreateStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -386,7 +391,7 @@ public struct DecreaseStreamRetentionPeriodInput {
 
 extension DecreaseStreamRetentionPeriodOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DecreaseStreamRetentionPeriodOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DecreaseStreamRetentionPeriodOutput {
         return DecreaseStreamRetentionPeriodOutput()
     }
 }
@@ -398,7 +403,7 @@ public struct DecreaseStreamRetentionPeriodOutput {
 
 enum DecreaseStreamRetentionPeriodOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -444,7 +449,7 @@ public struct DeleteResourcePolicyInput {
 
 extension DeleteResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourcePolicyOutput {
         return DeleteResourcePolicyOutput()
     }
 }
@@ -456,7 +461,7 @@ public struct DeleteResourcePolicyOutput {
 
 enum DeleteResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -512,7 +517,7 @@ public struct DeleteStreamInput {
 
 extension DeleteStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteStreamOutput {
         return DeleteStreamOutput()
     }
 }
@@ -524,7 +529,7 @@ public struct DeleteStreamOutput {
 
 enum DeleteStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -579,7 +584,7 @@ public struct DeregisterStreamConsumerInput {
 
 extension DeregisterStreamConsumerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeregisterStreamConsumerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeregisterStreamConsumerOutput {
         return DeregisterStreamConsumerOutput()
     }
 }
@@ -591,7 +596,7 @@ public struct DeregisterStreamConsumerOutput {
 
 enum DeregisterStreamConsumerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -627,7 +632,7 @@ public struct DescribeLimitsInput {
 
 extension DescribeLimitsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeLimitsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeLimitsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -670,7 +675,7 @@ public struct DescribeLimitsOutput {
 
 enum DescribeLimitsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -721,7 +726,7 @@ public struct DescribeStreamConsumerInput {
 
 extension DescribeStreamConsumerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStreamConsumerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStreamConsumerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -746,7 +751,7 @@ public struct DescribeStreamConsumerOutput {
 
 enum DescribeStreamConsumerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -805,7 +810,7 @@ public struct DescribeStreamInput {
 
 extension DescribeStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -831,7 +836,7 @@ public struct DescribeStreamOutput {
 
 enum DescribeStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -880,7 +885,7 @@ public struct DescribeStreamSummaryInput {
 
 extension DescribeStreamSummaryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeStreamSummaryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeStreamSummaryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -905,7 +910,7 @@ public struct DescribeStreamSummaryOutput {
 
 enum DescribeStreamSummaryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -980,7 +985,7 @@ public struct DisableEnhancedMonitoringInput {
 
 extension DisableEnhancedMonitoringOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableEnhancedMonitoringOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableEnhancedMonitoringOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1020,7 +1025,7 @@ public struct DisableEnhancedMonitoringOutput {
 
 enum DisableEnhancedMonitoringOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1096,7 +1101,7 @@ public struct EnableEnhancedMonitoringInput {
 
 extension EnableEnhancedMonitoringOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableEnhancedMonitoringOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableEnhancedMonitoringOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1136,7 +1141,7 @@ public struct EnableEnhancedMonitoringOutput {
 
 enum EnableEnhancedMonitoringOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1342,7 +1347,7 @@ public struct GetRecordsInput {
 
 extension GetRecordsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRecordsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRecordsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1383,7 +1388,7 @@ public struct GetRecordsOutput {
 
 enum GetRecordsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1435,7 +1440,7 @@ public struct GetResourcePolicyInput {
 
 extension GetResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1460,7 +1465,7 @@ public struct GetResourcePolicyOutput {
 
 enum GetResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1520,7 +1525,7 @@ public struct GetShardIteratorInput {
     /// The name of the Amazon Kinesis data stream.
     public var streamName: Swift.String?
     /// The time stamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, the iterator returned is for the next (later) record. If the time stamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
-    public var timestamp: ClientRuntime.Date?
+    public var timestamp: Foundation.Date?
 
     public init(
         shardId: Swift.String? = nil,
@@ -1528,7 +1533,7 @@ public struct GetShardIteratorInput {
         startingSequenceNumber: Swift.String? = nil,
         streamARN: Swift.String? = nil,
         streamName: Swift.String? = nil,
-        timestamp: ClientRuntime.Date? = nil
+        timestamp: Foundation.Date? = nil
     )
     {
         self.shardId = shardId
@@ -1542,7 +1547,7 @@ public struct GetShardIteratorInput {
 
 extension GetShardIteratorOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetShardIteratorOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetShardIteratorOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1567,7 +1572,7 @@ public struct GetShardIteratorOutput {
 
 enum GetShardIteratorOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1656,7 +1661,7 @@ public struct IncreaseStreamRetentionPeriodInput {
 
 extension IncreaseStreamRetentionPeriodOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> IncreaseStreamRetentionPeriodOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> IncreaseStreamRetentionPeriodOutput {
         return IncreaseStreamRetentionPeriodOutput()
     }
 }
@@ -1668,7 +1673,7 @@ public struct IncreaseStreamRetentionPeriodOutput {
 
 enum IncreaseStreamRetentionPeriodOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2117,7 +2122,7 @@ public struct ListShardsInput {
     /// The ARN of the stream.
     public var streamARN: Swift.String?
     /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the shards for. You cannot specify this parameter if you specify the NextToken parameter.
-    public var streamCreationTimestamp: ClientRuntime.Date?
+    public var streamCreationTimestamp: Foundation.Date?
     /// The name of the data stream whose shards you want to list. You cannot specify this parameter if you specify the NextToken parameter.
     public var streamName: Swift.String?
 
@@ -2127,7 +2132,7 @@ public struct ListShardsInput {
         nextToken: Swift.String? = nil,
         shardFilter: KinesisClientTypes.ShardFilter? = nil,
         streamARN: Swift.String? = nil,
-        streamCreationTimestamp: ClientRuntime.Date? = nil,
+        streamCreationTimestamp: Foundation.Date? = nil,
         streamName: Swift.String? = nil
     )
     {
@@ -2143,7 +2148,7 @@ public struct ListShardsInput {
 
 extension ListShardsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListShardsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListShardsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2172,7 +2177,7 @@ public struct ListShardsOutput {
 
 enum ListShardsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2216,13 +2221,13 @@ public struct ListStreamConsumersInput {
     /// This member is required.
     public var streamARN: Swift.String?
     /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the consumers for. You can't specify this parameter if you specify the NextToken parameter.
-    public var streamCreationTimestamp: ClientRuntime.Date?
+    public var streamCreationTimestamp: Foundation.Date?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         streamARN: Swift.String? = nil,
-        streamCreationTimestamp: ClientRuntime.Date? = nil
+        streamCreationTimestamp: Foundation.Date? = nil
     )
     {
         self.maxResults = maxResults
@@ -2234,7 +2239,7 @@ public struct ListStreamConsumersInput {
 
 extension ListStreamConsumersOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStreamConsumersOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStreamConsumersOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2263,7 +2268,7 @@ public struct ListStreamConsumersOutput {
 
 enum ListStreamConsumersOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2319,7 +2324,7 @@ public struct ListStreamsInput {
 
 extension ListStreamsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStreamsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStreamsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2361,7 +2366,7 @@ public struct ListStreamsOutput {
 
 enum ListStreamsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2420,7 +2425,7 @@ public struct ListTagsForStreamInput {
 
 extension ListTagsForStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForStreamOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2452,7 +2457,7 @@ public struct ListTagsForStreamOutput {
 
 enum ListTagsForStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2514,7 +2519,7 @@ public struct MergeShardsInput {
 
 extension MergeShardsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> MergeShardsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> MergeShardsOutput {
         return MergeShardsOutput()
     }
 }
@@ -2526,7 +2531,7 @@ public struct MergeShardsOutput {
 
 enum MergeShardsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2652,7 +2657,7 @@ extension PutRecordInput {
 public struct PutRecordInput {
     /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
     /// This member is required.
-    public var data: ClientRuntime.Data?
+    public var data: Foundation.Data?
     /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
     public var explicitHashKey: Swift.String?
     /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
@@ -2666,7 +2671,7 @@ public struct PutRecordInput {
     public var streamName: Swift.String?
 
     public init(
-        data: ClientRuntime.Data? = nil,
+        data: Foundation.Data? = nil,
         explicitHashKey: Swift.String? = nil,
         partitionKey: Swift.String? = nil,
         sequenceNumberForOrdering: Swift.String? = nil,
@@ -2685,7 +2690,7 @@ public struct PutRecordInput {
 
 extension PutRecordOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRecordOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRecordOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2726,7 +2731,7 @@ public struct PutRecordOutput {
 
 enum PutRecordOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2788,7 +2793,7 @@ public struct PutRecordsInput {
 
 extension PutRecordsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutRecordsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutRecordsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2828,7 +2833,7 @@ public struct PutRecordsOutput {
 
 enum PutRecordsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2864,7 +2869,7 @@ extension KinesisClientTypes {
     public struct PutRecordsRequestEntry {
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
         /// This member is required.
-        public var data: ClientRuntime.Data?
+        public var data: Foundation.Data?
         /// The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash.
         public var explicitHashKey: Swift.String?
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
@@ -2872,7 +2877,7 @@ extension KinesisClientTypes {
         public var partitionKey: Swift.String?
 
         public init(
-            data: ClientRuntime.Data? = nil,
+            data: Foundation.Data? = nil,
             explicitHashKey: Swift.String? = nil,
             partitionKey: Swift.String? = nil
         )
@@ -2962,7 +2967,7 @@ public struct PutResourcePolicyInput {
 
 extension PutResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutResourcePolicyOutput {
         return PutResourcePolicyOutput()
     }
 }
@@ -2974,7 +2979,7 @@ public struct PutResourcePolicyOutput {
 
 enum PutResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3008,10 +3013,10 @@ extension KinesisClientTypes {
     /// The unit of data of the Kinesis data stream, which is composed of a sequence number, a partition key, and a data blob.
     public struct Record {
         /// The approximate time that the record was inserted into the stream.
-        public var approximateArrivalTimestamp: ClientRuntime.Date?
+        public var approximateArrivalTimestamp: Foundation.Date?
         /// The data blob. The data in the blob is both opaque and immutable to Kinesis Data Streams, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
         /// This member is required.
-        public var data: ClientRuntime.Data?
+        public var data: Foundation.Data?
         /// The encryption type used on the record. This parameter can be one of the following values:
         ///
         /// * NONE: Do not encrypt the records in the stream.
@@ -3026,8 +3031,8 @@ extension KinesisClientTypes {
         public var sequenceNumber: Swift.String?
 
         public init(
-            approximateArrivalTimestamp: ClientRuntime.Date? = nil,
-            data: ClientRuntime.Data? = nil,
+            approximateArrivalTimestamp: Foundation.Date? = nil,
+            data: Foundation.Data? = nil,
             encryptionType: KinesisClientTypes.EncryptionType? = nil,
             partitionKey: Swift.String? = nil,
             sequenceNumber: Swift.String? = nil
@@ -3079,7 +3084,7 @@ public struct RegisterStreamConsumerInput {
 
 extension RegisterStreamConsumerOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterStreamConsumerOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterStreamConsumerOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3104,7 +3109,7 @@ public struct RegisterStreamConsumerOutput {
 
 enum RegisterStreamConsumerOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3160,7 +3165,7 @@ public struct RemoveTagsFromStreamInput {
 
 extension RemoveTagsFromStreamOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveTagsFromStreamOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveTagsFromStreamOutput {
         return RemoveTagsFromStreamOutput()
     }
 }
@@ -3172,7 +3177,7 @@ public struct RemoveTagsFromStreamOutput {
 
 enum RemoveTagsFromStreamOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3407,7 +3412,7 @@ extension KinesisClientTypes {
         /// The exclusive start shardID speified in the ShardFilter parameter. This property can only be used if the AFTER_SHARD_ID shard type is specified.
         public var shardId: Swift.String?
         /// The timestamps specified in the ShardFilter parameter. A timestamp is a Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. This property can only be used if FROM_TIMESTAMP or AT_TIMESTAMP shard types are specified.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// The shard type specified in the ShardFilter parameter. This is a required property of the ShardFilter parameter. You can specify the following valid values:
         ///
         /// * AFTER_SHARD_ID - the response includes all the shards, starting with the shard whose ID immediately follows the ShardId that you provided.
@@ -3426,7 +3431,7 @@ extension KinesisClientTypes {
 
         public init(
             shardId: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             type: KinesisClientTypes.ShardFilterType? = nil
         )
         {
@@ -3564,7 +3569,7 @@ public struct SplitShardInput {
 
 extension SplitShardOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SplitShardOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SplitShardOutput {
         return SplitShardOutput()
     }
 }
@@ -3576,7 +3581,7 @@ public struct SplitShardOutput {
 
 enum SplitShardOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3649,7 +3654,7 @@ public struct StartStreamEncryptionInput {
 
 extension StartStreamEncryptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartStreamEncryptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartStreamEncryptionOutput {
         return StartStreamEncryptionOutput()
     }
 }
@@ -3661,7 +3666,7 @@ public struct StartStreamEncryptionOutput {
 
 enum StartStreamEncryptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3699,14 +3704,14 @@ extension KinesisClientTypes {
         /// The sequence number of the data record in the shard from which to start streaming. To specify a sequence number, set StartingPosition to AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER.
         public var sequenceNumber: Swift.String?
         /// The time stamp of the data record from which to start reading. To specify a time stamp, set StartingPosition to Type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, records will be streamed from the next (later) record. If the time stamp is older than the current trim horizon, records will be streamed from the oldest untrimmed data record (TRIM_HORIZON).
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// You can set the starting position to one of the following values: AT_SEQUENCE_NUMBER: Start streaming from the position denoted by the sequence number specified in the SequenceNumber field. AFTER_SEQUENCE_NUMBER: Start streaming right after the position denoted by the sequence number specified in the SequenceNumber field. AT_TIMESTAMP: Start streaming from the position denoted by the time stamp specified in the Timestamp field. TRIM_HORIZON: Start streaming at the last untrimmed record in the shard, which is the oldest data record in the shard. LATEST: Start streaming just after the most recent record in the shard, so that you always read the most recent data in the shard.
         /// This member is required.
         public var type: KinesisClientTypes.ShardIteratorType?
 
         public init(
             sequenceNumber: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             type: KinesisClientTypes.ShardIteratorType? = nil
         )
         {
@@ -3774,7 +3779,7 @@ public struct StopStreamEncryptionInput {
 
 extension StopStreamEncryptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopStreamEncryptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopStreamEncryptionOutput {
         return StopStreamEncryptionOutput()
     }
 }
@@ -3786,7 +3791,7 @@ public struct StopStreamEncryptionOutput {
 
 enum StopStreamEncryptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3860,7 +3865,7 @@ extension KinesisClientTypes {
         public var streamARN: Swift.String?
         /// The approximate time that the stream was created.
         /// This member is required.
-        public var streamCreationTimestamp: ClientRuntime.Date?
+        public var streamCreationTimestamp: Foundation.Date?
         /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
         public var streamModeDetails: KinesisClientTypes.StreamModeDetails?
         /// The name of the stream being described.
@@ -3886,7 +3891,7 @@ extension KinesisClientTypes {
             retentionPeriodHours: Swift.Int? = nil,
             shards: [KinesisClientTypes.Shard]? = nil,
             streamARN: Swift.String? = nil,
-            streamCreationTimestamp: ClientRuntime.Date? = nil,
+            streamCreationTimestamp: Foundation.Date? = nil,
             streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
             streamName: Swift.String? = nil,
             streamStatus: KinesisClientTypes.StreamStatus? = nil
@@ -3965,7 +3970,7 @@ extension KinesisClientTypes {
         public var streamARN: Swift.String?
         /// The approximate time that the stream was created.
         /// This member is required.
-        public var streamCreationTimestamp: ClientRuntime.Date?
+        public var streamCreationTimestamp: Foundation.Date?
         /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand ycapacity mode and a provisioned capacity mode for your data streams.
         public var streamModeDetails: KinesisClientTypes.StreamModeDetails?
         /// The name of the stream being described.
@@ -3991,7 +3996,7 @@ extension KinesisClientTypes {
             openShardCount: Swift.Int? = nil,
             retentionPeriodHours: Swift.Int? = nil,
             streamARN: Swift.String? = nil,
-            streamCreationTimestamp: ClientRuntime.Date? = nil,
+            streamCreationTimestamp: Foundation.Date? = nil,
             streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
             streamName: Swift.String? = nil,
             streamStatus: KinesisClientTypes.StreamStatus? = nil
@@ -4130,7 +4135,7 @@ extension KinesisClientTypes {
         /// This member is required.
         public var streamARN: Swift.String?
         /// The timestamp at which the stream was created.
-        public var streamCreationTimestamp: ClientRuntime.Date?
+        public var streamCreationTimestamp: Foundation.Date?
         /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
         public var streamModeDetails: KinesisClientTypes.StreamModeDetails?
         /// The name of a stream.
@@ -4142,7 +4147,7 @@ extension KinesisClientTypes {
 
         public init(
             streamARN: Swift.String? = nil,
-            streamCreationTimestamp: ClientRuntime.Date? = nil,
+            streamCreationTimestamp: Foundation.Date? = nil,
             streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
             streamName: Swift.String? = nil,
             streamStatus: KinesisClientTypes.StreamStatus? = nil
@@ -4203,7 +4208,7 @@ extension KinesisClientTypes {
 }
 
 extension KinesisClientTypes.SubscribeToShardEventStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<KinesisClientTypes.SubscribeToShardEventStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<KinesisClientTypes.SubscribeToShardEventStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -4215,7 +4220,7 @@ extension KinesisClientTypes.SubscribeToShardEventStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     case "ResourceNotFoundException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ResourceNotFoundException.read(from:))
@@ -4245,17 +4250,17 @@ extension KinesisClientTypes.SubscribeToShardEventStream {
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: InternalFailureException.read(from:))
                         return value
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }
@@ -4313,11 +4318,11 @@ public struct SubscribeToShardInput {
 
 extension SubscribeToShardOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SubscribeToShardOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SubscribeToShardOutput {
         var value = SubscribeToShardOutput()
         if case let .stream(stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<KinesisClientTypes.SubscribeToShardEventStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: KinesisClientTypes.SubscribeToShardEventStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream<KinesisClientTypes.SubscribeToShardEventStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: KinesisClientTypes.SubscribeToShardEventStream.unmarshal)
             value.eventStream = decoderStream.toAsyncStream()
         }
         return value
@@ -4339,7 +4344,7 @@ public struct SubscribeToShardOutput {
 
 enum SubscribeToShardOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4441,7 +4446,7 @@ public struct UpdateShardCountInput {
 
 extension UpdateShardCountOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateShardCountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateShardCountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4480,7 +4485,7 @@ public struct UpdateShardCountOutput {
 
 enum UpdateShardCountOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4533,7 +4538,7 @@ public struct UpdateStreamModeInput {
 
 extension UpdateStreamModeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateStreamModeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateStreamModeOutput {
         return UpdateStreamModeOutput()
     }
 }
@@ -4545,7 +4550,7 @@ public struct UpdateStreamModeOutput {
 
 enum UpdateStreamModeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

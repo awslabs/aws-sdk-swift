@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -91,7 +93,7 @@ public struct AcceptPageInput {
 
 extension AcceptPageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AcceptPageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AcceptPageOutput {
         return AcceptPageOutput()
     }
 }
@@ -103,7 +105,7 @@ public struct AcceptPageOutput {
 
 enum AcceptPageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -222,7 +224,7 @@ public struct ActivateContactChannelInput {
 
 extension ActivateContactChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ActivateContactChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ActivateContactChannelOutput {
         return ActivateContactChannelOutput()
     }
 }
@@ -234,7 +236,7 @@ public struct ActivateContactChannelOutput {
 
 enum ActivateContactChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -724,7 +726,7 @@ public struct CreateContactChannelInput {
 
 extension CreateContactChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateContactChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateContactChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -749,7 +751,7 @@ public struct CreateContactChannelOutput {
 
 enum CreateContactChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -823,7 +825,7 @@ public struct CreateContactInput {
 
 extension CreateContactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateContactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateContactOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -848,7 +850,7 @@ public struct CreateContactOutput {
 
 enum CreateContactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -900,7 +902,7 @@ public struct CreateRotationInput {
     /// This member is required.
     public var recurrence: SSMContactsClientTypes.RecurrenceSettings?
     /// The date and time that the rotation goes into effect.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// Optional metadata to assign to the rotation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For more information, see [Tagging Incident Manager resources](https://docs.aws.amazon.com/incident-manager/latest/userguide/tagging.html) in the Incident Manager User Guide.
     public var tags: [SSMContactsClientTypes.Tag]?
     /// The time zone to base the rotation’s activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website. Designators for time zones that don’t support Daylight Savings Time rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
@@ -912,7 +914,7 @@ public struct CreateRotationInput {
         idempotencyToken: Swift.String? = nil,
         name: Swift.String? = nil,
         recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         tags: [SSMContactsClientTypes.Tag]? = nil,
         timeZoneId: Swift.String? = nil
     )
@@ -929,7 +931,7 @@ public struct CreateRotationInput {
 
 extension CreateRotationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRotationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRotationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -954,7 +956,7 @@ public struct CreateRotationOutput {
 
 enum CreateRotationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -993,7 +995,7 @@ extension CreateRotationOverrideInput {
 public struct CreateRotationOverrideInput {
     /// The date and time when the override ends.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// A token that ensures that the operation is called only once with the specified details.
     public var idempotencyToken: Swift.String?
     /// The Amazon Resource Names (ARNs) of the contacts to replace those in the current on-call rotation with. If you want to include any current team members in the override shift, you must include their ARNs in the new contact ID list.
@@ -1004,14 +1006,14 @@ public struct CreateRotationOverrideInput {
     public var rotationId: Swift.String?
     /// The date and time when the override goes into effect.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         idempotencyToken: Swift.String? = nil,
         newContactIds: [Swift.String]? = nil,
         rotationId: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -1024,7 +1026,7 @@ public struct CreateRotationOverrideInput {
 
 extension CreateRotationOverrideOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateRotationOverrideOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateRotationOverrideOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1049,7 +1051,7 @@ public struct CreateRotationOverrideOutput {
 
 enum CreateRotationOverrideOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1178,7 +1180,7 @@ public struct DeactivateContactChannelInput {
 
 extension DeactivateContactChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeactivateContactChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeactivateContactChannelOutput {
         return DeactivateContactChannelOutput()
     }
 }
@@ -1190,7 +1192,7 @@ public struct DeactivateContactChannelOutput {
 
 enum DeactivateContactChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1236,7 +1238,7 @@ public struct DeleteContactChannelInput {
 
 extension DeleteContactChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteContactChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteContactChannelOutput {
         return DeleteContactChannelOutput()
     }
 }
@@ -1248,7 +1250,7 @@ public struct DeleteContactChannelOutput {
 
 enum DeleteContactChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1294,7 +1296,7 @@ public struct DeleteContactInput {
 
 extension DeleteContactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteContactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteContactOutput {
         return DeleteContactOutput()
     }
 }
@@ -1306,7 +1308,7 @@ public struct DeleteContactOutput {
 
 enum DeleteContactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1353,7 +1355,7 @@ public struct DeleteRotationInput {
 
 extension DeleteRotationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRotationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRotationOutput {
         return DeleteRotationOutput()
     }
 }
@@ -1365,7 +1367,7 @@ public struct DeleteRotationOutput {
 
 enum DeleteRotationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1418,7 +1420,7 @@ public struct DeleteRotationOverrideInput {
 
 extension DeleteRotationOverrideOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteRotationOverrideOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteRotationOverrideOutput {
         return DeleteRotationOverrideOutput()
     }
 }
@@ -1430,7 +1432,7 @@ public struct DeleteRotationOverrideOutput {
 
 enum DeleteRotationOverrideOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1509,7 +1511,7 @@ public struct DescribeEngagementInput {
 
 extension DescribeEngagementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeEngagementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeEngagementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1548,9 +1550,9 @@ public struct DescribeEngagementOutput {
     /// This member is required.
     public var sender: Swift.String?
     /// The time that the engagement started.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The time that the engagement ended.
-    public var stopTime: ClientRuntime.Date?
+    public var stopTime: Foundation.Date?
     /// The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE and EMAIL.
     /// This member is required.
     public var subject: Swift.String?
@@ -1563,8 +1565,8 @@ public struct DescribeEngagementOutput {
         publicContent: Swift.String? = nil,
         publicSubject: Swift.String? = nil,
         sender: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
-        stopTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
+        stopTime: Foundation.Date? = nil,
         subject: Swift.String? = nil
     )
     {
@@ -1583,7 +1585,7 @@ public struct DescribeEngagementOutput {
 
 enum DescribeEngagementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1630,7 +1632,7 @@ public struct DescribePageInput {
 
 extension DescribePageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribePageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribePageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1659,7 +1661,7 @@ public struct DescribePageOutput {
     /// This member is required.
     public var content: Swift.String?
     /// The time that the contact channel received the engagement.
-    public var deliveryTime: ClientRuntime.Date?
+    public var deliveryTime: Foundation.Date?
     /// The ARN of the engagement that engaged the contact channel.
     /// This member is required.
     public var engagementArn: Swift.String?
@@ -1673,12 +1675,12 @@ public struct DescribePageOutput {
     /// The insecure subject of the message that was sent to the contact. Use this field for engagements to SMS.
     public var publicSubject: Swift.String?
     /// The time that the contact channel acknowledged the engagement.
-    public var readTime: ClientRuntime.Date?
+    public var readTime: Foundation.Date?
     /// The user that started the engagement.
     /// This member is required.
     public var sender: Swift.String?
     /// The time the engagement was sent to the contact channel.
-    public var sentTime: ClientRuntime.Date?
+    public var sentTime: Foundation.Date?
     /// The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE and EMAIL.
     /// This member is required.
     public var subject: Swift.String?
@@ -1686,15 +1688,15 @@ public struct DescribePageOutput {
     public init(
         contactArn: Swift.String? = nil,
         content: Swift.String? = nil,
-        deliveryTime: ClientRuntime.Date? = nil,
+        deliveryTime: Foundation.Date? = nil,
         engagementArn: Swift.String? = nil,
         incidentId: Swift.String? = nil,
         pageArn: Swift.String? = nil,
         publicContent: Swift.String? = nil,
         publicSubject: Swift.String? = nil,
-        readTime: ClientRuntime.Date? = nil,
+        readTime: Foundation.Date? = nil,
         sender: Swift.String? = nil,
-        sentTime: ClientRuntime.Date? = nil,
+        sentTime: Foundation.Date? = nil,
         subject: Swift.String? = nil
     )
     {
@@ -1715,7 +1717,7 @@ public struct DescribePageOutput {
 
 enum DescribePageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1762,17 +1764,17 @@ extension SSMContactsClientTypes {
         /// This member is required.
         public var sender: Swift.String?
         /// The time that the engagement began.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The time that the engagement ended.
-        public var stopTime: ClientRuntime.Date?
+        public var stopTime: Foundation.Date?
 
         public init(
             contactArn: Swift.String? = nil,
             engagementArn: Swift.String? = nil,
             incidentId: Swift.String? = nil,
             sender: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
-            stopTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil,
+            stopTime: Foundation.Date? = nil
         )
         {
             self.contactArn = contactArn
@@ -1816,7 +1818,7 @@ public struct GetContactChannelInput {
 
 extension GetContactChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetContactChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetContactChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1870,7 +1872,7 @@ public struct GetContactChannelOutput {
 
 enum GetContactChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1917,7 +1919,7 @@ public struct GetContactInput {
 
 extension GetContactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetContactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetContactOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1965,7 +1967,7 @@ public struct GetContactOutput {
 
 enum GetContactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2012,7 +2014,7 @@ public struct GetContactPolicyInput {
 
 extension GetContactPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetContactPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetContactPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2041,7 +2043,7 @@ public struct GetContactPolicyOutput {
 
 enum GetContactPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2087,7 +2089,7 @@ public struct GetRotationInput {
 
 extension GetRotationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRotationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRotationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2117,7 +2119,7 @@ public struct GetRotationOutput {
     public var rotationArn: Swift.String?
     /// The specified start time for the on-call rotation.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The time zone that the rotation’s activity is based on, in Internet Assigned Numbers Authority (IANA) format.
     /// This member is required.
     public var timeZoneId: Swift.String?
@@ -2127,7 +2129,7 @@ public struct GetRotationOutput {
         name: Swift.String? = nil,
         recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
         rotationArn: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         timeZoneId: Swift.String? = nil
     )
     {
@@ -2142,7 +2144,7 @@ public struct GetRotationOutput {
 
 enum GetRotationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2194,7 +2196,7 @@ public struct GetRotationOverrideInput {
 
 extension GetRotationOverrideOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRotationOverrideOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRotationOverrideOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2211,9 +2213,9 @@ extension GetRotationOverrideOutput {
 
 public struct GetRotationOverrideOutput {
     /// The date and time when the override was created.
-    public var createTime: ClientRuntime.Date?
+    public var createTime: Foundation.Date?
     /// The date and time when the override ends.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The Amazon Resource Names (ARNs) of the contacts assigned to the override of the on-call rotation.
     public var newContactIds: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the on-call rotation that was overridden.
@@ -2221,15 +2223,15 @@ public struct GetRotationOverrideOutput {
     /// The Amazon Resource Name (ARN) of the override to an on-call rotation.
     public var rotationOverrideId: Swift.String?
     /// The date and time when the override goes into effect.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        createTime: ClientRuntime.Date? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        createTime: Foundation.Date? = nil,
+        endTime: Foundation.Date? = nil,
         newContactIds: [Swift.String]? = nil,
         rotationArn: Swift.String? = nil,
         rotationOverrideId: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.createTime = createTime
@@ -2243,7 +2245,7 @@ public struct GetRotationOverrideOutput {
 
 enum GetRotationOverrideOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2384,7 +2386,7 @@ public struct ListContactChannelsInput {
 
 extension ListContactChannelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListContactChannelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListContactChannelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2414,7 +2416,7 @@ public struct ListContactChannelsOutput {
 
 enum ListContactChannelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2475,7 +2477,7 @@ public struct ListContactsInput {
 
 extension ListContactsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListContactsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListContactsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2504,7 +2506,7 @@ public struct ListContactsOutput {
 
 enum ListContactsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2563,7 +2565,7 @@ public struct ListEngagementsInput {
 
 extension ListEngagementsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListEngagementsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListEngagementsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2593,7 +2595,7 @@ public struct ListEngagementsOutput {
 
 enum ListEngagementsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2648,7 +2650,7 @@ public struct ListPageReceiptsInput {
 
 extension ListPageReceiptsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPageReceiptsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPageReceiptsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2677,7 +2679,7 @@ public struct ListPageReceiptsOutput {
 
 enum ListPageReceiptsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2728,7 +2730,7 @@ public struct ListPageResolutionsInput {
 
 extension ListPageResolutionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPageResolutionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPageResolutionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2758,7 +2760,7 @@ public struct ListPageResolutionsOutput {
 
 enum ListPageResolutionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2814,7 +2816,7 @@ public struct ListPagesByContactInput {
 
 extension ListPagesByContactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPagesByContactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPagesByContactOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2844,7 +2846,7 @@ public struct ListPagesByContactOutput {
 
 enum ListPagesByContactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2900,7 +2902,7 @@ public struct ListPagesByEngagementInput {
 
 extension ListPagesByEngagementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPagesByEngagementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPagesByEngagementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2930,7 +2932,7 @@ public struct ListPagesByEngagementOutput {
 
 enum ListPagesByEngagementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2972,7 +2974,7 @@ extension ListPreviewRotationShiftsInput {
 public struct ListPreviewRotationShiftsInput {
     /// The date and time a rotation shift would end.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum number of items to return for this call. The call also returns a token that can be specified in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// The contacts that would be assigned to a rotation.
@@ -2986,22 +2988,22 @@ public struct ListPreviewRotationShiftsInput {
     /// This member is required.
     public var recurrence: SSMContactsClientTypes.RecurrenceSettings?
     /// The date and time a rotation would begin. The first shift is calculated from this date and time.
-    public var rotationStartTime: ClientRuntime.Date?
+    public var rotationStartTime: Foundation.Date?
     /// Used to filter the range of calculated shifts before sending the response back to the user.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The time zone the rotation’s activity would be based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul".
     /// This member is required.
     public var timeZoneId: Swift.String?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         members: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         overrides: [SSMContactsClientTypes.PreviewOverride]? = nil,
         recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
-        rotationStartTime: ClientRuntime.Date? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        rotationStartTime: Foundation.Date? = nil,
+        startTime: Foundation.Date? = nil,
         timeZoneId: Swift.String? = nil
     )
     {
@@ -3019,7 +3021,7 @@ public struct ListPreviewRotationShiftsInput {
 
 extension ListPreviewRotationShiftsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPreviewRotationShiftsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPreviewRotationShiftsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3048,7 +3050,7 @@ public struct ListPreviewRotationShiftsOutput {
 
 enum ListPreviewRotationShiftsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3085,7 +3087,7 @@ extension ListRotationOverridesInput {
 public struct ListRotationOverridesInput {
     /// The date and time for the end of a time range for listing overrides.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
@@ -3095,14 +3097,14 @@ public struct ListRotationOverridesInput {
     public var rotationId: Swift.String?
     /// The date and time for the beginning of a time range for listing overrides.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         rotationId: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -3115,7 +3117,7 @@ public struct ListRotationOverridesInput {
 
 extension ListRotationOverridesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRotationOverridesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRotationOverridesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3144,7 +3146,7 @@ public struct ListRotationOverridesOutput {
 
 enum ListRotationOverridesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3182,7 +3184,7 @@ extension ListRotationShiftsInput {
 public struct ListRotationShiftsInput {
     /// The date and time for the end of the time range to list shifts for.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
@@ -3191,14 +3193,14 @@ public struct ListRotationShiftsInput {
     /// This member is required.
     public var rotationId: Swift.String?
     /// The date and time for the beginning of the time range to list shifts for.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         rotationId: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -3211,7 +3213,7 @@ public struct ListRotationShiftsInput {
 
 extension ListRotationShiftsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRotationShiftsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRotationShiftsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3240,7 +3242,7 @@ public struct ListRotationShiftsOutput {
 
 enum ListRotationShiftsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3296,7 +3298,7 @@ public struct ListRotationsInput {
 
 extension ListRotationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRotationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRotationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3326,7 +3328,7 @@ public struct ListRotationsOutput {
 
 enum ListRotationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3372,7 +3374,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3396,7 +3398,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3475,7 +3477,7 @@ extension SSMContactsClientTypes {
         /// This member is required.
         public var contactArn: Swift.String?
         /// The time the message was delivered to the contact channel.
-        public var deliveryTime: ClientRuntime.Date?
+        public var deliveryTime: Foundation.Date?
         /// The ARN of the engagement that this page is part of.
         /// This member is required.
         public var engagementArn: Swift.String?
@@ -3485,22 +3487,22 @@ extension SSMContactsClientTypes {
         /// This member is required.
         public var pageArn: Swift.String?
         /// The time that the contact channel acknowledged engagement.
-        public var readTime: ClientRuntime.Date?
+        public var readTime: Foundation.Date?
         /// The user that started the engagement.
         /// This member is required.
         public var sender: Swift.String?
         /// The time that Incident Manager engaged the contact channel.
-        public var sentTime: ClientRuntime.Date?
+        public var sentTime: Foundation.Date?
 
         public init(
             contactArn: Swift.String? = nil,
-            deliveryTime: ClientRuntime.Date? = nil,
+            deliveryTime: Foundation.Date? = nil,
             engagementArn: Swift.String? = nil,
             incidentId: Swift.String? = nil,
             pageArn: Swift.String? = nil,
-            readTime: ClientRuntime.Date? = nil,
+            readTime: Foundation.Date? = nil,
             sender: Swift.String? = nil,
-            sentTime: ClientRuntime.Date? = nil
+            sentTime: Foundation.Date? = nil
         )
         {
             self.contactArn = contactArn
@@ -3567,16 +3569,16 @@ extension SSMContactsClientTypes {
     /// Information about contacts and times that an on-call override replaces.
     public struct PreviewOverride {
         /// Information about the time a rotation override would end.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// Information about contacts to add to an on-call rotation override.
         public var newMembers: [Swift.String]?
         /// Information about the time a rotation override would begin.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             newMembers: [Swift.String]? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.endTime = endTime
@@ -3623,7 +3625,7 @@ public struct PutContactPolicyInput {
 
 extension PutContactPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutContactPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutContactPolicyOutput {
         return PutContactPolicyOutput()
     }
 }
@@ -3635,7 +3637,7 @@ public struct PutContactPolicyOutput {
 
 enum PutContactPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3674,7 +3676,7 @@ extension SSMContactsClientTypes {
         public var receiptInfo: Swift.String?
         /// The time receipt was SENT, DELIVERED, or READ.
         /// This member is required.
-        public var receiptTime: ClientRuntime.Date?
+        public var receiptTime: Foundation.Date?
         /// The type follows the engagement cycle, SENT, DELIVERED, and READ.
         /// This member is required.
         public var receiptType: SSMContactsClientTypes.ReceiptType?
@@ -3682,7 +3684,7 @@ extension SSMContactsClientTypes {
         public init(
             contactChannelArn: Swift.String? = nil,
             receiptInfo: Swift.String? = nil,
-            receiptTime: ClientRuntime.Date? = nil,
+            receiptTime: Foundation.Date? = nil,
             receiptType: SSMContactsClientTypes.ReceiptType? = nil
         )
         {
@@ -3913,7 +3915,7 @@ extension SSMContactsClientTypes {
         /// This member is required.
         public var rotationArn: Swift.String?
         /// The date and time the rotation becomes active.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The time zone the rotation’s activity is based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul".
         public var timeZoneId: Swift.String?
 
@@ -3922,7 +3924,7 @@ extension SSMContactsClientTypes {
             name: Swift.String? = nil,
             recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
             rotationArn: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             timeZoneId: Swift.String? = nil
         )
         {
@@ -3956,10 +3958,10 @@ extension SSMContactsClientTypes {
     public struct RotationOverride {
         /// The time a rotation override was created.
         /// This member is required.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The time a rotation override ends.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The Amazon Resource Names (ARNs) of the contacts assigned to the override of the on-call rotation.
         /// This member is required.
         public var newContactIds: [Swift.String]?
@@ -3968,14 +3970,14 @@ extension SSMContactsClientTypes {
         public var rotationOverrideId: Swift.String?
         /// The time a rotation override begins.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            createTime: ClientRuntime.Date? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
             newContactIds: [Swift.String]? = nil,
             rotationOverrideId: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil
+            startTime: Foundation.Date? = nil
         )
         {
             self.createTime = createTime
@@ -4009,20 +4011,20 @@ extension SSMContactsClientTypes {
         public var contactIds: [Swift.String]?
         /// The time a shift rotation ends.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// Additional information about an on-call rotation shift.
         public var shiftDetails: SSMContactsClientTypes.ShiftDetails?
         /// The time a shift rotation begins.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The type of shift rotation.
         public var type: SSMContactsClientTypes.ShiftType?
 
         public init(
             contactIds: [Swift.String]? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             shiftDetails: SSMContactsClientTypes.ShiftDetails? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             type: SSMContactsClientTypes.ShiftType? = nil
         )
         {
@@ -4068,7 +4070,7 @@ public struct SendActivationCodeInput {
 
 extension SendActivationCodeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendActivationCodeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendActivationCodeOutput {
         return SendActivationCodeOutput()
     }
 }
@@ -4080,7 +4082,7 @@ public struct SendActivationCodeOutput {
 
 enum SendActivationCodeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4321,7 +4323,7 @@ public struct StartEngagementInput {
 
 extension StartEngagementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartEngagementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartEngagementOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4346,7 +4348,7 @@ public struct StartEngagementOutput {
 
 enum StartEngagementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4398,7 +4400,7 @@ public struct StopEngagementInput {
 
 extension StopEngagementOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StopEngagementOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StopEngagementOutput {
         return StopEngagementOutput()
     }
 }
@@ -4410,7 +4412,7 @@ public struct StopEngagementOutput {
 
 enum StopEngagementOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4499,7 +4501,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -4511,7 +4513,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4634,13 +4636,13 @@ extension SSMContactsClientTypes {
     /// A range of between two set times
     public struct TimeRange {
         /// The end of the time range.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The start of the time range.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
         )
         {
             self.endTime = endTime
@@ -4686,7 +4688,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -4698,7 +4700,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4754,7 +4756,7 @@ public struct UpdateContactChannelInput {
 
 extension UpdateContactChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateContactChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateContactChannelOutput {
         return UpdateContactChannelOutput()
     }
 }
@@ -4766,7 +4768,7 @@ public struct UpdateContactChannelOutput {
 
 enum UpdateContactChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4824,7 +4826,7 @@ public struct UpdateContactInput {
 
 extension UpdateContactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateContactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateContactOutput {
         return UpdateContactOutput()
     }
 }
@@ -4836,7 +4838,7 @@ public struct UpdateContactOutput {
 
 enum UpdateContactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4883,7 +4885,7 @@ public struct UpdateRotationInput {
     /// This member is required.
     public var rotationId: Swift.String?
     /// The date and time the rotation goes into effect.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The time zone to base the updated rotation’s activity on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website. Designators for time zones that don’t support Daylight Savings Time Rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
     public var timeZoneId: Swift.String?
 
@@ -4891,7 +4893,7 @@ public struct UpdateRotationInput {
         contactIds: [Swift.String]? = nil,
         recurrence: SSMContactsClientTypes.RecurrenceSettings? = nil,
         rotationId: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         timeZoneId: Swift.String? = nil
     )
     {
@@ -4905,7 +4907,7 @@ public struct UpdateRotationInput {
 
 extension UpdateRotationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateRotationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateRotationOutput {
         return UpdateRotationOutput()
     }
 }
@@ -4917,7 +4919,7 @@ public struct UpdateRotationOutput {
 
 enum UpdateRotationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

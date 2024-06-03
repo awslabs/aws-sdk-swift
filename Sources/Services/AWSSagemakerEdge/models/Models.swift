@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -179,23 +181,23 @@ extension SagemakerEdgeClientTypes {
     /// Information about the result of a deployment on an edge device that is registered with SageMaker Edge Manager.
     public struct DeploymentResult {
         /// The timestamp of when the deployment was ended, and the agent got the deployment results.
-        public var deploymentEndTime: ClientRuntime.Date?
+        public var deploymentEndTime: Foundation.Date?
         /// Returns a list of models deployed on the agent.
         public var deploymentModels: [SagemakerEdgeClientTypes.DeploymentModel]?
         /// The name and unique ID of the deployment.
         public var deploymentName: Swift.String?
         /// The timestamp of when the deployment was started on the agent.
-        public var deploymentStartTime: ClientRuntime.Date?
+        public var deploymentStartTime: Foundation.Date?
         /// Returns the bucket error code.
         public var deploymentStatus: Swift.String?
         /// Returns the detailed error message.
         public var deploymentStatusMessage: Swift.String?
 
         public init(
-            deploymentEndTime: ClientRuntime.Date? = nil,
+            deploymentEndTime: Foundation.Date? = nil,
             deploymentModels: [SagemakerEdgeClientTypes.DeploymentModel]? = nil,
             deploymentName: Swift.String? = nil,
-            deploymentStartTime: ClientRuntime.Date? = nil,
+            deploymentStartTime: Foundation.Date? = nil,
             deploymentStatus: Swift.String? = nil,
             deploymentStatusMessage: Swift.String? = nil
         )
@@ -326,14 +328,14 @@ extension SagemakerEdgeClientTypes {
         /// Returns the name of the metric.
         public var metricName: Swift.String?
         /// Timestamp of when the metric was requested.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// Returns the value of the metric.
         public var value: Swift.Double?
 
         public init(
             dimension: Swift.String? = nil,
             metricName: Swift.String? = nil,
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             value: Swift.Double? = nil
         )
         {
@@ -411,7 +413,7 @@ public struct GetDeploymentsInput {
 
 extension GetDeploymentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDeploymentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDeploymentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -435,7 +437,7 @@ public struct GetDeploymentsOutput {
 
 enum GetDeploymentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -483,7 +485,7 @@ public struct GetDeviceRegistrationInput {
 
 extension GetDeviceRegistrationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDeviceRegistrationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDeviceRegistrationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -512,7 +514,7 @@ public struct GetDeviceRegistrationOutput {
 
 enum GetDeviceRegistrationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -577,9 +579,9 @@ extension SagemakerEdgeClientTypes {
     /// Information about a model deployed on an edge device that is registered with SageMaker Edge Manager.
     public struct Model {
         /// The timestamp of the last inference that was made.
-        public var latestInference: ClientRuntime.Date?
+        public var latestInference: Foundation.Date?
         /// The timestamp of the last data sample taken.
-        public var latestSampleTime: ClientRuntime.Date?
+        public var latestSampleTime: Foundation.Date?
         /// Information required for model metrics.
         public var modelMetrics: [SagemakerEdgeClientTypes.EdgeMetric]?
         /// The name of the model.
@@ -588,8 +590,8 @@ extension SagemakerEdgeClientTypes {
         public var modelVersion: Swift.String?
 
         public init(
-            latestInference: ClientRuntime.Date? = nil,
-            latestSampleTime: ClientRuntime.Date? = nil,
+            latestInference: Foundation.Date? = nil,
+            latestSampleTime: Foundation.Date? = nil,
             modelMetrics: [SagemakerEdgeClientTypes.EdgeMetric]? = nil,
             modelName: Swift.String? = nil,
             modelVersion: Swift.String? = nil
@@ -693,7 +695,7 @@ public struct SendHeartbeatInput {
 
 extension SendHeartbeatOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SendHeartbeatOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SendHeartbeatOutput {
         return SendHeartbeatOutput()
     }
 }
@@ -705,7 +707,7 @@ public struct SendHeartbeatOutput {
 
 enum SendHeartbeatOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

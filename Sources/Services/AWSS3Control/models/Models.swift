@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyXML
 
@@ -315,8 +318,8 @@ extension S3ControlClientTypes {
 
 extension AssociateAccessGrantsIdentityCenterInput {
 
-    static func headerProvider(_ value: AssociateAccessGrantsIdentityCenterInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: AssociateAccessGrantsIdentityCenterInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -359,7 +362,7 @@ public struct AssociateAccessGrantsIdentityCenterInput {
 
 extension AssociateAccessGrantsIdentityCenterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateAccessGrantsIdentityCenterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateAccessGrantsIdentityCenterOutput {
         return AssociateAccessGrantsIdentityCenterOutput()
     }
 }
@@ -371,7 +374,7 @@ public struct AssociateAccessGrantsIdentityCenterOutput {
 
 enum AssociateAccessGrantsIdentityCenterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -442,7 +445,7 @@ extension S3ControlClientTypes {
     /// A container for the information about an asynchronous operation.
     public struct AsyncOperation {
         /// The time that the request was sent to the service.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The specific operation for the asynchronous request.
         public var operation: S3ControlClientTypes.AsyncOperationName?
         /// The parameters associated with the request.
@@ -455,7 +458,7 @@ extension S3ControlClientTypes {
         public var responseDetails: S3ControlClientTypes.AsyncResponseDetails?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             operation: S3ControlClientTypes.AsyncOperationName? = nil,
             requestParameters: S3ControlClientTypes.AsyncRequestParameters? = nil,
             requestStatus: Swift.String? = nil,
@@ -905,8 +908,8 @@ extension S3ControlClientTypes {
 
 extension CreateAccessGrantInput {
 
-    static func headerProvider(_ value: CreateAccessGrantInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateAccessGrantInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -987,7 +990,7 @@ public struct CreateAccessGrantInput {
 
 extension CreateAccessGrantOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessGrantOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAccessGrantOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1017,7 +1020,7 @@ public struct CreateAccessGrantOutput {
     /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
     public var applicationArn: Swift.String?
     /// The date and time when you created the access grant.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The S3 path of the data to which you are granting access. It is the result of appending the Subprefix to the location scope.
     public var grantScope: Swift.String?
     /// The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added your corporate directory to Amazon Web Services IAM Identity Center and associated your Identity Center instance with your S3 Access Grants instance, the grantee can also be a corporate directory user or group.
@@ -1037,7 +1040,7 @@ public struct CreateAccessGrantOutput {
         accessGrantsLocationConfiguration: S3ControlClientTypes.AccessGrantsLocationConfiguration? = nil,
         accessGrantsLocationId: Swift.String? = nil,
         applicationArn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         grantScope: Swift.String? = nil,
         grantee: S3ControlClientTypes.Grantee? = nil,
         permission: S3ControlClientTypes.Permission? = nil
@@ -1057,7 +1060,7 @@ public struct CreateAccessGrantOutput {
 
 enum CreateAccessGrantOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1070,8 +1073,8 @@ enum CreateAccessGrantOutputError {
 
 extension CreateAccessGrantsInstanceInput {
 
-    static func headerProvider(_ value: CreateAccessGrantsInstanceInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateAccessGrantsInstanceInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -1118,7 +1121,7 @@ public struct CreateAccessGrantsInstanceInput {
 
 extension CreateAccessGrantsInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessGrantsInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAccessGrantsInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1137,14 +1140,14 @@ public struct CreateAccessGrantsInstanceOutput {
     /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
     public var accessGrantsInstanceId: Swift.String?
     /// The date and time when you created the S3 Access Grants instance.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance passed in the request. S3 Access Grants creates this Identity Center application for this specific S3 Access Grants instance.
     public var identityCenterArn: Swift.String?
 
     public init(
         accessGrantsInstanceArn: Swift.String? = nil,
         accessGrantsInstanceId: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         identityCenterArn: Swift.String? = nil
     )
     {
@@ -1157,7 +1160,7 @@ public struct CreateAccessGrantsInstanceOutput {
 
 enum CreateAccessGrantsInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1170,8 +1173,8 @@ enum CreateAccessGrantsInstanceOutputError {
 
 extension CreateAccessGrantsLocationInput {
 
-    static func headerProvider(_ value: CreateAccessGrantsLocationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateAccessGrantsLocationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -1225,7 +1228,7 @@ public struct CreateAccessGrantsLocationInput {
 
 extension CreateAccessGrantsLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessGrantsLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAccessGrantsLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1245,7 +1248,7 @@ public struct CreateAccessGrantsLocationOutput {
     /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
     public var accessGrantsLocationId: Swift.String?
     /// The date and time when you registered the location.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
     public var iamRoleArn: Swift.String?
     /// The S3 URI path to the location that you are registering. The location scope can be the default S3 location s3://, the S3 path to a bucket, or the S3 path to a bucket and prefix. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
@@ -1254,7 +1257,7 @@ public struct CreateAccessGrantsLocationOutput {
     public init(
         accessGrantsLocationArn: Swift.String? = nil,
         accessGrantsLocationId: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
         locationScope: Swift.String? = nil
     )
@@ -1269,7 +1272,7 @@ public struct CreateAccessGrantsLocationOutput {
 
 enum CreateAccessGrantsLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1282,8 +1285,8 @@ enum CreateAccessGrantsLocationOutputError {
 
 extension CreateAccessPointForObjectLambdaInput {
 
-    static func headerProvider(_ value: CreateAccessPointForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateAccessPointForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -1334,7 +1337,7 @@ public struct CreateAccessPointForObjectLambdaInput {
 
 extension CreateAccessPointForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessPointForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAccessPointForObjectLambdaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1363,7 +1366,7 @@ public struct CreateAccessPointForObjectLambdaOutput {
 
 enum CreateAccessPointForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1376,8 +1379,8 @@ enum CreateAccessPointForObjectLambdaOutputError {
 
 extension CreateAccessPointInput {
 
-    static func headerProvider(_ value: CreateAccessPointInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateAccessPointInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -1443,7 +1446,7 @@ public struct CreateAccessPointInput {
 
 extension CreateAccessPointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateAccessPointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateAccessPointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1472,7 +1475,7 @@ public struct CreateAccessPointOutput {
 
 enum CreateAccessPointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1509,8 +1512,8 @@ extension S3ControlClientTypes {
 
 extension CreateBucketInput {
 
-    static func headerProvider(_ value: CreateBucketInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateBucketInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let acl = value.acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
@@ -1608,7 +1611,7 @@ public struct CreateBucketInput {
 
 extension CreateBucketOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateBucketOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateBucketOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1639,7 +1642,7 @@ public struct CreateBucketOutput {
 
 enum CreateBucketOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1654,8 +1657,8 @@ enum CreateBucketOutputError {
 
 extension CreateJobInput {
 
-    static func headerProvider(_ value: CreateJobInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateJobInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -1747,7 +1750,7 @@ public struct CreateJobInput {
 
 extension CreateJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1771,7 +1774,7 @@ public struct CreateJobOutput {
 
 enum CreateJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1788,8 +1791,8 @@ enum CreateJobOutputError {
 
 extension CreateMultiRegionAccessPointInput {
 
-    static func headerProvider(_ value: CreateMultiRegionAccessPointInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateMultiRegionAccessPointInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -1883,7 +1886,7 @@ public struct CreateMultiRegionAccessPointInput {
 
 extension CreateMultiRegionAccessPointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateMultiRegionAccessPointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateMultiRegionAccessPointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -1907,7 +1910,7 @@ public struct CreateMultiRegionAccessPointOutput {
 
 enum CreateMultiRegionAccessPointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1920,8 +1923,8 @@ enum CreateMultiRegionAccessPointOutputError {
 
 extension CreateStorageLensGroupInput {
 
-    static func headerProvider(_ value: CreateStorageLensGroupInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: CreateStorageLensGroupInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -1969,7 +1972,7 @@ public struct CreateStorageLensGroupInput {
 
 extension CreateStorageLensGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateStorageLensGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateStorageLensGroupOutput {
         return CreateStorageLensGroupOutput()
     }
 }
@@ -1981,7 +1984,7 @@ public struct CreateStorageLensGroupOutput {
 
 enum CreateStorageLensGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2017,7 +2020,7 @@ extension S3ControlClientTypes {
         /// The unique access key ID of the Amazon Web Services STS temporary credential that S3 Access Grants vends to grantees and client applications.
         public var accessKeyId: Swift.String?
         /// The expiration date and time of the temporary credential that S3 Access Grants vends to grantees and client applications.
-        public var expiration: ClientRuntime.Date?
+        public var expiration: Foundation.Date?
         /// The secret access key of the Amazon Web Services STS temporary credential that S3 Access Grants vends to grantees and client applications.
         public var secretAccessKey: Swift.String?
         /// The Amazon Web Services STS temporary credential that S3 Access Grants vends to grantees and client applications.
@@ -2025,7 +2028,7 @@ extension S3ControlClientTypes {
 
         public init(
             accessKeyId: Swift.String? = nil,
-            expiration: ClientRuntime.Date? = nil,
+            expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
         )
@@ -2041,8 +2044,8 @@ extension S3ControlClientTypes {
 
 extension DeleteAccessGrantInput {
 
-    static func headerProvider(_ value: DeleteAccessGrantInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteAccessGrantInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2080,7 +2083,7 @@ public struct DeleteAccessGrantInput {
 
 extension DeleteAccessGrantOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessGrantOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccessGrantOutput {
         return DeleteAccessGrantOutput()
     }
 }
@@ -2092,7 +2095,7 @@ public struct DeleteAccessGrantOutput {
 
 enum DeleteAccessGrantOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2105,8 +2108,8 @@ enum DeleteAccessGrantOutputError {
 
 extension DeleteAccessGrantsInstanceInput {
 
-    static func headerProvider(_ value: DeleteAccessGrantsInstanceInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteAccessGrantsInstanceInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2136,7 +2139,7 @@ public struct DeleteAccessGrantsInstanceInput {
 
 extension DeleteAccessGrantsInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessGrantsInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccessGrantsInstanceOutput {
         return DeleteAccessGrantsInstanceOutput()
     }
 }
@@ -2148,7 +2151,7 @@ public struct DeleteAccessGrantsInstanceOutput {
 
 enum DeleteAccessGrantsInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2161,8 +2164,8 @@ enum DeleteAccessGrantsInstanceOutputError {
 
 extension DeleteAccessGrantsInstanceResourcePolicyInput {
 
-    static func headerProvider(_ value: DeleteAccessGrantsInstanceResourcePolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteAccessGrantsInstanceResourcePolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2192,7 +2195,7 @@ public struct DeleteAccessGrantsInstanceResourcePolicyInput {
 
 extension DeleteAccessGrantsInstanceResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessGrantsInstanceResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccessGrantsInstanceResourcePolicyOutput {
         return DeleteAccessGrantsInstanceResourcePolicyOutput()
     }
 }
@@ -2204,7 +2207,7 @@ public struct DeleteAccessGrantsInstanceResourcePolicyOutput {
 
 enum DeleteAccessGrantsInstanceResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2217,8 +2220,8 @@ enum DeleteAccessGrantsInstanceResourcePolicyOutputError {
 
 extension DeleteAccessGrantsLocationInput {
 
-    static func headerProvider(_ value: DeleteAccessGrantsLocationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteAccessGrantsLocationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2256,7 +2259,7 @@ public struct DeleteAccessGrantsLocationInput {
 
 extension DeleteAccessGrantsLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessGrantsLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccessGrantsLocationOutput {
         return DeleteAccessGrantsLocationOutput()
     }
 }
@@ -2268,7 +2271,7 @@ public struct DeleteAccessGrantsLocationOutput {
 
 enum DeleteAccessGrantsLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2281,8 +2284,8 @@ enum DeleteAccessGrantsLocationOutputError {
 
 extension DeleteAccessPointForObjectLambdaInput {
 
-    static func headerProvider(_ value: DeleteAccessPointForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteAccessPointForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2320,7 +2323,7 @@ public struct DeleteAccessPointForObjectLambdaInput {
 
 extension DeleteAccessPointForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessPointForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccessPointForObjectLambdaOutput {
         return DeleteAccessPointForObjectLambdaOutput()
     }
 }
@@ -2332,7 +2335,7 @@ public struct DeleteAccessPointForObjectLambdaOutput {
 
 enum DeleteAccessPointForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2345,8 +2348,8 @@ enum DeleteAccessPointForObjectLambdaOutputError {
 
 extension DeleteAccessPointInput {
 
-    static func headerProvider(_ value: DeleteAccessPointInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteAccessPointInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2384,7 +2387,7 @@ public struct DeleteAccessPointInput {
 
 extension DeleteAccessPointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessPointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccessPointOutput {
         return DeleteAccessPointOutput()
     }
 }
@@ -2396,7 +2399,7 @@ public struct DeleteAccessPointOutput {
 
 enum DeleteAccessPointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2409,8 +2412,8 @@ enum DeleteAccessPointOutputError {
 
 extension DeleteAccessPointPolicyForObjectLambdaInput {
 
-    static func headerProvider(_ value: DeleteAccessPointPolicyForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteAccessPointPolicyForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2448,7 +2451,7 @@ public struct DeleteAccessPointPolicyForObjectLambdaInput {
 
 extension DeleteAccessPointPolicyForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessPointPolicyForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccessPointPolicyForObjectLambdaOutput {
         return DeleteAccessPointPolicyForObjectLambdaOutput()
     }
 }
@@ -2460,7 +2463,7 @@ public struct DeleteAccessPointPolicyForObjectLambdaOutput {
 
 enum DeleteAccessPointPolicyForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2473,8 +2476,8 @@ enum DeleteAccessPointPolicyForObjectLambdaOutputError {
 
 extension DeleteAccessPointPolicyInput {
 
-    static func headerProvider(_ value: DeleteAccessPointPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteAccessPointPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2512,7 +2515,7 @@ public struct DeleteAccessPointPolicyInput {
 
 extension DeleteAccessPointPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteAccessPointPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteAccessPointPolicyOutput {
         return DeleteAccessPointPolicyOutput()
     }
 }
@@ -2524,7 +2527,7 @@ public struct DeleteAccessPointPolicyOutput {
 
 enum DeleteAccessPointPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2537,8 +2540,8 @@ enum DeleteAccessPointPolicyOutputError {
 
 extension DeleteBucketInput {
 
-    static func headerProvider(_ value: DeleteBucketInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2576,8 +2579,8 @@ public struct DeleteBucketInput {
 
 extension DeleteBucketLifecycleConfigurationInput {
 
-    static func headerProvider(_ value: DeleteBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketLifecycleConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2615,7 +2618,7 @@ public struct DeleteBucketLifecycleConfigurationInput {
 
 extension DeleteBucketLifecycleConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketLifecycleConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketLifecycleConfigurationOutput {
         return DeleteBucketLifecycleConfigurationOutput()
     }
 }
@@ -2627,7 +2630,7 @@ public struct DeleteBucketLifecycleConfigurationOutput {
 
 enum DeleteBucketLifecycleConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2640,7 +2643,7 @@ enum DeleteBucketLifecycleConfigurationOutputError {
 
 extension DeleteBucketOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketOutput {
         return DeleteBucketOutput()
     }
 }
@@ -2652,7 +2655,7 @@ public struct DeleteBucketOutput {
 
 enum DeleteBucketOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2665,8 +2668,8 @@ enum DeleteBucketOutputError {
 
 extension DeleteBucketPolicyInput {
 
-    static func headerProvider(_ value: DeleteBucketPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2704,7 +2707,7 @@ public struct DeleteBucketPolicyInput {
 
 extension DeleteBucketPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketPolicyOutput {
         return DeleteBucketPolicyOutput()
     }
 }
@@ -2716,7 +2719,7 @@ public struct DeleteBucketPolicyOutput {
 
 enum DeleteBucketPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2729,8 +2732,8 @@ enum DeleteBucketPolicyOutputError {
 
 extension DeleteBucketReplicationInput {
 
-    static func headerProvider(_ value: DeleteBucketReplicationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketReplicationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2768,7 +2771,7 @@ public struct DeleteBucketReplicationInput {
 
 extension DeleteBucketReplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketReplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketReplicationOutput {
         return DeleteBucketReplicationOutput()
     }
 }
@@ -2780,7 +2783,7 @@ public struct DeleteBucketReplicationOutput {
 
 enum DeleteBucketReplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2793,8 +2796,8 @@ enum DeleteBucketReplicationOutputError {
 
 extension DeleteBucketTaggingInput {
 
-    static func headerProvider(_ value: DeleteBucketTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteBucketTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2832,7 +2835,7 @@ public struct DeleteBucketTaggingInput {
 
 extension DeleteBucketTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteBucketTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteBucketTaggingOutput {
         return DeleteBucketTaggingOutput()
     }
 }
@@ -2844,7 +2847,7 @@ public struct DeleteBucketTaggingOutput {
 
 enum DeleteBucketTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2857,8 +2860,8 @@ enum DeleteBucketTaggingOutputError {
 
 extension DeleteJobTaggingInput {
 
-    static func headerProvider(_ value: DeleteJobTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteJobTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -2896,7 +2899,7 @@ public struct DeleteJobTaggingInput {
 
 extension DeleteJobTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteJobTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteJobTaggingOutput {
         return DeleteJobTaggingOutput()
     }
 }
@@ -2908,7 +2911,7 @@ public struct DeleteJobTaggingOutput {
 
 enum DeleteJobTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2985,8 +2988,8 @@ extension S3ControlClientTypes {
 
 extension DeleteMultiRegionAccessPointInput {
 
-    static func headerProvider(_ value: DeleteMultiRegionAccessPointInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteMultiRegionAccessPointInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -3067,7 +3070,7 @@ public struct DeleteMultiRegionAccessPointInput {
 
 extension DeleteMultiRegionAccessPointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteMultiRegionAccessPointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteMultiRegionAccessPointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3091,7 +3094,7 @@ public struct DeleteMultiRegionAccessPointOutput {
 
 enum DeleteMultiRegionAccessPointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3104,8 +3107,8 @@ enum DeleteMultiRegionAccessPointOutputError {
 
 extension DeletePublicAccessBlockInput {
 
-    static func headerProvider(_ value: DeletePublicAccessBlockInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeletePublicAccessBlockInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -3135,7 +3138,7 @@ public struct DeletePublicAccessBlockInput {
 
 extension DeletePublicAccessBlockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePublicAccessBlockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePublicAccessBlockOutput {
         return DeletePublicAccessBlockOutput()
     }
 }
@@ -3147,7 +3150,7 @@ public struct DeletePublicAccessBlockOutput {
 
 enum DeletePublicAccessBlockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3160,8 +3163,8 @@ enum DeletePublicAccessBlockOutputError {
 
 extension DeleteStorageLensConfigurationInput {
 
-    static func headerProvider(_ value: DeleteStorageLensConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteStorageLensConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -3199,7 +3202,7 @@ public struct DeleteStorageLensConfigurationInput {
 
 extension DeleteStorageLensConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStorageLensConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteStorageLensConfigurationOutput {
         return DeleteStorageLensConfigurationOutput()
     }
 }
@@ -3211,7 +3214,7 @@ public struct DeleteStorageLensConfigurationOutput {
 
 enum DeleteStorageLensConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3224,8 +3227,8 @@ enum DeleteStorageLensConfigurationOutputError {
 
 extension DeleteStorageLensConfigurationTaggingInput {
 
-    static func headerProvider(_ value: DeleteStorageLensConfigurationTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteStorageLensConfigurationTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -3263,7 +3266,7 @@ public struct DeleteStorageLensConfigurationTaggingInput {
 
 extension DeleteStorageLensConfigurationTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStorageLensConfigurationTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteStorageLensConfigurationTaggingOutput {
         return DeleteStorageLensConfigurationTaggingOutput()
     }
 }
@@ -3275,7 +3278,7 @@ public struct DeleteStorageLensConfigurationTaggingOutput {
 
 enum DeleteStorageLensConfigurationTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3288,8 +3291,8 @@ enum DeleteStorageLensConfigurationTaggingOutputError {
 
 extension DeleteStorageLensGroupInput {
 
-    static func headerProvider(_ value: DeleteStorageLensGroupInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DeleteStorageLensGroupInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -3327,7 +3330,7 @@ public struct DeleteStorageLensGroupInput {
 
 extension DeleteStorageLensGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteStorageLensGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteStorageLensGroupOutput {
         return DeleteStorageLensGroupOutput()
     }
 }
@@ -3339,7 +3342,7 @@ public struct DeleteStorageLensGroupOutput {
 
 enum DeleteStorageLensGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3352,8 +3355,8 @@ enum DeleteStorageLensGroupOutputError {
 
 extension DescribeJobInput {
 
-    static func headerProvider(_ value: DescribeJobInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeJobInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -3391,7 +3394,7 @@ public struct DescribeJobInput {
 
 extension DescribeJobOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeJobOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeJobOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3415,7 +3418,7 @@ public struct DescribeJobOutput {
 
 enum DescribeJobOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3432,8 +3435,8 @@ enum DescribeJobOutputError {
 
 extension DescribeMultiRegionAccessPointOperationInput {
 
-    static func headerProvider(_ value: DescribeMultiRegionAccessPointOperationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DescribeMultiRegionAccessPointOperationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -3471,7 +3474,7 @@ public struct DescribeMultiRegionAccessPointOperationInput {
 
 extension DescribeMultiRegionAccessPointOperationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeMultiRegionAccessPointOperationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeMultiRegionAccessPointOperationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -3495,7 +3498,7 @@ public struct DescribeMultiRegionAccessPointOperationOutput {
 
 enum DescribeMultiRegionAccessPointOperationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3607,8 +3610,8 @@ extension S3ControlClientTypes {
 
 extension DissociateAccessGrantsIdentityCenterInput {
 
-    static func headerProvider(_ value: DissociateAccessGrantsIdentityCenterInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: DissociateAccessGrantsIdentityCenterInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -3638,7 +3641,7 @@ public struct DissociateAccessGrantsIdentityCenterInput {
 
 extension DissociateAccessGrantsIdentityCenterOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DissociateAccessGrantsIdentityCenterOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DissociateAccessGrantsIdentityCenterOutput {
         return DissociateAccessGrantsIdentityCenterOutput()
     }
 }
@@ -3650,7 +3653,7 @@ public struct DissociateAccessGrantsIdentityCenterOutput {
 
 enum DissociateAccessGrantsIdentityCenterOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3939,8 +3942,8 @@ extension S3ControlClientTypes {
 
 extension GetAccessGrantInput {
 
-    static func headerProvider(_ value: GetAccessGrantInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessGrantInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -3978,7 +3981,7 @@ public struct GetAccessGrantInput {
 
 extension GetAccessGrantOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessGrantOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4008,7 +4011,7 @@ public struct GetAccessGrantOutput {
     /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
     public var applicationArn: Swift.String?
     /// The date and time when you created the access grant.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The S3 path of the data to which you are granting access. It is the result of appending the Subprefix to the location scope.
     public var grantScope: Swift.String?
     /// The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added a corporate directory to Amazon Web Services IAM Identity Center and associated this Identity Center instance with the S3 Access Grants instance, the grantee can also be a corporate directory user or group.
@@ -4028,7 +4031,7 @@ public struct GetAccessGrantOutput {
         accessGrantsLocationConfiguration: S3ControlClientTypes.AccessGrantsLocationConfiguration? = nil,
         accessGrantsLocationId: Swift.String? = nil,
         applicationArn: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         grantScope: Swift.String? = nil,
         grantee: S3ControlClientTypes.Grantee? = nil,
         permission: S3ControlClientTypes.Permission? = nil
@@ -4048,7 +4051,7 @@ public struct GetAccessGrantOutput {
 
 enum GetAccessGrantOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4061,8 +4064,8 @@ enum GetAccessGrantOutputError {
 
 extension GetAccessGrantsInstanceForPrefixInput {
 
-    static func headerProvider(_ value: GetAccessGrantsInstanceForPrefixInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessGrantsInstanceForPrefixInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4072,13 +4075,13 @@ extension GetAccessGrantsInstanceForPrefixInput {
 
 extension GetAccessGrantsInstanceForPrefixInput {
 
-    static func queryItemProvider(_ value: GetAccessGrantsInstanceForPrefixInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetAccessGrantsInstanceForPrefixInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let s3Prefix = value.s3Prefix else {
             let message = "Creating a URL Query Item failed. s3Prefix is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let s3PrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "s3prefix".urlPercentEncoding(), value: Swift.String(s3Prefix).urlPercentEncoding())
+        let s3PrefixQueryItem = Smithy.URIQueryItem(name: "s3prefix".urlPercentEncoding(), value: Swift.String(s3Prefix).urlPercentEncoding())
         items.append(s3PrefixQueryItem)
         return items
     }
@@ -4111,7 +4114,7 @@ public struct GetAccessGrantsInstanceForPrefixInput {
 
 extension GetAccessGrantsInstanceForPrefixOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantsInstanceForPrefixOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessGrantsInstanceForPrefixOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4140,7 +4143,7 @@ public struct GetAccessGrantsInstanceForPrefixOutput {
 
 enum GetAccessGrantsInstanceForPrefixOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4153,8 +4156,8 @@ enum GetAccessGrantsInstanceForPrefixOutputError {
 
 extension GetAccessGrantsInstanceInput {
 
-    static func headerProvider(_ value: GetAccessGrantsInstanceInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessGrantsInstanceInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4184,7 +4187,7 @@ public struct GetAccessGrantsInstanceInput {
 
 extension GetAccessGrantsInstanceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantsInstanceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessGrantsInstanceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4203,14 +4206,14 @@ public struct GetAccessGrantsInstanceOutput {
     /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
     public var accessGrantsInstanceId: Swift.String?
     /// The date and time when you created the S3 Access Grants instance.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
     public var identityCenterArn: Swift.String?
 
     public init(
         accessGrantsInstanceArn: Swift.String? = nil,
         accessGrantsInstanceId: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         identityCenterArn: Swift.String? = nil
     )
     {
@@ -4223,7 +4226,7 @@ public struct GetAccessGrantsInstanceOutput {
 
 enum GetAccessGrantsInstanceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4236,8 +4239,8 @@ enum GetAccessGrantsInstanceOutputError {
 
 extension GetAccessGrantsInstanceResourcePolicyInput {
 
-    static func headerProvider(_ value: GetAccessGrantsInstanceResourcePolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessGrantsInstanceResourcePolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4267,7 +4270,7 @@ public struct GetAccessGrantsInstanceResourcePolicyInput {
 
 extension GetAccessGrantsInstanceResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantsInstanceResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessGrantsInstanceResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4281,14 +4284,14 @@ extension GetAccessGrantsInstanceResourcePolicyOutput {
 
 public struct GetAccessGrantsInstanceResourcePolicyOutput {
     /// The date and time when you created the S3 Access Grants instance resource policy.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Organization of the resource policy of the S3 Access Grants instance.
     public var organization: Swift.String?
     /// The resource policy of the S3 Access Grants instance.
     public var policy: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         organization: Swift.String? = nil,
         policy: Swift.String? = nil
     )
@@ -4301,7 +4304,7 @@ public struct GetAccessGrantsInstanceResourcePolicyOutput {
 
 enum GetAccessGrantsInstanceResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4314,8 +4317,8 @@ enum GetAccessGrantsInstanceResourcePolicyOutputError {
 
 extension GetAccessGrantsLocationInput {
 
-    static func headerProvider(_ value: GetAccessGrantsLocationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessGrantsLocationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4353,7 +4356,7 @@ public struct GetAccessGrantsLocationInput {
 
 extension GetAccessGrantsLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessGrantsLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessGrantsLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4373,7 +4376,7 @@ public struct GetAccessGrantsLocationOutput {
     /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
     public var accessGrantsLocationId: Swift.String?
     /// The date and time when you registered the location.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
     public var iamRoleArn: Swift.String?
     /// The S3 URI path to the registered location. The location scope can be the default S3 location s3://, the S3 path to a bucket, or the S3 path to a bucket and prefix. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
@@ -4382,7 +4385,7 @@ public struct GetAccessGrantsLocationOutput {
     public init(
         accessGrantsLocationArn: Swift.String? = nil,
         accessGrantsLocationId: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
         locationScope: Swift.String? = nil
     )
@@ -4397,7 +4400,7 @@ public struct GetAccessGrantsLocationOutput {
 
 enum GetAccessGrantsLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4410,8 +4413,8 @@ enum GetAccessGrantsLocationOutputError {
 
 extension GetAccessPointConfigurationForObjectLambdaInput {
 
-    static func headerProvider(_ value: GetAccessPointConfigurationForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessPointConfigurationForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4449,7 +4452,7 @@ public struct GetAccessPointConfigurationForObjectLambdaInput {
 
 extension GetAccessPointConfigurationForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointConfigurationForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessPointConfigurationForObjectLambdaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4473,7 +4476,7 @@ public struct GetAccessPointConfigurationForObjectLambdaOutput {
 
 enum GetAccessPointConfigurationForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4486,8 +4489,8 @@ enum GetAccessPointConfigurationForObjectLambdaOutputError {
 
 extension GetAccessPointForObjectLambdaInput {
 
-    static func headerProvider(_ value: GetAccessPointForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessPointForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4525,7 +4528,7 @@ public struct GetAccessPointForObjectLambdaInput {
 
 extension GetAccessPointForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessPointForObjectLambdaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4542,7 +4545,7 @@ public struct GetAccessPointForObjectLambdaOutput {
     /// The alias of the Object Lambda Access Point.
     public var alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias?
     /// The date and time when the specified Object Lambda Access Point was created.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// The name of the Object Lambda Access Point.
     public var name: Swift.String?
     /// Configuration to block all public access. This setting is turned on and can not be edited.
@@ -4550,7 +4553,7 @@ public struct GetAccessPointForObjectLambdaOutput {
 
     public init(
         alias: S3ControlClientTypes.ObjectLambdaAccessPointAlias? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         name: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil
     )
@@ -4564,7 +4567,7 @@ public struct GetAccessPointForObjectLambdaOutput {
 
 enum GetAccessPointForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4577,8 +4580,8 @@ enum GetAccessPointForObjectLambdaOutputError {
 
 extension GetAccessPointInput {
 
-    static func headerProvider(_ value: GetAccessPointInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessPointInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4616,7 +4619,7 @@ public struct GetAccessPointInput {
 
 extension GetAccessPointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessPointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4645,7 +4648,7 @@ public struct GetAccessPointOutput {
     /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
     public var bucketAccountId: Swift.String?
     /// The date and time when the specified access point was created.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// The VPC endpoint for the access point.
     public var endpoints: [Swift.String:Swift.String]?
     /// The name of the specified access point.
@@ -4662,7 +4665,7 @@ public struct GetAccessPointOutput {
         alias: Swift.String? = nil,
         bucket: Swift.String? = nil,
         bucketAccountId: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         endpoints: [Swift.String:Swift.String]? = nil,
         name: Swift.String? = nil,
         networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
@@ -4685,7 +4688,7 @@ public struct GetAccessPointOutput {
 
 enum GetAccessPointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4698,8 +4701,8 @@ enum GetAccessPointOutputError {
 
 extension GetAccessPointPolicyForObjectLambdaInput {
 
-    static func headerProvider(_ value: GetAccessPointPolicyForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessPointPolicyForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4737,7 +4740,7 @@ public struct GetAccessPointPolicyForObjectLambdaInput {
 
 extension GetAccessPointPolicyForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointPolicyForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessPointPolicyForObjectLambdaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4761,7 +4764,7 @@ public struct GetAccessPointPolicyForObjectLambdaOutput {
 
 enum GetAccessPointPolicyForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4774,8 +4777,8 @@ enum GetAccessPointPolicyForObjectLambdaOutputError {
 
 extension GetAccessPointPolicyInput {
 
-    static func headerProvider(_ value: GetAccessPointPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessPointPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4813,7 +4816,7 @@ public struct GetAccessPointPolicyInput {
 
 extension GetAccessPointPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessPointPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4837,7 +4840,7 @@ public struct GetAccessPointPolicyOutput {
 
 enum GetAccessPointPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4850,8 +4853,8 @@ enum GetAccessPointPolicyOutputError {
 
 extension GetAccessPointPolicyStatusForObjectLambdaInput {
 
-    static func headerProvider(_ value: GetAccessPointPolicyStatusForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessPointPolicyStatusForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4889,7 +4892,7 @@ public struct GetAccessPointPolicyStatusForObjectLambdaInput {
 
 extension GetAccessPointPolicyStatusForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4913,7 +4916,7 @@ public struct GetAccessPointPolicyStatusForObjectLambdaOutput {
 
 enum GetAccessPointPolicyStatusForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4926,8 +4929,8 @@ enum GetAccessPointPolicyStatusForObjectLambdaOutputError {
 
 extension GetAccessPointPolicyStatusInput {
 
-    static func headerProvider(_ value: GetAccessPointPolicyStatusInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetAccessPointPolicyStatusInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -4965,7 +4968,7 @@ public struct GetAccessPointPolicyStatusInput {
 
 extension GetAccessPointPolicyStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessPointPolicyStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessPointPolicyStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -4989,7 +4992,7 @@ public struct GetAccessPointPolicyStatusOutput {
 
 enum GetAccessPointPolicyStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5002,8 +5005,8 @@ enum GetAccessPointPolicyStatusOutputError {
 
 extension GetBucketInput {
 
-    static func headerProvider(_ value: GetBucketInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5041,8 +5044,8 @@ public struct GetBucketInput {
 
 extension GetBucketLifecycleConfigurationInput {
 
-    static func headerProvider(_ value: GetBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketLifecycleConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5080,7 +5083,7 @@ public struct GetBucketLifecycleConfigurationInput {
 
 extension GetBucketLifecycleConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLifecycleConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketLifecycleConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5104,7 +5107,7 @@ public struct GetBucketLifecycleConfigurationOutput {
 
 enum GetBucketLifecycleConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5117,7 +5120,7 @@ enum GetBucketLifecycleConfigurationOutputError {
 
 extension GetBucketOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5133,13 +5136,13 @@ public struct GetBucketOutput {
     /// The Outposts bucket requested.
     public var bucket: Swift.String?
     /// The creation date of the Outposts bucket.
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     ///
     public var publicAccessBlockEnabled: Swift.Bool
 
     public init(
         bucket: Swift.String? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         publicAccessBlockEnabled: Swift.Bool = false
     )
     {
@@ -5151,7 +5154,7 @@ public struct GetBucketOutput {
 
 enum GetBucketOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5164,8 +5167,8 @@ enum GetBucketOutputError {
 
 extension GetBucketPolicyInput {
 
-    static func headerProvider(_ value: GetBucketPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5203,7 +5206,7 @@ public struct GetBucketPolicyInput {
 
 extension GetBucketPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5227,7 +5230,7 @@ public struct GetBucketPolicyOutput {
 
 enum GetBucketPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5240,8 +5243,8 @@ enum GetBucketPolicyOutputError {
 
 extension GetBucketReplicationInput {
 
-    static func headerProvider(_ value: GetBucketReplicationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketReplicationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5279,7 +5282,7 @@ public struct GetBucketReplicationInput {
 
 extension GetBucketReplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketReplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketReplicationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5303,7 +5306,7 @@ public struct GetBucketReplicationOutput {
 
 enum GetBucketReplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5316,8 +5319,8 @@ enum GetBucketReplicationOutputError {
 
 extension GetBucketTaggingInput {
 
-    static func headerProvider(_ value: GetBucketTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5355,7 +5358,7 @@ public struct GetBucketTaggingInput {
 
 extension GetBucketTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketTaggingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5380,7 +5383,7 @@ public struct GetBucketTaggingOutput {
 
 enum GetBucketTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5393,8 +5396,8 @@ enum GetBucketTaggingOutputError {
 
 extension GetBucketVersioningInput {
 
-    static func headerProvider(_ value: GetBucketVersioningInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetBucketVersioningInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5432,7 +5435,7 @@ public struct GetBucketVersioningInput {
 
 extension GetBucketVersioningOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketVersioningOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetBucketVersioningOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5461,7 +5464,7 @@ public struct GetBucketVersioningOutput {
 
 enum GetBucketVersioningOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5474,8 +5477,8 @@ enum GetBucketVersioningOutputError {
 
 extension GetDataAccessInput {
 
-    static func headerProvider(_ value: GetDataAccessInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetDataAccessInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5485,30 +5488,30 @@ extension GetDataAccessInput {
 
 extension GetDataAccessInput {
 
-    static func queryItemProvider(_ value: GetDataAccessInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetDataAccessInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let target = value.target else {
             let message = "Creating a URL Query Item failed. target is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let targetQueryItem = ClientRuntime.SDKURLQueryItem(name: "target".urlPercentEncoding(), value: Swift.String(target).urlPercentEncoding())
+        let targetQueryItem = Smithy.URIQueryItem(name: "target".urlPercentEncoding(), value: Swift.String(target).urlPercentEncoding())
         items.append(targetQueryItem)
         guard let permission = value.permission else {
             let message = "Creating a URL Query Item failed. permission is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let permissionQueryItem = ClientRuntime.SDKURLQueryItem(name: "permission".urlPercentEncoding(), value: Swift.String(permission.rawValue).urlPercentEncoding())
+        let permissionQueryItem = Smithy.URIQueryItem(name: "permission".urlPercentEncoding(), value: Swift.String(permission.rawValue).urlPercentEncoding())
         items.append(permissionQueryItem)
         if let targetType = value.targetType {
-            let targetTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "targetType".urlPercentEncoding(), value: Swift.String(targetType.rawValue).urlPercentEncoding())
+            let targetTypeQueryItem = Smithy.URIQueryItem(name: "targetType".urlPercentEncoding(), value: Swift.String(targetType.rawValue).urlPercentEncoding())
             items.append(targetTypeQueryItem)
         }
         if let durationSeconds = value.durationSeconds {
-            let durationSecondsQueryItem = ClientRuntime.SDKURLQueryItem(name: "durationSeconds".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
+            let durationSecondsQueryItem = Smithy.URIQueryItem(name: "durationSeconds".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
             items.append(durationSecondsQueryItem)
         }
         if let privilege = value.privilege {
-            let privilegeQueryItem = ClientRuntime.SDKURLQueryItem(name: "privilege".urlPercentEncoding(), value: Swift.String(privilege.rawValue).urlPercentEncoding())
+            let privilegeQueryItem = Smithy.URIQueryItem(name: "privilege".urlPercentEncoding(), value: Swift.String(privilege.rawValue).urlPercentEncoding())
             items.append(privilegeQueryItem)
         }
         return items
@@ -5574,7 +5577,7 @@ extension GetDataAccessOutput: Swift.CustomDebugStringConvertible {
 
 extension GetDataAccessOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDataAccessOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDataAccessOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5603,7 +5606,7 @@ public struct GetDataAccessOutput {
 
 enum GetDataAccessOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5616,8 +5619,8 @@ enum GetDataAccessOutputError {
 
 extension GetJobTaggingInput {
 
-    static func headerProvider(_ value: GetJobTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetJobTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5655,7 +5658,7 @@ public struct GetJobTaggingInput {
 
 extension GetJobTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetJobTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetJobTaggingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5679,7 +5682,7 @@ public struct GetJobTaggingOutput {
 
 enum GetJobTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5695,8 +5698,8 @@ enum GetJobTaggingOutputError {
 
 extension GetMultiRegionAccessPointInput {
 
-    static func headerProvider(_ value: GetMultiRegionAccessPointInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetMultiRegionAccessPointInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5734,7 +5737,7 @@ public struct GetMultiRegionAccessPointInput {
 
 extension GetMultiRegionAccessPointOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMultiRegionAccessPointOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMultiRegionAccessPointOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5758,7 +5761,7 @@ public struct GetMultiRegionAccessPointOutput {
 
 enum GetMultiRegionAccessPointOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5771,8 +5774,8 @@ enum GetMultiRegionAccessPointOutputError {
 
 extension GetMultiRegionAccessPointPolicyInput {
 
-    static func headerProvider(_ value: GetMultiRegionAccessPointPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetMultiRegionAccessPointPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5810,7 +5813,7 @@ public struct GetMultiRegionAccessPointPolicyInput {
 
 extension GetMultiRegionAccessPointPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMultiRegionAccessPointPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMultiRegionAccessPointPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5834,7 +5837,7 @@ public struct GetMultiRegionAccessPointPolicyOutput {
 
 enum GetMultiRegionAccessPointPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5847,8 +5850,8 @@ enum GetMultiRegionAccessPointPolicyOutputError {
 
 extension GetMultiRegionAccessPointPolicyStatusInput {
 
-    static func headerProvider(_ value: GetMultiRegionAccessPointPolicyStatusInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetMultiRegionAccessPointPolicyStatusInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5886,7 +5889,7 @@ public struct GetMultiRegionAccessPointPolicyStatusInput {
 
 extension GetMultiRegionAccessPointPolicyStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMultiRegionAccessPointPolicyStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMultiRegionAccessPointPolicyStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5910,7 +5913,7 @@ public struct GetMultiRegionAccessPointPolicyStatusOutput {
 
 enum GetMultiRegionAccessPointPolicyStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5923,8 +5926,8 @@ enum GetMultiRegionAccessPointPolicyStatusOutputError {
 
 extension GetMultiRegionAccessPointRoutesInput {
 
-    static func headerProvider(_ value: GetMultiRegionAccessPointRoutesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetMultiRegionAccessPointRoutesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -5962,7 +5965,7 @@ public struct GetMultiRegionAccessPointRoutesInput {
 
 extension GetMultiRegionAccessPointRoutesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetMultiRegionAccessPointRoutesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetMultiRegionAccessPointRoutesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -5991,7 +5994,7 @@ public struct GetMultiRegionAccessPointRoutesOutput {
 
 enum GetMultiRegionAccessPointRoutesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6004,8 +6007,8 @@ enum GetMultiRegionAccessPointRoutesOutputError {
 
 extension GetPublicAccessBlockInput {
 
-    static func headerProvider(_ value: GetPublicAccessBlockInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetPublicAccessBlockInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -6035,7 +6038,7 @@ public struct GetPublicAccessBlockInput {
 
 extension GetPublicAccessBlockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPublicAccessBlockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPublicAccessBlockOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6059,7 +6062,7 @@ public struct GetPublicAccessBlockOutput {
 
 enum GetPublicAccessBlockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6073,8 +6076,8 @@ enum GetPublicAccessBlockOutputError {
 
 extension GetStorageLensConfigurationInput {
 
-    static func headerProvider(_ value: GetStorageLensConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetStorageLensConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -6112,7 +6115,7 @@ public struct GetStorageLensConfigurationInput {
 
 extension GetStorageLensConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetStorageLensConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetStorageLensConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6136,7 +6139,7 @@ public struct GetStorageLensConfigurationOutput {
 
 enum GetStorageLensConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6149,8 +6152,8 @@ enum GetStorageLensConfigurationOutputError {
 
 extension GetStorageLensConfigurationTaggingInput {
 
-    static func headerProvider(_ value: GetStorageLensConfigurationTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetStorageLensConfigurationTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -6188,7 +6191,7 @@ public struct GetStorageLensConfigurationTaggingInput {
 
 extension GetStorageLensConfigurationTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetStorageLensConfigurationTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetStorageLensConfigurationTaggingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6212,7 +6215,7 @@ public struct GetStorageLensConfigurationTaggingOutput {
 
 enum GetStorageLensConfigurationTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6225,8 +6228,8 @@ enum GetStorageLensConfigurationTaggingOutputError {
 
 extension GetStorageLensGroupInput {
 
-    static func headerProvider(_ value: GetStorageLensGroupInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetStorageLensGroupInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -6264,7 +6267,7 @@ public struct GetStorageLensGroupInput {
 
 extension GetStorageLensGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetStorageLensGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetStorageLensGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -6288,7 +6291,7 @@ public struct GetStorageLensGroupOutput {
 
 enum GetStorageLensGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -6593,7 +6596,7 @@ extension S3ControlClientTypes {
         /// Indicates whether confirmation is required before Amazon S3 begins running the specified job. Confirmation is required only for jobs created through the Amazon S3 console.
         public var confirmationRequired: Swift.Bool?
         /// A timestamp indicating when this job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The description for this job, if one was provided in this job's Create Job request.
         public var description: Swift.String?
         /// If the specified job failed, this field contains information describing the failure.
@@ -6625,13 +6628,13 @@ extension S3ControlClientTypes {
         /// The reason why the specified job was suspended. A job is only suspended if you create it through the Amazon S3 console. When you create the job, it enters the Suspended state to await confirmation before running. After you confirm the job, it automatically exits the Suspended state.
         public var suspendedCause: Swift.String?
         /// The timestamp when this job was suspended, if it has been suspended.
-        public var suspendedDate: ClientRuntime.Date?
+        public var suspendedDate: Foundation.Date?
         /// A timestamp indicating when this job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
-        public var terminationDate: ClientRuntime.Date?
+        public var terminationDate: Foundation.Date?
 
         public init(
             confirmationRequired: Swift.Bool? = nil,
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             failureReasons: [S3ControlClientTypes.JobFailure]? = nil,
             generatedManifestDescriptor: S3ControlClientTypes.S3GeneratedManifestDescriptor? = nil,
@@ -6647,8 +6650,8 @@ extension S3ControlClientTypes {
             status: S3ControlClientTypes.JobStatus? = nil,
             statusUpdateReason: Swift.String? = nil,
             suspendedCause: Swift.String? = nil,
-            suspendedDate: ClientRuntime.Date? = nil,
-            terminationDate: ClientRuntime.Date? = nil
+            suspendedDate: Foundation.Date? = nil,
+            terminationDate: Foundation.Date? = nil
         )
         {
             self.confirmationRequired = confirmationRequired
@@ -6727,7 +6730,7 @@ extension S3ControlClientTypes {
     /// Contains the configuration and status information for a single job retrieved as part of a job list.
     public struct JobListDescriptor {
         /// A timestamp indicating when the specified job was created.
-        public var creationTime: ClientRuntime.Date?
+        public var creationTime: Foundation.Date?
         /// The user-specified description that was included in the specified job's Create Job request.
         public var description: Swift.String?
         /// The ID for the specified job.
@@ -6741,17 +6744,17 @@ extension S3ControlClientTypes {
         /// The specified job's current status.
         public var status: S3ControlClientTypes.JobStatus?
         /// A timestamp indicating when the specified job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
-        public var terminationDate: ClientRuntime.Date?
+        public var terminationDate: Foundation.Date?
 
         public init(
-            creationTime: ClientRuntime.Date? = nil,
+            creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             jobId: Swift.String? = nil,
             operation: S3ControlClientTypes.OperationName? = nil,
             priority: Swift.Int = 0,
             progressSummary: S3ControlClientTypes.JobProgressSummary? = nil,
             status: S3ControlClientTypes.JobStatus? = nil,
-            terminationDate: ClientRuntime.Date? = nil
+            terminationDate: Foundation.Date? = nil
         )
         {
             self.creationTime = creationTime
@@ -6937,9 +6940,9 @@ extension S3ControlClientTypes {
     /// The filter used to describe a set of objects for the job's manifest.
     public struct JobManifestGeneratorFilter {
         /// If provided, the generated manifest includes only source bucket objects that were created after this time.
-        public var createdAfter: ClientRuntime.Date?
+        public var createdAfter: Foundation.Date?
         /// If provided, the generated manifest includes only source bucket objects that were created before this time.
-        public var createdBefore: ClientRuntime.Date?
+        public var createdBefore: Foundation.Date?
         /// Include objects in the generated manifest only if they are eligible for replication according to the Replication configuration on the source bucket.
         public var eligibleForReplication: Swift.Bool?
         /// If provided, the generated manifest includes only source bucket objects whose object keys match the string constraints specified for MatchAnyPrefix, MatchAnySuffix, and MatchAnySubstring.
@@ -6954,8 +6957,8 @@ extension S3ControlClientTypes {
         public var objectSizeLessThanBytes: Swift.Int?
 
         public init(
-            createdAfter: ClientRuntime.Date? = nil,
-            createdBefore: ClientRuntime.Date? = nil,
+            createdAfter: Foundation.Date? = nil,
+            createdBefore: Foundation.Date? = nil,
             eligibleForReplication: Swift.Bool? = nil,
             keyNameConstraint: S3ControlClientTypes.KeyNameConstraint? = nil,
             matchAnyStorageClass: [S3ControlClientTypes.S3StorageClass]? = nil,
@@ -7549,14 +7552,14 @@ extension S3ControlClientTypes {
     /// The container of the Outposts bucket lifecycle expiration.
     public struct LifecycleExpiration {
         /// Indicates at what date the object is to be deleted. Should be in GMT ISO 8601 format.
-        public var date: ClientRuntime.Date?
+        public var date: Foundation.Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
         public var days: Swift.Int
         /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired. If set to false, the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
         public var expiredObjectDeleteMarker: Swift.Bool
 
         public init(
-            date: ClientRuntime.Date? = nil,
+            date: Foundation.Date? = nil,
             days: Swift.Int = 0,
             expiredObjectDeleteMarker: Swift.Bool = false
         )
@@ -7779,7 +7782,7 @@ extension S3ControlClientTypes {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
         public var applicationArn: Swift.String?
         /// The date and time when you created the S3 Access Grants instance.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The S3 path of the data to which you are granting access. It is the result of appending the Subprefix to the location scope.
         public var grantScope: Swift.String?
         /// The user, group, or role to which you are granting access. You can grant access to an IAM user or role. If you have added your corporate directory to Amazon Web Services IAM Identity Center and associated your Identity Center instance with your S3 Access Grants instance, the grantee can also be a corporate directory user or group.
@@ -7799,7 +7802,7 @@ extension S3ControlClientTypes {
             accessGrantsLocationConfiguration: S3ControlClientTypes.AccessGrantsLocationConfiguration? = nil,
             accessGrantsLocationId: Swift.String? = nil,
             applicationArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             grantScope: Swift.String? = nil,
             grantee: S3ControlClientTypes.Grantee? = nil,
             permission: S3ControlClientTypes.Permission? = nil
@@ -7821,8 +7824,8 @@ extension S3ControlClientTypes {
 
 extension ListAccessGrantsInput {
 
-    static func headerProvider(_ value: ListAccessGrantsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListAccessGrantsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -7832,34 +7835,34 @@ extension ListAccessGrantsInput {
 
 extension ListAccessGrantsInput {
 
-    static func queryItemProvider(_ value: ListAccessGrantsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAccessGrantsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let grantScope = value.grantScope {
-            let grantScopeQueryItem = ClientRuntime.SDKURLQueryItem(name: "grantscope".urlPercentEncoding(), value: Swift.String(grantScope).urlPercentEncoding())
+            let grantScopeQueryItem = Smithy.URIQueryItem(name: "grantscope".urlPercentEncoding(), value: Swift.String(grantScope).urlPercentEncoding())
             items.append(grantScopeQueryItem)
         }
         if let granteeType = value.granteeType {
-            let granteeTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "granteetype".urlPercentEncoding(), value: Swift.String(granteeType.rawValue).urlPercentEncoding())
+            let granteeTypeQueryItem = Smithy.URIQueryItem(name: "granteetype".urlPercentEncoding(), value: Swift.String(granteeType.rawValue).urlPercentEncoding())
             items.append(granteeTypeQueryItem)
         }
         if let applicationArn = value.applicationArn {
-            let applicationArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "application_arn".urlPercentEncoding(), value: Swift.String(applicationArn).urlPercentEncoding())
+            let applicationArnQueryItem = Smithy.URIQueryItem(name: "application_arn".urlPercentEncoding(), value: Swift.String(applicationArn).urlPercentEncoding())
             items.append(applicationArnQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let permission = value.permission {
-            let permissionQueryItem = ClientRuntime.SDKURLQueryItem(name: "permission".urlPercentEncoding(), value: Swift.String(permission.rawValue).urlPercentEncoding())
+            let permissionQueryItem = Smithy.URIQueryItem(name: "permission".urlPercentEncoding(), value: Swift.String(permission.rawValue).urlPercentEncoding())
             items.append(permissionQueryItem)
         }
         if let granteeIdentifier = value.granteeIdentifier {
-            let granteeIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "granteeidentifier".urlPercentEncoding(), value: Swift.String(granteeIdentifier).urlPercentEncoding())
+            let granteeIdentifierQueryItem = Smithy.URIQueryItem(name: "granteeidentifier".urlPercentEncoding(), value: Swift.String(granteeIdentifier).urlPercentEncoding())
             items.append(granteeIdentifierQueryItem)
         }
         return items
@@ -7947,14 +7950,14 @@ extension S3ControlClientTypes {
         /// The ID of the S3 Access Grants instance. The ID is default. You can have one S3 Access Grants instance per Region per account.
         public var accessGrantsInstanceId: Swift.String?
         /// The date and time when you created the S3 Access Grants instance.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// If you associated your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance, this field returns the Amazon Resource Name (ARN) of the IAM Identity Center instance application; a subresource of the original Identity Center instance. S3 Access Grants creates this Identity Center application for the specific S3 Access Grants instance.
         public var identityCenterArn: Swift.String?
 
         public init(
             accessGrantsInstanceArn: Swift.String? = nil,
             accessGrantsInstanceId: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             identityCenterArn: Swift.String? = nil
         )
         {
@@ -7969,8 +7972,8 @@ extension S3ControlClientTypes {
 
 extension ListAccessGrantsInstancesInput {
 
-    static func headerProvider(_ value: ListAccessGrantsInstancesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListAccessGrantsInstancesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -7980,14 +7983,14 @@ extension ListAccessGrantsInstancesInput {
 
 extension ListAccessGrantsInstancesInput {
 
-    static func queryItemProvider(_ value: ListAccessGrantsInstancesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAccessGrantsInstancesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -8024,7 +8027,7 @@ public struct ListAccessGrantsInstancesInput {
 
 extension ListAccessGrantsInstancesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessGrantsInstancesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAccessGrantsInstancesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8053,7 +8056,7 @@ public struct ListAccessGrantsInstancesOutput {
 
 enum ListAccessGrantsInstancesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8086,7 +8089,7 @@ extension S3ControlClientTypes {
         /// The ID of the registered location to which you are granting access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
         public var accessGrantsLocationId: Swift.String?
         /// The date and time when you registered the location.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location.
         public var iamRoleArn: Swift.String?
         /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3://, the S3 path to a bucket s3://, or the S3 path to a bucket and prefix s3:///. A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
@@ -8095,7 +8098,7 @@ extension S3ControlClientTypes {
         public init(
             accessGrantsLocationArn: Swift.String? = nil,
             accessGrantsLocationId: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             iamRoleArn: Swift.String? = nil,
             locationScope: Swift.String? = nil
         )
@@ -8112,8 +8115,8 @@ extension S3ControlClientTypes {
 
 extension ListAccessGrantsLocationsInput {
 
-    static func headerProvider(_ value: ListAccessGrantsLocationsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListAccessGrantsLocationsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -8123,18 +8126,18 @@ extension ListAccessGrantsLocationsInput {
 
 extension ListAccessGrantsLocationsInput {
 
-    static func queryItemProvider(_ value: ListAccessGrantsLocationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAccessGrantsLocationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let locationScope = value.locationScope {
-            let locationScopeQueryItem = ClientRuntime.SDKURLQueryItem(name: "locationscope".urlPercentEncoding(), value: Swift.String(locationScope).urlPercentEncoding())
+            let locationScopeQueryItem = Smithy.URIQueryItem(name: "locationscope".urlPercentEncoding(), value: Swift.String(locationScope).urlPercentEncoding())
             items.append(locationScopeQueryItem)
         }
         return items
@@ -8175,7 +8178,7 @@ public struct ListAccessGrantsLocationsInput {
 
 extension ListAccessGrantsLocationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessGrantsLocationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAccessGrantsLocationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8204,7 +8207,7 @@ public struct ListAccessGrantsLocationsOutput {
 
 enum ListAccessGrantsLocationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8217,7 +8220,7 @@ enum ListAccessGrantsLocationsOutputError {
 
 extension ListAccessGrantsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessGrantsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAccessGrantsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8246,7 +8249,7 @@ public struct ListAccessGrantsOutput {
 
 enum ListAccessGrantsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8259,8 +8262,8 @@ enum ListAccessGrantsOutputError {
 
 extension ListAccessPointsForObjectLambdaInput {
 
-    static func headerProvider(_ value: ListAccessPointsForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListAccessPointsForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -8270,14 +8273,14 @@ extension ListAccessPointsForObjectLambdaInput {
 
 extension ListAccessPointsForObjectLambdaInput {
 
-    static func queryItemProvider(_ value: ListAccessPointsForObjectLambdaInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAccessPointsForObjectLambdaInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -8314,7 +8317,7 @@ public struct ListAccessPointsForObjectLambdaInput {
 
 extension ListAccessPointsForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessPointsForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAccessPointsForObjectLambdaOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8343,7 +8346,7 @@ public struct ListAccessPointsForObjectLambdaOutput {
 
 enum ListAccessPointsForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8356,8 +8359,8 @@ enum ListAccessPointsForObjectLambdaOutputError {
 
 extension ListAccessPointsInput {
 
-    static func headerProvider(_ value: ListAccessPointsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListAccessPointsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -8367,18 +8370,18 @@ extension ListAccessPointsInput {
 
 extension ListAccessPointsInput {
 
-    static func queryItemProvider(_ value: ListAccessPointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListAccessPointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let bucket = value.bucket {
-            let bucketQueryItem = ClientRuntime.SDKURLQueryItem(name: "bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
+            let bucketQueryItem = Smithy.URIQueryItem(name: "bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
             items.append(bucketQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -8419,7 +8422,7 @@ public struct ListAccessPointsInput {
 
 extension ListAccessPointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAccessPointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAccessPointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8448,7 +8451,7 @@ public struct ListAccessPointsOutput {
 
 enum ListAccessPointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8461,8 +8464,8 @@ enum ListAccessPointsOutputError {
 
 extension ListJobsInput {
 
-    static func headerProvider(_ value: ListJobsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListJobsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -8472,20 +8475,20 @@ extension ListJobsInput {
 
 extension ListJobsInput {
 
-    static func queryItemProvider(_ value: ListJobsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let jobStatuses = value.jobStatuses {
             jobStatuses.forEach { queryItemValue in
-                let queryItem = ClientRuntime.SDKURLQueryItem(name: "jobStatuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                let queryItem = Smithy.URIQueryItem(name: "jobStatuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
                 items.append(queryItem)
             }
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -8526,7 +8529,7 @@ public struct ListJobsInput {
 
 extension ListJobsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListJobsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListJobsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8555,7 +8558,7 @@ public struct ListJobsOutput {
 
 enum ListJobsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8571,8 +8574,8 @@ enum ListJobsOutputError {
 
 extension ListMultiRegionAccessPointsInput {
 
-    static func headerProvider(_ value: ListMultiRegionAccessPointsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListMultiRegionAccessPointsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -8582,14 +8585,14 @@ extension ListMultiRegionAccessPointsInput {
 
 extension ListMultiRegionAccessPointsInput {
 
-    static func queryItemProvider(_ value: ListMultiRegionAccessPointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListMultiRegionAccessPointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -8626,7 +8629,7 @@ public struct ListMultiRegionAccessPointsInput {
 
 extension ListMultiRegionAccessPointsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListMultiRegionAccessPointsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListMultiRegionAccessPointsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8655,7 +8658,7 @@ public struct ListMultiRegionAccessPointsOutput {
 
 enum ListMultiRegionAccessPointsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8668,8 +8671,8 @@ enum ListMultiRegionAccessPointsOutputError {
 
 extension ListRegionalBucketsInput {
 
-    static func headerProvider(_ value: ListRegionalBucketsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListRegionalBucketsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -8682,14 +8685,14 @@ extension ListRegionalBucketsInput {
 
 extension ListRegionalBucketsInput {
 
-    static func queryItemProvider(_ value: ListRegionalBucketsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListRegionalBucketsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -8730,7 +8733,7 @@ public struct ListRegionalBucketsInput {
 
 extension ListRegionalBucketsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListRegionalBucketsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListRegionalBucketsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8759,7 +8762,7 @@ public struct ListRegionalBucketsOutput {
 
 enum ListRegionalBucketsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8816,8 +8819,8 @@ extension S3ControlClientTypes {
 
 extension ListStorageLensConfigurationsInput {
 
-    static func headerProvider(_ value: ListStorageLensConfigurationsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListStorageLensConfigurationsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -8827,10 +8830,10 @@ extension ListStorageLensConfigurationsInput {
 
 extension ListStorageLensConfigurationsInput {
 
-    static func queryItemProvider(_ value: ListStorageLensConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListStorageLensConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -8863,7 +8866,7 @@ public struct ListStorageLensConfigurationsInput {
 
 extension ListStorageLensConfigurationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStorageLensConfigurationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStorageLensConfigurationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -8892,7 +8895,7 @@ public struct ListStorageLensConfigurationsOutput {
 
 enum ListStorageLensConfigurationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -8944,8 +8947,8 @@ extension S3ControlClientTypes {
 
 extension ListStorageLensGroupsInput {
 
-    static func headerProvider(_ value: ListStorageLensGroupsInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListStorageLensGroupsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -8955,10 +8958,10 @@ extension ListStorageLensGroupsInput {
 
 extension ListStorageLensGroupsInput {
 
-    static func queryItemProvider(_ value: ListStorageLensGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListStorageLensGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         return items
@@ -8991,7 +8994,7 @@ public struct ListStorageLensGroupsInput {
 
 extension ListStorageLensGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListStorageLensGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListStorageLensGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -9020,7 +9023,7 @@ public struct ListStorageLensGroupsOutput {
 
 enum ListStorageLensGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9033,8 +9036,8 @@ enum ListStorageLensGroupsOutputError {
 
 extension ListTagsForResourceInput {
 
-    static func headerProvider(_ value: ListTagsForResourceInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: ListTagsForResourceInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -9072,7 +9075,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -9096,7 +9099,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -9389,7 +9392,7 @@ extension S3ControlClientTypes {
         /// The alias for the Multi-Region Access Point. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Rules for naming Amazon S3 Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming).
         public var alias: Swift.String?
         /// When the Multi-Region Access Point create request was received.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The name of the Multi-Region Access Point.
         public var name: Swift.String?
         /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 account. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide. This data type is not supported for Amazon S3 on Outposts.
@@ -9401,7 +9404,7 @@ extension S3ControlClientTypes {
 
         public init(
             alias: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             publicAccessBlock: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil,
             regions: [S3ControlClientTypes.RegionReport]? = nil,
@@ -10342,8 +10345,8 @@ extension S3ControlClientTypes {
 
 extension PutAccessGrantsInstanceResourcePolicyInput {
 
-    static func headerProvider(_ value: PutAccessGrantsInstanceResourcePolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutAccessGrantsInstanceResourcePolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -10391,7 +10394,7 @@ public struct PutAccessGrantsInstanceResourcePolicyInput {
 
 extension PutAccessGrantsInstanceResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAccessGrantsInstanceResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutAccessGrantsInstanceResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -10405,14 +10408,14 @@ extension PutAccessGrantsInstanceResourcePolicyOutput {
 
 public struct PutAccessGrantsInstanceResourcePolicyOutput {
     /// The date and time when you created the S3 Access Grants instance resource policy.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Organization of the resource policy of the S3 Access Grants instance.
     public var organization: Swift.String?
     /// The updated resource policy of the S3 Access Grants instance.
     public var policy: Swift.String?
 
     public init(
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         organization: Swift.String? = nil,
         policy: Swift.String? = nil
     )
@@ -10425,7 +10428,7 @@ public struct PutAccessGrantsInstanceResourcePolicyOutput {
 
 enum PutAccessGrantsInstanceResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10438,8 +10441,8 @@ enum PutAccessGrantsInstanceResourcePolicyOutputError {
 
 extension PutAccessPointConfigurationForObjectLambdaInput {
 
-    static func headerProvider(_ value: PutAccessPointConfigurationForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutAccessPointConfigurationForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -10490,7 +10493,7 @@ public struct PutAccessPointConfigurationForObjectLambdaInput {
 
 extension PutAccessPointConfigurationForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAccessPointConfigurationForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutAccessPointConfigurationForObjectLambdaOutput {
         return PutAccessPointConfigurationForObjectLambdaOutput()
     }
 }
@@ -10502,7 +10505,7 @@ public struct PutAccessPointConfigurationForObjectLambdaOutput {
 
 enum PutAccessPointConfigurationForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10515,8 +10518,8 @@ enum PutAccessPointConfigurationForObjectLambdaOutputError {
 
 extension PutAccessPointPolicyForObjectLambdaInput {
 
-    static func headerProvider(_ value: PutAccessPointPolicyForObjectLambdaInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutAccessPointPolicyForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -10567,7 +10570,7 @@ public struct PutAccessPointPolicyForObjectLambdaInput {
 
 extension PutAccessPointPolicyForObjectLambdaOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAccessPointPolicyForObjectLambdaOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutAccessPointPolicyForObjectLambdaOutput {
         return PutAccessPointPolicyForObjectLambdaOutput()
     }
 }
@@ -10579,7 +10582,7 @@ public struct PutAccessPointPolicyForObjectLambdaOutput {
 
 enum PutAccessPointPolicyForObjectLambdaOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10592,8 +10595,8 @@ enum PutAccessPointPolicyForObjectLambdaOutputError {
 
 extension PutAccessPointPolicyInput {
 
-    static func headerProvider(_ value: PutAccessPointPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutAccessPointPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -10644,7 +10647,7 @@ public struct PutAccessPointPolicyInput {
 
 extension PutAccessPointPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutAccessPointPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutAccessPointPolicyOutput {
         return PutAccessPointPolicyOutput()
     }
 }
@@ -10656,7 +10659,7 @@ public struct PutAccessPointPolicyOutput {
 
 enum PutAccessPointPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10669,8 +10672,8 @@ enum PutAccessPointPolicyOutputError {
 
 extension PutBucketLifecycleConfigurationInput {
 
-    static func headerProvider(_ value: PutBucketLifecycleConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketLifecycleConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -10720,7 +10723,7 @@ public struct PutBucketLifecycleConfigurationInput {
 
 extension PutBucketLifecycleConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketLifecycleConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketLifecycleConfigurationOutput {
         return PutBucketLifecycleConfigurationOutput()
     }
 }
@@ -10732,7 +10735,7 @@ public struct PutBucketLifecycleConfigurationOutput {
 
 enum PutBucketLifecycleConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10745,8 +10748,8 @@ enum PutBucketLifecycleConfigurationOutputError {
 
 extension PutBucketPolicyInput {
 
-    static func headerProvider(_ value: PutBucketPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -10804,7 +10807,7 @@ public struct PutBucketPolicyInput {
 
 extension PutBucketPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketPolicyOutput {
         return PutBucketPolicyOutput()
     }
 }
@@ -10816,7 +10819,7 @@ public struct PutBucketPolicyOutput {
 
 enum PutBucketPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10829,8 +10832,8 @@ enum PutBucketPolicyOutputError {
 
 extension PutBucketReplicationInput {
 
-    static func headerProvider(_ value: PutBucketReplicationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketReplicationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -10881,7 +10884,7 @@ public struct PutBucketReplicationInput {
 
 extension PutBucketReplicationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketReplicationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketReplicationOutput {
         return PutBucketReplicationOutput()
     }
 }
@@ -10893,7 +10896,7 @@ public struct PutBucketReplicationOutput {
 
 enum PutBucketReplicationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10906,8 +10909,8 @@ enum PutBucketReplicationOutputError {
 
 extension PutBucketTaggingInput {
 
-    static func headerProvider(_ value: PutBucketTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -10958,7 +10961,7 @@ public struct PutBucketTaggingInput {
 
 extension PutBucketTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketTaggingOutput {
         return PutBucketTaggingOutput()
     }
 }
@@ -10970,7 +10973,7 @@ public struct PutBucketTaggingOutput {
 
 enum PutBucketTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -10983,8 +10986,8 @@ enum PutBucketTaggingOutputError {
 
 extension PutBucketVersioningInput {
 
-    static func headerProvider(_ value: PutBucketVersioningInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutBucketVersioningInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -11042,7 +11045,7 @@ public struct PutBucketVersioningInput {
 
 extension PutBucketVersioningOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutBucketVersioningOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutBucketVersioningOutput {
         return PutBucketVersioningOutput()
     }
 }
@@ -11054,7 +11057,7 @@ public struct PutBucketVersioningOutput {
 
 enum PutBucketVersioningOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11067,8 +11070,8 @@ enum PutBucketVersioningOutputError {
 
 extension PutJobTaggingInput {
 
-    static func headerProvider(_ value: PutJobTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutJobTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -11119,7 +11122,7 @@ public struct PutJobTaggingInput {
 
 extension PutJobTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutJobTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutJobTaggingOutput {
         return PutJobTaggingOutput()
     }
 }
@@ -11131,7 +11134,7 @@ public struct PutJobTaggingOutput {
 
 enum PutJobTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11148,8 +11151,8 @@ enum PutJobTaggingOutputError {
 
 extension PutMultiRegionAccessPointPolicyInput {
 
-    static func headerProvider(_ value: PutMultiRegionAccessPointPolicyInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutMultiRegionAccessPointPolicyInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -11237,7 +11240,7 @@ public struct PutMultiRegionAccessPointPolicyInput {
 
 extension PutMultiRegionAccessPointPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutMultiRegionAccessPointPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutMultiRegionAccessPointPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -11261,7 +11264,7 @@ public struct PutMultiRegionAccessPointPolicyOutput {
 
 enum PutMultiRegionAccessPointPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11274,8 +11277,8 @@ enum PutMultiRegionAccessPointPolicyOutputError {
 
 extension PutPublicAccessBlockInput {
 
-    static func headerProvider(_ value: PutPublicAccessBlockInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutPublicAccessBlockInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -11318,7 +11321,7 @@ public struct PutPublicAccessBlockInput {
 
 extension PutPublicAccessBlockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPublicAccessBlockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutPublicAccessBlockOutput {
         return PutPublicAccessBlockOutput()
     }
 }
@@ -11330,7 +11333,7 @@ public struct PutPublicAccessBlockOutput {
 
 enum PutPublicAccessBlockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11343,8 +11346,8 @@ enum PutPublicAccessBlockOutputError {
 
 extension PutStorageLensConfigurationInput {
 
-    static func headerProvider(_ value: PutStorageLensConfigurationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutStorageLensConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -11400,7 +11403,7 @@ public struct PutStorageLensConfigurationInput {
 
 extension PutStorageLensConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutStorageLensConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutStorageLensConfigurationOutput {
         return PutStorageLensConfigurationOutput()
     }
 }
@@ -11412,7 +11415,7 @@ public struct PutStorageLensConfigurationOutput {
 
 enum PutStorageLensConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11425,8 +11428,8 @@ enum PutStorageLensConfigurationOutputError {
 
 extension PutStorageLensConfigurationTaggingInput {
 
-    static func headerProvider(_ value: PutStorageLensConfigurationTaggingInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutStorageLensConfigurationTaggingInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -11477,7 +11480,7 @@ public struct PutStorageLensConfigurationTaggingInput {
 
 extension PutStorageLensConfigurationTaggingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutStorageLensConfigurationTaggingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutStorageLensConfigurationTaggingOutput {
         return PutStorageLensConfigurationTaggingOutput()
     }
 }
@@ -11489,7 +11492,7 @@ public struct PutStorageLensConfigurationTaggingOutput {
 
 enum PutStorageLensConfigurationTaggingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -11598,7 +11601,7 @@ extension S3ControlClientTypes {
         public var bucketArn: Swift.String?
         /// The creation date of the regional bucket
         /// This member is required.
-        public var creationDate: ClientRuntime.Date?
+        public var creationDate: Foundation.Date?
         /// The Outposts ID of the regional bucket.
         public var outpostId: Swift.String?
         ///
@@ -11608,7 +11611,7 @@ extension S3ControlClientTypes {
         public init(
             bucket: Swift.String? = nil,
             bucketArn: Swift.String? = nil,
-            creationDate: ClientRuntime.Date? = nil,
+            creationDate: Foundation.Date? = nil,
             outpostId: Swift.String? = nil,
             publicAccessBlockEnabled: Swift.Bool = false
         )
@@ -12426,7 +12429,7 @@ extension S3ControlClientTypes {
         ///
         public var metadataDirective: S3ControlClientTypes.S3MetadataDirective?
         ///
-        public var modifiedSinceConstraint: ClientRuntime.Date?
+        public var modifiedSinceConstraint: Foundation.Date?
         /// If you don't provide this parameter, Amazon S3 copies all the metadata from the original objects. If you specify an empty set, the new objects will have no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
         public var newObjectMetadata: S3ControlClientTypes.S3ObjectMetadata?
         /// Specifies a list of tags to add to the destination objects after they are copied. If NewObjectTagging is not specified, the tags of the source objects are copied to destination objects by default. Directory buckets - Tags aren't supported by directory buckets. If your source objects have tags and your destination bucket is a directory bucket, specify an empty tag set in the NewObjectTagging field to prevent copying the source object tags to the directory bucket.
@@ -12436,7 +12439,7 @@ extension S3ControlClientTypes {
         /// The retention mode to be applied to all objects in the Batch Operations job. This functionality is not supported by directory buckets.
         public var objectLockMode: S3ControlClientTypes.S3ObjectLockMode?
         /// The date when the applied object retention configuration expires on all objects in the Batch Operations job. This functionality is not supported by directory buckets.
-        public var objectLockRetainUntilDate: ClientRuntime.Date?
+        public var objectLockRetainUntilDate: Foundation.Date?
         /// If the destination bucket is configured as a website, specifies an optional metadata property for website redirects, x-amz-website-redirect-location. Allows webpage redirects if the object copy is accessed through a website endpoint. This functionality is not supported by directory buckets.
         public var redirectLocation: Swift.String?
         /// This functionality is not supported by directory buckets.
@@ -12454,7 +12457,7 @@ extension S3ControlClientTypes {
         /// * Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone; identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3.
         public var targetResource: Swift.String?
         ///
-        public var unModifiedSinceConstraint: ClientRuntime.Date?
+        public var unModifiedSinceConstraint: Foundation.Date?
 
         public init(
             accessControlGrants: [S3ControlClientTypes.S3Grant]? = nil,
@@ -12462,19 +12465,19 @@ extension S3ControlClientTypes {
             cannedAccessControlList: S3ControlClientTypes.S3CannedAccessControlList? = nil,
             checksumAlgorithm: S3ControlClientTypes.S3ChecksumAlgorithm? = nil,
             metadataDirective: S3ControlClientTypes.S3MetadataDirective? = nil,
-            modifiedSinceConstraint: ClientRuntime.Date? = nil,
+            modifiedSinceConstraint: Foundation.Date? = nil,
             newObjectMetadata: S3ControlClientTypes.S3ObjectMetadata? = nil,
             newObjectTagging: [S3ControlClientTypes.S3Tag]? = nil,
             objectLockLegalHoldStatus: S3ControlClientTypes.S3ObjectLockLegalHoldStatus? = nil,
             objectLockMode: S3ControlClientTypes.S3ObjectLockMode? = nil,
-            objectLockRetainUntilDate: ClientRuntime.Date? = nil,
+            objectLockRetainUntilDate: Foundation.Date? = nil,
             redirectLocation: Swift.String? = nil,
             requesterPays: Swift.Bool = false,
             sseAwsKmsKeyId: Swift.String? = nil,
             storageClass: S3ControlClientTypes.S3StorageClass? = nil,
             targetKeyPrefix: Swift.String? = nil,
             targetResource: Swift.String? = nil,
-            unModifiedSinceConstraint: ClientRuntime.Date? = nil
+            unModifiedSinceConstraint: Foundation.Date? = nil
         )
         {
             self.accessControlGrants = accessControlGrants
@@ -13046,7 +13049,7 @@ extension S3ControlClientTypes {
         ///
         public var contentType: Swift.String?
         ///
-        public var httpExpiresDate: ClientRuntime.Date?
+        public var httpExpiresDate: Foundation.Date?
         /// This member has been deprecated.
         public var requesterCharged: Swift.Bool
         /// For directory buckets, only the server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is supported.
@@ -13062,7 +13065,7 @@ extension S3ControlClientTypes {
             contentLength: Swift.Int? = nil,
             contentMD5: Swift.String? = nil,
             contentType: Swift.String? = nil,
-            httpExpiresDate: ClientRuntime.Date? = nil,
+            httpExpiresDate: Foundation.Date? = nil,
             requesterCharged: Swift.Bool = false,
             sseAlgorithm: S3ControlClientTypes.S3SSEAlgorithm? = nil,
             userMetadata: [Swift.String:Swift.String]? = nil
@@ -13230,11 +13233,11 @@ extension S3ControlClientTypes {
         /// The Object Lock retention mode to be applied to all objects in the Batch Operations job.
         public var mode: S3ControlClientTypes.S3ObjectLockRetentionMode?
         /// The date when the applied Object Lock retention will expire on all objects set by the Batch Operations job.
-        public var retainUntilDate: ClientRuntime.Date?
+        public var retainUntilDate: Foundation.Date?
 
         public init(
             mode: S3ControlClientTypes.S3ObjectLockRetentionMode? = nil,
-            retainUntilDate: ClientRuntime.Date? = nil
+            retainUntilDate: Foundation.Date? = nil
         )
         {
             self.mode = mode
@@ -14250,8 +14253,8 @@ extension S3ControlClientTypes {
 
 extension SubmitMultiRegionAccessPointRoutesInput {
 
-    static func headerProvider(_ value: SubmitMultiRegionAccessPointRoutesInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: SubmitMultiRegionAccessPointRoutesInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -14302,7 +14305,7 @@ public struct SubmitMultiRegionAccessPointRoutesInput {
 
 extension SubmitMultiRegionAccessPointRoutesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SubmitMultiRegionAccessPointRoutesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SubmitMultiRegionAccessPointRoutesOutput {
         return SubmitMultiRegionAccessPointRoutesOutput()
     }
 }
@@ -14314,7 +14317,7 @@ public struct SubmitMultiRegionAccessPointRoutesOutput {
 
 enum SubmitMultiRegionAccessPointRoutesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14366,8 +14369,8 @@ extension S3ControlClientTypes {
 
 extension TagResourceInput {
 
-    static func headerProvider(_ value: TagResourceInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: TagResourceInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -14418,7 +14421,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -14430,7 +14433,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14563,14 +14566,14 @@ extension S3ControlClientTypes {
     /// Specifies when an object transitions to a specified storage class. For more information about Amazon S3 Lifecycle configuration rules, see [ Transitioning objects using Amazon S3 Lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html) in the Amazon S3 User Guide.
     public struct Transition {
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
-        public var date: ClientRuntime.Date?
+        public var date: Foundation.Date?
         /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
         public var days: Swift.Int
         /// The storage class to which you want the object to transition.
         public var storageClass: S3ControlClientTypes.TransitionStorageClass?
 
         public init(
-            date: ClientRuntime.Date? = nil,
+            date: Foundation.Date? = nil,
             days: Swift.Int = 0,
             storageClass: S3ControlClientTypes.TransitionStorageClass? = nil
         )
@@ -14623,8 +14626,8 @@ extension S3ControlClientTypes {
 
 extension UntagResourceInput {
 
-    static func headerProvider(_ value: UntagResourceInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UntagResourceInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -14634,14 +14637,14 @@ extension UntagResourceInput {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -14683,7 +14686,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -14695,7 +14698,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14708,8 +14711,8 @@ enum UntagResourceOutputError {
 
 extension UpdateAccessGrantsLocationInput {
 
-    static func headerProvider(_ value: UpdateAccessGrantsLocationInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateAccessGrantsLocationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -14760,7 +14763,7 @@ public struct UpdateAccessGrantsLocationInput {
 
 extension UpdateAccessGrantsLocationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateAccessGrantsLocationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateAccessGrantsLocationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -14780,7 +14783,7 @@ public struct UpdateAccessGrantsLocationOutput {
     /// The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.
     public var accessGrantsLocationId: Swift.String?
     /// The date and time when you registered the location.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the IAM role of the registered location. S3 Access Grants assumes this role to manage access to the registered location.
     public var iamRoleArn: Swift.String?
     /// The S3 URI path of the location that you are updating. You cannot update the scope of the registered location. The location scope can be the default S3 location s3://, the S3 path to a bucket s3://, or the S3 path to a bucket and prefix s3:///.
@@ -14789,7 +14792,7 @@ public struct UpdateAccessGrantsLocationOutput {
     public init(
         accessGrantsLocationArn: Swift.String? = nil,
         accessGrantsLocationId: Swift.String? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
         locationScope: Swift.String? = nil
     )
@@ -14804,7 +14807,7 @@ public struct UpdateAccessGrantsLocationOutput {
 
 enum UpdateAccessGrantsLocationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14817,8 +14820,8 @@ enum UpdateAccessGrantsLocationOutputError {
 
 extension UpdateJobPriorityInput {
 
-    static func headerProvider(_ value: UpdateJobPriorityInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateJobPriorityInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -14828,13 +14831,13 @@ extension UpdateJobPriorityInput {
 
 extension UpdateJobPriorityInput {
 
-    static func queryItemProvider(_ value: UpdateJobPriorityInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateJobPriorityInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let priority = value.priority else {
             let message = "Creating a URL Query Item failed. priority is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let priorityQueryItem = ClientRuntime.SDKURLQueryItem(name: "priority".urlPercentEncoding(), value: Swift.String(priority).urlPercentEncoding())
+        let priorityQueryItem = Smithy.URIQueryItem(name: "priority".urlPercentEncoding(), value: Swift.String(priority).urlPercentEncoding())
         items.append(priorityQueryItem)
         return items
     }
@@ -14875,7 +14878,7 @@ public struct UpdateJobPriorityInput {
 
 extension UpdateJobPriorityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateJobPriorityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateJobPriorityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -14906,7 +14909,7 @@ public struct UpdateJobPriorityOutput {
 
 enum UpdateJobPriorityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -14923,8 +14926,8 @@ enum UpdateJobPriorityOutputError {
 
 extension UpdateJobStatusInput {
 
-    static func headerProvider(_ value: UpdateJobStatusInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateJobStatusInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -14934,17 +14937,17 @@ extension UpdateJobStatusInput {
 
 extension UpdateJobStatusInput {
 
-    static func queryItemProvider(_ value: UpdateJobStatusInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UpdateJobStatusInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let statusUpdateReason = value.statusUpdateReason {
-            let statusUpdateReasonQueryItem = ClientRuntime.SDKURLQueryItem(name: "statusUpdateReason".urlPercentEncoding(), value: Swift.String(statusUpdateReason).urlPercentEncoding())
+            let statusUpdateReasonQueryItem = Smithy.URIQueryItem(name: "statusUpdateReason".urlPercentEncoding(), value: Swift.String(statusUpdateReason).urlPercentEncoding())
             items.append(statusUpdateReasonQueryItem)
         }
         guard let requestedJobStatus = value.requestedJobStatus else {
             let message = "Creating a URL Query Item failed. requestedJobStatus is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let requestedJobStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "requestedJobStatus".urlPercentEncoding(), value: Swift.String(requestedJobStatus.rawValue).urlPercentEncoding())
+        let requestedJobStatusQueryItem = Smithy.URIQueryItem(name: "requestedJobStatus".urlPercentEncoding(), value: Swift.String(requestedJobStatus.rawValue).urlPercentEncoding())
         items.append(requestedJobStatusQueryItem)
         return items
     }
@@ -14989,7 +14992,7 @@ public struct UpdateJobStatusInput {
 
 extension UpdateJobStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateJobStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateJobStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
@@ -15023,7 +15026,7 @@ public struct UpdateJobStatusOutput {
 
 enum UpdateJobStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -15041,8 +15044,8 @@ enum UpdateJobStatusOutputError {
 
 extension UpdateStorageLensGroupInput {
 
-    static func headerProvider(_ value: UpdateStorageLensGroupInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: UpdateStorageLensGroupInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(Header(name: "x-amz-account-id", value: Swift.String(accountId)))
         }
@@ -15093,7 +15096,7 @@ public struct UpdateStorageLensGroupInput {
 
 extension UpdateStorageLensGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateStorageLensGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateStorageLensGroupOutput {
         return UpdateStorageLensGroupOutput()
     }
 }
@@ -15105,7 +15108,7 @@ public struct UpdateStorageLensGroupOutput {
 
 enum UpdateStorageLensGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

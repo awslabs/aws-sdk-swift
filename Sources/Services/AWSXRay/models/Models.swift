@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -209,7 +211,7 @@ public struct BatchGetTracesInput {
 
 extension BatchGetTracesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchGetTracesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchGetTracesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -243,7 +245,7 @@ public struct BatchGetTracesOutput {
 
 enum BatchGetTracesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -317,7 +319,7 @@ public struct CreateGroupInput {
 
 extension CreateGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -341,7 +343,7 @@ public struct CreateGroupOutput {
 
 enum CreateGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -401,7 +403,7 @@ public struct CreateSamplingRuleInput {
 
 extension CreateSamplingRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateSamplingRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateSamplingRuleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -425,7 +427,7 @@ public struct CreateSamplingRuleOutput {
 
 enum CreateSamplingRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -473,7 +475,7 @@ public struct DeleteGroupInput {
 
 extension DeleteGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteGroupOutput {
         return DeleteGroupOutput()
     }
 }
@@ -485,7 +487,7 @@ public struct DeleteGroupOutput {
 
 enum DeleteGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -533,7 +535,7 @@ public struct DeleteResourcePolicyInput {
 
 extension DeleteResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteResourcePolicyOutput {
         return DeleteResourcePolicyOutput()
     }
 }
@@ -545,7 +547,7 @@ public struct DeleteResourcePolicyOutput {
 
 enum DeleteResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -593,7 +595,7 @@ public struct DeleteSamplingRuleInput {
 
 extension DeleteSamplingRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSamplingRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSamplingRuleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -617,7 +619,7 @@ public struct DeleteSamplingRuleOutput {
 
 enum DeleteSamplingRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -655,7 +657,7 @@ extension XRayClientTypes {
         /// Describes an asynchronous connection, with a value of link.
         public var edgeType: Swift.String?
         /// The end time of the last segment on the edge.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// A histogram that maps the spread of event age when received by consumers. Age is calculated each time an event is received. Only populated when EdgeType is link.
         public var receivedEventAgeHistogram: [XRayClientTypes.HistogramEntry]?
         /// Identifier of the edge. Unique within a service map.
@@ -663,18 +665,18 @@ extension XRayClientTypes {
         /// A histogram that maps the spread of client response times on an edge. Only populated for synchronous edges.
         public var responseTimeHistogram: [XRayClientTypes.HistogramEntry]?
         /// The start time of the first segment on the edge.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Response statistics for segments on the edge.
         public var summaryStatistics: XRayClientTypes.EdgeStatistics?
 
         public init(
             aliases: [XRayClientTypes.Alias]? = nil,
             edgeType: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             receivedEventAgeHistogram: [XRayClientTypes.HistogramEntry]? = nil,
             referenceId: Swift.Int? = nil,
             responseTimeHistogram: [XRayClientTypes.HistogramEntry]? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             summaryStatistics: XRayClientTypes.EdgeStatistics? = nil
         )
         {
@@ -1179,7 +1181,7 @@ public struct GetEncryptionConfigInput {
 
 extension GetEncryptionConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetEncryptionConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetEncryptionConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1203,7 +1205,7 @@ public struct GetEncryptionConfigOutput {
 
 enum GetEncryptionConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1250,7 +1252,7 @@ public struct GetGroupInput {
 
 extension GetGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1274,7 +1276,7 @@ public struct GetGroupOutput {
 
 enum GetGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1316,7 +1318,7 @@ public struct GetGroupsInput {
 
 extension GetGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1345,7 +1347,7 @@ public struct GetGroupsOutput {
 
 enum GetGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1398,7 +1400,7 @@ public struct GetInsightEventsInput {
 
 extension GetInsightEventsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetInsightEventsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetInsightEventsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1427,7 +1429,7 @@ public struct GetInsightEventsOutput {
 
 enum GetInsightEventsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1461,7 +1463,7 @@ extension GetInsightImpactGraphInput {
 public struct GetInsightImpactGraphInput {
     /// The estimated end time of the insight, in Unix time seconds. The EndTime is exclusive of the value provided. The time range between the start time and end time can't be more than six hours.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
     /// This member is required.
     public var insightId: Swift.String?
@@ -1469,13 +1471,13 @@ public struct GetInsightImpactGraphInput {
     public var nextToken: Swift.String?
     /// The estimated start time of the insight, in Unix time seconds. The StartTime is inclusive of the value provided and can't be more than 30 days old.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         insightId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -1487,7 +1489,7 @@ public struct GetInsightImpactGraphInput {
 
 extension GetInsightImpactGraphOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetInsightImpactGraphOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetInsightImpactGraphOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1505,28 +1507,28 @@ extension GetInsightImpactGraphOutput {
 
 public struct GetInsightImpactGraphOutput {
     /// The provided end time.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The insight's unique identifier.
     public var insightId: Swift.String?
     /// Pagination token.
     public var nextToken: Swift.String?
     /// The time, in Unix seconds, at which the service graph ended.
-    public var serviceGraphEndTime: ClientRuntime.Date?
+    public var serviceGraphEndTime: Foundation.Date?
     /// The time, in Unix seconds, at which the service graph started.
-    public var serviceGraphStartTime: ClientRuntime.Date?
+    public var serviceGraphStartTime: Foundation.Date?
     /// The Amazon Web Services instrumented services related to the insight.
     public var services: [XRayClientTypes.InsightImpactGraphService]?
     /// The provided start time.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         insightId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        serviceGraphEndTime: ClientRuntime.Date? = nil,
-        serviceGraphStartTime: ClientRuntime.Date? = nil,
+        serviceGraphEndTime: Foundation.Date? = nil,
+        serviceGraphStartTime: Foundation.Date? = nil,
         services: [XRayClientTypes.InsightImpactGraphService]? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -1541,7 +1543,7 @@ public struct GetInsightImpactGraphOutput {
 
 enum GetInsightImpactGraphOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1584,7 +1586,7 @@ public struct GetInsightInput {
 
 extension GetInsightOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetInsightOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetInsightOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1608,7 +1610,7 @@ public struct GetInsightOutput {
 
 enum GetInsightOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1645,7 +1647,7 @@ extension GetInsightSummariesInput {
 public struct GetInsightSummariesInput {
     /// The end of the time frame in which the insights ended. The end time can't be more than 30 days old.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the group. Required if the GroupName isn't provided.
     public var groupARN: Swift.String?
     /// The name of the group. Required if the GroupARN isn't provided.
@@ -1656,17 +1658,17 @@ public struct GetInsightSummariesInput {
     public var nextToken: Swift.String?
     /// The beginning of the time frame in which the insights started. The start time can't be more than 30 days old.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The list of insight states.
     public var states: [XRayClientTypes.InsightState]?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         groupARN: Swift.String? = nil,
         groupName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         states: [XRayClientTypes.InsightState]? = nil
     )
     {
@@ -1682,7 +1684,7 @@ public struct GetInsightSummariesInput {
 
 extension GetInsightSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetInsightSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetInsightSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1711,7 +1713,7 @@ public struct GetInsightSummariesOutput {
 
 enum GetInsightSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1753,7 +1755,7 @@ public struct GetSamplingRulesInput {
 
 extension GetSamplingRulesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSamplingRulesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSamplingRulesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1782,7 +1784,7 @@ public struct GetSamplingRulesOutput {
 
 enum GetSamplingRulesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1824,7 +1826,7 @@ public struct GetSamplingStatisticSummariesInput {
 
 extension GetSamplingStatisticSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSamplingStatisticSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSamplingStatisticSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1853,7 +1855,7 @@ public struct GetSamplingStatisticSummariesOutput {
 
 enum GetSamplingStatisticSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1896,7 +1898,7 @@ public struct GetSamplingTargetsInput {
 
 extension GetSamplingTargetsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSamplingTargetsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSamplingTargetsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1910,14 +1912,14 @@ extension GetSamplingTargetsOutput {
 
 public struct GetSamplingTargetsOutput {
     /// The last time a user changed the sampling rule configuration. If the sampling rule configuration changed since the service last retrieved it, the service should call [GetSamplingRules](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingRules.html) to get the latest version.
-    public var lastRuleModification: ClientRuntime.Date?
+    public var lastRuleModification: Foundation.Date?
     /// Updated rules that the service should use to sample requests.
     public var samplingTargetDocuments: [XRayClientTypes.SamplingTargetDocument]?
     /// Information about [SamplingStatisticsDocument](https://docs.aws.amazon.com/xray/latest/api/API_SamplingStatisticsDocument.html) that X-Ray could not process.
     public var unprocessedStatistics: [XRayClientTypes.UnprocessedStatistics]?
 
     public init(
-        lastRuleModification: ClientRuntime.Date? = nil,
+        lastRuleModification: Foundation.Date? = nil,
         samplingTargetDocuments: [XRayClientTypes.SamplingTargetDocument]? = nil,
         unprocessedStatistics: [XRayClientTypes.UnprocessedStatistics]? = nil
     )
@@ -1930,7 +1932,7 @@ public struct GetSamplingTargetsOutput {
 
 enum GetSamplingTargetsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1965,7 +1967,7 @@ extension GetServiceGraphInput {
 public struct GetServiceGraphInput {
     /// The end of the timeframe for which to generate a graph.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of a group based on which you want to generate a graph.
     public var groupARN: Swift.String?
     /// The name of a group based on which you want to generate a graph.
@@ -1974,14 +1976,14 @@ public struct GetServiceGraphInput {
     public var nextToken: Swift.String?
     /// The start of the time frame for which to generate a graph.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         groupARN: Swift.String? = nil,
         groupName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -1994,7 +1996,7 @@ public struct GetServiceGraphInput {
 
 extension GetServiceGraphOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetServiceGraphOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetServiceGraphOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2012,20 +2014,20 @@ public struct GetServiceGraphOutput {
     /// A flag indicating whether the group's filter expression has been consistent, or if the returned service graph may show traces from an older version of the group's filter expression.
     public var containsOldGroupVersions: Swift.Bool
     /// The end of the time frame for which the graph was generated.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Pagination token.
     public var nextToken: Swift.String?
     /// The services that have processed a traced request during the specified time frame.
     public var services: [XRayClientTypes.Service]?
     /// The start of the time frame for which the graph was generated.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         containsOldGroupVersions: Swift.Bool = false,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         services: [XRayClientTypes.Service]? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.containsOldGroupVersions = containsOldGroupVersions
@@ -2038,7 +2040,7 @@ public struct GetServiceGraphOutput {
 
 enum GetServiceGraphOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2076,7 +2078,7 @@ extension GetTimeSeriesServiceStatisticsInput {
 public struct GetTimeSeriesServiceStatisticsInput {
     /// The end of the time frame for which to aggregate statistics.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned.
     public var entitySelectorExpression: Swift.String?
     /// The forecasted high and low fault count values. Forecast enabled requests require the EntitySelectorExpression ID be provided.
@@ -2091,17 +2093,17 @@ public struct GetTimeSeriesServiceStatisticsInput {
     public var period: Swift.Int?
     /// The start of the time frame for which to aggregate statistics.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         entitySelectorExpression: Swift.String? = nil,
         forecastStatistics: Swift.Bool? = nil,
         groupARN: Swift.String? = nil,
         groupName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         period: Swift.Int? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -2117,7 +2119,7 @@ public struct GetTimeSeriesServiceStatisticsInput {
 
 extension GetTimeSeriesServiceStatisticsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTimeSeriesServiceStatisticsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTimeSeriesServiceStatisticsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2151,7 +2153,7 @@ public struct GetTimeSeriesServiceStatisticsOutput {
 
 enum GetTimeSeriesServiceStatisticsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2199,7 +2201,7 @@ public struct GetTraceGraphInput {
 
 extension GetTraceGraphOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTraceGraphOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTraceGraphOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2228,7 +2230,7 @@ public struct GetTraceGraphOutput {
 
 enum GetTraceGraphOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2265,7 +2267,7 @@ extension GetTraceSummariesInput {
 public struct GetTraceSummariesInput {
     /// The end of the time frame for which to retrieve traces.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
     public var filterExpression: Swift.String?
     /// Specify the pagination token returned by a previous request to retrieve the next page of results.
@@ -2276,17 +2278,17 @@ public struct GetTraceSummariesInput {
     public var samplingStrategy: XRayClientTypes.SamplingStrategy?
     /// The start of the time frame for which to retrieve traces.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// A parameter to indicate whether to query trace summaries by TraceId, Event (trace update time), or Service (segment end time).
     public var timeRangeType: XRayClientTypes.TimeRangeType?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         filterExpression: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         sampling: Swift.Bool? = nil,
         samplingStrategy: XRayClientTypes.SamplingStrategy? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         timeRangeType: XRayClientTypes.TimeRangeType? = nil
     )
     {
@@ -2302,7 +2304,7 @@ public struct GetTraceSummariesInput {
 
 extension GetTraceSummariesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetTraceSummariesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetTraceSummariesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2317,7 +2319,7 @@ extension GetTraceSummariesOutput {
 
 public struct GetTraceSummariesOutput {
     /// The start time of this page of results.
-    public var approximateTime: ClientRuntime.Date?
+    public var approximateTime: Foundation.Date?
     /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most recent results, closest to the end of the time frame.
     public var nextToken: Swift.String?
     /// Trace IDs and annotations for traces that were found in the specified time frame.
@@ -2326,7 +2328,7 @@ public struct GetTraceSummariesOutput {
     public var tracesProcessedCount: Swift.Int?
 
     public init(
-        approximateTime: ClientRuntime.Date? = nil,
+        approximateTime: Foundation.Date? = nil,
         nextToken: Swift.String? = nil,
         traceSummaries: [XRayClientTypes.TraceSummary]? = nil,
         tracesProcessedCount: Swift.Int? = nil
@@ -2341,7 +2343,7 @@ public struct GetTraceSummariesOutput {
 
 enum GetTraceSummariesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2550,7 +2552,7 @@ extension XRayClientTypes {
         /// The impact statistics of the client side service. This includes the number of requests to the client service and whether the requests were faults or okay.
         public var clientRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics?
         /// The time, in Unix seconds, at which the insight ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the group that the insight belongs to.
         public var groupARN: Swift.String?
         /// The name of the group that the insight belongs to.
@@ -2562,7 +2564,7 @@ extension XRayClientTypes {
         /// The impact statistics of the root cause service. This includes the number of requests to the client service and whether the requests were faults or okay.
         public var rootCauseServiceRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics?
         /// The time, in Unix seconds, at which the insight began.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The current state of the insight.
         public var state: XRayClientTypes.InsightState?
         /// A brief description of the insight.
@@ -2573,13 +2575,13 @@ extension XRayClientTypes {
         public init(
             categories: [XRayClientTypes.InsightCategory]? = nil,
             clientRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             groupARN: Swift.String? = nil,
             groupName: Swift.String? = nil,
             insightId: Swift.String? = nil,
             rootCauseServiceId: XRayClientTypes.ServiceId? = nil,
             rootCauseServiceRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             state: XRayClientTypes.InsightState? = nil,
             summary: Swift.String? = nil,
             topAnomalousServices: [XRayClientTypes.AnomalousService]? = nil
@@ -2648,7 +2650,7 @@ extension XRayClientTypes {
         /// The impact statistics of the client side service. This includes the number of requests to the client service and whether the requests were faults or okay.
         public var clientRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics?
         /// The time, in Unix seconds, at which the event was recorded.
-        public var eventTime: ClientRuntime.Date?
+        public var eventTime: Foundation.Date?
         /// The impact statistics of the root cause service. This includes the number of requests to the client service and whether the requests were faults or okay.
         public var rootCauseServiceRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics?
         /// A brief description of the event.
@@ -2658,7 +2660,7 @@ extension XRayClientTypes {
 
         public init(
             clientRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics? = nil,
-            eventTime: ClientRuntime.Date? = nil,
+            eventTime: Foundation.Date? = nil,
             rootCauseServiceRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics? = nil,
             summary: Swift.String? = nil,
             topAnomalousServices: [XRayClientTypes.AnomalousService]? = nil
@@ -2818,7 +2820,7 @@ extension XRayClientTypes {
         /// The impact statistics of the client side service. This includes the number of requests to the client service and whether the requests were faults or okay.
         public var clientRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics?
         /// The time, in Unix seconds, at which the insight ended.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the group that the insight belongs to.
         public var groupARN: Swift.String?
         /// The name of the group that the insight belongs to.
@@ -2826,13 +2828,13 @@ extension XRayClientTypes {
         /// The insights unique identifier.
         public var insightId: Swift.String?
         /// The time, in Unix seconds, that the insight was last updated.
-        public var lastUpdateTime: ClientRuntime.Date?
+        public var lastUpdateTime: Foundation.Date?
         ///
         public var rootCauseServiceId: XRayClientTypes.ServiceId?
         /// The impact statistics of the root cause service. This includes the number of requests to the client service and whether the requests were faults or okay.
         public var rootCauseServiceRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics?
         /// The time, in Unix seconds, at which the insight began.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The current state of the insight.
         public var state: XRayClientTypes.InsightState?
         /// A brief description of the insight.
@@ -2843,14 +2845,14 @@ extension XRayClientTypes {
         public init(
             categories: [XRayClientTypes.InsightCategory]? = nil,
             clientRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             groupARN: Swift.String? = nil,
             groupName: Swift.String? = nil,
             insightId: Swift.String? = nil,
-            lastUpdateTime: ClientRuntime.Date? = nil,
+            lastUpdateTime: Foundation.Date? = nil,
             rootCauseServiceId: XRayClientTypes.ServiceId? = nil,
             rootCauseServiceRequestImpactStatistics: XRayClientTypes.RequestImpactStatistics? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             state: XRayClientTypes.InsightState? = nil,
             summary: Swift.String? = nil,
             topAnomalousServices: [XRayClientTypes.AnomalousService]? = nil
@@ -3040,7 +3042,7 @@ public struct ListResourcePoliciesInput {
 
 extension ListResourcePoliciesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListResourcePoliciesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListResourcePoliciesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3069,7 +3071,7 @@ public struct ListResourcePoliciesOutput {
 
 enum ListResourcePoliciesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3117,7 +3119,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3146,7 +3148,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3352,7 +3354,7 @@ public struct PutEncryptionConfigInput {
 
 extension PutEncryptionConfigOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutEncryptionConfigOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutEncryptionConfigOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3376,7 +3378,7 @@ public struct PutEncryptionConfigOutput {
 
 enum PutEncryptionConfigOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3435,7 +3437,7 @@ public struct PutResourcePolicyInput {
 
 extension PutResourcePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutResourcePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutResourcePolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3459,7 +3461,7 @@ public struct PutResourcePolicyOutput {
 
 enum PutResourcePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3521,7 +3523,7 @@ public struct PutTelemetryRecordsInput {
 
 extension PutTelemetryRecordsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutTelemetryRecordsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutTelemetryRecordsOutput {
         return PutTelemetryRecordsOutput()
     }
 }
@@ -3533,7 +3535,7 @@ public struct PutTelemetryRecordsOutput {
 
 enum PutTelemetryRecordsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3576,7 +3578,7 @@ public struct PutTraceSegmentsInput {
 
 extension PutTraceSegmentsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutTraceSegmentsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutTraceSegmentsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3600,7 +3602,7 @@ public struct PutTraceSegmentsOutput {
 
 enum PutTraceSegmentsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3733,7 +3735,7 @@ extension XRayClientTypes {
     /// A resource policy grants one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy is associated with a specific Amazon Web Services account.
     public struct ResourcePolicy {
         /// When the policy was last updated, in Unix time seconds.
-        public var lastUpdatedTime: ClientRuntime.Date?
+        public var lastUpdatedTime: Foundation.Date?
         /// The resource policy document, which can be up to 5kb in size.
         public var policyDocument: Swift.String?
         /// The name of the resource policy. Must be unique within a specific Amazon Web Services account.
@@ -3742,7 +3744,7 @@ extension XRayClientTypes {
         public var policyRevisionId: Swift.String?
 
         public init(
-            lastUpdatedTime: ClientRuntime.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
             policyDocument: Swift.String? = nil,
             policyName: Swift.String? = nil,
             policyRevisionId: Swift.String? = nil
@@ -4072,15 +4074,15 @@ extension XRayClientTypes {
     /// A [SamplingRule](https://docs.aws.amazon.com/xray/latest/api/API_SamplingRule.html) and its metadata.
     public struct SamplingRuleRecord {
         /// When the rule was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// When the rule was last modified.
-        public var modifiedAt: ClientRuntime.Date?
+        public var modifiedAt: Foundation.Date?
         /// The sampling rule.
         public var samplingRule: XRayClientTypes.SamplingRule?
 
         public init(
-            createdAt: ClientRuntime.Date? = nil,
-            modifiedAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
             samplingRule: XRayClientTypes.SamplingRule? = nil
         )
         {
@@ -4197,14 +4199,14 @@ extension XRayClientTypes {
         /// The number of requests recorded.
         public var sampledCount: Swift.Int
         /// The start time of the reporting window.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             borrowCount: Swift.Int = 0,
             requestCount: Swift.Int = 0,
             ruleName: Swift.String? = nil,
             sampledCount: Swift.Int = 0,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.borrowCount = borrowCount
@@ -4249,7 +4251,7 @@ extension XRayClientTypes {
         public var sampledCount: Swift.Int
         /// The current time.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             borrowCount: Swift.Int = 0,
@@ -4257,7 +4259,7 @@ extension XRayClientTypes {
             requestCount: Swift.Int = 0,
             ruleName: Swift.String? = nil,
             sampledCount: Swift.Int = 0,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.borrowCount = borrowCount
@@ -4353,7 +4355,7 @@ extension XRayClientTypes {
         /// The number of requests per second that X-Ray allocated for this service.
         public var reservoirQuota: Swift.Int?
         /// When the reservoir quota expires.
-        public var reservoirQuotaTTL: ClientRuntime.Date?
+        public var reservoirQuotaTTL: Foundation.Date?
         /// The name of the sampling rule.
         public var ruleName: Swift.String?
 
@@ -4361,7 +4363,7 @@ extension XRayClientTypes {
             fixedRate: Swift.Double = 0.0,
             interval: Swift.Int? = nil,
             reservoirQuota: Swift.Int? = nil,
-            reservoirQuotaTTL: ClientRuntime.Date? = nil,
+            reservoirQuotaTTL: Foundation.Date? = nil,
             ruleName: Swift.String? = nil
         )
         {
@@ -4438,7 +4440,7 @@ extension XRayClientTypes {
         /// Connections to downstream services.
         public var edges: [XRayClientTypes.Edge]?
         /// The end time of the last segment that the service generated.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The canonical name of the service.
         public var name: Swift.String?
         /// A list of names for the service, including the canonical name.
@@ -4450,7 +4452,7 @@ extension XRayClientTypes {
         /// Indicates that the service was the first service to process a request.
         public var root: Swift.Bool?
         /// The start time of the first segment that the service generated.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The service's state.
         public var state: Swift.String?
         /// Aggregated statistics for the service.
@@ -4470,13 +4472,13 @@ extension XRayClientTypes {
             accountId: Swift.String? = nil,
             durationHistogram: [XRayClientTypes.HistogramEntry]? = nil,
             edges: [XRayClientTypes.Edge]? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             names: [Swift.String]? = nil,
             referenceId: Swift.Int? = nil,
             responseTimeHistogram: [XRayClientTypes.HistogramEntry]? = nil,
             root: Swift.Bool? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             state: Swift.String? = nil,
             summaryStatistics: XRayClientTypes.ServiceStatistics? = nil,
             type: Swift.String? = nil
@@ -4680,7 +4682,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -4692,7 +4694,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4735,7 +4737,7 @@ extension XRayClientTypes {
         public var segmentsSpilloverCount: Swift.Int?
         ///
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             backendConnectionErrors: XRayClientTypes.BackendConnectionErrors? = nil,
@@ -4743,7 +4745,7 @@ extension XRayClientTypes {
             segmentsRejectedCount: Swift.Int? = nil,
             segmentsSentCount: Swift.Int? = nil,
             segmentsSpilloverCount: Swift.Int? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.backendConnectionErrors = backendConnectionErrors
@@ -4852,14 +4854,14 @@ extension XRayClientTypes {
         /// Response statistics for a service.
         public var serviceSummaryStatistics: XRayClientTypes.ServiceStatistics?
         /// Timestamp of the window for which statistics are aggregated.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
 
         public init(
             edgeSummaryStatistics: XRayClientTypes.EdgeStatistics? = nil,
             responseTimeHistogram: [XRayClientTypes.HistogramEntry]? = nil,
             serviceForecastStatistics: XRayClientTypes.ForecastStatistics? = nil,
             serviceSummaryStatistics: XRayClientTypes.ServiceStatistics? = nil,
-            timestamp: ClientRuntime.Date? = nil
+            timestamp: Foundation.Date? = nil
         )
         {
             self.edgeSummaryStatistics = edgeSummaryStatistics
@@ -5014,7 +5016,7 @@ extension XRayClientTypes {
         /// One or more of the segment documents is in progress.
         public var isPartial: Swift.Bool?
         /// The matched time stamp of a defined event.
-        public var matchedEventTime: ClientRuntime.Date?
+        public var matchedEventTime: Foundation.Date?
         /// A list of resource ARNs for any resource corresponding to the trace segments.
         public var resourceARNs: [XRayClientTypes.ResourceARNDetail]?
         /// The length of time in seconds between the start and end times of the root segment. If the service performs work asynchronously, the response time measures the time before the response is sent to the user, while the duration measures the amount of time before the last traced activity completes.
@@ -5026,7 +5028,7 @@ extension XRayClientTypes {
         /// Service IDs from the trace's segment documents.
         public var serviceIds: [XRayClientTypes.ServiceId]?
         /// The start time of a trace, based on the earliest trace segment start time.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Users from the trace's segment documents.
         public var users: [XRayClientTypes.TraceUser]?
 
@@ -5044,13 +5046,13 @@ extension XRayClientTypes {
             id: Swift.String? = nil,
             instanceIds: [XRayClientTypes.InstanceIdDetail]? = nil,
             isPartial: Swift.Bool? = nil,
-            matchedEventTime: ClientRuntime.Date? = nil,
+            matchedEventTime: Foundation.Date? = nil,
             resourceARNs: [XRayClientTypes.ResourceARNDetail]? = nil,
             responseTime: Swift.Double? = nil,
             responseTimeRootCauses: [XRayClientTypes.ResponseTimeRootCause]? = nil,
             revision: Swift.Int = 0,
             serviceIds: [XRayClientTypes.ServiceId]? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             users: [XRayClientTypes.TraceUser]? = nil
         )
         {
@@ -5219,7 +5221,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -5231,7 +5233,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5293,7 +5295,7 @@ public struct UpdateGroupInput {
 
 extension UpdateGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5317,7 +5319,7 @@ public struct UpdateGroupOutput {
 
 enum UpdateGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5360,7 +5362,7 @@ public struct UpdateSamplingRuleInput {
 
 extension UpdateSamplingRuleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateSamplingRuleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateSamplingRuleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5384,7 +5386,7 @@ public struct UpdateSamplingRuleOutput {
 
 enum UpdateSamplingRuleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

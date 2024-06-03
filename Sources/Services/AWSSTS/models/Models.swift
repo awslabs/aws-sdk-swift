@@ -2,7 +2,10 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
 import SmithyFormURL
+import SmithyHTTPAPI
 import SmithyReadWrite
 import SmithyRetries
 import SmithyXML
@@ -96,7 +99,7 @@ public struct AssumeRoleInput {
 
 extension AssumeRoleOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssumeRoleOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssumeRoleOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["AssumeRoleResult"]
@@ -136,7 +139,7 @@ public struct AssumeRoleOutput {
 
 enum AssumeRoleOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -215,7 +218,7 @@ public struct AssumeRoleWithSAMLInput {
 
 extension AssumeRoleWithSAMLOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssumeRoleWithSAMLOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssumeRoleWithSAMLOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["AssumeRoleWithSAMLResult"]
@@ -289,7 +292,7 @@ public struct AssumeRoleWithSAMLOutput {
 
 enum AssumeRoleWithSAMLOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -375,7 +378,7 @@ public struct AssumeRoleWithWebIdentityInput {
 
 extension AssumeRoleWithWebIdentityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssumeRoleWithWebIdentityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssumeRoleWithWebIdentityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["AssumeRoleWithWebIdentityResult"]
@@ -430,7 +433,7 @@ public struct AssumeRoleWithWebIdentityOutput {
 
 enum AssumeRoleWithWebIdentityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -507,7 +510,7 @@ extension STSClientTypes {
         public var accessKeyId: Swift.String?
         /// The date on which the current credentials expire.
         /// This member is required.
-        public var expiration: ClientRuntime.Date?
+        public var expiration: Foundation.Date?
         /// The secret access key that can be used to sign requests.
         /// This member is required.
         public var secretAccessKey: Swift.String?
@@ -517,7 +520,7 @@ extension STSClientTypes {
 
         public init(
             accessKeyId: Swift.String? = nil,
-            expiration: ClientRuntime.Date? = nil,
+            expiration: Foundation.Date? = nil,
             secretAccessKey: Swift.String? = nil,
             sessionToken: Swift.String? = nil
         )
@@ -563,7 +566,7 @@ public struct DecodeAuthorizationMessageInput {
 
 extension DecodeAuthorizationMessageOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DecodeAuthorizationMessageOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DecodeAuthorizationMessageOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["DecodeAuthorizationMessageResult"]
@@ -588,7 +591,7 @@ public struct DecodeAuthorizationMessageOutput {
 
 enum DecodeAuthorizationMessageOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -702,7 +705,7 @@ public struct GetAccessKeyInfoInput {
 
 extension GetAccessKeyInfoOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetAccessKeyInfoOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetAccessKeyInfoOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetAccessKeyInfoResult"]
@@ -726,7 +729,7 @@ public struct GetAccessKeyInfoOutput {
 
 enum GetAccessKeyInfoOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -738,10 +741,10 @@ enum GetAccessKeyInfoOutputError {
 }
 
 extension GetCallerIdentityInput {
-    public func presign(config: STSClient.STSClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
+    public func presign(config: STSClient.STSClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.SdkHttpRequest? {
         let serviceName = "STS"
         let input = self
-        let context = ClientRuntime.HttpContextBuilder()
+        let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getCallerIdentity")
@@ -806,7 +809,7 @@ public struct GetCallerIdentityInput {
 
 extension GetCallerIdentityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCallerIdentityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCallerIdentityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetCallerIdentityResult"]
@@ -841,7 +844,7 @@ public struct GetCallerIdentityOutput {
 
 enum GetCallerIdentityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -904,7 +907,7 @@ public struct GetFederationTokenInput {
 
 extension GetFederationTokenOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetFederationTokenOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetFederationTokenOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetFederationTokenResult"]
@@ -939,7 +942,7 @@ public struct GetFederationTokenOutput {
 
 enum GetFederationTokenOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -994,7 +997,7 @@ public struct GetSessionTokenInput {
 
 extension GetSessionTokenOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSessionTokenOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSessionTokenOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["GetSessionTokenResult"]
@@ -1019,7 +1022,7 @@ public struct GetSessionTokenOutput {
 
 enum GetSessionTokenOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

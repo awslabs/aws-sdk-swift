@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -331,7 +333,7 @@ public struct DeleteSessionInput {
 
 extension DeleteSessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteSessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteSessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -370,7 +372,7 @@ public struct DeleteSessionOutput {
 
 enum DeleteSessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -683,10 +685,10 @@ extension LexRuntimeClientTypes {
 
 extension GetSessionInput {
 
-    static func queryItemProvider(_ value: GetSessionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetSessionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let checkpointLabelFilter = value.checkpointLabelFilter {
-            let checkpointLabelFilterQueryItem = ClientRuntime.SDKURLQueryItem(name: "checkpointLabelFilter".urlPercentEncoding(), value: Swift.String(checkpointLabelFilter).urlPercentEncoding())
+            let checkpointLabelFilterQueryItem = Smithy.URIQueryItem(name: "checkpointLabelFilter".urlPercentEncoding(), value: Swift.String(checkpointLabelFilter).urlPercentEncoding())
             items.append(checkpointLabelFilterQueryItem)
         }
         return items
@@ -743,7 +745,7 @@ extension GetSessionOutput: Swift.CustomDebugStringConvertible {
 
 extension GetSessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetSessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetSessionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -787,7 +789,7 @@ public struct GetSessionOutput {
 
 enum GetSessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1157,8 +1159,8 @@ extension PostContentInput: Swift.CustomDebugStringConvertible {
 
 extension PostContentInput {
 
-    static func headerProvider(_ value: PostContentInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PostContentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
@@ -1270,7 +1272,7 @@ public struct PostContentInput {
     public var contentType: Swift.String?
     /// User input in PCM or Opus audio format or text format as described in the Content-Type HTTP header. You can stream audio data to Amazon Lex or you can create a local buffer that captures all of the audio data before sending. In general, you get better performance if you stream audio data rather than buffering the data locally.
     /// This member is required.
-    public var inputStream: ClientRuntime.ByteStream?
+    public var inputStream: Smithy.ByteStream?
     /// You pass this value as the x-amz-lex-request-attributes HTTP header. Request-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the requestAttributes and sessionAttributes headers is limited to 12 KB. The namespace x-amz-lex: is reserved for special attributes. Don't create any request attributes with the prefix x-amz-lex:. For more information, see [Setting Request Attributes](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-request-attribs).
     public var requestAttributes: Swift.String?
     /// You pass this value as the x-amz-lex-session-attributes HTTP header. Application-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the sessionAttributes and requestAttributes headers is limited to 12 KB. For more information, see [Setting Session Attributes](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-session-attribs).
@@ -1293,7 +1295,7 @@ public struct PostContentInput {
         botAlias: Swift.String? = nil,
         botName: Swift.String? = nil,
         contentType: Swift.String? = nil,
-        inputStream: ClientRuntime.ByteStream? = nil,
+        inputStream: Smithy.ByteStream? = nil,
         requestAttributes: Swift.String? = nil,
         sessionAttributes: Swift.String? = nil,
         userId: Swift.String? = nil
@@ -1318,7 +1320,7 @@ extension PostContentOutput: Swift.CustomDebugStringConvertible {
 
 extension PostContentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PostContentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PostContentOutput {
         var value = PostContentOutput()
         if let activeContextsHeaderValue = httpResponse.headers.value(for: "x-amz-lex-active-contexts") {
             value.activeContexts = try activeContextsHeaderValue.base64DecodedString()
@@ -1389,7 +1391,7 @@ public struct PostContentOutput {
     /// One to four alternative intents that may be applicable to the user's intent. Each alternative includes a score that indicates how confident Amazon Lex is that the intent matches the user's intent. The intents are sorted by the confidence score.
     public var alternativeIntents: Swift.String?
     /// The prompt (or statement) to convey to the user. This is based on the bot configuration and context. For example, if Amazon Lex did not understand the user intent, it sends the clarificationPrompt configured for the bot. If the intent requires confirmation before taking the fulfillment action, it sends the confirmationPrompt. Another example: Suppose that the Lambda function successfully fulfilled the intent, and sent a message to convey to the user. Then Amazon Lex sends that message in the response.
-    public var audioStream: ClientRuntime.ByteStream?
+    public var audioStream: Smithy.ByteStream?
     /// The version of the bot that responded to the conversation. You can use this information to help determine if one version of a bot is performing better than another version.
     public var botVersion: Swift.String?
     /// Content type as specified in the Accept HTTP header in the request.
@@ -1446,7 +1448,7 @@ public struct PostContentOutput {
     public init(
         activeContexts: Swift.String? = nil,
         alternativeIntents: Swift.String? = nil,
-        audioStream: ClientRuntime.ByteStream? = nil,
+        audioStream: Smithy.ByteStream? = nil,
         botVersion: Swift.String? = nil,
         contentType: Swift.String? = nil,
         dialogState: LexRuntimeClientTypes.DialogState? = nil,
@@ -1487,7 +1489,7 @@ public struct PostContentOutput {
 
 enum PostContentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1596,7 +1598,7 @@ extension PostTextOutput: Swift.CustomDebugStringConvertible {
 
 extension PostTextOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PostTextOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PostTextOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1705,7 +1707,7 @@ public struct PostTextOutput {
 
 enum PostTextOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1772,8 +1774,8 @@ extension PutSessionInput: Swift.CustomDebugStringConvertible {
 
 extension PutSessionInput {
 
-    static func headerProvider(_ value: PutSessionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PutSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
@@ -1885,7 +1887,7 @@ extension PutSessionOutput: Swift.CustomDebugStringConvertible {
 
 extension PutSessionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutSessionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutSessionOutput {
         var value = PutSessionOutput()
         if let activeContextsHeaderValue = httpResponse.headers.value(for: "x-amz-lex-active-contexts") {
             value.activeContexts = try activeContextsHeaderValue.base64DecodedString()
@@ -1936,7 +1938,7 @@ public struct PutSessionOutput {
     /// A list of active contexts for the session.
     public var activeContexts: Swift.String?
     /// The audio version of the message to convey to the user.
-    public var audioStream: ClientRuntime.ByteStream?
+    public var audioStream: Smithy.ByteStream?
     /// Content type as specified in the Accept HTTP header in the request.
     public var contentType: Swift.String?
     /// * ConfirmIntent - Amazon Lex is expecting a "yes" or "no" response to confirm the intent before fulfilling an intent.
@@ -1979,7 +1981,7 @@ public struct PutSessionOutput {
 
     public init(
         activeContexts: Swift.String? = nil,
-        audioStream: ClientRuntime.ByteStream? = nil,
+        audioStream: Smithy.ByteStream? = nil,
         contentType: Swift.String? = nil,
         dialogState: LexRuntimeClientTypes.DialogState? = nil,
         encodedMessage: Swift.String? = nil,
@@ -2009,7 +2011,7 @@ public struct PutSessionOutput {
 
 enum PutSessionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

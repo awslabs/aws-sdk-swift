@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -47,7 +49,7 @@ public struct AcceptDomainTransferFromAnotherAwsAccountInput {
 
 extension AcceptDomainTransferFromAnotherAwsAccountOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AcceptDomainTransferFromAnotherAwsAccountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AcceptDomainTransferFromAnotherAwsAccountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -72,7 +74,7 @@ public struct AcceptDomainTransferFromAnotherAwsAccountOutput {
 
 enum AcceptDomainTransferFromAnotherAwsAccountOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -123,7 +125,7 @@ public struct AssociateDelegationSignerToDomainInput {
 
 extension AssociateDelegationSignerToDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AssociateDelegationSignerToDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AssociateDelegationSignerToDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -147,7 +149,7 @@ public struct AssociateDelegationSignerToDomainOutput {
 
 enum AssociateDelegationSignerToDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -182,7 +184,7 @@ extension Route53DomainsClientTypes {
     /// Information for one billing record.
     public struct BillingRecord {
         /// The date that the operation was billed, in Unix format.
-        public var billDate: ClientRuntime.Date?
+        public var billDate: Foundation.Date?
         /// The name of the domain that the billing record applies to. If the domain name contains characters other than a-z, 0-9, and - (hyphen), such as an internationalized domain name, then this value is in Punycode. For more information, see [DNS Domain Name Format](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html) in the Amazon Route 53 Developer Guide.
         public var domainName: Swift.String?
         /// The ID of the invoice that is associated with the billing record.
@@ -193,7 +195,7 @@ extension Route53DomainsClientTypes {
         public var price: Swift.Double
 
         public init(
-            billDate: ClientRuntime.Date? = nil,
+            billDate: Foundation.Date? = nil,
             domainName: Swift.String? = nil,
             invoiceId: Swift.String? = nil,
             operation: Route53DomainsClientTypes.OperationType? = nil,
@@ -241,7 +243,7 @@ public struct CancelDomainTransferToAnotherAwsAccountInput {
 
 extension CancelDomainTransferToAnotherAwsAccountOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CancelDomainTransferToAnotherAwsAccountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CancelDomainTransferToAnotherAwsAccountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -266,7 +268,7 @@ public struct CancelDomainTransferToAnotherAwsAccountOutput {
 
 enum CancelDomainTransferToAnotherAwsAccountOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -327,7 +329,7 @@ public struct CheckDomainAvailabilityInput {
 
 extension CheckDomainAvailabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CheckDomainAvailabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CheckDomainAvailabilityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -352,7 +354,7 @@ public struct CheckDomainAvailabilityOutput {
 
 enum CheckDomainAvailabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -414,7 +416,7 @@ public struct CheckDomainTransferabilityInput {
 
 extension CheckDomainTransferabilityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CheckDomainTransferabilityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CheckDomainTransferabilityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -444,7 +446,7 @@ public struct CheckDomainTransferabilityOutput {
 
 enum CheckDomainTransferabilityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1453,7 +1455,7 @@ public struct DeleteDomainInput {
 
 extension DeleteDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1477,7 +1479,7 @@ public struct DeleteDomainOutput {
 
 enum DeleteDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1529,7 +1531,7 @@ public struct DeleteTagsForDomainInput {
 
 extension DeleteTagsForDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteTagsForDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteTagsForDomainOutput {
         return DeleteTagsForDomainOutput()
     }
 }
@@ -1541,7 +1543,7 @@ public struct DeleteTagsForDomainOutput {
 
 enum DeleteTagsForDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1585,7 +1587,7 @@ public struct DisableDomainAutoRenewInput {
 
 extension DisableDomainAutoRenewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableDomainAutoRenewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableDomainAutoRenewOutput {
         return DisableDomainAutoRenewOutput()
     }
 }
@@ -1597,7 +1599,7 @@ public struct DisableDomainAutoRenewOutput {
 
 enum DisableDomainAutoRenewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1641,7 +1643,7 @@ public struct DisableDomainTransferLockInput {
 
 extension DisableDomainTransferLockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisableDomainTransferLockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisableDomainTransferLockOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1666,7 +1668,7 @@ public struct DisableDomainTransferLockOutput {
 
 enum DisableDomainTransferLockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1718,7 +1720,7 @@ public struct DisassociateDelegationSignerFromDomainInput {
 
 extension DisassociateDelegationSignerFromDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DisassociateDelegationSignerFromDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DisassociateDelegationSignerFromDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1742,7 +1744,7 @@ public struct DisassociateDelegationSignerFromDomainOutput {
 
 enum DisassociateDelegationSignerFromDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2079,14 +2081,14 @@ extension Route53DomainsClientTypes {
         /// The name of the domain that the summary information applies to.
         public var domainName: Swift.String?
         /// Expiration date of the domain in Unix time format and Coordinated Universal Time (UTC).
-        public var expiry: ClientRuntime.Date?
+        public var expiry: Foundation.Date?
         /// Indicates whether a domain is locked from unauthorized transfer to another party.
         public var transferLock: Swift.Bool?
 
         public init(
             autoRenew: Swift.Bool? = nil,
             domainName: Swift.String? = nil,
-            expiry: ClientRuntime.Date? = nil,
+            expiry: Foundation.Date? = nil,
             transferLock: Swift.Bool? = nil
         )
         {
@@ -2198,7 +2200,7 @@ public struct EnableDomainAutoRenewInput {
 
 extension EnableDomainAutoRenewOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableDomainAutoRenewOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableDomainAutoRenewOutput {
         return EnableDomainAutoRenewOutput()
     }
 }
@@ -2210,7 +2212,7 @@ public struct EnableDomainAutoRenewOutput {
 
 enum EnableDomainAutoRenewOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2255,7 +2257,7 @@ public struct EnableDomainTransferLockInput {
 
 extension EnableDomainTransferLockOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> EnableDomainTransferLockOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> EnableDomainTransferLockOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2280,7 +2282,7 @@ public struct EnableDomainTransferLockOutput {
 
 enum EnableDomainTransferLockOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2912,7 +2914,7 @@ public struct GetContactReachabilityStatusInput {
 
 extension GetContactReachabilityStatusOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetContactReachabilityStatusOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetContactReachabilityStatusOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2941,7 +2943,7 @@ public struct GetContactReachabilityStatusOutput {
 
 enum GetContactReachabilityStatusOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2991,7 +2993,7 @@ extension GetDomainDetailOutput: Swift.CustomDebugStringConvertible {
 
 extension GetDomainDetailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDomainDetailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDomainDetailOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3041,7 +3043,7 @@ public struct GetDomainDetailOutput {
     /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If the value is false, WHOIS queries return the information that you entered for the billing contact.
     public var billingPrivacy: Swift.Bool?
     /// The date when the domain was created as found in the response to a WHOIS query. The date and time is in Unix time format and Coordinated Universal time (UTC).
-    public var creationDate: ClientRuntime.Date?
+    public var creationDate: Foundation.Date?
     /// Deprecated.
     public var dnsSec: Swift.String?
     /// A complex type that contains information about the DNSSEC configuration.
@@ -3049,7 +3051,7 @@ public struct GetDomainDetailOutput {
     /// The name of a domain.
     public var domainName: Swift.String?
     /// The date when the registration for the domain is set to expire. The date and time is in Unix time format and Coordinated Universal time (UTC).
-    public var expirationDate: ClientRuntime.Date?
+    public var expirationDate: Foundation.Date?
     /// The name servers of the domain.
     public var nameservers: [Route53DomainsClientTypes.Nameserver]?
     /// Provides details about the domain registrant.
@@ -3071,7 +3073,7 @@ public struct GetDomainDetailOutput {
     /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If the value is false, WHOIS queries return the information that you entered for the technical contact.
     public var techPrivacy: Swift.Bool?
     /// The last updated date of the domain as found in the response to a WHOIS query. The date and time is in Unix time format and Coordinated Universal time (UTC).
-    public var updatedDate: ClientRuntime.Date?
+    public var updatedDate: Foundation.Date?
     /// The fully qualified name of the WHOIS server that can answer the WHOIS query for the domain.
     public var whoIsServer: Swift.String?
 
@@ -3083,11 +3085,11 @@ public struct GetDomainDetailOutput {
         autoRenew: Swift.Bool? = nil,
         billingContact: Route53DomainsClientTypes.ContactDetail? = nil,
         billingPrivacy: Swift.Bool? = nil,
-        creationDate: ClientRuntime.Date? = nil,
+        creationDate: Foundation.Date? = nil,
         dnsSec: Swift.String? = nil,
         dnssecKeys: [Route53DomainsClientTypes.DnssecKey]? = nil,
         domainName: Swift.String? = nil,
-        expirationDate: ClientRuntime.Date? = nil,
+        expirationDate: Foundation.Date? = nil,
         nameservers: [Route53DomainsClientTypes.Nameserver]? = nil,
         registrantContact: Route53DomainsClientTypes.ContactDetail? = nil,
         registrantPrivacy: Swift.Bool? = nil,
@@ -3098,7 +3100,7 @@ public struct GetDomainDetailOutput {
         statusList: [Swift.String]? = nil,
         techContact: Route53DomainsClientTypes.ContactDetail? = nil,
         techPrivacy: Swift.Bool? = nil,
-        updatedDate: ClientRuntime.Date? = nil,
+        updatedDate: Foundation.Date? = nil,
         whoIsServer: Swift.String? = nil
     )
     {
@@ -3131,7 +3133,7 @@ public struct GetDomainDetailOutput {
 
 enum GetDomainDetailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3197,7 +3199,7 @@ public struct GetDomainSuggestionsInput {
 
 extension GetDomainSuggestionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDomainSuggestionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDomainSuggestionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3221,7 +3223,7 @@ public struct GetDomainSuggestionsOutput {
 
 enum GetDomainSuggestionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3265,7 +3267,7 @@ public struct GetOperationDetailInput {
 
 extension GetOperationDetailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetOperationDetailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetOperationDetailOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3287,7 +3289,7 @@ public struct GetOperationDetailOutput {
     /// The name of a domain.
     public var domainName: Swift.String?
     /// The date when the operation was last updated.
-    public var lastUpdatedDate: ClientRuntime.Date?
+    public var lastUpdatedDate: Foundation.Date?
     /// Detailed information on the status including possible errors.
     public var message: Swift.String?
     /// The identifier for the operation.
@@ -3307,18 +3309,18 @@ public struct GetOperationDetailOutput {
     /// * PENDING_SUPPORT_CASE: The operation includes a support case and is waiting for its resolution.
     public var statusFlag: Route53DomainsClientTypes.StatusFlag?
     /// The date when the request was submitted.
-    public var submittedDate: ClientRuntime.Date?
+    public var submittedDate: Foundation.Date?
     /// The type of operation that was requested.
     public var type: Route53DomainsClientTypes.OperationType?
 
     public init(
         domainName: Swift.String? = nil,
-        lastUpdatedDate: ClientRuntime.Date? = nil,
+        lastUpdatedDate: Foundation.Date? = nil,
         message: Swift.String? = nil,
         operationId: Swift.String? = nil,
         status: Route53DomainsClientTypes.OperationStatus? = nil,
         statusFlag: Route53DomainsClientTypes.StatusFlag? = nil,
-        submittedDate: ClientRuntime.Date? = nil,
+        submittedDate: Foundation.Date? = nil,
         type: Route53DomainsClientTypes.OperationType? = nil
     )
     {
@@ -3335,7 +3337,7 @@ public struct GetOperationDetailOutput {
 
 enum GetOperationDetailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3459,7 +3461,7 @@ public struct ListDomainsInput {
 
 extension ListDomainsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListDomainsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListDomainsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3489,7 +3491,7 @@ public struct ListDomainsOutput {
 
 enum ListDomainsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3535,7 +3537,7 @@ public struct ListOperationsInput {
     /// The status of the operations.
     public var status: [Route53DomainsClientTypes.OperationStatus]?
     /// An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
-    public var submittedSince: ClientRuntime.Date?
+    public var submittedSince: Foundation.Date?
     /// An arrays of the domains operation types.
     public var type: [Route53DomainsClientTypes.OperationType]?
 
@@ -3545,7 +3547,7 @@ public struct ListOperationsInput {
         sortBy: Route53DomainsClientTypes.ListOperationsSortAttributeName? = nil,
         sortOrder: Route53DomainsClientTypes.SortOrder? = nil,
         status: [Route53DomainsClientTypes.OperationStatus]? = nil,
-        submittedSince: ClientRuntime.Date? = nil,
+        submittedSince: Foundation.Date? = nil,
         type: [Route53DomainsClientTypes.OperationType]? = nil
     )
     {
@@ -3561,7 +3563,7 @@ public struct ListOperationsInput {
 
 extension ListOperationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListOperationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListOperationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3591,7 +3593,7 @@ public struct ListOperationsOutput {
 
 enum ListOperationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3668,7 +3670,7 @@ public struct ListPricesInput {
 
 extension ListPricesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPricesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPricesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3697,7 +3699,7 @@ public struct ListPricesOutput {
 
 enum ListPricesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3741,7 +3743,7 @@ public struct ListTagsForDomainInput {
 
 extension ListTagsForDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3766,7 +3768,7 @@ public struct ListTagsForDomainOutput {
 
 enum ListTagsForDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3917,7 +3919,7 @@ extension Route53DomainsClientTypes {
         /// Name of the domain.
         public var domainName: Swift.String?
         /// The date when the last change was made in Unix time format and Coordinated Universal Time (UTC).
-        public var lastUpdatedDate: ClientRuntime.Date?
+        public var lastUpdatedDate: Foundation.Date?
         /// Message about the operation.
         public var message: Swift.String?
         /// Identifier returned to track the requested action.
@@ -3937,18 +3939,18 @@ extension Route53DomainsClientTypes {
         /// * PENDING_SUPPORT_CASE: The operation includes a support case and is waiting for its resolution.
         public var statusFlag: Route53DomainsClientTypes.StatusFlag?
         /// The date when the request was submitted.
-        public var submittedDate: ClientRuntime.Date?
+        public var submittedDate: Foundation.Date?
         /// Type of the action requested.
         public var type: Route53DomainsClientTypes.OperationType?
 
         public init(
             domainName: Swift.String? = nil,
-            lastUpdatedDate: ClientRuntime.Date? = nil,
+            lastUpdatedDate: Foundation.Date? = nil,
             message: Swift.String? = nil,
             operationId: Swift.String? = nil,
             status: Route53DomainsClientTypes.OperationStatus? = nil,
             statusFlag: Route53DomainsClientTypes.StatusFlag? = nil,
-            submittedDate: ClientRuntime.Date? = nil,
+            submittedDate: Foundation.Date? = nil,
             type: Route53DomainsClientTypes.OperationType? = nil
         )
         {
@@ -4149,7 +4151,7 @@ public struct PushDomainInput {
 
 extension PushDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PushDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PushDomainOutput {
         return PushDomainOutput()
     }
 }
@@ -4161,7 +4163,7 @@ public struct PushDomainOutput {
 
 enum PushDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4313,7 +4315,7 @@ public struct RegisterDomainInput {
 
 extension RegisterDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RegisterDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RegisterDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4338,7 +4340,7 @@ public struct RegisterDomainOutput {
 
 enum RegisterDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4386,7 +4388,7 @@ public struct RejectDomainTransferFromAnotherAwsAccountInput {
 
 extension RejectDomainTransferFromAnotherAwsAccountOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RejectDomainTransferFromAnotherAwsAccountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RejectDomainTransferFromAnotherAwsAccountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4411,7 +4413,7 @@ public struct RejectDomainTransferFromAnotherAwsAccountOutput {
 
 enum RejectDomainTransferFromAnotherAwsAccountOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4467,7 +4469,7 @@ public struct RenewDomainInput {
 
 extension RenewDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RenewDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RenewDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4491,7 +4493,7 @@ public struct RenewDomainOutput {
 
 enum RenewDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4541,7 +4543,7 @@ extension ResendContactReachabilityEmailOutput: Swift.CustomDebugStringConvertib
 
 extension ResendContactReachabilityEmailOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResendContactReachabilityEmailOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResendContactReachabilityEmailOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4575,7 +4577,7 @@ public struct ResendContactReachabilityEmailOutput {
 
 enum ResendContactReachabilityEmailOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4619,7 +4621,7 @@ public struct ResendOperationAuthorizationInput {
 
 extension ResendOperationAuthorizationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ResendOperationAuthorizationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ResendOperationAuthorizationOutput {
         return ResendOperationAuthorizationOutput()
     }
 }
@@ -4631,7 +4633,7 @@ public struct ResendOperationAuthorizationOutput {
 
 enum ResendOperationAuthorizationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4679,7 +4681,7 @@ extension RetrieveDomainAuthCodeOutput: Swift.CustomDebugStringConvertible {
 
 extension RetrieveDomainAuthCodeOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RetrieveDomainAuthCodeOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RetrieveDomainAuthCodeOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -4704,7 +4706,7 @@ public struct RetrieveDomainAuthCodeOutput {
 
 enum RetrieveDomainAuthCodeOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5005,7 +5007,7 @@ public struct TransferDomainInput {
 
 extension TransferDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TransferDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TransferDomainOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5030,7 +5032,7 @@ public struct TransferDomainOutput {
 
 enum TransferDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5089,7 +5091,7 @@ extension TransferDomainToAnotherAwsAccountOutput: Swift.CustomDebugStringConver
 
 extension TransferDomainToAnotherAwsAccountOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TransferDomainToAnotherAwsAccountOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TransferDomainToAnotherAwsAccountOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5119,7 +5121,7 @@ public struct TransferDomainToAnotherAwsAccountOutput {
 
 enum TransferDomainToAnotherAwsAccountOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5275,7 +5277,7 @@ public struct UpdateDomainContactInput {
 
 extension UpdateDomainContactOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDomainContactOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDomainContactOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5300,7 +5302,7 @@ public struct UpdateDomainContactOutput {
 
 enum UpdateDomainContactOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5367,7 +5369,7 @@ public struct UpdateDomainContactPrivacyInput {
 
 extension UpdateDomainContactPrivacyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDomainContactPrivacyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDomainContactPrivacyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5392,7 +5394,7 @@ public struct UpdateDomainContactPrivacyOutput {
 
 enum UpdateDomainContactPrivacyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5456,7 +5458,7 @@ public struct UpdateDomainNameserversInput {
 
 extension UpdateDomainNameserversOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateDomainNameserversOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateDomainNameserversOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5481,7 +5483,7 @@ public struct UpdateDomainNameserversOutput {
 
 enum UpdateDomainNameserversOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5533,7 +5535,7 @@ public struct UpdateTagsForDomainInput {
 
 extension UpdateTagsForDomainOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateTagsForDomainOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateTagsForDomainOutput {
         return UpdateTagsForDomainOutput()
     }
 }
@@ -5545,7 +5547,7 @@ public struct UpdateTagsForDomainOutput {
 
 enum UpdateTagsForDomainOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -5580,19 +5582,19 @@ extension ViewBillingInput {
 /// The ViewBilling request includes the following elements.
 public struct ViewBillingInput {
     /// The end date and time for the time period for which you want a list of billing records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
-    public var end: ClientRuntime.Date?
+    public var end: Foundation.Date?
     /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current Amazon Web Services account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
     public var marker: Swift.String?
     /// The number of billing records to be returned. Default: 20
     public var maxItems: Swift.Int?
     /// The beginning date and time for the time period for which you want a list of billing records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
-    public var start: ClientRuntime.Date?
+    public var start: Foundation.Date?
 
     public init(
-        end: ClientRuntime.Date? = nil,
+        end: Foundation.Date? = nil,
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
-        start: ClientRuntime.Date? = nil
+        start: Foundation.Date? = nil
     )
     {
         self.end = end
@@ -5604,7 +5606,7 @@ public struct ViewBillingInput {
 
 extension ViewBillingOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ViewBillingOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ViewBillingOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -5634,7 +5636,7 @@ public struct ViewBillingOutput {
 
 enum ViewBillingOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

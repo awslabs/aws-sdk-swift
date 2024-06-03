@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -55,9 +57,9 @@ extension PIClientTypes {
         /// This member is required.
         public var analysisReportId: Swift.String?
         /// The time you created the analysis report.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The analysis end time in the report.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The unique identifier of the analysis report.
         public var identifier: Swift.String?
         /// The list of identified insights in the analysis report.
@@ -69,18 +71,18 @@ extension PIClientTypes {
         /// * DOCDB
         public var serviceType: PIClientTypes.ServiceType?
         /// The analysis start time in the report.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The status of the created analysis report.
         public var status: PIClientTypes.AnalysisStatus?
 
         public init(
             analysisReportId: Swift.String? = nil,
-            createTime: ClientRuntime.Date? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
             identifier: Swift.String? = nil,
             insights: [PIClientTypes.Insight]? = nil,
             serviceType: PIClientTypes.ServiceType? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: PIClientTypes.AnalysisStatus? = nil
         )
         {
@@ -118,11 +120,11 @@ extension PIClientTypes {
         /// The name of the analysis report.
         public var analysisReportId: Swift.String?
         /// The time you created the analysis report.
-        public var createTime: ClientRuntime.Date?
+        public var createTime: Foundation.Date?
         /// The end time of the analysis in the report.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The start time of the analysis in the report.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// The status of the analysis report.
         public var status: PIClientTypes.AnalysisStatus?
         /// List of all the tags added to the analysis report.
@@ -130,9 +132,9 @@ extension PIClientTypes {
 
         public init(
             analysisReportId: Swift.String? = nil,
-            createTime: ClientRuntime.Date? = nil,
-            endTime: ClientRuntime.Date? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            createTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
             status: PIClientTypes.AnalysisStatus? = nil,
             tags: [PIClientTypes.Tag]? = nil
         )
@@ -231,7 +233,7 @@ extension CreatePerformanceAnalysisReportInput {
 public struct CreatePerformanceAnalysisReportInput {
     /// The end time defined for the analysis report.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value. For example, specify db-ADECBTYHKTSAUMUZQYPDS2GW4A.
     /// This member is required.
     public var identifier: Swift.String?
@@ -240,15 +242,15 @@ public struct CreatePerformanceAnalysisReportInput {
     public var serviceType: PIClientTypes.ServiceType?
     /// The start time defined for the analysis report.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The metadata assigned to the analysis report consisting of a key-value pair.
     public var tags: [PIClientTypes.Tag]?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         identifier: Swift.String? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         tags: [PIClientTypes.Tag]? = nil
     )
     {
@@ -262,7 +264,7 @@ public struct CreatePerformanceAnalysisReportInput {
 
 extension CreatePerformanceAnalysisReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePerformanceAnalysisReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePerformanceAnalysisReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -286,7 +288,7 @@ public struct CreatePerformanceAnalysisReportOutput {
 
 enum CreatePerformanceAnalysisReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -342,13 +344,13 @@ extension PIClientTypes {
     public struct DataPoint {
         /// The time, in epoch format, associated with a particular Value.
         /// This member is required.
-        public var timestamp: ClientRuntime.Date?
+        public var timestamp: Foundation.Date?
         /// The actual value associated with a particular Timestamp.
         /// This member is required.
         public var value: Swift.Double?
 
         public init(
-            timestamp: ClientRuntime.Date? = nil,
+            timestamp: Foundation.Date? = nil,
             value: Swift.Double? = nil
         )
         {
@@ -401,7 +403,7 @@ public struct DeletePerformanceAnalysisReportInput {
 
 extension DeletePerformanceAnalysisReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePerformanceAnalysisReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePerformanceAnalysisReportOutput {
         return DeletePerformanceAnalysisReportOutput()
     }
 }
@@ -413,7 +415,7 @@ public struct DeletePerformanceAnalysisReportOutput {
 
 enum DeletePerformanceAnalysisReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -458,7 +460,7 @@ public struct DescribeDimensionKeysInput {
     public var additionalMetrics: [Swift.String]?
     /// The date and time specifying the end of the requested time series data. The value specified is exclusive, which means that data points less than (but not equal to) EndTime are returned. The value for EndTime must be later than the value for StartTime.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// One or more filters to apply in the request. Restrictions:
     ///
     /// * Any number of filters by the same dimension, as specified in the GroupBy or Partition parameters.
@@ -511,11 +513,11 @@ public struct DescribeDimensionKeysInput {
     public var serviceType: PIClientTypes.ServiceType?
     /// The date and time specifying the beginning of the requested time series data. You must specify a StartTime within the past 7 days. The value specified is inclusive, which means that data points equal to or greater than StartTime are returned. The value for StartTime must be earlier than the value for EndTime.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         additionalMetrics: [Swift.String]? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         filter: [Swift.String:Swift.String]? = nil,
         groupBy: PIClientTypes.DimensionGroup? = nil,
         identifier: Swift.String? = nil,
@@ -525,7 +527,7 @@ public struct DescribeDimensionKeysInput {
         partitionBy: PIClientTypes.DimensionGroup? = nil,
         periodInSeconds: Swift.Int? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.additionalMetrics = additionalMetrics
@@ -545,7 +547,7 @@ public struct DescribeDimensionKeysInput {
 
 extension DescribeDimensionKeysOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeDimensionKeysOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeDimensionKeysOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -561,9 +563,9 @@ extension DescribeDimensionKeysOutput {
 
 public struct DescribeDimensionKeysOutput {
     /// The end time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
-    public var alignedEndTime: ClientRuntime.Date?
+    public var alignedEndTime: Foundation.Date?
     /// The start time for the returned dimension keys, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
-    public var alignedStartTime: ClientRuntime.Date?
+    public var alignedStartTime: Foundation.Date?
     /// The dimension keys that were requested.
     public var keys: [PIClientTypes.DimensionKeyDescription]?
     /// A pagination token that indicates the response didn’t return all available records because MaxRecords was specified in the previous request. To get the remaining records, specify NextToken in a separate request with this value.
@@ -572,8 +574,8 @@ public struct DescribeDimensionKeysOutput {
     public var partitionKeys: [PIClientTypes.ResponsePartitionKey]?
 
     public init(
-        alignedEndTime: ClientRuntime.Date? = nil,
-        alignedStartTime: ClientRuntime.Date? = nil,
+        alignedEndTime: Foundation.Date? = nil,
+        alignedStartTime: Foundation.Date? = nil,
         keys: [PIClientTypes.DimensionKeyDescription]? = nil,
         nextToken: Swift.String? = nil,
         partitionKeys: [PIClientTypes.ResponsePartitionKey]? = nil
@@ -589,7 +591,7 @@ public struct DescribeDimensionKeysOutput {
 
 enum DescribeDimensionKeysOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1095,7 +1097,7 @@ public struct GetDimensionKeyDetailsInput {
 
 extension GetDimensionKeyDetailsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetDimensionKeyDetailsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetDimensionKeyDetailsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1119,7 +1121,7 @@ public struct GetDimensionKeyDetailsOutput {
 
 enum GetDimensionKeyDetailsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1185,7 +1187,7 @@ public struct GetPerformanceAnalysisReportInput {
 
 extension GetPerformanceAnalysisReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPerformanceAnalysisReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPerformanceAnalysisReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1209,7 +1211,7 @@ public struct GetPerformanceAnalysisReportOutput {
 
 enum GetPerformanceAnalysisReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1259,7 +1261,7 @@ public struct GetResourceMetadataInput {
 
 extension GetResourceMetadataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourceMetadataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourceMetadataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1288,7 +1290,7 @@ public struct GetResourceMetadataOutput {
 
 enum GetResourceMetadataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1328,7 +1330,7 @@ extension GetResourceMetricsInput {
 public struct GetResourceMetricsInput {
     /// The date and time specifying the end of the requested time series query range. The value specified is exclusive. Thus, the command returns data points less than (but not equal to) EndTime. The value for EndTime must be later than the value for StartTime.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1365,10 +1367,10 @@ public struct GetResourceMetricsInput {
     public var serviceType: PIClientTypes.ServiceType?
     /// The date and time specifying the beginning of the requested time series query range. You can't specify a StartTime that is earlier than 7 days ago. By default, Performance Insights has 7 days of retention, but you can extend this range up to 2 years. The value specified is inclusive. Thus, the command returns data points equal to or greater than StartTime. The value for StartTime must be earlier than the value for EndTime.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         identifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         metricQueries: [PIClientTypes.MetricQuery]? = nil,
@@ -1376,7 +1378,7 @@ public struct GetResourceMetricsInput {
         periodAlignment: PIClientTypes.PeriodAlignment? = nil,
         periodInSeconds: Swift.Int? = nil,
         serviceType: PIClientTypes.ServiceType? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -1393,7 +1395,7 @@ public struct GetResourceMetricsInput {
 
 extension GetResourceMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetResourceMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetResourceMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1409,9 +1411,9 @@ extension GetResourceMetricsOutput {
 
 public struct GetResourceMetricsOutput {
     /// The end time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedEndTime will be greater than or equal to the value of the user-specified Endtime.
-    public var alignedEndTime: ClientRuntime.Date?
+    public var alignedEndTime: Foundation.Date?
     /// The start time for the returned metrics, after alignment to a granular boundary (as specified by PeriodInSeconds). AlignedStartTime will be less than or equal to the value of the user-specified StartTime.
-    public var alignedStartTime: ClientRuntime.Date?
+    public var alignedStartTime: Foundation.Date?
     /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId.
     public var identifier: Swift.String?
     /// An array of metric results, where each array element contains all of the data points for a particular dimension.
@@ -1420,8 +1422,8 @@ public struct GetResourceMetricsOutput {
     public var nextToken: Swift.String?
 
     public init(
-        alignedEndTime: ClientRuntime.Date? = nil,
-        alignedStartTime: ClientRuntime.Date? = nil,
+        alignedEndTime: Foundation.Date? = nil,
+        alignedStartTime: Foundation.Date? = nil,
         identifier: Swift.String? = nil,
         metricList: [PIClientTypes.MetricKeyDataPoints]? = nil,
         nextToken: Swift.String? = nil
@@ -1437,7 +1439,7 @@ public struct GetResourceMetricsOutput {
 
 enum GetResourceMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1486,7 +1488,7 @@ extension PIClientTypes {
         /// Description of the insight. For example: A high severity Insight found between 02:00 to 02:30, where there was an unusually high DB load 600x above baseline. Likely performance impact.
         public var description: Swift.String?
         /// The end time of the insight. For example, 2018-10-30T00:00:00Z.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// List of data objects containing metrics and references from the time range while generating the insight.
         public var insightData: [PIClientTypes.Data]?
         /// The unique identifier for the insight. For example, insight-12345678901234567.
@@ -1499,7 +1501,7 @@ extension PIClientTypes {
         /// The severity of the insight. The values are: Low, Medium, or High.
         public var severity: PIClientTypes.Severity?
         /// The start time of the insight. For example, 2018-10-30T00:00:00Z.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// List of supporting insights that provide additional factors for the insight.
         public var supportingInsights: [PIClientTypes.Insight]?
 
@@ -1507,13 +1509,13 @@ extension PIClientTypes {
             baselineData: [PIClientTypes.Data]? = nil,
             context: PIClientTypes.ContextType? = nil,
             description: Swift.String? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             insightData: [PIClientTypes.Data]? = nil,
             insightId: Swift.String? = nil,
             insightType: Swift.String? = nil,
             recommendations: [PIClientTypes.Recommendation]? = nil,
             severity: PIClientTypes.Severity? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             supportingInsights: [PIClientTypes.Insight]? = nil
         )
         {
@@ -1659,7 +1661,7 @@ public struct ListAvailableResourceDimensionsInput {
 
 extension ListAvailableResourceDimensionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAvailableResourceDimensionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAvailableResourceDimensionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1688,7 +1690,7 @@ public struct ListAvailableResourceDimensionsOutput {
 
 enum ListAvailableResourceDimensionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1762,7 +1764,7 @@ public struct ListAvailableResourceMetricsInput {
 
 extension ListAvailableResourceMetricsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListAvailableResourceMetricsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListAvailableResourceMetricsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1791,7 +1793,7 @@ public struct ListAvailableResourceMetricsOutput {
 
 enum ListAvailableResourceMetricsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1856,7 +1858,7 @@ public struct ListPerformanceAnalysisReportsInput {
 
 extension ListPerformanceAnalysisReportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPerformanceAnalysisReportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPerformanceAnalysisReportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1885,7 +1887,7 @@ public struct ListPerformanceAnalysisReportsOutput {
 
 enum ListPerformanceAnalysisReportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1935,7 +1937,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1959,7 +1961,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2478,7 +2480,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -2490,7 +2492,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2575,7 +2577,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -2587,7 +2589,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

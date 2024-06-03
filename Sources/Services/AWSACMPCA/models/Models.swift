@@ -2,6 +2,8 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -384,21 +386,21 @@ extension ACMPCAClientTypes {
         /// Your private CA configuration.
         public var certificateAuthorityConfiguration: ACMPCAClientTypes.CertificateAuthorityConfiguration?
         /// Date and time at which your private CA was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// Reason the request to create your private CA failed.
         public var failureReason: ACMPCAClientTypes.FailureReason?
         /// Defines a cryptographic key management compliance standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: Amazon Web Services Region ap-northeast-3 supports only FIPS_140_2_LEVEL_2_OR_HIGHER. You must explicitly specify this parameter and value when creating a CA in that Region. Specifying a different value (or no value) results in an InvalidArgsException with the message "A certificate authority cannot be created in this region with the specified security standard."
         public var keyStorageSecurityStandard: ACMPCAClientTypes.KeyStorageSecurityStandard?
         /// Date and time at which your private CA was last updated.
-        public var lastStateChangeAt: ClientRuntime.Date?
+        public var lastStateChangeAt: Foundation.Date?
         /// Date and time after which your private CA certificate is not valid.
-        public var notAfter: ClientRuntime.Date?
+        public var notAfter: Foundation.Date?
         /// Date and time before which your private CA certificate is not valid.
-        public var notBefore: ClientRuntime.Date?
+        public var notBefore: Foundation.Date?
         /// The Amazon Web Services account ID that owns the certificate authority.
         public var ownerAccount: Swift.String?
         /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the [DeleteCertificateAuthorityRequest](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html) action.
-        public var restorableUntil: ClientRuntime.Date?
+        public var restorableUntil: Foundation.Date?
         /// Information about the Online Certificate Status Protocol (OCSP) configuration or certificate revocation list (CRL) created and maintained by your private CA.
         public var revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration?
         /// Serial number of your private CA.
@@ -413,14 +415,14 @@ extension ACMPCAClientTypes {
         public init(
             arn: Swift.String? = nil,
             certificateAuthorityConfiguration: ACMPCAClientTypes.CertificateAuthorityConfiguration? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             failureReason: ACMPCAClientTypes.FailureReason? = nil,
             keyStorageSecurityStandard: ACMPCAClientTypes.KeyStorageSecurityStandard? = nil,
-            lastStateChangeAt: ClientRuntime.Date? = nil,
-            notAfter: ClientRuntime.Date? = nil,
-            notBefore: ClientRuntime.Date? = nil,
+            lastStateChangeAt: Foundation.Date? = nil,
+            notAfter: Foundation.Date? = nil,
+            notBefore: Foundation.Date? = nil,
             ownerAccount: Swift.String? = nil,
-            restorableUntil: ClientRuntime.Date? = nil,
+            restorableUntil: Foundation.Date? = nil,
             revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration? = nil,
             serial: Swift.String? = nil,
             status: ACMPCAClientTypes.CertificateAuthorityStatus? = nil,
@@ -718,7 +720,7 @@ public struct CreateCertificateAuthorityAuditReportInput {
 
 extension CreateCertificateAuthorityAuditReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCertificateAuthorityAuditReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCertificateAuthorityAuditReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -747,7 +749,7 @@ public struct CreateCertificateAuthorityAuditReportOutput {
 
 enum CreateCertificateAuthorityAuditReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -836,7 +838,7 @@ public struct CreateCertificateAuthorityInput {
 
 extension CreateCertificateAuthorityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateCertificateAuthorityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateCertificateAuthorityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -860,7 +862,7 @@ public struct CreateCertificateAuthorityOutput {
 
 enum CreateCertificateAuthorityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -922,7 +924,7 @@ public struct CreatePermissionInput {
 
 extension CreatePermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreatePermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreatePermissionOutput {
         return CreatePermissionOutput()
     }
 }
@@ -934,7 +936,7 @@ public struct CreatePermissionOutput {
 
 enum CreatePermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1234,7 +1236,7 @@ public struct DeleteCertificateAuthorityInput {
 
 extension DeleteCertificateAuthorityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteCertificateAuthorityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteCertificateAuthorityOutput {
         return DeleteCertificateAuthorityOutput()
     }
 }
@@ -1246,7 +1248,7 @@ public struct DeleteCertificateAuthorityOutput {
 
 enum DeleteCertificateAuthorityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1302,7 +1304,7 @@ public struct DeletePermissionInput {
 
 extension DeletePermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePermissionOutput {
         return DeletePermissionOutput()
     }
 }
@@ -1314,7 +1316,7 @@ public struct DeletePermissionOutput {
 
 enum DeletePermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1359,7 +1361,7 @@ public struct DeletePolicyInput {
 
 extension DeletePolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeletePolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeletePolicyOutput {
         return DeletePolicyOutput()
     }
 }
@@ -1371,7 +1373,7 @@ public struct DeletePolicyOutput {
 
 enum DeletePolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1424,7 +1426,7 @@ public struct DescribeCertificateAuthorityAuditReportInput {
 
 extension DescribeCertificateAuthorityAuditReportOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCertificateAuthorityAuditReportOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCertificateAuthorityAuditReportOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1441,7 +1443,7 @@ public struct DescribeCertificateAuthorityAuditReportOutput {
     /// Specifies whether report creation is in progress, has succeeded, or has failed.
     public var auditReportStatus: ACMPCAClientTypes.AuditReportStatus?
     /// The date and time at which the report was created.
-    public var createdAt: ClientRuntime.Date?
+    public var createdAt: Foundation.Date?
     /// Name of the S3 bucket that contains the report.
     public var s3BucketName: Swift.String?
     /// S3 key that uniquely identifies the report file in your S3 bucket.
@@ -1449,7 +1451,7 @@ public struct DescribeCertificateAuthorityAuditReportOutput {
 
     public init(
         auditReportStatus: ACMPCAClientTypes.AuditReportStatus? = nil,
-        createdAt: ClientRuntime.Date? = nil,
+        createdAt: Foundation.Date? = nil,
         s3BucketName: Swift.String? = nil,
         s3Key: Swift.String? = nil
     )
@@ -1463,7 +1465,7 @@ public struct DescribeCertificateAuthorityAuditReportOutput {
 
 enum DescribeCertificateAuthorityAuditReportOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1507,7 +1509,7 @@ public struct DescribeCertificateAuthorityInput {
 
 extension DescribeCertificateAuthorityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeCertificateAuthorityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeCertificateAuthorityOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1531,7 +1533,7 @@ public struct DescribeCertificateAuthorityOutput {
 
 enum DescribeCertificateAuthorityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1840,7 +1842,7 @@ public struct GetCertificateAuthorityCertificateInput {
 
 extension GetCertificateAuthorityCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCertificateAuthorityCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCertificateAuthorityCertificateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1869,7 +1871,7 @@ public struct GetCertificateAuthorityCertificateOutput {
 
 enum GetCertificateAuthorityCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1913,7 +1915,7 @@ public struct GetCertificateAuthorityCsrInput {
 
 extension GetCertificateAuthorityCsrOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCertificateAuthorityCsrOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCertificateAuthorityCsrOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1937,7 +1939,7 @@ public struct GetCertificateAuthorityCsrOutput {
 
 enum GetCertificateAuthorityCsrOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1989,7 +1991,7 @@ public struct GetCertificateInput {
 
 extension GetCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetCertificateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2018,7 +2020,7 @@ public struct GetCertificateOutput {
 
 enum GetCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2064,7 +2066,7 @@ public struct GetPolicyInput {
 
 extension GetPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2088,7 +2090,7 @@ public struct GetPolicyOutput {
 
 enum GetPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2123,17 +2125,17 @@ extension ImportCertificateAuthorityCertificateInput {
 public struct ImportCertificateAuthorityCertificateInput {
     /// The PEM-encoded certificate for a private CA. This may be a self-signed certificate in the case of a root CA, or it may be signed by another CA that you control.
     /// This member is required.
-    public var certificate: ClientRuntime.Data?
+    public var certificate: Foundation.Data?
     /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
     /// A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your Amazon Web Services Private CA-hosted or on-premises root certificate is the last in the chain, and each certificate in the chain signs the one preceding. This parameter must be supplied when you import a subordinate CA. When you import a root CA, there is no chain.
-    public var certificateChain: ClientRuntime.Data?
+    public var certificateChain: Foundation.Data?
 
     public init(
-        certificate: ClientRuntime.Data? = nil,
+        certificate: Foundation.Data? = nil,
         certificateAuthorityArn: Swift.String? = nil,
-        certificateChain: ClientRuntime.Data? = nil
+        certificateChain: Foundation.Data? = nil
     )
     {
         self.certificate = certificate
@@ -2144,7 +2146,7 @@ public struct ImportCertificateAuthorityCertificateInput {
 
 extension ImportCertificateAuthorityCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ImportCertificateAuthorityCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ImportCertificateAuthorityCertificateOutput {
         return ImportCertificateAuthorityCertificateOutput()
     }
 }
@@ -2156,7 +2158,7 @@ public struct ImportCertificateAuthorityCertificateOutput {
 
 enum ImportCertificateAuthorityCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2465,7 +2467,7 @@ public struct IssueCertificateInput {
     public var certificateAuthorityArn: Swift.String?
     /// The certificate signing request (CSR) for the certificate you want to issue. As an example, you can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key. openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr If you have a configuration file, you can then use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions. openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr Note: A CSR must provide either a subject name or a subject alternative name or the request will be rejected.
     /// This member is required.
-    public var csr: ClientRuntime.Data?
+    public var csr: Foundation.Data?
     /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after five minutes. Therefore, if you call IssueCertificate multiple times with the same idempotency token within five minutes, Amazon Web Services Private CA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, Amazon Web Services Private CA recognizes that you are requesting multiple certificates.
     public var idempotencyToken: Swift.String?
     /// The name of the algorithm that will be used to sign the certificate to be issued. This parameter should not be confused with the SigningAlgorithm parameter used to sign a CSR in the CreateCertificateAuthority action. The specified signing algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key.
@@ -2482,7 +2484,7 @@ public struct IssueCertificateInput {
     public init(
         apiPassthrough: ACMPCAClientTypes.ApiPassthrough? = nil,
         certificateAuthorityArn: Swift.String? = nil,
-        csr: ClientRuntime.Data? = nil,
+        csr: Foundation.Data? = nil,
         idempotencyToken: Swift.String? = nil,
         signingAlgorithm: ACMPCAClientTypes.SigningAlgorithm? = nil,
         templateArn: Swift.String? = nil,
@@ -2503,7 +2505,7 @@ public struct IssueCertificateInput {
 
 extension IssueCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> IssueCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> IssueCertificateOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2527,7 +2529,7 @@ public struct IssueCertificateOutput {
 
 enum IssueCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2763,7 +2765,7 @@ public struct ListCertificateAuthoritiesInput {
 
 extension ListCertificateAuthoritiesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListCertificateAuthoritiesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListCertificateAuthoritiesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2792,7 +2794,7 @@ public struct ListCertificateAuthoritiesOutput {
 
 enum ListCertificateAuthoritiesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2844,7 +2846,7 @@ public struct ListPermissionsInput {
 
 extension ListPermissionsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListPermissionsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListPermissionsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2873,7 +2875,7 @@ public struct ListPermissionsOutput {
 
 enum ListPermissionsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2929,7 +2931,7 @@ public struct ListTagsInput {
 
 extension ListTagsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2958,7 +2960,7 @@ public struct ListTagsOutput {
 
 enum ListTagsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3183,7 +3185,7 @@ extension ACMPCAClientTypes {
         /// The Amazon Resource Number (ARN) of the private CA from which the permission was issued.
         public var certificateAuthorityArn: Swift.String?
         /// The time at which the permission was created.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The name of the policy that is associated with the permission.
         public var policy: Swift.String?
         /// The Amazon Web Services service or entity that holds the permission. At this time, the only valid principal is acm.amazonaws.com.
@@ -3194,7 +3196,7 @@ extension ACMPCAClientTypes {
         public init(
             actions: [ACMPCAClientTypes.ActionType]? = nil,
             certificateAuthorityArn: Swift.String? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             policy: Swift.String? = nil,
             principal: Swift.String? = nil,
             sourceAccount: Swift.String? = nil
@@ -3371,7 +3373,7 @@ public struct PutPolicyInput {
 
 extension PutPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutPolicyOutput {
         return PutPolicyOutput()
     }
 }
@@ -3383,7 +3385,7 @@ public struct PutPolicyOutput {
 
 enum PutPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3633,7 +3635,7 @@ public struct RestoreCertificateAuthorityInput {
 
 extension RestoreCertificateAuthorityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RestoreCertificateAuthorityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RestoreCertificateAuthorityOutput {
         return RestoreCertificateAuthorityOutput()
     }
 }
@@ -3645,7 +3647,7 @@ public struct RestoreCertificateAuthorityOutput {
 
 enum RestoreCertificateAuthorityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3785,7 +3787,7 @@ public struct RevokeCertificateInput {
 
 extension RevokeCertificateOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RevokeCertificateOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RevokeCertificateOutput {
         return RevokeCertificateOutput()
     }
 }
@@ -3797,7 +3799,7 @@ public struct RevokeCertificateOutput {
 
 enum RevokeCertificateOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3961,7 +3963,7 @@ public struct TagCertificateAuthorityInput {
 
 extension TagCertificateAuthorityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagCertificateAuthorityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagCertificateAuthorityOutput {
         return TagCertificateAuthorityOutput()
     }
 }
@@ -3973,7 +3975,7 @@ public struct TagCertificateAuthorityOutput {
 
 enum TagCertificateAuthorityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4062,7 +4064,7 @@ public struct UntagCertificateAuthorityInput {
 
 extension UntagCertificateAuthorityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagCertificateAuthorityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagCertificateAuthorityOutput {
         return UntagCertificateAuthorityOutput()
     }
 }
@@ -4074,7 +4076,7 @@ public struct UntagCertificateAuthorityOutput {
 
 enum UntagCertificateAuthorityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -4137,7 +4139,7 @@ public struct UpdateCertificateAuthorityInput {
 
 extension UpdateCertificateAuthorityOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateCertificateAuthorityOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateCertificateAuthorityOutput {
         return UpdateCertificateAuthorityOutput()
     }
 }
@@ -4149,7 +4151,7 @@ public struct UpdateCertificateAuthorityOutput {
 
 enum UpdateCertificateAuthorityOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)

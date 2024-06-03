@@ -2,8 +2,14 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyEventStreams
+import SmithyEventStreamsAPI
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
+import struct Foundation.Data
 
 extension TranscribeStreamingClientTypes.Alternative {
 
@@ -53,10 +59,10 @@ extension TranscribeStreamingClientTypes {
     /// A wrapper for your audio chunks. Your audio stream consists of one or more audio events, which consist of one or more audio chunks. For more information, see [Event stream encoding](https://docs.aws.amazon.com/transcribe/latest/dg/event-stream.html).
     public struct AudioEvent {
         /// An audio blob that contains the next part of the audio that you want to transcribe. The maximum audio chunk size is 32 KB.
-        public var audioChunk: ClientRuntime.Data?
+        public var audioChunk: Foundation.Data?
 
         public init(
-            audioChunk: ClientRuntime.Data? = nil
+            audioChunk: Foundation.Data? = nil
         )
         {
             self.audioChunk = audioChunk
@@ -66,10 +72,10 @@ extension TranscribeStreamingClientTypes {
 }
 
 extension TranscribeStreamingClientTypes.AudioStream {
-    static var marshal: ClientRuntime.MarshalClosure<TranscribeStreamingClientTypes.AudioStream> {
+    static var marshal: SmithyEventStreamsAPI.MarshalClosure<TranscribeStreamingClientTypes.AudioStream> {
         { (self) in
-            var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
-            var payload: ClientRuntime.Data? = nil
+            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: Foundation.Data? = nil
             switch self {
             case .audioevent(let value):
                 headers.append(.init(name: ":event-type", value: .string("AudioEvent")))
@@ -83,9 +89,9 @@ extension TranscribeStreamingClientTypes.AudioStream {
                 try writer["PostCallAnalyticsSettings"].write(value.postCallAnalyticsSettings, with: TranscribeStreamingClientTypes.PostCallAnalyticsSettings.write(value:to:))
                 payload = try writer.data()
             case .sdkUnknown(_):
-                throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
+                throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
             }
-            return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
+            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
         }
     }
 }
@@ -307,7 +313,7 @@ extension TranscribeStreamingClientTypes {
 }
 
 extension TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -322,7 +328,7 @@ extension TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     case "BadRequestException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: BadRequestException.read(from:))
@@ -340,17 +346,17 @@ extension TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream {
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceUnavailableException.read(from:))
                         return value
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }
@@ -1270,7 +1276,7 @@ extension TranscribeStreamingClientTypes {
 }
 
 extension TranscribeStreamingClientTypes.MedicalTranscriptResultStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<TranscribeStreamingClientTypes.MedicalTranscriptResultStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<TranscribeStreamingClientTypes.MedicalTranscriptResultStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -1282,7 +1288,7 @@ extension TranscribeStreamingClientTypes.MedicalTranscriptResultStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     case "BadRequestException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: BadRequestException.read(from:))
@@ -1300,17 +1306,17 @@ extension TranscribeStreamingClientTypes.MedicalTranscriptResultStream {
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceUnavailableException.read(from:))
                         return value
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }
@@ -1664,8 +1670,8 @@ extension TranscribeStreamingClientTypes {
 
 extension StartCallAnalyticsStreamTranscriptionInput {
 
-    static func headerProvider(_ value: StartCallAnalyticsStreamTranscriptionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: StartCallAnalyticsStreamTranscriptionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentIdentificationType = value.contentIdentificationType {
             items.add(Header(name: "x-amzn-transcribe-content-identification-type", value: Swift.String(contentIdentificationType.rawValue)))
         }
@@ -1795,7 +1801,7 @@ public struct StartCallAnalyticsStreamTranscriptionInput {
 
 extension StartCallAnalyticsStreamTranscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartCallAnalyticsStreamTranscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartCallAnalyticsStreamTranscriptionOutput {
         var value = StartCallAnalyticsStreamTranscriptionOutput()
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             value.contentIdentificationType = TranscribeStreamingClientTypes.ContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
@@ -1840,8 +1846,8 @@ extension StartCallAnalyticsStreamTranscriptionOutput {
             value.vocabularyName = vocabularyNameHeaderValue
         }
         if case .stream(let stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream.unmarshal)
             value.callAnalyticsTranscriptResultStream = decoderStream.toAsyncStream()
         }
         return value
@@ -1918,7 +1924,7 @@ public struct StartCallAnalyticsStreamTranscriptionOutput {
 
 enum StartCallAnalyticsStreamTranscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1936,8 +1942,8 @@ enum StartCallAnalyticsStreamTranscriptionOutputError {
 
 extension StartMedicalStreamTranscriptionInput {
 
-    static func headerProvider(_ value: StartMedicalStreamTranscriptionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: StartMedicalStreamTranscriptionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentIdentificationType = value.contentIdentificationType {
             items.add(Header(name: "x-amzn-transcribe-content-identification-type", value: Swift.String(contentIdentificationType.rawValue)))
         }
@@ -2055,7 +2061,7 @@ public struct StartMedicalStreamTranscriptionInput {
 
 extension StartMedicalStreamTranscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartMedicalStreamTranscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartMedicalStreamTranscriptionOutput {
         var value = StartMedicalStreamTranscriptionOutput()
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             value.contentIdentificationType = TranscribeStreamingClientTypes.MedicalContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
@@ -2094,8 +2100,8 @@ extension StartMedicalStreamTranscriptionOutput {
             value.vocabularyName = vocabularyNameHeaderValue
         }
         if case .stream(let stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: TranscribeStreamingClientTypes.MedicalTranscriptResultStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: TranscribeStreamingClientTypes.MedicalTranscriptResultStream.unmarshal)
             value.transcriptResultStream = decoderStream.toAsyncStream()
         }
         return value
@@ -2164,7 +2170,7 @@ public struct StartMedicalStreamTranscriptionOutput {
 
 enum StartMedicalStreamTranscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2182,8 +2188,8 @@ enum StartMedicalStreamTranscriptionOutputError {
 
 extension StartStreamTranscriptionInput {
 
-    static func headerProvider(_ value: StartStreamTranscriptionInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: StartStreamTranscriptionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentIdentificationType = value.contentIdentificationType {
             items.add(Header(name: "x-amzn-transcribe-content-identification-type", value: Swift.String(contentIdentificationType.rawValue)))
         }
@@ -2375,7 +2381,7 @@ public struct StartStreamTranscriptionInput {
 
 extension StartStreamTranscriptionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> StartStreamTranscriptionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> StartStreamTranscriptionOutput {
         var value = StartStreamTranscriptionOutput()
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             value.contentIdentificationType = TranscribeStreamingClientTypes.ContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
@@ -2447,8 +2453,8 @@ extension StartStreamTranscriptionOutput {
             value.vocabularyNames = vocabularyNamesHeaderValue
         }
         if case .stream(let stream) = httpResponse.body {
-            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: TranscribeStreamingClientTypes.TranscriptResultStream.unmarshal)
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: TranscribeStreamingClientTypes.TranscriptResultStream.unmarshal)
             value.transcriptResultStream = decoderStream.toAsyncStream()
         }
         return value
@@ -2561,7 +2567,7 @@ public struct StartStreamTranscriptionOutput {
 
 enum StartStreamTranscriptionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2663,7 +2669,7 @@ extension TranscribeStreamingClientTypes {
 }
 
 extension TranscribeStreamingClientTypes.TranscriptResultStream {
-    static var unmarshal: ClientRuntime.UnmarshalClosure<TranscribeStreamingClientTypes.TranscriptResultStream> {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<TranscribeStreamingClientTypes.TranscriptResultStream> {
         { message in
             switch try message.type() {
             case .event(let params):
@@ -2675,7 +2681,7 @@ extension TranscribeStreamingClientTypes.TranscriptResultStream {
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
             case .exception(let params):
-                let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     case "BadRequestException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: BadRequestException.read(from:))
@@ -2693,17 +2699,17 @@ extension TranscribeStreamingClientTypes.TranscriptResultStream {
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: ServiceUnavailableException.read(from:))
                         return value
                     default:
-                        let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                        let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
                     }
                 }
                 let error = try makeError(message, params)
                 throw error
             case .error(let params):
-                let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                let httpResponse = SmithyHTTPAPI.HttpResponse(body: .data(message.payload), statusCode: .ok)
                 throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
             case .unknown(messageType: let messageType):
-                throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
     }

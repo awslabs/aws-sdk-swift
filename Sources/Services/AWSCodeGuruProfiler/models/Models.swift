@@ -2,6 +2,9 @@
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import AWSClientRuntime
 import ClientRuntime
+import Foundation
+import Smithy
+import SmithyHTTPAPI
 import SmithyJSON
 import SmithyReadWrite
 
@@ -71,7 +74,7 @@ public struct AddNotificationChannelsInput {
 
 extension AddNotificationChannelsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> AddNotificationChannelsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> AddNotificationChannelsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -96,7 +99,7 @@ public struct AddNotificationChannelsOutput {
 
 enum AddNotificationChannelsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -259,11 +262,11 @@ extension CodeGuruProfilerClientTypes {
         /// * PT5M — 5 minutes
         public var period: CodeGuruProfilerClientTypes.AggregationPeriod?
         /// The time that aggregation of posted agent profiles for a profiling group starts. The aggregation profile contains profiles posted by the agent starting at this time for an aggregation period specified by the period property of the AggregatedProfileTime object. Specify start using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public var start: ClientRuntime.Date?
+        public var start: Foundation.Date?
 
         public init(
             period: CodeGuruProfilerClientTypes.AggregationPeriod? = nil,
-            start: ClientRuntime.Date? = nil
+            start: Foundation.Date? = nil
         )
         {
             self.period = period
@@ -364,20 +367,20 @@ extension CodeGuruProfilerClientTypes {
     /// The specific duration in which the metric is flagged as anomalous.
     public struct AnomalyInstance {
         /// The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The universally unique identifier (UUID) of an instance of an anomaly in a metric.
         /// This member is required.
         public var id: Swift.String?
         /// The start time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// Feedback type on a specific instance of anomaly submitted by the user.
         public var userFeedback: CodeGuruProfilerClientTypes.UserFeedback?
 
         public init(
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             userFeedback: CodeGuruProfilerClientTypes.UserFeedback? = nil
         )
         {
@@ -392,22 +395,22 @@ extension CodeGuruProfilerClientTypes {
 
 extension BatchGetFrameMetricDataInput {
 
-    static func queryItemProvider(_ value: BatchGetFrameMetricDataInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: BatchGetFrameMetricDataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let period = value.period {
-            let periodQueryItem = ClientRuntime.SDKURLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
+            let periodQueryItem = Smithy.URIQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
             items.append(periodQueryItem)
         }
         if let startTime = value.startTime {
-            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
             items.append(startTimeQueryItem)
         }
         if let endTime = value.endTime {
-            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
         }
         if let targetResolution = value.targetResolution {
-            let targetResolutionQueryItem = ClientRuntime.SDKURLQueryItem(name: "targetResolution".urlPercentEncoding(), value: Swift.String(targetResolution.rawValue).urlPercentEncoding())
+            let targetResolutionQueryItem = Smithy.URIQueryItem(name: "targetResolution".urlPercentEncoding(), value: Swift.String(targetResolution.rawValue).urlPercentEncoding())
             items.append(targetResolutionQueryItem)
         }
         return items
@@ -435,7 +438,7 @@ extension BatchGetFrameMetricDataInput {
 /// The structure representing the BatchGetFrameMetricDataRequest.
 public struct BatchGetFrameMetricDataInput {
     /// The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The details of the metrics that are used to request a time series of values. The metric includes the name of the frame, the aggregation type to calculate the metric value for the frame, and the thread states to use to get the count for the metric value of the frame.
     public var frameMetrics: [CodeGuruProfilerClientTypes.FrameMetric]?
     /// The duration of the frame metrics used to return the time series values. Specify using the ISO 8601 format. The maximum period duration is one day (PT24H or P1D).
@@ -444,7 +447,7 @@ public struct BatchGetFrameMetricDataInput {
     /// This member is required.
     public var profilingGroupName: Swift.String?
     /// The start time of the time period for the frame metrics used to return the time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// The requested resolution of time steps for the returned time series of values. If the requested target resolution is not available due to data not being retained we provide a best effort result by falling back to the most granular available resolution after the target resolution. There are 3 valid values.
     ///
     /// * P1D — 1 day
@@ -455,11 +458,11 @@ public struct BatchGetFrameMetricDataInput {
     public var targetResolution: CodeGuruProfilerClientTypes.AggregationPeriod?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         frameMetrics: [CodeGuruProfilerClientTypes.FrameMetric]? = nil,
         period: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         targetResolution: CodeGuruProfilerClientTypes.AggregationPeriod? = nil
     )
     {
@@ -474,7 +477,7 @@ public struct BatchGetFrameMetricDataInput {
 
 extension BatchGetFrameMetricDataOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> BatchGetFrameMetricDataOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> BatchGetFrameMetricDataOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -493,7 +496,7 @@ extension BatchGetFrameMetricDataOutput {
 public struct BatchGetFrameMetricDataOutput {
     /// The end time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// List of instances, or time steps, in the time series. For example, if the period is one day (PT24H)), and the resolution is five minutes (PT5M), then there are 288 endTimes in the list that are each five minutes appart.
     /// This member is required.
     public var endTimes: [CodeGuruProfilerClientTypes.TimestampStructure]?
@@ -511,17 +514,17 @@ public struct BatchGetFrameMetricDataOutput {
     public var resolution: CodeGuruProfilerClientTypes.AggregationPeriod?
     /// The start time of the time period for the returned time series values. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
     /// List of instances which remained unprocessed. This will create a missing time step in the list of end times.
     /// This member is required.
     public var unprocessedEndTimes: [Swift.String:[CodeGuruProfilerClientTypes.TimestampStructure]]?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         endTimes: [CodeGuruProfilerClientTypes.TimestampStructure]? = nil,
         frameMetricData: [CodeGuruProfilerClientTypes.FrameMetricDatum]? = nil,
         resolution: CodeGuruProfilerClientTypes.AggregationPeriod? = nil,
-        startTime: ClientRuntime.Date? = nil,
+        startTime: Foundation.Date? = nil,
         unprocessedEndTimes: [Swift.String:[CodeGuruProfilerClientTypes.TimestampStructure]]? = nil
     )
     {
@@ -536,7 +539,7 @@ public struct BatchGetFrameMetricDataOutput {
 
 enum BatchGetFrameMetricDataOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -690,7 +693,7 @@ public struct ConfigureAgentInput {
 
 extension ConfigureAgentOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ConfigureAgentOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ConfigureAgentOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -716,7 +719,7 @@ public struct ConfigureAgentOutput {
 
 enum ConfigureAgentOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -771,13 +774,13 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension CreateProfilingGroupInput {
 
-    static func queryItemProvider(_ value: CreateProfilingGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: CreateProfilingGroupInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let clientToken = value.clientToken else {
             let message = "Creating a URL Query Item failed. clientToken is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+        let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
         items.append(clientTokenQueryItem)
         return items
     }
@@ -834,7 +837,7 @@ public struct CreateProfilingGroupInput {
 
 extension CreateProfilingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> CreateProfilingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> CreateProfilingGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -860,7 +863,7 @@ public struct CreateProfilingGroupOutput {
 
 enum CreateProfilingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -902,7 +905,7 @@ public struct DeleteProfilingGroupInput {
 
 extension DeleteProfilingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DeleteProfilingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DeleteProfilingGroupOutput {
         return DeleteProfilingGroupOutput()
     }
 }
@@ -915,7 +918,7 @@ public struct DeleteProfilingGroupOutput {
 
 enum DeleteProfilingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -957,7 +960,7 @@ public struct DescribeProfilingGroupInput {
 
 extension DescribeProfilingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> DescribeProfilingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> DescribeProfilingGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -983,7 +986,7 @@ public struct DescribeProfilingGroupOutput {
 
 enum DescribeProfilingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1076,9 +1079,9 @@ extension CodeGuruProfilerClientTypes {
         /// The universally unique identifier (UUID) of the recommendation report.
         public var id: Swift.String?
         /// The end time of the period during which the metric is flagged as anomalous. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public var profileEndTime: ClientRuntime.Date?
+        public var profileEndTime: Foundation.Date?
         /// The start time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public var profileStartTime: ClientRuntime.Date?
+        public var profileStartTime: Foundation.Date?
         /// The name of the profiling group that is associated with the analysis data.
         public var profilingGroupName: Swift.String?
         /// The total number of different recommendations that were found by the analysis.
@@ -1086,8 +1089,8 @@ extension CodeGuruProfilerClientTypes {
 
         public init(
             id: Swift.String? = nil,
-            profileEndTime: ClientRuntime.Date? = nil,
-            profileStartTime: ClientRuntime.Date? = nil,
+            profileEndTime: Foundation.Date? = nil,
+            profileStartTime: Foundation.Date? = nil,
             profilingGroupName: Swift.String? = nil,
             totalNumberOfFindings: Swift.Int? = nil
         )
@@ -1183,18 +1186,18 @@ extension CodeGuruProfilerClientTypes {
 
 extension GetFindingsReportAccountSummaryInput {
 
-    static func queryItemProvider(_ value: GetFindingsReportAccountSummaryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetFindingsReportAccountSummaryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let dailyReportsOnly = value.dailyReportsOnly {
-            let dailyReportsOnlyQueryItem = ClientRuntime.SDKURLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
+            let dailyReportsOnlyQueryItem = Smithy.URIQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
             items.append(dailyReportsOnlyQueryItem)
         }
         return items
@@ -1231,7 +1234,7 @@ public struct GetFindingsReportAccountSummaryInput {
 
 extension GetFindingsReportAccountSummaryOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetFindingsReportAccountSummaryOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetFindingsReportAccountSummaryOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1262,7 +1265,7 @@ public struct GetFindingsReportAccountSummaryOutput {
 
 enum GetFindingsReportAccountSummaryOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1302,7 +1305,7 @@ public struct GetNotificationConfigurationInput {
 
 extension GetNotificationConfigurationOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetNotificationConfigurationOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetNotificationConfigurationOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1328,7 +1331,7 @@ public struct GetNotificationConfigurationOutput {
 
 enum GetNotificationConfigurationOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1369,7 +1372,7 @@ public struct GetPolicyInput {
 
 extension GetPolicyOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetPolicyOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetPolicyOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1401,7 +1404,7 @@ public struct GetPolicyOutput {
 
 enum GetPolicyOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1417,8 +1420,8 @@ enum GetPolicyOutputError {
 
 extension GetProfileInput {
 
-    static func headerProvider(_ value: GetProfileInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: GetProfileInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let accept = value.accept {
             items.add(Header(name: "Accept", value: Swift.String(accept)))
         }
@@ -1428,22 +1431,22 @@ extension GetProfileInput {
 
 extension GetProfileInput {
 
-    static func queryItemProvider(_ value: GetProfileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetProfileInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxDepth = value.maxDepth {
-            let maxDepthQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxDepth".urlPercentEncoding(), value: Swift.String(maxDepth).urlPercentEncoding())
+            let maxDepthQueryItem = Smithy.URIQueryItem(name: "maxDepth".urlPercentEncoding(), value: Swift.String(maxDepth).urlPercentEncoding())
             items.append(maxDepthQueryItem)
         }
         if let period = value.period {
-            let periodQueryItem = ClientRuntime.SDKURLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
+            let periodQueryItem = Smithy.URIQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period).urlPercentEncoding())
             items.append(periodQueryItem)
         }
         if let startTime = value.startTime {
-            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
             items.append(startTimeQueryItem)
         }
         if let endTime = value.endTime {
-            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
         }
         return items
@@ -1469,7 +1472,7 @@ public struct GetProfileInput {
     /// * application/x-amzn-ion — the Amazon Ion data format. For more information, see [Amazon Ion](http://amzn.github.io/ion-docs/).
     public var accept: Swift.String?
     /// The end time of the requested profile. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. If you specify endTime, then you must also specify period or startTime, but not both.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum depth of the stacks in the code that is represented in the aggregated profile. For example, if CodeGuru Profiler finds a method A, which calls method B, which calls method C, which calls method D, then the depth is 4. If the maxDepth is set to 2, then the aggregated profile contains representations of methods A and B.
     public var maxDepth: Swift.Int?
     /// Used with startTime or endTime to specify the time range for the returned aggregated profile. Specify using the ISO 8601 format. For example, P1DT1H1M1S. To get the latest aggregated profile, specify only period.
@@ -1478,15 +1481,15 @@ public struct GetProfileInput {
     /// This member is required.
     public var profilingGroupName: Swift.String?
     /// The start time of the profile to get. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC. If you specify startTime, then you must also specify period or endTime, but not both.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         accept: Swift.String? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxDepth: Swift.Int? = nil,
         period: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.accept = accept
@@ -1500,7 +1503,7 @@ public struct GetProfileInput {
 
 extension GetProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetProfileOutput {
         var value = GetProfileOutput()
         if let contentEncodingHeaderValue = httpResponse.headers.value(for: "Content-Encoding") {
             value.contentEncoding = contentEncodingHeaderValue
@@ -1529,12 +1532,12 @@ public struct GetProfileOutput {
     public var contentType: Swift.String?
     /// Information about the profile.
     /// This member is required.
-    public var profile: ClientRuntime.Data?
+    public var profile: Foundation.Data?
 
     public init(
         contentEncoding: Swift.String? = nil,
         contentType: Swift.String? = nil,
-        profile: ClientRuntime.Data? = nil
+        profile: Foundation.Data? = nil
     )
     {
         self.contentEncoding = contentEncoding
@@ -1545,7 +1548,7 @@ public struct GetProfileOutput {
 
 enum GetProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1562,22 +1565,22 @@ enum GetProfileOutputError {
 
 extension GetRecommendationsInput {
 
-    static func queryItemProvider(_ value: GetRecommendationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: GetRecommendationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let startTime = value.startTime else {
             let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+        let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
         items.append(startTimeQueryItem)
         guard let endTime = value.endTime else {
             let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+        let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
         items.append(endTimeQueryItem)
         if let locale = value.locale {
-            let localeQueryItem = ClientRuntime.SDKURLQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale).urlPercentEncoding())
+            let localeQueryItem = Smithy.URIQueryItem(name: "locale".urlPercentEncoding(), value: Swift.String(locale).urlPercentEncoding())
             items.append(localeQueryItem)
         }
         return items
@@ -1598,7 +1601,7 @@ extension GetRecommendationsInput {
 public struct GetRecommendationsInput {
     /// The start time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The language used to provide analysis. Specify using a string that is one of the following BCP 47 language codes.
     ///
     /// * de-DE - German, Germany
@@ -1628,13 +1631,13 @@ public struct GetRecommendationsInput {
     public var profilingGroupName: Swift.String?
     /// The end time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         locale: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -1646,7 +1649,7 @@ public struct GetRecommendationsInput {
 
 extension GetRecommendationsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetRecommendationsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> GetRecommendationsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1667,10 +1670,10 @@ public struct GetRecommendationsOutput {
     public var anomalies: [CodeGuruProfilerClientTypes.Anomaly]?
     /// The end time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
-    public var profileEndTime: ClientRuntime.Date?
+    public var profileEndTime: Foundation.Date?
     /// The start time of the profile the analysis data is about. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
-    public var profileStartTime: ClientRuntime.Date?
+    public var profileStartTime: Foundation.Date?
     /// The name of the profiling group the analysis data is about.
     /// This member is required.
     public var profilingGroupName: Swift.String?
@@ -1680,8 +1683,8 @@ public struct GetRecommendationsOutput {
 
     public init(
         anomalies: [CodeGuruProfilerClientTypes.Anomaly]? = nil,
-        profileEndTime: ClientRuntime.Date? = nil,
-        profileStartTime: ClientRuntime.Date? = nil,
+        profileEndTime: Foundation.Date? = nil,
+        profileStartTime: Foundation.Date? = nil,
         profilingGroupName: Swift.String? = nil,
         recommendations: [CodeGuruProfilerClientTypes.Recommendation]? = nil
     )
@@ -1696,7 +1699,7 @@ public struct GetRecommendationsOutput {
 
 enum GetRecommendationsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1751,31 +1754,31 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension ListFindingsReportsInput {
 
-    static func queryItemProvider(_ value: ListFindingsReportsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListFindingsReportsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let dailyReportsOnly = value.dailyReportsOnly {
-            let dailyReportsOnlyQueryItem = ClientRuntime.SDKURLQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
+            let dailyReportsOnlyQueryItem = Smithy.URIQueryItem(name: "dailyReportsOnly".urlPercentEncoding(), value: Swift.String(dailyReportsOnly).urlPercentEncoding())
             items.append(dailyReportsOnlyQueryItem)
         }
         guard let startTime = value.startTime else {
             let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+        let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
         items.append(startTimeQueryItem)
         guard let endTime = value.endTime else {
             let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+        let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
         items.append(endTimeQueryItem)
         return items
     }
@@ -1797,7 +1800,7 @@ public struct ListFindingsReportsInput {
     public var dailyReportsOnly: Swift.Bool?
     /// The end time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum number of report results returned by ListFindingsReports in paginated output. When this parameter is used, ListFindingsReports only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFindingsReports request with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a previous paginated ListFindingsReportsRequest request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
@@ -1807,15 +1810,15 @@ public struct ListFindingsReportsInput {
     public var profilingGroupName: Swift.String?
     /// The start time of the profile to get analysis data about. You must specify startTime and endTime. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
         dailyReportsOnly: Swift.Bool? = nil,
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.dailyReportsOnly = dailyReportsOnly
@@ -1829,7 +1832,7 @@ public struct ListFindingsReportsInput {
 
 extension ListFindingsReportsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListFindingsReportsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListFindingsReportsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -1860,7 +1863,7 @@ public struct ListFindingsReportsOutput {
 
 enum ListFindingsReportsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -1877,37 +1880,37 @@ enum ListFindingsReportsOutputError {
 
 extension ListProfileTimesInput {
 
-    static func queryItemProvider(_ value: ListProfileTimesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListProfileTimesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let period = value.period else {
             let message = "Creating a URL Query Item failed. period is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let periodQueryItem = ClientRuntime.SDKURLQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period.rawValue).urlPercentEncoding())
+        let periodQueryItem = Smithy.URIQueryItem(name: "period".urlPercentEncoding(), value: Swift.String(period.rawValue).urlPercentEncoding())
         items.append(periodQueryItem)
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let orderBy = value.orderBy {
-            let orderByQueryItem = ClientRuntime.SDKURLQueryItem(name: "orderBy".urlPercentEncoding(), value: Swift.String(orderBy.rawValue).urlPercentEncoding())
+            let orderByQueryItem = Smithy.URIQueryItem(name: "orderBy".urlPercentEncoding(), value: Swift.String(orderBy.rawValue).urlPercentEncoding())
             items.append(orderByQueryItem)
         }
         guard let startTime = value.startTime else {
             let message = "Creating a URL Query Item failed. startTime is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+        let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
         items.append(startTimeQueryItem)
         guard let endTime = value.endTime else {
             let message = "Creating a URL Query Item failed. endTime is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+        let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
         items.append(endTimeQueryItem)
         return items
     }
@@ -1927,7 +1930,7 @@ extension ListProfileTimesInput {
 public struct ListProfileTimesInput {
     /// The end time of the time range from which to list the profiles.
     /// This member is required.
-    public var endTime: ClientRuntime.Date?
+    public var endTime: Foundation.Date?
     /// The maximum number of profile time results returned by ListProfileTimes in paginated output. When this parameter is used, ListProfileTimes only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfileTimes request with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a previous paginated ListProfileTimes request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
@@ -1948,16 +1951,16 @@ public struct ListProfileTimesInput {
     public var profilingGroupName: Swift.String?
     /// The start time of the time range from which to list the profiles.
     /// This member is required.
-    public var startTime: ClientRuntime.Date?
+    public var startTime: Foundation.Date?
 
     public init(
-        endTime: ClientRuntime.Date? = nil,
+        endTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         orderBy: CodeGuruProfilerClientTypes.OrderBy? = nil,
         period: CodeGuruProfilerClientTypes.AggregationPeriod? = nil,
         profilingGroupName: Swift.String? = nil,
-        startTime: ClientRuntime.Date? = nil
+        startTime: Foundation.Date? = nil
     )
     {
         self.endTime = endTime
@@ -1972,7 +1975,7 @@ public struct ListProfileTimesInput {
 
 extension ListProfileTimesOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProfileTimesOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProfileTimesOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2003,7 +2006,7 @@ public struct ListProfileTimesOutput {
 
 enum ListProfileTimesOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2020,18 +2023,18 @@ enum ListProfileTimesOutputError {
 
 extension ListProfilingGroupsInput {
 
-    static func queryItemProvider(_ value: ListProfilingGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: ListProfilingGroupsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
-            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
         if let maxResults = value.maxResults {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         if let includeDescription = value.includeDescription {
-            let includeDescriptionQueryItem = ClientRuntime.SDKURLQueryItem(name: "includeDescription".urlPercentEncoding(), value: Swift.String(includeDescription).urlPercentEncoding())
+            let includeDescriptionQueryItem = Smithy.URIQueryItem(name: "includeDescription".urlPercentEncoding(), value: Swift.String(includeDescription).urlPercentEncoding())
             items.append(includeDescriptionQueryItem)
         }
         return items
@@ -2068,7 +2071,7 @@ public struct ListProfilingGroupsInput {
 
 extension ListProfilingGroupsOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListProfilingGroupsOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListProfilingGroupsOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2104,7 +2107,7 @@ public struct ListProfilingGroupsOutput {
 
 enum ListProfilingGroupsOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2142,7 +2145,7 @@ public struct ListTagsForResourceInput {
 
 extension ListTagsForResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> ListTagsForResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> ListTagsForResourceOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2166,7 +2169,7 @@ public struct ListTagsForResourceOutput {
 
 enum ListTagsForResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2456,8 +2459,8 @@ extension CodeGuruProfilerClientTypes {
 
 extension PostAgentProfileInput {
 
-    static func headerProvider(_ value: PostAgentProfileInput) -> ClientRuntime.Headers {
-        var items = ClientRuntime.Headers()
+    static func headerProvider(_ value: PostAgentProfileInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let contentType = value.contentType {
             items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
         }
@@ -2467,10 +2470,10 @@ extension PostAgentProfileInput {
 
 extension PostAgentProfileInput {
 
-    static func queryItemProvider(_ value: PostAgentProfileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: PostAgentProfileInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let profileToken = value.profileToken {
-            let profileTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "profileToken".urlPercentEncoding(), value: Swift.String(profileToken).urlPercentEncoding())
+            let profileTokenQueryItem = Smithy.URIQueryItem(name: "profileToken".urlPercentEncoding(), value: Swift.String(profileToken).urlPercentEncoding())
             items.append(profileTokenQueryItem)
         }
         return items
@@ -2499,7 +2502,7 @@ extension PostAgentProfileInput {
 public struct PostAgentProfileInput {
     /// The submitted profiling data.
     /// This member is required.
-    public var agentProfile: ClientRuntime.Data?
+    public var agentProfile: Foundation.Data?
     /// The format of the submitted profiling data. The format maps to the Accept and Content-Type headers of the HTTP request. You can specify one of the following: or the default .
     ///
     /// * application/json — standard JSON format
@@ -2514,7 +2517,7 @@ public struct PostAgentProfileInput {
     public var profilingGroupName: Swift.String?
 
     public init(
-        agentProfile: ClientRuntime.Data? = nil,
+        agentProfile: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         profileToken: Swift.String? = nil,
         profilingGroupName: Swift.String? = nil
@@ -2529,7 +2532,7 @@ public struct PostAgentProfileInput {
 
 extension PostAgentProfileOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PostAgentProfileOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PostAgentProfileOutput {
         return PostAgentProfileOutput()
     }
 }
@@ -2542,7 +2545,7 @@ public struct PostAgentProfileOutput {
 
 enum PostAgentProfileOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2571,10 +2574,10 @@ extension CodeGuruProfilerClientTypes {
     /// Contains the start time of a profile.
     public struct ProfileTime {
         /// The start time of a profile. It is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public var start: ClientRuntime.Date?
+        public var start: Foundation.Date?
 
         public init(
-            start: ClientRuntime.Date? = nil
+            start: Foundation.Date? = nil
         )
         {
             self.start = start
@@ -2610,7 +2613,7 @@ extension CodeGuruProfilerClientTypes {
         /// The compute platform of the profiling group. If it is set to AWSLambda, then the profiled application runs on AWS Lambda. If it is set to Default, then the profiled application runs on a compute platform that is not AWS Lambda, such an Amazon EC2 instance, an on-premises server, or a different platform. The default is Default.
         public var computePlatform: CodeGuruProfilerClientTypes.ComputePlatform?
         /// The time when the profiling group was created. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public var createdAt: ClientRuntime.Date?
+        public var createdAt: Foundation.Date?
         /// The name of the profiling group.
         public var name: Swift.String?
         /// A [ProfilingStatus](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingStatus.html) object that includes information about the last time a profile agent pinged back, the last time a profile was received, and the aggregation period and start time for the most recent aggregated profile.
@@ -2618,17 +2621,17 @@ extension CodeGuruProfilerClientTypes {
         /// A list of the tags that belong to this profiling group.
         public var tags: [Swift.String:Swift.String]?
         /// The date and time when the profiling group was last updated. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public var updatedAt: ClientRuntime.Date?
+        public var updatedAt: Foundation.Date?
 
         public init(
             agentOrchestrationConfig: CodeGuruProfilerClientTypes.AgentOrchestrationConfig? = nil,
             arn: Swift.String? = nil,
             computePlatform: CodeGuruProfilerClientTypes.ComputePlatform? = nil,
-            createdAt: ClientRuntime.Date? = nil,
+            createdAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             profilingStatus: CodeGuruProfilerClientTypes.ProfilingStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: Foundation.Date? = nil
         )
         {
             self.agentOrchestrationConfig = agentOrchestrationConfig
@@ -2660,15 +2663,15 @@ extension CodeGuruProfilerClientTypes {
     /// Profiling status includes information about the last time a profile agent pinged back, the last time a profile was received, and the aggregation period and start time for the most recent aggregated profile.
     public struct ProfilingStatus {
         /// The date and time when the profiling agent most recently pinged back. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public var latestAgentOrchestratedAt: ClientRuntime.Date?
+        public var latestAgentOrchestratedAt: Foundation.Date?
         /// The date and time when the most recent profile was received. Specify using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
-        public var latestAgentProfileReportedAt: ClientRuntime.Date?
+        public var latestAgentProfileReportedAt: Foundation.Date?
         /// An [AggregatedProfileTime](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AggregatedProfileTime.html) object that contains the aggregation period and start time for an aggregated profile.
         public var latestAggregatedProfile: CodeGuruProfilerClientTypes.AggregatedProfileTime?
 
         public init(
-            latestAgentOrchestratedAt: ClientRuntime.Date? = nil,
-            latestAgentProfileReportedAt: ClientRuntime.Date? = nil,
+            latestAgentOrchestratedAt: Foundation.Date? = nil,
+            latestAgentProfileReportedAt: Foundation.Date? = nil,
             latestAggregatedProfile: CodeGuruProfilerClientTypes.AggregatedProfileTime? = nil
         )
         {
@@ -2732,7 +2735,7 @@ public struct PutPermissionInput {
 
 extension PutPermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> PutPermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> PutPermissionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2764,7 +2767,7 @@ public struct PutPermissionOutput {
 
 enum PutPermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2806,13 +2809,13 @@ extension CodeGuruProfilerClientTypes {
         public var allMatchesSum: Swift.Double?
         /// End time of the profile that was used by this analysis. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         /// This member is required.
-        public var endTime: ClientRuntime.Date?
+        public var endTime: Foundation.Date?
         /// The pattern that analysis recognized in the profile to make this recommendation.
         /// This member is required.
         public var pattern: CodeGuruProfilerClientTypes.Pattern?
         /// The start time of the profile that was used by this analysis. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         /// This member is required.
-        public var startTime: ClientRuntime.Date?
+        public var startTime: Foundation.Date?
         /// List of the matches with most impact.
         /// This member is required.
         public var topMatches: [CodeGuruProfilerClientTypes.Match]?
@@ -2820,9 +2823,9 @@ extension CodeGuruProfilerClientTypes {
         public init(
             allMatchesCount: Swift.Int? = nil,
             allMatchesSum: Swift.Double? = nil,
-            endTime: ClientRuntime.Date? = nil,
+            endTime: Foundation.Date? = nil,
             pattern: CodeGuruProfilerClientTypes.Pattern? = nil,
-            startTime: ClientRuntime.Date? = nil,
+            startTime: Foundation.Date? = nil,
             topMatches: [CodeGuruProfilerClientTypes.Match]? = nil
         )
         {
@@ -2871,7 +2874,7 @@ public struct RemoveNotificationChannelInput {
 
 extension RemoveNotificationChannelOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemoveNotificationChannelOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemoveNotificationChannelOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2896,7 +2899,7 @@ public struct RemoveNotificationChannelOutput {
 
 enum RemoveNotificationChannelOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -2913,13 +2916,13 @@ enum RemoveNotificationChannelOutputError {
 
 extension RemovePermissionInput {
 
-    static func queryItemProvider(_ value: RemovePermissionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: RemovePermissionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let revisionId = value.revisionId else {
             let message = "Creating a URL Query Item failed. revisionId is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
-        let revisionIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+        let revisionIdQueryItem = Smithy.URIQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
         items.append(revisionIdQueryItem)
         return items
     }
@@ -2964,7 +2967,7 @@ public struct RemovePermissionInput {
 
 extension RemovePermissionOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> RemovePermissionOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> RemovePermissionOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -2996,7 +2999,7 @@ public struct RemovePermissionOutput {
 
 enum RemovePermissionOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3140,7 +3143,7 @@ public struct SubmitFeedbackInput {
 
 extension SubmitFeedbackOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> SubmitFeedbackOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> SubmitFeedbackOutput {
         return SubmitFeedbackOutput()
     }
 }
@@ -3153,7 +3156,7 @@ public struct SubmitFeedbackOutput {
 
 enum SubmitFeedbackOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3206,7 +3209,7 @@ public struct TagResourceInput {
 
 extension TagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> TagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
     }
 }
@@ -3218,7 +3221,7 @@ public struct TagResourceOutput {
 
 enum TagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3285,10 +3288,10 @@ extension CodeGuruProfilerClientTypes {
     public struct TimestampStructure {
         /// A Timestamp. This is specified using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.
         /// This member is required.
-        public var value: ClientRuntime.Date?
+        public var value: Foundation.Date?
 
         public init(
-            value: ClientRuntime.Date? = nil
+            value: Foundation.Date? = nil
         )
         {
             self.value = value
@@ -3299,14 +3302,14 @@ extension CodeGuruProfilerClientTypes {
 
 extension UntagResourceInput {
 
-    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
-        var items = [ClientRuntime.SDKURLQueryItem]()
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         guard let tagKeys = value.tagKeys else {
             let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
-            throw ClientRuntime.ClientError.unknownError(message)
+            throw Smithy.ClientError.unknownError(message)
         }
         tagKeys.forEach { queryItemValue in
-            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
             items.append(queryItem)
         }
         return items
@@ -3343,7 +3346,7 @@ public struct UntagResourceInput {
 
 extension UntagResourceOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UntagResourceOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
     }
 }
@@ -3355,7 +3358,7 @@ public struct UntagResourceOutput {
 
 enum UntagResourceOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
@@ -3408,7 +3411,7 @@ public struct UpdateProfilingGroupInput {
 
 extension UpdateProfilingGroupOutput {
 
-    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> UpdateProfilingGroupOutput {
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> UpdateProfilingGroupOutput {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
@@ -3434,7 +3437,7 @@ public struct UpdateProfilingGroupOutput {
 
 enum UpdateProfilingGroupOutputError {
 
-    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HttpResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
